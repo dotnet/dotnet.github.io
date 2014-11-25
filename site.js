@@ -1,6 +1,6 @@
 require(["jquery"], function ($) {
     $(document).ready(function () {
-    	var projectsUrl = "projects_top.json";
+    	var projectsUrl = "https://mwdnfwebjob.blob.core.windows.net/output/projects_top.json";
 
     	$.getJSON(projectsUrl, function(data)
     	{
