@@ -1,18 +1,21 @@
 require(["jquery","ko"], function ($,ko) {
     $(document).ready(function () {
 
-		var myViewModel = {
-		    personName: 'Bob',
-		    personAge: 123
-		};
+    	var projectsUrl = "projects_top.json";
 
-		var myObservableArray = ko.observableArray();    // Initially an empty array
-		myObservableArray.push('Some value'); 
-		myObservableArray.push('Some value2'); 
+    	$.getJSON(projectsUrl, function(data)
+    	{
+    		var myViewModel = {
+		    projects: data.Summary.Projects,
+		    contributors : data.Summary.Contributors,
+		    organizations : data.Summary.Organizations,
+		    openIssues : data.Summary.OpenIssues,
+		    stars : data.Summary.Stars,
+		    forks : data.Summary.Forks
+			};
 
-		myViewModel.list = myObservableArray;
-
-		ko.applyBindings(myViewModel);
+			ko.applyBindings(myViewModel);
+    	});
     });
 });
 
