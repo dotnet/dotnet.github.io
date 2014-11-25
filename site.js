@@ -4,24 +4,35 @@ require(["jquery"], function ($) {
 
     	$.getJSON(projectsUrl, function(data)
     	{
-    		var myViewModel = {
-		    projects: data.Summary.Projects,
-		    contributors : data.Summary.Contributors,
-		    forks : data.Summary.Forks,
-		    projectList : data.Projects
-			};
+			require(["moment","ko"], function (moment,ko) {
+				var p = data.Projects;
+	    		var viewModel = {
+				    projects: data.Summary.Projects,
+				    contributors : data.Summary.Contributors,
+				    forks : data.Summary.Forks,
+				    projectList : ko.observableArray(p),
+				    query: ko.observable(''),
+					search: function(value) {
+					    viewModel.projectList([]);
 
-			require(["ko","moment"], function (ko,moment) {
+					    for(var x in p) {
+					      if(p[x].Name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+					        viewModel.projectList.push(p[x]);
+					      }
+					    }
+					}
+				};
+
 				ko.bindingHandlers.datetime = {
 				    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 				    	var value = valueAccessor();
 				    	var valueUnwrapped = ko.unwrap(value);
-
 				    	element.innerHTML = moment(valueUnwrapped).format('MMM. DD, YYYY')
 				    }
 				};
 
-				ko.applyBindings(myViewModel);
+				viewModel.query.subscribe(viewModel.search);
+				ko.applyBindings(viewModel);
 			});
     	});
     });
