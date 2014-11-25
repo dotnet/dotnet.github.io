@@ -1,4 +1,4 @@
-require(["jquery","ko"], function ($,ko) {
+require(["jquery"], function ($) {
     $(document).ready(function () {
     	var projectsUrl = "projects_top.json";
 
@@ -11,7 +11,18 @@ require(["jquery","ko"], function ($,ko) {
 		    projectList : data.Projects
 			};
 
-			ko.applyBindings(myViewModel);
+			require(["ko","moment"], function (ko,moment) {
+				ko.bindingHandlers.datetime = {
+				    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+				    	var value = valueAccessor();
+				    	var valueUnwrapped = ko.unwrap(value);
+
+				    	element.innerHTML = moment(valueUnwrapped).format('MMM. DD, YYYY')
+				    }
+				};
+
+				ko.applyBindings(myViewModel);
+			});
     	});
     });
 });
