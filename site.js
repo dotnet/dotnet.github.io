@@ -12,6 +12,9 @@ require(["jquery"], function ($) {
 				    forks : data.Summary.Forks,
 				    projectList : ko.observableArray(p),
 				    query: ko.observable(''),
+				    gotoRepo: function() {
+				    	window.location.href=this.Url;
+					},
 					search: function(value) {
 					    viewModel.projectList([]);
 
@@ -20,6 +23,10 @@ require(["jquery"], function ($) {
 					        viewModel.projectList.push(p[x]);
 					      }
 					    }
+					},
+					filter: function(value)
+					{
+						alert("rich");
 					}
 				};
 
