@@ -2,6 +2,7 @@ require(["jquery"], function ($) {
     $(document).ready(function () {
     	var projectsTopUrl = "https://mwdnfwebjob.blob.core.windows.net/output/projects_top.json";
     	var projectsUrl = "https://mwdnfwebjob.blob.core.windows.net/output/projects.json"; 
+    	var maxProjectsVisible = 36;
 
     	$.getJSON(projectsTopUrl, function(data)
     	{
@@ -60,6 +61,11 @@ require(["jquery"], function ($) {
 				viewModel.selectedFilter.subscribe(viewModel.filter);
 				ko.applyBindings(viewModel);
 
+				$.getJSON(projectsUrl, function(data)
+    			{
+    				p = data.Projects;
+    			});
+
 				function indexOf(a, v) {
 				    for (var i in a)
 				    {
@@ -74,10 +80,12 @@ require(["jquery"], function ($) {
 				function filterProjects() {
 				    viewModel.projectList([]);
 				    var value = viewModel.query();
+				    var count = 0;
 				    for(var x in p) {
-				      	if(p[x].Name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+				      	if(count < maxProjectsVisible && p[x].Name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
 					      	if (viewModel.selectedFilterInDays == -1)
 					      	{
+					      		count++;
 					        	viewModel.projectList.push(new Project(p[x]));
 					        }
 					        else
@@ -86,6 +94,7 @@ require(["jquery"], function ($) {
 					        	var filterDate = moment().subtract(viewModel.selectedFilterInDays,'days')
 					        	if (commit >= filterDate)
 					        	{
+					        		count++;
 					        		viewModel.projectList.push(new Project(p[x]));
 					        	}
 					        }
