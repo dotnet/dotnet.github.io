@@ -2,7 +2,7 @@ require(["jquery"], function ($) {
     $(document).ready(function () {
     	var projectsTopUrl = "https://mwdnfwebjob.blob.core.windows.net/output/projects_top.json";
     	var projectsUrl = "https://mwdnfwebjob.blob.core.windows.net/output/projects.json"; 
-    	var maxProjectsVisible = 36;
+    	var maxProjectsVisible = 50;
 
     	$.getJSON(projectsTopUrl, function(data)
     	{
