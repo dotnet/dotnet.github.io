@@ -30,7 +30,7 @@ require(["jquery"], function ($) {
 				    contributors : data.Summary.Contributors,
 				    forks : data.Summary.Forks,
 				    projectList : ko.observableArray([]),
-				    query: ko.observable(''),
+				    query: ko.observable('').extend({ rateLimit: { timeout: 500, method: "notifyWhenChangesStop" } }),
 				    gotoRepo: function() {
 				    	window.location.href=this.project.Url;
 					},
