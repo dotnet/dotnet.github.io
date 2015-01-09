@@ -79,10 +79,19 @@ require(["jquery"], function ($) {
 
 				function filterProjects() {
 				    viewModel.projectList([]);
-				    var value = viewModel.query();
+				    var value = viewModel.query().toLowerCase();
 				    var count = 0;
 				    for(var x in p) {
-				      	if(count < maxProjectsVisible && p[x].Name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+
+				    	// validate tile count
+				    	if (count >= maxProjectsVisible)
+				    	{
+				    		break;
+				    	}
+				    	
+				    	// determine if query matches, as empty string, repo name or contributor name
+				      	if(value == "" || p[x].Name.toLowerCase().indexOf(value) >= 0 || p[x].Contributor.toLowerCase().indexOf(value) >=0) {
+					      	// if no time filter, just add
 					      	if (viewModel.selectedFilterInDays == -1)
 					      	{
 					      		count++;
