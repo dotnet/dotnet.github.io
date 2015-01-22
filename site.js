@@ -65,6 +65,7 @@ require(["jquery"], function ($) {
 						{
 							var currentPage = viewModel.selectedPage();
 							currentPage = currentPage + value;
+							if (currentPage < 1 || currentPage > viewModel.pages().length) return;
 							viewModel.selectedPage(currentPage);
 							pageProjects();
 						}
