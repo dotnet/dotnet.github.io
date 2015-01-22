@@ -235,11 +235,18 @@
 		<div style="clear:both; width:100%;"></div>		
 		<div class="paging123bottom" data-bind="visible: countFilter" style="display:none">
 			<div class="paging_prevNext">
-				<span class="paging_prev"></span>
+				<span class="paging_prev" data-bind="visible: selectedPage() >1,click: $root.nextPage(-1)"></span>
 				<span data-bind="foreach: pages">
-					<span class="pageNo" data-bind="text: number"></span>
+					<!-- ko if: selected -->
+					<span class="pageNoSelected" data-bind="text: number"></span>
+					<!-- /ko -->
+					<!-- ko ifnot: selected -->
+					<a href="" style="text-decoration:none">
+					<span class="pageNo" data-bind="text: number, click: $root.gotoPage"></span>
+					</a>
+					<!-- /ko -->
 				</span>
-				<span class="paging_next"></span>
+				<span class="paging_next" data-bind="visible: selectedPage() < pages().length, click: $root.nextPage(1)"></span>
 			</div>
 		</div>
 	
