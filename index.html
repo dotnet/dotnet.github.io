@@ -57,15 +57,15 @@
 				<div class="bracket_left"></div>
 				<table class="statistics_numbers"  cellpadding="0" cellspacing="0">
 					<tr>
-						<td class="stat_align_right"><span class="hilite" data-bind="text: projects"></span></td>
+						<td class="stat_align_right"><span class="hilite" data-bind="text: summary.Projects"></span></td>
 						<td>Repositories</td>
 					</tr>
 					<tr>
-						<td class="stat_align_right"><span class="hilite" data-bind="text: forks"></span></td>
+						<td class="stat_align_right"><span class="hilite" data-bind="text: summary.Forks"></span></td>
 						<td>Forks</td>
 					</tr>
 					<tr>
-						<td class="stat_align_right"><span class="hilite" data-bind="text: contributors"></span></td>
+						<td class="stat_align_right"><span class="hilite" data-bind="text: summary.Contributors"></span></td>
 						<td>Contributors</td>
 					</tr>
 				</table>
@@ -84,10 +84,10 @@
 	<!-- paging row  -->
 		<div class="pagingRow">
 			<div class="projects_found">
-				<span data-bind="text: projectList().length"></span> repos listed
+				<span data-bind="text: projects().length"></span> repos listed
 			</div>
 			
-			<div class="perPageSelect_Shell" data-bind="visible: countFilter" style="display:none">	
+			<div class="perPageSelect_Shell">	
 				<div class="perPageSelect">
 					Results per page:
 					<select data-bind="options: countFilters, 
@@ -100,20 +100,18 @@
 		
 		<div class="paging123" data-bind="visible: countFilter" style="display:none">
 			<div class="paging_prevNext">
-				<span class="paging_prev"></span>
+				<span class="paging_prev" data-bind="visible: selectedPage() >1,click: $root.nextPage(-1)"></span>
 				<span data-bind="foreach: pages">
-					<span class="pageNo" data-bind="text: $data"></span>
-					<!--
-					<span class="pageNoSelected">1</span>
-					<span class="pageNo">2</span>
-					<span class="pageNo">3</span>
-					<span class="pageNo">4</span>
-					<span class="pageNo">5</span>
-					<span class="pageNo">...</span>
-					<span class="pageNo">10&nbsp;</span>
-					-->
+					<!-- ko if: selected -->
+					<span class="pageNoSelected" data-bind="text: number"></span>
+					<!-- /ko -->
+					<!-- ko ifnot: selected -->
+					<a href="" style="text-decoration:none">
+					<span class="pageNo" data-bind="text: number, click: $root.gotoPage"></span>
+					</a>
+					<!-- /ko -->
 				</span>
-				<span class="paging_next"></span>
+				<span class="paging_next" data-bind="visible: selectedPage() < pages().length, click: $root.nextPage(1)"></span>
 			</div>
 		</div>
 		<div style="clear:both; width:100%;"></div>
@@ -123,7 +121,7 @@
 
 	<!-- cards container -->
 
-		<div data-bind="foreach: projectList">
+		<div data-bind="foreach: projects">
 
 		<!-- card container -->
 			<div class="card_container">
@@ -230,27 +228,20 @@
 						
 			</div> <!-- end card container -->	
 		</div> <!-- end cards container -->	
-		
-		
-		
+				
 	<!-- Bottom paging row  -->
 		<div style="clear:both; width:100%;"></div>		
 		<div class="paging123bottom" data-bind="visible: countFilter" style="display:none">
 			<div class="paging_prevNext">
 				<span class="paging_prev"></span>
 				<span data-bind="foreach: pages">
-					<span class="pageNo" data-bind="text: $data"></span>
+					<span class="pageNo" data-bind="text: number"></span>
 				</span>
 				<span class="paging_next"></span>
 			</div>
 		</div>
 	
 	<!-- end Bottom paging row  -->
-		
-		
-		
-		
-		
 		
 	</div>
 	</div>
@@ -331,6 +322,7 @@
 </div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.14/require.js"></script>
 <script src="require.config.js"></script>
+<script src="projects.js"></script>
 <script src="site.js"></script>
 
 </body>

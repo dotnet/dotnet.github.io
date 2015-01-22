@@ -9,15 +9,8 @@ require(["jquery"], function ($) {
 
 				var timeFilters = [{"name": "Unfiltered", "days":-1}, {"name": "Last 24 hours", "days": 1},{"name" :"Last 7 days", "days" : 8} , {"name": "Last month", "days": 31}];
 				var minProjects = 30;
-				var p = data.Projects;
 				var config = true;
-
-				function Project(project)
-				{
-					var self = this;
-					self.project = project;
-					self.summaryVisible = ko.observable(true);
-				}
+				var p = new projects(convertProjects(data.Projects));
 
 				ko.observable.fn.toggle = function () {
 				    var obs = this;
@@ -27,21 +20,20 @@ require(["jquery"], function ($) {
 				};
 
 	    		var viewModel = {
-				    projects: data.Summary.Projects,
-				    contributors : data.Summary.Contributors,
-				    forks : data.Summary.Forks,
-				    projectList : ko.observableArray([]),
+				    summary: data.Summary,
+				    projects : ko.observableArray([]),
 				    query: ko.observable('').extend({ rateLimit: { timeout: 500, method: "notifyWhenChangesStop" } }),
 					pages: ko.observableArray([]),
+					selectedPage: ko.observable(1),
 					timeFilters: timeFilters,
 					selectedTimeFilter: ko.observable(),
 					selectedTimeFilterInDays: -1,
 					countFilter : ko.observable(true),
 					countFilters : ko.observableArray([]),
 					selectedCountFilter: ko.observable(minProjects),
-					filter: function(value)
+					filterByTime: function(value)
 					{
-				    	console.log('filter');
+				    	console.log('filterByTime');
 						if (config) 
 							{
 								console.log("filter no-op");
@@ -49,20 +41,33 @@ require(["jquery"], function ($) {
 							}
 					    var index = indexOf(viewModel.timeFilters,value.name);
 					    viewModel.selectedTimeFilterInDays = viewModel.timeFilters[index].days;
-					    beforeFilter = value;
 				    	filterProjects();
 					},
-				    gotoRepo: function() {
-				    	window.location.href=this.project.Url;
-					},
-					search: function(value) {
-						console.log("search");
+					filter: function(value) {
+						console.log("filter");
 						if (config) 
 							{
 								console.log("search no-op");
 								return;
 							}
-						filterProjects();
+				    	filterProjects();
+					},
+					gotoRepo: function() {
+				    	window.location.href=this.project.Url;
+					},
+					gotoPage: function(value) {
+						viewModel.selectedPage(value.number);
+						pageProjects();
+					},
+					nextPage: function(value)
+					{
+						if (!config)
+						{
+							var currentPage = viewModel.selectedPage();
+							currentPage = currentPage + value;
+							viewModel.selectedPage(currentPage);
+							pageProjects();
+						}
 					}
 				};
 
@@ -74,18 +79,58 @@ require(["jquery"], function ($) {
 				    }
 				};
 
-				viewModel.query.subscribe(viewModel.search);
-				viewModel.selectedCountFilter.subscribe(viewModel.search);				
-				viewModel.selectedTimeFilter.subscribe(viewModel.filter);
+				viewModel.query.subscribe(viewModel.filter);
+				viewModel.selectedCountFilter.subscribe(viewModel.filter);				
+				viewModel.selectedTimeFilter.subscribe(viewModel.filterByTime);
 				console.log("apply bindings");
 				ko.applyBindings(viewModel);
 				config = false;
 
 				$.getJSON(projectsUrl, function(data)
     			{
-    				p = data.Projects;
-    				configureCountFilter(p.length);
+    				configureCountFilter(data.Projects.length);
+    				p = new projects(convertProjects(data.Projects));
+    				filterProjects();
     			});
+
+    			function filterProjects()
+    			{   
+    				var query = viewModel.query().toLowerCase();
+    				var commitQuery = viewModel.selectedTimeFilterInDays;
+    				p.filterProjects(query, commitQuery);
+				    viewModel.projects(p.getPage(1,viewModel.selectedCountFilter()));
+    				configurePaging(p.filteredProjects.length);		
+    				console.log("projects length: " + viewModel.projects().length);		    
+    			}
+
+    			function pageProjects()
+    			{
+				    viewModel.projects(p.getPage(viewModel.selectedPage(),viewModel.selectedCountFilter()));
+    				configurePaging(p.filteredProjects.length);	
+    				console.log("projects length: " + viewModel.projects().length);			    
+    			}
+
+				function project(project)
+				{
+					this.project = project;
+					this.summaryVisible = ko.observable(true);
+				}
+
+				function page(number, selected)
+				{
+					this.number = number;
+					this.selected = selected;
+				}
+
+				function convertProjects(projects)
+				{
+					var wrappedProjects = [];
+					for (var p in projects)
+					{
+						wrappedProjects.push(new project(projects[p]));
+					}
+					return wrappedProjects;
+				}
 
 				function indexOf(a, v) {
 				    for (var i in a)
@@ -126,56 +171,30 @@ require(["jquery"], function ($) {
 					var pageCount;
 					var pages = [];
 					var selectedCount = viewModel.selectedCountFilter();
+					var selectedPage = viewModel.selectedPage();
 					pageCount = count / selectedCount;
 
 					pageCount = Math.ceil(pageCount);
+
+					if (pageCount <2)
+					{
+						viewModel.countFilter(false);
+						return;
+					}
+
 					pageCount++;
 					for (i = 1; i < pageCount; i++)
 					{
-						pages.push(i);
+						var selected = false;
+						if (i == selectedPage)
+						{
+							selected = true;
+						}
+						pages.push(new page(i, selected));
 					}
 					viewModel.pages(pages);
+					viewModel.countFilter(true);
 				}
-
-				function filterProjects() {
-					console.log("filterProjects");
-				    viewModel.projectList([]);
-				    var value = viewModel.query().toLowerCase();
-				    var count = 0;
-				    var maxCount = viewModel.selectedCountFilter();
-
-				    for(var x in p) {
-
-				    	// validate tile count
-				    	if (count >= maxCount)
-				    	{
-				    		count++;
-				    		continue;
-				    	}
-				    	
-				    	// determine if query matches, as empty string, repo name or contributor name
-				      	if(value == "" || p[x].Name.toLowerCase().indexOf(value) >= 0 || p[x].Contributor.toLowerCase().indexOf(value) >=0) {
-					      	// if no time filter, just add
-					      	if (viewModel.selectedTimeFilterInDays == -1)
-					      	{
-					      		count++;
-					        	viewModel.projectList.push(new Project(p[x]));
-					        }
-					        else
-					        {
-					        	var commit = moment(p[x].CommitLast);
-					        	var filterDate = moment().subtract(viewModel.selectedTimeFilterInDays,'days')
-					        	if (commit >= filterDate)
-					        	{
-					        		count++;
-					        		viewModel.projectList.push(new Project(p[x]));
-					        	}
-					        }
-			      		}
-			    	}
-
-			    	configurePaging(count);
-		      	}
 			});
     	});
     });
