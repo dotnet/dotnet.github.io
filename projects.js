@@ -39,6 +39,11 @@ function projects(projects)
 
 	this.getPage = function(page, countPerPage) {
 
+		if (page == null || countPerPage == null)
+		{
+			return this.filteredProjects;
+		}
+
 		var start = (page-1) * countPerPage;
 		var end = start + countPerPage;
 

@@ -146,8 +146,9 @@ require(["jquery"], function ($) {
 
 				function configureCountFilter(count)
 				{
-					if (count <36)
+					if (count <minProjects)
 					{
+						console.log("< min projects");
 						viewModel.countFilter(false);
 					}
 					else if (count > 400)
