@@ -33,10 +33,10 @@ require(["jquery"], function ($) {
 					selectedCountFilter: ko.observable(minProjects),
 					filterByTime: function(value)
 					{
-				    	console.log('filterByTime');
+				    	//console.log('filterByTime');
 						if (config) 
 							{
-								console.log("filter no-op");
+								//console.log("filter no-op");
 								return;
 							}
 					    var index = indexOf(viewModel.timeFilters,value.name);
@@ -44,10 +44,10 @@ require(["jquery"], function ($) {
 				    	filterProjects();
 					},
 					filter: function(value) {
-						console.log("filter");
+						//console.log("filter");
 						if (config) 
 							{
-								console.log("search no-op");
+								//console.log("search no-op");
 								return;
 							}
 				    	filterProjects();
@@ -61,14 +61,11 @@ require(["jquery"], function ($) {
 					},
 					nextPage: function(value)
 					{
-						if (!config)
-						{
-							var currentPage = viewModel.selectedPage();
-							currentPage = currentPage + value;
-							if (currentPage < 1 || currentPage > viewModel.pages().length) return;
-							viewModel.selectedPage(currentPage);
-							pageProjects();
-						}
+						var currentPage = viewModel.selectedPage();
+						currentPage = currentPage + value;
+						if (currentPage < 1 || currentPage > viewModel.pages().length) return;
+						viewModel.selectedPage(currentPage);
+						pageProjects();
 					}
 				};
 
@@ -83,16 +80,20 @@ require(["jquery"], function ($) {
 				viewModel.query.subscribe(viewModel.filter);
 				viewModel.selectedCountFilter.subscribe(viewModel.filter);				
 				viewModel.selectedTimeFilter.subscribe(viewModel.filterByTime);
-				console.log("apply bindings");
+				//console.log("apply bindings");
 				ko.applyBindings(viewModel);
 				config = false;
+				configureCountFilter(data.Projects.length);
+				filterProjects();				
 
+				
 				$.getJSON(projectsUrl, function(data)
     			{
     				configureCountFilter(data.Projects.length);
     				p = new projects(convertProjects(data.Projects));
     				filterProjects();
     			});
+
 
     			function filterProjects()
     			{   
@@ -101,14 +102,14 @@ require(["jquery"], function ($) {
     				p.filterProjects(query, commitQuery);
 				    viewModel.projects(p.getPage(1,viewModel.selectedCountFilter()));
     				configurePaging(p.filteredProjects.length);		
-    				console.log("projects length: " + viewModel.projects().length);		    
+    				//console.log("projects length: " + viewModel.projects().length);		    
     			}
 
     			function pageProjects()
     			{
 				    viewModel.projects(p.getPage(viewModel.selectedPage(),viewModel.selectedCountFilter()));
     				configurePaging(p.filteredProjects.length);	
-    				console.log("projects length: " + viewModel.projects().length);			    
+    				//console.log("projects length: " + viewModel.projects().length);			    
     			}
 
 				function project(project)
@@ -148,7 +149,7 @@ require(["jquery"], function ($) {
 				{
 					if (count <minProjects)
 					{
-						console.log("< min projects");
+						//console.log("< min projects");
 						viewModel.countFilter(false);
 					}
 					else if (count > 400)
