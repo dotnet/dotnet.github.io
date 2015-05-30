@@ -1,6 +1,7 @@
-(function ($){
+(function ($, window){
 	function CoreCode() {
 		$(".show-value-props").click(this.showValueProps);
+		this.detectActive(window.location.pathname);
 	}
 
 	CoreCode.prototype.showValueProps = function(e){
@@ -15,8 +16,18 @@
 			$("#rest-vps").toggle();
 			$(e.currentTarget).children("span").removeClass("fa-chevron-up").addClass("fa-chevron-down");
 		}
-	}
+	};
+	
+	CoreCode.prototype.detectActive = function(currentPath){
+		var page = currentPath.split("/").pop();
+		$("ul.navbar-nav").children("li").each(function(index, element){
+			var link = $(element).children("a")[0];
+			if ($(link).attr("href") === page){
+				$(link).addClass("nav-active");
+			}
+		});
+	};
 
 	new CoreCode();
 
-})($, undefined);
+})($, window, undefined);
