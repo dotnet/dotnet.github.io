@@ -1,0 +1,109 @@
+    <!-- LINUX GETTING STARTED -->
+
+    <div class="step step-none linux-trail" id="step-1">
+      <div class="step-number">1</div>
+      <h3>Prepare the environment</h3>
+      <p>We need to make sure we have all of the dependencies set up. First step is to install some general-purpose packages.</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>sudo apt-get install libunwind8 libssl-dev unzip </p>
+        </div>
+      </div>
+      <p>Secondly, we need to install Mono (a temporary solution for now).</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF </p>
+          <p><span class="prompt unix-prompt"></span>echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list </p>
+          <p><span class="prompt unix-prompt"></span>sudo apt-get update</p>
+          <p><span class="prompt unix-prompt"></span>sudo apt-get install mono-complete </p>
+        </div>
+      </div>
+      <p>Finally, import certificates for NuGet packages.</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>mozroots --import --sync </p>
+        </div>
+      </div>
+    </div>
+    <div class="step step-none linux-trail" id="step-2">
+      <div class="step-number">2</div>
+      <h3>Install .NET Version Manager (DNVM)</h3>
+      <p>DNVM is a script that will help us manage execution environments that we will use. Installing it is a breeze: </p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh</p>
+        </div>
+      </div>
+    </div>
+    <div class="step step-none linux-trail" id="step-3">
+      <div class="step-number">3</div>
+      <h3>Install .NET Core Execution Environment (DNX)</h3>
+      <p>Next step is to install the execution environment that will run Core CLR code:</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>dnvm upgrade -u</p>
+          <p><span class="prompt unix-prompt"></span>dnvm install -r coreclr latest -u</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step step-none linux-trail" id="step-4">
+      <div class="step-number">4</div>
+      <h3>Write the app</h3>
+      <p>Create a new file <strong>HelloWorld.cs</strong> in a directory, and paste in the code below:</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body code-sample">
+        using System;
+
+        public class Program {
+        	public static void Main(string[] args){
+        		Console.WriteLine("Hello World from Core CLR!");
+        	}
+        }
+        </div>
+      </div>
+      <p>You will also need to specify some dependencies in a file called <strong>project.json</strong> so the sample works. Place the file in the same directory as the sample app above, and copy the contents below:</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body code-sample">
+       {
+            "version": "1.0.0-*",
+            "dependencies": {
+            },
+            "frameworks" : {
+                "dnx451" : { },
+                "dnxcore50" : {
+                    "dependencies": {
+                        "System.Console": "4.0.0-beta-*"
+                    }
+                }
+            }
+        }
+        </div>
+      </div>
+
+    </div>
+
+    <div class="step step-none linux-trail" id="step-5">
+      <div class="step-number">5</div>
+      <h3>Run the app</h3>
+      <p>The first command switches over to Mono to restore the packages, which is what the second command does using <strong>project.json</strong>. We then switch back to CoreCLR and run our app.</p>
+      <p>Do not forget to replace &quot;[version]&quot; with the version DNVM installed on your machine; you can get a list of those by doing <strong>dnvm list</strong>.
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>dnvm use [version] -r mono</p>
+          <p><span class="prompt unix-prompt"></span>dnu restore</p>
+          <p><span class="prompt unix-prompt"></span>dnvm use [version] -r coreclr</p>
+          <p><span class="prompt unix-prompt"></span> dnx . run</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- END OF LINUX GETTING STARTED -->

@@ -1,0 +1,84 @@
+<!-- MAC OSX GETTING STARTED -->
+    <div class="step step-none macosx-trail" id="step-1">
+      <div class="step-number">1</div>
+      <h3>Install .NET Version Manager (DNVM)</h3>
+      <p>DNVM is a script that will help us manage execution environments that we will use. Installing it is a breeze using <a href="http://www.brew.sh/" target="_blank">Homebrew</a>. After installing, we register the dnvm command. </p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>brew tap aspnet/dnx</p>
+          <p><span class="prompt unix-prompt"></span>brew tupdate</p>
+          <p><span class="prompt unix-prompt"></span>brew install dnvm</p>
+          <p><span class="prompt unix-prompt"></span>source dnvm.sh</p>
+        </div>
+      </div>
+    </div>
+    <div class="step step-none macosx-trail" id="step-2">
+      <div class="step-number">2</div>
+      <h3>Install .NET Core Execution Environment (DNX)</h3>
+      <p>Next step is to install the execution environment that will run Core CLR code:</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>dnvm upgrade -u</p>
+          <p><span class="prompt unix-prompt"></span>dnvm install -r coreclr latest -u</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step step-none macosx-trail" id="step-3">
+      <div class="step-number">3</div>
+      <h3>Write the app</h3>
+      <p>Create a new file <strong>HelloWorld.cs</strong> in a directory, and paste in the code below:</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body code-sample">
+        using System;
+
+        public class Program {
+        	public static void Main(string[] args){
+        		Console.WriteLine("Hello World from Core CLR!");
+        	}
+        }
+        </div>
+      </div>
+      <p>You will also need to specify some dependencies in a file called <strong>project.json</strong> so the sample works. Place the file in the same directory as the sample app above.</p>
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body code-sample">
+       {
+            "version": "1.0.0-*",
+            "dependencies": {
+            },
+            "frameworks" : {
+                "dnx451" : { },
+                "dnxcore50" : {
+                    "dependencies": {
+                        "System.Console": "4.0.0-beta-*"
+                    }
+                }
+            }
+        }
+        </div>
+      </div>
+
+    </div>
+
+    <div class="step step-none macosx-trail" id="step-4">
+      <div class="step-number">4</div>
+      <h3>Run the app</h3>
+      <p>The first command switches over to Mono to restore the packages, which is what the second command does using <strong>project.json</strong>. We then switch back to CoreCLR and run our app.</p>
+      <p>Do not forget to replace &quot;[version]&quot; with the version DNVM installed on your machine; you can get a list of those by doing <strong>dnvm list</strong>.
+      <div class="terminal">
+        <div class="terminal-titlebar"></div>
+        <div class="terminal-body">
+          <p><span class="prompt unix-prompt"></span>dnvm use [version] -r mono</p>
+          <p><span class="prompt unix-prompt"></span>dnu restore</p>
+          <p><span class="prompt unix-prompt"></span>dnvm use [version] -r coreclr</p>
+          <p><span class="prompt unix-prompt"></span> dnx . run</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- END OF MACOSX GETTING STARTED -->
