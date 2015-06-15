@@ -31,7 +31,7 @@ This document does not assume any knowledge of .NET, so if you are encountering 
 ## A 10,000 foot view
 Let us start from a very high-level view and illustrate the major working parts of the new .NET ecosystem, and then start delving into each one in more detail. The diagram bellow illustrates the shared ecosystem as it exists, or will exist, in 2015.
 
-![Overview of .NET 2015 ecosystem](../images/core/10kft_view.png)
+![Overview of .NET 2015 ecosystem](../../images/core/10kft_view.png)
 
 As we can see, this is a very vibrant and diverse ecosystem. If you are coming from a .NET background, it will also be very different to what you've used to. So let's start explaining each bit in more detail.
 
@@ -56,7 +56,7 @@ The tried and true workhorse of the past 10+ years, the full .NET framework is s
 This edition of the .NET Framework is not cross-platform and you can run it only on Windows. Most of the consumers of this particular edition of the .NET Framework should be already know, if in name only. [Windows Presentation Foundation or WPF](https://msdn.microsoft.com/en-us/library/ms754130(v=vs.110).aspx) is a framework for building desktop applications using specific technologies to make them compelling and rich. [Windows Forms](https://msdn.microsoft.com/en-us/library/dd30h2yb(v=vs.110).aspx) is already known as the bulwark of the LOB desktop applications from the early day of the .NET Framework. Of course, [ASP.NET](http://www.asp.net/) is Microsoft's main web stack, which is getting a major overhaul in the 5 release timeframe.
 
 ### .NET Core
-.NET Core is a cloud-optimized, pay-as-you-go, cross-platform port of the .NET Framework. The roadmap currently in place covers support for three main operating systems, Linux, Windows and OS X. The community porters have made it work on FreeBSD as well. It is freely available on [GitHub](https://www.github.com/dotnet/coreclr) and it is very easy to [get for the supported systems](getting-started.html) and get going.
+.NET Core is a cloud-optimized, pay-as-you-go, cross-platform port of the .NET Framework. The roadmap currently in place covers support for three main operating systems, Linux, Windows and OS X. The community porters have made it work on FreeBSD as well. It is freely available on [GitHub](https://www.github.com/dotnet/coreclr) and it is very easy to [get for the supported systems](/core/getting-started/) and get going.
 
 The best way to explain what .NET Core is about is to contrast it with its "cousin", the .NET Framework, pictured above. When you install .NET Framework, you get not only the runtime, but also the entire Base Class Library (BCL) with it. It is installed centrally in a known location in Windows centrally so all programs can use it, and the libraries that come with it are also centrally available. Any .NET application that is ran on Windows can thus expect a certain level of support, depending on the actual version the machine it is being ran on has installed.
 
@@ -104,7 +104,7 @@ The DNVM is an important piece of the development flow. It is the first step you
 ### .NET Execution Enviornment (DNX)
 DNX refers to one of the execution environments that the DNVM installs. Each DNX is an isolated and self-contained unit. This means that you can have tens of DNX-es installed either on your machine or on the target machine and they will never interfere with one another.
 
-DNX consists of two major parts: the actual DNX and the DNU (DNX NuGet Utility). DNX is used when you want to run the code you've written. If you go to the [getting starteg](getting-started.html) page on this site, you will see in all examples last step is invoking the currently active DNX to run the code in a given directory. It will compile the code and run it, so there is no reason to invoke the compiler. DNX does this by using "Roslyn" described at the beginning of the document.
+DNX consists of two major parts: the actual DNX and the DNU (DNX NuGet Utility). DNX is used when you want to run the code you've written. If you go to the [getting started](/core/getting-started/) page on this site, you will see in all examples last step is invoking the currently active DNX to run the code in a given directory. It will compile the code and run it, so there is no reason to invoke the compiler. DNX does this by using "Roslyn" described at the beginning of the document.
 
 The other important part is the DNU, which is used to retrieve the packages that are dependencies of any given application. Each .NET Core application will have its dependencies listed out in a **project.json** file, which lives together with the application's code. Using DNU, the programmer is able to get these dependencies and run the code. DNU also supports more scenarios, namely transforming your code in a package as well as making it ready to be published on the remote server.
 
@@ -121,5 +121,5 @@ Coupled with DNVM described in the previous section, DNX and DNU make up a major
 This was a very basic overview of all the "moving pieces" that are a part of the current .NET ecosystem. Hopefully, you now have a somewhat deeper understanding of the relationship and each piece of the ecosystem. Still, there is lot more to cover. Use the resources in the list below for further discovery and learning.
 
 * [BUILD talks](http://channel9.msdn.com/events/build/2015?wt.mc_id=build_hp)
-* [Documentation page](docs.html)
+* [Documentation page](/core/documentation/)
 * [Guide to UWP](https://msdn.microsoft.com/en-us/library/windows/apps/xaml/dn894631.aspx)

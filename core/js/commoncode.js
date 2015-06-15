@@ -19,9 +19,12 @@
 	};
 	
 	CoreCode.prototype.detectActive = function(currentPath){
-		var page = currentPath.split("/").pop();
+		console.log(currentPath);
+		// var page = currentPath.split("/").pop();
+		var page = currentPath;
 		$("ul.navbar-nav").children("li").each(function(index, element){
 			var link = $(element).children("a")[0];
+			console.log(link);
 			if ($(link).attr("href") === page){
 				$(link).addClass("nav-active");
 			}
