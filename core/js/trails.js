@@ -2,9 +2,12 @@
 		
 	function Trails() {
 		$(".trail-start").click(this.showTrail);
+		$(".trail-start[data-trail-target='linux-trail']").trigger("click");
 	}	
 	
 	Trails.prototype.showTrail = function(e) {
+		$(e.target).addClass("jquery-active");
+		$(".trail-start").not(e.target).removeClass("jquery-active");
 		var activeTrail = "." + $(e.target).data("trailTarget");
 		console.log(activeTrail);
 		$(".step").not(activeTrail).addClass("step-none");
