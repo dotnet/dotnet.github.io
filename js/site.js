@@ -81,7 +81,8 @@ require(["jquery"], function ($) {
 				viewModel.selectedCountFilter.subscribe(viewModel.filter);				
 				viewModel.selectedTimeFilter.subscribe(viewModel.filterByTime);
 				//console.log("apply bindings");
-				ko.applyBindings(viewModel);
+				//ko.applyBindings(viewModel);
+                ko.applyBindings(viewModel, document.getElementById("projectsFragment"));
 				config = false;
 				configureCountFilter(data.Projects.length);
 				filterProjects();				
