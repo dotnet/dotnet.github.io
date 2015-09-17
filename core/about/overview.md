@@ -41,7 +41,7 @@ Let's start our exploration from the bottom most layer of the above diagram.
 ### .NET Compiler Platform ("Roslyn")
 Roslyn is the codename for the new .NET Compiler Platform. The idea behind Roslyn is to allow a much more open access to the entire compiler pipeline. Previously, the compilers have been treated as "black boxes". Source code comes in, magic happens, compiled code comes out. During that process, a compiler finds out a lot about your code, however, for the most part, you care only about the end product, runnable code. Therefore, so far we preferred that arrangement.
 
-However, modern requirements of a more agile approach to code building have uncovered a need for next generation of tooling, one that would allow better experience when coding through applying the knowledge that compiler has to create new versions of Intellisense, code analyzers etc. Providing this hsa been the driving principle behind starting the .NET Compiler Platform project.
+However, modern requirements of a more agile approach to code building have uncovered a need for next generation of tooling, one that would allow better experience when coding through applying the knowledge that compiler has to create new versions of Intellisense, code analyzers etc. Providing this has been the driving principle behind starting the .NET Compiler Platform project.
 
 Essentially, Roslyn is the .NET compiler written in managed code and surfaced to consumers as a set of DLLs. This is also known as "compiler as a service" approach, in which you can instantiate and use the actual compiler in your code. This is the way Visual Studio 2015, for instance, provides Intellisense and other facilities.
 
