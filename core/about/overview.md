@@ -43,7 +43,7 @@ Roslyn is the codename for the new .NET Compiler Platform. The idea behind Rosly
 
 However, modern requirements of a more agile approach to code building have uncovered a need for next generation of tooling, one that would allow better experience when coding through applying the knowledge that compiler has to create new versions of Intellisense, code analyzers etc. Providing this hsa been the driving principle behind starting the .NET Compiler Platform project.
 
-Essentially, Roslyn is the .NET compiler written in managed code and surfaced to consumers as a set of DLLs. This is also known as "compiler as a service" approach, in which you can instantiate and use the actual compiler in your code. This is the way Visual Studio 2015, for instance, provides Intellisense and other facilities.
+Essentially, Roslyn is the .NET compiler written in managed code and surfaced to consumers as a set of DLLs. This is also known as a "compiler as a service" approach, in which you can instantiate and use the actual compiler in your code. This is the way Visual Studio 2015, for instance, provides Intellisense and other facilities.
 
 The .NET Compiler Platform is one of those topics that you can spend a fair amount of time and space writing about; however, going deeper would be beyond the scope of this overview. However, fear not, the team has assembled a great [Roslyn overview document](http://dotnet.readthedocs.org/en/latest/roslyn/roslyn-overview.html) that you can peruse to get more information.
 
