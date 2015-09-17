@@ -75,7 +75,7 @@ Enter .NET Native. It is a toolchain which is focused on compiling the IL code i
 Each of the runtimes above can be used on their own, for instance in console applications or similar. However, each of them have been the building block of a major consumer, or a workload on top of it. The two main workloads are ASP.NET 5 and Universal Windows Platform apps.
 
 ### ASP.NET 5
-ASP.NET 5 is a completely reimagined way of working with web applications on the Microsoft application platform. There are many new things that will come with this new realease; too much to go into detail here. ASP.NET 5 will be cross-platform, allowing you to run web applications written for it on Linux, OS X and Windows.
+ASP.NET 5 is a completely reimagined way of working with web applications on the Microsoft application platform. There are many new things that will come with this new release; too much to go into detail here. ASP.NET 5 will be cross-platform, allowing you to run web applications written for it on Linux, OS X and Windows.
 
 ASP.NET 5 can use either the Core CLR or the full, desktop .NET Framework to run, depending on the need. It also has a completely revamped approach to tooling, where it is starting with a "CLI first" philosophy, thus allowing one set of tools to be used on different platforms.
 
