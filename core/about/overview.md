@@ -67,7 +67,7 @@ This is precisely why .NET Core came into the world. First, it is a completely c
 The above also means a much different development experience than what was previously standard norm.  
 
 ### .NET Native
-Before we can explain what .NET Native is all about, we need to first cover some (very basic) ground on how .NET runtime currently executes code. The way .NET framework normally works is by JIT-ing IL (Intermediate Language) code. This happens at runtime. For the new generation of mobile and tablet applications, however, there are many scenarios where this is not really optimal, and where the developer would like to get to the actual code that is being run, without all of the JIT-ing and other things.
+Before we can explain what .NET Native is all about, we need to first cover some (very basic) ground on how the .NET runtime currently executes code. The way .NET framework normally works is by JIT-ing IL (Intermediate Language) code. This happens at runtime. For the new generation of mobile and tablet applications, however, there are many scenarios where this is not really optimal, and where the developer would like to get to the actual code that is being run, without all of the JIT-ing and other things.
 
 Enter .NET Native. It is a toolchain which is focused on compiling the IL code into native code. It is also known as AOT, **Ahead of Time** compiler, to differentiate between it and the **Just in Time** compiler, or JIT.
 
