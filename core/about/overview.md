@@ -99,7 +99,7 @@ Of course, in order to help developers work with the new runtimes, there are too
 
 It works by using predefined feeds to download the runtimes, place them in a well-known location and add environment variables for the user to be able to use them. It also allows you to list them out, switch between currently installed runtimes for the next invocation etc.
 
-The DNVM is an important piece of the development flow. It is the first step you do when setting up your development environment. Think of it as a "apt-get" or Homebew for .NET runtimes, and you would be very close.
+The DNVM is an important piece of the development flow. It is the first step you do when setting up your development environment. Think of it as a "apt-get" or Homebrew for .NET runtimes, and you would be very close.
 
 ### .NET Execution Enviornment (DNX)
 DNX refers to one of the execution environments that the DNVM installs. Each DNX is an isolated and self-contained unit. This means that you can have tens of DNX-es installed either on your machine or on the target machine and they will never interfere with one another.
