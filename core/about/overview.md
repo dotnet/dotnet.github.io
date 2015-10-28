@@ -101,7 +101,7 @@ It works by using predefined feeds to download the runtimes, place them in a wel
 
 The DNVM is an important piece of the development flow. It is the first step you do when setting up your development environment. Think of it as a "apt-get" or Homebrew for .NET runtimes, and you would be very close.
 
-### .NET Execution Enviornment (DNX)
+### .NET Execution Environment (DNX)
 DNX refers to one of the execution environments that the DNVM installs. Each DNX is an isolated and self-contained unit. This means that you can have tens of DNX-es installed either on your machine or on the target machine and they will never interfere with one another.
 
 DNX consists of two major parts: the actual DNX and the DNU (DNX NuGet Utility). DNX is used when you want to run the code you've written. If you go to the [getting started](/core/getting-started/) page on this site, you will see in all examples that the last step is invoking the currently active DNX to run the code in a given directory. It will compile the code and run it, so there is no reason to invoke the compiler. DNX does this by using "Roslyn" described at the beginning of the document.
