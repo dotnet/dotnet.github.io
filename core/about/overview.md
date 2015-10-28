@@ -51,7 +51,7 @@ The .NET Compiler Platform is one of those topics that you can spend a fair amou
 Above the shared components, we can see several runtimes being referenced. Time to dissect those.
 
 ### .NET Framework 4.6
-The tried and true workhorse of the past 10+ years, the full .NET framework is still around, of course, and has been recently updated to version 4.6. There are many enhancements to the CLR (the runtime) and the BCL (the class library) that comes with this release for the consumers presented in the diagram above, such as the .NET Compiler Platform, new language innovations etc.  
+The tried and true workhorse of the past 10+ years, the full .NET framework is still around, of course, and has been recently updated to version 4.6. There are many enhancements to the CLR (the runtime) and the BCL (the class library) that comes with this release for the consumers presented in the diagram above, such as the .NET Compiler Platform, new language innovations, etc.  
 
 This edition of the .NET Framework is not cross-platform and you can run it only on Windows. Most of the consumers of this particular edition of the .NET Framework should be already know, if in name only. [Windows Presentation Foundation or WPF](https://msdn.microsoft.com/en-us/library/ms754130(v=vs.110).aspx) is a framework for building desktop applications using specific technologies to make them compelling and rich. [Windows Forms](https://msdn.microsoft.com/en-us/library/dd30h2yb(v=vs.110).aspx) is already known as the bulwark of the LOB desktop applications from the early day of the .NET Framework. Of course, [ASP.NET](http://www.asp.net/) is Microsoft's main web stack, which is getting a major overhaul in the 5 release timeframe.
 
