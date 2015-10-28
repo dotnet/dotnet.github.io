@@ -92,7 +92,7 @@ When you create a Universal Windows Platform (UWP) app, you're creating an app t
 Each UWP app is using the .NET Core as its runtime and .NET Native as its default toolchain. You can find more about it in the [resources section](#more-resources) below.
 
 ## Tools
-Of course, in order to help developers work with the new runtimes, there are tools available for all scenarios from running an application to packaging it and deploying it. Though they are not present on the above "10k foot view", tools are a very important piece of the developer's life.
+Of course, in order to help developers work with the new runtimes, there are tools available for all scenarios from running an application to packaging it and deploying it. Though they are not present in the above "10k foot view", tools are a very important piece of the developer's life.
 
 ### .NET Version Manager (DNVM)
 [DNVM](https://github.com/aspnet/dnvm) is a a command-line utility that allows you to install and use various "execution environments" on any machine. It runs on Windows, OS X and Linux.
