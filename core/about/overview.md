@@ -79,7 +79,7 @@ ASP.NET 5 is a completely reimagined way of working with web applications on the
 
 ASP.NET 5 can use either the Core CLR or the full, desktop .NET Framework to run, depending on the need. It also has a completely revamped approach to tooling, where it is starting with a "CLI first" philosophy, thus allowing one set of tools to be used on different platforms.
 
-But most importantly, it also allows a pay-as-you-go model, in which you only include in your web application what you really need. There is no more "packaged also" mode, where you have to struggle with large assemblies that cut into your request size and this eat into your performance. With the new approach, you will be able to use only what you need/want.
+But most importantly, it also allows a pay-as-you-go model, in which you only include in your web application what you really need. There is no more "packaged also" mode, where you have to struggle with large assemblies that cut into your request size and eat into your performance. With the new approach, you will be able to use only what you need/want.
 
 ### Universal Windows Platform apps
 When you create a Universal Windows Platform (UWP) app, you're creating an app that has the potential to run on any Windows-powered device:
