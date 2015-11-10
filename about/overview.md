@@ -1,5 +1,5 @@
 ---
-layout: coreclr
+layout: main
 title: Overview of .NET Core
 ---
 # Overview of .NET Ecosystem in 2015
