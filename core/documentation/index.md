@@ -20,4 +20,4 @@ You can also visit our [GitHub repo](https://github.com/dotnet/coreclr/tree/mast
 ASP.NET team has created brand new content for ASP.NET 5 at [docs.asp.net](http://docs.asp.net). These documents contain the details about ASP.NET 5 release in general, and its various pieces in particular, such as ASP.NET MVC6.
 
 ## "Roslyn" resources
-"Roslyn" is the new managed compiler for C# and Visual Basic languages that is part of Visual Studio 2015. The best starting point for learning about "Roslyn" is to consume the [overiew document](http://dotnet.readthedocs.org/en/latest/roslyn/roslyn-overview.html). After that, you can try the [samples & walkthroughs](https://github.com/dotnet/roslyn/wiki/Samples-and-Walkthroughs).
+"Roslyn" is the new managed compiler for C# and Visual Basic languages that is part of Visual Studio 2015. The best starting point for learning about "Roslyn" is to consume the [overview document](http://dotnet.readthedocs.org/en/latest/roslyn/roslyn-overview.html). After that, you can try the [samples & walkthroughs](https://github.com/dotnet/roslyn/wiki/Samples-and-Walkthroughs).
