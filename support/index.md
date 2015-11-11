@@ -1,5 +1,5 @@
 ---
-layout: coreclr
+layout: main
 title: How to get help?
 ---
 # Stuck?

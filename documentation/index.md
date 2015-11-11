@@ -1,5 +1,5 @@
 ---
-layout: coreclr
+layout: main
 title: Getting .NET Core
 ---
 # Documentation
