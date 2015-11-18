@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IArgumentProvider | CoreCLR site</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IArgumentProvider | CoreCLR site">
+    
+    <link rel="shortcut icon" href="../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../styles/_docfx_vendor.css">
+    <link rel="stylesheet" href="../styles/coreclr/coreclr.css">
+    <link rel="stylesheet" href="../styles/_docfx_main.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../"><img height="50px" src="../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        
+        <div class="sidenav">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div class="sidetoc">
+              <iframe id="sidetoc" src="toc.html"></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              
+              
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Linq.Expressions/ref/System.Linq.Expressions.cs/#L585" class="btn btn-primary pull-right mobile-hide">View Source</a>
+              <h1 id="System_Linq_Expressions_IArgumentProvider">Interface IArgumentProvider</h1>
+              <div class="markdown level0 summary"><p>Provides an internal interface for accessing the arguments of multiple tree nodes (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression, and InexExpression).  You should not use this API.  It is only public due to DLL refactoring and exists only for internal performance optimizations.This enables two optimizations which reduce the size of expression trees.  The first enables the tree nodes to hold onto an IList&lt;T&gt; instead of a ReadOnlyCollection.  IList&lt;T&gt; saves the cost of allocating the ReadOnlyCollection for each node.  The second enables creating specialized subclasses that hold onto a specific number of arguments (for example, Block2, Block3, Block4).  Therefore, these nodes avoid allocating both a ReadOnlyCollection and an array for storing their elements, saving 32 bytes per node.The expression tree nodes continue to expose the original LINQ properties of ReadOnlyCollections.  The nodes do this by re-using a field for storing both the array or an element that would normally be stored in the array.For the array case, the collection is typed to IList&lt;T&gt; instead of ReadOnlyCollection&lt;T&gt;.  When the node is initially constructed it is an array.  When the compiler accesses the members it uses this interface.  Accessing array elements promotes the array to a ReadOnlyCollection.For the object case we store the first argument in a field typed to object.  When the node is initially constructed, the field holds the Expression.  The compiler accesses arguments through this interface, and the accessor for the first argument uses Expression.ReturnObject to return the object that handles the Expression or ReadOnlyCollection case.  When the user accesses the ReadOnlyCollection, then the object field is updated to hold directly onto the ReadOnlyCollection.It is important that the Expressions consistently return the same ReadOnlyCollection.  Otherwise, the re-writer tree walker will break.  It is a breaking change from LINQ v1 to return different ReadOnlyCollections form the same Expression node.  Currently users can rely on object identity to tell if the node has changed.  Storing the ReadOnlyCollection in an overloaded field both reduces memory usage and maintains compatibility for the public API.</p>
+</div>
+              <div class="markdown level0 conceptual"></div>
+              <h6><strong>Namespace</strong>:System.Linq.Expressions</h6>
+              <h6><strong>Assembly</strong>:System.Linq.Expressions.dll</h6>
+              <h5 id="System_Linq_Expressions_IArgumentProvider_syntax">Syntax</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public interface IArgumentProvider</code></pre>
+              </div>
+              <h3 id="properties">Properties</h3>
+              
+              <span class="small pull-right mobile-hide">
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Linq.Expressions/ref/System.Linq.Expressions.cs/#L587">View Source</a>
+              </span>
+              <h4 id="System_Linq_Expressions_IArgumentProvider_ArgumentCount">ArgumentCount</h4>
+              <div class="markdown level1 summary"><p>Returns the number of arguments to the expression tree node.  You should not use this type.  It is only public due to assembly refactoring, and it is used internally for performance optimizations.</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">int ArgumentCount { get; }</code></pre>
+              </div>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
+                    <td><p>The number of arguments to the expression tree node as <a class="xref" href="System.Int32.html#System_Int32">Int32</a>.</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h3 id="methods">Methods</h3>
+              
+              <span class="small pull-right mobile-hide">
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Linq.Expressions/ref/System.Linq.Expressions.cs/#L588">View Source</a>
+              </span>
+              <h4 id="System_Linq_Expressions_IArgumentProvider_GetArgument_System_Int32_">GetArgument(Int32)</h4>
+              <div class="markdown level1 summary"><p>Returns the argument at index, throwing if index is out of bounds.  You should not use this type.  It is only public due to assembly refactoring, and it is used internally for performance optimizations.</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">Expression GetArgument(int index)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
+                    <td><em>index</em></td>
+                    <td><p>The index of the argument.</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Linq.Expressions.Expression.html#System_Linq_Expressions_Expression">Expressions.Expression</a></td>
+                    <td><p>The argument at index, throwing if index is out of bounds as <a class="xref" href="System.Linq.Expressions.Expression.html#System_Linq_Expressions_Expression">Expression</a>.</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/_docfx_vendor.js"></script>
+    <script type="text/javascript" src="../styles/_docfx_main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
