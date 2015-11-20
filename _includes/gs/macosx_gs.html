@@ -1,76 +1,58 @@
 <!-- MAC OSX GETTING STARTED -->
-<div class="step step-none macosx-trail" id="step-1">
-      <div class="step-number">1</div>
-      <h3>Install .NET Version Manager (DNVM)</h3>
-      <p>DNVM is a script that will help us manage execution environments that we will use.  After installing, we register the dnvm command. </p>
-      <div class="terminal">
-        <div class="terminal-titlebar"></div>
-        <div class="terminal-body">
-          <p><span class="prompt unix-prompt"></span>curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
-</p>
-        </div>
-      </div>
+    <div class="step step-none macosx-trail" id="step-1">      
+        <div class="step-number">1</div>
+          <h3>Use the official PKG</h3>
+          <p>The best way to install .NET Core on OS X is to use the <a href="https://dotnetcli.blob.core.windows.net/dotnet/dev/Installers/Latest/dotnet-osx-x64.latest.pkg">official PKG package</a>. This installer will install the tools and put them on your PATH.</p>
     </div>
     <div class="step step-none macosx-trail" id="step-2">
       <div class="step-number">2</div>
-      <h3>Install .NET Core Execution Environment (DNX)</h3>
-      <p>Next step is to install the execution environment that will run Core CLR code:</p>
-      <div class="terminal">
-        <div class="terminal-titlebar"></div>
-        <div class="terminal-body">
-          <p><span class="prompt unix-prompt"></span>dnvm upgrade -u</p>
-          <p><span class="prompt unix-prompt"></span>dnvm install -r coreclr latest -u</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="step step-none macosx-trail" id="step-3">
-      <div class="step-number">3</div>
       <h3>Write the app</h3>
-      <p>Create a new file <strong>HelloWorld.cs</strong> in a directory, and paste in the code below:</p>
+      <p>Open the Terminal and create a new directory named <strong>helloworld</strong>. Create a new file <strong>Program.cs</strong> in that directory, and paste in the code below:</p>
       <div class="terminal">
         <div class="terminal-titlebar"></div>
-        <div class="terminal-body code-sample">
+        <div class="terminal-body code-sample code-source">
         using System;
 
         public class Program {
-        	public static void Main(string[] args){
+        	public static void Main(){
         		Console.WriteLine("Hello World from Core CLR!");
         	}
         }
         </div>
       </div>
-      <p>You will also need to specify some dependencies in a file called <strong>project.json</strong> so the sample works. Place the file in the same directory as the sample app above.</p>
+      <p>You will also need to specify some dependencies in a file called <strong>project.json</strong> so the sample works. Place the file in the same directory as the sample app above, and copy the contents below:</p>
       <div class="terminal">
         <div class="terminal-titlebar"></div>
-        <div class="terminal-body code-sample">
-       {
-            "version": "1.0.0-*",
-            "dependencies": {
-            },
-            "frameworks" : {
-                "dnx451" : { },
-                "dnxcore50" : {
-                    "dependencies": {
-                        "System.Console": "4.0.0-beta-*"
-                    }
+        <div class="terminal-body code-sample json-source">
+            {
+                "version": "1.0.0-*",
+                "compilationOptions": {
+                    "emitEntryPoint": true
+                },
+
+                "dependencies": {
+                    "System.Console": "4.0.0-beta-*",
+                    "System.Runtime": "4.0.21-beta-*"
+                },
+
+                "frameworks": {
+                    "dnxcore50": { }
                 }
             }
-        }
         </div>
       </div>
 
     </div>
 
-    <div class="step step-none macosx-trail" id="step-4">
-      <div class="step-number">4</div>
+    <div class="step step-none macosx-trail" id="step-3">
+      <div class="step-number">3</div>
       <h3>Run the app</h3>
       <p>The first command will restore the packages specified in the <strong>project.json</strong> file, and the second command will run the actuall sample:</p>
       <div class="terminal">
         <div class="terminal-titlebar"></div>
         <div class="terminal-body">
-          <p><span class="prompt unix-prompt"></span>dnu restore</p>
-          <p><span class="prompt unix-prompt"></span> dnx run</p>
+          <p><span class="prompt unix-prompt"></span>dotnet restore</p>
+          <p><span class="prompt unix-prompt"></span>dotnet run</p>
         </div>
       </div>
 

@@ -5,7 +5,7 @@ title: About .NET Core
 ## About .NET
 .NET is a general purpose development platform. It has several key features that are attractive to many developers, including automatic memory management and modern programming languages, that make it easier to efficiently build high-quality apps. Multiple implementations of .NET are available, based on open [.NET Standards](https://github.com/dotnet/coreclr/blob/master/Documentation/project-docs/dotnet-standards.md) that specify the fundamentals of the platform.
 
-You can read more about .NET in the [.NET Primer](http://dotnet.readthedocs.org/en/latest/concepts/primer.html).
+You can read more about .NET in the [.NET Primer](/docs/concepts/primer.html).
 
 ## About .NET Core
 .NET Core is a cross-platform implementation of .NET that is primarily being driven by ASP.NET 5 workloads, but also by the need and desire to have a modern runtime that is modular and whose features and libraries can be cherry picked based on the application's needs. You can learn more about .NET Core and how and where you can use it in the [CoreCLR is open source](http://blogs.msdn.com/b/dotnet/archive/2015/02/03/coreclr-is-now-open-source.aspx) blog post.

@@ -5,6 +5,26 @@
 		this.initTrail();
 	}
 
+    Trails.prototype.getSamples = function() {
+        var self = this;
+        var jsonUrl = "https://raw.githubusercontent.com/dotnet/core/master/samples/helloworld/project.json";
+        var codeUrl = "https://raw.githubusercontent.com/dotnet/core/master/samples/helloworld/Program.cs";
+        $.get(jsonUrl)
+            .done(function(data) {
+                $(".json-source").text(data);
+            })
+            .fail(function(data) {
+                console.log(data);
+            });
+        $.get(codeUrl)
+            .done(function(data) {
+                $(".code-source").text(data);
+            })
+            .fail(function(data) {
+                console.log(data);
+            });
+    }
+
 	Trails.prototype.showTrail = function(e) {
 		$(e.target).addClass("jquery-active");
 		$(".trail-start").not(e.target).removeClass("jquery-active");
@@ -20,6 +40,7 @@
 	}
 
 	Trails.prototype.initTrail = function(){
+        this.getSamples();
 		var osPlatform = window.navigator.platform;
 		// console.log("OS platform is " + osPlatform);
 		var startTrail = "";
