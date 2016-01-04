@@ -71,7 +71,7 @@
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/languages/csharp/async.md/#L1" class="btn btn-primary pull-right mobile-hide">Improve this Doc</a>
               <h1 id="asynchronous-programming">Asynchronous programming</h1>
 <p>By <a href="https://github.com/cartermp">Phillip Carter</a></p>
-<p>Async programming in C# and VB share a language-level asynchronous programming model which allows for easily writing asynchronous code without having to juggle callbacks or conform to a library which supports asynchrony. It follows what is known as the <a href="https://msdn.microsoft.com/en-us/library/hh873175%28v=vs.110%29.aspx">Task-based Asynchronous Pattern (TAP)</a>.</p>
+<p>C# and Visual Basic share a language-level asynchronous programming model which allows for easily writing asynchronous code without having to juggle callbacks or conform to a library which supports asynchrony. It follows what is known as the <a href="https://msdn.microsoft.com/en-us/library/hh873175%28v=vs.110%29.aspx">Task-based Asynchronous Pattern (TAP)</a>.</p>
 <p>The core of TAP are the <code>Task</code> and <code>Task&lt;T&gt;</code> objects, which model asynchronous operations, supported by the <code>async</code> and <code>await</code> keywords (<code>Async</code> and <code>Await</code> in VB), which provide a natural developer experience for interacting with Tasks. The result is the ability to write asynchronous code which cleanly expresses intent, as opposed to callbacks which express intent far less cleanly. There are other ways to approach async code than <code>async</code> and <code>await</code> outlined in the TAP article linked above, but this document will focus on the language-level constructs from this point forward.</p>
 <p>For example, you may need to download some data from a web service when a button is pressed, but don’t want to block the UI thread. It can be accomplished simply like this:</p>
 <pre><code class="lang-cs">private readonly HttpClient _httpClient = new HttpClient();
@@ -141,8 +141,8 @@ public async Task&lt;int&gt; GetDotNetCountAsync()
 <li><code>Task</code> represents a single operation which does not return a value.</li>
 <li><code>Task&lt;T&gt;</code> represents a single operation which returns a value of type <code>T</code>.</li>
 </ul>
-<p>Tasks are awaitable, meaning that the use <code>await</code> will allow your application or service to perform useful work while the task is running by yielding control to its caller until the task is done. If you’re using <code>Task&lt;T&gt;</code>, the <code>await</code> keyword will additionally “unwrap” the value returned when the Task is complete.</p>
-<p>It’s important to reason about Tasks of simply being abstractions of work happening in the background, and <em>not</em> allocate a new thread under the covers. In fact, unless explicitly started on a new thread via <code>Task.Run</code>, a Task will start on the current thread and delegate work to the Operating System.</p>
+<p>Tasks are awaitable, meaning that using <code>await</code> will allow your application or service to perform useful work while the task is running by yielding control to its caller until the task is done. If you’re using <code>Task&lt;T&gt;</code>, the <code>await</code> keyword will additionally “unwrap” the value returned when the Task is complete.</p>
+<p>It’s important to reason about Tasks as abstractions of work happening in the background, and <em>not</em> an abstraction over multithreading. In fact, unless explicitly started on a new thread via <code>Task.Run</code>, a Task will start on the current thread and delegate work to the Operating System.</p>
 <p>Here’s a 10,000 foot view of what happens with a typical async call:</p>
 <p>The call (such as <code>GetStringAsync</code> from <code>HttpClient</code>) makes its way through the .NET libraries until it reaches a system interop call (such as <code>P/Invoke</code> on Windows). This eventually makes the proper System API call (such as <code>write</code> to a socket file descriptor on Linux). That System API call is then dealt with in the kernel, where the I/O request is sent to the proper subsystem. Although details about scheduling the work on the appropriate device driver are different for each OS, eventually an “incomplete task” signal will be sent from the device driver, bubbling its way back up to the .NET runtime. This will be converted into a <code>Task</code> or <code>Task&lt;T&gt;</code> by the runtime and returned to the calling method. When <code>await</code> is encountered, execuction is yielded and the system can go do something else useful while the Task is running.</p>
 <p>When the device driver has the data, it sends an interrupt which eventually allows the OS to bubble the result back up to the runtime, which will the queue up the result of the Task. Eventually execution will return to the method which called <code>GetStringAsync</code> at the <code>await</code>, and will “unwrap” the return value from the <code>Task&lt;string&gt;</code> which was being awaited. The method now has the result!</p>
@@ -151,8 +151,8 @@ public async Task&lt;int&gt; GetDotNetCountAsync()
 <p>0-1————————————————————————————————————————————————–2-3</p>
 <ul>
 <li>Time spent from points <code>0</code> to <code>1</code> is everything up until an async method yields control to its caller.</li>
-<li>Time spent from points <code>1</code> to <code>2</code> is the time spend on I/O.</li>
-<li>Finally, time spent from <code>2</code> to <code>3</code> is passing control back (and potentially a value) to the async method, at which point it is executing again.</li>
+<li>Time spent from points <code>1</code> to <code>2</code> is the time spent on I/O.</li>
+<li>Finally, time spent from points <code>2</code> to <code>3</code> is passing control back (and potentially a value) to the async method, at which point it is executing again.</li>
 </ul>
 <p>Tasks are also used outside of the async programming model. They are the foundation of the Task Parallel Library, which supports the parallelization of CPU-bound work via <a href="https://msdn.microsoft.com/en-us/library/dd537608%28v=vs.110%29.aspx">Data Parallelism</a> and <a href="https://msdn.microsoft.com/en-us/library/dd537609%28v=vs.110%29.aspx">Task Parallelism</a>.</p>
 <h2 id="important-info-and-advice">Important Info and Advice</h2>
@@ -164,7 +164,7 @@ public async Task&lt;int&gt; GetDotNetCountAsync()
 <ul>
 <li><code>async void</code> <strong>should only be used for event handlers.</strong></li>
 </ul>
-<p>It’s the only way to allow asynchronous event handlers to work because events do not have return types (thus cannot make use of <code>Task</code> and <code>Task&lt;T&gt;</code>). Any other use of <code>async void</code>does not follow the Task-based model and can be challenging to use, such as:</p>
+<p><code>async void</code> is the only way to allow asynchronous event handlers to work because events do not have return types (thus cannot make use of <code>Task</code> and <code>Task&lt;T&gt;</code>). Any other use of <code>`async void</code> does not follow the TAP model and can be challenging to use, such as:</p>
 <ul>
 <li>Exceptions thrown in an <code>async void</code> method can’t be caught outside of that method.</li>
 <li><code>async void</code> methods are very difficult to test.</li>
