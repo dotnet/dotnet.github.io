@@ -13,7 +13,7 @@ title: Overview of .NET Core
   * [.NET Core](#net-core)
   * [.NET Native](#net-native)
 * [.NET Main workloads and consumers](#net-main-workloads-and-consumers)
-  * [ASP.NET 5](#aspnet-5)
+  * [ASP.NET Core 1](#aspnet-core-1)
   * [Universal Windows Platform apps](#universal-windows-platform-apps)
 * [Tools](#tools)
   * [.NET Version Manager (DNVM)](#net-version-manager-dnvm)
@@ -60,7 +60,7 @@ This edition of the .NET Framework is not cross-platform and you can run it only
 
 The best way to explain what .NET Core is about is to contrast it with its "cousin," the .NET Framework, pictured above. When you install .NET Framework, you get not only the runtime, but also the entire Base Class Library (BCL) with it. It is installed centrally in a known location in Windows centrally so all programs can use it, and the libraries that come with it are also centrally available. Any .NET application that runs on Windows can thus expect a certain level of support, depending on the actual version the machine it is being ran on has installed.
 
-This may seem like an excellent idea, mostly because it is. However, there are those scenarios, like the ASP.NET 5 one which we will look at below, that really do not fit well with this approach. We wanted to enable developers to make their solution fully packaged and isolated on a machine where it needs to run. That means, for instance, that when you deploy your application, you want to be in full control of the runtime, library versions and other things your application depends on.
+This may seem like an excellent idea, mostly because it is. However, there are those scenarios, like the ASP.NET Core 1 one which we will look at below, that really do not fit well with this approach. We wanted to enable developers to make their solution fully packaged and isolated on a machine where it needs to run. That means, for instance, that when you deploy your application, you want to be in full control of the runtime, library versions and other things your application depends on.
 
 This is precisely why .NET Core came into the world. First, it is a completely componentized framework, meaning that everything is available as a package that you can opt-in. This includes the entire list of libraries that you would use in your application; you pull them in via packages and ship them as part of your application, and then update them as you see fit, without messing around with the centrally installed version. This makes it that much easier to deploy your apps in the cloud, Docker images or even hosting the runtime yourself if you're so inclined.
 
@@ -72,12 +72,12 @@ Before we can explain what .NET Native is all about, we need to first cover some
 Enter .NET Native. It is a toolchain which is focused on compiling the IL code into native code. It is also known as AOT, **Ahead of Time** compiler, to differentiate between it and the **Just in Time** compiler, or JIT.
 
 ## .NET Main workloads and consumers
-Each of the runtimes above can be used on their own, for instance in console applications or similar. However, each of them have been the building block of a major consumer, or a workload on top of it. The two main workloads are ASP.NET 5 and Universal Windows Platform apps.
+Each of the runtimes above can be used on their own, for instance in console applications or similar. However, each of them have been the building block of a major consumer, or a workload on top of it. The two main workloads are ASP.NET Core 1 and Universal Windows Platform apps.
 
-### ASP.NET 5
-ASP.NET 5 is a completely reimagined way of working with web applications on the Microsoft application platform. There are many new things that will come with this new release; too much to go into detail here. ASP.NET 5 will be cross-platform, allowing you to run web applications written for it on Linux, OS X and Windows.
+### ASP.NET Core 1
+ASP.NET Core 1 is a completely redesigned way of working with web applications on the Microsoft application platform. There are many new things that will come with this new release; too much to go into detail here. ASP.NET Core 1 will be cross-platform, allowing you to run web applications written for it on Linux, OS X and Windows.
 
-ASP.NET 5 can use either the Core CLR or the full, desktop .NET Framework to run, depending on the need. It also has a completely revamped approach to tooling, where it is starting with a "CLI first" philosophy, thus allowing one set of tools to be used on different platforms.
+ASP.NET Core 1 can use either the Core CLR or the full, desktop .NET Framework to run, depending on the need. It also has a completely revamped approach to tooling, where it is starting with a "CLI first" philosophy, thus allowing one set of tools to be used on different platforms.
 
 But most importantly, it also allows a pay-as-you-go model, in which you only include in your web application what you really need. There is no more "packaged also" mode, where you have to struggle with large assemblies that cut into your request size and eat into your performance. With the new approach, you will be able to use only what you need/want.
 
@@ -94,27 +94,15 @@ Each UWP app is using the .NET Core as its runtime and .NET Native as its defaul
 ## Tools
 Of course, in order to help developers work with the new runtimes, there are tools available for all scenarios from running an application to packaging it and deploying it. Though they are not present in the above "10k foot view", tools are a very important piece of the developer's life.
 
-### .NET Version Manager (DNVM)
-[DNVM](https://github.com/aspnet/dnvm) is a a command-line utility that allows you to install and use various "execution environments" on any machine. It runs on Windows, OS X and Linux.
-
-It works by using predefined feeds to download the runtimes, place them in a well-known location and add environment variables for the user to be able to use them. It also allows you to list them out, switch between currently installed runtimes for the next invocation etc.
-
-The DNVM is an important piece of the development flow. It is the first step you do when setting up your development environment. Think of it as a "apt-get" or Homebrew for .NET runtimes, and you would be very close.
-
-### .NET Execution Environment (DNX)
-DNX refers to one of the execution environments that the DNVM installs. Each DNX is an isolated and self-contained unit. This means that you can have tens of DNX-es installed either on your machine or on the target machine and they will never interfere with one another.
-
-DNX consists of two major parts: the actual DNX and the DNU (DNX NuGet Utility). DNX is used when you want to run the code you've written. If you go to the [getting started](/getting-started/) page on this site, you will see in all examples that the last step is invoking the currently active DNX to run the code in a given directory. It will compile the code and run it, so there is no reason to invoke the compiler. DNX does this by using "Roslyn" described at the beginning of the document.
-
-The other important part is the DNU, which is used to retrieve the packages that are dependencies of any given application. Each .NET Core application will have its dependencies listed out in a **project.json** file, which lives together with the application's code. Using DNU, the programmer is able to get these dependencies and run the code. DNU also supports more scenarios, namely transforming your code in a package as well as making it ready to be published on the remote server.
-
-Coupled with DNVM described in the previous section, DNX and DNU make up a major chunk of the developer's workflow in the .NET world of 2015 and beyond. You can read more about these tools at the [DNX official documentation](https://docs.asp.net/en/latest/dnx/overview.html).
+### .NET Core Command Line Interface
+.NET Core Command Line Interface, or CLI for short, is a new set of tools that are cross-platform and are focused on helping you get your solution, be it an application or a library, out of the door as quickly as possible. 
+It is, of course, open source, and can be found in its [GitHub repo](https://github.com/dotnet/cli/). It is currently under development, and it is planned to be supported on all the platforms that .NET Core is supported on by Microsoft (which means Linux, OS X and Windows). 
 
 ### Visual Studio
 [Visual Studio](https://www.visualstudio.com/) is Microsoft's primary IDE and programmer editor. It is an incredibly rich and powerful IDE that offers a slew of features for modern development. It runs only on Windows.
 
 ### Visual Studio Code
-[Visual Studio Code](https://code.visualstudio.com/) is a cross-platform editor that is oriented towards supporting writing modern web and cloud applications. It provides a subset of features that have made its "older brother", Visual Studio, so popular, like Intellisense and strong debugging support. It is probably the easiest way to get started with ASP.NET 5 development on Linux and OS X.
+[Visual Studio Code](https://code.visualstudio.com/) is a cross-platform editor that is oriented towards supporting writing modern web and cloud applications. It provides a subset of features that have made its "older brother", Visual Studio, so popular, like Intellisense and strong debugging support. It is probably the easiest way to get started with ASP.NET Core 1 development on Linux and OS X.
 
 ## More resources
 
