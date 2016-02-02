@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Installing .NET Core on Linux | CoreCLR site</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Installing .NET Core on Linux | CoreCLR site">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        
+        <div class="sidenav">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/getting-started/installing/installing-core-ubuntu.md/#L1" class="btn btn-primary pull-right mobile-hide">Improve this Doc</a>
+              <h1 id="installing-net-core-on-linux">Installing .NET Core on Linux</h1>
+              
+<p>By <a href="https://github.com/blackdwarf">Zlatko Knezevic</a></p>
+<p>This document will lead you through acquiring the .NET Core and its associated CLI toolchain and running a “Hello World” demo on Linux.</p>
+<h2 id="setting-up-the-environment">Setting up the environment</h2>
+<h3 id="setting-up-the-apt-get-feed">Setting up the apt-get feed</h3>
+<p>We will use apt-get, the native Ubuntu package installer, to install the .NET Core SDK. In order to get the package, however, we will need to add a new package feed. The below commands will do this. </p>
+<pre><code class="lang-console">sudo sh -c &#39;echo &quot;deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet/ trusty main&quot; &gt; /etc/apt/sources.list.d/dotnetdev.list&#39; 
+sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+sudo apt-get update
+</code></pre>
+<h2 id="installing-the-net-command-line-interface">Installing the .NET Command Line Interface</h2>
+<p>Installing the actual CLI toolchain is as simple as running:</p>
+<pre><code class="lang-console">sudo apt-get install dotnet
+</code></pre>
+<p>This will install the package and all of the dependencies. It will also add the toolchain to your $PATH, so they will be available the next time you drop down into the terminal.  </p>
+<p>That’s it! You now have the .NET Core tools installed on your machine and it is time to take it for a spin.</p>
+<h2 id="the-proverbial-hello-world">The proverbial Hello World</h2>
+<p>This being an introduction-level document, it seems fitting to start with a “Hello World” app. Luckily, the .NET CLI tools have a command that will help us with that. First, let&#39;s start with making a directory to contain our application:</p>
+<pre><code class="lang-console">mkdir newapp
+cd newapp
+</code></pre>
+<p>We will then use the <code>dotnet new</code> command to drop a sample Hello World application in the directory we just made:</p>
+<pre><code class="lang-console">dotnet new
+</code></pre>
+<p>This will drop several things, most notably a <code>Program.cs</code> and <code>project.json</code> that are needed to run the application. </p>
+<h2 id="run-your-app">Run your App</h2>
+<p>You need to restore packages for your app, based on your project.json, with <code>dotnet restore</code> and then run the application using <code>dotnet run</code>. </p>
+<pre><code class="lang-console">dotnet restore
+dotnet run
+
+Hello World!
+</code></pre>
+<h2 id="compile-your-application">Compile your application</h2>
+<p>Running from source is great for rapid prototyping and trying out things. However, in due time you will want to actually compile your application to get increase in speed and similar benefits. In order to do that, we will use <code>dotnet compile</code> command that will produce a runnable executable for our Hello World app.</p>
+<p>While you&#39;re still in the application&#39;s directory, type</p>
+<pre><code>dotnet build
+</code></pre><p>This will produce a <code>bin</code> directory in your directory. The structure of the drop path is <code>./bin/[configuration]/[framework]/</code>. Configuration refers to either <em>Release</em> or <em>Debug</em>, while framework is essentially a framework ID (i.e. dnxcore50). Inside this directory there will be several files, the most important of which is the binary that will have the same name as your application. Running this will give us the message we saw in the previous example. </p>
+<h2 id="create-a-single-native-binary">Create a single native binary</h2>
+<p>Finally, let&#39;s exercise a new feature that we&#39;ve added to our .NET Command Line Interface: producing single native binaries. These binaries do not require a shared runtime to work; you can just copy the single file over to another Ubuntu machine and just run it. </p>
+<p>The process is pretty similar to the above, with the addition of one more switch. </p>
+<pre><code class="lang-console">dotnet restore
+dotnet build --native
+</code></pre>
+<p>After the compile command finishes, we can just run the resulting binary. By convention, the compile command drops the results in ./bin/[configuration]/[framework]/native/[binary name]. Running this binary will get us our greeting! </p>
+<blockquote><p><strong>Note</strong>
+This capability is still in its infancy. Therefore, only the simplest of programs will be able to be natively compiled. </p>
+</blockquote>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
