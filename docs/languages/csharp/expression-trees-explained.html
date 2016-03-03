@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Expression Trees Explained | CoreCLR site</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Expression Trees Explained | CoreCLR site">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/languages/csharp/expression-trees-explained.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1></h1>
+              <p><a href="expression-trees.html">Previous -- Overview</a></p>
+<p>By <a href="https://github.com/BillWagner">Bill Wagner</a></p>
+<h1 id="expression-trees-explained">Expression Trees Explained</h1>
+<p>An Expression Tree is a data structure that defines code. They are based on the same structures
+that a compiler uses to analyze code and generate the compiled output. As you read through this
+tutorial, you will notice quite a bit of similarity between Expression Trees and the types used
+in the Roslyn APIs to build <a href="https://github.com/dotnet/roslyn-analyzers">Analyzers and CodeFixes</a>.
+(Analyzers and CodeFixes are NuGet packages that perform static analysis on code and can suggest
+potential fixes for a developer.)
+The concepts are similar, and the end result
+is a data structure that allows examination of the source ode in a meaningful way. However, Expression
+Trees are based on a totally different set of classes and APIs than the Roslyn APIs.</p>
+<p>Let&#39;s look at a simple example.
+Here&#39;s a line of code:</p>
+<pre><code class="lang-cs">var sum = 1 + 2;
+</code></pre>
+<p>If you were to analyze this as an expression tree, the tree contains several nodes.
+The outermost node is a variable declaration statement with assignment (<code>var sum = 1 + 2;</code>)
+That outermost node contains several child nodes: a variable declaration, an assignment expression, and an
+expression representing the right hand side of the equals sign. That expression is further subdivided into
+expressions that represent the addition operation, and left and right operands of the addition.</p>
+<p>Let&#39;s drill down a bit more into the expressions that make up the right side of the equals sign.
+The expression is <code>1 + 2</code>. That&#39;s a binary expression. More specifically, it&#39;s a binary addition
+expression. A binary addition expression has two children, representing the left and right nodes
+of the addition expression. Here, both nodes are constant expressions: The left operand is the
+value <code>1</code>, and the right operand is the value <code>2</code>.</p>
+<p>Visually, the entire statement is a tree: You could start at the root node, and travel to
+each node in the tree to see the code that makes up the statement:</p>
+<ul>
+<li>Variable declaration statement with assignment (<code>var sum = 1 + 2;</code>)<ul>
+<li>Variable Declaration Expression (<code>var sum = 1 + 2</code>)<ul>
+<li>Implicit variable type declaration (<code>var sum</code>)<ul>
+<li>Implicit var keyword (<code>var</code>)</li>
+<li>Variable name declaration (<code>sum</code>)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>assignment expression (<code>=</code>)</li>
+<li>Binary Addition Expression (<code>1 + 2</code>)<ul>
+<li>left operand (<code>1</code>)</li>
+<li>addition operator (<code>+</code>)</li>
+<li>right operand (<code>2</code>)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>This may look complicated, but it is very powerful. Following the same process, you can decompose
+much more complicated expressions. Consider this expression:</p>
+<pre><code class="lang-cs">var finalAnswer = this.SecretSauceFuncion(
+    currentState.createInterimResult(), currentState.createSecondValue(1, 2),
+    decisionServer.considerFinalOptions(&quot;hello&quot;)) +
+    MoreSecretSauce(&#39;A&#39;, DateTime.Now, true);
+</code></pre>
+<p>The expression above is also a variable declaration with an assignment.
+In this instance, the right hand side of the assignment is a much more complicated tree.
+I&#39;m not going to decompose this expression, but consider what the different nodes might
+be. There are method calls using the current object as a receiver, one that has an explicit <code>this</code>
+receiver, one that does not. There are method calls using other receiver objects,
+there are constant arguments of different types. And finally, there is a binary
+addition operator. Depending on the return type of <code>SecretSauceFunction()</code> or
+<code>MoreSecretSauce()</code>, that binary addition operator may be a method call to an
+overridden addition operator, resolving to a static method call to the binary 
+addition operator defined for a class.</p>
+<p>Despite this perceived complexity, the expression above creates a tree structure
+that can be navigated as easily as the first sample. You can keep traversing
+child nodes to find leaf nodes in the expression. Parent nodes will have
+references to their children, and each node has a property that describes
+what kind of node it is.</p>
+<p>The structure of an expression tree is very consistent. Once you&#39;ve learned
+the basics, you can understand even the most complex code when it is represented
+as an expression tree. The elegance in
+the data structure explains how the C# compiler can analyze the most complex
+C# programs and create proper output from that complicated source code.</p>
+<p>Once you become familiar with the structure of expression trees, you will
+find that knowledge you&#39;ve gained quickly enables you to work with many
+more and more advanced scenarios. There is incredible power to expression
+trees.</p>
+<p>In addition to translating algorithms to execute in other environments,
+expression trees can be used to make it easier to write algorithms that inspect
+code before executing it. You can write a method whose arguments are expressions
+and then examine those expressions before executing the code. The Expression Tree
+is a full representation of the code: you can see values of any sub-expression.
+You can see method and property names. You can see the value of any constant expressions.
+You can also convert an expression tree into an executable delegate, and execute the
+code.</p>
+<p>The APIs for Expression Trees enable you to create trees that represent almost any
+valid code construct. However, to keep things as simple as possible, some C# idioms
+cannot be created in an expression tree. One example is asynchronous expressions (using
+the <code>async</code> and <code>await</code> keywords. If your needs require asynchronous algorithms, you would need
+to manipulate the <code>Task</code> objects directly, rather than rely on the compiler support. Another
+is in creating loops. Typically, you create these by using <code>for</code>, <code>foreach</code>, <code>while</code> or <code>do</code>
+loops. As you&#39;ll see <a href="expression-trees-building.html">later in this series</a>, the APIs for
+expression trees support a single loop expression, with <code>break</code> and <code>continue</code> expressions that
+control repeating the loop.</p>
+<p>The one thing you can&#39;t do is modify an expression tree.  Expression Trees are immutable
+data structures. If you want to mutate (change) an expression tree, you must create a new tree
+is a copy of the original, but with your desired changes. </p>
+<p><a href="expression-classes.html">Next -- Framework Types Supporting Expression Trees</a></p>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

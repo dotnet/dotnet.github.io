@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Executing Expression Trees | CoreCLR site</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Executing Expression Trees | CoreCLR site">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/languages/csharp/expression-trees-execution.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1></h1>
+              <p><a href="expression-trees-interpreting.html">Previous -- Interpreting Expression Trees</a></p>
+<p>By <a href="https://github.com/BillWagner">Bill Wagner</a></p>
+<h1 id="executing-expression-trees">Executing Expression Trees</h1>
+<p>An <em>expression tree</em> is a data structure that represents some code.
+It is not compiled and executable code. If you want to execute
+the .NET code that is represented by an expression tree, you must
+convert it into executable IL instructions. </p>
+<h2 id="lambda-expressions-to-functions">Lambda Expressions to Functions</h2>
+<p>You can convert any LambdaExpression, or any type derived from
+LambdaExpression into executable IL. Other expression types
+cannot be directly converted into code. This restriction has
+little effect in practice. Lambda expressions are the only
+types of expressions that you would want to execute by converting
+to executable intermediate language (IL). (Think about what it would mean
+to directly execute a <code>ConstantExpression</code>. Would it mean
+anything useful?) Any expression tree that is a <code>LamdbaExpression</code>,
+or a type derived from <code>LambdaExpression</code> can be converted to IL.
+The expression type <code>Expression&lt;TDelegate&gt; where TDelegate : delegate</code>
+is the only concreted example in the .NET Core libraries. It&#39;s used
+to represent an expression that maps to any delegate type. Because
+this type maps to a delegate type, .NET can examine
+the expression, and generate IL for an appropriate delegate that
+matches the signature of the lambda expression. </p>
+<p>In most cases, theis creates a simple mapping between an expression,
+and its corresponding delegate. For example, an expression tree that
+is represented by <code>Expression&lt;Func&lt;int&gt;&gt;</code> would be converted to a delegate
+of the type <code>Func&lt;int&gt;</code>. For a lambda expression with any return type
+and argument list, there exists a delegate type that is the target type
+for the executable code represented by that lamdba expression.</p>
+<p>The <code>LamdbaExpression</code> type contains <code>Compile</code> and <code>CompileToMethod</code>
+members that you would use to convert an expression tree to executable
+code. The <code>Compile</code> method creates a delegate. The <code>ConmpileToMethod</code>
+method updates a <code>MethodBuilder</code> object with the IL that represents
+the compiled output of the expression tree. Note that <code>CompileToMethod</code>
+is only available on the full desktop framework, not on the 
+.NET Core framework.</p>
+<p>Optionally, you can also provide a <code>DebugInfoGenerator</code> that will
+receive the symbol debugging information for the generated delegate
+object. This enables you to convert the expression tree into a
+delegate object, and have full debugging information about the
+generated delegate.</p>
+<p>You would convert an expression into a delegate using the following
+code:</p>
+<pre><code class="lang-cs">Expression&lt;Func&lt;int&gt;&gt; add = () =&gt; 1 + 2;
+var func = add.Compile(); // Create Delegate
+var answer = func(); // Invoke Delegate
+Console.WriteLine(answer);
+</code></pre>
+<p>Notice that the delegate type is based on the expression type. You must
+know the return type and the argument list if you want to use the
+delegate object in a strongly typed manner. The <code>LambdaExpression.Compile()</code>
+method returns the <code>Delegate</code> type. You will have to cast it to the correct
+delegate type to have any compile-time tools check the argument list of
+return type.</p>
+<h2 id="execution-and-lifetimes">Execution and Lifetimes</h2>
+<p>You execute the code by invoking the delegate created
+you called <code>LamdbaExpression.Compile()</code>. You can see this above where
+<code>add.Compile()</code> returns a delegate. Invoking that delegate, by calling
+<code>func()</code> executes the code.</p>
+<p>That delegate represents the code in the expression tree. You can
+retain the handle to that delegate and invoke it later. You don&#39;t need
+to compile the expression tree each time you want to execute the code
+it represents. (Remember that expression trees are immutable, and
+compiling the same expression tree later will create a delegate that
+executes the same code.)</p>
+<p>I will caution you against trying to create any more sophisticated
+caching mechanisms to increase performance by avoiding unnecessary
+compile calls. Comparing two arbitrary expression trees to determine
+if they represent the same algorithm will also be time consuming to
+execute. You&#39;ll likely
+find that the compute time you save avoiding any extra calls to
+<code>LambdaExpression.Compile()</code> will be more than consumed by the time executing
+code that determines of two different expression trees result in
+the same executable code.</p>
+<h2 id="caveats">Caveats</h2>
+<p>Compiling a lambda expression to a delegate and invoking that delegate
+is one of the simplest operations you can perform with an expression
+tree. However, even with this simple operation, there are caveats
+you must be aware of. </p>
+<p>Lambda Expressions create closures over any local variables that are
+referenced in the expression. You must guarantee that any variables
+that would be part of the delegate are usable at the location where
+you call <code>Compile</code>, and when you execute the resulting delegate.</p>
+<p>In general, the compiler will ensure that this is true. However,
+if your expression accesses a variable that implements <code>IDisposable</code>,
+it&#39;s possible that your code might dispose of the object while it
+is still held by the expression tree.</p>
+<p>For example, this code works fine, because <code>int</code> does not implement
+<code>IDisposable</code>:</p>
+<pre><code class="lang-cs">private static Func&lt;int, int&gt; CreateBoundFunc()
+{
+    var constant = 5; // constant is captured by the expression tree
+    Expression&lt;Func&lt;int, int&gt;&gt; expression = (b) =&gt; constant + b;
+    var rVal = expression.Compile();
+    return rVal;
+}
+</code></pre>
+<p>The delegate has captured a reference to the local variable <code>constant</code>.
+That variable is accessed at any time later, when the function returned
+by <code>CreateBoundFunc</code> executes.</p>
+<p>However, consider this (rather contrived) class that implements
+<code>IDisposable</code>:</p>
+<pre><code class="lang-cs">public class Resource : IDisposable
+{
+    private bool isDisposed = false;
+    public int Argument
+    {
+        get
+        {
+            if (!isDisposed)
+                return 5;
+            else throw new ObjectDisposedException(&quot;Resource&quot;);
+        }
+    }
+
+    public void Dispose()
+    {
+        isDisposed = true;
+    }
+}
+</code></pre>
+<p>If you use it in an expression as shown below, you&#39;ll get an
+<code>ObjectDisposedException</code> when you execute the code referenced
+by the <code>Resource.Argument</code> property:</p>
+<pre><code class="lang-cs">private static Func&lt;int, int&gt; CreateBoundResource()
+{
+    using (var constant = new Resource()) // constant is captured by the expression tree
+    {
+        Expression&lt;Func&lt;int, int&gt;&gt; expression = (b) =&gt; constant.Argument + b;
+        var rVal = expression.Compile();
+        return rVal;
+    }
+}
+</code></pre>
+<p>The delegate returned from this method has closed over the <code>constant</code> object,
+which has been disposed of. (It&#39;s been disposed, because it was declared in a
+<code>using</code> statement.) </p>
+<p>Now, when you execute the delegate returned from this method, you&#39;ll have a
+<code>ObjecctDisposedException</code> thrown at the point of execution.</p>
+<p>It does seem strange to have a runtime error representing a compile-time
+construct, but that&#39;s the world we enter when we work with
+expression trees.</p>
+<p>There are a lot of permutations of this problem, so it&#39;s hard
+to offer general guidance to avoid it. Be careful about accessing
+local variables when defining expressions, and be careful about
+accessing state in the current object (represented by <code>this</code>) when
+creating an expression tree that can be returned by a public API.</p>
+<p>The code in your expression may reference methods or properties in
+other assemblies. That assembly must be accessible when the expression
+is defined, and when it is compiled, and when the resulting delegate
+is invoked. You&#39;ll be met with a <code>ReferencedAssemblyNotFoundException</code>
+in cases where it is not present.</p>
+<h2 id="summary">Summary</h2>
+<p>Expression Trees that represent lambda expressions can be compiled
+to create a delegate that you can execute. This provides one
+mechanism to execute the code represented by an expression tree.</p>
+<p>The Expression Tree does represent the code that would execute for
+any given construct you create. As long as the environment where
+you compile and execute the code matches the environment where you
+create the expression, everything works as expected. When that
+doesn&#39;t happen, the errors are very predictable, and they will
+be caught in your first tests of any code using the expression
+trees.</p>
+<p><a href="expression-trees-building.html">Next -- Building Expressions</a></p>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
