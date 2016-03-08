@@ -4,13 +4,13 @@ title: How to get help?
 ---
 
 # Stuck?
-If you need help there are a lot of ways you can connect with the team and seek out assistance.
+If you need help, you have many ways to connect with the team and seek out assistance.
 
 ## StackOverflow
-StackOverflow is one of the most used sites for asking general purpose programming questions, and no wonder there is already a [number of existing questions](http://stackoverflow.com/questions/tagged/coreclr) tagged with **coreclr** as well as [questions about Roslyn](http://stackoverflow.com/questions/tagged/roslyn).
+StackOverflow is one of the most used sites for asking general-purpose programming questions; it already has a [number of existing questions](http://stackoverflow.com/questions/tagged/coreclr) tagged with **coreclr** as well as [questions about Roslyn](http://stackoverflow.com/questions/tagged/roslyn).
 
 ## Gitter channels
-[Gitter](https://gitter.im/) is IRC for GitHub projects. There are always people there ready to help with various questions around .NET Core, CoreFX and Roslyn.
+[Gitter](https://gitter.im/) is IRC for GitHub projects. There are always people there ready to help with various questions around .NET Core, CoreFX, and Roslyn.
 
 *  [dotnet/coreclr](https://gitter.im/dotnet/coreclr)
 *  [dotnet/corefx](https://gitter.im/dotnet/corefx)
@@ -42,7 +42,7 @@ If you're more of a Facebook fan, you can also visit our Facebook pages on [http
 # Community meetings/meetups 
 Here is a list of events for the set of .NET user group meetups from [meetup.com](http://meetup.com) and [Community Megaphone](http://communitymegaphone.com/).
 
-We also maintain a much larger list of [.NET meetup groups on Twitter](https://twitter.com/DotNet/dotnet-user-groups). If you would like your group's events listed on either list, please contact us, on [Twitter](http://twitter.com/dotnet).
+We also maintain a much larger list of [.NET meetup groups on Twitter](https://twitter.com/DotNet/dotnet-user-groups). If you would like your group's events listed on either list, please contact us on [Twitter](http://twitter.com/dotnet).
 
 <div id="communityContainer">
     <div id="ugResults">
