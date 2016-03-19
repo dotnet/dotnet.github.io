@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site</title>
+    <title>Handling and throwing exceptions | CoreCLR site</title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site">
+    <meta name="title" content="Handling and throwing exceptions | CoreCLR site">
     
     <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -60,8 +60,114 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/exceptions/exceptions.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
-              <p>placeholder</p>
+              <h1 id="handling-and-throwing-exceptions">Handling and throwing exceptions</h1>
+              
+<p>Applications must be able to handle errors that occur during execution in a consistent manner. The common language runtime provides a model for notifying applications of errors in a uniform way. All .NET Framework operations indicate failure by throwing exceptions.</p>
+<h2 id="changes-for-net-core">Changes for .NET Core</h2>
+<p>Exception handling for .NET Core works the same as .NET Framework with the following exceptions.</p>
+<ul>
+<li>You no longer should (or can) add a serialization constructor.</li>
+<li>The SystemException and ApplicationException classes have been removed.</li>
+</ul>
+<h2 id="exceptions-in-the-net-framework">Exceptions in the .NET Framework</h2>
+<p>An exception is any error condition or unexpected behavior that is encountered by an executing program. Exceptions can be raised because of a fault in your code or in code that you call (such as a shared library), unavailable operating system resources, unexpected conditions the common language runtime encounters (such as code that cannot be verified), and so on. Your application can recover from some of these conditions, but not from others. Although you can recover from most application exceptions, you cannot recover from most runtime exceptions.</p>
+<p>In the .NET Framework, an exception is an object that inherits from the <a href="https://msdn.microsoft.com/en-us/library/system.exception">System.Exception</a> class. An exception is thrown from an area of code where a problem has occurred. The exception is passed up the stack until the application handles it or the program terminates.</p>
+<h2 id="exceptions-vs-traditional-error-handling-methods">Exceptions vs. traditional error-handling methods</h2>
+<p>Traditionally, a language&#39;s error-handling model relied on either the language&#39;s unique way of detecting errors and locating handlers for them, or on the error-handling mechanism provided by the operating system. The runtime implements exception handling with the following features:</p>
+<ul>
+<li><p>Handles exceptions without regard for the language that generates the exception or the language that handles the exception.</p>
+</li>
+<li><p>Does not require any particular language syntax for handling exceptions, but allows each language to define its own syntax.</p>
+</li>
+<li><p>Allows exceptions to be thrown across process and even machine boundaries.</p>
+</li>
+</ul>
+<p>Exceptions offer several advantages over other methods of error notification, such as return codes. Failures do not go unnoticed. Invalid values do not continue to propagate through the system. You do not have to check return codes. Finally, exception-handling code can be easily added to increase program reliability.</p>
+<p>Because execution threads routinely traverse managed and unmanaged blocks of code, the runtime can throw or catch exceptions in either managed or unmanaged code. Unmanaged code can include both C++-style SEH Exceptions and COM-based HRESULTS.</p>
+<h2 id="how-the-runtime-manages-exceptions">How the runtime manages exceptions</h2>
+<p>The runtime uses an exception-handling model based on exception objects and protected blocks of code. An <a href="https://msdn.microsoft.com/en-us/library/system.exception">Exception</a> object is created to represent an exception when it occurs.</p>
+<p>The runtime creates an exception information table for each executable. Each method of the executable has an associated array of exception-handling information (which can be empty) in the exception information table. Each entry in the array describes a protected block of code, any exception filters associated with that code, and any exception handlers (<strong>catch</strong> statements). This exception table is extremely efficient and does not cause any performance penalty in processor time or in memory use when an exception does not occur. You use resources only when an exception occurs.</p>
+<p>The exception information table represents four types of exception handlers for protected blocks:</p>
+<ul>
+<li><p>A <strong>finally</strong> handler that executes whenever the block exits, whether that occurs by normal control flow or by an unhandled exception.</p>
+</li>
+<li><p>A fault handler that must execute if an exception occurs, but does not execute on completion of normal control flow.</p>
+</li>
+<li><p>A type-filtered handler that handles any exception of a specified class or any of its derived classes.</p>
+</li>
+<li><p>A user-filtered handler that runs user-specified code to determine whether the exception should be handled by the associated handler or should be passed to the next protected block.</p>
+</li>
+</ul>
+<p>Each language implements these exception handlers according to its specifications. For example, Visual Basic provides access to the user-filtered handler through a variable comparison (using the <strong>When</strong> keyword) in the <strong>catch</strong> statement; C# does not implement the user-filtered handler.</p>
+<p>When an exception occurs, the runtime begins a two-step process:</p>
+<ol>
+<li><p>The runtime searches the array for the first protected block that does the following:</p>
+<ul>
+<li><p>Protects a region that includes the currently executing instruction.</p>
+</li>
+<li><p>Contains an exception handler or contains a filter that handles the exception.</p>
+</li>
+</ul>
+</li>
+<li><p>If a match occurs, the runtime creates an Exception object that describes the exception. The runtime then executes all <strong>finally</strong> or <strong>fault</strong> statements between the statement where the exception occurred and the statement that handles the exception. Note that the order of exception handlers is important; the innermost exception handler is evaluated first. Also note that exception handlers can access the local variables and local memory of the routine that catches the exception, but any intermediate values at the time the exception is thrown are lost.</p>
+<p>If no match occurs in the current method, the runtime searches each caller of the current method, and it continues this path all the way up the stack. If no caller has a match, the runtime lets the debugger access the exception. If the debugger does not attach to the exception, the runtime raises the <a href="https://msdn.microsoft.com/en-us/library/system.appdomain.unhandledexception">AppDomain.UnhandledException</a> event. If there are no listeners for this event, the runtime dumps a stack trace and ends the application.</p>
+</li>
+</ol>
+<h2 id="filtering-runtime-exceptions">Filtering runtime exceptions</h2>
+<p>You can filter the exceptions you catch and handle either by type or by some user-defined criteria.</p>
+<p>Type-filtered handlers manage a particular type of exception (or classes derived from it). The following example shows a type-filtered handler that is designed to catch a specific exception, in this case, the <a href="https://msdn.microsoft.com/en-us/library/system.io.filenotfoundexception">FileNotFoundException</a>.</p>
+<p><em>C#</em></p>
+<pre><code class="lang-C#">catch (FileNotFoundException e)
+{
+    Console.WriteLine(&quot;[Data File Missing] {0}&quot;, e);
+}
+</code></pre>
+<p><em>Visual Basic</em></p>
+<pre><code class="lang-VB">Catch e As FileNotFoundException
+    Console.WriteLine(&quot;[Data File Missing] {0}&quot;, e)
+</code></pre>
+<p><em>C++</em></p>
+<pre><code class="lang-VC">catch (FileNotFoundException^ e)
+{
+    Console::WriteLine(&quot;[Data File Missing] {0}&quot;, e);
+}
+</code></pre>
+<p>User-filtered exception handlers catch and handle exceptions based on requirements you define for the exception. For more information about filtering exceptions in this way, see Using Specific Exceptions in a Catch Block.</p>
+<h2 id="related-topics">Related topics</h2>
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exception Class and Properties</td>
+<td>Describes the elements of an exception object.</td>
+</tr>
+<tr>
+<td>Exception Hierarchy</td>
+<td>Describes the exceptions that most exceptions derive from.</td>
+</tr>
+<tr>
+<td>Exception Handling Fundamentals</td>
+<td>Explains how to handle exceptions using catch, throw, and finally statements.</td>
+</tr>
+<tr>
+<td>Best Practices for Exceptions</td>
+<td>Describes suggested methods for handling exceptions.</td>
+</tr>
+<tr>
+<td>Handling COM Interop Exceptions</td>
+<td>Describes how to handle exceptions thrown and caught in unmanaged code.</td>
+</tr>
+<tr>
+<td>How to Map HRESULTs and Exceptions</td>
+<td>Describes the mapping of exceptions between managed and unmanaged code.</td>
+</tr>
+</tbody>
+</table>
 
             </article>
           </div>
