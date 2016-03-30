@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Exception Class and Properties | CoreCLR site </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Exception Class and Properties | CoreCLR site ">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/exceptions/exception-class-properties.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="exception-class-and-properties">Exception Class and Properties</h1>
+              
+<p>The <a href="https://msdn.microsoft.com/library/system.exception">Exception</a> class is the base class from which exceptions inherit. Most exception objects are instances of some derived class of <strong>Exception</strong>, but you can throw any object that derives from the <a href="https://msdn.microsoft.com/library/system.object">Object</a> class as an exception. Note that not all languages support throwing and catching objects that do not derive from <strong>Exception</strong>. In almost all cases, it is recommended to throw and catch only <strong>Exception</strong> objects.</p>
+<p>The <strong>Exception</strong> class has several properties that make understanding an exception easier. These properties include:</p>
+<ul>
+<li><p>The <a href="https://msdn.microsoft.com/library/system.exception.stacktrace">StackTrace</a> property.</p>
+<p>This property contains a stack trace that can be used to determine where an error occurred. The stack trace includes the source file name and program line number if debugging information is available.</p>
+</li>
+<li><p>The <a href="https://msdn.microsoft.com/library/system.exception.innerexception">InnerException</a> property.</p>
+<p>This property can be used to create and preserve a series of exceptions during exception handling. You can use this property to create a new exception that contains previously caught exceptions. The original exception can be captured by the second exception in the <strong>InnerException</strong> property, allowing code that handles the second exception to examine the additional information.</p>
+<p>For example, suppose you have a method that reads a file and formats the data. The code tries to read from the file, but a FileException is thrown. The method catches the FileException and throws a BadFormatException. In this case, the FileException can be saved in the <strong>InnerException</strong> property of the BadFormatException.</p>
+<p>To improve the caller&#39;s ability to determine the reason an exception is thrown, it is sometimes desirable for a method to catch an exception thrown by a helper routine and then throw an exception more indicative of the error that has occurred. A new and more meaningful exception can be created, where the inner exception reference can be set to the original exception. This more meaningful exception can then be thrown to the caller. Note that with this functionality, you can create a series of linked exceptions that ends with the exception that was thrown first.</p>
+</li>
+<li><p>The <a href="https://msdn.microsoft.com/library/system.exception.message">Message</a> property.</p>
+<p>This property provides details about the cause of an exception. The Message is in the language specified by the <a href="https://msdn.microsoft.com/library/system.threading.thread.currentuiculture">Thread.CurrentUICulture</a> property of the thread that throws the exception.</p>
+</li>
+<li><p>The <a href="https://msdn.microsoft.com/library/system.exception.helplink">HelpLink</a> property.</p>
+<p>This property can hold a URL (or URN) to a help file that provides extensive information about the cause of an exception.</p>
+</li>
+<li><p>The <a href="https://msdn.microsoft.com/library/system.exception.data">Data</a> property</p>
+<p>This property is an IDictionary that can hold arbitrary data in key-value pairs.</p>
+</li>
+</ul>
+<p>Most of the classes that inherit from <strong>Exception</strong> do not implement additional members or provide additional functionality; they simply inherit from <strong>Exception</strong>. Therefore, the most important information for an exception can be found in the hierarchy of exceptions, the exception name, and the information contained in the exception.</p>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

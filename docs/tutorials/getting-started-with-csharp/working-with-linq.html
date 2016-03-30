@@ -1,0 +1,556 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Introduction | CoreCLR site </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Introduction | CoreCLR site ">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/tutorials/getting-started-with-csharp/working-with-linq.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="introduction">Introduction</h1>
+              
+<p>This tutorial teaches you a number of features in .NET Core and the C# language. You’ll learn:</p>
+<ul>
+<li>How to generate sequences with LINQ</li>
+<li>How to write methods that can be easily used in LINQ queries.</li>
+<li>How to distinguish between eager and lazy evaluation.</li>
+</ul>
+<p>You&#39;ll learn these techniques by building an application that demonstrates
+one of the basic skills of any magician: the
+<a href="https://en.wikipedia.org/wiki/Faro_shuffle">faro shuffle</a>. Briefly,
+a faro shuffle is a technique where you split a card deck exactly in half,
+then the shuffle interleaves each one card from each half to rebuild the
+original deck.</p>
+<p>Magicians use this technique because every card is in a known location
+after each shuffle, and the order is a repeating pattern. </p>
+<p>For our purposes, it is a light hearted look at manipulating sequences
+of data. The application you&#39;ll build will construct a card deck, and
+then perform a sequence of shuffles, writing the sequence out each time.
+You&#39;ll also compare the updated order to the original order.</p>
+<p>This tutorial has multiple steps. After each step, you can run the
+application and see the progress.</p>
+<h1 id="prerequisites">Prerequisites</h1>
+<p>You’ll need to setup your machine to run .NET core. Instructions are
+<a href="http://dotnet.github.io/getting-started/">here</a>. You can run this
+application on Windows, Ubuntu Linux, OS X or in a Docker container. 
+You’ll need to install your favorite code editor. The descriptions below
+use <a href="https://code.visualstudio.com/">Visual Studio Code</a> which is an open
+source, cross platform editor. However, you can use whatever tools you are
+comfortable with.</p>
+<h1 id="create-the-application">Create the Application</h1>
+<p>The first step is to create a new application. Open a command prompt and
+create a new directory for your application. Make that the current
+directory. Type the command &quot;dotnet new&quot; at the command prompt. This
+creates the starter files for a basic “Hello World” application.</p>
+<p>If you&#39;ve never used C# before, <a href="console-teleprompter.html">this tutorial</a>
+explains the structure of a C# program. You can read that and then
+return here to learn more about LINQ. </p>
+<h1 id="creating-the-data-set">Creating the Data Set</h1>
+<p>Let&#39;s start by creating a deck of cards. You&#39;ll do this using a LINQ
+query that has two sources (one for the four suits, one for the
+thirteen values). You&#39;ll combine those source into a 52 card deck.</p>
+<p>Here&#39;s the query:</p>
+<pre><code class="lang-cs">var startingDeck = from s in `s()
+                   from r in Ranks()
+                   select new { Suit = s, Rank = r };
+</code></pre>
+<p>The multiple <code>from</code> clauses produce a <code>SelectMany</code>, which creates
+a single sequence from combining each element in the first sequence
+with each element in the second sequence. The order is important
+for our purposes. The first element in the first source sequence
+(Suits) is combined with every element in the second sequence (Values).
+This produces all thirteen cards of first suit. That process is repeated
+with each element in the first sequence (Suits). The end result is a deck of cards
+ordered by suits, followed by values.</p>
+<p>Next, you&#39;ll need to build the Suits() and Ranks() methods. Let&#39;s start
+with a really simple set of <em>iterator methods</em> that generate the sequence
+as an enumerable of strings:</p>
+<pre><code class="lang-cs">static IEnumerable&lt;string&gt; Suits()
+{
+    yield return &quot;clubs&quot;;
+    yield return &quot;diamonds&quot;;
+    yield return &quot;hearts&quot;;
+    yield return &quot;spades&quot;;
+}
+
+static IEnumerable&lt;string&gt; Ranks()
+{
+    yield return &quot;two&quot;;
+    yield return &quot;three&quot;;
+    yield return &quot;four&quot;;
+    yield return &quot;five&quot;;
+    yield return &quot;six&quot;;
+    yield return &quot;seven&quot;;
+    yield return &quot;eight&quot;;
+    yield return &quot;nine&quot;;
+    yield return &quot;ten&quot;;
+    yield return &quot;jack&quot;;
+    yield return &quot;queen&quot;;
+    yield return &quot;king&quot;;
+    yield return &quot;ace&quot;;
+}
+</code></pre>
+<p>These two methods both utilize the <code>yield return</code> syntax to produce a sequence
+as they run. The compiler builds an object that implements <code>IEnumerable&lt;T&gt;</code>
+and generates the sequence of strings as they are requested.</p>
+<p>Go ahead and run the sample you&#39;ve built at this point. It will display
+all 52 cards in the deck. You may find it very helpful to run this sample
+under a debugger to observe how the <code>Suits()</code> and <code>Values()</code> methods
+execute. You can clearly see that each string in each sequence is generated
+only as it is needed.</p>
+<h1 id="manipulating-the-order">Manipulating the Order</h1>
+<p>Next, let&#39;s build a utility method that can perform the shuffle. The first step
+is to split the deck in two. The <code>Take()</code> and <code>Skip()</code> methods that are
+part of the LINQ APIs provide that feature for us:</p>
+<pre><code class="lang-cs">var top = startingDeck.Take(26);
+var bottom = startingDeck.Skip(26);
+</code></pre>
+<p>The shuffle method doesn&#39;t exist in the standard library, so you&#39;ll have
+to write your own. This new method illustrates several techniques that you&#39;ll
+use with LINQ-based programs, so let&#39;s explain each part of the method in
+steps.</p>
+<p>The signature for the method creates an <em>extension method</em>:</p>
+<pre><code class="lang-cs">public static IEnumerable&lt;T&gt; InterleaveSequenceWith&lt;T&gt;
+    (this IEnumerable&lt;T&gt; first, IEnumerable&lt;T&gt; second)
+</code></pre>
+<p>An extension method is a special purpose <em>static method.</em>
+You can see the addition of the <code>this</code> modifier on the first
+argument to the method. That means you call the method as though
+it were a member method of the type of the first argument.</p>
+<p>Extension methods can be declared only inside <code>static</code> classes, so
+let&#39;s create a new static class called <code>extensions</code> for this functionality.
+You&#39;ll add more extension methods as you continue this tutorial, and those
+will be placed in the same class.</p>
+<p>This method declaration also follows a standard idiom where the input and
+output types are <code>IEnumerable&lt;T&gt;</code>. That practice enables LINQ methods to
+be chained together to perform more complex queries.</p>
+<pre><code class="lang-cs">using System.Collections.Generic;
+
+namespace LinqFaroShuffle
+{
+    public static class Extensions
+    {
+        public static IEnumerable&lt;T&gt; InterleaveSequenceWith&lt;T&gt;
+            (this IEnumerable&lt;T&gt; first, IEnumerable&lt;T&gt; second)
+        {
+            // implementation coming.
+        }
+    }
+}
+</code></pre>
+<p>You will be enumerating both sequences at once, interleaving the elements,
+and creating one object.  Writing a LINQ method that works with two
+sequences requires that you understand how <code>IEnumerable</code> works.</p>
+<p>The <code>IEnumerable</code> interface has one method: <code>GetEnumerator()</code>. The object
+returned by <code>GetEnumerator()</code> has a method to move to the next element,
+and a property that retrieves the current element in the sequence. You
+will use those two members to enumerate the collection and return the
+elements. This Interleave method will be an iterator method, so instead
+of building a collection and returning the collection, you&#39;ll use the 
+<code>yield return</code> syntax shown above. </p>
+<p>Here&#39;s the implementation of that method:</p>
+<pre><code class="lang-cs">public static IEnumerable&lt;T&gt; InterleaveSequenceWith&lt;T&gt;
+    (this IEnumerable&lt;T&gt; first, IEnumerable&lt;T&gt; second)
+{
+    var firstIter = first.GetEnumerator();
+    var secondIter = second.GetEnumerator();
+    while (firstIter.MoveNext() &amp;&amp; secondIter.MoveNext())
+    {
+        yield return firstIter.Current;
+        yield return secondIter.Current;
+    }
+}
+</code></pre>
+<p>Now that you&#39;ve written this method, go back to the <code>Main</code> method
+and shuffle the deck once:</p>
+<pre><code class="lang-cs">public static void Main(string[] args)
+{
+    var startingDeck = from s in Suits()
+                       from r in Ranks()
+                       select new { Suit = s, Rank = r };
+    foreach (var c in startingDeck)
+        Console.WriteLine(c);
+
+    var top = startingDeck.Take(26);
+    var bottom = startingDeck.Skip(26);
+
+    var shuffle = top.InterleaveSequenceWith(bottom);
+    foreach (var c in shuffle)
+        Console.WriteLine(c);
+}
+</code></pre>
+<h1 id="comparisons">Comparisons</h1>
+<p>Let&#39;s see how many shuffles it takes to set the deck back to its
+original order. You&#39;ll need to write a method that determines if
+two sequences are equal. After you have that method, you&#39;ll need to
+place the code that shuffles the deck in a loop, and check to see when
+the deck is back in order.</p>
+<p>Writing a method to determine if the two sequences are equal should
+be straightforward. It&#39;s a similar structure to the method you wrote
+to shuffle the deck. Only this time, instead of yield returning each
+element, you&#39;ll compare the matching elements of each sequence. When
+the entire sequence has been enumerated, if every element matches,
+the sequences are the same:</p>
+<pre><code class="lang-cs">public static bool SequenceEquals&lt;T&gt;(this IEnumerable&lt;T&gt; first, IEnumerable&lt;T&gt; second)
+{
+    var firstIter = first.GetEnumerator();
+    var secondIter = second.GetEnumerator();
+    while (firstIter.MoveNext() &amp;&amp; secondIter.MoveNext())
+    {
+        if (!firstIter.Current.Equals(secondIter.Current))
+            return false;
+    }
+    return true;
+}
+</code></pre>
+<p>This shows a second Linq idiom: terminal methods. They take a sequence as input
+(or in this case, two sequences), and return a single scalar value. These methods,
+when they are used, are always the final method of a query. (Hence the name). </p>
+<p>You can see this in action when you use it to determine when the deck
+is back in its original order. Put the shuffle code inside a loop, and stop when
+the sequence is back in its orginal order by applying the <code>SequenceEquals()</code>
+method. You can see it would always be the final method in any query, because it
+returns a single value instead of a sequence:</p>
+<pre><code class="lang-cs">var times = 0;
+var shuffle = startingDeck;
+do
+{
+    shuffle = shuffle.Take(26).InterleaveSequenceWith(shuffle.Skip(26));
+
+    foreach (var c in shuffle)
+        Console.WriteLine(c);
+
+    Console.WriteLine();
+    times++;
+} while (!startingDeck.SequenceEquals(shuffle));
+Console.WriteLine(times);
+</code></pre>
+<p>Run the sample, and see how the deck rearranges on each shuffle, until
+it returns to its original configuration after 8 iterations.</p>
+<h1 id="optimizations">Optimizations</h1>
+<p>The sample you&#39;ve built so far executes an <em>in shuffle</em>, where the
+top and bottom cards stay the same on each run. Let&#39;s make one change,
+and run an <em>out shuffle</em>, where all 52 cards change position. For an out shuffle,
+you interleave the deck so that the first card in the bottom half becomes the
+first card in the deck. That means the last card in the top half becomes the bottom
+card. That&#39;s just a one line change. Update the call to shuffle to change the order
+of the top and bottom halves of the deck:</p>
+<pre><code class="lang-cs">shuffle = shuffle.Skip(26).InterleaveSequenceWith(shuffle.Take(26));
+</code></pre>
+<p>Run the program again, and you&#39;ll see that it takes 52 iterations for the
+deck to reorder itself. You&#39;ll also start to notice some serious performance degradations
+as the program continues to run.</p>
+<p>There are a number of reasons for this. Let&#39;s tackle one of the major causes: inefficient
+use of <em>lazy evaluation</em>.</p>
+<p>LINQ queries are evaluated lazily. The sequences are generated only as the elements are requested.
+Usually, that&#39;s a major benefit of LINQ. However, in a use such as this program, this causes
+exponential growth in execution time.</p>
+<p>The original deck was generated using a LINQ query. Each shuffle is generated by performing three
+LINQ queries on the previous deck. All these are performed lazily. That also means they are performed
+again each time the sequence is requested. By the time you get to the 52nd iteration, you&#39;re regenerating
+the original deck many, many times. Let&#39;s write a log to demonstrate this behavior. Then, you&#39;ll fix it.</p>
+<p>Here&#39;s a log method that can be appended to any query to mark that the query executed.</p>
+<pre><code class="lang-cs">public static IEnumerable&lt;T&gt; LogQuery&lt;T&gt;(this IEnumerable&lt;T&gt; sequence, string tag)
+{
+    using (var writer = File.AppendText(&quot;debug.log&quot;))
+    {
+        writer.WriteLine($&quot;Executing Query {tag}&quot;);
+    }
+    return sequence;
+}
+</code></pre>
+<p>Next, instrument the definition of each query with a log message:</p>
+<pre><code class="lang-cs">public static void Main(string[] args)
+{
+var startingDeck = (from s in Suits().LogQuery(&quot;Suit Generation&quot;)
+                    from r in Ranks().LogQuery(&quot;Rank Generation&quot;)
+                    select new { Suit = s, Rank = r }).LogQuery(&quot;Starting Deck&quot;);
+    foreach (var c in startingDeck)
+        Console.WriteLine(c);
+
+    Console.WriteLine();
+    var times = 0;
+    var shuffle = startingDeck;
+    do
+    {
+        //shuffle = shuffle.Take(26).LogQuery(&quot;Top Half&quot;)
+        //    .InterleaveSequenceWith(shuffle.Skip(26).LogQuery(&quot;Bottom Half&quot;)).LogQuery(&quot;Shuffle&quot;);
+
+        shuffle = shuffle.Skip(26).LogQuery(&quot;Bottom Half&quot;)
+            .InterleaveSequenceWith(shuffle.Take(26).LogQuery(&quot;Top Half&quot;)).LogQuery(&quot;Shuffle&quot;);
+
+        foreach (var c in shuffle)
+            Console.WriteLine(c);
+        times++;
+        Console.WriteLine(times);
+    } while (!startingDeck.SequenceEquals(shuffle));
+    Console.WriteLine(times);
+}
+</code></pre>
+<p>Notice that you don&#39;t log every time you access a query. You log only when you create
+the original query. The program still takes a long time to run, but now you can see why.
+If you run out of patience running the outer shuffle with logging turned on, switch back
+to the inner shuffle. You&#39;ll still see the lazy evaluation effects. In one run, it executes
+2592 queries, including all the value and suit generation.</p>
+<p>There is an easy way to update this program to avoid all those executions. There are 
+LINQ methods <code>ToArray()</code> and <code>ToList()</code> that cause the query to run, and store the results
+in an array or a list, respectively. You use these methods to cache the data results of a query
+rather than execute the source query again.  Append the queries that generate the card decks
+with a call to <code>ToArray()</code> and run the query again:</p>
+<pre><code class="lang-cs">public static void Main(string[] args)
+{
+var startingDeck = (from s in Suits().LogQuery(&quot;Suit Generation&quot;)
+                    from v in Ranks().LogQuery(&quot;Rank Generation&quot;)
+                    select new { Suit = s, Rank = r })
+                    .LogQuery(&quot;Starting Deck&quot;)
+                    .ToArray();
+    foreach (var c in startingDeck)
+        Console.WriteLine(c);
+
+    Console.WriteLine();
+    var times = 0;
+    var shuffle = startingDeck;
+    do
+    {
+        shuffle = shuffle.Take(26).LogQuery(&quot;Top Half&quot;)
+            .InterleaveSequenceWith(shuffle.Skip(26).LogQuery(&quot;Bottom Half&quot;)).LogQuery(&quot;Shuffle&quot;).ToArray();
+
+        //shuffle = shuffle.Skip(26).LogQuery(&quot;Bottom Half&quot;)
+        //    .InterleaveSequenceWith(shuffle.Take(26).LogQuery(&quot;Top Half&quot;)).LogQuery(&quot;Shuffle&quot;);
+
+        foreach (var c in shuffle)
+            Console.WriteLine(c);
+        times++;
+        Console.WriteLine(times);
+    } while (!startingDeck.SequenceEquals(shuffle));
+    Console.WriteLine(times);
+}
+</code></pre>
+<p>Run again, and the inner shuffle is down to 30 queries. Run again with the outer shuffle
+and you&#39;ll see similar improvements. (It now executes 162 queries).</p>
+<p>Don&#39;t misinterpret this example by thinking that all queries should run
+eagerly. This example is desgined to highlight the use cases where lazy
+evaluation can cause performance difficulties. That&#39;s because each new
+arrangement of the deck of cards is built from the previous arrangement.
+Using lazy evaluation means each new deck configuration is built from
+the original deck, even executing the code that built the <code>startingDeck</code>.
+That causes a large amount of extra work. </p>
+<p>In practice, some algorithms run much better using eager evaluation, and others run much
+better using lazy evaluation. (In general, lazy evaluation is a much better choice
+when the data source is a separate process, like a database engine. In those cases,
+lazy evaluation enables more complex queries to execute only one round trip to the
+database process.) LINQ enables both lazy and eager evaluation. Measure, and pick
+the best choice.</p>
+<h1 id="preparing-for-new-features">Preparing for New Features</h1>
+<p>The code you&#39;ve written for this sample is an example of creating a simple prototype that does the
+job. This is a great way to explore a problem space, and for many features, it may be
+the best permanent solution. You&#39;ve leveraged <em>anonymous types</em> for the cards, and each
+card is represented by strings.</p>
+<p><em>Anonymous Types</em> have many productivity advantages. You don&#39;t need to define a class yourself
+to represent the storage. The compiler generates the type for you. The compiler genreated type
+utilizes many of the best practices for simple data objects. It&#39;s <em>immutable</em>, meaning that
+none of its properties can be changed after it has been constructed. Anonymous types are
+internal to an assembly, so they aren&#39;t seen as part of the public API for that assembly.
+Anonymous types also contain an override of the <code>ToString()</code> method that returns a formatted
+string with each of the values.</p>
+<p>Anonymous types also have disadvantages. They don&#39;t have accessible names, so you can&#39;t use
+them as return values or arguments. You&#39;ll notice that any methods above that used these anonymous
+types are generic methods. The override of <code>ToString()</code> may not be what you want as the application
+grows more features. </p>
+<p>The sample also uses strings for the suit and the rank of each card. That&#39;s quite open ended.
+The C# type system can help us make better code, by leveraging <code>enum</code> types for those
+values.</p>
+<p>Start with the suits. This is a perfect time to use an <code>enum</code>:</p>
+<pre><code class="lang-cs">public enum Suit
+{
+    Clubs,
+    Diamonds,
+    Hearts,
+    Spades
+}
+</code></pre>
+<p>The <code>Suits()</code> method also changes type and implementation:</p>
+<pre><code class="lang-cs">static IEnumerable&lt;Suit&gt; Suits()
+{
+    yield return Suit.Clubs;
+    yield return Suit.Diamonds;
+    yield return Suit.Hearts;
+    yield return Suit.Spades;
+}
+</code></pre>
+<p>Next, do the same change with the Rank of the cards:</p>
+<pre><code class="lang-cs">public enum Rank
+{
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Ten,
+    Jack,
+    Queen,
+    King,
+    Ace
+}
+</code></pre>
+<p>And the method that generates them:</p>
+<pre><code class="lang-cs">static IEnumerable&lt;Rank&gt; Values()
+{
+    yield return Rank.Two;
+    yield return Rank.Three;
+    yield return Rank.Four;
+    yield return Rank.Five;
+    yield return Rank.Six;
+    yield return Rank.Seven;
+    yield return Rank.Eight;
+    yield return Rank.Nine;
+    yield return Rank.Ten;
+    yield return Rank.Jack;
+    yield return Rank.Queen;
+    yield return Rank.King;
+    yield return Rank.Ace;
+}
+</code></pre>
+<p>As one final cleanup, let&#39;s make a type to represent the card, instead of 
+relying on an anonymous type. Anonymous types are great for lightweight,
+local types, but in this example, the playing card is one of the main
+concepts. It should be a concrete type.</p>
+<pre><code class="lang-cs">public class PlayingCard
+{
+    public Suit CardSuit { get; }
+    public Rank CardRank { get; }
+
+    public PlayingCard(Suit s, Rank r)
+    {
+        CardSuit = s;
+        CardRank = r;
+    }
+
+    public override string ToString()
+    {
+        return $&quot;{CardRank} of {CardSuit}&quot;;
+    }
+}
+</code></pre>
+<p>This type uses <em>auto-implemented read-only properties</em> which are set
+in the constructor, and then cannot be modified. It also makes use of
+the new <em>string interpolation</em> feature that makes it easier to format
+string output.</p>
+<p>Update the query that generates the starting deck to use the new type:</p>
+<pre><code class="lang-cs">var startingDeck = (from s in Suits().LogQuery(&quot;Suit Generation&quot;)
+                    from r in Ranks().LogQuery(&quot;Value Generation&quot;)
+                    select new PlayingCard(s, r))
+                    .LogQuery(&quot;Starting Deck&quot;)
+                    .ToArray();
+</code></pre>
+<p>Compile and run again. The output is a little cleaner, and the code is a bit
+more clear and can be extended more easily.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>This sample should you some of the methods used in LINQ, how to create your
+own methods that will be easily used with LINQ enabled code. It also showed
+you the differences between lazy and eager evaluation, and the affect that
+decision can have on performance.</p>
+<p>And, you learned a bit about one magician&#39;s technique. Magician&#39;s use the
+faro shuffle because they can control where every card moves in the deck.
+In some tricks, the magician has an audience member place a card on top
+of the deck, and shuffles a few times, knowing where that card goes. Other
+illusions require the deck set a certain way. A magician will set the deck
+prioring to performing the trick. Then she will shuffle the deck 5 times
+using an inner shuffle. On stage, she can show what looks like a random
+deck, shuffle it 3 more times, and have the deck set exactly how she wants.</p>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
