@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Events Overview | CoreCLR site </title>
+    <title>Introduction to Events | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Events Overview | CoreCLR site ">
+    <meta name="title" content="Introduction to Events | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -60,12 +60,77 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/languages/csharp/events-overview.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="events-overview">Events Overview</h1>
+              <h1 id="introduction-to-events">Introduction to Events</h1>
               
+<p>By <a href="https://github.com/BillWagner">Bill Wagner</a></p>
 <p><a href="delegates-patterns.html">Previous</a></p>
-<p>This article provides an overview of .NET events
-and the problems they are designed to address. 
-This article will address <a href="https://github.com/dotnet/core-docs/issues/242">https://github.com/dotnet/core-docs/issues/242</a></p>
+<p>Events are, like delegates, a <em>late binding</em> mechanism. In fact,
+events are built on the language support for delegates.</p>
+<p>Events are a way for an object to broadcast (to all interested
+components in the system) that something has happened. Any other
+component can subscribe to the event, and be notified when an event
+is raised.</p>
+<p>You&#39;ve probably used events in some of your programming. Many graphical
+systems have an event model to report user interaction. These events would
+report mouse movement, button presses and similar interactions. That&#39;s one
+of the most common, but certainly not the only scenario where events are
+used.</p>
+<p>You can define events that should be raised for your classes. One important
+consideration when working with events is that there may not be any
+object registered for a particular event. You must write your code so that
+it does not raise events when no listeners are configured.</p>
+<p>Subscribing to an event also creates a coupling between two objects (the event
+source, and the event sink). You need to ensure that the event sink unsubscribes
+from the event source when no longer interested in events.</p>
+<h1 id="design-goals-for-event-support">Design Goals for Event Support</h1>
+<p>The language design for events targets these goals.</p>
+<p>First, enable very minimal
+coupling between an event source and an event sink. These two components may
+not be written by the same organization, and may even be updated on totally
+different schedules.</p>
+<p>Secondly, it should be very simple to subscribe to an event, and to
+unsubscribe from that same event.</p>
+<p>And finally, event sources should support multiple event subscribers. It should
+also support having no event subscribers attached.</p>
+<p>You can see that the goals for events are very similar to the goals for delegates.
+That&#39;s why the event language support is built on the delegate language support.</p>
+<h1 id="language-support-for-events">Language Support for Events</h1>
+<p>The syntax for defining events, and subscribing or unsubscribing from events is
+an extension of the syntax for delegates.</p>
+<p>To define an event you use the <code>event</code> keyword:</p>
+<pre><code class="lang-cs">public event EventHandler&lt;FileListArgs&gt; OnProgress;
+</code></pre>
+<p>The type of the event (<code>EventHandler&lt;FileListArgs</code>&gt; in this example) must be a
+delegate type. There are a number of conventions that you should follow
+when declaring an event. Typically, the event delegate type has a void return.
+Prefix event declarations with &#39;On&#39;.
+The remainder of the name is a verb. Use past tense (as in this example) when
+the event reports something that has happened. Use a present tense verb (for
+example, <code>OnClosing</code>) to report something that is about to happen. Often, using
+present tense indicates that the event supports cancellation. For example,
+an <code>OnClosing</code> event may include an argument that would indicate if the close
+operation should continue, or not.  </p>
+<p>When you want to raise the event, you call the event using the delegate invocation
+syntax:</p>
+<pre><code class="lang-cs">OnProgress?.Invoke(this, new FileListArgs(file));
+</code></pre>
+<p>As discussed in the section on <a href="delegates-patterns.html">delegates</a>, the ?.
+operator makes it easy to ensure that you do not attempt to raise the event
+when there are no subscribers to that event.</p>
+<p>You subscribe to an event by using the <code>+=</code> operator:</p>
+<pre><code class="lang-cs">EventHandler&lt;FileListArgs&gt; handler = (sender, eventArgs) =&gt; 
+    Console.WriteLine(eventArgs.FoundFile);
+lister.OnProgress += handler;
+</code></pre>
+<p>You unsubscribe using the <code>-=</code> operator:</p>
+<pre><code class="lang-cs">lister.OnProgress -= handler;
+</code></pre>
+<p>It&#39;s important to note that I declared a local variable for the expression that
+represents the event handler. That ensures the unsubscribe removes the handler.
+If, instead, you used the body of the lambda expression, you are attempting
+to remove a handler that has never been attached, which does nothing.</p>
+<p>In the next article, you&#39;ll learn more about typical event patterns, and
+different variations on this example.</p>
 <p><a href="event-pattern.html">Next</a></p>
 
             </article>
