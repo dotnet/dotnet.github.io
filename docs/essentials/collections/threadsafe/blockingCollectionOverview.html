@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site </title>
+    <title>BlockingCollection Overview | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site ">
+    <meta name="title" content="BlockingCollection Overview | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -60,8 +60,101 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/collections/threadsafe/blockingCollectionOverview.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
+              <h1 id="blockingcollection-overview">BlockingCollection Overview</h1>
               
+<p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html">BlockingCollection&lt;T&gt;</a> is a thread-safe collection class that provides the following features:</p>
+<ul>
+<li><p>An implementation of the Producer-Consumer pattern.</p>
+</li>
+<li><p>Thread-safe addition and removal of items from a collection.</p>
+</li>
+<li><p>Optional maximum capacity.</p>
+</li>
+<li><p>Insertion and removal operations that block when collection is empty or full.</p>
+</li>
+<li><p>Insertion and removal &quot;try&quot; operations that do not block or that block up to a specified period of time.</p>
+</li>
+<li><p>Encapsulates any collection type that implements <a href="http://dotnet.github.io/api/System.Collections.Concurrent.IProducerConsumerCollection%601.html">IProducerConsumerCollection&lt;T&gt;</a>.</p>
+</li>
+<li><p>Cancellation with cancellation tokens.</p>
+</li>
+<li><p>Two kinds of enumeration with <strong>foreach</strong>: </p>
+<ol>
+<li><p>Read-only enumeration.</p>
+</li>
+<li><p>Enumeration that removes items as they are enumerated.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="bounding-and-blocking-support">Bounding and Blocking Support</h2>
+<p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html">BlockingCollection&lt;T&gt;</a> supports bounding and blocking. Bounding means you can set the maximum capacity of the collection. Bounding is important in certain scenarios because it enables you to control the maximum size of the collection in memory, and it prevents the producing threads from moving too far ahead of the consuming threads.</p>
+<p>Multiple threads or tasks can add items to the collection concurrently, and if the collection reaches its specified maximum capacity, the producing threads will block until an item is removed. Multiple consumers can remove items concurrently, and if the collection becomes empty, the consuming threads will block until a producer adds an item. A producing thread can call <strong>CompleteAdding</strong> to indicate that no more items will be added. Consumers monitor the <strong>IsCompleted</strong> property to know when the collection is empty and no more items will be added. The following example shows a simple <strong>BlockingCollection</strong> with a bounded capacity of 100. A producer task adds items to the collection as long as some external condition is true, and then calls <strong>CompleteAdding</strong>. The consumer task takes items until the <strong>IsCompleted</strong> property is true.</p>
+<pre><code class="lang-csharp">// A bounded collection. It can hold no more 
+// than 100 items at once.
+BlockingCollection&lt;Data&gt; dataItems = new BlockingCollection&lt;Data&gt;(100);
+
+
+// A simple blocking consumer with no cancellation.
+Task.Run(() =&gt; 
+{
+    while (!dataItems.IsCompleted)
+    {
+
+        Data data = null;
+        // Blocks if number.Count == 0
+        // IOE means that Take() was called on a completed collection.
+        // Some other thread can call CompleteAdding after we pass the
+        // IsCompleted check but before we call Take. 
+        // In this example, we can simply catch the exception since the 
+        // loop will break on the next iteration.
+        try
+        {
+            data = dataItems.Take();
+        }
+        catch (InvalidOperationException) { }
+
+        if (data != null)
+        {
+            Process(data);
+        }
+    }
+    Console.WriteLine(&quot;\r\nNo more items to take.&quot;);
+});
+
+// A simple blocking producer with no cancellation.
+Task.Run(() =&gt;
+{
+    while (moreItemsToAdd)
+    {
+        Data data = GetData();
+        // Blocks if numbers.Count == dataItems.BoundedCapacity
+        dataItems.Add(data);
+    }
+    // Let consumer know we are done.
+    dataItems.CompleteAdding();
+});
+</code></pre>
+<p>For a complete example, see <a href="howtoAddandTakeItems.html">How to: Add and Take Items Individually from a BlockingCollection</a>.</p>
+<h2 id="timed-blocking-operations">Timed Blocking Operations</h2>
+<p>In timed blocking <strong>TryAdd</strong> and <strong>TryTake</strong> operations on bounded collections, the method tries to add or take an item. If an item is available it is placed into the variable that was passed in by reference, and the method returns <strong>true</strong>. If no item is retrieved after a specified time-out period the method returns <strong>false</strong>. The thread is then free to do some other useful work before trying again to access the collection. For an example of timed blocking access, see the second example in <a href="howtoAddandTakeItems.html">How to: Add and Take Items Individually from a BlockingCollection</a>.</p>
+<h2 id="cancelling-add-and-take-operations">Cancelling Add and Take Operations</h2>
+<p>Add and Take operations are typically performed in a loop. You can cancel a loop by passing in a <strong>CancellationToken</strong> to the <strong>TryAdd</strong> or <strong>TryTake</strong> method, and then checking the value of the token&#39;s <strong>IsCancellationRequested</strong> property on each iteration. If the value is <strong>true</strong>, then it is up to you to respond the cancellation request by cleaning up any resources and exiting the loop. The following example shows an overload of <strong>TryAdd</strong> that takes a cancellation token, and the code that uses it:</p>
+<pre><code class="lang-csharp">BlockingCollection&lt;string&gt; bc = new BlockingCollection&lt;string&gt;(new ConcurrentBag&lt;string&gt;(), 1000 );
+</code></pre>
+<h2 id="specifying-the-collection-type">Specifying the Collection Type</h2>
+<p>When you create a <strong>BlockingCollection&lt;T&gt;</strong>, you can specify not only the bounded capacity but also the type of collection to use. For example, you could specify a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">ConcurrentQueue&lt;T&gt;</a> for first in-first out (FIFO) behavior, or a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentStack%601.html">ConcurrentStack&lt;T&gt;</a> for last in-first out (LIFO) behavior. You can use any collection class that implements the <a href="http://dotnet.github.io/api/System.Collections.Concurrent.IProducerConsumerCollection%601.html">IProducerConsumerCollection&lt;T&gt;</a> interface. The default collection type for <strong>BlockingCollection&lt;T&gt;</strong> is <strong>ConcurrentQueue&lt;T&gt;</strong>. The following code example shows how to create a <strong>BlockingCollection&lt;T&gt;</strong> of strings that has a capacity of 1000 and uses a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentBag%601.html">ConcurrentBag&lt;T&gt;</a>:</p>
+<pre><code class="lang-csharp">BlockingCollection&lt;string&gt; bc = new BlockingCollection&lt;string&gt;(new ConcurrentBag&lt;string&gt;(), 1000 );
+</code></pre>
+<h2 id="ienumerable-support">IEnumerable Support</h2>
+<p><strong>BlockingCollection&lt;T&gt;</strong> provides a <strong>GetConsumingEnumerable</strong> method that enables consumers to use a <strong>foreach</strong> statement to remove items until the collection is completed, which means it is empty and no more items will be added. For more information, see <a href="howtoUseForEachtoRemove.html">How to: Use ForEach to Remove Items in a BlockingCollection</a>.</p>
+<h2 id="using-many-blockingcollections-as-one">Using Many BlockingCollections As One</h2>
+<p>For scenarios in which a consumer needs to take items from multiple collections simultaneously, you can create arrays of <strong>BlockingCollection&lt;T&gt;</strong> and use the static methods such as <strong>TakeFromAny</strong> and <strong>AddToAny</strong> that will add to or take from any of the collections in the array. If one collection is blocking, the method immediately tries another until it finds one that can perform the operation. For more information, see <a href="howtoUseArraysofBlockingCollections.html">How to: Use Arrays of Blocking Collections in a Pipeline</a>.</p>
+<h2 id="see-also">See Also</h2>
+<p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a></p>
+<p><a href="docs/essentials/collections/threadsafe/Collections%20and%20Data%20Structures.md">Collections and Data Structures</a></p>
+<p><a href="docs/essentials/collections/threadsafe/thread-safeCollections.md">Thread-Safe Collections</a></p>
+
             </article>
           </div>
           
