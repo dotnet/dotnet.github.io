@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site </title>
+    <title>When to Use a Thread-Safe Collection | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site ">
+    <meta name="title" content="When to Use a Thread-Safe Collection | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -60,8 +60,36 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/collections/threadsafe/whentoUseaThread-SafeCollection.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
+              <h1 id="when-to-use-a-thread-safe-collection">When to Use a Thread-Safe Collection</h1>
               
+<p>The <strong>ConcurrentQueue</strong>, <strong>ConcurrentStack</strong>, <strong>ConcurrentDictionary</strong>, <strong>ConcurrentBag</strong>, and <strong>BlockingCollection</strong> collection types are specially designed to support multi-threaded add and remove operations. To achieve thread-safety, these new types use various kinds of efficient locking and lock-free synchronization mechanisms. Synchronization adds overhead to an operation. The amount of overhead depends on the kind of synchronization that is used, the kind of operations that are performed, and other factors such as the number of threads that are trying to concurrently access the collection.</p>
+<p>In some scenarios, synchronization overhead is negligible and enables the multi-threaded type to perform significantly faster and scale far better than its non-thread-safe equivalent when protected by an external lock. In other scenarios, the overhead can cause the thread-safe type to perform and scale about the same or even more slowly than the externally-locked, non-thread-safe version of the type.</p>
+<p>The following sections provide general guidance about when to use a thread-safe collection versus its non-thread-safe equivalent that has a user-provided lock around its read and write operations. Because performance may vary depending on many factors, the guidance is not specific and is not necessarily valid in all circumstances. If performance is very important, then the best way to determine which collection type to use is to measure performance based on representative computer configurations and loads. This document uses the following terms:</p>
+<p><em>Pure producer-consumer scenario:</em> Any given thread is either adding or removing elements, but not both.</p>
+<p><em>Mixed producer-consumer scenario:</em> Any given thread is both adding and removing elements.</p>
+<p><em>Speedup:</em> Faster algorithmic performance relative to another type in the same scenario.</p>
+<p><em>Scalability:</em> The increase in performance that is proportional to the number of cores on the computer. An algorithm that scales performs faster on eight cores than it does on two cores.</p>
+<h2 id="concurrentqueue-lt-t-gt-vs-queue-lt-t-gt-">ConcurrentQueue&lt;T&gt; vs. Queue&lt;T&gt;</h2>
+<p>In pure producer-consumer scenarios, where the processing time for each element is very small (a few instructions), then <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">System.Collections.Concurrent.ConcurrentQueue&lt;T&gt;</a> can offer modest performance benefits over a <a href="http://dotnet.github.io/api/System.Collections.Generic.Queue%601.html">System.Collections.Generic.Queue&lt;T&gt;</a> that has an external lock. In this scenario, <strong>ConcurrentQueue&lt;T&gt;</strong> performs best when one dedicated thread is queuing and one dedicated thread is de-queuing. If you do not enforce this rule, then <strong>Queue&lt;T&gt;</strong> might even perform slightly faster than <strong>ConcurrentQueue&lt;T&gt;</strong> on computers that have multiple cores. </p>
+<p>When processing time is around 500 FLOPS (floating point operations) or more, then the two-thread rule does not apply to <strong>ConcurrentQueue&lt;T&gt;</strong>, which then has very good scalability. <strong>Queue&lt;T&gt;</strong> does not scale well in this scenario.</p>
+<p>In mixed producer-consumer scenarios, when the processing time is very small, a <strong>Queue&lt;T&gt;</strong> that has an external lock scales better than <strong>ConcurrentQueue&lt;T&gt;</strong> does. However, when processing time is around 500 FLOPS or more, then the <strong>ConcurrentQueue&lt;T&gt;</strong> scales better.</p>
+<h2 id="concurrentstack-vs-stack">ConcurrentStack vs. Stack</h2>
+<p>In pure producer-consumer scenarios, when processing time is very small, then <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentStack%601.html">System.Collections.Concurrent.ConcurrentStack&lt;T&gt;</a> and <a href="http://dotnet.github.io/api/System.Collections.Generic.Stack%601.html">System.Collections.Generic.Stack&lt;T&gt;</a> that has an external lock will probably perform about the same with one dedicated pushing thread and one dedicated popping thread. However, as the number of threads increases, both types slow down because of increased contention, and <strong>Stack&lt;T&gt;</strong> might perform better than <strong>ConcurrentStack&lt;T&gt;</strong>. When processing time is around 500 FLOPS or more, then both types scale at about the same rate. </p>
+<p>In mixed producer-consumer scenarios, <strong>ConcurrentStack&lt;T&gt;</strong> is faster for both small and large workloads.</p>
+<p>The use of the <strong>PushRange</strong> and <strong>TryPopRange</strong> may greatly speed up access times.</p>
+<h2 id="concurrentdictionary-vs-dictionary">ConcurrentDictionary vs. Dictionary</h2>
+<p>In general, use a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentDictionary%602.html">System.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt;</a> in any scenario where you are adding and updating keys or values concurrently from multiple threads. In scenarios that involve frequent updates and relatively few reads, the <strong>ConcurrentDictionary&lt;TKey, TValue&gt;</strong> generally offers modest benefits. In scenarios that involve many reads and many updates, the <strong>ConcurrentDictionary&lt;TKey, TValue&gt;</strong> generally is significantly faster on computers that have any number of cores.</p>
+<p>In scenarios that involve frequent updates, you can increase the degree of concurrency in the <strong>ConcurrentDictionary&lt;TKey, TValue&gt;</strong> and then measure to see whether performance increases on computers that have more cores. If you change the concurrency level, avoid global operations as much as possible.</p>
+<p>If you are only reading key or values, the <a href="http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html">System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;</a> is faster because no synchronization is required if the dictionary is not being modified by any threads.</p>
+<h2 id="concurrentbag">ConcurrentBag</h2>
+<p>In pure producer-consumer scenarios, <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentBag%601.html">System.Collections.Concurrent.ConcurrentBag&lt;T&gt;</a> will probably perform more slowly than the other concurrent collection types.</p>
+<p>In mixed producer-consumer scenarios, <strong>ConcurrentBag&lt;T&gt;</strong> is generally much faster and more scalable than any other concurrent collection type for both large and small workloads.</p>
+<h2 id="blockingcollection">BlockingCollection</h2>
+<p>When bounding and blocking semantics are required, <a href="http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html">System.Collections.Concurrent.BlockingCollection&lt;T&gt;</a> will probably perform faster than any custom implementation. It also supports rich cancellation, enumeration, and exception handling.</p>
+<h2 id="see-also">See Also</h2>
+<p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a></p>
+<p><a href="docs/essentials/collections/threadsafe/collections/thread-safeCollections.md">Thread-Safe Collections</a></p>
+
             </article>
           </div>
           
