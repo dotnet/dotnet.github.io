@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site </title>
+    <title>How to: Use ForEach to Remove Items in a BlockingCollection | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site ">
+    <meta name="title" content="How to: Use ForEach to Remove Items in a BlockingCollection | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -60,8 +60,113 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/collections/threadsafe/howtoUseForEachtoRemove.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
+              <h1 id="how-to-use-foreach-to-remove-items-in-a-blockingcollection">How to: Use ForEach to Remove Items in a BlockingCollection</h1>
               
+<p>In addition to taking items from a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html">BlockingCollection&lt;T&gt;</a> by using the <strong>Take</strong> and <strong>TryTake</strong> methods, you can also use a <strong>foreach</strong> loop to remove items until adding is completed and the collection is empty. This is called a mutating enumeration or consuming enumeration because, unlike a typical <strong>foreach</strong> loop, this enumerator modifies the source collection by removing items.</p>
+<h2 id="example">Example</h2>
+<p>The following example shows how to remove all the items in a <strong>BlockingCollection&lt;T&gt;</strong> by using a <strong>foreach</strong> loop. </p>
+<pre><code class="lang-csharp">using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+
+class Example
+{
+   // Limit the collection size to 2000 items at any given time.
+   // Set itemsToProduce to &gt; 500 to hit the limit.
+   const int upperLimit = 1000;
+
+   // Adjust this number to see how it impacts the producing-consuming pattern.
+   const int itemsToProduce = 100;
+
+   static BlockingCollection&lt;long&gt; collection = new BlockingCollection&lt;long&gt;(upperLimit);
+
+   // Variables for diagnostic output only.
+   static Stopwatch sw = new Stopwatch();
+   static int totalAdditions = 0;
+
+   // Counter for synchronizing producers.
+   static int producersStillRunning = 2;
+
+   static void Main()
+   {
+       // Start the stopwatch.
+       sw.Start();
+
+       // Queue the Producer threads. Store in an array
+       // for use with ContinueWhenAll
+       Task[] producers = new Task[2];
+       producers[0] = Task.Run(() =&gt; RunProducer(&quot;A&quot;, 0));
+       producers[1] = Task.Run(() =&gt; RunProducer(&quot;B&quot;, itemsToProduce));
+
+       // Create a cleanup task that will call CompleteAdding after
+       // all producers are done adding items.
+       Task cleanup = Task.Factory.ContinueWhenAll(producers, (p) =&gt; collection.CompleteAdding());
+
+       // Queue the Consumer thread. Put this call
+       // before Parallel.Invoke to begin consuming as soon as
+       // the producers add items.
+       Task.Run(() =&gt; RunConsumer());
+
+       // Keep the console window open while the
+       // consumer thread completes its output.
+       Console.ReadKey(true);
+   }
+
+   static void RunProducer(string ID, int start)
+   {
+
+       int additions = 0;
+       for (int i = start; i &lt; start + itemsToProduce; i++)
+       {
+           // The data that is added to the collection.
+           long ticks = sw.ElapsedTicks;
+
+           // Display additions and subtractions.
+           Console.WriteLine(&quot;{0} adding tick value {1}. item# {2}&quot;, ID, ticks, i);
+
+           if(!collection.IsAddingCompleted)
+               collection.Add(ticks);
+
+           // Counter for demonstration purposes only.
+           additions++;
+
+           // Uncomment this line to
+           // slow down the producer threads     ing.
+           Thread.SpinWait(100000);
+       }
+
+       Interlocked.Add(ref totalAdditions, additions);
+       Console.WriteLine(&quot;{0} is done adding: {1} items&quot;, ID, additions);
+   }
+
+   static void RunConsumer()
+   {
+       // GetConsumingEnumerable returns the enumerator for the
+       // underlying collection.
+       int subtractions = 0;
+       foreach (var item in collection.GetConsumingEnumerable())
+       {
+           Console.WriteLine(&quot;Consuming tick value {0} : item# {1} : current count = {2}&quot;,
+                   item.ToString(&quot;D18&quot;), subtractions++, collection.Count);
+       }
+
+       Console.WriteLine(&quot;Total added: {0} Total consumed: {1} Current count: {2} &quot;,
+                           totalAdditions, subtractions, collection.Count);
+       sw.Stop();
+
+       Console.WriteLine(&quot;Press any key to exit&quot;);
+   }
+}
+</code></pre>
+<p>This example uses a <strong>foreach</strong> loop with the <strong>BlockingCollection&lt;T&gt;.GetConsumingEnumerable</strong> method in the consuming thread, which causes each item to be removed from the collection as it is enumerated. <strong>BlockingCollection&lt;T&gt;</strong> limits the maximum number of items that are in the collection at any time. Enumerating the collection in this way blocks the consumer thread if no items are available or if the collection is empty. In this example blocking is not a concern because the producer thread adds items faster than they can be consumed. </p>
+<p>There is no guarantee that the items are enumerated in the same order in which they are added by the producer threads.</p>
+<p>To enumerate the collection without modifying it, just use <strong>foreach</strong> without the <strong>GetConsumingEnumerable</strong> method. However, it is important to understand that this kind of enumeration represents a snapshot of the collection at a precise point in time. If other threads are adding or removing items concurrently while you are executing the loop, then the loop might not represent the actual state of the collection.</p>
+<h2 id="see-also">See Also</h2>
+<p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a></p>
+<p><a href="blockingCollectionOverview.html">BlockingCollection Overview</a></p>
+
             </article>
           </div>
           
