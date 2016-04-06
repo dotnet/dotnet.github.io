@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site </title>
+    <title>How to: Add Bounding and Blocking Functionality to a Collection | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site ">
+    <meta name="title" content="How to: Add Bounding and Blocking Functionality to a Collection | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../../../../styles/docfx.css">
     <link rel="stylesheet" href="../../../../styles/style.css">
     <meta property="docfx:navrel" content="../../../../toc.html">
-    <meta property="docfx:tocrel" content="">
+    <meta property="docfx:tocrel" content="../../../toc.html">
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -56,12 +56,279 @@
         </div>
       </header>
       <div role="main" class="container body-content">
-        <div class="article row grid">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/collections/threadsafe/howtoAddBoundingandBlocking.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
+              <h1 id="how-to-add-bounding-and-blocking-functionality-to-a-collection">How to: Add Bounding and Blocking Functionality to a Collection</h1>
               
+<p>This example shows how to add bounding and blocking functionality to a custom collection class by implementing the <a href="http://dotnet.github.io/api/System.Collections.Concurrent.IProducerConsumerCollection%601.html">System.Collections.Concurrent.IProducerConsumerCollection&lt;T&gt;</a> interface in the class, and then using a class instance as the internal storage mechanism for a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html">System.Collections.Concurrent.BlockingCollection&lt;T&gt;</a>. For more information about bounding and blocking, see <a href="blockingCollectionOverview.html">BlockingCollection Overview</a>.</p>
+<h2 id="example">Example</h2>
+<p>The custom collection class is a basic priority queue in which the priority levels are represented as an array of <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">System.Collections.Concurrent.ConcurrentQueue&lt;T&gt;</a> objects. No additional ordering is performed within each queue.</p>
+<p>In the client code, three tasks are started. The first task just polls for keyboard strokes to enable cancellation at any point during execution. The second task is the producer thread; it adds new items to the blocking collection and gives each item a priority based on a random value. The third task removes items from the collection as they become available. </p>
+<p>You can adjust the behavior of the application by making one of the threads run faster than the other. If the producer runs faster, you will notice the bounding functionality as the blocking collection prevents items from being added if it already contains the number of items that is specified in the constructor. If the consumer runs faster, you will notice the blocking functionality as the consumer waits for a new item to be added.</p>
+<pre><code class="lang-csharp">namespace ProdConsumerCS
+{
+    using System;
+    using System.Collections;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    // Implementation of a priority queue that has bounding and blocking functionality.
+    public class SimplePriorityQueue&lt;TPriority, TValue&gt; : IProducerConsumerCollection&lt;KeyValuePair&lt;int, TValue&gt;&gt;
+    {
+        // Each internal queue in the array represents a priority level. 
+        // All elements in a given array share the same priority.
+        private ConcurrentQueue&lt;KeyValuePair&lt;int, TValue&gt;&gt;[] _queues = null;
+
+        // The number of queues we store internally.
+        private int priorityCount = 0;
+        private int m_count = 0;
+
+        public SimplePriorityQueue(int priCount)
+        {
+            this.priorityCount = priCount;
+            _queues = new ConcurrentQueue&lt;KeyValuePair&lt;int, TValue&gt;&gt;[priorityCount];
+            for (int i = 0; i &lt; priorityCount; i++)
+            {
+                _queues[i] = new ConcurrentQueue&lt;KeyValuePair&lt;int, TValue&gt;&gt;();
+            }
+        }
+
+        // IProducerConsumerCollection members
+        public bool TryAdd(KeyValuePair&lt;int, TValue&gt; item)
+        {
+            _queues[item.Key].Enqueue(item);
+            Interlocked.Increment(ref m_count);
+            return true;
+        }
+
+        public bool TryTake(out KeyValuePair&lt;int, TValue&gt; item)
+        {
+            bool success = false;
+
+            // Loop through the queues in priority order
+            // looking for an item to dequeue.
+            for (int i = 0; i &lt; priorityCount; i++)
+            {
+                // Lock the internal data so that the Dequeue
+                // operation and the updating of m_count are atomic.
+                lock (_queues)
+                {
+                    success = _queues[i].TryDequeue(out item);
+                    if (success)
+                    {
+                        Interlocked.Decrement(ref m_count);
+                        return true;
+                    }
+                }
+            }
+
+            // If we get here, we found nothing. 
+            // Assign the out parameter to its default value and return false.
+            item = new KeyValuePair&lt;int, TValue&gt;(0, default(TValue));
+            return false;
+        }
+
+        public int Count
+        {
+            get { return m_count; }
+        }
+
+        // Required for ICollection
+        void ICollection.CopyTo(Array array, int index)
+        {
+            CopyTo(array as KeyValuePair&lt;int, TValue&gt;[], index);
+        }
+
+        // CopyTo is problematic in a producer-consumer.
+        // The destination array might be shorter or longer than what 
+        // we get from ToArray due to adds or takes after the destination array was allocated.
+        // Therefore, all we try to do here is fill up destination with as much
+        // data as we have without running off the end.                
+        public void CopyTo(KeyValuePair&lt;int, TValue&gt;[] destination, int destStartingIndex)
+        {
+            if (destination == null) throw new ArgumentNullException();
+            if (destStartingIndex &lt; 0) throw new ArgumentOutOfRangeException();
+
+            int remaining = destination.Length;
+            KeyValuePair&lt;int, TValue&gt;[] temp = this.ToArray();
+            for (int i = 0; i &lt; destination.Length &amp;&amp; i &lt; temp.Length; i++)
+            {
+                destination[i] = temp[i];
+            }    
+        }
+
+        public KeyValuePair&lt;int, TValue&gt;[] ToArray()
+        {
+            KeyValuePair&lt;int, TValue&gt;[] result;
+
+            lock (_queues)
+            {
+                result = new KeyValuePair&lt;int, TValue&gt;[this.Count];
+                int index = 0;
+                foreach (var q in _queues)
+                {
+                    if (q.Count &gt; 0)
+                    {
+                        q.CopyTo(result, index);
+                        index += q.Count;
+                    }
+                }
+                return result;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator&lt;KeyValuePair&lt;int, TValue&gt;&gt; GetEnumerator()
+        {
+            for (int i = 0; i &lt; priorityCount; i++)
+            {
+                foreach (var item in _queues[i])
+                    yield return item;
+            }
+        }
+
+        public bool IsSynchronized
+        {
+            get { throw new NotSupportedException(); }
+        }
+
+        public object SyncRoot
+        {
+            get { throw new NotSupportedException(); }
+        }
+    }
+
+    public class TestBlockingCollection
+    {
+        static void Main()
+        {
+
+            int priorityCount = 7;
+            SimplePriorityQueue&lt;int, int&gt; queue = new SimplePriorityQueue&lt;int, int&gt;(priorityCount);
+            var bc = new BlockingCollection&lt;KeyValuePair&lt;int, int&gt;&gt;(queue, 50);
+
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            Task.Run(() =&gt;
+                {
+                    if (Console.ReadKey(true).KeyChar == &#39;c&#39;)
+                    {
+                        cts.Cancel();
+                    }
+                });
+
+            // Create a Task array so that we can Wait on it
+            // and catch any exceptions, including user cancellation.
+            Task[] tasks = new Task[2];
+
+            // Create a producer thread. You can change the code to 
+            // make the wait time a bit slower than the consumer 
+            // thread to demonstrate the blocking capability.
+            tasks[0] = Task.Run(() =&gt;
+            {
+                // We randomize the wait time, and use that value
+                // to determine the priority level (Key) of the item.
+                Random r = new Random();
+
+                int itemsToAdd = 40;
+                int count = 0;
+                while (!cts.Token.IsCancellationRequested &amp;&amp; itemsToAdd-- &gt; 0)
+                {
+                    int waitTime = r.Next(2000);
+                    int priority = waitTime % priorityCount;
+                    var item = new KeyValuePair&lt;int, int&gt;(priority, count++);
+
+                    bc.Add(item);
+                    Console.WriteLine(&quot;added pri {0}, data={1}&quot;, item.Key, item.Value);
+                }
+                Console.WriteLine(&quot;Producer is done adding.&quot;);
+                bc.CompleteAdding();
+            },
+             cts.Token);
+
+            //Give the producer a chance to add some items.
+            Thread.SpinWait(1000000);
+
+            // Create a consumer thread. The wait time is
+            // a bit slower than the producer thread to demonstrate
+            // the bounding capability at the high end. Change this value to see
+            // the consumer run faster to demonstrate the blocking functionality
+            // at the low end.
+
+            tasks[1] = Task.Run(() =&gt;
+                {
+                    while (!bc.IsCompleted &amp;&amp; !cts.Token.IsCancellationRequested)
+                    {
+                        Random r = new Random();
+                        int waitTime = r.Next(2000);
+                        Thread.SpinWait(waitTime * 70);
+
+                        // KeyValuePair is a value type. Initialize to avoid compile error in if(success)
+                        KeyValuePair&lt;int, int&gt; item = new KeyValuePair&lt;int, int&gt;();
+                        bool success = false;
+                        success = bc.TryTake(out item);
+                        if (success)
+                        {
+                            // Do something useful with the data.
+                            Console.WriteLine(&quot;removed Pri = {0} data = {1} collCount= {2}&quot;, item.Key, item.Value, bc.Count);
+                        }
+                        else
+                            Console.WriteLine(&quot;No items to retrieve. count = {0}&quot;, bc.Count);
+                    }
+                    Console.WriteLine(&quot;Exited consumer loop&quot;);
+                },
+                cts.Token);
+
+            try 
+            {
+                Task.WaitAll(tasks, cts.Token);
+            }
+            catch (OperationCanceledException e) 
+            {
+                if (e.CancellationToken == cts.Token)
+                    Console.WriteLine(&quot;Operation was canceled by user. Press any key to exit&quot;);
+            }
+            catch (AggregateException ae) 
+            {
+                foreach (var v in ae.InnerExceptions)
+                    Console.WriteLine(v.Message);
+            }
+            finally 
+            {
+                cts.Dispose();
+            }
+
+            Console.ReadKey(true);
+
+        }
+    }
+
+}
+</code></pre>
+<p>By default, the storage for a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html">BlockingCollection&lt;T&gt;</a> is <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">ConcurrentQueue&lt;T&gt;</a>.</p>
+<h2 id="see-also">See Also</h2>
+<p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a></p>
+<p><a href="docs/essentials/collections/threadsafe/collections/thread-safeCollections.md">Thread-Safe Collections</a></p>
+<p><a href="blockingCollectionOverview.html">BlockingCollection Overview</a></p>
+
             </article>
           </div>
           
