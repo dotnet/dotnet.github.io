@@ -71,10 +71,10 @@
               
 <p>The <a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a> namespace includes several collection classes that are both thread-safe and scalable. Multiple threads can safely and efficiently add or remove items from these collections, without requiring additional synchronization in user code. When you write new code, use the concurrent collection classes whenever the collection will be writing to multiple threads concurrently. If you are only reading from a shared collection, then you can use the classes in the <a href="http://dotnet.github.io/api/System.Collections.Generic.html">System.Collections.Generic</a> namespace. We recommend that you do not use <a href="http://dotnet.github.io/api/System.Collections.html">System.Collections</a> collection classes unless you are required to target the .NET Framework 1.1 or earlier runtime.</p>
 <h2 id="fine-grained-locking-and-lock-free-mechanisms">Fine-Grained Locking and Lock-Free Mechanisms</h2>
-<p>Some of the concurrent collection types use lightweight synchronization mechanisms such as <a href="http://dotnet.github.io/api/System.Threading.SpinLock.html">SpinLock</a>, <a href="http://dotnet.github.io/api/System.Threading.SpinWait.html">SpinWait</a>, <a href="http://dotnet.github.io/api/System.Threading.SemaphoreSlim.html">SemaphoreSlim</a>, and <a href="http://dotnet.github.io/api/System.Threading.CountdownEvent.html">CountdownEvent</a>. These synchronization types typically use busy spinning for brief periods before they put the thread into a true <strong>Wait</strong> state. When wait times are expected to be very short, spinning is far less computationally expensive than waiting, which involves an expensive kernel transition. For collection classes that use spinning, this efficiency means that multiple threads can add and remove items at a very high rate.</p>
+<p>Some of the concurrent collection types use lightweight synchronization mechanisms such as <a href="http://dotnet.github.io/api/System.Threading.SpinLock.html">SpinLock</a>, <a href="http://dotnet.github.io/api/System.Threading.SpinWait.html">SpinWait</a>, <a href="http://dotnet.github.io/api/System.Threading.SemaphoreSlim.html">SemaphoreSlim</a>, and <a href="http://dotnet.github.io/api/System.Threading.CountdownEvent.html">CountdownEvent</a>. These synchronization types typically use busy spinning for brief periods before they put the thread into a true <code>Wait</code> state. When wait times are expected to be very short, spinning is far less computationally expensive than waiting, which involves an expensive kernel transition. For collection classes that use spinning, this efficiency means that multiple threads can add and remove items at a very high rate.</p>
 <p>The <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">ConcurrentQueue&lt;T&gt;</a> and <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentStack%601.html">ConcurrentStack&lt;T&gt;</a> classes do not use locks at all. Instead, they rely on Interlocked operations to achieve thread-safety.</p>
 <blockquote><p><strong>Note</strong>  </p>
-<p>Because the concurrent collections classes support <a href="http://dotnet.github.io/api/System.Collections.ICollection.html">ICollection</a>, they provide implementations for the <strong>IsSynchronized</strong> and <strong>SyncRoot</strong> properties, even though these properties are irrelevant. <strong>IsSynchronized</strong> always returns <strong>false</strong> and <strong>SyncRoot</strong> is always null.</p>
+<p>Because the concurrent collections classes support <a href="http://dotnet.github.io/api/System.Collections.ICollection.html">ICollection</a>, they provide implementations for the <code>IsSynchronized</code> and <code>SyncRoot</code> properties, even though these properties are irrelevant. <code>IsSynchronized</code> always returns <code>false</code> and <code>SyncRoot</code> is always null.</p>
 </blockquote>
 <p>The following table lists the collection types in the <a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a> namespace.</p>
 <table>
@@ -107,14 +107,14 @@
 </tr>
 <tr>
 <td><a href="http://dotnet.github.io/api/System.Collections.Concurrent.IProducerConsumerCollection%601.html">IProducerConsumerCollection&lt;T&gt;</a></td>
-<td>The interface that a type must implement to be used in a <strong>BlockingCollection</strong>.</td>
+<td>The interface that a type must implement to be used in a <code>BlockingCollection</code>.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="thread-synchronization-in-the-net-framework-version-1-0-and-2-0-collections">Thread Synchronization in the .NET Framework version 1.0 and 2.0 Collections</h2>
-<p>The collections first introduced in the .NET Framework version 1.0 are found in the <a href="http://dotnet.github.io/api/System.Collections.html">System.Collections</a> namespace. These collections, which include the commonly used <a href="http://dotnet.github.io/api/System.Collections.ArrayList.html">ArrayList</a> and <a href="http://dotnet.github.io/api/System.Collections.Hashtable.html">Hashtable</a>, provide some thread-safety through the <strong>Synchronized</strong> property, which returns a thread-safe wrapper around the collection. The wrapper works by locking the entire collection on every add or remove operation. Therefore, each thread that is attempting to access the collection must wait for its turn to take the one lock. This is not scalable and can cause significant performance degradation for large collections. Also, the design is not completely protected from race conditions. </p>
-<p>The collection classes first introduced in the .NET Framework version 2.0 are found in the <a href="http://dotnet.github.io/api/System.Collections.Generic.html">System.Collections.Generic</a> namespace. These include <a href="http://dotnet.github.io/api/System.Collections.Generic.List%601.html">List&lt;T&gt;</a>, <a href="http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html">Dictionary&lt;TKey, TValue&gt;</a>, and so on. These classes provide improved type safety and performance compared to the <strong>System.Collections</strong> classes. However, the <strong>System.Collections.Generic</strong> collection classes do not provide any thread synchronization; user code must provide all synchronization when items are added or removed on multiple threads concurrently.</p>
-<p>We recommend the <strong>System.Collections.Concurrent</strong> collection classes because they provide not only the type safety of the <strong>System.Collections.Generic</strong> collection classes, but also more efficient and more complete thread safety than the <strong>System.Collections</strong> collections provide.</p>
+<p>The collections first introduced in the .NET Framework version 1.0 are found in the <a href="http://dotnet.github.io/api/System.Collections.html">System.Collections</a> namespace. These collections, which include the commonly used <a href="http://dotnet.github.io/api/System.Collections.ArrayList.html">ArrayList</a> and <a href="http://dotnet.github.io/api/System.Collections.Hashtable.html">Hashtable</a>, provide some thread-safety through the <code>Synchronized</code> property, which returns a thread-safe wrapper around the collection. The wrapper works by locking the entire collection on every add or remove operation. Therefore, each thread that is attempting to access the collection must wait for its turn to take the one lock. This is not scalable and can cause significant performance degradation for large collections. Also, the design is not completely protected from race conditions. </p>
+<p>The collection classes first introduced in the .NET Framework version 2.0 are found in the <a href="http://dotnet.github.io/api/System.Collections.Generic.html">System.Collections.Generic</a> namespace. These include <a href="http://dotnet.github.io/api/System.Collections.Generic.List%601.html">List&lt;T&gt;</a>, <a href="http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html">Dictionary&lt;TKey, TValue&gt;</a>, and so on. These classes provide improved type safety and performance compared to the <code>System.Collections</code> classes. However, the <code>System.Collections.Generic</code> collection classes do not provide any thread synchronization; user code must provide all synchronization when items are added or removed on multiple threads concurrently.</p>
+<p>We recommend the <code>System.Collections.Concurrent</code> collection classes because they provide not only the type safety of the <code>System.Collections.Generic</code> collection classes, but also more efficient and more complete thread safety than the <code>System.Collections</code> collections provide.</p>
 <h2 id="related-topics">Related Topics</h2>
 <table>
 <thead>
@@ -126,11 +126,11 @@
 <tbody>
 <tr>
 <td><a href="threadsafe/blockingCollectionOverview.html">BlockingCollection Overview</a></td>
-<td>Describes the functionality provided by the <strong>BlockingCollection&lt;T&gt;</strong> type.</td>
+<td>Describes the functionality provided by the <code>BlockingCollection&lt;T&gt;;</code> type.</td>
 </tr>
 <tr>
 <td><a href="threadsafe/howtoAddandRemoveItems.html">How to: Add and Remove Items from a ConcurrentDictionary</a></td>
-<td>Describes how to add and remove elements from a <strong>ConcurrentDictionary&lt;TKey, TValue&gt;</strong>.</td>
+<td>Describes how to add and remove elements from a <code>ConcurrentDictionary&lt;TKey, TValue&gt;</code>.</td>
 </tr>
 <tr>
 <td><a href="threadsafe/howtoAddandTakeItems.html">How to: Add and Take Items Individually from a BlockingCollection</a></td>
@@ -138,11 +138,11 @@
 </tr>
 <tr>
 <td><a href="threadsafe/howtoAddBoundingandBlocking.html">How to: Add Bounding and Blocking Functionality to a Collection</a></td>
-<td>Describes how to use any collection class as the underlying storage mechanism for an <strong>IProducerConsumerCollection&lt;T&gt;</strong> collection.</td>
+<td>Describes how to use any collection class as the underlying storage mechanism for an <code>IProducerConsumerCollection&lt;T&gt;;</code> collection.</td>
 </tr>
 <tr>
 <td><a href="threadsafe/howtoUseForEachtoRemove.html">How to: Use ForEach to Remove Items in a BlockingCollection</a></td>
-<td>Describes how to use <strong>foreach</strong> to remove all items in a blocking collection.</td>
+<td>Describes how to use <code>foreach</code> to remove all items in a blocking collection.</td>
 </tr>
 <tr>
 <td><a href="threadsafe/howtoUseArraysofBlockingCollections.html">How to: Use Arrays of Blocking Collections in a Pipeline</a></td>

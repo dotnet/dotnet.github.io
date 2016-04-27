@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site </title>
+    <title>Selecting a Collection Class | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site ">
+    <meta name="title" content="Selecting a Collection Class | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -67,8 +67,78 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/collections/selectingaCollectionClass.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
+              <h1 id="selecting-a-collection-class">Selecting a Collection Class</h1>
               
+<p>Be sure to choose your collection class carefully. Using the wrong type can restrict your use of the collection. The generic and concurrent versions of the collections are to be preferred because of their greater type safety and other improvements. In general, avoid using the types in the System.Collections namespace unless you are specifically targeting .NET Framework version 1.1. </p>
+<p>Consider the following questions:</p>
+<ul>
+<li><p>Do you need a sequential list where the element is typically discarded after its value is retrieved? </p>
+<ul>
+<li><p>If yes, consider using the <a href="http://dotnet.github.io/api/System.Collections.Generic.Queue%601.html">System.Collections.Generic.Queue&lt;T&gt;</a> generic class if you need first-in, first-out (FIFO) behavior. Consider using the <a href="http://dotnet.github.io/api/System.Collections.Generic.Stack%601.html">System.Collections.Generic.Stack&lt;T&gt;</a> generic class if you need last-in, first-out (LIFO) behavior. For safe access from multiple threads, use the concurrent versions <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">System.Collections.Concurrent.ConcurrentQueue&lt;T&gt;</a> and <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentStack%601.html">System.Collections.Concurrent.ConcurrentStack&lt;T&gt;</a>.</p>
+</li>
+<li><p>If not, consider using the other collections.</p>
+</li>
+</ul>
+</li>
+<li><p>Do you need to access the elements in a certain order, such as FIFO, LIFO, or random?</p>
+<ul>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Generic.Queue%601.html">System.Collections.Generic.Queue&lt;T&gt;</a> or <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentQueue%601.html">System.Collections.Concurrent.ConcurrentQueue&lt;T&gt;</a> generic class offer FIFO access. For more information, see <a href="docs/essentials/collections/essentials/collections/threadsafe/whentoUseaThread-SafeCollection.md">When to Use a Thread-Safe Collection</a>.</p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Generic.Stack%601.html">System.Collections.Generic.Stack&lt;T&gt;</a> or<a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentStack%601.html">System.Collections.Concurrent.ConcurrentStack&lt;T&gt;</a> generic class offer LIFO access. For more information, see <a href="docs/essentials/collections/essentials/collections/threadsafe/whentoUseaThread-SafeCollection.md">When to Use a Thread-Safe Collection</a>.</p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Generic.LinkedList%601.html">System.Collections.Generic.LinkedList&lt;T&gt;</a> generic class allows sequential access either from the head to the tail, or from the tail to the head.</p>
+</li>
+</ul>
+</li>
+<li><p>Do you need to access each element by index? </p>
+<ul>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Specialized.StringCollection.html">System.Collections.Specialized.StringCollection</a> class and the <a href="http://dotnet.github.io/api/System.Collections.Generic.List%601.html">System.Collections.Generic.List&lt;T&gt;</a> generic class offer access to their elements by the zero-based index of the element. </p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Specialized.ListDictionary.html">System.Collections.Specialized.ListDictionary</a> and <a href="http://dotnet.github.io/api/System.Collections.Specialized.StringDictionary.html">System.Collections.Specialized.StringDictionary</a> classes, and the <a href="http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html">System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;</a> and <a href="http://dotnet.github.io/api/System.Collections.Generic.SortedDictionary%602.html">System.Collections.Generic.SortedDictionary&lt;TKey, TValue&gt;</a> generic classes offer access to their elements by the key of the element.</p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Specialized.NameObjectCollectionBase.html">System.Collections.Specialized.NameObjectCollectionBase</a> and <a href="http://dotnet.github.io/api/System.Collections.Specialized.NameValueCollection.html">System.Collections.Specialized.NameValueCollection</a> classes, and the <a href="http://dotnet.github.io/api/System.Collections.ObjectModel.KeyedCollection%602.html">System.Collections.ObjectModel.KeyedCollection&lt;TKey, TValue&gt;</a> and <a href="http://dotnet.github.io/api/System.Collections.Generic.SortedList%602.html">System.Collections.Generic.SortedList&lt;TKey, TValue&gt;</a> generic classes offer access to their elements by either the zero-based index or the key of the element.</p>
+</li>
+</ul>
+</li>
+<li><p>Will each element contain one value, a combination of one key and one value, or a combination of one key and multiple values? </p>
+<ul>
+<li><p>One value: Use any of the collections based on the <a href="http://dotnet.github.io/api/System.Collections.Generic.IList%601.html">System.Collections.Generic.IList&lt;T&gt;</a> generic interface.</p>
+</li>
+<li><p>One key and one value: Use any of the collections based on the <a href="http://dotnet.github.io/api/System.Collections.Generic.IDictionary%602.html">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;</a> generic interface.</p>
+</li>
+<li><p>One value with embedded key: Use the <a href="http://dotnet.github.io/api/System.Collections.ObjectModel.KeyedCollection%602.html">System.Collections.ObjectModel.KeyedCollection&lt;TKey, TValue&gt;</a> generic class.</p>
+</li>
+<li><p>One key and multiple values: Use the <a href="http://dotnet.github.io/api/System.Collections.Specialized.NameValueCollection.html">System.Collections.Specialized.NameValueCollection</a> class.</p>
+</li>
+</ul>
+</li>
+<li><p>Do you need to sort the elements differently from how they were entered? </p>
+<ul>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Hashtable.html">System.Collections.Hashtable</a> class sorts its elements by their hash codes.</p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Collections.Generic.SortedDictionary%602.html">System.Collections.Generic.SortedDictionary&lt;TKey, TValue&gt;</a> and <a href="http://dotnet.github.io/api/System.Collections.Generic.SortedList%602.html">System.Collections.Generic.SortedList&lt;TKey, TValue&gt;</a> generic classes sort their elements by the key, based on implementations of the <a href="http://dotnet.github.io/api/System.Collections.IComparer.html">System.Collections.IComparer</a> interface and the <a href="http://dotnet.github.io/api/System.Collections.Generic.IComparer%601.html">System.Collections.Generic.IComparer&lt;T&gt;</a> generic interface.</p>
+</li>
+<li><p><a href="http://dotnet.github.io/api/System.Collections.Generic.List%601.html">System.Collections.Generic.List&lt;T&gt;</a> generic class, provides a <code>Sort</code> method that takes an implementation of the <code>IComparer&lt;T&gt;</code> generic interface as a parameter.</p>
+</li>
+</ul>
+</li>
+<li><p>Do you need collections that accept only strings? </p>
+<ul>
+<li><p><a href="http://dotnet.github.io/api/System.Collections.Specialized.StringCollection.html">StringCollection</a> (based on <a href="http://dotnet.github.io/api/System.Collections.IList.html">System.Collections.IList</a>) and <a href="http://dotnet.github.io/api/System.Collections.Specialized.StringDictionary.html">StringDictionary</a> (based on <a href="http://dotnet.github.io/api/System.Collections.IDictionary.html">System.Collections.IDictionary</a>) are in the <a href="http://dotnet.github.io/api/System.Collections.Specialized.html">System.Collections.Specialized</a> namespace. </p>
+</li>
+<li><p>In addition, you can use any of the generic collection classes in the <a href="http://dotnet.github.io/api/System.Collections.Generic.html">System.Collections.Generic</a> namespace as strongly typed string collections by specifying the <code>String</code> class for their generic type arguments.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="linq-to-objects">LINQ to Objects</h2>
+<p>LINQ to Objects enables developers to use LINQ queries to access in-memory objects as long as the object type implements <a href="http://dotnet.github.io/api/System.Collections.IEnumerable.html">System.Collections.IEnumerable</a> or <a href="http://dotnet.github.io/api/System.Collections.Generic.IEnumerable%601.html">System.Collections.Generic.IEnumerable&lt;T&gt;</a>. LINQ queries provide a common pattern for accessing data, are typically more concise and readable than standard foreach loops, and provide filtering, ordering, and grouping capabilities. For more information, see <a href="docs/essentials/collections/languages/csharp/linq.md">Language Integrated Query (LINQ)</a>.</p>
+<h2 id="see-also">See Also</h2>
+<p><a href="http://dotnet.github.io/api/System.Collections.html">System.Collections</a></p>
+<p><a href="http://dotnet.github.io/api/System.Collections.Specialized.html">System.Collections.Specialized</a></p>
+<p><a href="http://dotnet.github.io/api/System.Collections.Generic.html">System.Collections.Generic</a></p>
+<p><a href="docs/essentials/collections/essentials/collections/thread-safeCollections.md">Thread-Safe Collections</a></p>
+
             </article>
           </div>
           

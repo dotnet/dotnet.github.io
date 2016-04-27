@@ -70,7 +70,7 @@
               <h1 id="how-to-add-and-remove-items-from-a-concurrentdictionary">How to: Add and Remove Items from a ConcurrentDictionary</h1>
               
 <p>This example shows how to add, retrieve, update, and remove items from a <a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentDictionary%602.html">System.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt;</a>. This collection class is a thread-safe implementation. We recommend that you use it whenever multiple threads might be attempting to access the elements concurrently.</p>
-<p><strong>ConcurrentDictionary&lt;TKey, TValue&gt;</strong> provides several convenience methods that make it unnecessary for code to first check whether a key exists before it attempts to add or remove data. The following table lists these convenience methods and describes when to use them.</p>
+<p><code>ConcurrentDictionary&lt;TKey, TValue&gt;</code> provides several convenience methods that make it unnecessary for code to first check whether a key exists before it attempts to add or remove data. The following table lists these convenience methods and describes when to use them.</p>
 <table>
 <thead>
 <tr>
@@ -80,15 +80,15 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>AddOrUpdate</strong></td>
+<td><code>AddOrUpdate</code></td>
 <td>You want to add a new value for a specified key and, if the key already exists, you want to replace its value.</td>
 </tr>
 <tr>
-<td><strong>GetOrAdd</strong></td>
+<td><code>GetOrAdd</code></td>
 <td>You want to retrieve the existing value for a specified key and, if the key does not exist, you want to specify a key/value pair.</td>
 </tr>
 <tr>
-<td><strong>TryAdd</strong>, <strong>TryGetValue</strong>, <strong>TryUpdate</strong>, <strong>TryRemove</strong></td>
+<td><code>TryAdd</code>, <code>TryGetValue</code>, <code>TryUpdate</code>, <code>TryRemove</code></td>
 <td>You want to add, get, update, or remove a key/value pair, and, if the key already exists or the attempt fails for any other reason, you want to take some alternative action.</td>
 </tr>
 </tbody>
@@ -344,18 +344,18 @@
 }
 </code></pre>
 <p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentDictionary%602.html">ConcurrentDictionary&lt;TKey, TValue&gt;</a> is designed for multithreaded scenarios. You do not have to use locks in your code to add or remove items from the collection. However, it is always possible for one thread to retrieve a value, and another thread to immediately update the collection by giving the same key a new value.</p>
-<p>Also, although all methods of <strong>ConcurrentDictionary&lt;TKey, TValue&gt;</strong> are thread-safe, not all methods are atomic, specifically <strong>GetOrAdd</strong> and <strong>AddOrUpdate</strong>. The user delegate that is passed to these methods is invoked outside of the dictionary&#39;s internal lock. (This is done to prevent unknown code from blocking all threads.) Therefore it is possible for this sequence of events to occur:</p>
+<p>Also, although all methods of <code>ConcurrentDictionary&lt;TKey, TValue&gt;</code> are thread-safe, not all methods are atomic, specifically <code>GetOrAdd</code> and <code>AddOrUpdate</code>. The user delegate that is passed to these methods is invoked outside of the dictionary&#39;s internal lock. (This is done to prevent unknown code from blocking all threads.) Therefore it is possible for this sequence of events to occur:</p>
 <ol>
-<li><p>threadA calls <strong>GetOrAdd</strong>, finds no item and creates a new item to Add by invoking the valueFactory delegate.</p>
+<li><p>threadA calls <code>GetOrAdd</code>, finds no item and creates a new item to Add by invoking the valueFactory delegate.</p>
 </li>
-<li><p>threadB calls <strong>GetOrAdd</strong> concurrently, its valueFactory delegate is invoked and it arrives at the internal lock before threadA, and so its new key-value pair is added to the dictionary.</p>
+<li><p>threadB calls <code>GetOrAdd</code> concurrently, its valueFactory delegate is invoked and it arrives at the internal lock before threadA, and so its new key-value pair is added to the dictionary.</p>
 </li>
 <li><p>threadA&#39;s user delegate completes, and the thread arrives at the lock, but now sees that the item exists already</p>
 </li>
 <li><p>threadA performs a &quot;Get&quot;, and returns the data that was previously added by threadB.</p>
 </li>
 </ol>
-<p>Therefore, it is not guaranteed that the data that is returned by <strong>GetOrAdd</strong> is the same data that was created by the thread&#39;s valueFactory. A similar sequence of events can occur when <strong>AddOrUpdate</strong> is called. </p>
+<p>Therefore, it is not guaranteed that the data that is returned by <code>GetOrAdd</code> is the same data that was created by the thread&#39;s valueFactory. A similar sequence of events can occur when <code>AddOrUpdate</code> is called. </p>
 <h2 id="see-also">See Also</h2>
 <p><a href="http://dotnet.github.io/api/System.Collections.Concurrent.html">System.Collections.Concurrent</a></p>
 <p><a href="../thread-safeCollections.html">Thread-Safe Collections</a></p>

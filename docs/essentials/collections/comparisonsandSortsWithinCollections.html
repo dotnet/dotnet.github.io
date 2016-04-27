@@ -72,28 +72,28 @@
 <p>The <a href="https://dotnet.github.io/api/System.Collections.html">System.Collections</a> classes perform comparisons in almost all the processes involved in managing collections, whether searching for the element to remove or returning the value of a key-and-value pair.</p>
 <p>Collections typically utilize an equality comparer and/or an ordering comparer. Two constructs are used for comparisons. </p>
 <h2 id="checking-for-equality">Checking for equality</h2>
-<p>Methods such as <strong>Contains</strong>, <strong>IndexOf</strong>, <strong>LastIndexOf</strong>, and <strong>Remove</strong> use an equality comparer for the collection elements. If the collection is generic, items are compared for equality according to the following guidelines:</p>
+<p>Methods such as <code>Contains</code>, <code>IndexOf</code>, <code>LastIndexOf</code>, and <code>Remove</code> use an equality comparer for the collection elements. If the collection is generic, items are compared for equality according to the following guidelines:</p>
 <ul>
-<li><p>If type T implements the <a href="https://dotnet.github.io/api/System.IEquatable%601.html">IEquatable&lt;T&gt;</a> generic interface, then the equality comparer is the <strong>Equals</strong> method of that interface.</p>
+<li><p>If type T implements the <a href="https://dotnet.github.io/api/System.IEquatable%601.html">IEquatable&lt;T&gt;</a> generic interface, then the equality comparer is the <code>Equals</code> method of that interface.</p>
 </li>
-<li><p>If type T does not implement <strong>IEquatable&lt;T&gt;</strong>, <strong>Object.Equals</strong> is used.</p>
+<li><p>If type T does not implement <code>IEquatable&lt;T&gt;</code>, <code>Object.Equals</code> is used.</p>
 </li>
 </ul>
 <p>In addition, some constructor overloads for dictionary collections accept an <a href="https://dotnet.github.io/api/System.Collections.Generic.IEqualityComparer%601.html">IEqualityComparer&lt;T&gt;</a> implementation, which is used to compare keys for equality.</p>
 <h2 id="determining-sort-order">Determining sort order</h2>
-<p>Methods such as <strong>BinarySearch</strong> and <strong>Sort</strong> use an ordering comparer for the collection elements. The comparisons can be between elements of the collection, or between an element and a specified value. For comparing objects, there is the concept of a default comparer and an explicit comparer. </p>
-<p>The default comparer relies on at least one of the objects being compared to implement the <strong>IComparable</strong> interface. It is a good practice to implement <strong>IComparable</strong> on all classes are used as values in a list collection or as keys in a dictionary collection. For a generic collection, equality comparison is determined according to the following:</p>
+<p>Methods such as <code>BinarySearch</code> and <code>Sort</code> use an ordering comparer for the collection elements. The comparisons can be between elements of the collection, or between an element and a specified value. For comparing objects, there is the concept of a default comparer and an explicit comparer. </p>
+<p>The default comparer relies on at least one of the objects being compared to implement the <code>IComparable</code> interface. It is a good practice to implement <code>IComparable</code> on all classes are used as values in a list collection or as keys in a dictionary collection. For a generic collection, equality comparison is determined according to the following:</p>
 <ul>
-<li><p>If type T implements the <a href="https://dotnet.github.io/api/System.IComparable%601.html">System.IComparable&lt;T&gt;</a> generic interface, then the default comparer is the <strong>CompareTo(T)</strong> method of that interface.</p>
+<li><p>If type T implements the <a href="https://dotnet.github.io/api/System.IComparable%601.html">System.IComparable&lt;T&gt;</a> generic interface, then the default comparer is the <code>CompareTo(T)</code> method of that interface.</p>
 </li>
-<li><p>If type T implements the non-generic <a href="https://dotnet.github.io/api/System.IComparable.html">System.IComparable</a> interface, then the default comparer is the <strong>CompareTo</strong>(Object) method of that interface.</p>
+<li><p>If type T implements the non-generic <a href="https://dotnet.github.io/api/System.IComparable.html">System.IComparable</a> interface, then the default comparer is the <code>CompareTo</code>(Object) method of that interface.</p>
 </li>
 <li><p>If type T doesn’t implement either interface, then there is no default comparer, and a comparer or comparison delegate must be provided explicitly.</p>
 </li>
 </ul>
-<p>To provide explicit comparisons, some methods accept an <strong>IComparer</strong> implementation as a parameter. For example, the <strong>List&lt;T&gt;.Sort</strong> method accepts an <a href="https://dotnet.github.io/api/System.Collections.Generic.IComparer%601.html">System.Collections.Generic.IComparer&lt;T&gt;</a> implementation. </p>
+<p>To provide explicit comparisons, some methods accept an <code>IComparer</code> implementation as a parameter. For example, the <code>List&lt;T&gt;.Sort</code> method accepts an <a href="https://dotnet.github.io/api/System.Collections.Generic.IComparer%601.html">System.Collections.Generic.IComparer&lt;T&gt;</a> implementation. </p>
 <h2 id="equality-and-sort-example">Equality and sort example</h2>
-<p>The following code demonstrates an implementation of <a href="https://dotnet.github.io/api/System.IEquatable%601.html">IEquatable&lt;T&gt;</a> and <a href="https://dotnet.github.io/api/System.IComparable%601.html">IComparable&lt;T&gt;</a> on a simple business object. In addition, when the object is stored in a list and sorted, you will see that calling the <strong>Sort()</strong> method results in the use of the default comparer for the &#39;Part&#39; type, and the <strong>Sort(Comparison&lt;T&gt;)</strong> method implemented by using an anonymous method.</p>
+<p>The following code demonstrates an implementation of <a href="https://dotnet.github.io/api/System.IEquatable%601.html">IEquatable&lt;T&gt;</a> and <a href="https://dotnet.github.io/api/System.IComparable%601.html">IComparable&lt;T&gt;</a> on a simple business object. In addition, when the object is stored in a list and sorted, you will see that calling the <code>Sort()</code> method results in the use of the default comparer for the &#39;Part&#39; type, and the <code>Sort(Comparison&lt;T&gt;)</code> method implemented by using an anonymous method.</p>
 <p>C#</p>
 <pre><code class="lang-csharp">using System;
 using System.Collections.Generic;
