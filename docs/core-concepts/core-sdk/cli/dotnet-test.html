@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>.NET Command Line Interface Tools | CoreCLR site </title>
+    <title>dotnet-test | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=".NET Command Line Interface Tools | CoreCLR site ">
+    <meta name="title" content="dotnet-test | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -66,23 +66,70 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content">
-              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/index.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-net-command-line-interface-tools">.NET Command Line Interface Tools</h1>
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/dotnet-test.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="dotnet-test">dotnet-test</h1>
               
-<ul>
-<li><a href="overview.html">Overview</a></li>
-<li><a href="extensibility.html">.NET Core Command Line tools extensibility</a></li>
-<li><a href="using-ci-with-cli.html">Using .NET Core CLI tools in Continuous Integration</a></li>
-<li><a href="dotnet.html">dotnet</a></li>
-<li><a href="dotnet-new.html">dotnet-new</a></li>
-<li><a href="dotnet-restore.html">dotnet-restore</a></li>
-<li><a href="dotnet-run.html">dotnet-run</a></li>
-<li><a href="dotnet-build.html">dotnet-build</a></li>
-<li><a href="dotnet-test.html">dotnet-test</a></li>
-<li><a href="dotnet-pack.html">dotnet-pack</a></li>
-<li><a href="dotnet-publish.html">dotnet-publish</a></li>
-<li><a href="dotnet-install-script.html">dotnet-install-script</a></li>
-</ul>
+<h2 id="name">NAME</h2>
+<p><code>dotnet-test</code> - runs unit tests using the configured test runner</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>dotnet-test [--configuration]<br>    [--output] [--build-base-path] [--framework] [--runtime]
+    [--no-build]
+    [--parentProcessId] [--port]<br>    [&lt; project &gt;]  </p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>dotnet-test</code> is used to execute unit tests in a given project. Unit tests are class library 
+projects that have dependencies on the unit test framework (for example, NUnit or xUnit) and the 
+dotnet test runner for that unit testing framework. These are packaged as NuGet packages and are 
+restored as ordinary dependencies for the project.</p>
+<p>Test projects also need to specify a test runner property in project.json using the &quot;testRunner&quot; node. 
+This value should contain the name of the unit test framework.</p>
+<p>Below is a sample project.json that shows the needed properties:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;1.0.0-*&quot;,
+
+    &quot;dependencies&quot;: {
+        &quot;NETStandard.Library&quot;: &quot;1.0.0-*&quot;,
+        &quot;xunit&quot;: &quot;2.1.0-*&quot;,
+        &quot;dotnet-test-xunit&quot;: &quot;1.0.0-*&quot;
+    },
+    &quot;testRunner&quot;: &quot;xunit&quot;,
+
+    &quot;frameworks&quot;: {
+        &quot;netstandard1.5&quot;: {
+        }
+    }
+}
+</code></pre>
+<p>Dotnet test supports two running modes:</p>
+<ol>
+<li>Console: In console mode, dotnet test simply executes fully any command gets passed to it and outputs the results. Anytime you
+invoke dotnet test without passing --port, it will run in console mode, which in turn will cause the runner to run in console mode.</li>
+<li>Design time: when used in the context of other tools, such as editors or Integrated Development Environments (IDEs). You 
+can find out more about this mode in the <a href="dotnet-test-protocol.html">dotnet-test protocol</a> document. </li>
+</ol>
+<h2 id="options">OPTIONS</h2>
+<p><code>[project]</code> </p>
+<p>Specifies a path to the test project. If omitted, will default to current directory. </p>
+<p><code>-c</code>, <code>--configuration</code> [CONFIGURATION]</p>
+<p>Configuration under which to build. Defaults to Release. </p>
+<p><code>-o</code>, <code>--output</code> [DIR]</p>
+<p>Directory in which to find binaries to run.</p>
+<p><code>-b</code>, <code>--build-base-path</code> [DIR]</p>
+<p>Directory in which to place temporary outputs.</p>
+<p><code>-f</code>, <code>--framework</code> [FRAMEWORK]</p>
+<p>Looks for test binaries for a specific framework.</p>
+<p><code>-r</code>, <code>--runtime</code> [RUNTIME_IDENTIFIER]</p>
+<p>Look for test binaries for a for the specified runtime.</p>
+<p><code>--no-build</code> </p>
+<p>Do not build the test project prior to running it. </p>
+<p>--parentProcessId</p>
+<p>Used by IDEs to specify their process ID. Test will exit if the parent process does.</p>
+<p><code>--port</code></p>
+<p>Used by IDEs to specify a port number to listen for a connection.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><code>dotnet-test</code></p>
+<p>Run the tests in the project in the current directory. </p>
+<p><code>dotnet-test /projects/test1/project.json</code></p>
+<p>Run the tests in the test1 project. </p>
 
             </article>
           </div>

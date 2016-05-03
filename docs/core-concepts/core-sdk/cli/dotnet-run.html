@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>.NET Command Line Interface Tools | CoreCLR site </title>
+    <title>dotnet-run | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=".NET Command Line Interface Tools | CoreCLR site ">
+    <meta name="title" content="dotnet-run | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -66,23 +66,44 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content">
-              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/index.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-net-command-line-interface-tools">.NET Command Line Interface Tools</h1>
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/dotnet-run.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="dotnet-run">dotnet-run</h1>
               
-<ul>
-<li><a href="overview.html">Overview</a></li>
-<li><a href="extensibility.html">.NET Core Command Line tools extensibility</a></li>
-<li><a href="using-ci-with-cli.html">Using .NET Core CLI tools in Continuous Integration</a></li>
-<li><a href="dotnet.html">dotnet</a></li>
-<li><a href="dotnet-new.html">dotnet-new</a></li>
-<li><a href="dotnet-restore.html">dotnet-restore</a></li>
-<li><a href="dotnet-run.html">dotnet-run</a></li>
-<li><a href="dotnet-build.html">dotnet-build</a></li>
-<li><a href="dotnet-test.html">dotnet-test</a></li>
-<li><a href="dotnet-pack.html">dotnet-pack</a></li>
-<li><a href="dotnet-publish.html">dotnet-publish</a></li>
-<li><a href="dotnet-install-script.html">dotnet-install-script</a></li>
-</ul>
+<h2 id="name">NAME</h2>
+<p>dotnet-run -- Runs source code &#39;in-place&#39; without any explicit compile or launch commands.</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>dotnet-run [--framework] [--configuration]
+    [--project] [--] [--help]</p>
+<h2 id="description">DESCRIPTION</h2>
+<p>The run command provides a convenient option to run your application from the  source code with one command. It compiles source code, generates an 
+output program and then runs that program. This command is useful for fast iterative development and can also be used 
+to run a source-distributed program (for example, website).</p>
+<p>This command relies on <code>dotnet-build(1)</code> to build source inputs to a .NET assembly, before launching the program. 
+The requirements for and handling of source inputs for this command are all inherited from the build command. 
+The documentation for the build command provides more information on those requirements.</p>
+<p>Output files are written to the child <code>bin</code> folder, which will be created if it doesn&#39;t exist. 
+Files will be overwritten as needed. Temporary files are written to the child <code>obj</code> folder.  </p>
+<p>In case of a project with multiple specified frameworks, <code>dotnet run</code> will first select the .NET Core frameworks. If 
+those do not exist, it will error out. To specify other frameworks, use the <code>--framework</code> argument. </p>
+<h2 id="options">OPTIONS</h2>
+<p><code>--</code></p>
+<p>Delimit arguments to <code>dotnet run</code> from arguments for the application being run. All arguments after this one will be passed to
+the application being run. </p>
+<p><code>-f</code>, <code>--framework</code> [FID]</p>
+<p>Run the application for a given framework identifier (FID). </p>
+<p><code>-c</code>, <code>--configuration [Debug|Release]</code></p>
+<p>Configuration to use when publishing. If not specified, will default to &quot;Debug&quot;.</p>
+<p><code>-p</code>, <code>--project [PATH]</code></p>
+<p>Specifies which project to run. Can be a path to project.json or to a directory containing a project.json. Defaults to
+current directory if not specified. </p>
+<h2 id="examples">EXAMPLES</h2>
+<p><code>dotnet run</code></p>
+<p>Run the project in the current directory. </p>
+<p><code>dotnet run --project /projects/proj1/project.json</code></p>
+<p>Run the project specified.</p>
+<p><code>dotnet run --configuration Release -- --help</code></p>
+<p>Run the project in the current directory. The <code>--help</code> argument above will be passed to the application being run, since 
+we used the <code>--</code> argument. </p>
 
             </article>
           </div>

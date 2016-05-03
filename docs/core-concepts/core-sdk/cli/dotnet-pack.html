@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>.NET Command Line Interface Tools | CoreCLR site </title>
+    <title>dotnet-pack | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=".NET Command Line Interface Tools | CoreCLR site ">
+    <meta name="title" content="dotnet-pack | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -66,24 +66,54 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content">
-              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/index.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-net-command-line-interface-tools">.NET Command Line Interface Tools</h1>
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/dotnet-pack.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="dotnet-pack">dotnet-pack</h1>
               
-<ul>
-<li><a href="overview.html">Overview</a></li>
-<li><a href="extensibility.html">.NET Core Command Line tools extensibility</a></li>
-<li><a href="using-ci-with-cli.html">Using .NET Core CLI tools in Continuous Integration</a></li>
-<li><a href="dotnet.html">dotnet</a></li>
-<li><a href="dotnet-new.html">dotnet-new</a></li>
-<li><a href="dotnet-restore.html">dotnet-restore</a></li>
-<li><a href="dotnet-run.html">dotnet-run</a></li>
-<li><a href="dotnet-build.html">dotnet-build</a></li>
-<li><a href="dotnet-test.html">dotnet-test</a></li>
-<li><a href="dotnet-pack.html">dotnet-pack</a></li>
-<li><a href="dotnet-publish.html">dotnet-publish</a></li>
-<li><a href="dotnet-install-script.html">dotnet-install-script</a></li>
-</ul>
-
+<h2 id="name">NAME</h2>
+<p><code>dotnet-pack</code> - packs the code into a NuGet package</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>dotnet-pack [--output]<br>    [--no-build] [--build-base-path]<br>    [--configuration]  [--version-suffix]
+    [&lt; project &gt;]  </p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>dotnet-pack</code> builds the project and creates NuGet packages. The result of this operation is two packages 
+with the extension of <code>nupkg</code>. One package contains the code and another contains the debug symbols. </p>
+<p>NuGet dependencies of the project being packed are added to the nuspec file so they are able to be resolved when the 
+package is installed. Project-to-project references are not packaged inside the project by default. If you wish to do 
+this, you need to reference the required project in your dependencies node with a <code>type</code> set to &quot;build&quot;:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;1.0.0-*&quot;,
+    &quot;dependencies&quot;: {
+        &quot;ProjectA&quot;: {
+            &quot;target&quot;: &quot;project&quot;,
+            &quot;type&quot;: &quot;build&quot;
+        }
+    }
+}
+</code></pre>
+<p><code>dotnet-pack</code> will by default build the project. If you wish to avoid this pass the <code>--no-build</code> option. This would be 
+useful in CI build scenarios in which you know the code was just previously built. </p>
+<h2 id="options">OPTIONS</h2>
+<p><code>[project]</code> </p>
+<p>The project to pack. It can be either a path to a <code>project.json</code> file or a path to a directory. If omitted, will
+default to the current directory. </p>
+<p><code>-o</code>, <code>--output</code> [DIR]</p>
+<p>Place the built packages in the directory specified. </p>
+<p><code>--no-build</code></p>
+<p>Skip the building phase of the packing process. </p>
+<p><code>--build-base-path</code></p>
+<p>Place the temporary build artifacts in the specified directory. By default, they go to obj directory in the current directory. </p>
+<p><code>-c</code>, <code>--configuration [Debug|Release]</code></p>
+<p>Configuration to use when building the project. If not specified, will default to &quot;Debug&quot;.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><code>dotnet-pack</code></p>
+<pre><code>Pack the current project.
+</code></pre><p><code>dotnet-pack ~/projects/app1/project.json</code></p>
+<pre><code>Pack the app1 project.
+</code></pre><p><code>dotnet-pack --output nupkgs</code></p>
+<pre><code>Pack the current application and place the resulting packages into the specified folder.
+</code></pre><p><code>dotnet-pack --no-build --output nupkgs</code></p>
+<pre><code>Pack the current project into the specified folder and skip the build step.
+</code></pre>
             </article>
           </div>
           

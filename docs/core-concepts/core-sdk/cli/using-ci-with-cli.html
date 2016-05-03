@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>.NET Command Line Interface Tools | CoreCLR site </title>
+    <title>Using .NET Core SDK and tools in Continuous Integration (CI) | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=".NET Command Line Interface Tools | CoreCLR site ">
+    <meta name="title" content="Using .NET Core SDK and tools in Continuous Integration (CI) | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -66,23 +66,50 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content">
-              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/index.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-net-command-line-interface-tools">.NET Command Line Interface Tools</h1>
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/using-ci-with-cli.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="using-net-core-sdk-and-tools-in-continuous-integration-ci-">Using .NET Core SDK and tools in Continuous Integration (CI)</h1>
               
-<ul>
-<li><a href="overview.html">Overview</a></li>
-<li><a href="extensibility.html">.NET Core Command Line tools extensibility</a></li>
-<li><a href="using-ci-with-cli.html">Using .NET Core CLI tools in Continuous Integration</a></li>
-<li><a href="dotnet.html">dotnet</a></li>
-<li><a href="dotnet-new.html">dotnet-new</a></li>
-<li><a href="dotnet-restore.html">dotnet-restore</a></li>
-<li><a href="dotnet-run.html">dotnet-run</a></li>
-<li><a href="dotnet-build.html">dotnet-build</a></li>
-<li><a href="dotnet-test.html">dotnet-test</a></li>
-<li><a href="dotnet-pack.html">dotnet-pack</a></li>
-<li><a href="dotnet-publish.html">dotnet-publish</a></li>
-<li><a href="dotnet-install-script.html">dotnet-install-script</a></li>
-</ul>
+<h2 id="overview">Overview</h2>
+<p>This document outlines the usage of .NET Core SDK and its tools on the build server. In general, on a CI build server, 
+you want to automate the installation in some way. The automation, ideally, should not require administrative 
+privileges if at all possible. </p>
+<p>For SaaS CI solutions, there are several options. This document will cover two very popular ones, <a href="https://travis-ci.org/">TravisCI</a> and 
+<a href="https://www.appveyor.com/">AppVeyor</a>. There are, of course, many other services out there, but the installation and 
+usage mechanisms should be similar.</p>
+<h2 id="installation-options-for-ci-build-servers">Installation options for CI build servers</h2>
+<h2 id="using-the-native-installers">Using the native installers</h2>
+<p>If using installers that require administrative privileges is not something that presents a problem, native installers for 
+each platform can be used to set up the build server. This approach, especially in the case of Linux build servers, has 
+one advantage which is automatic installing of dependencies needed for the SDK to run. The native installers will also 
+install a system-wide version of the SDK, which may be desired; if its not, you should look into the 
+<a href="#using-the-installer-script">installer script usage</a> outlined below. </p>
+<p>Using this approach is simple. For Linux, there is a choice of using a feed-based package manager, such as <code>apt-get</code> for 
+Ubuntu or <code>yum</code> for CentOS, or using the packages themselves (that is, DEB or RPM). The former would require setting up the 
+feed that contains the packages.</p>
+<p>For Windows platforms, you can use the MSI. </p>
+<p>All of the binaries can be found on the <a href="https://aka.ms/dotnetcoregs">.NET Core getting started page</a> which points to the 
+latest stable releases. If you wish to use newer (and potentially unstable) releases or the latest, you can use the 
+links from the <a href="https://github.com/dotnet/cli">CLI repo</a>. </p>
+<h2 id="using-the-installer-script">Using the installer script</h2>
+<p>Using the installer script allows for non-administrative installation on your build server. It also allows a very easy 
+automation. The script itself will download the ZIP/tarball files needed and will unpack them; it will also add the 
+install location on the local machine to the PATH so that the tools become available for invocation immediately 
+post-install. </p>
+<p>The installer script can easily be automated at the start of the build to fetch and install the needed version of the SDK. 
+The &quot;needed version&quot; is whatever version application being built requires. You can choose the installation path so you 
+can install the SDK locally and then clean up after the build completes. This brings additional encapsulation and 
+atomicity to the build process. </p>
+<p>The installation script reference can be found in the <a href="dotnet-install-script.html">dotnet-install</a> document. </p>
+<h3 id="dealing-with-the-dependencies">Dealing with the dependencies</h3>
+<p>Using the installer script means that the native dependencies are not installed automatically and that you have to 
+install them if the operating system you are installing on already doesn&#39;t have them. You can see the list of prerequisites 
+in the <a href="https://github.com/dotnet/cli/blob/rel/1.0.0/Documentation/cli-prerequisites.md">CLI repo</a>. </p>
+<h2 id="ci-services-setup-examples">CI services setup examples</h2>
+<p>The below sections show examples of configurations using the mentioned CI SaaS offerings. </p>
+<h3 id="travisci">TravisCI</h3>
+<p><strong>TODO</strong></p>
+<h3 id="appveyor">AppVeyor</h3>
+<p><strong>TODO</strong></p>
 
             </article>
           </div>

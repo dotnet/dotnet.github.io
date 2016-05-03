@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>.NET Command Line Interface Tools | CoreCLR site </title>
+    <title>dotnet-publish | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=".NET Command Line Interface Tools | CoreCLR site ">
+    <meta name="title" content="dotnet-publish | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -66,23 +66,53 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content">
-              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/index.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-net-command-line-interface-tools">.NET Command Line Interface Tools</h1>
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/core-sdk/cli/dotnet-publish.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="dotnet-publish">dotnet-publish</h1>
               
-<ul>
-<li><a href="overview.html">Overview</a></li>
-<li><a href="extensibility.html">.NET Core Command Line tools extensibility</a></li>
-<li><a href="using-ci-with-cli.html">Using .NET Core CLI tools in Continuous Integration</a></li>
-<li><a href="dotnet.html">dotnet</a></li>
-<li><a href="dotnet-new.html">dotnet-new</a></li>
-<li><a href="dotnet-restore.html">dotnet-restore</a></li>
-<li><a href="dotnet-run.html">dotnet-run</a></li>
-<li><a href="dotnet-build.html">dotnet-build</a></li>
-<li><a href="dotnet-test.html">dotnet-test</a></li>
-<li><a href="dotnet-pack.html">dotnet-pack</a></li>
-<li><a href="dotnet-publish.html">dotnet-publish</a></li>
-<li><a href="dotnet-install-script.html">dotnet-install-script</a></li>
+<h2 id="name">NAME</h2>
+<p><code>dotnet-publish</code> - packs the application and all of its dependencies into a folder getting it ready for publishing</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>dotnet-publish [--framework]<br>    [--runtime] [--build-base-path] [--output]<br>    [--version-suffix] [--configuration]<br>    [&lt; project &gt;]  </p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>dotnet-publish</code> compiles the application, reads through its dependencies specified in <code>project.json</code> and publishes the resulting set of files to a directory. </p>
+<p>Depending on the type of portable app, the directory contains the following:</p>
+<ol>
+<li><strong>Portable application</strong> - application&#39;s intermediate language (IL) code and all of application&#39;s managed dependencies.<ul>
+<li><strong>Portable application with native dependencies</strong> - as above with a sub-directory for the supported platform of each native
+dependency. </li>
 </ul>
+</li>
+<li><strong>Self-contained application</strong> - it contains the same as above plus the entire runtime for the targeted platform.</li>
+</ol>
+<p>The above types are covered in more details in the <a href="../../app-types.html">types of portable applications</a> document. </p>
+<h2 id="options">OPTIONS</h2>
+<p><code>[project]</code> </p>
+<p><code>dotnet-publish</code> needs access to <code>project.json</code> to work. If it is not specified on invocation via [project], 
+<code>project.json</code> in the current directory will be the default.<br>If no <code>project.json</code> can be found, <code>dotnet-publish</code> will throw an error. </p>
+<p><code>-f</code>, <code>--framework</code> [FID]</p>
+<p>Publish the application for a given framework identifier (FID). If not specified, FID is read from <code>project.json</code>. In no valid framework is found, the command will throw an error. If multiple valid frameworks are found, the command will publish for all valid frameworks. </p>
+<p><code>-r</code>, <code>--runtime</code> [RID]</p>
+<p>Publish the application for a given runtime. </p>
+<p><code>-b</code>, <code>--build-base-path</code> [DIR]</p>
+<p>Directory in which to place temporary outputs</p>
+<p><code>-o</code>, <code>--output</code></p>
+<p>Specify the path where to place the directory. If not specified, will default to <em>./bin/[configuration]/[framework]/</em> 
+for portable applications. For self-contained applications, will default to <em>./bin/[configuration]/[framework]/[runtime]</em></p>
+<p>--version-suffix [VERSION_SUFFIX]</p>
+<p>Defines what <code>*</code> should be replaced with in the version field in project.json.</p>
+<p><code>-c</code>, <code>--configuration [Debug|Release]</code></p>
+<p>Configuration to use when publishing. If not specified, will default to &quot;Debug&quot;.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><code>dotnet publish</code></p>
+<p>Publish an application using the framework found in <code>project.json</code>. If <code>project.json</code> contains <code>runtimes</code> node, publish 
+for the RID of the current platform. </p>
+<p><code>dotnet publish ~/projects/app1/project.json</code></p>
+<p>Publish the application using the specified <code>project.json</code>.</p>
+<p><code>dotnet publish --framework netcoreapp1.0</code></p>
+<p>Publish the current application using the <code>netcoreapp1.0</code> framework.</p>
+<p><code>dotnet publish --framework netcoreapp1.0 --runtime osx.10.11-x64</code></p>
+<p>Publish the current application using the <code>netcoreapp1.0</code> framework and runtime for <code>OS X 10.10</code>. This RID has to 
+exist in the <code>project.json</code> <code>runtimes</code> node. </p>
 
             </article>
           </div>
