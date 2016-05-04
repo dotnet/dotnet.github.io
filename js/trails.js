@@ -1,7 +1,7 @@
 (function($, WOW, window){
 
 	function Trails() {
-		$(".trail-start").click(this.showTrail);
+		$(".trail-start, .trail-start-link").click(this.showTrail);
 		this.initTrail();
 	}
 
@@ -26,7 +26,9 @@
     }
 
 	Trails.prototype.showTrail = function(e) {
-		$(e.target).addClass("jquery-active");
+		if (!$(e.target).hasClass("trail-start-link")) {
+            $(e.target).addClass("jquery-active");
+        }
 		$(".trail-start").not(e.target).removeClass("jquery-active");
 		var activeTrail = "." + $(e.target).data("trailTarget");
 		// console.log(activeTrail);
