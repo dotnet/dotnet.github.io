@@ -59,3 +59,4 @@
 	new Trails();
 
 })($, WOW, window, undefined);
+
