@@ -5,36 +5,15 @@
 		this.initTrail();
 	}
 
-    //Trails.prototype.getSamples = function() {
-        //var self = this;
-        //var jsonUrl = "https://raw.githubusercontent.com/dotnet/core/master/samples/helloworld/project.json";
-        //var codeUrl = "https://raw.githubusercontent.com/dotnet/core/master/samples/helloworld/Program.cs";
-        //$.get(jsonUrl)
-            //.done(function(data) {
-                //$(".json-source").text(data);
-            //})
-            //.fail(function(data) {
-                //console.log(data);
-            //});
-        //$.get(codeUrl)
-            //.done(function(data) {
-                //$(".code-source").text(data);
-            //})
-            //.fail(function(data) {
-                //console.log(data);
-            //});
-    //}
-
 	Trails.prototype.showTrail = function(e) {
-        console.log($(e.target).prop("tagName"));
-		//if (!$(e.target).hasClass("trail-start-link")) {
-            //$(e.target).addClass("jquery-active");
-        //}
-		if (!$(e.target).hasClass("trail-start-link")) {
+		if ($(e.target).prop("tagName").toLowerCase() === "button") {
             $(e.target).addClass("jquery-active");
         }
 		$(".trail-start").not(e.target).removeClass("jquery-active");
-		var activeTrail = "." + $(e.target).data("trailTarget");
+        var trailTarget = $(e.target).data("trailTarget");
+        console.log(trailTarget);
+        window.location.hash = trailTarget;
+		var activeTrail = "." + trailTarget;
 		// console.log(activeTrail);
 		$(".step").not(activeTrail).addClass("step-none");
 		$("#step-final").addClass("step-none");
@@ -44,6 +23,11 @@
 		// console.log($(activeTrail));
 
 	}
+
+    Trails.prototype.setHash = function(hash) {
+        console.log(hash);
+        window.location.hash = hash;
+    }
 
 	Trails.prototype.initTrail = function(){
         //this.getSamples();
@@ -56,7 +40,7 @@
                 case "windows": 
                     startTrail = "windows-trail";
                     break;
-                case "osx":
+                case "macosx":
                     startTrail = "macosx-trail";
                     break;
                 case "docker":
