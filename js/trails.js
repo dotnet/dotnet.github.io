@@ -1,39 +1,50 @@
 (function($, WOW, window){
 
 	function Trails() {
-		$(".trail-start").click(this.showTrail);
+        $(".trail-start").click(this, this.clickHandler);
+        $(window).on("popstate", "", this, this.navHandler);
 		this.initTrail();
 	}
 
-    function setHash(hash) {
-        console.log(hash);
-        window.location.hash = "/" + hash.split("-")[0];
+    Trails.prototype.navHandler = function(e) {
+        e.data.initTrail(e.type);
     }
 
-	Trails.prototype.showTrail = function(e) {
-		if ($(e.target).prop("tagName").toLowerCase() === "button") {
-            $(e.target).addClass("jquery-active");
+    Trails.prototype.setLocation = function(hash) {
+        window.history.pushState({id: 1}, "", "#/" + hash.split("-")[0]);
+    }
+
+	Trails.prototype.clickHandler = function(e) {
+        e.data.showTrails(e.target, e.type);
+	}
+
+    Trails.prototype.showTrails = function(target, event) {
+        $(target).addClass("jquery-active");
+		$(".trail-start").not(target).removeClass("jquery-active").blur();
+        var trailTarget = $(target).data("trailTarget");
+        if (event === "click") {
+            this.setLocation(trailTarget);
         }
-		$(".trail-start").not(e.target).removeClass("jquery-active");
-        var trailTarget = $(e.target).data("trailTarget");
-        setHash(trailTarget);
 		var activeTrail = "." + trailTarget;
 		$(".step").not(activeTrail).addClass("step-none");
 		$("#step-final").addClass("step-none");
 		$(activeTrail).removeClass("step-none").addClass("wow fadeInUp");
 		$("#step-final").removeClass("step-none").addClass("wow fadeInUp");
 		new WOW().init();
-	}
+    }
 
 
-	Trails.prototype.initTrail = function(){
+
+	Trails.prototype.initTrail = function(event){
+        if (typeof(event) === "undefined") {
+            event = "click";
+        }
         var hash = window.location.hash;
 		var startTrail = "";
         if (hash !== "" && hash.match(/#\/(.+)/)) {
             startTrail = hash.substr(2) + "-trail";
         } else {
             var osPlatform = window.navigator.platform;
-            // console.log("OS platform is " + osPlatform);
             if (osPlatform.indexOf("Win") != -1){
                 startTrail = "windows-trail";
             }else if (osPlatform.indexOf("Mac") != -1 || osPlatform.indexOf("iPhone") != -1) {
@@ -42,7 +53,7 @@
                 startTrail = "linux-trail";
             }
         }
-		$(".trail-start[data-trail-target='" + startTrail + "']").trigger("click");
+        this.showTrails(".trail-start[data-trail-target='" + startTrail + "']", event);
 	}
 
 	new Trails();
