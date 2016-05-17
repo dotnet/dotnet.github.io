@@ -71,33 +71,27 @@
               
 <p>By <a href="https://github.com/cartermp">Phillip Carter</a></p>
 <p><strong>Some details are subject to change as the toolchain evolves.</strong></p>
-<p>Targeting .NET Core for libraries can be done entirely with the .NET CLI tools, which are a foundational set of tools used by Visual Studio, ASP.NET, and other technologies.  They provide an efficient and low-level experience that works across any supported OS.  You can still build libraries with Visual Studio, and if that is your preferred experience then you should <a href="libraries-with-vs.html">refer to the Visual Studio guide</a>.  This document will focus on using the CLI tools directly.</p>
+<p>Targeting .NET Core for libraries can be done entirely with the .NET CLI tools, which are a foundational set of tools used by Visual Studio and ASP.NET Core.  They provide an efficient and low-level experience that works across any supported OS.  You can still build libraries with Visual Studio, and if that is your preferred experience then you should <a href="libraries-with-vs.html">refer to the Visual Studio guide</a>.  This document will focus on using the CLI tools directly.</p>
 <ul>
-<li><a href="#prerequisites">Prerequisities</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
 <li><a href="#how-to-target-net-core">How to target .NET Core</a></li>
-<li><a href="#how-to-target-net-framework">How to target .NET Framework</a></li>
-<li><a href="#how to target a portable class-library-pcl">How to target a Portable Class Library (PCL)</a></li>
-<li><a href="#how-to-cross-compile-for-net-core-and-net-framework">How to cross-compile for .NET Core and .NET Framework</a></li>
+<li><a href="#how-to-target-the-net-framework">How to target the .NET Framework</a></li>
+<li><a href="#how-to-target-a-portable-class-library-pcl">How to target a Portable Class Library (PCL)</a></li>
+<li><a href="#how-to-multitarget">How to multitarget</a></li>
+<li><a href="#how-to-use-native-dependencies">How to use native dependencies</a></li>
 <li><a href="#how-to-test-libraries-on-net-core">How to test libraries on .NET Core</a></li>
+<li><a href="#how-to-use-multiple-projects">How to use multiple projects</a></li>
 <li><a href="#how-to-create-a-nuget-package-with-your-library">How to create a NuGet Package with your Library</a></li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>You must have .NET Core installed on your machine.  You have two options:</p>
-<ul>
-<li><p><a href="http://aspnet.readthedocs.org/en/latest/getting-started/index.html">DNX</a>, which is part of ASP.NET 5 RC1 and is included in Visual Studio Update 1.</p>
-</li>
-<li><p><a href="http://dotnet.github.io/getting-started/">.NET CLI</a>, which will be used by .NET Core and ASP.NET RC2 and will replace DNX.</p>
-</li>
-</ul>
-<p>Either toolchain can be used to build and publish libraries today.</p>
-<p>The sections of this document dealing with .NET Framework versions or Portable Class Libraries (PCLs) need the .NET Framework installed.  This is only supported on Windows.</p>
-<p>To do this, <a href="http://getdotnet.azurewebsites.net">install the .NET Framework</a>.</p>
+<p>You must have .NET Core installed on your machine.  You will need <a href="https://www.microsoft.com/net/core">the .NET Core SDK and CLI</a>.</p>
+<p>The sections of this document dealing with the .NET Framework versions or Portable Class Libraries (PCL) need the .NET Framework installed.  They are only supported on Windows.  To do this, <a href="http://getdotnet.azurewebsites.net">install the .NET Framework</a>.</p>
 <p>Additionally, if you wish to support older targets, you will need to install targeting/developer packs for older framework versions from the <a href="http://getdotnet.azurewebsites.net/target-dotnet-platforms.html">target platforms page</a>.  Refer to this table:</p>
 <table>
 <thead>
 <tr>
 <th>.NET Framework Version</th>
-<th>Thing to download</th>
+<th>What to download</th>
 </tr>
 </thead>
 <tbody>
@@ -122,76 +116,49 @@
 <td>Windows SDK for Windows 7 and .NET Framework 4</td>
 </tr>
 <tr>
-<td>2.0 and 3.5</td>
+<td>2.0, 3.0, and 3.5</td>
 <td>.NET Framework 3.5 SP1 Runtime (or Windows 8+ version)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="how-to-target-net-core">How to target .NET Core</h2>
-<p>For the purposes of building a library, targeting &quot;.NET Core&quot; means targeting the .NET Platform Standard.  To see what that means exactly, see <a href="https://github.com/dotnet/corefx/blob/master/Documentation/project-docs/standard-platform.md">.NET Platform Standard</a>.</p>
-<p>Note that as of this time, <code>netstandardX.X</code> is not supported.  You&#39;ll have to use the <code>dotnet</code> monikers.  Here&#39;s a mapping:</p>
-<table>
-<thead>
-<tr>
-<th>dotnet</th>
-<th>netstandard</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>dotnet51</td>
-<td>netstandard1.0</td>
-</tr>
-<tr>
-<td>dotnet52</td>
-<td>netstandard1.1</td>
-</tr>
-<tr>
-<td>dotnet53</td>
-<td>netstandard1.2</td>
-</tr>
-<tr>
-<td>dotnet54</td>
-<td>netstandard1.3</td>
-</tr>
-<tr>
-<td>dotnet55</td>
-<td>netstandard1.4</td>
-</tr>
-</tbody>
-</table>
+<p>For the purposes of building a library, targeting &quot;.NET Core&quot; means targeting the .NET Platform Standard.  To see what that means exactly, see <a href="https://github.com/dotnet/corefx/blob/master/Documentation/architecture/net-platform-standard.md">.NET Platform Standard</a>.</p>
 <p>The following is what you need to know about .NET Platform Standard targeting:</p>
-<p>The version of the .NET Platform Standard you pick will be a tradeoff between access to the newest APIs and ability to target more .NET platforms and Framework versions.  You can do that by picking a version of <code>dotnetXX</code> (Where <code>XX</code> is a version number) and adding it to your <code>project.json</code> file.</p>
+<p>The version of the .NET Platform Standard you pick will be a tradeoff between access to the newest APIs and ability to target more .NET platforms and Framework versions.  You can do that by picking a version of <code>netstandardXX</code> (Where <code>XX</code> is a version number) and adding it to your <code>project.json</code> file.</p>
+<p>Additionally, the corresponding <a href="https://www.nuget.org/packages/NETStandard.Library/">NuGet package to depend on</a> is <code>NETStandard.Library</code> version <code>1.5.0-rc2-24027</code>.  Although there&#39;s nothing preventing you from depending on <code>Microsoft.NETCore.App</code> like with console apps, it&#39;s generally not recommended.  If you need APIs from a package not specified in <code>NETStandard.Library</code>, you can always specify that package in addition to <code>NETStandard.Library</code> in the <code>dependencies</code> section of your <code>project.json</code> file.</p>
+<p>You have three primary options when targeting .NET Core, depending on your needs.</p>
 <ol>
-<li>You can use the latest version of the .NET Platform Standard - <code>dotnet55</code> - which is for when you want access to the most APIs and don&#39;t want to worry about targeting anything other than .NET Core 1.0 or .NET Framework 4.6 and higher. </li>
+<li>You can use the latest version of the .NET Platform Standard - <code>netstandard1.5</code> - which is for when you want access to the most APIs and don&#39;t want to worry about targeting anything other than .NET Core 1.0 or the .NET Framework 4.6.2 and higher. </li>
 <li><p>You can use a lower version of the .NET Platform Standard to target earlier .NET platforms and versions. The cost here is not having access to some of the latest APIs. Example targets:</p>
 <ul>
 <li>.NET Framework 4.5.2, 4.5.1, or 4.5</li>
 <li>Windows Phone</li>
 <li>Windows Phone Silverlight</li>
 <li>Universal Windows Platform</li>
-<li>DNX Core</li>
 <li>Xamarin Platforms</li>
-<li><p>Mono </p>
-<p><a href="https://github.com/dotnet/corefx/blob/master/Documentation/project-docs/standard-platform.md#mapping-the-net-platform-standard-to-platforms">Refer to the platform mapping table</a> to choose the <code>dotnetXX</code> moniker you need to target.</p>
-<p>For example, if you wanted to have compatibility with .NET Core and .NET Framework 4.6, you would pick <code>dotnet54</code>.</p>
-<pre><code class="lang-javascript">{
+<li><p>Mono</p>
+<p><a href="https://github.com/dotnet/corefx/blob/master/Documentation/architecture/net-platform-standard.md#mapping-the-net-platform-standard-to-platforms">Refer to the platform mapping table</a> to choose the <code>netstandardXX</code> moniker you need to target.</p>
+<p>For example, if you wanted to have compatibility with .NET Core and .NET Framework 4.6, you would pick <code>netstandard1.3</code>.</p>
+<pre><code class="lang-json">{
+  &quot;dependencies&quot;:{
+      &quot;NETStandard.Library&quot;:&quot;1.5.0-rc2-24027&quot;
+  },
   &quot;frameworks&quot;:{
-      &quot;dotnet54&quot;:{}
+      &quot;netstandard1.3&quot;:{}
   }
 }
 </code></pre>
-<p>For example, you need to target <code>dotnet51</code> to support Windows Phone Silverlight 8. The .NET Platform Standard versions in a backward-compatible way. That means that <code>dotnet51</code> libraries run on <code>dotnet52</code> platforms and later (e.g. .NET Framework 4.6 and .NET Core). When targeting <code>dotnet51</code>, you get the benefit of more platform reach than <code>dotnet52</code> but have access to fewer APIs. Each .NET Platform Standard version adds APIs and drops platforms. You should select the Standard version that has the right mix of APIs and platform support for your needs.</p>
+<p>The .NET Platform Standard versions in a backward-compatible way. That means that <code>netstandard1.0</code> libraries run on <code>netstandard1.1</code> platforms and higher. When targeting <code>netstandard1.0</code>, you get the benefit of more platform reach than <code>netstandard1.1</code> but have access to fewer APIs. Each .NET Platform Standard version adds APIs and drops platforms. You should select the Standard version that has the right mix of APIs and platform support for your needs.</p>
 </li>
 </ul>
 </li>
-<li><p>If you want to target the .NET Framework versions 4.0 or below, or you wish to use an API available in .NET Framework but not in .NET Core (e.g. <code>System.Drawing</code>), you&#39;ll need to read the next sections.</p>
+<li><p>If you want to target the .NET Framework versions 4.0 or below, or you wish to use an API available in the .NET Framework but not in .NET Core (for example, <code>System.Drawing</code>), read the following sections and learn how to multitarget.</p>
 </li>
 </ol>
-<h2 id="how-to-target-net-framework">How to target .NET Framework</h2>
-<p><strong>NOTE:</strong> These instructions assume you have .NET Framework installed on your machine.  Refer to the <a href="#prerequisites">Prerequisites</a> to get dependencies installed.</p>
-<p>Keep in mind that some of the .NET Framework versions used here are no longer in support.  <a href="https://support.microsoft.com/gp/framework_faq/en-us">Refer to this FAQ</a> about unsupported versions.</p>
-<p>You may want to reach the maximum developers and projects, so use .NET Framework 4 as your baseline target.  From a project targeting perspective, this is quite simple!  You will need to specifically target the version of .NET Framework with its relevant Target Framework Moniker.  These are mapped out here:</p>
+<h2 id="how-to-target-the-net-framework">How to target the .NET Framework</h2>
+<p><strong>NOTE:</strong> These instructions assume you have the .NET Framework installed on your machine.  Refer to the <a href="#prerequisites">Prerequisites</a> to get dependencies installed.</p>
+<p>Keep in mind that some of the .NET Framework versions used here are no longer in support.  Refer to the <a href="https://support.microsoft.com/gp/framework_faq/en-us">.NET Framework Support Lifecycle Policy FAQ</a> about unsupported versions.</p>
+<p>If you want to reach the maximum developers and projects, use the .NET Framework 4 as your baseline target. To target the .NET Framework, you will need to begin by using the correct Target Framework Moniker (TFM) that corresponds to the .NET Framework version you wish to support.</p>
 <pre><code>.NET Framework 2.0   --&gt; net20
 .NET Framework 3.0   --&gt; net30
 .NET Framework 3.5   --&gt; net35
@@ -201,24 +168,26 @@
 .NET Framework 4.5.2 --&gt; net452
 .NET Framework 4.6   --&gt; net46
 .NET Framework 4.6.1 --&gt; net461
-</code></pre><p>For example, here&#39;s how you would write a library which targets .NET Framework 4.0:</p>
-<pre><code class="lang-javascript">{
+.NET Framework 4.6.2 --&gt; net462
+</code></pre><p>For example, here&#39;s how you would write a library which targets the .NET Framework 4:</p>
+<pre><code class="lang-json">{
     &quot;frameworks&quot;:{
         &quot;net40&quot;:{}
     }
 }
 </code></pre>
-<p>And that&#39;s it!  Although this compiled only for .NET Framework 4.0, you can use the library on newer versions of .NET Framework.</p>
+<p>And that&#39;s it!  Although this compiled only for the .NET Framework 4, you can use the library on newer versions of the .NET Framework.</p>
 <h2 id="how-to-target-a-portable-class-library-pcl-">How to target a Portable Class Library (PCL)</h2>
-<p><strong>NOTE:</strong> These instructions assume you have .NET Framework installed on your machine.  Refer to the <a href="#prerequisites">Prerequisites</a> to get dependencies installed.</p>
-<p>Targeting a PCL profile is a bit trickier.  For starters, <a href="http://embed.plnkr.co/03ck2dCtnJogBKHJ9EjY/preview">reference this list of PCL profiles</a> to make sure you have the correct target.  Hover over the name of each entry for the framework identifier, which you will need.</p>
-<p>You will then need to do two things:</p>
+<p><strong>NOTE:</strong> These instructions assume you have the .NET Framework installed on your machine.  Refer to the <a href="#prerequisites">Prerequisites</a> to get dependencies installed.</p>
+<p>Targeting a PCL profile is a bit trickier than targeting .NET Standard or the .NET Framework.  For starters, <a href="http://embed.plnkr.co/03ck2dCtnJogBKHJ9EjY/preview">reference this list of PCL profiles</a> to find the NuGet target which corresponds to the PCL profile you are targeting.</p>
+<p>Then, you need to do the following:</p>
 <ol>
-<li>List the dependencies for each target <em>inside</em> of that target&#39;s node in the <code>project.json</code>.  The &quot;global&quot; <code>dependencies</code> section cannot be used because these dependencies are framework-specific.</li>
-<li>List the framework assemblies you are using in your code <em>inside</em> the <code>frameworkAssemblies</code> node.  This will require, at a minimum, <code>mscorlib</code>, <code>System</code>, and <code>System.Core</code>.  For other APIs (such as <code>System.Linq</code>), you will need to find the assembly which corresponds to the API call you&#39;re using.  You&#39;ll need to then manually list that assembly.</li>
+<li>Create a new entry under <code>frameworks</code> in your <code>project.json</code>, named <code>.NETPortable,Version=v{version},Profile=Profile{profile}</code>, where <code>{version}</code> and <code>{profile}</code> correspond to a PCL version number and Profile number, respectively.</li>
+<li>In this new entry, list every single assembly used for that target under a <code>frameworkAssemblies</code> entry.  This includes <code>mscorlib</code>, <code>System</code>, and <code>System.Core</code>.</li>
+<li>If you are multitargeting (see the next section), you must explicitly list dependencies for each target under their target entries.  You won&#39;t be able to use a global <code>dependencies</code> entry anymore.</li>
 </ol>
-<p>Here is an example targeting PCL Profile 328. Profile 328 supports: .NET Standard 1.4, .NET Framework 4.0, Windows 8, Windows Phone 8.1, Windows Phone Silverlight 8.1, and Silverlight 5.0.</p>
-<pre><code>{
+<p>The following is an example targeting PCL Profile 328. Profile 328 supports: .NET Standard 1.4, .NET Framework 4, Windows 8, Windows Phone 8.1, Windows Phone Silverlight 8.1, and Silverlight 5.</p>
+<pre><code class="lang-json">{
     &quot;frameworks&quot;:{
         &quot;.NETPortable,Version=v4.0,Profile=Profile328&quot;:{
             &quot;frameworkAssemblies&quot;:{
@@ -229,25 +198,21 @@
         }
     }
 }
-</code></pre><p>You can now build.</p>
-<p>Using DNX:</p>
-<pre><code>$ dnu restore
-$ dnu build
-</code></pre><p>Using .NET CLI:</p>
+</code></pre>
+<p>You can now build.</p>
 <pre><code>$ dotnet restore
-$ dotnet compile
-</code></pre><p>You will now notice two new entries in your <code>/bin/Debug</code> folder:</p>
-<pre><code>/bin
-   /Debug
-      /dotnet55
-      /portable-net40+sl50+netcore45+wpa81+wp8
-</code></pre><p>Each folder contains distinct <code>.dll</code> files corresponding to their named target.</p>
-<h2 id="how-to-cross-compile-for-net-core-and-net-framework">How to cross-compile for .NET Core and .NET Framework</h2>
-<p><strong>NOTE:</strong> These instructions assume you have .NET Framework installed on your machine.  Refer to the <a href="#prerequisites">Prerequisites</a> to get dependencies installed.</p>
-<p>You may need to support older versions of .NET Framework when supporting both .NET Framework and .NET Core.  You may also wish to use newer APIs and language constructs for newer targets.  You can do this by using <code>#if</code> directives.</p>
-<p>For example, in .NET Core and .NET Framework versions 4.5 and higher, you can use <code>HttpClient</code> class from the <code>System.Net.Http</code> namespace to perform network operations over HTTP.  However, earlier versions of .NET Framework don&#39;t have <code>HttpClient</code>.  Instead, you may wish to use <code>WebClient</code> from <code>System.Net</code> instead.</p>
-<p>First, the <code>project.json</code> file should look something like this:</p>
-<pre><code class="lang-javascript">{
+$ dotnet build
+</code></pre><p>Notice the following entry in the <code>/bin/Debug</code> folder:</p>
+<pre><code>$ ls bin/Debug
+
+portable-net40+sl50+netcore45+wpa81+wp8/
+</code></pre><p>This folder contains the <code>.dll</code> files necessary to run your library.</p>
+<h2 id="how-to-multitarget">How to Multitarget</h2>
+<p><strong>NOTE:</strong> These following instructions assume you have the .NET Framework installed on your machine.  Refer to the <a href="#prerequisites">Prerequisites</a> section to learn which dependencies you need to install and where to download them from.</p>
+<p>You may need to target older versions of the .NET Framework when your project supports both the .NET Framework and .NET Core. In this scenario, if you want to use newer APIs and language constructs for the newer targets, use <code>#if</code> directives in your code. You also might need to add different packages and dependencies in your <code>project.json file</code> for each platform you&#39;re targeting to include the different APIs needed for each case.</p>
+<p>For example, let&#39;s say you have a library that performs networking operations over HTTP. For .NET Core and the .NET Framework versions 4.5 or higher, you can use the <code>HttpClient</code> class from the <code>System.Net.Http</code> namespace. However, earlier versions of the .NET Framework don&#39;t have the <code>HttpClient</code> class, so you could use the <code>WebClient</code> class from the <code>System.Net</code> namespace for those instead.</p>
+<p>So, the <code>project.json</code> file could look like this:</p>
+<pre><code class="lang-json">{
     &quot;frameworks&quot;:{
         &quot;net40&quot;:{
             &quot;frameworkAssemblies&quot;: {
@@ -263,21 +228,18 @@ $ dotnet compile
                 &quot;System.Threading.Tasks&quot;:&quot;&quot;
             }
         },
-        &quot;dotnet55&quot;:{
+        &quot;netstandard1.5&quot;:{
             &quot;dependencies&quot;: {
-                &quot;System.Runtime&quot;:&quot;4.0.0-rc1-*&quot;,
-                &quot;System.Net.Http&quot;: &quot;4.0.1-beta-23409&quot;,
-                &quot;System.Text.RegularExpressions&quot;: &quot;4.0.11-beta-23409&quot;,
-                &quot;System.Threading.Tasks&quot;: &quot;4.0.11-beta-23409&quot;
+                &quot;NETStandard.Library&quot;:&quot;1.5.0-rc2&quot;,
             }
         }
     }
 }
 </code></pre>
-<p>Note that .NET Framework assemblies being used are explicitly referenced in the <code>net40</code> and <code>net452</code> target, and NuGet references are also explicitly listed in the <code>dotnet55</code> target.  This is required when cross-compiling with <code>#if</code> directives.</p>
-<p>Next, your <code>using</code> directives in your source file can be adjusted like this:</p>
+<p>Note that the .NET Framework assemblies need to be referenced explicitly in the <code>net40</code> and <code>net452</code> target, and NuGet references are also explicitly listed in the <code>netstandard1.5</code> target.  This is required in multitargeting scenarios.</p>
+<p>Next, the <code>using</code> statements in your source file can be adjusted like this:</p>
 <pre><code class="lang-csharp">#if NET40
-// This only compiles for non-.NET 4.0 targets
+// This only compiles for the .NET Framework 4 targets
 using System.Net;
 #else
 // This compiles for all other targets
@@ -285,15 +247,23 @@ using System.Net.Http;
 using System.Threading.Tasks;
 #endif
 </code></pre>
-<p>The compiler is aware of the following names:</p>
-<pre><code>NET20  --&gt;  .NET Framework 2.0
-NET35  --&gt;  .NET Framework 3.5
-NET40  --&gt;  .NET Framework 4.0
-NET45  --&gt;  .NET Framework 4.5
-NET451 --&gt;  .NET Framework 4.5.1
-NET452 --&gt;  .NET Framework 4.5.2
-NET46  --&gt;  .NET Framework 4.6
-</code></pre><p>And further down in the source, you can use <code>#if</code> directives to use those libraries conditionally:</p>
+<p>The build system is aware of the following preprocessor symbols used in <code>#if</code> directives:</p>
+<pre><code>.NET Framework 2.0   --&gt; NET20
+.NET Framework 3.5   --&gt; NET35
+.NET Framework 4.0   --&gt; NET40
+.NET Framework 4.5   --&gt; NET45
+.NET Framework 4.5.1 --&gt; NET451
+.NET Framework 4.5.2 --&gt; NET452
+.NET Framework 4.6   --&gt; NET46
+.NET Framework 4.6.1 --&gt; NET461
+.NET Framework 4.6.2 --&gt; NET462
+.NET Standard 1.0    --&gt; NETSTANDARD1_0
+.NET Standard 1.1    --&gt; NETSTANDARD1_1
+.NET Standard 1.2    --&gt; NETSTANDARD1_2
+.NET Standard 1.3    --&gt; NETSTANDARD1_3
+.NET Standard 1.4    --&gt; NETSTANDARD1_4
+.NET Standard 1.5    --&gt; NETSTANDARD1_5
+</code></pre><p>And in the middle of the source, you can use <code>#if</code> directives to use those libraries conditionally. For example:</p>
 <pre><code class="lang-csharp">    public class Library
     {
 #if NET40
@@ -304,7 +274,7 @@ NET46  --&gt;  .NET Framework 4.6
 #endif
 
 #if NET40
-        // .NET 4.0 does not have async/await
+        // .NET Framework 4.0 does not have async/await
         public string GetDotNetCount()
         {
             string url = &quot;http://www.dotnetfoundation.org/&quot;;
@@ -339,21 +309,27 @@ NET46  --&gt;  .NET Framework 4.6
 #endif
     }
 </code></pre>
-<p>And that&#39;s it!</p>
-<h3 id="but-what-about-portable-class-libraries-pcl-">But What about Portable Class Libraries (PCL)?</h3>
-<p>If you want to cross-compile with a PCL target, you&#39;ll need to do one more thing before using <code>#if</code> directives to conditionally compile different targets: You&#39;ll need to add a compilation definition in your <code>project.json</code> file in order to target a PCL with #if directives in the source code.</p>
-<p>For example, if you wanted to target <a href="http://embed.plnkr.co/03ck2dCtnJogBKHJ9EjY/preview">PCL profile 328</a> (.NET 4.0, Windows 8, Windows Phone Silverlight 8, Windows Phone 8.1, Silverlight 5.0), you may want to refer to it to as &quot;PORTABLE328&quot; when cross-compiling.  Simply add it to the <code>project.json</code> file as a <code>compilationOptions</code> attribute:</p>
-<pre><code>{
+<p>Now you can build.</p>
+<pre><code>$ dotnet restore
+$ dotnet build
+</code></pre><p>Your <code>/bin/Debug</code> folder will look like this:</p>
+<pre><code>$ ls bin/Debug
+
+net40/
+net45/
+netstandard1.5/
+</code></pre><h3 id="but-what-about-multitargeting-with-portable-class-libraries-">But What about Multitargeting with Portable Class Libraries?</h3>
+<p>If you want to cross-compile with a PCL target, you must add a build definition in your <code>project.json</code> file under <code>buildOptions</code> in your PCL target.  You can then use <code>#if</code> directives in the source which use the build definition as a preprocessor symbol.</p>
+<p>For example, if you want to target <a href="http://embed.plnkr.co/03ck2dCtnJogBKHJ9EjY/preview">PCL profile 328</a> (The .NET Framework 4, Windows 8, Windows Phone Silverlight 8, Windows Phone 8.1, Silverlight 5), you could to refer to it to as &quot;PORTABLE328&quot; when cross-compiling.  Simply add it to the <code>project.json</code> file as a <code>buildOptions</code> attribute:</p>
+<pre><code class="lang-json">{
     &quot;frameworks&quot;:{
-        &quot;dotnet55&quot;:{
+        &quot;netstandard1.5&quot;:{
            &quot;dependencies&quot;:{
-                &quot;System.Runtime&quot;:&quot;4.0.0-rc1-*&quot;,
-                &quot;System.Net.Http&quot;:&quot;4.0.0-rc1-*&quot;,
-                &quot;System.Thread.Tasks&quot;:&quot;4.0.0-rc1-*&quot;
+                &quot;NETStandard.Library&quot;:&quot;1.5.0-rc2-final&quot;,
             }
         },
         &quot;.NETPortable,Version=v4.0,Profile=Profile328&quot;:{
-            &quot;compilationOptions&quot;: {
+            &quot;buildOptions&quot;: {
                 &quot;define&quot;: [ &quot;PORTABLE328&quot; ]
             },
             &quot;frameworkAssemblies&quot;:{
@@ -365,173 +341,246 @@ NET46  --&gt;  .NET Framework 4.6
         }
     }
 }
-</code></pre><p>Now you can conditionally compile against that target:</p>
+</code></pre>
+<p>Now you can conditionally compile against that target:</p>
 <pre><code class="lang-csharp">#if !PORTABLE328
 using System.Net.Http;
 using System.Threading.Tasks;
 // Potentially other namespaces which aren&#39;t compatible with Profile 328
 #endif
 </code></pre>
-<p>And that&#39;s it! Because <code>PORTABLE328</code> is now recognized by the compiler, the PCL Profile 328 library generated by a compiler will not include <code>System.Net.Http</code> or <code>System.Threading.Tasks</code>.</p>
-<h2 id="how-to-use-multiple-projects">How to use multiple projects</h2>
-<p>A common need for larger libraries is to place functionality in different projects.  For example, a library supplying functionality to both C# and F# consumers may have a core project, a C# project, and an F# project.  Here&#39;s how a potential folder structure would look:</p>
-<pre><code>/MyLibrary
-|__global.json
-|__/MyLibrary.Core
-   |__Sources
-   |__project.json
-|__/MyLibrary.CSharp
-   |__Sources
-   |__project.json
-|__/MyLibrary.FSharp
-   |__Sources
-   |__project.json
-</code></pre><p>The <code>global.json</code> file would look like this:</p>
-<pre><code class="lang-javascript">{
-    &quot;projects&quot;:[
-        &quot;MyLibrary.Core&quot;,
-        &quot;MyLibrary.CSharp&quot;,
-        &quot;MyLibrary.FSharp&quot;
-    ]
-}
-</code></pre>
-<p>And the <code>project.json</code> for both <code>MyLibrary.FSharp</code> and <code>MyLibrary.CSharp</code> would include a reference to <code>MyLibrary.Core</code>:</p>
-<pre><code class="lang-javascript">{
-    &quot;dependencies&quot;:{
-        &quot;MyLibrary.Core&quot;:&quot;&quot;
-        ...
-    }
-    ...
-}
-</code></pre>
-<p>To build it all, you would open a command line at the root of the project (<code>/MyLibrary</code>).</p>
-<p>Using DNX:</p>
-<pre><code>$ dnu restore
-$ cd ../MyLibrary.CSharp
-$ dnu build
-$ cd ../MyLibrary.FSharp
-$ dnu build
-</code></pre><p>Using .NET CLI:</p>
+<p>Because <code>PORTABLE328</code> is now recognized by the compiler, the PCL Profile 328 library generated by a compiler will not include <code>System.Net.Http</code> or <code>System.Threading.Tasks</code>.</p>
+<p>Now you can build.</p>
 <pre><code>$ dotnet restore
-$ cd ../MyLibrary.CSharp
 $ dotnet build
-$ cd ../MyLibrary.FSharp
-$ dotnet build
-</code></pre><p>Note that <code>MyLibrary.Core</code> is automatically built because it was listed as a dependency.</p>
-<p>Any source files which use functionality in <code>MyLibrary.Core</code> can now just use it:</p>
-<p>C#:</p>
-<pre><code class="lang-csharp">using MyLibrary.Core;
-</code></pre>
-<p>F#:</p>
-<pre><code class="lang-fsharp">open MyLibrary.Core
-</code></pre>
-<p>And that&#39;s it!</p>
-<p>Important takeaways:</p>
-<ul>
-<li>Projects are just folders with files in them.</li>
-<li>There is a <code>global.json</code> file at the top level of your library which needs the names of each project (folder name).</li>
-<li>A project using another project needs to register a dependency in its <code>project.json</code> before it can be used.</li>
-</ul>
-<h2 id="how-to-test-libraries-on-net-core">How to test libraries on .NET Core</h2>
-<p><strong>Note: You can only use DNX to test at this time</strong></p>
-<p>It&#39;s important to be able to test across platforms.  You can do this using <a href="http://xunit.github.io/">Xunit</a>, which is also the testing tool used by .NET Core projects.  Getting a test to work across platforms can be done like this:</p>
+</code></pre><p>Your <code>/bin/Debug</code> folder will look like this:</p>
+<pre><code>$ ls bin/Debug
+
+portable-net40+sl50+netcore45+wpa81+wp8/
+netstandard1.5/
+</code></pre><h2 id="how-to-use-native-dependencies">How to use native dependencies</h2>
+<p>You may wish to write a library which depends on a native <code>.dll</code> file.  If you&#39;re writing such a library, you have have two options:</p>
 <ol>
-<li><p>Create a folder for your test project to live in.  It&#39;s best to be consistent with your source folder:</p>
-<pre><code> /src
-    /Library
- /test
-    /LibraryTests
-</code></pre></li>
-<li><p>Add a <code>global.json</code> file to the root directory of your library.</p>
-<pre><code> /src
-    /Library
- /test
-    /LibraryTests
- global.json
-</code></pre><p> And put the names of the src and test folders:</p>
-<pre><code class="lang-javascript"> {
-     &quot;projects&quot;: [
-         &quot;src&quot;, &quot;test&quot;
-     ]
+<li>Reference the native <code>.dll</code> directly in your <code>project.json</code>.</li>
+<li>Package that <code>.dll</code> into its own NuGet package and depend on that package.</li>
+</ol>
+<p>For the first option, you&#39;ll need to include the following in your <code>project.json</code> file:</p>
+<ol>
+<li>Setting <code>allowUnsafe</code> to <code>true</code> in a <code>buildOptions</code> section.</li>
+<li>Specifying the path to the native <code>.dll</code>(s) with a <a href="../rid-catalog.html">Runtime Identifier (RID)</a> under <code>files</code> in the <code>packOptions</code> section.</li>
+</ol>
+<p>If you&#39;re distributing your library as a package, it&#39;s recommended that you place the <code>.dll</code> file at the root level of your project.  Here&#39;s an example <code>project.json</code> for a native <code>.dll</code> file that runs on Windows x64:</p>
+<pre><code class="lang-json">{
+    &quot;buildOptions&quot;:{
+        &quot;allowUnsafe&quot;:true
+    },
+    &quot;packOptions&quot;:{
+        &quot;files&quot;:{
+            &quot;runtimes/win7-x64/native/&quot;:&quot;native-lib.dll&quot;
+        }
+    }
+}
+</code></pre>
+<p>For the second option, you&#39;ll need to build a NuGet package out of your <code>.dll</code> file(s), host on a NuGet or MyGet feed, and depend on it directly.  You&#39;ll still need to set <code>allowUnsafe</code> to <code>true</code> in the <code>buildOptions</code> section of your <code>project.json</code>.  Here&#39;s an example (assuming <code>MyNativeLib</code> is a Nuget package at version <code>1.2.0</code>):</p>
+<pre><code class="lang-json">{
+    &quot;buildOptions&quot;:{
+        &quot;allowUnsafe&quot;:true
+    },
+    &quot;dependencies&quot;:{
+        &quot;MyNativeLib&quot;:&quot;1.2.0&quot;
+    }
+}
+</code></pre>
+<p>To see an example of packaging up cross-platform native binaries, check out the <a href="https://github.com/aspnet/libuv-package">ASP.NET Libuv Package</a> and the <a href="https://github.com/aspnet/KestrelHttpServer/blob/dev/src/Microsoft.AspNetCore.Server.Kestrel/project.json#L18">corresponding reference in KestrelHttpServer</a>.</p>
+<h2 id="how-to-test-libraries-on-net-core">How to test libraries on .NET Core</h2>
+<p>It&#39;s important to be able to test across platforms.  It&#39;s easiest to use <a href="http://xunit.github.io/">xUnit</a>, which is also the testing tool used by .NET Core projects.  Setting up your solution with test projects will depend on the <a href="#structuring-your-solution">structure of your solution</a>.  The following example assumes that all source projects are under a top-level <code>/src</code> folder and all test projects are under a top-level <code>/test</code> folder.</p>
+<ol>
+<li><p>Ensure you have a <code>global.json</code> file at the solution level which understands where the test projects are:</p>
+<pre><code class="lang-json"> {
+     &quot;projects&quot;:[ &quot;src&quot;, &quot;test&quot;]
  }
 </code></pre>
-</li>
-<li><p>Add a new <code>project.json</code> file under your test library folder.  Make sure you have the following:</p>
+<p> Your solution folder structure should then look like this:</p>
+<pre><code> /SolutionWithSrcAndTest
+ |__global.json
+ |__/src
+ |__/test
+</code></pre></li>
+<li><p>Create a new test project by creating a <code>project.json</code> file under your <code>/test</code> folder.  You can also run the <code>dotnet new</code> command and modify the <code>project.json</code> file afterwards.  It should have the following:</p>
 <ul>
-<li>A reference to <code>xunit</code> version <code>2.1.0-*</code>.</li>
-<li>A version to <code>xunit.runner.dnx</code> version <code>2.1.0-rc1-*</code>.</li>
-<li>A reference to the library under test (e.g. &quot;Library&quot; if its namespace is <code>Library</code>).</li>
-<li><p>A new command called <code>test</code> which references <code>xunit.runner.dnx</code>.</p>
-<p>An example <code>project.json</code> testing the library called &quot;Library&quot; might look like this:</p>
-<pre><code class="lang-javascript">{
-  &quot;commands&quot;: {
-      &quot;test&quot;:&quot;xunit.runner.dnx&quot;
-  },
-  &quot;frameworks&quot;: {
-      &quot;dnxcore50&quot;:{
-          &quot;dependencies&quot;: {
-              &quot;Library&quot;:&quot;&quot;,
-              &quot;System.Runtime&quot;:&quot;4.0.0-rc1-*&quot;,
-              &quot;xunit&quot;:&quot;2.1.0&quot;,
-              &quot;xunit.runner.dnx&quot;: &quot;2.1.0-rc1-*&quot;
-          }
-      }
-  }
+<li><code>emitEntryPoint</code> set to <code>true</code> under <code>buildOptions</code>.</li>
+<li><code>netcoreapp1.0</code> listed as the only entry under <code>frameworks</code>.</li>
+<li><code>dnxcore50</code>, <code>dotnet</code> and <code>portable-net45+win8</code> added as <code>imports</code> under <code>netcoreapp1.0</code>.</li>
+<li>A reference to <code>Microsoft.NETCore.App</code> version <code>1.0.0-rc2</code>.</li>
+<li>A reference to xUnit version <code>2.1.0</code>.</li>
+<li>A reference to <code>dotnet-test-xunit</code> version <code>1.0.0-rc2</code></li>
+<li>A project reference to the library being tested.</li>
+<li>The entry <code>&quot;testRunner&quot;:&quot;xunit&quot;</code>.</li>
+</ul>
+<p>Here&#39;s an example (<code>LibraryUnderTest</code> version <code>1.0.0</code> is the library being tested):</p>
+<pre><code class="lang-json">{
+     &quot;buildOptions&quot;:{
+         &quot;emitEntryPoint&quot;:true
+     },
+     &quot;dependencies&quot;:{
+         &quot;LibraryUnderTest&quot;:{
+             &quot;version&quot;:&quot;1.0.0&quot;,
+             &quot;target&quot;:&quot;project&quot;
+         },
+         &quot;Microsoft.NETCore.App&quot;:{
+             &quot;type&quot;:&quot;platform&quot;,
+             &quot;version&quot;:&quot;1.0.0-rc2&quot;
+         },
+         &quot;xunit&quot;:&quot;2.1.0&quot;,
+         &quot;dotnet-test-xunit&quot;:&quot;1.0.0-rc2&quot;,
+     },
+     &quot;frameworks&quot;:{
+         &quot;netcoreapp1.0&quot;:{
+             &quot;imports&quot;:[ &quot;dotnet&quot;, &quot;portable-net45+win8&quot; ]
+         }
+     }
 }
 </code></pre>
 </li>
-</ul>
+<li><p>Restore packages by running <code>dotnet restore</code>.  You should do this at the solution level if you haven&#39;t restored packages yet.</p>
 </li>
-<li><p>Grab the dependencies for the <code>rc1</code> version of <code>xunit.runner.dnx</code> by opening a command prompt, navigating to the root of your library, and typing the following:</p>
-<p> <code>$ dnu restore -s &quot;https://myget.org/F/xunit&quot;</code></p>
-<p> Due to the pre-release nature of creating libraries right now, you need to get the test runner for Xunit from the Xunit prerelease fed.  This will not be necessary in the future when <code>xunit.runner.dnx</code> has a release version placed in NuGet.</p>
-</li>
-<li><p>Grab all other dependencies across the project:</p>
-<p> <code>$ dnu restore</code></p>
-</li>
-<li><p>Navigate to your test project and run tests with <code>dnx test</code>:</p>
-<pre><code> $ cd path-to-test-project
- $ dnx test
+<li><p>Navigate to your test project and run tests with <code>dotnet test</code>:</p>
+<pre><code> $ cd path-to-your-test-project
+ $ dotnet test
 </code></pre></li>
 </ol>
-<p>And that&#39;s it!  You can now test your library across all platforms across all platforms using command line tools.  To continue testing now that you have everything set up, testing your library is very simple:</p>
+<p>And that&#39;s it!  You can now test your library across all platforms using command line tools.  To continue testing now that you have everything set up, testing your library is very simple:</p>
 <ol>
 <li>Make changes to your library.</li>
-<li>Run tests from the command line, in your test directory, with <code>$ dnx test</code>.</li>
+<li>Run tests from the command line, in your test directory, with <code>dotnet test</code> command.</li>
 </ol>
-<p>There&#39;s no need to re-build your libraries.</p>
-<p>Just remember to run <code>$ dnu restore</code> from the command line any time you add a new dependency and you&#39;ll be good to go!</p>
+<p>Your code will be automatically rebuilt when you invoke <code>dotnet test</code> command.</p>
+<p>Just remember to run <code>dotnet restore</code> from the command line any time you add a new dependency and you&#39;ll be good to go!</p>
+<h2 id="how-to-use-multiple-projects">How to use multiple projects</h2>
+<p>A common need for larger libraries is to place functionality in different projects.</p>
+<p>Imagine you wished to build a library which could be consumed in idiomatic C# and F#.  That would mean that consumers of your library consume them in ways which are natural to C# or F#.  For example, in C# you might consume the library like this:</p>
+<pre><code class="lang-csharp">var convertResult = await AwesomeLibrary.ConvertAsync(data);
+var result = AwesomeLibrary.Process(convertResult);
+</code></pre>
+<p>In F#, it might look like this:</p>
+<pre><code class="lang-fsharp">let result =
+    data
+    |&gt; AwesomeLibrary.convertAsync 
+    |&gt; Async.RunSynchronously 
+    |&gt; AwesomeLibrary.process
+</code></pre>
+<p>Consumtion scenarios like this mean that the APIs being accessed have to have a different structure for C# and F#.  A common approach to accomplishing this is to factor all of the logic of a library into a core project, with C# and F# projects defining the API layers that call into that core project.  The rest of the section will use the following names:</p>
+<ul>
+<li><strong>AwesomeLibrary.Core</strong> - A core project which contains all logic for the library</li>
+<li><strong>AwesomeLibrary.CSharp</strong> - A project with public APIs intended for consumption in C#</li>
+<li><strong>AwesomeLibrary.FSharp</strong> - A project with public APIs intended for consumption in F#</li>
+</ul>
+<h3 id="project-to-project-referencing">Project-to-project referencing</h3>
+<p>To reference a project, you need to do two things:</p>
+<ol>
+<li>Understand the name and version number of the project you wish to reference.</li>
+<li>List that project as a dependeny using the name and version number from (1).</li>
+</ol>
+<p>In the above case, you may wish to set up the <code>project.json</code> for <strong>AwesomeLibrary.Core</strong> as follows:</p>
+<pre><code class="lang-json">{
+    &quot;name&quot;:&quot;AwesomeLibrary.Core&quot;,
+    &quot;version&quot;:&quot;1.0.0&quot;
+}
+</code></pre>
+<p>You can use these entries in the <code>project.json</code> to control the name and version of the project.  If you don&#39;t specify these, the default configuration is to use the name of the containing folder as the name and 1.0.0 as the version number.</p>
+<p>The <code>project.json</code> files for both <strong>AwesomeLibrary.CSharp</strong> and <strong>AwesomeLibrary.FSharp</strong> now need to reference <strong>AwesomeLibrary.Core</strong> as a <code>project</code> target.  If you aren&#39;t multitargeting, you can use the global <code>dependencies</code> entry:</p>
+<pre><code class="lang-json">{
+    &quot;dependencies&quot;:{
+        &quot;AwesomeLibrary.Core&quot;:{
+            &quot;version&quot;:&quot;1.0.0&quot;,
+            &quot;target&quot;:&quot;project&quot;
+        }
+    }
+}
+</code></pre>
+<blockquote><p><strong>Note:</strong> Failure to list the reference as a <code>project</code> target may result in NuGet resolving the dependency with an existing NuGet package which happens to have the same name.  Always specify <code>&quot;target&quot;:&quot;project&quot;</code> when referencing a project in the same solution.</p>
+</blockquote>
+<p>If you are multitargeting, you may not be able to use a global <code>dependencies</code> entry and may have to reference <strong>AwesomeLibrary.Core</strong> in a target-level <code>dependencies</code> entry.  For example, if you were targeting <code>netstandard1.5</code>, you could do so like this:</p>
+<pre><code class="lang-json">{
+    &quot;frameworks&quot;:{
+        &quot;netstandard1.5&quot;:{
+            &quot;dependencies&quot;:{
+                &quot;AwesomeLibrary.Core&quot;:{
+                    &quot;version&quot;:&quot;1.0.0&quot;,
+                    &quot;target&quot;:&quot;project&quot;
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="structuring-a-solution">Structuring a Solution</h3>
+<p>Another important aspect of multi-project solutions is establishing a good overall project structure. To structure a multi-project library, you must use top-level <code>/src</code> and <code>/test</code> folders:</p>
+<pre><code>/AwesomeLibrary
+|__global.json
+|__/src
+   |__/AwesomeLibrary.Core
+      |__Source Files
+      |__project.json
+   |__/AwesomeLibrary.CSharp
+      |__Source Files
+      |__project.json
+   |__/AwesomeLibrary.FSharp
+      |__Source Files
+      |__project.json
+/test
+   |__/AwesomeLibrary.Core.Tests
+      |__Test Files
+      |__project.json
+   |__/AwesomeLibrary.CSharp.Tests
+      |__Test Files
+      |__project.json
+   |__/AwesomeLibrary.FSharp.Tests
+      |__Test Files
+      |__project.json
+</code></pre><p>The <code>global.json</code> file for this solution would look like this:</p>
+<pre><code class="lang-json">{
+    &quot;projects&quot;:[&quot;src&quot;, &quot;test&quot;]
+}
+</code></pre>
+<p>This approach follows the same pattern established by project templates in the <code>dotnet new</code> command establish, where all projects are placed under a <code>/src</code> directory and all tests are placed under a <code>/test</code> directory.</p>
+<p>Here&#39;s how you could restore packages, build, and test your entire project:</p>
+<pre><code>$ dotnet restore
+$ cd src/AwesomeLibrary.FSharp
+$ dotnet build
+$ cd ../AwesomeLibrary.CSharp
+$ dotnet build
+$ cd ../../test/AwesomeLibrary.Core.Tests
+$ dotnet test
+$ cd ../AwesomeLibrary.CSharp.Tests
+$ dotnet test
+$ cd ../AwesomeLibrary.FSharp.Tests
+$ dotnet test
+</code></pre><p>And that&#39;s it!</p>
 <h2 id="how-to-create-a-nuget-package-with-your-library">How to create a NuGet Package with your Library</h2>
-<p>Imagine that you just wrote an awesome new library that you think other developers could use.  You can create a NuGet package to do exactly that!  It&#39;s quite easy with the new tooling.</p>
-<p>Note: this document will use the <a href="https://github.com/dotnet/core-docs/samples/core-projects/libraries/new-library">new-library</a> library as an example.</p>
-<p>You should navigate to the directory where the library lives:</p>
+<p>Imagine that you just wrote an awesome new library that you think other developers could use.  You can create a NuGet package to do exactly that!  It&#39;s quite easy with the .NET CLI.</p>
+<p>You should navigate to the directory where a library lives:</p>
 <p><code>$ cd src/Library</code></p>
 <p>Then it&#39;s just a single command from the command line!</p>
-<p>Using DNX:</p>
-<p><code>$ dnu pack</code></p>
-<p>Using .NET CLI:</p>
 <p><code>$ dotnet pack</code></p>
 <p>Your <code>/bin/Debug</code> folder will now look like this:</p>
-<pre><code>/bin
-   /Debug
-      /net40
-      /net45
-      /dotnet55
-      Lib.1.0.0.nupkg
-      Lib.1.0.0.symbols.nupkg
+<pre><code>$ ls bin/Debug
+
+net40/
+net45/
+dotnet55/
+Lib.1.0.0.nupkg
+Lib.1.0.0.symbols.nupkg
 </code></pre><p>And now you have the necessary files to publish a NuGet package!  If you want to build a NuGet package with release mode binaries, all you need to do is add the <code>-c</code>/<code>--configuration</code> switch and use <code>release</code> as the argument.</p>
-<p>Using DNX:</p>
-<p><code>$ dnu pack --configuration release</code></p>
-<p>Using .NET CLI:</p>
 <p><code>$ dotnet pack --configuration release</code></p>
 <p>And now you&#39;ll have a new <code>release</code> folder in <code>/bin</code> containing your NuGet package:</p>
-<pre><code>/bin
-   /release
-      /net40
-      /net45
-      /dotnet55
-      Lib.1.0.0.nupkg
-      Lib.1.0.0.symbols.nupkg
+<pre><code>$ ls bin/release
+
+net40/
+net45/
+dotnet55/
+Lib.1.0.0.nupkg
+Lib.1.0.0.symbols.nupkg
 </code></pre>
             </article>
           </div>
