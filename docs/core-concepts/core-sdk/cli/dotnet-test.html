@@ -72,11 +72,11 @@
 <h2 id="name">NAME</h2>
 <p><code>dotnet-test</code> - runs unit tests using the configured test runner</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<p>dotnet-test [--configuration]<br>    [--output] [--build-base-path] [--framework] [--runtime]
+<p>dotnet test [--configuration]<br>    [--output] [--build-base-path] [--framework] [--runtime]
     [--no-build]
     [--parentProcessId] [--port]<br>    [&lt; project &gt;]  </p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>dotnet-test</code> is used to execute unit tests in a given project. Unit tests are class library 
+<p><code>dotnet test</code> is used to execute unit tests in a given project. Unit tests are class library 
 projects that have dependencies on the unit test framework (for example, NUnit or xUnit) and the 
 dotnet test runner for that unit testing framework. These are packaged as NuGet packages and are 
 restored as ordinary dependencies for the project.</p>
@@ -87,14 +87,21 @@ This value should contain the name of the unit test framework.</p>
     &quot;version&quot;: &quot;1.0.0-*&quot;,
 
     &quot;dependencies&quot;: {
-        &quot;NETStandard.Library&quot;: &quot;1.0.0-*&quot;,
-        &quot;xunit&quot;: &quot;2.1.0-*&quot;,
-        &quot;dotnet-test-xunit&quot;: &quot;1.0.0-*&quot;
+        &quot;Microsoft.NETCore.App&quot;: {
+            &quot;version&quot;: &quot;1.0.0-rc2-3002702&quot;,
+            &quot;type&quot;: &quot;platform&quot;
+        }
+        &quot;xunit&quot;: &quot;2.1.0&quot;,
+        &quot;dotnet-test-xunit&quot;: &quot;1.0.0-rc2-build10015&quot;
     },
     &quot;testRunner&quot;: &quot;xunit&quot;,
 
     &quot;frameworks&quot;: {
-        &quot;netstandard1.5&quot;: {
+        &quot;netcoreapp1.0&quot;: {
+                &quot;imports&quot;: [
+                    &quot;dnxcore50&quot;,
+                    &quot;portable-net45+win8&quot;
+                ]
         }
     }
 }
@@ -126,9 +133,9 @@ can find out more about this mode in the <a href="dotnet-test-protocol.html">dot
 <p><code>--port</code></p>
 <p>Used by IDEs to specify a port number to listen for a connection.</p>
 <h2 id="examples">EXAMPLES</h2>
-<p><code>dotnet-test</code></p>
+<p><code>dotnet test</code></p>
 <p>Run the tests in the project in the current directory. </p>
-<p><code>dotnet-test /projects/test1/project.json</code></p>
+<p><code>dotnet test /projects/test1/project.json</code></p>
 <p>Run the tests in the test1 project. </p>
 
             </article>
