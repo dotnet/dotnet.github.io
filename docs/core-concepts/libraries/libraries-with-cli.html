@@ -559,7 +559,7 @@ $ dotnet test
 </code></pre><p>And that&#39;s it!</p>
 <h2 id="how-to-create-a-nuget-package-with-your-library">How to create a NuGet Package with your Library</h2>
 <p>Imagine that you just wrote an awesome new library that you think other developers could use.  You can create a NuGet package to do exactly that!  It&#39;s quite easy with the .NET CLI.  The following example assumes a library called <strong>Lib</strong> which targets <code>netstandard1.0</code>.</p>
-<blockquote><p><strong>Note</strong> If you have transitive dependencies; that is, a project which depends on another project, you&#39;ll need to make sure to restore packages for your entire solution.</p>
+<blockquote><p>If you have transitive dependencies; that is, a project which depends on another project, you&#39;ll need to make sure to restore packages for your entire solution.</p>
 </blockquote>
 <p>After ensuring packages are restored, you can navigate to the directory where a library lives:</p>
 <p><code>$ cd src/Library</code></p>
@@ -571,7 +571,10 @@ $ dotnet test
 netstandard1.0/
 Lib.1.0.0.nupkg
 Lib.1.0.0.symbols.nupkg
-</code></pre><p>And now you have the necessary files to publish a NuGet package!  If you want to build a NuGet package with release mode binaries, all you need to do is add the <code>-c</code>/<code>--configuration</code> switch and use <code>release</code> as the argument.</p>
+</code></pre><p>And now you have the necessary files to publish a NuGet package!</p>
+<blockquote><p>For .NET Core RC2, libraries are expected to be distributed as NuGet packages. This can only be done with <code>dotnet pack</code> when using the .NET CLI.  It is important that you use <code>dotnet pack</code> instead of <code>dotnet publish</code> for this.  Using <code>dotnet publish</code> for a library will error out.</p>
+</blockquote>
+<p>If you want to build a NuGet package with release mode binaries, all you need to do is add the <code>-c</code>/<code>--configuration</code> switch and use <code>release</code> as the argument.</p>
 <p><code>$ dotnet pack --configuration release</code></p>
 <p>And now you&#39;ll have a new <code>release</code> folder in <code>/bin</code> containing your NuGet package:</p>
 <pre><code>$ ls bin/release
