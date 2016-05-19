@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>&#128295; Unit Testing in .NET Core using dotnet test | CoreCLR site </title>
+    <title>Unit Testing in .NET Core using dotnet test | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="&#128295; Unit Testing in .NET Core using dotnet test | CoreCLR site ">
+    <meta name="title" content="Unit Testing in .NET Core using dotnet test | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -67,20 +67,209 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/testing/unit-testing-with-dotnet-test.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-unit-testing-in-net-core-using-dotnet-test">🔧 Unit Testing in .NET Core using dotnet test</h1>
+              <h1 id="unit-testing-in-net-core-using-dotnet-test">Unit Testing in .NET Core using dotnet test</h1>
               
-<blockquote><p><strong>Note</strong></p>
-<p>We are currently working on this topic.</p>
-<p>We welcome your input to help shape the scope and approach. You can
-track the 
-status and provide input on this <a href="https://github.com/dotnet/core-docs/issues/401">issue</a>
+<p>By <a href="http://ardalis.com">Steve Smith</a> and <a href="https://github.com/BillWagner">Bill Wagner</a></p>
+<p><a href="https://github.com/dotnet/core-docs/tree/UnitTestingInCore/samples/unit-testing/using-dotnet-test">View or download sample code</a></p>
+<h1 id="creating-the-projects">Creating the Projects</h1>
+<p><a href="/docs/core-concepts/libraries/libraries-with-cli.md#how-to-test-libraries-on-net-core">Writing Libraries with Cross Platform Tools</a>
+has information on organizing multi-project solutions for both the
+source and the tests. This article follows those conventions. The
+final project structure will be something like this:</p>
+<pre><code>/unit-testing-using-dotnet-test
+|__global.json
+|__/src
+   |__/PrimeService
+      |__Source Files
+      |__project.json
+/test
+   |__/PrimeService.Tests
+      |__Test Files
+      |__project.json
+</code></pre><p>In the root directory, you&#39;ll need to create a <code>global.json</code> that
+contains the names of your <code>src</code> and <code>test</code> directories:</p>
+<pre><code class="lang-json">{
+    &quot;projects&quot;: [
+        &quot;src&quot;,
+        &quot;test&quot;
+    ]
+}
+</code></pre>
+<h2 id="creating-the-source-project">Creating the source project</h2>
+<p>Then, in the <code>src</code> directory, create the <code>PrimeService</code> directory.
+CD into that directory, and run <code>dotnet new</code> to create the source
+project.</p>
+<p>In RC2, <code>dotnet new</code> creates a console application project, so you&#39;ll want to
+make a modification to <code>project.json</code> so that you build a class library
+project. </p>
+<ul>
+<li>note: You can track <a href="https://github.com/dotnet/cli/issues/2052">this issue</a>
+for other project types coming for the dotnet CLI, including class libraries.
+Once this issue is addressed, you won&#39;t need to make these changes.</li>
+</ul>
+<p>Simply remove the <code>buildOptions</code> node that instructs the compiler
+to emit the program entry point:</p>
+<pre><code class="lang-json">&quot;buildOptions&quot; : {
+    &quot;emitEntryPoint&quot;: true
+}
+</code></pre>
+<p>You&#39;ll also want to remove <code>program.cs</code> and replace it with the class for the
+<code>PrimeService</code>. To use TDD, you&#39;ll create a failing implementation of the
+<code>PrimeService</code> class:</p>
+<pre><code class="lang-cs">using System;
+
+namespace Prime.Services
+{
+    public class PrimeService
+    {
+        public bool IsPrime(int candidate) 
+        {
+            throw new NotImplementedException(&quot;Please create a test first&quot;);
+        } 
+    }
+}
+</code></pre>
+<h2 id="creating-the-test-project">Creating the test project</h2>
+<p>Next, cd into the &#39;test&#39; directory, and create the <code>PrimeServices.Tests</code> directory.
+CD into the <code>PrimeServices.Tests</code> directory and create a new project using <code>dotnet new</code>.
+Once again, <code>dotnet new</code> creates a console application, and you&#39;ll need to modify
+<code>project.json</code> to create a class library project by removing the <code>buildOptions</code> node.</p>
+<pre><code class="lang-json">&quot;buildOptions&quot; : {
+    &quot;emitEntryPoint&quot;: true
+}
+</code></pre>
+<ul>
+<li>note: You can track <a href="https://github.com/dotnet/cli/issues/2052">this issue</a>
+for other project types coming for the dotnet CLI, including class libraries.
+Once this issue is addressed, you won&#39;t need to make these changes.</li>
+</ul>
+<p>The test project requires other packages to create and run unit tests.
+You&#39;ll need to add xunit, the xunit runner, and the PrimeService
+package as dependencies to the project:</p>
+<pre><code class="lang-json">&quot;dependencies&quot;: {
+    &quot;Microsoft.NetCore.App&quot;: {
+        &quot;type&quot;: &quot;platform&quot;,
+        &quot;version&quot;: &quot;1.0.0-rc2-3002702&quot;
+    },
+    &quot;xunit&quot;: &quot;2.1.0&quot;,
+    &quot;dotnet-test-xunit&quot;: &quot;1.0.0-rc2-build10015&quot;,
+    &quot;PrimeService&quot;: &quot;1.0.0&quot;
+}
+</code></pre>
+<p>Notice that the <code>PrimeService</code> project does not include
+any directory path information. Because you created the
+project structure to match the expected organization of
+<code>src</code> and <code>test</code>, and the <code>global.json</code> file indicates
+that, the build system will find the correct location
+for the project.</p>
+<p>You&#39;ll also need to add a node to specify the test runner
+at the root of <code>project.json</code>:</p>
+<pre><code class="lang-json">{
+  &quot;version&quot;: &quot;1.0.0-*&quot;,
+  &quot;testRunner&quot;: &quot;xunit&quot;,
+  // ...
+}
+</code></pre>
+<p>Finally, you need to set the framework node to use
+<code>netcoreapp1.0</code>, and include the required imports to
+get xunit to work with RC2:</p>
+<pre><code class="lang-json">  &quot;frameworks&quot;: {
+    &quot;netcoreapp1.0&quot;: {
+      &quot;imports&quot;: [
+        &quot;dnxcore50&quot;,
+        &quot;portable-net45+win8&quot; 
+      ]
+    }
+  }
+</code></pre>
+<p>You can see the entire file in the <a href="https://github.com/dotnet/core-docs/blob/master/samples/unit-testing/using-dotnet-test/tests/PrimeService.Tests/project.json">samples repository</a>
 on GitHub.</p>
-<p>If you would like to review early drafts and outlines of this topic,
-please leave a note with your contact information in the
-<a href="https://github.com/dotnet/core-docs/issues/401">issue</a>.</p>
-<p>Learn more about how you can <a href="https://github.com/dotnet/core-docs/blob/master/CONTRIBUTING.md">contribute</a>
-on GitHub.</p>
-</blockquote>
+<p>After this initial structure is in place, you can write your first test.
+After this initial setup, everything is configured and should run smoothly
+as you add features and tests.</p>
+<h1 id="creating-the-first-test">Creating the first test</h1>
+<p>The TDD approach calls for writing one failing test, then making it pass,
+then repeating the process. So, let&#39;s write that one failing test. Remove
+<code>program.cs</code> from the <code>PrimeService.Tests</code> directory, and crate a new
+C# file with the following content:</p>
+<pre><code class="lang-cs">namespace Prime.UnitTests.Services
+{
+    public class PrimeService_IsPrimeShould
+    {
+        private readonly PrimeService _primeService;
+         public PrimeService_IsPrimeShould()
+         {
+             _primeService = new PrimeService();
+         }
+
+        [Fact]
+        public void ReturnFalseGivenValueOf1()
+        {
+            var result = _primeService.IsPrime(1);
+
+            Assert.False(result, $&quot;1 should not be prime&quot;);
+        }
+    }
+}
+</code></pre>
+<p>The <code>[Fact]</code> attribute denotes a method as a single test. </p>
+<p>Save this file, then run <code>dotnet build</code> to build the test project.
+If you have not already built the <code>PrimeService</code> project, the
+build system will detect that and build it because it is a
+dependency of the test project.</p>
+<p>Now, execute <code>dotnet test</code> to run the tests from the console.
+The xunit test runner has the program entry point to run your
+tests from the Console.</p>
+<p>Your test fails. You haven&#39;t created the implementation yet.
+Write the simplest code to make this one test pass:</p>
+<pre><code class="lang-cs">public bool IsPrime(int candidate) 
+{
+    if(candidate == 1) 
+    { 
+        return false;
+    } 
+    throw new NotImplementedException(&quot;Please create a test first&quot;);
+}
+</code></pre>
+<h2 id="adding-more-features">Adding More Features</h2>
+<p>Now, that you&#39;ve made one test pass, it&#39;s time to write more.
+There are a few other simple cases for prime numbers: 0, -1. You
+could add those as new tests, with the <code>[Fact]</code> attribute, but that
+quickly becomes tedious. There are other xunit attributes that enable
+you to write a suite of similar tests.  A <code>Theory</code> represents a suite
+of tests that execute the same code, but have different input arguments.
+You can use the <code>[InlineData]</code> attribute to specify values for those
+inputs. </p>
+<p> Instead of creating new tests, leverage these two attributes
+ to create a single theory that tests some values less than 2,
+ which is the lowest prime number:</p>
+<pre><code class="lang-cs">[Theory]
+[InlineData(-1)]
+[InlineData(0)]
+[InlineData(1)]
+public void ReturnFalseGivenValuesLessThan2(int value)
+{
+    var result = false;
+
+    Assert.False(result, $&quot;{value} should not be prime&quot;);
+}
+</code></pre>
+<p>Run <code>dotnet test</code> and you&#39;ll see the that two of these tests fail.
+You can make them pass by changing the service. You need to change
+the <code>if</code> clause at the beginning of the method:</p>
+<pre><code class="lang-cs">if(candidate &lt; 2)
+</code></pre>
+<p>Now, these tests all pass.</p>
+<p>You continue to iterate by adding more tests, more theories,
+and more code in the main library. You&#39;ll quickly end up
+with the
+<a href="https://github.com/dotnet/core-docs/blob/master/samples/unit-testing/using-dotnet-test/tests/PrimeService.Tests/PrimeServie_IsPrimeShould.cs">finished version of the tests</a>
+and the
+<a href="https://github.com/dotnet/core-docs/blob/master/samples/unit-testing/using-dotnet-test/src/PrimeService/PrimeService.cs">complete implementation of the library</a>.</p>
+<p>You&#39;ve built a small library and a set of unit tests for that library.
+You&#39;ve structured this solution so that adding new packages and tests
+will be seamless, and you can concentrate on the problem at hand. The 
+tools will run automatically.</p>
 
             </article>
           </div>
