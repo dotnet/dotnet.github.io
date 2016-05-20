@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>How to manage package dependency versions for .NET Core RC2 | CoreCLR site </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="How to manage package dependency versions for .NET Core RC2 | CoreCLR site ">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/scenarios/library-authoring/fastening-libraries-to-rc2.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="how-to-manage-package-dependency-versions-for-net-core-rc2">How to manage package dependency versions for .NET Core RC2</h1>
+              
+<p>By <a href="https://github.com/cartermp">Phillip Carter</a></p>
+<p>This article covers what you need to know about package versions for authoring libraries for .NET Core.</p>
+<h2 id="glossary">Glossary</h2>
+<p><strong>Fasten</strong> - In the context of authoring libraries, fastening dependencies means you are using the same &quot;family&quot; of packages released on NuGet for .NET Core RC2.</p>
+<p><strong>Metapackage</strong> - A NuGet package that represents a set of NuGet packages.  They&#39;re organized in a way that makes sense for general library and app development.</p>
+<p><strong>Trimming</strong> - The act of removing the packages you do not depend on from a metapackage.  The end result is that your library only depends on packages it uses.  See guidance in <a href="trimming.html">How to trim your package dependencies</a>.</p>
+<h2 id="fasten-your-dependencies-to-rc2">Fasten your dependencies to RC2</h2>
+<p>When creating libraries with .NET Core RC2, it&#39;s important that you fasten your dependencies to RC2.  This means two things.  First, you should only depend on packages marked as <code>rc2</code>.  Second, each package should come from the same build; that is, every package should have this pattern: <code>&lt;package_version&gt;-rc2-&lt;build_number&gt;</code>.  <code>build_number</code> is <code>3002702</code> for the <code>Microsoft.NETCore.App</code> metapackage and <code>24027</code> for all other packages.</p>
+<p><strong>Examples of packages fastened to RC2</strong></p>
+<p><code>&quot;System.Collections&quot;:&quot;4.0.11-rc2-24027&quot;</code></p>
+<p><code>&quot;NETStandard.Library&quot;:&quot;1.5.0-rc2-24027&quot;</code></p>
+<p><code>&quot;Microsoft.NETCore.App&quot;:&quot;1.0.0-rc2-3002702&quot;</code></p>
+<p><strong>Examples of packages that are NOT fastened to RC2</strong></p>
+<p><code>&quot;System.Collections&quot;:&quot;4.0.11-rc3-24021-00&quot;</code></p>
+<p><code>&quot;System.Net.Http&quot;:&quot;4.1.0-rc2-24008&quot;</code></p>
+<p><code>&quot;System.Text.RegularExpressions&quot;:&quot;4.0.10-rc3-24021-00&quot;</code></p>
+<h3 id="why-does-this-matter-">Why does this matter?</h3>
+<p>We guarantee that if you fasten your dependencies to RC2, those packages will all work together.  There is no such guarantee if you use packages which aren&#39;t fastened to RC2.</p>
+<h3 id="scenarios">Scenarios</h3>
+<p>Although there is a big list of all packages and their versions released with .NET Core RC2, you may not have to look through it if your library falls under certain scenarios.</p>
+<p><strong>Are you depending only on</strong> <code>NETStandard.Library</code><strong>?</strong></p>
+<p>If so, you should fasten your <code>NETStandard.Library</code> package to version <code>1.5.0-rc2-24027</code>.  Because this is a curated metapackage, its package closure is also fastened to RC2.</p>
+<p><strong>Are you depending only on</strong> <code>Microsoft.NETCore.App</code><strong>?</strong></p>
+<p>If so, you should fasten your <code>Microsoft.NETCore.App</code> package to version <code>1.0.0-rc2-3002702</code>.  Because this is a curated metapackage, its package closure is also fastened to RC2.</p>
+<p><strong>Are you trimming your</strong> <code>NETStandard.Library</code> <strong>or</strong> <code>Microsoft.NETCore.App</code> <strong>metapackage dependencies?</strong></p>
+<p>If so, you should ensure that the metapackage you start with is fastened to RC2.  The individual packages you depend on after trimming are also fastened to RC2.</p>
+<p><strong>Are you depending on packages outside the</strong> <code>NETStandard.Library</code> <strong>or</strong> <code>Microsoft.NETCore.App</code> <strong>metapackages?</strong></p>
+<p>If so, you need to fasten your other dependencies to RC2.  See the correct package versions and build numbers at the end of this article.</p>
+<h3 id="a-note-on-using-a-splat-string-when-versioning">A note on using a splat string (*) when versioning</h3>
+<p>You may have adopted a versioning pattern which uses a splat (*) string like this:
+<code>&quot;System.Collections&quot;:&quot;4.0.11.-rc2-*&quot;</code>.</p>
+<p><strong>You should not do this</strong>.  Using the splat string could result in restoring packages from different builds.  This could then result in some packages being incompatible.  Pick a specific number and use that number for all your package dependencies.</p>
+<h2 id="packages-and-version-numbers-organized-by-metapackage">Packages and Version Numbers organized by Metapackage</h2>
+<p><a href="https://github.com/dotnet/versions/blob/master/build-info/dotnet/corefx/release/1.0.0-rc2/Latest_Packages.txt">List of all packages and their versions for RC2</a>.</p>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
