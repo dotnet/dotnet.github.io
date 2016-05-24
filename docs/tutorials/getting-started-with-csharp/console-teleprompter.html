@@ -83,11 +83,12 @@ be paced to match reading it aloud. You can speed up or slow down the pace
 by pressing the ‘&lt;’ or ‘&gt;’ keys.</p>
 <p>There are a lot of features in this tutorial. Let’s build them one by one. </p>
 <h1 id="prerequisites">Prerequisites</h1>
-<p>You’ll need to setup your machine to run .NET core. Instructions are
-<a href="http://dotnet.github.io/getting-started/">here</a>. You can run this
+<p>You’ll need to setup your machine to run .NET core. You can find the
+installation instructions on the <a href="http://dotnet.github.io/getting-started/">Getting Started</a>
+page. You can run this
 application on Windows, Ubuntu Linux, OS X or in a Docker container. 
-You’ll need to install your favorite code editor. The descriptions below
-use <a href="https://code.visualstudio.com/">Visual Studio Code</a> which is an open
+You’ll need to install your favorite code editor. This tutorial uses
+<a href="https://code.visualstudio.com/">Visual Studio Code</a> which is an open
 source, cross platform editor. However, you can use whatever tools you are
 comfortable with.</p>
 <h1 id="create-the-application">Create the Application</h1>
@@ -109,10 +110,10 @@ helps to manage the project dependencies. It contains the local location
 of all the project dependencies. You do not need to put the file in source
 control; it will be generated when you run “dotnet restore”. </p>
 <p>After restoring packages, you run “dotnet build”. This executes the build
-engine and creates your application. Finally, you execute “dotnet run” to
+engine and creates your application executable. Finally, you execute “dotnet run” to
 run your application.  </p>
 <p>The simple Hello World application code is all in Program.cs. Open that
-file you your favorite text editor. We’re about to make our first changes.
+file with your favorite text editor. We’re about to make our first changes.
 At the top of the file, see a using statement:</p>
 <pre><code class="lang-cs">using System;
 </code></pre>
@@ -126,9 +127,9 @@ change it to <code>TeleprompterConsole</code>.</p>
 </code></pre>
 <h1 id="reading-and-echoing-the-file">Reading and Echoing the File</h1>
 <p>The first feature to add is to read a text file, and display all that text
-to the console. First, let’s add a text file. Copy the &quot;sampleQuotes.txt&quot;
+to the console. First, let’s add a text file. Copy the 
+<a href="https://github.com/dotnet/core-docs/blob/master/docs/tutorials/getting-started-with-csharp/console-teleprompter/sampleQuotes.txt">sampleQuotes.txt</a>
 file from the GitHub repository for this <a href="https://github.com/dotnet/core-docs/tree/master/docs/tutorials/getting-started-with-csharp/console-teleprompter">sample</a> into your project directory. 
-<a href="https://github.com/dotnet/core-docs/blob/master/docs/tutorials/getting-started-with-csharp/console-teleprompter/sampleQuotes.txt">Direct Link</a> to the file.
 This will serve as the script for your
 application.</p>
 <p>Next, add the following method in your Program class (right below the Main 
@@ -156,7 +157,7 @@ using System.IO;
 <p>This method is a special type of C# method called an <em>Enumerator method</em>. 
 Enumerator methods return sequences that are evaluated lazily. That means 
 each item in the sequence is generated as it is requested by the code 
-consuming the sequence. Enumerator Methods are methods that contain one or 
+consuming the sequence. Enumerator methods are methods that contain one or 
 more <code>yield return</code> statements. The object returned by the <code>ReadFrom()</code> 
 method contains the code to generate each item in the sequence. In this 
 example, that involves reading the next line of text from the source file, 
@@ -174,11 +175,11 @@ execution reaches the closing brace of the <code>using</code> statement. The
 compiler-generated code ensures that the resource is released even if an
 exception is thrown from the code in the block defined by the using
 statement.</p>
-<p>The reader variable is defined using the <code>var</code> keyword. Var defines an
+<p>The reader variable is defined using the <code>var</code> keyword. <code>var</code> defines an
 <em>implicitly typed local variable</em>. That means the type of the variable is
 determined by the compile time type of the object assigned to the
 variable. Here, that is the return value from <code>File.OpenText()</code>, which is
-a <code>StreamReader</code>.</p>
+a <code>StreamReader</code> object.</p>
 <p>Now, let’s fill in the code to read the file in the Main method: </p>
 <pre><code class="lang-cs">var lines = ReadFrom(&quot;SampleQuotes.txt&quot;);
 foreach (var line in lines)
@@ -229,7 +230,14 @@ in the <code>Main</code> method with the following block:</p>
 to add that using statement at the top of file:</p>
 <pre><code class="lang-cs">using System.Threading.Tasks;
 </code></pre>
-<p>Run the sample, and check the output.Now, each single word is printed,
+<blockquote><p>Note: In RC2, you need to run the application using a different
+command to see the correct output. This is due to an issue
+in the CLI that <a href="https://github.com/dotnet/cli/issues/2976">has been filed</a>.
+To run the application, instead of <code>dotnet run</code> use
+<code>dotnet .\bin\Debug\netcoreapp1.0\console-teleprompter.dll</code> 
+substituting the correct path to your output DLL.  </p>
+</blockquote>
+<p>Run the sample, and check the output. Now, each single word is printed,
 followed by a 200 ms delay. However, the displayed output shows some
 issues because the source text file has several lines that have more than
 80 characters without a line break. That can be hard to read while it&#39;s
@@ -318,7 +326,7 @@ from the Console and modifies a local variable representing the delay when
 the user presses the ‘&lt;’ or ‘&gt;’ keys. This method uses <code>Console.ReadKey()</code>
 to block and wait for the user to press a key.</p>
 <p>To finish this feature, you need to create a new async task returning
-method that starts both of these tasks (<code>GetInput()</code>, and 
+method that starts both of these tasks (<code>GetInput()</code> and 
 <code>ShowTeleprompter()</code>, and also manage the shared data between these two
 tasks.</p>
 <p>It’s time to create a class that can handle the shared data between these

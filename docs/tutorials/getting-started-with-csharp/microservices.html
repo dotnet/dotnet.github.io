@@ -137,18 +137,17 @@ will prompt you for a name. Select &#39;WeatherMicroservice&#39;. </p>
 <li>A wwwroot/web.config file. This contains basic configuration information.</li>
 </ul>
 <p>Now you can run the template generated application. That&#39;s done using a series
-of tools from the command line. The current version of ASP.NET uses two command
-line tools for building and running your applications: dnu and dnx. Dnu is the .NET Execution
-Environment Utility. Dnx is the .NET Execution Engine. </p>
-<p>The first step is to restore all the dependencies using dnu:</p>
-<p><code>dnu restore</code></p>
-<p>Dnu restore uses the NuGet package manager to install all the necessary packages
+of tools from the command line. The <code>dotnet</code> command runs the tools necessary
+for .NET development. Each verb executes a different command</p>
+<p>The first step is to restore all the dependencies:</p>
+<p><code>dotnet restore</code></p>
+<p>Dotnet restore uses the NuGet package manager to install all the necessary packages
 into the application directory. It also generates a project.json.lock file. This
 file contains information about each package that is referenced. After restoring
 all the dependencies, you build the application:</p>
-<p><code>dnu build</code></p>
-<p>And once you build the application, you run it from the command line using dnx:</p>
-<p><code>dnx web</code></p>
+<p><code>dotnet build</code></p>
+<p>And once you build the application, you run it from the command line:</p>
+<p><code>dotnet run</code></p>
 <p>The default configuration listens to <a href="http://localhost:5000">http://localhost:5000</a>. You can open a
 browser and navigate to that page and see a &quot;Hello World!&quot; message.</p>
 <h2 id="anatomy-of-an-asp-net-core-application">Anatomy of an ASP.NET Core application</h2>
@@ -166,7 +165,7 @@ web task starts the webserver.</p>
 <p>The &#39;frameworks&#39; node specifies the versions and configurations of the .NET
 framework that will run this application.</p>
 <p>The application is implemented in Startup.cs. This file contains the startup
-class. It&#39;s <code>Main()</code> method starts the web server, and instructs the web
+class. Its <code>Main()</code> method starts the web server, and instructs the web
 server that the web application class is this Startup class:</p>
 <p><code>public static void Main(string[] args) =&gt; Microsoft.AspNet.Hosting.WebApplication.Run&lt;Startup&gt;(args);</code></p>
 <p>This method is a simple one-line method, so it utilizes the C# syntax for
@@ -198,7 +197,7 @@ our random weather service:</p>
 &#39;lat&#39; and &#39;long&#39; arguments on the query string in this form:</p>
 <p><code>http://localhost:5000/?lat=-35.55&amp;long=-12.35</code>  </p>
 <p>All the changes you need to make are in the lambda expression
-defined as the argument to app.Run in your startup class.</p>
+defined as the argument to <code>app.Run</code> in your startup class.</p>
 <p>The argument on the lambda expression is the <code>HttpContext</code> for the
 request. One of its properties is the <code>Request</code> object. The <code>Request</code>
 object has a <code>Query</code> property that contains a dictionary of all the
@@ -305,7 +304,7 @@ list of dependencies:</p>
 <pre><code>  &quot;dependencies&quot;: {
     &quot;Microsoft.AspNet.IISPlatformHandler&quot;: &quot;1.0.0-rc1-final&quot;,
     &quot;Microsoft.AspNet.Server.Kestrel&quot;: &quot;1.0.0-rc1-final&quot;,
-    &quot;Newtonsoft.Json&quot;: &quot;8.0.3&quot;
+    &quot;Newtonsoft.Json&quot;: &quot;8.0.4-beta1&quot;
   },
 </code></pre><p>Then, you can use the <code>JsonConvert</code> class to write the object to a string:</p>
 <pre><code class="lang-cs">var json = JsonConvert.SerializeObject(forecast, Formatting.Indented);
@@ -320,12 +319,16 @@ you set the content type to &#39;application/json&#39;, and write the string.</p
 <p>The Dockerfile created by the asp.net template will serve
 for our purposes. Let&#39;s go over its contents.</p>
 <p>The first line specifies the source image:</p>
-<pre><code>FROM microsoft/aspnet:1.0.0-rc1-update1
+<pre><code>FROM microsoft/dotnet:onbuild
 </code></pre><p>Docker allows you to configure a machine image based on a
 source template. That means you don&#39;t have to supply all
 the machine parameters when you start, you only need to
 supply any changes. The changes here will be to include
 our application.</p>
+<p>In this first sample, we&#39;ll use the <code>onbuild</code> version of
+the RC2 image. This is the easiest way to create a working Docker
+environment. However, the image it creates is larger than necessary.
+This image include the dotnet core runtime, and the dotnet SDK. </p>
 <p>The next two lines load SQLite onto the machine:</p>
 <pre><code>RUN printf &quot;deb http://ftp.us.debian.org/debian jessie main\n&quot; &gt;&gt; /etc/apt/sources.list
 RUN apt-get -qq update &amp;&amp; apt-get install -qqy sqlite3 libsqlite3-dev &amp;&amp; rm -rf /var/lib/apt/lists/*
@@ -333,13 +336,15 @@ RUN apt-get -qq update &amp;&amp; apt-get install -qqy sqlite3 libsqlite3-dev &a
 <p>The next three lines setup your application:</p>
 <pre><code>COPY . /app
 WORKDIR /app
-RUN [&quot;dnu&quot;, &quot;restore&quot;]
+RUN [&quot;dotnet&quot;, &quot;restore&quot;]
 </code></pre><p>This will copy the contents of the current directory to the docker VM, and restore
 all the packages.</p>
-<p>The final lines of the file set the output port (5004) and run the application:</p>
-<pre><code>EXPOSE 5004
-ENTRYPOINT [&quot;dnx&quot;, &quot;-p&quot;, &quot;project.json&quot;, &quot;web&quot;]
-</code></pre><p>Here are the steps to build the image and deploy it. The information below is 
+<p>The final lines of the file set the output port (80) and run the application:</p>
+<pre><code>EXPOSE 80
+ENTRYPOINT [&quot;dotnet&quot;, &quot;run&quot;]
+</code></pre><p>Notice that this Dockerfile uses the dotnet cli to build and run your docker image.
+That&#39;s why the larger image is needed.</p>
+<p>Here are the steps to build the image and deploy it. The information below is 
 for the PowerShell CLI. Different shells will have slightly different syntax
 that will be highlighted below.</p>
 <p>First, you have to create a new docker machine called &#39;weather-service&#39;:</p>
@@ -355,21 +360,31 @@ echoes back a command to configure your shell to communicate with the docker con
 In PowerShell it is as follows:</p>
 <pre><code> &amp; &quot;C:\Program Files\Docker Toolbox\docker-machine.exe&quot; env --shell powershell weather-service | Invoke-Expression
 </code></pre><p>If you are using a different shell, the output from the docker-machine command
-above will show you what command to use in its place.</p>
+above will show you what command to use in its place. Execute the command that was generated
+for you. </p>
+<blockquote><p>Note: The <code>docker-machine</code> command will include the shell&#39;s comment character,
+<code>#</code> in the case of powershell in the output for the command to run. Make sure
+you remove this character when you execute the command.</p>
+</blockquote>
 <p>Finally, build the docker image from your application:</p>
-<pre><code>docker-build -t weather-service .
-</code></pre><p>This command builds the image using your source, and the configuration settings in your
+<pre><code>docker build -t weather-service .
+</code></pre><blockquote><p>Note: You may need to restart the Docker machine for the <code>docker build</code> command
+to work. You do that by executing the <code>docker restart</code> command:</p>
+<p><code>docker restart weather-service</code></p>
+</blockquote>
+<p>The build command builds the image using your source, and the configuration
+settings in your
 Dockerfile.</p>
 <p>And finally run the application in the docker container:</p>
-<pre><code>docker run -t -d -p 80:5004 weather-service
+<pre><code>docker run -t -d -p 80:5000 weather-service
 </code></pre><p>You can see if the image is running by checking the command:</p>
 <pre><code>docker ps
 </code></pre><p>If your container is running, you&#39;ll see a line that lists
 it in the running processes. (It may be the only one).</p>
 <p>To navigate to your service, find the IP address for the machine:</p>
 <pre><code>docker-machine ip weather-service
-</code></pre><p>Open a browser and navigate to that site, and you should see your 
-weather service running.</p>
+</code></pre><p>Open a browser on the docker host and navigate to that site, and you should see your 
+weather service running. </p>
 <h1 id="conclusion">Conclusion</h1>
 <p>In this tutorial, you built an asp.net core microservice, and added a few
 features.</p>
