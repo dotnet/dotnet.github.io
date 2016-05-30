@@ -181,16 +181,31 @@ in-memory compilation. It will actually invoke <code>dotnet build</code> to buil
 <p>Another way is using the <code>dotnet</code> itself to run your code. This is done by providing a path to your assembly:
 <code>dotnet path/to/an/assembly.dll</code>. </p>
 <h2 id="migrating-your-dnx-project-to-net-core-cli">Migrating your DNX project to .NET Core CLI</h2>
-<p>In addition to using new commands when working with your code, there are two major things left in migrating from DNX:</p>
+<p>In addition to using new commands when working with your code, there are three major things left in migrating from DNX:</p>
 <ol>
+<li>Migrate the <code>global.json</code> file if you have it to be able to use CLI.</li>
 <li>Migrating the project file (<code>project.json</code>) itself to the CLI tooling.</li>
 <li>Migrating off of any DNX APIs to their BCL counterparts. </li>
 </ol>
+<h3 id="changing-the-global-json-file">Changing the global.json file</h3>
+<p>The <code>global.json</code> file acts like a solution file for both the RC1 and RC2 projects. In order for the CLI tools (as well 
+as Visual Studio) to differentiate between RC1 and RC2, they use the <code>&quot;sdk&quot;: { &quot;version&quot; }</code> property to make the distinction
+which project is RC1 or RC2. If <code>global.json</code> doesn&#39;t have this node at all, it is assumed to be the latest, that is RC2. </p>
+<p>In order to update the <code>global.json</code> file to RC2, either remove the property or set it to the exact version of the 
+tools that you wish to use, in this case <strong>1.0.0-preview1-002702</strong>:</p>
+<pre><code class="lang-json">{
+    &quot;sdk&quot;: {
+        &quot;version&quot;: &quot;1.0.0-preview1-002702&quot;
+    }
+}
+</code></pre>
 <h3 id="migrating-the-project-file">Migrating the project file</h3>
 <p>The CLI and DNX both use the same basic project system based on <code>project.json</code> file. The syntax and the semantics of the 
-project file are pretty much the same, with small differences based on the scenarios. Let&#39;s see what those differences are. </p>
+project file are pretty much the same, with small differences based on the scenarios. There are also some changes to 
+the schema which you can see in the <a href="http://json.schemastore.org/project">schema file</a> or in a more friendly 
+<a href="../project-model/project-json-reference.html">project.json reference</a>. </p>
 <p>If you are building a console application, you need to add the following snippet to your project file:</p>
-<pre><code class="lang-json">&quot;compilationOptions&quot;: {
+<pre><code class="lang-json">&quot;buildOptions&quot;: {
     &quot;emitEntryPoint&quot;: true
 }
 </code></pre>
@@ -219,6 +234,9 @@ brought, the framework needs to be one of the following:</p>
 <li><code>netcoreapp1.0</code> - if you are writing applications on .NET Core (including ASP.NET Core applications)</li>
 <li><code>netstandard1.5</code> - if you are writing class libraries for .NET Core</li>
 </ol>
+<p>If you are using other <code>dnx</code> targets, like <code>dnx451</code> you will need to change those as well. <code>dnx451</code> should be changed to <code>net451</code>. 
+Please refer to the <a href="https://github.com/dotnet/corefx/blob/master/Documentation/architecture/net-platform-standard.md">.NET Standard Library document</a> 
+for more information. </p>
 <p>Your <code>project.json</code> is now mostly ready. You need to go through your dependencies list and update the dependencies to 
 their newer versions, especially if you are using ASP.NET Core dependencies. If you were using separate packages for BCL APIs, 
 you can use the runtime package as explained in the <a href="app-types.html">application portability type</a> document. </p>
@@ -237,7 +255,7 @@ import. If you are slightly lost or new to this, in general, specifying <code>dn
     }
 </code></pre>
 <p>Running <code>dotnet build</code> will show any eventual build errors, though there shouldn&#39;t be too many of them. After your code is 
-building and running properly, you can test it out with the runner. If all works, you are good to go!</p>
+building and running properly, you can test it out with the runner. Execute <code>dotnet &lt;path-to-your-assembly&gt;</code> and see it run.</p>
 
             </article>
           </div>
