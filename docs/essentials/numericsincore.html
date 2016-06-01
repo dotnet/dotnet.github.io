@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> | CoreCLR site </title>
+    <title>Numerics in .NET Core | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" | CoreCLR site ">
+    <meta name="title" content="Numerics in .NET Core | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -67,8 +67,134 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/essentials/numericsincore.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1></h1>
+              <h1 id="numerics-in-net-core">Numerics in .NET Core</h1>
               
+<p>.NET Core supports the standard numeric integral and floating-point primitives, as well as <a href="http://dotnet.github.io/api/System.Numerics.BigInteger.html">System.Numerics.BigInteger</a>, an integral type with no theoretical upper or lower bound, <a href="http://dotnet.github.io/api/System.Numerics.Complex.html">System.Numerics.Complex</a>, a type that represents complex numbers, and a set of Single Instruction Multiple Data (<a href="https://en.wikipedia.org/wiki/SIMD">SIMD</a>)-enabled vector types in the <a href="http://dotnet.github.io/api/System.Numerics.html">System.Numerics</a> namespace. </p>
+<h2 id="integral-types">Integral types</h2>
+<p>.NET Core supports both signed and unsigned integers ranging from one byte to eight bytes in length. The following table lists the integral types and their size, indicates whether they are signed or unsigned, and documents their range. All integers are value types. </p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Signed/Unsigned</th>
+<th>Size (bytes)</th>
+<th>Minimum Value</th>
+<th>Maximum Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Byte.html">System.Byte</a></td>
+<td>Unsigned</td>
+<td>1</td>
+<td>0</td>
+<td>255</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Int16.html">System.Int16</a></td>
+<td>Signed</td>
+<td>2</td>
+<td>-32,768</td>
+<td>32,767</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Int32.html">System.Int32</a></td>
+<td>Signed</td>
+<td>4</td>
+<td>-2,147,483,648</td>
+<td>2,147,483,647</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Int64.html">System.Int64</a></td>
+<td>Signed</td>
+<td>8</td>
+<td>-9,223,372,036,854,775,808</td>
+<td>9,223,372,036,854,775,807</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.SByte.html">System.SByte</a></td>
+<td>Signed</td>
+<td>1</td>
+<td>-128</td>
+<td>127</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.UInt16.html">System.UInt16</a></td>
+<td>Unsigned</td>
+<td>2</td>
+<td>0</td>
+<td>65,535</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.UInt32.html">System.UInt32</a></td>
+<td>Unsigned</td>
+<td>4</td>
+<td>0</td>
+<td>4,294,967,295</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.UInt64.html">System.UInt64</a></td>
+<td>Unsigned</td>
+<td>8</td>
+<td>0</td>
+<td>18,446,744,073,709,551,615</td>
+</tr>
+</tbody>
+</table>
+<p>Each integral type supports a standard set of arithmetic, comparison, equality, explicit conversion, and implicit conversion operators. Each integer also includes methods to perform equality comparisons and relative comparisons, to convert the string representation of a number to that integer, and to convert an integer to its string representation. Some additional mathematical operations beyond those handled by the standard operators, such as rounding and identifying the smaller or larger value of two integers, are available from the <a href="http://dotnet.github.io/api/System.Math.html">System.Math</a> class. You can also work with the individual bits in an integer value by using the <a href="http://dotnet.github.io/api/System.BitConverter.html">System.BitConverter</a> class. </p>
+<p>Note that the unsigned integral types are not CLS-compliant. For more information, see <a href="essentials\languageIndependence.md">Language Independence and Language-Independent Components</a>.</p>
+<h2 id="floating-point-types">Floating-point types</h2>
+<p>.NET Core includes three primitive floating point types, which are listed in the following table. </p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size (bytes)</th>
+<th>Minimum Value</th>
+<th>Maximum Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Double.html">System.Double</a></td>
+<td>8</td>
+<td>-1.79769313486232e308</td>
+<td>1.79769313486232e308</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Single.html">System.Single</a></td>
+<td>4</td>
+<td>-3.402823e38</td>
+<td>3.402823e38</td>
+</tr>
+<tr>
+<td><a href="http://dotnet.github.io/api/System.Decimal.html">System.Decimal</a></td>
+<td>8</td>
+<td>-79,228,162,514,264,337,593,543,950,335</td>
+<td>79,228,162,514,264,337,593,543,950,335</td>
+</tr>
+</tbody>
+</table>
+<p>Each floating-point type supports a standard set of arithmetic, comparison, equality, explicit conversion, and implicit conversion operators. Each also includes methods to perform equality comparisons and relative comparisons, to convert the string representation of a floating-point number, and to convert a floating-point number to its string representation. Some additional mathematical, algebraic, and trigonometric operations are available from the <code>Math</code> class. You can also work with the individual bits in <code>Double</code> and <code>Single</code> values by using the <code>BitConverter</code> class. The <code>Decimal</code> structure has its own methods, <code>Decimal.GetBits</code> and <code>Decimal.Decimal(Int32())</code>, for working with a decimal value&#39;s individual bits, as well as its own set of methods for performing some additional mathematical operations. </p>
+<p>The <code>Double</code> and <code>Single</code> types are intended to be used for values that by their nature are imprecise (such as the distance between two stars in the solar system) and for applications in which a high degree of precision and small rounding error is not required. You should use the <code>Decimal</code> type for cases in which greater precision is required and rounding error is undesirable.</p>
+<h2 id="biginteger">BigInteger</h2>
+<p><a href="http://dotnet.github.io/api/System.Numerics.BigInteger.html">System.Numerics.BigInteger</a> is an immutable type that represents an arbitrarily large integer whose value in theory has no upper or lower bounds. The methods of the <code>BigInteger</code> type closely parallel those of the other integral types.  </p>
+<h2 id="complex">Complex</h2>
+<p>The <a href="http://dotnet.github.io/api/System.Numerics.Complex.html">System.Numerics.Complex</a> type represents a complex number, that is, a number with a real number part and an imaginary number part. It supports a standard set of arithmetic, comparison, equality, explicit conversion, and implicit conversion operators, as well as mathematical, algebraic, and trigonometric methods. </p>
+<h2 id="simd-enabled-vector-types">SIMD-enabled vector types</h2>
+<p>The <code>System.Numerics</code> namespace includes a set of SIMD-enabled vector types for .NET Core. SIMD allows some operations to be parallelized at the hardware level, which results in huge performance improvements in mathematical, scientific, and graphics apps that perform computations over vectors. </p>
+<p>The SIMD-enabled vector types in .NET Core include the following: </p>
+<ul>
+<li><p><a href="http://dotnet.github.io/api/System.Numerics.Vector2.html">System.Numerics.Vector2</a>, <a href="http://dotnet.github.io/api/System.Numerics.Vector3.html">System.Numerics.Vector3</a>, and <a href="http://dotnet.github.io/api/System.Numerics.Vector4.html">System.Numerics.Vector4</a> types, which are 2-, 3-, and 4-dimensional vectors of type <code>Single</code>.</p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Numerics.Vector%601.html">Vector&lt;T&gt;</a> structure that allows you to create a vector of any primitive numeric type. The primitive numeric types include all numeric types in the System namespace except for Decimal.</p>
+</li>
+<li><p>Two matrix types, <a href="http://dotnet.github.io/api/System.Numerics.Matrix3x2.html">System.Numerics.Matrix3x2</a>, which represents a 3x2 matrix; and <a href="http://dotnet.github.io/api/System.Numerics.Matrix4x4.html">System.Numerics.Matrix4x4</a>, which represents a 4x4 matrix. </p>
+</li>
+<li><p>The <a href="http://dotnet.github.io/api/System.Numerics.Plane.html">System.Numerics.Plane</a> type, which represents a three-dimensional plane, and the <a href="http://dotnet.github.io/api/System.Numerics.Quaternion.html">System.Numerics.Quaternion</a> type, which represents a vector that is used to encode three-dimensional physical rotations.</p>
+</li>
+</ul>
+
             </article>
           </div>
           
