@@ -70,74 +70,69 @@
               <h1 id="dotnet-install-scripts-reference">dotnet-install scripts reference</h1>
               
 <h2 id="name">NAME</h2>
-<p>dotnet-install.ps1 | dotnet-install.sh - script used to install the CLI tools and shared runtime</p>
+<p>dotnet-install.ps1 | dotnet-install.sh - script used to install the Command Line Interface (CLI) tools and shared runtime</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<p>dotnet-install.sh [--channel] [--version]
-    [--install-dir] [--debug] [--no-path] 
-    [--shared-runtime]</p>
-<p>dotnet-install.ps1 [-Channel] [-Version]
+<p>Windows:</p>
+<p><code>dotnet-install.ps1 [-Channel] [-Version]
     [-InstallDir] [-Debug] [-NoPath] 
-    [-SharedRuntime]</p>
+    [-SharedRuntime]</code></p>
+<p>OS X/Linux:</p>
+<p><code>dotnet-install.sh [--channel] [--version]
+    [--install-dir] [--debug] [--no-path] 
+    [--shared-runtime]</code></p>
 <h2 id="description">DESCRIPTION</h2>
-<p>The <code>dotnet-install</code> scripts are used to perform a non-admin install of the CLI toolchain and the shared runtime. You 
-can download the scripts from our <a href="https://github.com/dotnet/cli/tree/rel/1.0.0/scripts/obtain">GitHub repo</a>. </p>
-<p>Their main use case is to help with automation scenarios and non-admin installations. There are two scripts, one for PowerShell 
-that works on Windows and a bash script that works on Linux/OS X. They both have the same behavior. Bash script also 
-&quot;understands&quot; PowerShell switches so you can use them across the board. </p>
-<p>Installation scripts will download the ZIP/tarball from the CLI build drops and will proceed to install it in either the 
-default location or in a location specified by <code>--install-dir</code>. By default, the installation script 
-will download the SDK and install it; if you want to get just the shared runtime, you can specify the <code>--shared-runtime</code>
-argument. </p>
-<p>By default, the script will add the install location to the $PATH for the current session. This can be overridden if the 
-<code>--no-path</code> argument is used. </p>
-<p>Before running the script, please install all the required <a href="https://github.com/dotnet/cli/tree/rel/1.0.0/Documentation/reqs.md">dependencies</a>.</p>
-<p>You can install a specific version using the <code>--version</code> argument. The version needs to be specified as 3-part version 
-(for example 1.0.0-13232). If omitted, it will default to the first global.json found in the hierarchy above the folder the script 
-was invoked in that contains the <code>sdkVersion</code> property. If that is not present it will use Latest.</p>
-<p>You can also use this script to get the SDK or shared runtime debug binaries with debug symbols by using the <code>--debug</code> 
-argument. If you do not do this on first install and realize you do need debug symbols later on, you can re-run the 
-script with this argument and the version of the bits you installed. </p>
+<p>The <code>dotnet-install</code> scripts are used to perform a non-admin install of the CLI toolchain and the shared runtime. You can download the scripts from our <a href="https://github.com/dotnet/cli/tree/rel/1.0.0-preview1/scripts/obtain">CLI GitHub repo</a>. </p>
+<p>Their main use case is to help with automation scenarios and non-admin installations. There are two scripts, one for PowerShell that works on Windows and a bash script that works on Linux/OS X. They both have the same behavior. Bash script also &quot;understands&quot; PowerShell switches so you can use them across the board. </p>
+<p>Installation scripts will download the ZIP/tarball file from the CLI build drops and will proceed to install it in either the default location or in a location specified by <code>--install-dir</code>. By default, the installation script 
+will download the SDK and install it; if you want to get just the shared runtime, you can specify the <code>--shared-runtime</code> argument. </p>
+<p>By default, the script will add the install location to the $PATH for the current session. This can be overridden if the <code>--no-path</code> argument is used. </p>
+<p>Before running the script, please install all the required <a href="https://github.com/dotnet/cli/tree/rel/1.0.0/Documentation/cli-prerequisites.md">dependencies</a>.</p>
+<p>You can install a specific version using the <code>--version</code> argument. The version needs to be specified as 3-part version (for example 1.0.0-13232). If omitted, it will default to the first global.json file found in the hierarchy above the folder where the script was invoked in that contains the <code>sdkVersion</code> property. If that is not present, it will use Latest.</p>
+<p>You can also use this script to get the SDK or shared runtime debug binaries with debug symbols by using the <code>--debug</code> argument. If you do not do this on first install and realize you do need debug symbols later on, you can re-run the script with this argument and the version of the bits you installed. </p>
 <h2 id="options">Options</h2>
 <p>Options are different between script implementations. </p>
-<h3 id="powershell">PowerShell</h3>
+<h3 id="powershell-windows-">PowerShell (Windows)</h3>
 <p><code>-Channel [CHANNEL]</code></p>
-<p>Which channel (for example, &quot;future&quot;, &quot;preview&quot;, &quot;production&quot;) to install from. Defaults to &quot;Production&quot;.</p>
+<p>Which channel (for example, &quot;future&quot;, &quot;preview&quot;, &quot;production&quot;) to install from. The default value is &quot;Production&quot;.</p>
 <p><code>-Version [VERSION]</code></p>
-<p>Which version of CLI to install; you need to specify the version as 3-part version (i.e. 1.0.0-13232). If omitted, it will default to the first global.json that contains the sdkVersion property; if that is not present it will use Latest.     </p>
+<p>Which version of CLI to install; you need to specify the version as 3-part version (i.e. 1.0.0-13232). If omitted, it will default to the first global.json that contains the sdkVersion property; if that is not present, it will use Latest.     </p>
 <p><code>-InstallDir [DIR]</code></p>
-<p>Path to install to. The directory is created if it doesn&#39;t exist. Defaults to <code>%LocalAppData%\.dotnet</code>.</p>
+<p>Path to install to. The directory is created if it doesn&#39;t exist. The default value is <code>%LocalAppData%\.dotnet</code>.</p>
 <p><code>-Debug</code></p>
-<p>Whether to use larger packages that contain debugging symbols or not. Defaults to &quot;false&quot;.    </p>
+<p><strong>true</strong> to indicate that larger packages containing debugging symbols should be used; otherwise, <strong>false</strong>. The default value is <strong>false</strong>.</p>
 <p><code>-NoPath</code></p>
-<p>Export the prefix/installdir to the path for the current session. This makes CLI tools available immediately after install. 
-Defaults to &quot;false&quot;, that is, the PATH is modified. </p>
+<p><strong>true</strong> to indicate that the prefix/installdir are not exported to the path for the current session; otherwise, <strong>false</strong>. 
+The default value is <strong>false</strong>, that is, the PATH is modified. 
+This makes the CLI tools available immediately after install. </p>
 <p><code>-SharedRuntime</code></p>
-<p>Install just the shared runtime bits, not the entire SDK. Defaults to &quot;false&quot;.</p>
-<h3 id="bash">Bash</h3>
+<p><strong>true</strong> to install just the shared runtime bits; <strong>false</strong> to install the entire SDK. The default value is <strong>false</strong>.</p>
+<h3 id="bash-os-x-linux-">Bash (OS X/Linux)</h3>
 <p><code>--channel [CHANNEL]</code></p>
-<p>Which channel (for example &quot;future&quot;, &quot;preview&quot;, &quot;production&quot;) to install from. Defaults to &quot;Production&quot;.</p>
+<p>Which channel (for example &quot;future&quot;, &quot;preview&quot;, &quot;production&quot;) to install from. The default value is &quot;Production&quot;.</p>
 <p><code>--version [VERSION]</code></p>
-<p>Which version of CLI to install; you need to specify the version as 3-part version (i.e. 1.0.0-13232). If omitted, it will default to the first global.json that contains the sdkVersion property; if that is not present it will use Latest.     </p>
+<p>Which version of CLI to install; you need to specify the version as 3-part version (i.e. 1.0.0-13232). If omitted, it will default to the first global.json that contains the sdkVersion property; if that is not present, it will use Latest.     </p>
 <p><code>--install-dir [DIR]</code></p>
-<p>Path to where to install. The directory is created if it doesn&#39;t exist. Defaults to <code>$HOME/.dotnet</code>.</p>
+<p>Path to where to install. The directory is created if it doesn&#39;t exist. The default value is <code>$HOME/.dotnet</code>.</p>
 <p><code>--debug</code></p>
-<p>Whether to use the larger packages that contain debugging symbols or not. Defaults to &quot;false&quot;. You can install </p>
+<p><strong>true</strong> to indicate that larger packages containing debugging symbols should be used; otherwise, <strong>false</strong>. The default value is <strong>false</strong>.</p>
 <p><code>--no-path</code></p>
-<p>Export the prefix/installdir to the path for the current session. This makes CLI tools available immediately after install. 
-Defaults to &quot;false&quot;, that is, the PATH is modified. </p>
+<p><strong>true</strong> to indicate that the prefix/installdir are not exported to the path for the current session; otherwise, <strong>false</strong>. 
+The default value is <strong>false</strong>, that is, the PATH is modified. 
+This makes the CLI tools available immediately after install.  </p>
 <p><code>--shared-runtime</code></p>
-<p>Installs just the shared runtime bits, not the entire SDK. Defaults to &quot;false&quot;.</p>
+<p><strong>true</strong> to install just the shared runtime bits; <strong>false</strong> to install the entire SDK. The default value is <strong>false</strong>.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>Windows:</p>
 <pre><code>./dotnet-install.ps1 -Channel Future
-</code></pre><p>OSX/Linux:</p>
+</code></pre><p>OS X/Linux:</p>
 <pre><code>./dotnet-install.sh --channel Future
-</code></pre><p>Install the latest preview to specified location</p>
+</code></pre><p>Installs the dev latest version to the default location.</p>
 <p>Windows:</p>
 <pre><code>./dotnet-install.ps1 -Channel preview -InstallDir C:\cli
-</code></pre><p>OSX/Linux:</p>
+</code></pre><p>OS X/Linux:</p>
 <pre><code>./dotnet-install.sh --channel preview --install-dir ~/cli
-</code></pre>
+</code></pre><p>Installs the latest preview to the specified location.</p>
+
             </article>
           </div>
           

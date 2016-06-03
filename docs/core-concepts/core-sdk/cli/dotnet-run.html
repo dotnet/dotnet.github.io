@@ -72,38 +72,41 @@
 <h2 id="name">NAME</h2>
 <p>dotnet-run -- Runs source code &#39;in-place&#39; without any explicit compile or launch commands.</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<p>dotnet-run [--framework] [--configuration]
-    [--project] [--] [--help]</p>
+<p><code>dotnet run [--framework] [--configuration]
+    [--project] [--help] [--]</code></p>
 <h2 id="description">DESCRIPTION</h2>
-<p>The run command provides a convenient option to run your application from the  source code with one command. It compiles source code, generates an 
-output program and then runs that program. This command is useful for fast iterative development and can also be used 
-to run a source-distributed program (for example, website).</p>
-<p>This command relies on <code>dotnet-build(1)</code> to build source inputs to a .NET assembly, before launching the program. 
-The requirements for and handling of source inputs for this command are all inherited from the build command. 
+<p>The <code>dotnet run</code> command provides a convenient option to run your application from the source code with one command. 
+It compiles source code, generates an output program and then runs that program. 
+This command is useful for fast iterative development and can also be used to run a source-distributed program (for example, a website).</p>
+<p>This command relies on <a href="dotnet-build.html"><code>dotnet build</code></a> to build source inputs to a .NET assembly, before launching the program. 
+The requirements for this command and the handling of source inputs are all inherited from the build command. 
 The documentation for the build command provides more information on those requirements.</p>
 <p>Output files are written to the child <code>bin</code> folder, which will be created if it doesn&#39;t exist. 
-Files will be overwritten as needed. Temporary files are written to the child <code>obj</code> folder.  </p>
-<p>In case of a project with multiple specified frameworks, <code>dotnet run</code> will first select the .NET Core frameworks. If 
-those do not exist, it will error out. To specify other frameworks, use the <code>--framework</code> argument. </p>
+Files will be overwritten as needed. 
+Temporary files are written to the child <code>obj</code> folder.  </p>
+<p>In case of a project with multiple specified frameworks, <code>dotnet run</code> will first select the .NET Core frameworks. If those do not exist, it will error out. To specify other frameworks, use the <code>--framework</code> argument.</p>
+<p>The <code>dotnet run</code> command must be used in the context of projects, not built assemblies. If you&#39;re trying to execute a DLL instead, you should use <a href="dotnet.html"><code>dotnet</code></a> without any command like in the following example:</p>
+<p><code>dotnet myapp.dll</code></p>
+<p>For more information about the <code>dotnet</code> driver, see the <a href="overview.html">.NET Core Command Line Tools (CLI)</a> topic.</p>
 <h2 id="options">OPTIONS</h2>
 <p><code>--</code></p>
-<p>Delimit arguments to <code>dotnet run</code> from arguments for the application being run. All arguments after this one will be passed to
-the application being run. </p>
+<p>Delimits arguments to <code>dotnet run</code> from arguments for the application being run. 
+All arguments after this one will be passed to the application being run. </p>
 <p><code>-f</code>, <code>--framework</code> [FID]</p>
-<p>Run the application for a given framework identifier (FID). </p>
+<p>Runs the application for a given framework identifier (FID). </p>
 <p><code>-c</code>, <code>--configuration [Debug|Release]</code></p>
-<p>Configuration to use when publishing. If not specified, will default to &quot;Debug&quot;.</p>
+<p>Configuration to use when publishing. The default value is &quot;Debug&quot;.</p>
 <p><code>-p</code>, <code>--project [PATH]</code></p>
-<p>Specifies which project to run. Can be a path to project.json or to a directory containing a project.json. Defaults to
+<p>Specifies which project to run. 
+It can be a path to a project.json file or to a directory containing a project.json file. It defaults to
 current directory if not specified. </p>
 <h2 id="examples">EXAMPLES</h2>
 <p><code>dotnet run</code></p>
-<p>Run the project in the current directory. </p>
+<p>Runs the project in the current directory. </p>
 <p><code>dotnet run --project /projects/proj1/project.json</code></p>
-<p>Run the project specified.</p>
+<p>Runs the project specified.</p>
 <p><code>dotnet run --configuration Release -- --help</code></p>
-<p>Run the project in the current directory. The <code>--help</code> argument above will be passed to the application being run, since 
-we used the <code>--</code> argument. </p>
+<p>Runs the project in the current directory. The <code>--help</code> argument above is passed to the application being run, since the <code>--</code> argument was used.</p>
 
             </article>
           </div>

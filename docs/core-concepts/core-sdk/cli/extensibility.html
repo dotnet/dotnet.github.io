@@ -159,8 +159,8 @@ tools there are two components:</p>
 <li>A dispatcher tool that the user invokes</li>
 <li>A framework-specific dependency that contains the logic on how to find the build outputs and what to do with it</li>
 </ol>
-<p>A prime example of this are <a href="https://github.com/aspnet/EntityFramework">Entity Framework (EF)</a> commands as well as the <a href="dotnet-test.html">dotnet-test</a> command. In both 
-cases there is a tool that is referenced in the <code>tools</code> node of the <code>project.json</code> and that is the main dispatcher. The 
+<p>A prime example of this are <a href="https://github.com/aspnet/EntityFramework">Entity Framework (EF)</a> commands as well as the <a href="dotnet-test.html"><code>dotnet test</code></a> command. In both 
+cases, there is a tool that is referenced in the <code>tools</code> node of the <code>project.json</code> and that is the main dispatcher. The 
 user invokes this tool on the command line. The second piece of the puzzle is the dependency that is given in the 
 project&#39;s main dependencies (either root ones or framework-specific ones). This package contains the actual logic of 
 the tool. The package is a normal dependency, thus it will be restored as part of the restore process for the project. </p>
@@ -183,8 +183,8 @@ the dispatcher tool which can then use that to find the needed binary that conta
 <p>PATH-based extensibility is usually used for development machines where you need a tool that conceptually covers more 
 than a single project. The main drawback of this extensions mechanism is that it is tied to the machine where the 
 tool exists. If you need it on another machine, you would have to deploy it.</p>
-<p>This pattern of CLI toolset extensibility is very simple. As covered in the <a href="overview.html">overview</a>, <code>dotnet</code> driver 
-can run any command that is named after the <code>dotnet-&lt;command&gt;</code> convention. The default resolution logic will first 
+<p>This pattern of CLI toolset extensibility is very simple. As covered in the <a href="overview.html">.NET Core CLI overview</a>, <code>dotnet</code> driver 
+can run any command that is named after the <code>dotnet &lt;command&gt;</code> convention. The default resolution logic will first 
 probe several locations and will finally fall to the system PATH. If the requested command exists in the system PATH 
 and is a binary that can be invoked, <code>dotnet</code> driver will invoke it. </p>
 <p>The binary can be pretty much anything that the operating system can execute. On Unix systems, this means anything that 
@@ -206,7 +206,7 @@ fi
 
 echo &quot;Cleaning complete...&quot;
 </code></pre>
-<p>On OS X we can save this script as <code>dotnet-clean</code> and set its executable bit with <code>chmod +x dotnet-clean</code>. We can then 
+<p>On OS X, we can save this script as <code>dotnet-clean</code> and set its executable bit with <code>chmod +x dotnet-clean</code>. We can then 
 create a symbolic link to it in <code>/usr/local/bin</code> using the command <code>ln -s dotnet-clean /usr/local/bin/</code>. This will make 
 it possible to invoke the clean command using the <code>dotnet clean</code> syntax. You can test this by creating an app, running 
 <code>dotnet build</code> on it and then running <code>dotnet clean</code>. </p>
