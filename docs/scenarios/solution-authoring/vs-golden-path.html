@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Building simple C# solutions with Visual Studio | CoreCLR site </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Building simple C# solutions with Visual Studio | CoreCLR site ">
+    
+    <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/style.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-63735192-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav class="navbar navbar-inverse">
+             <div class="container">
+               <a href="../../../"><img height="50px" src="../../../images/Logo_DotNet.png" style="float:right;"></a>
+               <div class="navbar-header ">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="../../../"><span class="dotnet">.NET Core</span></a>
+               </div>
+               <div id="navbar" class="collapse navbar-collapse">
+               </div><!--/.nav-collapse -->
+             </div>
+           </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content">
+              <a href="https://github.com/dotnet/core-docs/blob/master/docs/scenarios/solution-authoring/vs-golden-path.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
+              <h1 id="building-simple-c-solutions-with-visual-studio">Building simple C# solutions with Visual Studio</h1>
+              
+<p>by <a href="https://github.com/bleroy">Bertrand Le Roy</a> and <a href="https://github.com/cartermp">Phillip Carter</a></p>
+<p>The scripts in this document describe the steps necessary to build a number of typical .NET Core solutions, or solutions that include .NET Core components, using Visual Studio. The scenarios include testing and using third-party libraries that have not been explicitly built for the most recent version of .NET Core.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>These scripts assume that <a href="https://www.visualstudio.com/en-us/news/vs2015-update2-vs.aspx">Visual Studio 2015 Update 2</a> and the <a href="https://www.microsoft.com/net/core">.NET Core RC2 SDK preview with Visual Studio tooling</a> are installed on the machine.</p>
+<h2 id="a-solution-using-only-net-core-projects">A solution using only .NET Core projects</h2>
+<h3 id="writing-the-library">Writing the library</h3>
+<ol>
+<li>Launch Visual Studio, then choose File -&gt; New -&gt; Project. Under Templates / Visual C# / .NET Core, choose &quot;Class Library (.NET Core)&quot; and name the project &quot;Library&quot; and the solution &quot;Golden&quot;. Leave &quot;Create directory for solution&quot; checked.</li>
+<li>Under References, manage NuGet packages, use &quot;nuget.org&quot; as the package source, and browse (including prerelease) for <code>Newtonsoft.Json</code>. Click <code>Install</code>. Right-click the dependencies folder and click &quot;Restore packages&quot;.</li>
+<li>Rename the <code>Class1.cs</code> file to <code>Thing.cs</code>. Accept the rename of the class. Remove the constructor and add a method: <code>public int Get(int number) =&gt; Newtonsoft.Json.JsonConvert.DeserializeObject&lt;int&gt;($&quot;{number}&quot;);</code></li>
+</ol>
+<p>The solution should build without error.</p>
+<h3 id="writing-the-test-project">Writing the test project</h3>
+<ol>
+<li>Right-click the solution in the Solution Explorer and create a &quot;test&quot; solution folder. This is only a solution folder, not a physical folder.</li>
+<li>Right-click the new &quot;test&quot; solution folder, add -&gt; New Project. Choose &quot;Console Application (.NET Core)&quot;, call it &quot;TestLibrary&quot; and explicitly put it under <code>Golden/test</code>. <em>Important</em>: the project needs to be a console application, not a class library.</li>
+<li>Right-click References and choose &quot;Add reference&quot;. Check &quot;Library&quot; under Projects/solution. Edit <code>project.json</code> and replace <code>&quot;Library&quot;: &quot;1.0.0-*&quot;</code> with <code>&quot;Library&quot;: {&quot;target&quot;: &quot;project&quot;, &quot;version&quot;: &quot;1.0.0-*&quot;}</code>. This is to avoid the resolution of the <code>Library</code> project to a NuGet package with the same name. Explicitly setting the target to &quot;project&quot; ensures that the tooling will first search for a project with that name, and not a package. Right-click the dependencies folder and click &quot;Restore packages&quot;.</li>
+<li>Manage NuGet packages with the nuget.org package source, install <code>xUnit</code> 2.1.0 and <code>dotnet-test-xunit</code> 1.0.0-rc2-* packages from nuget.org to the project. Edit <code>project.json</code> and change <code>imports</code> to be <code>[ &quot;dnxcore50&quot;, &quot;portable-net45+win8&quot; ]</code> instead of simply <code>&quot;dnxcore50&quot;</code>. This enables the xunit libraries to be correctly restored and used by the project: those libraries have been compiled to be used with portable profiles that include &quot;portable-net45+win8&quot;, but not .NET Core, which didn&#39;t exist when they were built. The <code>import</code> relaxes the tooling version checks at build time. You may now restore packages without error.</li>
+<li>Edit <code>project.json</code> to add <code>&quot;testRunner&quot;: &quot;xunit&quot;,</code>.</li>
+<li>Add a <code>LibraryTests.cs</code> file, add <code>using Xunit;</code> and <code>using Library;</code> to the top of the file, and the following code to the class:<pre><code class="lang-csharp"> [Fact]
+ public void ThingGetsObjectValFromNumber() {
+     Assert.Equal(42, new Thing().Get(42));
+ }
+</code></pre>
+</li>
+<li>Optionally, remove the <code>Program.cs</code> file, and remove <code>&quot;compilationOptions&quot;: {&quot;emitEntryPoint&quot;: true}</code> from <code>project.json</code>.</li>
+</ol>
+<p>You should be able to build the solution. You may now go to Test -&gt; Windows -&gt; Test Explorer and run all tests, which should pass.</p>
+<h3 id="writing-the-console-app">Writing the console app</h3>
+<ol>
+<li>Right-click the <code>src</code> folder, and add a new &quot;Console Application (.NET Core)&quot; project. Call it &quot;App&quot;. Make sure to point the location to <code>Golden/src</code>.</li>
+<li>Add reference to Projects/Solution/Library. Right-click the dependencies folder and click &quot;Restore packages&quot;.</li>
+<li>Right-click the project and set it as the startup project.</li>
+<li>Open <code>Program.cs</code>, add <code>using Library;</code> to the top of the file, then add <code>Console.WriteLine($&quot;The answer is {new Thing().Get(42)}&quot;);</code> to the Main method of Program.cs.</li>
+<li>Set a breakpoint after the <code>WriteLine</code>.</li>
+<li>Run the app using F5.</li>
+</ol>
+<p>The application should have built correctly, and should hit the breakpoint. You should also be able to check that the application output &quot;The answer is 42.&quot;.</p>
+<h2 id="a-mixed-net-core-library-and-net-framework-application">A mixed .NET Core library and .NET Framework application</h2>
+<p>Starting from the solution obtained with the previous script, execute the following steps:</p>
+<ol>
+<li>Change the library&#39;s <code>project.json</code> to use <code>frameworks/netstandard1.4</code> instead of 1.5. Restore packages. The solution should still build and function exactly like it did before: the test should pass, and the console application should run and be debuggable.</li>
+<li>Right-click src, and add a new console application project (not Core, this time, as we want to consume our library from a .NET Framework application). Call it FxApp. Don&#39;t forget to use <code>Golden\src</code> as the location.</li>
+<li>Add a reference to the Library project. In theory, you should be able to add the reference to the project, but this scenario is currently broken. As a workaround, build the library project, then browse to the built dll. You could also package the library and reference the package, as another way to reference Core code from the .NET Framework. You will also need to manually add to your project the NuGet packages that the <code>Library</code> project is using (namely, <code>Newtonsoft.Json</code>), if you included it as a dll.</li>
+<li>Open <code>Program.cs</code>, add <code>using Library;</code> to the top of the file, and add <code>Console.WriteLine($&quot;The answer is {new Thing().Get(42)}.&quot;);</code> to the Main method of the program.</li>
+<li>Make FxApp the startup application for the solution.</li>
+<li>Set a breakpoint after the <code>WriteLine</code>.</li>
+<li>Run the app using F5.</li>
+</ol>
+<p>The application should build and hit the breakpoint. The application output should be &quot;The answer is 42.&quot;.</p>
+<h2 id="moving-a-library-from-netstandard-1-4-to-1-3">Moving a library from netstandard 1.4 to 1.3</h2>
+<ol>
+<li>Modify the library&#39;s <code>project.json</code> to use <code>frameworks/netstandard1.3</code> instead of 1.4.</li>
+<li>Restore packages for the library and build it.</li>
+<li>Remove the <code>Library</code> reference from <code>FxApp</code> then add it back, but pointing at the 1.3 version now.</li>
+</ol>
+<p>Everything should still work as it did before. Check that the application output &quot;The answer is 42.&quot; that the breakpoint was hit, and that variables can be inspected.</p>
+<h2 id="a-mixed-pcl-library-and-net-framework-application">A mixed PCL library and .NET Framework application</h2>
+<p>Close the previous solution if it was open: we are starting a new script from this section on.</p>
+<h3 id="writing-the-library-0">Writing the library</h3>
+<ol>
+<li>In Visual Studio, do File -&gt; New -&gt; Project. Under Templates / Visual C#, choose &quot;Class Library (Portable for iOS, Android and Windows)&quot; and name the project &quot;PCLLibrary&quot; and the solution &quot;GoldenPCL&quot;.</li>
+<li>Under References, manage NuGet packages, use &quot;nuget.org&quot; as the package source, and browse (including prerelease) for <code>Newtonsoft.Json</code>. Install.</li>
+<li>Rename the class &quot;Thing&quot;. Add a method: <code>public int Get(int number) =&gt; Newtonsoft.Json.JsonConvert.DeserializeObject&lt;int&gt;($&quot;{number}&quot;);</code></li>
+<li>Verify that the solution builds.</li>
+</ol>
+<h3 id="writing-the-console-app-0">Writing the console app</h3>
+<ol>
+<li>Add a new &quot;Console Application&quot; project and call it &quot;App&quot;.</li>
+<li>Add a reference to Projects/Solution/PCLLibrary.</li>
+<li>Add <code>Console.WriteLine($&quot;The answer is {new Thing().Get(42)}&quot;);</code> to the Main method of Program.cs, with <code>using PCLLibrary;</code> at the top of the file.</li>
+<li>Right-click App, set it as the startup project.</li>
+<li>Set a breakpoint after the <code>WriteLine</code>.</li>
+<li>Run the app using F5.</li>
+</ol>
+<p>The application should build, run, and hit the breakpoint after it outputs &quot;The answer is 42.&quot;.</p>
+<h2 id="moving-a-pcl-to-a-netstandard-library">Moving a PCL to a NetStandard library</h2>
+<p>The PCL library that we built in this script is based on a <code>csproj</code>project file. In order to move it to NetStandard, the simplest solution is to manually move its code into a new empty .NET Core Class Library project.</p>
+<p>If you have pre-RC2 PCL libraries with a <code>xproj</code> file and a <code>project.json</code>, you should be able to edit the <code>project.json</code> file instead, to reference <code>&quot;NETStandard.Library&quot;: &quot;1.5.0-rc2-24027&quot;</code>, and target &quot;netstandard1.3&quot;.</p>
+
+            </article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+            <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+            </nav>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="inner-footer">
+          <p>© .NET Foundation</p>
+          <p>
+            <a href="https://www.github.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-github fa-stack-1x"></span>
+            </span></a>
+            <a href="https://twitter.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-twitter fa-stack-1x"></span>
+            </span></a>
+            <a href="https://www.facebook.com/dotnet" target="_blank"><span class="fa fa-stack fa-lg">
+              <span class="fa fa-square-o fa-stack-2x"></span>
+              <span class="fa fa-facebook fa-stack-1x"></span>
+            </span></a>
+      
+          </p>
+          </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
