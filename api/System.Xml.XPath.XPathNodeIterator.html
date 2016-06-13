@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L11" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L206" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Xml_XPath_XPathNodeIterator" data-uid="System.Xml.XPath.XPathNodeIterator">Class XPathNodeIterator
               </h1>
               <div class="markdown level0 summary"><p>Provides an iterator over a selected set of nodes.</p>
@@ -87,6 +87,11 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class XPathNodeIterator : Collections.IEnumerable</code></pre>
               </div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>An <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object returned by the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> class is not positioned on the first node in a selected set of nodes. A call to the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method of the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> class must be made to position the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object on the first node in the selected set of nodes.</p>
+<p>When using the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a>, if you edit the current node or any of its ancestors, your current position is lost. If you want to edit a number of nodes that you have selected, create a <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> array, copy all of the nodes from the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> into the array, then iterate through the array and modify the nodes.</p>
+<p>There are two ways to iterate over an <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> collection by using the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> class.</p>
+<p>One way is to use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method and then call <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> to get the current <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> instance, as in the following example:</p>XPathNavigatorMethods#55<p>Another way is to use a <strong>foreach</strong> loop to call the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method and use the returned <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator">IEnumerator</a> interface to enumerate the nodes, as in the following example:</p>XPathNavigatorMethods#56<p>You should either use <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> and <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> or use <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a>. Combining these two approaches can cause unexpected results. For example, if the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method is called first, and then the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method is called in the <strong>foreach</strong> loop, the <strong>foreach</strong> loop will not start enumerating the results from the beginning of the collection, but from the position after the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> method.</p></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +105,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor is called by derived class constructors to initialize state in this type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected XPathNodeIterator()</code></pre>
@@ -111,12 +119,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator_Count.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator.Count%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L20">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L209">View Source</a>
               </span>
               <h4 id="System_Xml_XPath_XPathNodeIterator_Count" data-uid="System.Xml.XPath.XPathNodeIterator.Count">Count</h4>
               <div class="markdown level1 summary"><p>Gets the index of the last node in the selected set of nodes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_Count_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Count">Count</a> property does not affect the position of the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int Count { get; }</code></pre>
@@ -142,12 +153,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator_Current.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator.Current%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L18">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L210">View Source</a>
               </span>
               <h4 id="System_Xml_XPath_XPathNodeIterator_Current" data-uid="System.Xml.XPath.XPathNodeIterator.Current">Current</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, gets the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object for this <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a>, positioned on the current context node.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_Current_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can use the properties of the returned <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object to obtain information on the current node. However, the returned <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object should not be modified. The returned <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object cannot be moved away from the selected node set.</p>
+<p>Alternatively, you can clone the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object using the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator_Clone">Clone()</a> method of the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> class. The cloned <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object can then be moved away from the selected node set. This method of cloning the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object might affect the performance of the XPath query.</p>
+<p>If the <see cref="Overload:System.Xml.XPath.XPathNavigator.SelectAncestors"></see>, <see cref="Overload:System.Xml.XPath.XPathNavigator.SelectDescendants"></see>, and <see cref="Overload:System.Xml.XPath.XPathNavigator.SelectChildren"></see> methods result in no nodes being selected, the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> property might not be pointing to the context node.</p>
+<p>To test whether nodes have been selected, use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Count">Count</a> property as shown in the following example.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract XPathNavigator Current { get; }</code></pre>
@@ -162,7 +179,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPath.XPathNavigator</a></td>
+                    <td><a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a></td>
                     <td><p>An <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object positioned on the context node from which the node set was selected. The <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method must be called to move the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> to the first node in the selected set.</p>
 </td>
                   </tr>
@@ -173,12 +190,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator_CurrentPosition.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator.CurrentPosition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L19">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L211">View Source</a>
               </span>
               <h4 id="System_Xml_XPath_XPathNodeIterator_CurrentPosition" data-uid="System.Xml.XPath.XPathNodeIterator.CurrentPosition">CurrentPosition</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, gets the index of the current position in the selected set of nodes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_CurrentPosition_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The index is 1-based. Therefore, the first node has an index of 1. An index of 0 indicates there are no selected nodes. This property always returns a positive integer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract int CurrentPosition { get; }</code></pre>
@@ -206,12 +226,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator_Clone.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator.Clone%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L16">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L212">View Source</a>
               </span>
               <h4 id="System_Xml_XPath_XPathNodeIterator_Clone" data-uid="System.Xml.XPath.XPathNodeIterator.Clone">Clone()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, returns a clone of this <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_Clone_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The cloned <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object is positioned at the same node in the node set if calls have been made to the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method. The cloned <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object is not affected by subsequent changes to this <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract XPathNodeIterator Clone()</code></pre>
@@ -237,12 +260,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator_GetEnumerator.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator.GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L33">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L213">View Source</a>
               </span>
               <h4 id="System_Xml_XPath_XPathNodeIterator_GetEnumerator" data-uid="System.Xml.XPath.XPathNodeIterator.GetEnumerator">GetEnumerator()</h4>
               <div class="markdown level1 summary"><p>Returns an <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator">IEnumerator</a> object to iterate through the selected node set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_GetEnumerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The enumerator is positioned on the current position of the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object.</p>
+<p>There are two ways to iterate over an <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> collection by using the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> class.</p>
+<p>One way is to use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method and then call <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> to get the current <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> instance, as in the following example:</p>XPathNavigatorMethods#55<p>Another way is to use a <strong>foreach</strong> loop to call the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method and use the returned <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator">IEnumerator</a> interface to enumerate the nodes, as in the following example:</p>XPathNavigatorMethods#56<p>You should either use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method and <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> or use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method. Combining these two approaches can cause unexpected results. For example, if the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method is called first, and then the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method is called in the <strong>foreach</strong> loop, the <strong>foreach</strong> loop will not start enumerating the results from the beginning of the collection, but from the position after the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> method.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.IEnumerator GetEnumerator()</code></pre>
@@ -268,12 +295,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_XPath_XPathNodeIterator_MoveNext.md&amp;value=---%0Auid%3A%20System.Xml.XPath.XPathNodeIterator.MoveNext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/src/System/Xml/XPath/XPathNodeIterator.cs/#L17">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XPath/ref/System.Xml.XPath.cs/#L214">View Source</a>
               </span>
               <h4 id="System_Xml_XPath_XPathNodeIterator_MoveNext" data-uid="System.Xml.XPath.XPathNodeIterator.MoveNext">MoveNext()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, moves the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object returned by the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> property to the next node in the selected node set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XPath_XPathNodeIterator_MoveNext_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> object is positioned on the first node in the selected node set only after the initial call to the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method. The node set is created in document order. Therefore, calling the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method moves to the next node in document order.</p>
+<p>There are two ways to iterate over an <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> collection by using the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator">XPathNodeIterator</a> class.</p>
+<p>One way is to use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method and then call <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> to get the current <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> instance, as in the following example:</p>XPathNavigatorMethods#55<p>Another way is to use a <strong>foreach</strong> loop to call the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method and use the returned <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator">IEnumerator</a> interface to enumerate the nodes, as in the following example:</p>XPathNavigatorMethods#56<p>You should either use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method and <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> or use the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method. Combining these two approaches can cause unexpected results. For example, if the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_MoveNext">MoveNext()</a> method is called first, and then the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_GetEnumerator">GetEnumerator()</a> method is called in the <strong>foreach</strong> loop, the <strong>foreach</strong> loop will not start enumerating the results from the beginning of the collection, but from the position after the <a class="xref" href="System.Xml.XPath.XPathNodeIterator.html#System_Xml_XPath_XPathNodeIterator_Current">Current</a> method.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool MoveNext()</code></pre>
@@ -289,7 +320,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object moved to the next node; false if there are no more selected nodes.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Xml.XPath.XPathNavigator.html#System_Xml_XPath_XPathNavigator">XPathNavigator</a> object moved to the next node; <strong>false</strong> if there are no more selected nodes.</p>
 </td>
                   </tr>
                 </tbody>

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Activator.md&amp;value=---%0Auid%3A%20System.Activator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs/#L35" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L28" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Activator" data-uid="System.Activator">Class Activator
               </h1>
               <div class="markdown level0 summary"><p>Contains methods to create types of objects locally or remotely, or obtain references to existing remote objects. This class cannot be inherited. </p>
@@ -87,6 +87,16 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Activator</code></pre>
               </div>
+              <h5 id="System_Activator_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <span class="xref">System.Activator.CreateInstance(System.Type,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)</span> method creates an instance of a type defined in an assembly by invoking the constructor that best matches the specified arguments. If no arguments are specified, the constructor that takes no parameters, that is, the default constructor, is invoked.</p>
+<p>You must have sufficient permission to search for and call a constructor; otherwise, an exception is thrown. By default, only public constructors are considered during the search for a constructor. If no constructor or default constructor can be found, an exception is thrown.</p>
+<p>A binder parameter specifies an object that searches an assembly for a suitable constructor. You can specify your own binder and search criteria. If no binder is specified, a default binder is used. For more information, see the <span class="xref">System.Reflection.Binder</span> and <a class="xref" href="System.Reflection.BindingFlags.html#System_Reflection_BindingFlags">BindingFlags</a> classes.</p>
+<p>An evidence parameter affects the security policy and permissions for the constructor. For more information, see the <span class="xref">System.Security.Policy.Evidence</span> class.</p>
+<p>An instance of a type can be created at a local or remote site. If the type is created remotely, an activation attribute parameter specifies the URI of the remote site. The call to create the instance might pass through intermediary sites before it reaches the remote site. Other activation attributes can modify the environment, or context, in which the call operates at the remote and intermediary sites.</p>
+<p>If the instance is created locally, a reference to that object is returned. If the instance is created remotely, a reference to a proxy is returned. The remote object is manipulated through the proxy as if it were a local object.</p>
+<p>The <span class="xref">System.Activator.GetObject(System.Type,System.String)</span> method creates a proxy to a currently running remote object, server-activated well-known object, or XML Web service. You can specify the connection medium, that is, the channel. For more information, see the <span class="xref">System.Runtime.Remoting.Channels.ChannelServices</span> class.</p>
+<p>Assemblies contain type definitions. The <span class="xref">System.Activator.CreateInstance(System.Type,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)</span> method creates an instance of a type from a currently running assembly. The <span class="xref">System.Activator.CreateInstanceFrom(System.String,System.String)</span> method creates an instance from a file that contains an assembly. The <span class="xref">System.Activator.CreateComInstanceFrom(System.String,System.String)</span> method creates an instance of a COM object from a file that contains an assembly.</p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +104,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Activator_CreateInstance_System_Type_.md&amp;value=---%0Auid%3A%20System.Activator.CreateInstance(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs/#L131">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L30">View Source</a>
               </span>
               <h4 id="System_Activator_CreateInstance_System_Type_" data-uid="System.Activator.CreateInstance(System.Type)">CreateInstance(Type)</h4>
               <div class="markdown level1 summary"><p>Creates an instance of the specified type using that type&#39;s default constructor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Activator_CreateInstance_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The constructor to be invoked must be accessible.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this method can be used to access nonpublic types if the caller has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag and if the grant set of the assembly that contains the nonpublic types is restricted to the caller’s grant set or to a subset thereof. (See Security Considerations for Reflection.) </p>
+<p>To use this functionality, your application should target the .NET Framework 3.5 or later. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object CreateInstance(Type type)</code></pre>
@@ -149,17 +164,27 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null. </p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>type</em> is not a RuntimeType. -or-<em>type</em> is an open generic type (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns true).</p>
+                    <td><p>
+<em>type</em> is not a <strong>RuntimeType</strong>. </p>
+<p>-or-</p>
+<p>
+<em>type</em> is an open generic type (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns <strong>true</strong>).</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>type</em> cannot be a <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a>.-or- Creation of <span class="xref">System.TypedReference</span>, <span class="xref">System.ArgIterator</span>, <a class="xref" href="System.Void.html#System_Void">Void</a>, and <span class="xref">System.RuntimeArgumentHandle</span> types, or arrays of those types, is not supported.-or-The assembly that contains <em>type</em> is a dynamic assembly that was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.Save</span>. </p>
+                    <td><p>
+<em>type</em> cannot be a <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a>.</p>
+<p>-or- </p>
+<p>Creation of <span class="xref">System.TypedReference</span>, <span class="xref">System.ArgIterator</span>, <a class="xref" href="System.Void.html#System_Void">Void</a>, and <span class="xref">System.RuntimeArgumentHandle</span> types, or arrays of those types, is not supported.</p>
+<p>-or-</p>
+<p>The assembly that contains <em>type</em> is a dynamic assembly that was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.Save</span>. </p>
 </td>
                   </tr>
                   <tr>
@@ -169,7 +194,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MethodAccessException.html#System_MethodAccessException">MethodAccessException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.The caller does not have permission to call this constructor. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.</p>
+<p>The caller does not have permission to call this constructor. </p>
 </td>
                   </tr>
                   <tr>
@@ -184,17 +210,20 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.No matching public constructor was found. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.</p>
+<p>No matching public constructor was found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.COMException.html#System_Runtime_InteropServices_COMException">COMException</a></td>
-                    <td><p><em>type</em> is a COM object but the class identifier used to obtain the type is invalid, or the identified class is not registered. </p>
+                    <td><p>
+<em>type</em> is a COM object but the class identifier used to obtain the type is invalid, or the identified class is not registered. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TypeLoadException.html#System_TypeLoadException">TypeLoadException</a></td>
-                    <td><p><em>type</em> is not a valid type. </p>
+                    <td><p>
+<em>type</em> is not a valid type. </p>
 </td>
                   </tr>
                 </tbody>
@@ -204,12 +233,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Activator_CreateInstance_System_Type_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Activator.CreateInstance(System.Type%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs/#L179">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L31">View Source</a>
               </span>
               <h4 id="System_Activator_CreateInstance_System_Type_System_Boolean_" data-uid="System.Activator.CreateInstance(System.Type,System.Boolean)">CreateInstance(Type, Boolean)</h4>
               <div class="markdown level1 summary"><p>Creates an instance of the specified type using that type&#39;s default constructor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Activator_CreateInstance_System_Type_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Starting with the .NET Framework 2.0 Service Pack 1, this method can be used to access nonpublic types and members if the caller has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag and if the grant set of the assembly that contains the nonpublic types and members is restricted to the caller’s grant set or to a subset thereof. (See Security Considerations for Reflection.) </p>
+<p>To use this functionality, your application should target the .NET Framework 3.5 or later. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object CreateInstance(Type type, bool nonPublic)</code></pre>
@@ -233,7 +266,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>nonPublic</em></td>
-                    <td><p>true if a public or nonpublic default constructor can match; false if only a public default constructor can match. </p>
+                    <td><p>
+<strong>true</strong> if a public or nonpublic default constructor can match; <strong>false</strong> if only a public default constructor can match. </p>
 </td>
                   </tr>
                 </tbody>
@@ -265,17 +299,27 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null. </p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>type</em> is not a RuntimeType. -or-<em>type</em> is an open generic type (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns true).</p>
+                    <td><p>
+<em>type</em> is not a <strong>RuntimeType</strong>. </p>
+<p>-or-</p>
+<p>
+<em>type</em> is an open generic type (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns <strong>true</strong>).</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>type</em> cannot be a <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a>.-or- Creation of <span class="xref">System.TypedReference</span>, <span class="xref">System.ArgIterator</span>, <a class="xref" href="System.Void.html#System_Void">Void</a>, and <span class="xref">System.RuntimeArgumentHandle</span> types, or arrays of those types, is not supported. -or-The assembly that contains <em>type</em> is a dynamic assembly that was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.Save</span>.</p>
+                    <td><p>
+<em>type</em> cannot be a <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a>.</p>
+<p>-or- </p>
+<p>Creation of <span class="xref">System.TypedReference</span>, <span class="xref">System.ArgIterator</span>, <a class="xref" href="System.Void.html#System_Void">Void</a>, and <span class="xref">System.RuntimeArgumentHandle</span> types, or arrays of those types, is not supported. </p>
+<p>-or-</p>
+<p>The assembly that contains <em>type</em> is a dynamic assembly that was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.Save</span>.</p>
 </td>
                   </tr>
                   <tr>
@@ -305,12 +349,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.COMException.html#System_Runtime_InteropServices_COMException">COMException</a></td>
-                    <td><p><em>type</em> is a COM object but the class identifier used to obtain the type is invalid, or the identified class is not registered. </p>
+                    <td><p>
+<em>type</em> is a COM object but the class identifier used to obtain the type is invalid, or the identified class is not registered. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TypeLoadException.html#System_TypeLoadException">TypeLoadException</a></td>
-                    <td><p><em>type</em> is not a valid type. </p>
+                    <td><p>
+<em>type</em> is not a valid type. </p>
 </td>
                   </tr>
                 </tbody>
@@ -320,12 +366,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Activator_CreateInstance_System_Type_System_Object___.md&amp;value=---%0Auid%3A%20System.Activator.CreateInstance(System.Type%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs/#L109">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L32">View Source</a>
               </span>
               <h4 id="System_Activator_CreateInstance_System_Type_System_Object___" data-uid="System.Activator.CreateInstance(System.Type,System.Object[])">CreateInstance(Type, Object[])</h4>
               <div class="markdown level1 summary"><p>Creates an instance of the specified type using the constructor that best matches the specified parameters.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Activator_CreateInstance_System_Type_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The constructor to be invoked must be accessible and must provide the most specific match with the specified argument list.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this method can be used to access nonpublic types if the caller has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag and if the grant set of the assembly that contains the nonpublic types is restricted to the caller’s grant set or to a subset thereof. (See Security Considerations for Reflection.) </p>
+<p>To use this functionality, your application should target the .NET Framework 3.5 or later. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object CreateInstance(Type type, params object[] args)</code></pre>
@@ -349,7 +400,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>An array of arguments that match in number, order, and type the parameters of the constructor to invoke. If <em>args</em> is an empty array or null, the constructor that takes no parameters (the default constructor) is invoked. </p>
+                    <td><p>An array of arguments that match in number, order, and type the parameters of the constructor to invoke. If <em>args</em> is an empty array or <strong>null</strong>, the constructor that takes no parameters (the default constructor) is invoked. </p>
 </td>
                   </tr>
                 </tbody>
@@ -381,17 +432,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null. </p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>type</em> is not a RuntimeType. -or-<em>type</em> is an open generic type (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns true).</p>
+                    <td><p>
+<em>type</em> is not a <strong>RuntimeType</strong>. </p>
+<p>-or-</p>
+<p>
+<em>type</em> is an open generic type (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns <strong>true</strong>).</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>type</em> cannot be a <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a>.-or- Creation of <span class="xref">System.TypedReference</span>, <span class="xref">System.ArgIterator</span>, <a class="xref" href="System.Void.html#System_Void">Void</a>, and <span class="xref">System.RuntimeArgumentHandle</span> types, or arrays of those types, is not supported. -or-The assembly that contains <em>type</em> is a dynamic assembly that was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.Save</span>.-or-The constructor that best matches <em>args</em> has varargs arguments. </p>
+                    <td><p>
+<em>type</em> cannot be a <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a>.</p>
+<p>-or- </p>
+<p>Creation of <span class="xref">System.TypedReference</span>, <span class="xref">System.ArgIterator</span>, <a class="xref" href="System.Void.html#System_Void">Void</a>, and <span class="xref">System.RuntimeArgumentHandle</span> types, or arrays of those types, is not supported. </p>
+<p>-or-</p>
+<p>The assembly that contains <em>type</em> is a dynamic assembly that was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.Save</span>.</p>
+<p>-or-</p>
+<p>The constructor that best matches <em>args</em> has <strong>varargs</strong> arguments. </p>
 </td>
                   </tr>
                   <tr>
@@ -401,7 +464,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MethodAccessException.html#System_MethodAccessException">MethodAccessException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.The caller does not have permission to call this constructor. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.</p>
+<p>The caller does not have permission to call this constructor. </p>
 </td>
                   </tr>
                   <tr>
@@ -416,17 +480,20 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.No matching public constructor was found. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.</p>
+<p>No matching public constructor was found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.COMException.html#System_Runtime_InteropServices_COMException">COMException</a></td>
-                    <td><p><em>type</em> is a COM object but the class identifier used to obtain the type is invalid, or the identified class is not registered. </p>
+                    <td><p>
+<em>type</em> is a COM object but the class identifier used to obtain the type is invalid, or the identified class is not registered. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TypeLoadException.html#System_TypeLoadException">TypeLoadException</a></td>
-                    <td><p><em>type</em> is not a valid type. </p>
+                    <td><p>
+<em>type</em> is not a valid type. </p>
 </td>
                   </tr>
                 </tbody>
@@ -436,12 +503,14 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Activator_CreateInstance__1.md&amp;value=---%0Auid%3A%20System.Activator.CreateInstance%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs/#L195">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L33">View Source</a>
               </span>
               <h4 id="System_Activator_CreateInstance__1" data-uid="System.Activator.CreateInstance``1">CreateInstance&lt;T&gt;()</h4>
               <div class="markdown level1 summary"><p>Creates an instance of the type designated by the specified generic type parameter, using the parameterless constructor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Activator_CreateInstance__1_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Activator.html#System_Activator_CreateInstance__1">CreateInstance<t>()</t></a> generic method is used by compilers to implement the instantiation of types specified by type parameters. For example, in the following generic method, the implementation of <code>new T()</code> (<code>gcnew T()</code> in C++) uses the <a class="xref" href="System.Activator.html#System_Activator_CreateInstance__1">CreateInstance<t>()</t></a> generic method. </p>System.Activation.CreateInstance~~1#1<p>In general, there is no use for the <a class="xref" href="System.Activator.html#System_Activator_CreateInstance__1">CreateInstance<t>()</t></a> generic method in application code, because the type must be known at compile time. If the type is known at compile time, normal instantiation syntax can be used (<strong>new</strong> operator in C#, <strong>New</strong> in Visual Basic, <strong>gcnew</strong> in C++). If the type is not known at compile time, you can call a non-generic overload of <span class="xref">System.Activator.CreateInstance(System.ActivationContext)</span>. </p><p>There are no overloads of the <a class="xref" href="System.Activator.html#System_Activator_CreateInstance__1">CreateInstance<t>()</t></a> generic method that take argument lists, because the non-generic overloads of <span class="xref">System.Activator.CreateInstance(System.ActivationContext)</span> already provide late-bound constructor resolution.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static T CreateInstance&lt;T&gt;()</code></pre>
@@ -473,7 +542,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.The type that is specified for <em>T</em> does not have a parameterless constructor. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.</p>
+<p>The type that is specified for <em>T</em> does not have a parameterless constructor. </p>
 </td>
                   </tr>
                 </tbody>

@@ -88,6 +88,14 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class AnonymousPipeServerStream : PipeStream</code></pre>
               </div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Anonymous pipes help provide safe and secure interprocess communication between child and parent processes. The <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> class enables a parent process to send or receive information from a child process.</p>
+<p>Anonymous pipes are unnamed, one-way pipes that typically transfer data between parent and child processes. Anonymous pipes are always local; they cannot be used over a network. A <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> value of <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a> is not supported because anonymous pipes are defined to be one-way.</p>
+<p>Anonymous pipes do not support <a class="xref" href="System.IO.Pipes.PipeTransmissionMode.html#System_IO_Pipes_PipeTransmissionMode_Message">Message</a> read modes.</p>
+<p>The client side of an anonymous pipe must be created from a pipe handle provided by the server side by calling the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream_GetClientHandleAsString">GetClientHandleAsString()</a> method. The string is then passed as a parameter when creating the client process. From the client process, it is then passed to the <a class="xref" href="System.IO.Pipes.AnonymousPipeClientStream.html#System_IO_Pipes_AnonymousPipeClientStream">AnonymousPipeClientStream</a> constructor as the <em>pipeHandleAsString</em> parameter.</p>
+<p>The <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object must dispose the client handle using the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream_DisposeLocalCopyOfClientHandle">DisposeLocalCopyOfClientHandle()</a> method in order to be notified when the client exits.</p>
+<p>For Windows XP Professional and Windows 2000 Server, a maximum of 10 pipes can simultaneously connect over the network.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +109,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> constructors without a <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> parameter, the default direction is <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_Out">Out</a>. A <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> value of <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a> is not supported because anonymous pipes are defined to be one-way.</p>
+<p>This constructor creates an <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object that has the default buffer size, no pipe security, and a <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability">HandleInheritability</a> value of <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_None">None</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AnonymousPipeServerStream()</code></pre>
@@ -116,6 +128,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> class with the specified pipe direction.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream__ctor_System_IO_Pipes_PipeDirection__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> value of <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a> is not supported because anonymous pipes are defined to be one-way.</p>
+<p>This constructor creates an <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object that has the default buffer size, no pipe security, and a <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability">HandleInheritability</a> value of <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_None">None</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AnonymousPipeServerStream(PipeDirection direction)</code></pre>
@@ -133,7 +149,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a></td>
                     <td><em>direction</em></td>
-                    <td><p>One of the enumeration values that determines the direction of the pipe.Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>One of the enumeration values that determines the direction of the pipe.</p>
+<p>Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -149,7 +166,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>
+<em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -165,6 +183,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> class from the specified pipe handles.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream__ctor_System_IO_Pipes_PipeDirection_Microsoft_Win32_SafeHandles_SafePipeHandle_Microsoft_Win32_SafeHandles_SafePipeHandle__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> value of <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a> is not supported because anonymous pipes are defined to be one-way.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AnonymousPipeServerStream(PipeDirection direction, SafePipeHandle serverSafePipeHandle, SafePipeHandle clientSafePipeHandle)</code></pre>
@@ -182,7 +203,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a></td>
                     <td><em>direction</em></td>
-                    <td><p>One of the enumeration values that determines the direction of the pipe.Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>One of the enumeration values that determines the direction of the pipe.</p>
+<p>Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -210,22 +232,27 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>serverSafePipeHandle</em> or <em>clientSafePipeHandle</em> is an invalid handle.</p>
+                    <td><p>
+<em>serverSafePipeHandle</em> or <em>clientSafePipeHandle</em> is an invalid handle.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>serverSafePipeHandle</em> or <em>clientSafePipeHandle</em> is null.</p>
+                    <td><p>
+<em>serverSafePipeHandle</em> or <em>clientSafePipeHandle</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>
+<em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>An I/O error, such as a disk error, has occurred.-or-The stream has been closed.</p>
+                    <td><p>An I/O error, such as a disk error, has occurred.</p>
+<p>-or-</p>
+<p>The stream has been closed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -241,6 +268,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> class with the specified pipe direction and inheritability mode.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream__ctor_System_IO_Pipes_PipeDirection_System_IO_HandleInheritability__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> value of <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a> is not supported because anonymous pipes are defined to be one-way.</p>
+<p>This constructor creates an <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object that has the default buffer size and no pipe security.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AnonymousPipeServerStream(PipeDirection direction, HandleInheritability inheritability)</code></pre>
@@ -258,7 +289,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a></td>
                     <td><em>direction</em></td>
-                    <td><p>One of the enumeration values that determines the direction of the pipe.Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>One of the enumeration values that determines the direction of the pipe.</p>
+<p>Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -280,12 +312,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>inheritability</em> is not set to either <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_None">None</a> or <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_Inheritable">Inheritable</a>.</p>
+                    <td><p>
+<em>inheritability</em> is not set to either <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_None">None</a> or <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_Inheritable">Inheritable</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>
+<em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -301,6 +335,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> class with the specified pipe direction, inheritability mode, and buffer size.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream__ctor_System_IO_Pipes_PipeDirection_System_IO_HandleInheritability_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a> value of <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a> is not supported because anonymous pipes are defined to be one-way.</p>
+<p>This constructor creates an <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object without pipe security.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AnonymousPipeServerStream(PipeDirection direction, HandleInheritability inheritability, int bufferSize)</code></pre>
@@ -318,7 +356,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection">PipeDirection</a></td>
                     <td><em>direction</em></td>
-                    <td><p>One of the enumeration values that determines the direction of the pipe.Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>One of the enumeration values that determines the direction of the pipe.</p>
+<p>Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -346,12 +385,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>inheritability</em> is not set to either <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_None">None</a> or <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_Inheritable">Inheritable</a>.-or-<em>bufferSize</em> is less than 0.</p>
+                    <td><p>
+<em>inheritability</em> is not set to either <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_None">None</a> or <a class="xref" href="System.IO.HandleInheritability.html#System_IO_HandleInheritability_Inheritable">Inheritable</a>.</p>
+<p>-or-</p>
+<p>
+<em>bufferSize</em> is less than 0.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
+                    <td><p>
+<em>direction</em> is set to <a class="xref" href="System.IO.Pipes.PipeDirection.html#System_IO_Pipes_PipeDirection_InOut">InOut</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -369,6 +413,9 @@
               <div class="markdown level1 summary"><p>Gets the safe handle for the <a class="xref" href="System.IO.Pipes.AnonymousPipeClientStream.html#System_IO_Pipes_AnonymousPipeClientStream">AnonymousPipeClientStream</a> object that is currently connected to the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream_ClientSafePipeHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream_DisposeLocalCopyOfClientHandle">DisposeLocalCopyOfClientHandle()</a> method should be called after a client handle has been passed to a client process. If this method is not called, the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object will not receive notice when the client disposes of its <a class="xref" href="System.IO.Pipes.PipeStream.html#System_IO_Pipes_PipeStream">PipeStream</a> object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SafePipeHandle ClientSafePipeHandle { get; }</code></pre>
@@ -400,6 +447,9 @@
               <div class="markdown level1 summary"><p>Sets the reading mode for the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object. For anonymous pipes, transmission mode must be <a class="xref" href="System.IO.Pipes.PipeTransmissionMode.html#System_IO_Pipes_PipeTransmissionMode_Byte">Byte</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream_ReadMode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Anonymous pipes do not support <a class="xref" href="System.IO.Pipes.PipeTransmissionMode.html#System_IO_Pipes_PipeTransmissionMode_Message">Message</a> read mode.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override PipeTransmissionMode ReadMode { set; }</code></pre>
@@ -462,6 +512,9 @@
               <div class="markdown level1 summary"><p>Gets the pipe transmission mode that is supported by the current pipe.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream_TransmissionMode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Anonymous pipes do not support <a class="xref" href="System.IO.Pipes.PipeTransmissionMode.html#System_IO_Pipes_PipeTransmissionMode_Message">Message</a> read mode.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override PipeTransmissionMode TransmissionMode { get; }</code></pre>
@@ -526,6 +579,9 @@
               <div class="markdown level1 summary"><p>Closes the local copy of the <a class="xref" href="System.IO.Pipes.AnonymousPipeClientStream.html#System_IO_Pipes_AnonymousPipeClientStream">AnonymousPipeClientStream</a> object&#39;s handle.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream_DisposeLocalCopyOfClientHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream_DisposeLocalCopyOfClientHandle">DisposeLocalCopyOfClientHandle()</a> method should be called after the client handle has been passed to the client. If this method is not called, the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object will not receive notice when the client disposes of its <a class="xref" href="System.IO.Pipes.PipeStream.html#System_IO_Pipes_PipeStream">PipeStream</a> object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DisposeLocalCopyOfClientHandle()</code></pre>
@@ -556,6 +612,9 @@
               <div class="markdown level1 summary"><p>Gets the connected <a class="xref" href="System.IO.Pipes.AnonymousPipeClientStream.html#System_IO_Pipes_AnonymousPipeClientStream">AnonymousPipeClientStream</a> object&#39;s handle as a string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Pipes_AnonymousPipeServerStream_GetClientHandleAsString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream_DisposeLocalCopyOfClientHandle">DisposeLocalCopyOfClientHandle()</a> method should be called after a client handle has been passed to a client process. If this method is not called, the <a class="xref" href="System.IO.Pipes.AnonymousPipeServerStream.html#System_IO_Pipes_AnonymousPipeServerStream">AnonymousPipeServerStream</a> object will not receive notice when the client disposes of its <a class="xref" href="System.IO.Pipes.PipeStream.html#System_IO_Pipes_PipeStream">PipeStream</a> object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string GetClientHandleAsString()</code></pre>

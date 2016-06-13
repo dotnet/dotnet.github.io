@@ -89,6 +89,10 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ArrayConverter : CollectionConverter</code></pre>
               </div>
+              <h5 id="System_ComponentModel_ArrayConverter_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>For more information about type converters, see the <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> base class and How to: Implement a Type Converter.</p>
+<p>You should never create an instance of the <a class="xref" href="System.ComponentModel.ArrayConverter.html#System_ComponentModel_ArrayConverter">ArrayConverter</a> class. Instead, call the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetConverter_System_Object_">GetConverter(Object)</a> method of the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> class. For more information, see the examples in the <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> base class.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -119,6 +123,11 @@
               <div class="markdown level1 summary"><p>Converts the given value object to the specified destination type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_ArrayConverter_ConvertTo_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This converter can convert an array to a string.</p>
+<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>The converted result will be shown in the property browser. For example, if you are converting a char array into a string, it will be displayed as <code>char[] array</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override object ConvertTo(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value, Type destinationType)</code></pre>
@@ -140,7 +149,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">Globalization.CultureInfo</a></td>
+                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a></td>
                     <td><em>culture</em></td>
                     <td><p>The culture into which <em>value</em> will be converted.</p>
 </td>
@@ -186,7 +195,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>destinationType</em> is null. </p>
+                    <td><p>
+<em>destinationType</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -207,6 +217,19 @@
               <div class="markdown level1 summary"><p>Gets a collection of properties for the type of array specified by the value parameter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_ArrayConverter_GetProperties_System_ComponentModel_ITypeDescriptorContext_System_Object_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p></p>
+<p><p>The attributes array will be used to filter the array. The <em>attributes</em> parameter can specify a mix of <a class="xref" href="System.Type.html#System_Type">Type</a> and <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> objects. Filtering is defined by the following rules: </p></p>
+<ul><li>
+<p>A <a class="xref" href="System.Type.html#System_Type">Type</a> will be treated as a wildcard; it will match any property that has the <a class="xref" href="System.Type.html#System_Type">Type</a> in its set of attributes.</p>
+</li><li>
+<p>If a property does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the property will not be included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a>, the property must be an exact match or it will not be included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default property, it will be included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the property.</p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)</code></pre>
@@ -252,7 +275,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for an array, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for an array, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -268,6 +291,9 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether this object supports properties.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_ArrayConverter_GetPropertiesSupported_System_ComponentModel_ITypeDescriptorContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool GetPropertiesSupported(ITypeDescriptorContext context)</code></pre>
@@ -301,7 +327,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true because <a class="xref" href="System.ComponentModel.ArrayConverter.html#System_ComponentModel_ArrayConverter_GetProperties_System_ComponentModel_ITypeDescriptorContext_System_Object_System_Attribute___">GetProperties(ITypeDescriptorContext, Object, Attribute[])</a> should be called to find the properties of this object. This method never returns false.</p>
+                    <td><p>
+<strong>true</strong> because <a class="xref" href="System.ComponentModel.ArrayConverter.html#System_ComponentModel_ArrayConverter_GetProperties_System_ComponentModel_ITypeDescriptorContext_System_Object_System_Attribute___">GetProperties(ITypeDescriptorContext, Object, Attribute[])</a> should be called to find the properties of this object. This method never returns <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>

@@ -95,6 +95,9 @@
               <div class="markdown level1 summary"><p>Create a temporary key that is released when the associated Rivest-Shamir-Adleman (RSA) object is closed. Do not use this flag if you want your key to be independent of the RSA object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CspProviderFlags_CreateEphemeralKey_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Cryptography.CspProviderFlags.html#System_Security_Cryptography_CspProviderFlags_CreateEphemeralKey">CreateEphemeralKey</a> flag provides temporary keys with more reliable cleanup. If this flag is not used, the common language runtime (CLR) generates a randomly named key when an RSA object is created. When the object is finalized or disposed of, the key is deleted. When impersonation is in effect, not explicitly calling <strong>Dispose</strong> can potentially create a problem. For example, if you use impersonation, create an RSA object, and do not dispose of it, the finalizer thread (which is not impersonating) can fail to delete the key, and then throws an exception. This exception is unhandled and can terminate the process. The resources allocated to the key are not recovered, resulting in a memory leak. The <span class="xref">System.Security.Permissions.KeyContainerPermission</span> demand is suppressed by this flag.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">CreateEphemeralKey = null</code></pre>

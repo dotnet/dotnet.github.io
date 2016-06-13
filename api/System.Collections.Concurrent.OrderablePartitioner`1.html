@@ -79,7 +79,7 @@
               <div class="inheritance">
                 <h5>Inheritance</h5>
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
-                  <div class="level1"><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</div>
+                  <div class="level1"><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</div>
                   <div class="level2"><span class="xref">OrderablePartitioner&lt;TSource&gt;</span></div>
               </div>
               <h6><strong>Namespace</strong>:System.Collections.Concurrent</h6>
@@ -88,6 +88,9 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class OrderablePartitioner&lt;TSource&gt; : Partitioner&lt;TSource&gt;</code></pre>
               </div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The implementation of the derived class is responsible for ordering the elements into key-value pairs in whatever manner is appropriate. For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +104,9 @@
               <div class="markdown level1 summary"><p>Called from constructors in derived classes to initialize the <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> class with the specified constraints on the index keys.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1__ctor_System_Boolean_System_Boolean_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected OrderablePartitioner(bool keysOrderedInEachPartition, bool keysOrderedAcrossPartitions, bool keysNormalized)</code></pre>
@@ -148,6 +154,10 @@
               <div class="markdown level1 summary"><p>Gets whether order keys are normalized.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_KeysNormalized_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_KeysNormalized">KeysNormalized</a> returns true, all order keys are distinct integers in the range [0 .. numberOfElements-1]. If the property returns false, order keys must still be distinct, but only their relative order is considered, not their absolute values.</p>
+<p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool KeysNormalized { get; }</code></pre>
@@ -179,6 +189,10 @@
               <div class="markdown level1 summary"><p>Gets whether elements in an earlier partition always come before elements in a later partition.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_KeysOrderedAcrossPartitions_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_KeysOrderedAcrossPartitions">KeysOrderedAcrossPartitions</a> returns true, each element in partition 0 has a smaller order key than any element in partition 1, each element in partition 1 has a smaller order key than any element in partition 2, and so on.</p>
+<p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool KeysOrderedAcrossPartitions { get; }</code></pre>
@@ -210,6 +224,9 @@
               <div class="markdown level1 summary"><p>Gets whether elements in each partition are yielded in the order of increasing keys.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_KeysOrderedInEachPartition_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool KeysOrderedInEachPartition { get; }</code></pre>
@@ -243,6 +260,12 @@
               <div class="markdown level1 summary"><p>Creates an object that can partition the underlying collection into a variable number of partitions.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_GetDynamicPartitions_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> The returned object implements the <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> interface. Calling <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1_GetEnumerator">GetEnumerator()</a> on the object creates another partition over the sequence.</p>
+<p>  The default implementation provides the same behavior as <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_GetOrderableDynamicPartitions">GetOrderableDynamicPartitions()</a> except that the returned set of partitions does not provide the keys for the elements.</p>
+<p>  The <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_GetDynamicPartitions">GetDynamicPartitions()</a> method is only supported if the <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property returns true.</p>
+<p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Generic.IEnumerable&lt;TSource&gt; GetDynamicPartitions()</code></pre>
@@ -257,7 +280,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><p>An object that can create partitions over the underlying data source.</p>
 </td>
                   </tr>
@@ -290,6 +313,12 @@
               <div class="markdown level1 summary"><p>Creates an object that can partition the underlying collection into a variable number of partitions.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_GetOrderableDynamicPartitions_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> The returned object implements the <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> interface. Calling <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1_GetEnumerator">GetEnumerator()</a> on the object creates another partition over the sequence.</p>
+<p>  Each partition is represented as an enumerator over key-value pairs. The value in the pair is the element itself, and the key is an integer which determines the relative ordering of this element against other elements.</p>
+<p>  The <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_GetOrderableDynamicPartitions">GetOrderableDynamicPartitions()</a> method is only supported if the <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property returns true.</p>
+<p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Generic.IEnumerable&lt;Generic.KeyValuePair&lt;long, TSource&gt;&gt; GetOrderableDynamicPartitions()</code></pre>
@@ -337,6 +366,11 @@
               <div class="markdown level1 summary"><p>Partitions the underlying collection into the specified number of orderable partitions.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_GetOrderablePartitions_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Each partition is represented as an enumerator over key-value pairs.</p>
+<p> The value of the pair is the element itself, and the key is an integer which determines the relative ordering of this element against other elements in the data source.</p>
+<p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract Generic.IList&lt;Generic.IEnumerator&lt;Generic.KeyValuePair&lt;long, TSource&gt;&gt;&gt; GetOrderablePartitions(int partitionCount)</code></pre>
@@ -386,6 +420,10 @@
               <div class="markdown level1 summary"><p>Partitions the underlying collection into the given number of ordered partitions.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_OrderablePartitioner_1_GetPartitions_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default implementation provides the same behavior as <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_GetOrderablePartitions_System_Int32_">GetOrderablePartitions(Int32)</a> except that the returned set of partitions does not provide the keys for the elements.</p>
+<p>For more information, see Custom Partitioners for PLINQ and TPL.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Generic.IList&lt;Generic.IEnumerator&lt;TSource&gt;&gt; GetPartitions(int partitionCount)</code></pre>

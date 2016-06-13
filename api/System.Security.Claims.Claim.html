@@ -87,6 +87,24 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Claim : object</code></pre>
               </div>
+              <h5 id="System_Security_Claims_Claim_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>A claim is a statement about a subject by an issuer. Claims represent attributes of the subject that are useful in the context of authentication and authorization operations. Subjects and issuers are both entities that are part of an identity scenario. Some typical examples of a subject are: a user, an application or service, a device, or a computer. Some typical examples of an issuer are: the operating system, an application. a service, a role provider, an identity provider, or a federation provider. An issuer delivers claims by issuing security tokens, typically through a Security Token Service (STS). (In WIF, you can build an STS by deriving from the <span class="xref">System.IdentityModel.SecurityTokenService</span> class.) On occasion, the collection of claims received from an issuer can be extended by subject attributes stored directly at the resource. A claim can be evaluated to determine access rights to data and other secured resources during the process of authorization and can also be used to make or express authentication decisions about a subject.</p></p>
+<p><p>Beginning with .NET 4.5, the Windows Identity Foundation (WIF) classes, which implement claims-based identity, have been fully integrated into the .NET Framework. The claims concept is implemented by the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class.</p></p>
+<p><p>The following describes important properties of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class:</p></p>
+<ul><li>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a> property is a string (typically a URI) that contains the semantic information about the claim; it tells you what the value of the claim means. For example, a claim with a claim type of <a class="xref" href="System.Security.Claims.ClaimTypes.html#System_Security_Claims_ClaimTypes_GivenName">GivenName</a> (“<a href="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”">http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”</a>) represents a user’s first name. The value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a> property can be one of the well-known claim types defined in the <a class="xref" href="System.Security.Claims.ClaimTypes.html#System_Security_Claims_ClaimTypes">ClaimTypes</a> class, or it can be an arbitrary URI as defined by the issuer. For example, a claim type of “urn:spendinglimit” might represent a user attribute which makes sense within the business context of the issuer.</p>
+</li><li>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Value">Value</a> property contains the value of the claim. In order to reduce dependencies and simplify administration, in WIF the value of a claim is represented only as a string. For more complex value types, it is recommended that you use standard XML schema types to indicate how the value is meant to be serialized into and deserialized from a string.</p>
+</li><li>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_ValueType">ValueType</a> property contains a string that identifies the type information for the value. This property should be used to understand the format of the value and to provide information about how to deserialize it. If your solution requires complex value types, it is recommended that you use standard XML schema types in the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_ValueType">ValueType</a> property to indicate how the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Value">Value</a> property is meant to be serialized into and deserialized from a string. </p>
+</li><li>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property is a <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> object that represents the subject of the claim. The subject of the claim is the entity (typically the user who is requesting access to a resource) about which the claim is asserted. The <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> contains, among its properties, a collection of claims that describe the properties and attributes of the subject as attested to by one or more issuers.</p>
+</li><li>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property contains the name of the entity that issued the claim. The issuer of a claim is represented in WIF by a string that contains a name taken from a list of well-known issuers that is maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <span class="xref">System.IdentityModel.Tokens.IssuerNameRegistry</span> class. The issuer name registry associates a mnemonic name to the cryptographic material needed to verify the signatures of tokens produced by the corresponding issuer. For example, the <span class="xref">System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry</span> class, available out of the box with .NET 4.5, associates the mnemonic name for each issuer with its corresponding X.509 certificate. The list of well-known issuers is typically built at startup time by the issuer name registry. The list used by the <span class="xref">System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry</span> is specified in the application configuration file. </p>
+</li><li>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property contains the name of the entity that originally issued the claim. This property is designed to facilitate scenarios where a claim may pass through multiple issuers before it is presented by the client to the RP application; such as federation scenarios. You can examine the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property to determine the entity that originally issued the claim. The name is taken from the list of well-known issuers maintained by the issuer name registry, as in the case of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property.</p>
+</li></ul>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -97,7 +115,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L13">View Source</a>
               </span>
               <h4 id="System_Security_Claims_Claim__ctor_System_IO_BinaryReader_" data-uid="System.Security.Claims.Claim.#ctor(System.IO.BinaryReader)">Claim(IO.BinaryReader)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -116,7 +135,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.BinaryReader.html#System_IO_BinaryReader">BinaryReader</a></td>
                     <td><em>reader</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -242,6 +262,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class with the specified claim type, and value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property is set to <strong>null</strong>. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> and <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> properties are set to <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a>. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_ValueType">ValueType</a> property is set to <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a></p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Claim(string type, string value)</code></pre>
@@ -281,7 +304,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> or <em>value</em> is null.</p>
+                    <td><p>
+<em>type</em> or <em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -297,6 +321,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class with the specified claim type, value, and value type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim__ctor_System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property is set to <strong>null</strong>. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> and <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> properties are set to <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Claim(string type, string value, string valueType)</code></pre>
@@ -326,7 +353,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>valueType</em></td>
-                    <td><p>The claim value type. If this parameter is null, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
+                    <td><p>The claim value type. If this parameter is <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
 </td>
                   </tr>
                 </tbody>
@@ -342,7 +369,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> or <em>value</em> is null.</p>
+                    <td><p>
+<em>type</em> or <em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -358,6 +386,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class with the specified claim type, value, value type, and issuer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim__ctor_System_String_System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property is set to <strong>null</strong>. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property is set according to the value of the <em>issuer</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Claim(string type, string value, string valueType, string issuer)</code></pre>
@@ -387,13 +418,13 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>valueType</em></td>
-                    <td><p>The claim value type. If this parameter is null, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
+                    <td><p>The claim value type. If this parameter is <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>issuer</em></td>
-                    <td><p>The claim issuer. If this parameter is empty or null, then <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a> is used.</p>
+                    <td><p>The claim issuer. If this parameter is empty or <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a> is used.</p>
 </td>
                   </tr>
                 </tbody>
@@ -409,7 +440,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> or <em>value</em> is null.</p>
+                    <td><p>
+<em>type</em> or <em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -425,6 +457,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class with the specified claim type, value, value type, issuer,  and original issuer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim__ctor_System_String_System_String_System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property is set to <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Claim(string type, string value, string valueType, string issuer, string originalIssuer)</code></pre>
@@ -454,19 +489,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>valueType</em></td>
-                    <td><p>The claim value type. If this parameter is null, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
+                    <td><p>The claim value type. If this parameter is <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>issuer</em></td>
-                    <td><p>The claim issuer. If this parameter is empty or null, then <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a> is used.</p>
+                    <td><p>The claim issuer. If this parameter is empty or <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a> is used.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>originalIssuer</em></td>
-                    <td><p>The original issuer of the claim. If this parameter is empty or null, then the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property is set to the value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property.</p>
+                    <td><p>The original issuer of the claim. If this parameter is empty or <strong>null</strong>, then the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property is set to the value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property.</p>
 </td>
                   </tr>
                 </tbody>
@@ -482,7 +517,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> or <em>value</em> is null.</p>
+                    <td><p>
+<em>type</em> or <em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -527,19 +563,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>valueType</em></td>
-                    <td><p>The claim value type. If this parameter is null, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
+                    <td><p>The claim value type. If this parameter is <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimValueTypes.html#System_Security_Claims_ClaimValueTypes_String">String</a> is used.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>issuer</em></td>
-                    <td><p>The claim issuer. If this parameter is empty or null, then <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a> is used.</p>
+                    <td><p>The claim issuer. If this parameter is empty or <strong>null</strong>, then <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultIssuer">DefaultIssuer</a> is used.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>originalIssuer</em></td>
-                    <td><p>The original issuer of the claim. If this parameter is empty or null, then the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property is set to the value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property.</p>
+                    <td><p>The original issuer of the claim. If this parameter is empty or <strong>null</strong>, then the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property is set to the value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property.</p>
 </td>
                   </tr>
                   <tr>
@@ -561,7 +597,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> or <em>value</em> is null.</p>
+                    <td><p>
+<em>type</em> or <em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -576,7 +613,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/src/System/Security/Claims/Claim.cs/#L240">View Source</a>
               </span>
               <h4 id="System_Security_Claims_Claim_CustomSerializationData" data-uid="System.Security.Claims.Claim.CustomSerializationData">CustomSerializationData</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -609,6 +647,9 @@
               <div class="markdown level1 summary"><p>Gets the issuer of the claim.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Issuer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property is a name that is taken from a list of well-known issuers maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <span class="xref">System.IdentityModel.Tokens.IssuerNameRegistry</span> class. The issuer name registry associates a mnemonic name (the issuer name) with the cryptographic material that is needed to verify signatures of tokens produced by the issuer; for example, an X.509 certificate.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Issuer { get; }</code></pre>
@@ -640,6 +681,11 @@
               <div class="markdown level1 summary"><p>Gets the original issuer of the claim. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_OriginalIssuer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Contains the name of the entity that originally issued the claim. This property is designed to facilitate scenarios where a claim may pass through multiple issuers before it is presented by the client to the RP application; such as federation scenarios.</p>
+<p>The value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property is a name that is taken from a list of well-known issuers maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <span class="xref">System.IdentityModel.Tokens.IssuerNameRegistry</span> class. The issuer name registry associates a mnemonic name (the issuer name) with the cryptographic material that is needed to verify signatures of tokens produced by the issuer; for example, an X.509 certificate.</p>
+<p>Except for delegation and federation scenarios, the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property and the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property will usually have the same value. If the value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> property differs from the value of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> property, the claim was first issued by the original issuer and was subsequently re-issued by the issuer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string OriginalIssuer { get; }</code></pre>
@@ -671,6 +717,9 @@
               <div class="markdown level1 summary"><p>Gets a dictionary that contains additional properties associated with this claim.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Properties_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Properties">Properties</a> property provides a dictionary of name-value pairs that allows metadata or other information about the claim to be associated with it. For claims generated from SAML tokens, this dictionary may contain keys given by the constants in the <span class="xref">System.Security.Claims.ClaimProperties</span> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Collections.Generic.IDictionary&lt;string, string&gt; Properties { get; }</code></pre>
@@ -702,6 +751,9 @@
               <div class="markdown level1 summary"><p>Gets the subject of the claim.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Subject_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The subject is the entity about which the claim is asserted. Some typical examples are a user, an application or service, a device, or a computer. The subject is represented by a <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, which contains a collection of claims that describe it.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity Subject { get; }</code></pre>
@@ -733,6 +785,9 @@
               <div class="markdown level1 summary"><p>Gets the claim type of the claim.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Type_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a> property provides the semantic content of the claim, that is, it states what the claim is about. For example, a claim with a claim type of <a class="xref" href="System.Security.Claims.ClaimTypes.html#System_Security_Claims_ClaimTypes_GivenName">GivenName</a> (“<a href="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”">http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”</a>) represents a user’s first name. The claim type is typically a URI; however, you are not limited to any specific format other than that it must be representable as a string. The only general requirement is that the claim issuer and the claim consumer must agree about the meaning of the claim. Constants for the well-known claim types used by Windows Identity Foundation (WIF) are available through the <a class="xref" href="System.Security.Claims.ClaimTypes.html#System_Security_Claims_ClaimTypes">ClaimTypes</a> class. The claim value is provided by the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Value">Value</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Type { get; }</code></pre>
@@ -764,6 +819,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the claim.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Value_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value of a claim is represented only as a string. For more complex value types, it is recommended that you use standard XML schema types to indicate how the value is meant to be serialized and deserialized to and from a string. </p>
+<p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_ValueType">ValueType</a> property provides the underlying syntactic type information about the value. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a> property provides the semantic information about the value; that is, it provides the meaning of the value and tells a claim consumer how to interpret it.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Value { get; }</code></pre>
@@ -795,6 +854,9 @@
               <div class="markdown level1 summary"><p>Gets the value type of the claim.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_ValueType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_ValueType">ValueType</a> property contains a string that identifies the type information of the value. This property can be used to understand the format of the value and to provide information about how to serialize and deserialize the value. If your solution requires complex value types, it is recommended that you use standard XML schema types in the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_ValueType">ValueType</a> property to indicate how the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Value">Value</a> property is meant to be serialized and deserialized from a string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ValueType { get; }</code></pre>
@@ -828,6 +890,9 @@
               <div class="markdown level1 summary"><p>Returns a new <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> object copied from this object. The new claim does not have a subject.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Clone_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This is a shallow copy operation. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property of the new <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> object is set to <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Claim Clone()</code></pre>
@@ -859,6 +924,9 @@
               <div class="markdown level1 summary"><p>Returns a new <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> object copied from this object. The subject of the new claim is set to the specified ClaimsIdentity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_Clone_System_Security_Claims_ClaimsIdentity__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This is a shallow copy operation. The <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Subject">Subject</a> property of the new <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> object is set to the value of the <em>identity</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Claim Clone(ClaimsIdentity identity)</code></pre>
@@ -908,6 +976,9 @@
               <div class="markdown level1 summary"><p>Returns a string representation of this <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_Claim_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The string that is returned contains the values of the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a> and <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Value">Value</a> properties in the following format:.”Type: Value”.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
@@ -936,7 +1007,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L33">View Source</a>
               </span>
               <h4 id="System_Security_Claims_Claim_WriteTo_System_IO_BinaryWriter_" data-uid="System.Security.Claims.Claim.WriteTo(System.IO.BinaryWriter)">WriteTo(IO.BinaryWriter)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -955,7 +1027,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.BinaryWriter.html#System_IO_BinaryWriter">BinaryWriter</a></td>
                     <td><em>writer</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>

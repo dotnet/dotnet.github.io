@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_IComparer_1.md&amp;value=---%0Auid%3A%20System.Collections.Generic.IComparer%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/IComparer.cs/#L22" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2373" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Collections_Generic_IComparer_1" data-uid="System.Collections.Generic.IComparer`1">Interface IComparer&lt;T&gt;
               </h1>
               <div class="markdown level0 summary"><p>Defines a method that a type implements to compare two objects.</p>
@@ -82,6 +82,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public interface IComparer&lt;in T&gt;</code></pre>
               </div>
+              <h5 id="System_Collections_Generic_IComparer_1_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>This interface is used with the <see cref="Overload:System.Collections.Generic.List`1.Sort"></see> and <see cref="Overload:System.Collections.Generic.List`1.BinarySearch"></see> methods. It provides a way to customize the sort order of a collection. Classes that implement this interface include the <a class="xref" href="System.Collections.Generic.SortedDictionary%602.html#System_Collections_Generic_SortedDictionary_2">SortedDictionary<tkey, tvalue=""></tkey,></a> and <a class="xref" href="System.Collections.Generic.SortedList%602.html#System_Collections_Generic_SortedList_2">SortedList<tkey, tvalue=""></tkey,></a> generic classes.</p>
+<p>The default implementation of this interface is the <a class="xref" href="System.Collections.Generic.Comparer%601.html#System_Collections_Generic_Comparer_1">Comparer<t></t></a> class. The <a class="xref" href="System.StringComparer.html#System_StringComparer">StringComparer</a> class implements this interface for type <a class="xref" href="System.String.html#System_String">String</a>.</p>
+<p>This interface supports ordering comparisons. That is, when the <a class="xref" href="System.Collections.Generic.Comparer%601.html#System_Collections_Generic_Comparer_1_Compare__0__0_">Compare(T, T)</a> method returns 0, it means that two objects sort the same. Implementation of exact equality comparisons is provided by the <a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">IEqualityComparer<t></t></a> generic interface. </p>
+<p>We recommend that you derive from the <a class="xref" href="System.Collections.Generic.Comparer%601.html#System_Collections_Generic_Comparer_1">Comparer<t></t></a> class instead of implementing the <a class="xref" href="System.Collections.Generic.IComparer%601.html#System_Collections_Generic_IComparer_1">IComparer<t></t></a> interface, because the <a class="xref" href="System.Collections.Generic.Comparer%601.html#System_Collections_Generic_Comparer_1">Comparer<t></t></a> class provides an explicit interface implementation of the <span class="xref">System.Collections.Generic.Comparer`1.System</span> method and the <a class="xref" href="System.Collections.Generic.Comparer%601.html#System_Collections_Generic_Comparer_1_Default">Default</a> property that gets the default comparer for the object.</p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -89,12 +95,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_IComparer_1_Compare__0__0_.md&amp;value=---%0Auid%3A%20System.Collections.Generic.IComparer%601.Compare(%600%2C%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/IComparer.cs/#L28">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2375">View Source</a>
               </span>
               <h4 id="System_Collections_Generic_IComparer_1_Compare__0__0_" data-uid="System.Collections.Generic.IComparer`1.Compare(`0,`0)">Compare(T, T)</h4>
               <div class="markdown level1 summary"><p>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Generic_IComparer_1_Compare__0__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Implement this method to provide a customized sort order comparison for type <em>T</em>. </p>
+<p>Comparing <strong>null</strong> with any reference type is allowed and does not generate an exception. A null reference is considered to be less than any reference that is not null.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">int Compare(T x, T y)</code></pre>
@@ -134,7 +144,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A signed integer that indicates the relative values of <em>x</em> and <em>y</em>, as shown in the following table.Value Meaning Less than zero<em>x</em> is less than <em>y</em>.Zero<em>x</em> equals <em>y</em>.Greater than zero<em>x</em> is greater than <em>y</em>.</p>
+                    <td><p><p>A signed integer that indicates the relative values of <em>x</em> and <em>y</em>, as shown in the following table.</p></p>
+<p><p>Value </p></p>
+<p><p>Meaning </p></p>
+<table><tbody><tr><td>
+<p>Less than zero</p>
+</td><td>
+<p>
+<em>x</em> is less than <em>y</em>.</p>
+</td></tr><tr><td>
+<p>Zero</p>
+</td><td>
+<p>
+<em>x</em> equals <em>y</em>.</p>
+</td></tr><tr><td>
+<p>Greater than zero</p>
+</td><td>
+<p>
+<em>x</em> is greater than <em>y</em>.</p>
+</td></tr></tbody></table>
 </td>
                   </tr>
                 </tbody>

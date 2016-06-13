@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L72" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2862" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_CompilerServices_ConditionalWeakTable_2" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2">Class ConditionalWeakTable&lt;TKey, TValue&gt;
               </h1>
               <div class="markdown level0 summary"><p>Enables compilers to dynamically attach object fields to managed objects.</p>
@@ -88,6 +88,20 @@
                 <pre><code class="lang-csharp hljs">public sealed class ConditionalWeakTable&lt;TKey, TValue&gt;
     where TKey : class where TValue : class</code></pre>
               </div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class enables language compilers to attach arbitrary properties to managed objects at run time. A <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> object is a dictionary that binds a managed object, which is represented by a key, to its attached property, which is represented by a value. The object&#39;s keys are the individual instances of the <em>TKey</em> class to which the property is attached, and its values are the property values that are assigned to the corresponding objects. </p>
+<p>Keys must be unique; in other words, the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class supports one attached value per managed object. Two keys are equal if passing them to the <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a> method returns <strong>true</strong>. </p>
+<p>You cannot control equality comparisons by overriding <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a> to explicitly set the hash code for a key. The <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class does not use the <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a> method to compute hash codes, and therefore does not invoke <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a> overrides.</p>
+<p>Although the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class holds a collection of key/value pairs, it is best thought of as a table rather than a dictionary object. The <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class differs from a dictionary in several ways:</p>
+<ul><li>
+<p>It does not persist keys. That is, a key is not kept alive only because it is a member of the collection.</p>
+</li><li>
+<p>It does not include all the methods (such as<strong> GetEnumerator</strong> or <strong>Contains</strong>) that a dictionary typically has.</p>
+</li><li>
+<p>It does not implement the <a class="xref" href="System.Collections.Generic.IDictionary%602.html#System_Collections_Generic_IDictionary_2">IDictionary<tkey, tvalue=""></tkey,></a> interface.</p>
+</li></ul>
+<p>The <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class differs from other collection objects in its management of the object lifetime of keys stored in the collection. Ordinarily, when an object is stored in a collection, its lifetime lasts until it is removed (and there are no additional references to the object) or until the collection object itself is destroyed. However, in the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class, adding a key/value pair to the table does not ensure that the key will persist, even if it can be reached directly from a value stored in the table (for example, if the table contains one key, A, with a value V1, and a second key, B, with a value P2 that contains a reference to A). Instead, <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> automatically removes the key/value entry as soon as no other references to a key exist outside the table. The example provides an illustration.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,12 +109,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2__ctor.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L79">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2864">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2__ctor" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.#ctor">ConditionalWeakTable()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <span class="xref">System.Runtime.CompilerServices.ConditionalWeakTable`2.</span> constructor instantiates an empty <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> table; that is, the table contains no key/value pairs. You can add key/value pairs by calling the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_Add__0__1_">Add(TKey, TValue)</a>, <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_GetValue__0_System_Runtime_CompilerServices_ConditionalWeakTable__0__1__CreateValueCallback_">GetValue(TKey, ConditionalWeakTable<tkey, tvalue="">.CreateValueCallback)</tkey,></a>, or <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_GetOrCreateValue__0_">GetOrCreateValue(TKey)</a> method.</p>
+<p>Every key in a <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> object must be unique. Keys are not unique if they refer to the same object (that is, if passing them as arguments to the <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a> method returns <strong>true</strong>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ConditionalWeakTable()</code></pre>
@@ -112,12 +130,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2_Add__0__1_.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.Add(%600%2C%601)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L126">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2865">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_Add__0__1_" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.Add(`0,`1)">Add(TKey, TValue)</h4>
               <div class="markdown level1 summary"><p>Adds a key to the table.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_Add__0__1__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Every key in a <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> object must be unique. Keys are not unique if they refer to the same object (that is, if passing them as arguments to the <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a> method returns <strong>true</strong>).</p>
+<p>If the key is garbage-collected during the addition operation, the existing key/value pair is removed and the new key/value pair is added without an exception being thrown.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Add(TKey key, TValue value)</code></pre>
@@ -157,12 +179,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>key</em> already exists.</p>
+                    <td><p>
+<em>key</em> already exists.</p>
 </td>
                   </tr>
                 </tbody>
@@ -172,12 +196,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2_Finalize.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.Finalize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L591">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2866">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_Finalize" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.Finalize">Finalize()</h4>
               <div class="markdown level1 summary"><p>Ensures that resources are freed and other cleanup operations are performed when the garbage collector reclaims the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> object. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_Finalize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The garbage collector calls <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_Finalize">Finalize()</a> when the current object is ready to be finalized. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
@@ -187,12 +214,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2_GetOrCreateValue__0_.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.GetOrCreateValue(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L274">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2867">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_GetOrCreateValue__0_" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.GetOrCreateValue(`0)">GetOrCreateValue(TKey)</h4>
               <div class="markdown level1 summary"><p>Atomically searches for a specified key in the table and returns the corresponding value. If the key does not exist in the table, the method invokes the default constructor of the class that represents the table&#39;s value to create a value that is bound to the specified key. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_GetOrCreateValue__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>key</em> does not exist in the table, the method adds it, along with the object that is instantiated by calling the default constructor of the class defined by the <em>TValue</em> generic type parameter. If the <em>TValue</em> class has no default constructor, a <a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a> is thrown.</p>
+<p>This is the recommended method of retrieving an existing value or adding a new value to the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2">ConditionalWeakTable<tkey, tvalue=""></tkey,></a> table if the class of the table&#39;s value defines a default constructor. If it does not define a default constructor, you can instead call the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_GetValue__0_System_Runtime_CompilerServices_ConditionalWeakTable__0__1__CreateValueCallback_">GetValue(TKey, ConditionalWeakTable<tkey, tvalue="">.CreateValueCallback)</tkey,></a> method, which relies on a callback-provided method to instantiate the object representing the table&#39;s value  </p>
+<p>To retrieve the value of an existing key without adding the key/value pair if the key is not found in the table, call the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_TryGetValue__0__1__">TryGetValue(TKey, out TValue)</a> method. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TValue GetOrCreateValue(TKey key)</code></pre>
@@ -242,12 +274,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.The class that represents the table&#39;s value does not define a default constructor.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, instead.</p>
+<p>The class that represents the table&#39;s value does not define a default constructor.</p>
 </td>
                   </tr>
                 </tbody>
@@ -257,12 +291,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2_GetValue__0_System_Runtime_CompilerServices_ConditionalWeakTable__0__1__CreateValueCallback_.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.GetValue(%600%2CSystem.Runtime.CompilerServices.ConditionalWeakTable%7B%600%2C%601%7D.CreateValueCallback)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L222">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2868">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_GetValue__0_System_Runtime_CompilerServices_ConditionalWeakTable__0__1__CreateValueCallback_" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.GetValue(`0,System.Runtime.CompilerServices.ConditionalWeakTable{`0,`1}.CreateValueCallback)">GetValue(TKey, ConditionalWeakTable&lt;TKey, TValue&gt;.CreateValueCallback)</h4>
               <div class="markdown level1 summary"><p>Atomically searches for a specified key in the table and returns the corresponding value. If the key does not exist in the table, the method invokes a callback method to create a value that is bound to the specified key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_GetValue__0_System_Runtime_CompilerServices_ConditionalWeakTable__0__1__CreateValueCallback__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>key</em> does not exist in the table, <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_GetValue__0_System_Runtime_CompilerServices_ConditionalWeakTable__0__1__CreateValueCallback_">GetValue(TKey, ConditionalWeakTable<tkey, tvalue="">.CreateValueCallback)</tkey,></a> invokes the method that is defined by the <em>createValueCallback</em> parameter and passes it the key. A new value is bound to the key in the table and returned as a result.</p>
+<p>Use this method only when the class that represents the table&#39;s value does not define a default constructor. If it does define a default constructor, use the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_GetOrCreateValue__0_">GetOrCreateValue(TKey)</a> method instead. To retrieve the value of an existing key without adding the key/value pair if the key is not found in the table, call the <a class="xref" href="System.Runtime.CompilerServices.ConditionalWeakTable%602.html#System_Runtime_CompilerServices_ConditionalWeakTable_2_TryGetValue__0__1__">TryGetValue(TKey, out TValue)</a> method.</p>
+<p>If multiple threads try to create the same key, <em>createValueCallback</em> may be invoked multiple times with the same key. Only one of these calls will succeed, and its returned value will be added to the table. Which thread succeeds in creating the value is indeterminate. This rule permits the table to invoke <em>createValueCallback</em> outside the internal table lock to prevent deadlocks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TValue GetValue(TKey key, ConditionalWeakTable&lt;TKey, TValue&gt;.CreateValueCallback createValueCallback)</code></pre>
@@ -318,7 +357,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> or <em>createValueCallback</em> is null.</p>
+                    <td><p>
+<em>key</em> or <em>createValueCallback</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -328,12 +368,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2_Remove__0_.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.Remove(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L161">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2869">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_Remove__0_" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.Remove(`0)">Remove(TKey)</h4>
               <div class="markdown level1 summary"><p>Removes a key and its value from the table.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_Remove__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the key is garbage-collected during this operation, the method does not raise an exception and the return value is undefined.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Remove(TKey key)</code></pre>
@@ -367,7 +410,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the key is found and removed; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the key is found and removed; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -383,7 +427,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -393,12 +438,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_ConditionalWeakTable_2_TryGetValue__0__1__.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.ConditionalWeakTable%602.TryGetValue(%600%2C%601%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/ConditionalWeakTable.cs/#L102">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2870">View Source</a>
               </span>
               <h4 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_TryGetValue__0__1__" data-uid="System.Runtime.CompilerServices.ConditionalWeakTable`2.TryGetValue(`0,`1@)">TryGetValue(TKey, out TValue)</h4>
               <div class="markdown level1 summary"><p>Gets the value of the specified key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_CompilerServices_ConditionalWeakTable_2_TryGetValue__0__1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the key is garbage-collected during this operation, the method may return <strong>false</strong> and set <em>value</em> to the default value (as if the key were not present).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool TryGetValue(TKey key, out TValue value)</code></pre>
@@ -438,7 +486,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>key</em> is found; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>key</em> is found; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -454,7 +503,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>

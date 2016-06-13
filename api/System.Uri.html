@@ -87,6 +87,45 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Uri</code></pre>
               </div>
+              <h5 id="System_Uri_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>A URI is a compact representation of a resource available to your application on the intranet or Internet. The <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class defines the properties and methods for handling URIs, including parsing, comparing, and combining. The <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class properties are read-only; to create a modifiable object, use the <a class="xref" href="System.UriBuilder.html#System_UriBuilder">UriBuilder</a> class.</p>
+<p>Relative URIs (for example, &quot;/new/index.htm&quot;) must be expanded with respect to a base URI so that they are absolute. The <span class="xref">System.Uri.MakeRelative(System.Uri)</span> method is provided to convert absolute URIs to relative URIs when necessary.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri">Uri</a> constructors do not escape URI strings if the string is a well-formed URI including a scheme identifier.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri">Uri</a> properties return a canonical data representation in escaped encoding, with all characters with Unicode values greater than 127 replaced with their hexadecimal equivalents. To put the URI in canonical form, the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> constructor performs the following steps: </p>
+<ul><li>
+<p>Converts the URI scheme to lowercase.</p>
+</li><li>
+<p>Converts the host name to lowercase.</p>
+</li><li>
+<p>If the host name is an IPv6 address, the canonical IPv6 address is used. ScopeId and other optional IPv6 data are removed.</p>
+</li><li>
+<p>Removes default and empty port numbers.</p>
+</li><li>
+<p>Canonicalizes the path for hierarchical URIs by compacting sequences such as /./, /../, //, including escaped representations. Note that there are some schemes for which escaped representations are not compacted. </p>
+</li><li>
+<p>For hierarchical URIs, if the host is not terminated with a forward slash (/), one is added.</p>
+</li><li>
+<p>By default, any reserved characters in the URI are escaped in accordance with RFC 2396. This behavior changes if International Resource Identifiers or International Domain Name parsing is enabled in which case reserved characters in the URI are escaped in accordance with RFC 3986 and RFC 3987.</p>
+</li></ul>
+<p>As part of canonicalization in the constructor for some schemes, escaped representations are compacted. The schemes for which URI will compact escaped sequences include the following: file, http, https, net.pipe, and net.tcp. For all other schemes, escaped sequences are not compacted. For example: if you percent encode the two dots &quot;..&quot; as &quot;%2E%2E&quot; then the URI constructor will compact this sequence for some schemes. For example, the following code sample shows a URI constructor for the http scheme. </p>
+<pre><code>Uri uri = new Uri("http://myUrl/%2E%2E/%2E%2E");
+Console.WriteLine(uri.AbsoluteUri);
+Console.WriteLine(uri.PathAndQuery);</code></pre>
+<p>When this code is executed, it returns the following output with the escaped sequence compacted.</p>
+<pre><code>http://myUrl/
+/</code></pre>
+<p>The following code example shows a URI constructor for the ftp scheme:</p>
+<pre><code>Uri uri = new Uri("ftp://myUrl/%2E%2E/%2E%2E");
+Console.WriteLine(uri.AbsoluteUri);
+Console.WriteLine(uri.PathAndQuery);</code></pre>
+<p>When this code is executed, it returns the following output with the escaped sequence not compacted.</p>
+<pre><code>ftp://myUrl/%2E%2E/%2E%2E
+/%2E%2E/%2E%2E</code></pre>
+<p>You can transform the contents of the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class from an escape encoded URI reference to a readable URI reference by using the <a class="xref" href="System.Uri.html#System_Uri_ToString">ToString()</a> method. Note that some reserved characters might still be escaped in the output of the <a class="xref" href="System.Uri.html#System_Uri_ToString">ToString()</a> method. This is to support unambiguous reconstruction of a URI from the value returned by <a class="xref" href="System.Uri.html#System_Uri_ToString">ToString()</a>.</p>
+<p>Some URIs include a fragment identifier or a query or both. A fragment identifier is any text that follows a number sign (#), not including the number sign; the fragment text is stored in the <a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a> property. Query information is any text that follows a question mark (?) in the URI; the query text is stored in the <a class="xref" href="System.Uri.html#System_Uri_Query">Query</a> property.</p>
+<p>In the .NET Framework version 1.1, if the string specified to a constructor contains an unknown scheme and &quot;c:\&quot;, the Uri class inserts &quot;//&quot; after the colon. For example, the URI <code>xyz:c:\abc</code> is converted to <code>xyz://c:/abc</code>. In the .NET Framework version 2.0, this behavior has been removed, and the example string is converted to <code>xyz:c:/abc</code>.</p>
+<p>The URI class supports the use of IP addresses in both quad-notation for IPv4 protocol and colon-hexadecimal for IPv6 protocol. Remember to enclose the IPv6 address in square brackets, as in http://[::1].</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +139,11 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class with the specified URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates a <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance from a URI string. It parses the URI, puts it in canonical format, and makes any required escape encodings.</p>
+<p>This constructor does not ensure that the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> refers to an accessible resource.</p>
+<p>This constructor assumes that the <em>string</em> parameter references an absolute URI and is equivalent to calling the <span class="xref">System.Uri.</span> constructor with <a class="xref" href="System.UriKind.html#System_UriKind">UriKind</a> set to <a class="xref" href="System.UriKind.html#System_UriKind_Absolute">Absolute</a>. If the <em>string</em> parameter passed to the constructor is a relative URI, this constructor will throw a <a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Uri(string uriString)</code></pre>
@@ -133,12 +177,40 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>uriString</em> is null. </p>
+                    <td><p>
+<em>uriString</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.<em>uriString</em> is empty.-or- The scheme specified in <em>uriString</em> is not correctly formed. See <a class="xref" href="System.Uri.html#System_Uri_CheckSchemeName_System_String_">CheckSchemeName(String)</a>.-or- <em>uriString</em> contains too many slashes.-or- The password specified in <em>uriString</em> is not valid.-or- The host name specified in <em>uriString</em> is not valid.-or- The file name specified in <em>uriString</em> is not valid. -or- The user name specified in <em>uriString</em> is not valid.-or- The host or authority name specified in <em>uriString</em> cannot be terminated by backslashes.-or- The port number specified in <em>uriString</em> is not valid or cannot be parsed.-or- The length of <em>uriString</em> exceeds 65519 characters.-or- The length of the scheme specified in <em>uriString</em> exceeds 1023 characters.-or- There is an invalid character sequence in <em>uriString</em>.-or- The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.</p>
+<p>
+<em>uriString</em> is empty.</p>
+<p>-or- </p>
+<p>The scheme specified in <em>uriString</em> is not correctly formed. See <a class="xref" href="System.Uri.html#System_Uri_CheckSchemeName_System_String_">CheckSchemeName(String)</a>.</p>
+<p>-or- </p>
+<p>
+<em>uriString</em> contains too many slashes.</p>
+<p>-or- </p>
+<p>The password specified in <em>uriString</em> is not valid.</p>
+<p>-or- </p>
+<p>The host name specified in <em>uriString</em> is not valid.</p>
+<p>-or- </p>
+<p>The file name specified in <em>uriString</em> is not valid. </p>
+<p>-or- </p>
+<p>The user name specified in <em>uriString</em> is not valid.</p>
+<p>-or- </p>
+<p>The host or authority name specified in <em>uriString</em> cannot be terminated by backslashes.</p>
+<p>-or- </p>
+<p>The port number specified in <em>uriString</em> is not valid or cannot be parsed.</p>
+<p>-or- </p>
+<p>The length of <em>uriString</em> exceeds 65519 characters.</p>
+<p>-or- </p>
+<p>The length of the scheme specified in <em>uriString</em> exceeds 1023 characters.</p>
+<p>-or- </p>
+<p>There is an invalid character sequence in <em>uriString</em>.</p>
+<p>-or- </p>
+<p>The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
 </td>
                   </tr>
                 </tbody>
@@ -154,6 +226,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class with the specified URI. This constructor allows you to specify if the URI string is a relative URI, absolute URI, or is indeterminate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri__ctor_System_String_System_UriKind__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Relative and absolute URIs have different restrictions on their format. For example, a relative URI does not require a scheme or an authority. The value you specify in <em>uriKind</em> must match the type of URI passed in <em>uriString</em>. However, if <a class="xref" href="System.UriKind.html#System_UriKind_RelativeOrAbsolute">RelativeOrAbsolute</a> is specified, the URI string can be relative or absolute.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Uri(string uriString, UriKind uriKind)</code></pre>
@@ -193,17 +268,52 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>uriKind</em> is invalid. </p>
+                    <td><p>
+<em>uriKind</em> is invalid. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>uriString</em> is null. </p>
+                    <td><p>
+<em>uriString</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.<em>uriString</em> contains a relative URI and <em>uriKind</em> is <a class="xref" href="System.UriKind.html#System_UriKind_Absolute">Absolute</a>.or<em>uriString</em> contains an absolute URI and <em>uriKind</em> is <a class="xref" href="System.UriKind.html#System_UriKind_Relative">Relative</a>.or<em>uriString</em> is empty.-or- The scheme specified in <em>uriString</em> is not correctly formed. See <a class="xref" href="System.Uri.html#System_Uri_CheckSchemeName_System_String_">CheckSchemeName(String)</a>.-or- <em>uriString</em> contains too many slashes.-or- The password specified in <em>uriString</em> is not valid.-or- The host name specified in <em>uriString</em> is not valid.-or- The file name specified in <em>uriString</em> is not valid. -or- The user name specified in <em>uriString</em> is not valid.-or- The host or authority name specified in <em>uriString</em> cannot be terminated by backslashes.-or- The port number specified in <em>uriString</em> is not valid or cannot be parsed.-or- The length of <em>uriString</em> exceeds 65519 characters.-or- The length of the scheme specified in <em>uriString</em> exceeds 1023 characters.-or- There is an invalid character sequence in <em>uriString</em>.-or- The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.</p>
+<p>
+<em>uriString</em> contains a relative URI and <em>uriKind</em> is <a class="xref" href="System.UriKind.html#System_UriKind_Absolute">Absolute</a>.</p>
+<p>or</p>
+<p>
+<em>uriString</em> contains an absolute URI and <em>uriKind</em> is <a class="xref" href="System.UriKind.html#System_UriKind_Relative">Relative</a>.</p>
+<p>or</p>
+<p>
+<em>uriString</em> is empty.</p>
+<p>-or- </p>
+<p>The scheme specified in <em>uriString</em> is not correctly formed. See <a class="xref" href="System.Uri.html#System_Uri_CheckSchemeName_System_String_">CheckSchemeName(String)</a>.</p>
+<p>-or- </p>
+<p>
+<em>uriString</em> contains too many slashes.</p>
+<p>-or- </p>
+<p>The password specified in <em>uriString</em> is not valid.</p>
+<p>-or- </p>
+<p>The host name specified in <em>uriString</em> is not valid.</p>
+<p>-or- </p>
+<p>The file name specified in <em>uriString</em> is not valid. </p>
+<p>-or- </p>
+<p>The user name specified in <em>uriString</em> is not valid.</p>
+<p>-or- </p>
+<p>The host or authority name specified in <em>uriString</em> cannot be terminated by backslashes.</p>
+<p>-or- </p>
+<p>The port number specified in <em>uriString</em> is not valid or cannot be parsed.</p>
+<p>-or- </p>
+<p>The length of <em>uriString</em> exceeds 65519 characters.</p>
+<p>-or- </p>
+<p>The length of the scheme specified in <em>uriString</em> exceeds 1023 characters.</p>
+<p>-or- </p>
+<p>There is an invalid character sequence in <em>uriString</em>.</p>
+<p>-or- </p>
+<p>The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
 </td>
                   </tr>
                 </tbody>
@@ -219,6 +329,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class based on the specified base URI and relative URI string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri__ctor_System_Uri_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates a <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance by combining the <em>baseUri</em> and the <em>relativeUri</em>. If <em>relativeUri</em> is an absolute URI (containing a scheme, host name, and optionally a port number), the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is created using only <em>relativeUri</em>.</p>
+<p>This constructor does not ensure that the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> refers to an accessible resource.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Uri(Uri baseUri, string relativeUri)</code></pre>
@@ -258,17 +372,44 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>baseUri</em> is null. </p>
+                    <td><p>
+<em>baseUri</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>baseUri</em> is not an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. </p>
+                    <td><p>
+<em>baseUri</em> is not an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is empty or contains only spaces.-or- The scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> contains too many slashes.-or- The password specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The host name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The file name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid. -or- The user name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The host or authority name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> cannot be terminated by backslashes.-or- The port number specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid or cannot be parsed.-or- The length of the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 65519 characters.-or- The length of the scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 1023 characters.-or- There is an invalid character sequence in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em>.-or- The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.</p>
+<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is empty or contains only spaces.</p>
+<p>-or- </p>
+<p>The scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> contains too many slashes.</p>
+<p>-or- </p>
+<p>The password specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The host name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The file name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid. </p>
+<p>-or- </p>
+<p>The user name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The host or authority name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> cannot be terminated by backslashes.</p>
+<p>-or- </p>
+<p>The port number specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid or cannot be parsed.</p>
+<p>-or- </p>
+<p>The length of the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 65519 characters.</p>
+<p>-or- </p>
+<p>The length of the scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 1023 characters.</p>
+<p>-or- </p>
+<p>There is an invalid character sequence in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em>.</p>
+<p>-or- </p>
+<p>The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
 </td>
                   </tr>
                 </tbody>
@@ -284,6 +425,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class based on the combination of a specified base <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance and a relative <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri__ctor_System_Uri_System_Uri__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates a new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance by combining an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance, <em>baseUri</em>, with a relative <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance, <em>relativeUri</em>. If <em>relativeUri</em> is an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance (containing a scheme, host name, and optionally a port number), the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is created using only <em>relativeUri</em>.</p>
+<p>This constructor does not ensure that the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> refers to an accessible resource.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Uri(Uri baseUri, Uri relativeUri)</code></pre>
@@ -323,22 +468,50 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>baseUri</em> is not an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. </p>
+                    <td><p>
+<em>baseUri</em> is not an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>baseUri</em> is null. </p>
+                    <td><p>
+<em>baseUri</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>baseUri</em> is not an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. </p>
+                    <td><p>
+<em>baseUri</em> is not an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is empty or contains only spaces.-or- The scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> contains too many slashes.-or- The password specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The host name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The file name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid. -or- The user name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.-or- The host or authority name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> cannot be terminated by backslashes.-or- The port number specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid or cannot be parsed.-or- The length of the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 65519 characters.-or- The length of the scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 1023 characters.-or- There is an invalid character sequence in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em>.-or- The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.</p>
+<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is empty or contains only spaces.</p>
+<p>-or- </p>
+<p>The scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> contains too many slashes.</p>
+<p>-or- </p>
+<p>The password specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The host name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The file name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid. </p>
+<p>-or- </p>
+<p>The user name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>
+<p>-or- </p>
+<p>The host or authority name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> cannot be terminated by backslashes.</p>
+<p>-or- </p>
+<p>The port number specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid or cannot be parsed.</p>
+<p>-or- </p>
+<p>The length of the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 65519 characters.</p>
+<p>-or- </p>
+<p>The length of the scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 1023 characters.</p>
+<p>-or- </p>
+<p>There is an invalid character sequence in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em>.</p>
+<p>-or- </p>
+<p>The MS-DOS path specified in <em>uriString</em> must start with c:\.</p>
 </td>
                   </tr>
                 </tbody>
@@ -356,6 +529,10 @@
               <div class="markdown level1 summary"><p>Gets the absolute path of the URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_AbsolutePath_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_AbsolutePath">AbsolutePath</a> property contains the path information that the server uses to resolve requests for information. Typically this is the path to the desired information on the server&#39;s file system, although it also can indicate the application or script the server must run to provide the information.</p>
+<p>The path information does not include the scheme, host name, or query portion of the URI.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string AbsolutePath { get; }</code></pre>
@@ -403,6 +580,9 @@
               <div class="markdown level1 summary"><p>Gets the absolute URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_AbsoluteUri_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_AbsoluteUri">AbsoluteUri</a> property includes the entire URI stored in the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance, including all fragments and query strings.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string AbsoluteUri { get; }</code></pre>
@@ -450,6 +630,9 @@
               <div class="markdown level1 summary"><p>Gets the Domain Name System (DNS) host name or IP address and the port number for a server.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Authority_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_Authority">Authority</a> property is typically a server DNS host name or IP address. This property might include the service port number if it differs from the default port for the URI. If the <a class="xref" href="System.Uri.html#System_Uri_Authority">Authority</a> component contains reserved characters, these are escaped in the string value returned by this property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Authority { get; }</code></pre>
@@ -497,6 +680,39 @@
               <div class="markdown level1 summary"><p>Gets an unescaped host name that is safe to use for DNS resolution.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_DnsSafeHost_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For IPv6 addresses, the brackets ([]) are removed and the <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress_ScopeId">ScopeId</a> property is set, if one was specified when this instance was constructed.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a> property is dependent on configuration settings, as discussed later in this topic. Configuration settings cannot be changed by Windows Store applications, which can lead to inconsistent results when using <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a>. The <a class="xref" href="System.Uri.html#System_Uri_IdnHost">IdnHost</a>property is provided as the preferred alternative to using <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a>, because <a class="xref" href="System.Uri.html#System_Uri_IdnHost">IdnHost</a> is guaranteed to always be DNS safe, no matter what the current app.config settings might be.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a> property has been extended in .NET Framework v3.5, 3.0 SP1, and 2.0 SP1 to provide International Resource Identifier (IRI) support based on RFC 3987. Current users will not see any change from the .NET Framework 2.0 behavior unless they specifically enable IRI. This ensures application compatibility with prior versions of the .NET Framework.</p>
+<p>To enable support for IRI, the following two changes are required:</p>
+<ol><li>
+<p>Add the following line to the machine.config file under the .NET Framework 2.0 directory</p>
+<p><section name="uri" type="System.Configuration.UriSection, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"></section></p>
+</li><li>
+<p>Specify whether you want Internationalized Domain Name (IDN) parsing applied to the domain name and whether IRI parsing rules should be applied. This can be done in the machine.config or in the app.config file. For example, add the following:</p>
+<pre><code><configuration>
+<uri>
+<idn enabled="All"></idn>
+<iriparsing enabled="true"></iriparsing>
+</uri>
+</configuration></code></pre>
+</li></ol>
+<p>Enabling IDN will convert all Unicode labels in a domain name to their Punycode equivalents. Punycode names contain only ASCII characters and always start with the xn-- prefix. The reason for this is to support existing DNS servers on the Internet, since most DNS servers only support ASCII characters (see RFC 3940).</p>
+<p>Enabling IDN only affects the value of the <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a> property. </p>
+<p>There are three possible values for IDN depending on the DNS servers that are used:</p>
+<ul><li>
+<p>idn enabled = All</p>
+<p>This value will convert any Unicode domain names to their Punycode equivalents (IDN names).</p>
+</li><li>
+<p>idn enabled = AllExceptIntranet</p>
+<p>This value will convert all external Unicode domain names to use the Punycode equivalents (IDN names). In this case to handle international names on the local Intranet, the DNS servers that are used for the Intranet should support Unicode names.</p>
+</li><li>
+<p>idn enabled = None</p>
+<p>This value will not convert any Unicode domain names to use Punycode. This is the default value which is consistent with the .NET Framework 2.0 behaviour.</p>
+</li></ul>
+<p>Enabling IRI parsing (iriParsing enabled = <strong>true</strong>) will do normalization and character checking according to the latest IRI rules in RFC 3987. The default value is <strong>false</strong> and will do normalization and character checking according to RFC 2396 and RFC 2732 (for IPv6 literals).</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string DnsSafeHost { get; }</code></pre>
@@ -544,6 +760,10 @@
               <div class="markdown level1 summary"><p>Gets the escaped URI fragment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Fragment_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a> property gets any text following a fragment marker (#) in the URI, including the fragment marker itself. Given the URI <a href="http://www.contoso.com/index.htm#main">http://www.contoso.com/index.htm#main</a>, the <a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a> property would return #main.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a> property is not considered in any <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> comparison.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Fragment { get; }</code></pre>
@@ -591,6 +811,9 @@
               <div class="markdown level1 summary"><p>Gets the host component of this instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Host_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Unlike the <a class="xref" href="System.Uri.html#System_Uri_Authority">Authority</a> property, this property value does not include the port number.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Host { get; }</code></pre>
@@ -685,6 +908,10 @@
               <div class="markdown level1 summary"><p>The RFC 3490 compliant International Domain Name of the host, using Punycode as appropriate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IdnHost_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is provided for the use of lower-level networking protocols that require the domain name in Punycode form. If your code does not require that specific format, use <a class="xref" href="System.Uri.html#System_Uri_Host">Host</a> for the hostname.</p>
+<p>The deprecated <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a> property is dependent on app.config settings, which cannot be changed by Windows Store applications. This property is provided as the preferred alternative to using <a class="xref" href="System.Uri.html#System_Uri_DnsSafeHost">DnsSafeHost</a>, because <a class="xref" href="System.Uri.html#System_Uri_IdnHost">IdnHost</a> is guaranteed to always be DNS safe, no matter what the current app.config settings might be.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string IdnHost { get; }</code></pre>
@@ -716,6 +943,9 @@
               <div class="markdown level1 summary"><p>Gets whether the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is absolute.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsAbsoluteUri_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is <strong>true</strong> if the string or <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance that was passed into the constructor can be parsed as an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance, which contains a scheme, an authority, and a path. Otherwise, the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is treated as relative and might omit the scheme or other URI components.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsAbsoluteUri { get; }</code></pre>
@@ -731,7 +961,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is absolute; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is absolute; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -762,7 +992,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the value in the <a class="xref" href="System.Uri.html#System_Uri_Port">Port</a> property is the default port for this scheme; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the value in the <a class="xref" href="System.Uri.html#System_Uri_Port">Port</a> property is the default port for this scheme; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -794,6 +1024,9 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is a file URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsFile_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_IsFile">IsFile</a> property is <strong>true</strong> when the <a class="xref" href="System.Uri.html#System_Uri_Scheme">Scheme</a> property equals <span class="xref">System.Uri.UriSchemeFile</span>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsFile { get; }</code></pre>
@@ -809,7 +1042,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is a file URI; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is a file URI; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -841,6 +1074,10 @@
               <div class="markdown level1 summary"><p>Gets whether the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> references the local host.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsLoopback_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Uri.html#System_Uri_IsLoopback">IsLoopback</a> returns <strong>true</strong> if the URI specified when this instance was created was 127.0.0.1, loopback, or localhost, or if the URI did not specify host information (for example, file:///c:Dir/file.txt). All other URIs return <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsLoopback { get; }</code></pre>
@@ -856,7 +1093,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if this <a class="xref" href="System.Uri.html#System_Uri">Uri</a> references the local host; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if this <a class="xref" href="System.Uri.html#System_Uri">Uri</a> references the local host; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -888,6 +1125,9 @@
               <div class="markdown level1 summary"><p>Gets whether the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is a universal naming convention (UNC) path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsUnc_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_IsUnc">IsUnc</a> property is <strong>true</strong> if the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is a UNC path (such as \server\folder or file://server/folder). This property always returns <strong>true</strong> if the URI has the file:// scheme and specifies a host component.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsUnc { get; }</code></pre>
@@ -903,7 +1143,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is a UNC path; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is a UNC path; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -935,6 +1175,10 @@
               <div class="markdown level1 summary"><p>Gets a local operating-system representation of a file name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_LocalPath_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value returned by this property is unescaped. If the path is recognized as a Windows file path, all forward slashes (/) are replaced by backward slashes (). </p>
+<p>For the URI <code>file://computer/file.ext</code>, the absolute path is <code>/file.ext</code> and the local path is<code> \\computer\file.ext</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string LocalPath { get; }</code></pre>
@@ -982,6 +1226,13 @@
               <div class="markdown level1 summary"><p>Gets the original URI string that was passed to the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> constructor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_OriginalString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the URI specified to the constructor contained leading or trailing spaces, these spaces are preserved.</p>
+<p>The value returned by this property differs from <a class="xref" href="System.Uri.html#System_Uri_ToString">ToString()</a> and <a class="xref" href="System.Uri.html#System_Uri_AbsoluteUri">AbsoluteUri</a>. <a class="xref" href="System.Uri.html#System_Uri_ToString">ToString()</a> returns the canonically unescaped form of the URI. <a class="xref" href="System.Uri.html#System_Uri_AbsoluteUri">AbsoluteUri</a> returns the canonically escaped form of the URI.</p>
+<p>When International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled, <a class="xref" href="System.Uri.html#System_Uri_OriginalString">OriginalString</a> returns the original non normalized string with Punycode host name if one was used to initialize the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. Punycode names contain only ASCII characters and always start with the xn-- prefix. </p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+<p>When a <a class="xref" href="System.Uri.html#System_Uri">Uri</a> object is serialized, the <a class="xref" href="System.Uri.html#System_Uri_OriginalString">OriginalString</a> is not preserved. The serialization process uses the fully escaped and canonicalized <a class="xref" href="System.Uri.html#System_Uri_AbsoluteUri">AbsoluteUri</a> property when serializing. For a <a class="xref" href="System.Uri.html#System_Uri">Uri</a> that contains an IPv6 address, the IPv6 address and the scope ID are included in the serialized <a class="xref" href="System.Uri.html#System_Uri">Uri</a> object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string OriginalString { get; }</code></pre>
@@ -1029,6 +1280,11 @@
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Uri.html#System_Uri_AbsolutePath">AbsolutePath</a> and <a class="xref" href="System.Uri.html#System_Uri_Query">Query</a> properties separated by a question mark (?).</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_PathAndQuery_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_PathAndQuery">PathAndQuery</a> property contains the absolute path on the server and the query information sent with the request. It is identical to concatenating the <a class="xref" href="System.Uri.html#System_Uri_AbsolutePath">AbsolutePath</a> and <a class="xref" href="System.Uri.html#System_Uri_Query">Query</a> properties.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri_PathAndQuery">PathAndQuery</a> property is escaped according to RFC 2396 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the <a class="xref" href="System.Uri.html#System_Uri_PathAndQuery">PathAndQuery</a> property is escaped according to RFC 3986 and RFC 3987.</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string PathAndQuery { get; }</code></pre>
@@ -1076,6 +1332,9 @@
               <div class="markdown level1 summary"><p>Gets the port number of this URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Port_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The port number defines the protocol port used for contacting the server referenced in the URI. If a port is not specified as part of the URI, the <a class="xref" href="System.Uri.html#System_Uri_Port">Port</a> property returns the default value for the protocol. If there is no default port number, this property returns -1.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Port { get; }</code></pre>
@@ -1123,6 +1382,11 @@
               <div class="markdown level1 summary"><p>Gets any query information included in the specified URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Query_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_Query">Query</a> property contains any query information included in the URI. Query information is separated from the path information by a question mark (?) and continues to the end of the URI. The query information returned includes the leading question mark.</p>
+<p>The query information is escaped according to RFC 2396 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the query information is escaped according to RFC 3986 and RFC 3987.</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Query { get; }</code></pre>
@@ -1170,6 +1434,65 @@
               <div class="markdown level1 summary"><p>Gets the scheme name for this URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Scheme_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <a class="xref" href="System.Uri.html#System_Uri_Scheme">Scheme</a> property returns the scheme used to initialize the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance. This property does not indicate that the scheme used to initialize the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance was recognized. </p></p>
+<p><p>The following table shows examples of some possible values returned by the <a class="xref" href="System.Uri.html#System_Uri_Scheme">Scheme</a> property.</p></p>
+<p><p>Scheme </p></p>
+<p><p>Description </p></p>
+<table><tbody><tr><td>
+<p>file </p>
+</td><td>
+<p>The resource is a file on the local computer. </p>
+</td></tr><tr><td>
+<p>ftp </p>
+</td><td>
+<p>The resource is accessed through FTP. </p>
+</td></tr><tr><td>
+<p>gopher </p>
+</td><td>
+<p>The resource is accessed through the Gopher protocol. </p>
+</td></tr><tr><td>
+<p>http </p>
+</td><td>
+<p>The resource is accessed through HTTP. </p>
+</td></tr><tr><td>
+<p>https </p>
+</td><td>
+<p>The resource is accessed through SSL-encrypted HTTP. </p>
+</td></tr><tr><td>
+<p>ldap</p>
+</td><td>
+<p>The resource is accessed through the LDAP protocol.</p>
+</td></tr><tr><td>
+<p>mailto </p>
+</td><td>
+<p>The resource is an e-mail address and accessed through the SMTP protocol. </p>
+</td></tr><tr><td>
+<p>net.pipe</p>
+</td><td>
+<p>The resource is accessed through a named pipe.</p>
+</td></tr><tr><td>
+<p>net.tcp</p>
+</td><td>
+<p>The resource is accessed from TCP endpoint.</p>
+</td></tr><tr><td>
+<p>news</p>
+</td><td>
+<p>The resource is accessed through the NNTP protocol.</p>
+</td></tr><tr><td>
+<p>nntp </p>
+</td><td>
+<p>The resource is accessed through the NNTP protocol. </p>
+</td></tr><tr><td>
+<p>telnet</p>
+</td><td>
+<p>The resource is accessed through the TELNET protocol.</p>
+</td></tr><tr><td>
+<p>uuid</p>
+</td><td>
+<p>The resource is accessed through a unique UUID endpoint name for communicating with a service.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Scheme { get; }</code></pre>
@@ -1217,6 +1540,9 @@
               <div class="markdown level1 summary"><p>Gets an array containing the path segments that make up the specified URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Segments_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_Segments">Segments</a> property returns an array of strings containing the &quot;segments&quot; (substrings) that form the URI&#39;s absolute path. The first segment is obtained by parsing the absolute path from its first character until you reach a slash (/) or the end of the path. Each additional segment begins at the first character after the preceding segment, and terminates with the next slash or the end of the path. (A URI&#39;s absolute path contains everything after the host and port and before the query and fragment.) </p>
+<p>The following example shows the absolute path and segments for two URIs. The second example illustrates that the fragment and query are not part of the absolute path and therefore are not segments.</p>Absolute URI <p><a href="http://www.contoso.com/Chapters/Chapter1/Sections/Section1.htm">http://www.contoso.com/Chapters/Chapter1/Sections/Section1.htm</a></p>Absolute path <p>/Chapters/Chapter1/Sections/Section1.htm</p>Segments<p>/Chapters/Chapter1/Sections/Section1.htm</p>Absolute URI <p><a href="http://www.contoso.com/Chapters/Chapter1/Sections/Section1.htm#page1?answer=NO">http://www.contoso.com/Chapters/Chapter1/Sections/Section1.htm#page1?answer=NO</a></p>Absolute path <p>/Chapters/Chapter1/Sections/Section1.htm</p>Segments<p>/Chapters/Chapter1/Sections/Section1.htm</p><p>Note that because the absolute path starts with a &#39;/&#39;, the first segment contains it and nothing else.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string[] Segments { get; }</code></pre>
@@ -1264,6 +1590,9 @@
               <div class="markdown level1 summary"><p>Indicates that the URI string was completely escaped before the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance was created.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_UserEscaped_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_UserEscaped">UserEscaped</a> property is set to <strong>true</strong> to indicate that the string used to create the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance was completely escaped before it was passed to the constructor; that is, the <em>dontEscape</em> parameter of the constructor call was set to <strong>true</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool UserEscaped { get; }</code></pre>
@@ -1279,7 +1608,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <em>dontEscape</em> parameter was set to true when the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance was created; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <em>dontEscape</em> parameter was set to <strong>true</strong> when the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance was created; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1295,6 +1624,9 @@
               <div class="markdown level1 summary"><p>Gets the user name, password, or other user-specific information associated with the specified URI.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_UserInfo_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value returned by this property is usually in the format &quot;userName:password&quot;.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string UserInfo { get; }</code></pre>
@@ -1344,6 +1676,9 @@
               <div class="markdown level1 summary"><p>Determines whether the specified host name is a valid DNS name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_CheckHostName_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_CheckHostName_System_String_">CheckHostName(String)</a> method checks that the host name provided meets the requirements for a valid Internet host name. It does not, however, perform a host-name lookup to verify the existence of the host.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static UriHostNameType CheckHostName(string name)</code></pre>
@@ -1377,7 +1712,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.UriHostNameType.html#System_UriHostNameType">UriHostNameType</a></td>
-                    <td><p>A <a class="xref" href="System.UriHostNameType.html#System_UriHostNameType">UriHostNameType</a> that indicates the type of the host name. If the type of the host name cannot be determined or if the host name is null or a zero-length string, this method returns <a class="xref" href="System.UriHostNameType.html#System_UriHostNameType_Unknown">Unknown</a>.</p>
+                    <td><p>A <a class="xref" href="System.UriHostNameType.html#System_UriHostNameType">UriHostNameType</a> that indicates the type of the host name. If the type of the host name cannot be determined or if the host name is <strong>null</strong> or a zero-length string, this method returns <a class="xref" href="System.UriHostNameType.html#System_UriHostNameType_Unknown">Unknown</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1393,6 +1728,10 @@
               <div class="markdown level1 summary"><p>Determines whether the specified scheme name is valid.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_CheckSchemeName_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method checks the scheme name for validity according to RFC 2396 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, this method checks the scheme name for validity according to RFC 3986. The scheme name must begin with a letter and must contain only letters, digits, and the characters &quot;.&quot;, &quot;+&quot;, or &quot;-&quot;.</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool CheckSchemeName(string schemeName)</code></pre>
@@ -1426,7 +1765,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the scheme name is valid; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the scheme name is valid; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1442,6 +1781,9 @@
               <div class="markdown level1 summary"><p>Compares the specified parts of two URIs using the specified comparison rules.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Compare_System_Uri_System_Uri_System_UriComponents_System_UriFormat_System_StringComparison__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If both <em>uri1</em> and <em>uri2</em> are <strong>null</strong>, this method returns 0. When comparing URI values, a relative URI is always less than an absolute URI, and a non-null URI is always greater than a null URI. For cases where both <em>uri1</em> and <em>uri2</em> are not <strong>null</strong> and are both relative URIs or both absolute URIs, the <a class="xref" href="System.String.html#System_String_Compare_System_String_System_String_System_StringComparison_">Compare(String, String, StringComparison)</a> method performs the comparison.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static int Compare(Uri uri1, Uri uri2, UriComponents partsToCompare, UriFormat compareFormat, StringComparison comparisonType)</code></pre>
@@ -1499,7 +1841,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>An <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that indicates the lexical relationship between the compared <a class="xref" href="System.Uri.html#System_Uri">Uri</a> components.ValueMeaningLess than zero<em>uri1</em> is less than <em>uri2</em>.Zero<em>uri1</em> equals <em>uri2</em>.Greater than zero<em>uri1</em> is greater than <em>uri2</em>.</p>
+                    <td><p><p>An <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that indicates the lexical relationship between the compared <a class="xref" href="System.Uri.html#System_Uri">Uri</a> components.</p></p>
+<p><p>Value</p></p>
+<p><p>Meaning</p></p>
+<table><tbody><tr><td>
+<p>Less than zero</p>
+</td><td>
+<p>
+<em>uri1</em> is less than <em>uri2</em>.</p>
+</td></tr><tr><td>
+<p>Zero</p>
+</td><td>
+<p>
+<em>uri1</em> equals <em>uri2</em>.</p>
+</td></tr><tr><td>
+<p>Greater than zero</p>
+</td><td>
+<p>
+<em>uri1</em> is greater than <em>uri2</em>.</p>
+</td></tr></tbody></table>
 </td>
                   </tr>
                 </tbody>
@@ -1515,7 +1875,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>comparisonType</em> is not a valid <a class="xref" href="System.StringComparison.html#System_StringComparison">StringComparison</a> value.</p>
+                    <td><p>
+<em>comparisonType</em> is not a valid <a class="xref" href="System.StringComparison.html#System_StringComparison">StringComparison</a> value.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1531,6 +1892,13 @@
               <div class="markdown level1 summary"><p>Compares two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances for equality.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_Equals_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> method compares the two instances without regard to user information (<a class="xref" href="System.Uri.html#System_Uri_UserInfo">UserInfo</a>) and fragment (<a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a>) parts that they might contain. For example, given the URIs <a href="http://www.contoso.com/index.htm#search">http://www.contoso.com/index.htm#search</a> and <a href="http://user:password@www.contoso.com/index.htm">http://user:password@www.contoso.com/index.htm</a>, the <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> method would return <strong>true</strong>.</p>
+<p>If one <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is formed with a Unicode host name and <em>comparand</em> parameter contains a <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance or identifier that is formed with a host name that has the equivalent Punycode host name, then <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> returns <strong>true</strong> only if International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled. Punycode names contain only ASCII characters and always start with the xn-- prefix. </p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+<p>In the .NET Framework versions 1.0 and 1.1, the <a class="xref" href="System.Uri.html#System_Uri_Query">Query</a> is also ignored.</p>
+<p>The <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> method can be overridden in a derived class; use caution as a malicious entity could modify the method. You should not use this method to perform security checks unless you know that this instance came from a trusted source.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool Equals(object comparand)</code></pre>
@@ -1564,7 +1932,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the two instances represent the same URI; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the two instances represent the same URI; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1580,6 +1948,12 @@
               <div class="markdown level1 summary"><p>Converts a string to its escaped representation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_EscapeDataString_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the <a class="xref" href="System.Uri.html#System_Uri_EscapeDataString_System_String_">EscapeDataString(String)</a> method converts all characters except for RFC 2396 unreserved characters to their hexadecimal representation. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the <a class="xref" href="System.Uri.html#System_Uri_EscapeDataString_System_String_">EscapeDataString(String)</a> method converts all characters, except for RFC 3986 unreserved characters, to their hexadecimal representation. All Unicode characters are converted to UTF-8 format before being escaped. </p>
+<p>This method assumes that <em>stringToEscape</em> has no escape sequences in it.</p>
+<p>By default, the string is escaped according to RFC 2396. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the string is escaped according to RFC 3986 and RFC 3987. See these RFCs for a definition of reserved and unreserved characters.</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string EscapeDataString(string stringToEscape)</code></pre>
@@ -1629,12 +2003,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stringToEscape</em> is null. </p>
+                    <td><p>
+<em>stringToEscape</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.The length of <em>stringToEscape</em> exceeds 32766 characters.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.</p>
+<p>The length of <em>stringToEscape</em> exceeds 32766 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1650,6 +2026,13 @@
               <div class="markdown level1 summary"><p>Converts a URI string to its escaped representation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_EscapeUriString_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <a class="xref" href="System.Uri.html#System_Uri_EscapeUriString_System_String_">EscapeUriString(String)</a> method to prepare an unescaped URI string to be a parameter to the <span class="xref">System.Uri.</span> constructor.</p>
+<p>By default, the <a class="xref" href="System.Uri.html#System_Uri_EscapeUriString_System_String_">EscapeUriString(String)</a> method converts all characters, except RFC 2396 unreserved characters, to their hexadecimal representation. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the <a class="xref" href="System.Uri.html#System_Uri_EscapeUriString_System_String_">EscapeUriString(String)</a> method converts all characters, except for RFC 3986 unreserved characters, to their hexadecimal representation. All Unicode characters are converted to UTF-8 format before being escaped. </p>
+<p>This method assumes that <em>stringToEscape</em> has no escape sequences in it.</p>
+<p>By default, the string is escaped according to RFC 2396. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the string is escaped according to RFC 3986 and RFC 3987. See these RFCs for a definition of reserved and unreserved characters.</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string EscapeUriString(string stringToEscape)</code></pre>
@@ -1699,12 +2082,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stringToEscape</em> is null. </p>
+                    <td><p>
+<em>stringToEscape</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UriFormatException.html#System_UriFormatException">UriFormatException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.The length of <em>stringToEscape</em> exceeds 32766 characters.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, instead.</p>
+<p>The length of <em>stringToEscape</em> exceeds 32766 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1720,6 +2105,13 @@
               <div class="markdown level1 summary"><p>Gets the specified components of the current instance using the specified escaping for special characters.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_GetComponents_System_UriComponents_System_UriFormat__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When <a class="xref" href="System.UriComponents.html#System_UriComponents_Query">Query</a> or <a class="xref" href="System.UriComponents.html#System_UriComponents_Fragment">Fragment</a> is specified alone, the return value includes the delimiter. The <a class="xref" href="System.UriComponents.html#System_UriComponents_Scheme">Scheme</a>, <a class="xref" href="System.UriComponents.html#System_UriComponents_UserInfo">UserInfo</a>, <a class="xref" href="System.UriComponents.html#System_UriComponents_Host">Host</a>, <a class="xref" href="System.UriComponents.html#System_UriComponents_Port">Port</a>, and <a class="xref" href="System.UriComponents.html#System_UriComponents_Path">Path</a> components do not include the delimiter. For all other <a class="xref" href="System.UriComponents.html#System_UriComponents">UriComponents</a> values, and combinations of values, the delimiters are included in the returned value.</p>
+<p>The components are returned in the order that they appear in the URI. For example, if <a class="xref" href="System.UriComponents.html#System_UriComponents_Scheme">Scheme</a> is specified, it appears first.</p>
+<p>When International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled, the number of characters returned in the <a class="xref" href="System.String.html#System_String">String</a> increases. Punycode names used to support IRI contain only ASCII characters and always start with the xn-- prefix. When IRI and IDN are enabled, Unicode surrogate characters are handled correctly by the <a class="xref" href="System.Uri.html#System_Uri_GetComponents_System_UriComponents_System_UriFormat_">GetComponents(UriComponents, UriFormat)</a> method.</p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+<p>If the <a class="xref" href="System.Uri.html#System_Uri_GetComponents_System_UriComponents_System_UriFormat_">GetComponents(UriComponents, UriFormat)</a> method is called with <em>format</em> set to <a class="xref" href="System.UriFormat.html#System_UriFormat_Unescaped">Unescaped</a> , you cannot use the return value as an argument to a <see cref="Overload:System.Uri.#ctor"></see> constructor to create an equivalent <a class="xref" href="System.Uri.html#System_Uri">Uri</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string GetComponents(UriComponents components, UriFormat format)</code></pre>
@@ -1775,7 +2167,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>uriComponents</em> is not a combination of valid <a class="xref" href="System.UriComponents.html#System_UriComponents">UriComponents</a> values.</p>
+                    <td><p>
+<em>uriComponents</em> is not a combination of valid <a class="xref" href="System.UriComponents.html#System_UriComponents">UriComponents</a> values.</p>
 </td>
                   </tr>
                   <tr>
@@ -1827,6 +2220,61 @@
               <div class="markdown level1 summary"><p>Determines whether the current <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is a base of the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsBaseOf_System_Uri__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>
+<p><a class="xref" href="System.Uri.html#System_Uri_IsBaseOf_System_Uri_">IsBaseOf(Uri)</a> is used to compare the current <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance to a specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> to determine whether this URI is a base for the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a>. When comparing two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> objects to determine a base relationship, the user information (<a class="xref" href="System.Uri.html#System_Uri_UserInfo">UserInfo</a>) is not evaluated. When comparing two URIs (uri1 and uri2), uri1 is the base of uri2 if, when you ignore everything in uri2 after the last slash (/), the two URIs are identical. Using <a href="http://host/path/path/file?query">http://host/path/path/file?query</a> as the base URI, the following table shows whether it is a base for other URIs.</p></p>
+<p><p>URI </p></p>
+<p><p><a href="http://host/path/path/file?query">http://host/path/path/file?query</a> is base of </p></p>
+<table><tbody><tr><td>
+<p><a href="http://host/path/path/file/">http://host/path/path/file/</a> </p>
+</td><td>
+<p>yes </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path/#fragment">http://host/path/path/#fragment</a> </p>
+</td><td>
+<p>yes </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path/MoreDir/">http://host/path/path/MoreDir/</a>&quot; </p>
+</td><td>
+<p>yes </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path/OtherFile?Query">http://host/path/path/OtherFile?Query</a> </p>
+</td><td>
+<p>yes </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path/">http://host/path/path/</a> </p>
+</td><td>
+<p>yes </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path/file">http://host/path/path/file</a> </p>
+</td><td>
+<p>yes </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path">http://host/path/path</a> </p>
+</td><td>
+<p>no </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path?query">http://host/path/path?query</a> </p>
+</td><td>
+<p>no </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path#Fragment">http://host/path/path#Fragment</a> </p>
+</td><td>
+<p>no </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path2/">http://host/path/path2/</a> </p>
+</td><td>
+<p>no </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/path2/MoreDir">http://host/path/path2/MoreDir</a> </p>
+</td><td>
+<p>no </p>
+</td></tr><tr><td>
+<p><a href="http://host/path/File">http://host/path/File</a> </p>
+</td><td>
+<p>no </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsBaseOf(Uri uri)</code></pre>
@@ -1860,7 +2308,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is a base of <em>uri</em>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance is a base of <em>uri</em>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1876,7 +2325,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>uri</em> is null. </p>
+                    <td><p>
+<em>uri</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1892,6 +2342,41 @@
               <div class="markdown level1 summary"><p>Indicates whether the string used to construct this <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was well-formed and is not required to be further escaped.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsWellFormedOriginalString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The string is considered to be well-formed in accordance with RFC 2396 and RFC 2732 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the string is considered to be well-formed in accordance with RFC 3986 and RFC 3987 </p>
+<p>The string is considered poorly formed, causing the method to return false, if any of the following conditions occur.</p>
+<p>Error</p>
+<p>Example</p>
+<table><tbody><tr><td>
+<p>The string is not correctly escaped.</p>
+</td><td>
+<p>
+<see href="http://www.contoso.com/path???/file"><a href="http://www.contoso.com/path???/file">http://www.contoso.com/path???/file</a></see> name</p>
+</td></tr><tr><td>
+<p>The string is an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> that represents an implicit file <a class="xref" href="System.Uri.html#System_Uri">Uri</a>.</p>
+</td><td>
+<p>c:\directory\filename</p>
+</td></tr><tr><td>
+<p>The string is an absolute URI that is missing a slash before the path.</p>
+</td><td>
+<p>file://c:/directory/filename</p>
+</td></tr><tr><td>
+<p>The string contains unescaped backslashes even if they are treated as forward slashes.</p>
+</td><td>
+<p>http:\host/path/file</p>
+</td></tr><tr><td>
+<p>The string represents a hierarchical absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> and does not contain &quot;://&quot;.</p>
+</td><td>
+<p>www.contoso.com/path/file</p>
+</td></tr><tr><td>
+<p>The parser for the <a class="xref" href="System.Uri.html#System_Uri_Scheme">Scheme</a> indicates that the original string was not well-formed.</p>
+</td><td>
+<p>The example depends on the scheme of the URI.</p>
+</td></tr></tbody></table>
+<p>By default, the string used to construct this <a class="xref" href="System.Uri.html#System_Uri">Uri</a> are considered well-formed in accordance with RFC 2396 and RFC 2732.</p>
+<p>When International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled, the string used to construct this <a class="xref" href="System.Uri.html#System_Uri">Uri</a> are considered well-formed in accordance with RFC 3986 and RFC 3987. Punycode names used to support IRI contain only ASCII characters and always start with the xn-- prefix. </p>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsWellFormedOriginalString()</code></pre>
@@ -1907,7 +2392,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the string was well-formed; else false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the string was well-formed; else <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1923,6 +2408,44 @@
               <div class="markdown level1 summary"><p>Indicates whether the string is well-formed by attempting to construct a URI with the string and ensures that the string does not require further escaping.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_IsWellFormedUriString_System_String_System_UriKind__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In versions of .NET before version 4.5, by default the string is considered well-formed in accordance with RFC 2396 and RFC 2732. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing are enabled, the string is considered well-formed in accordance with RFC 3986 and RFC 3987.</p>
+<p>Beginning in .NET 4.5, strings are always considered well-formed in accordance with RFC 3986 and RFC 3987, whether or not IRI or IDN are enabled. Note, however, that this is only true for apps that target .NET 4.5 or later. Apps that target .NET 4.0 invoke compatibility code, and experience the old (pre-4.5) behavior.</p>
+<p>The string is considered poorly formed, causing the method to return false, if any of the following conditions occur</p>
+<p>Error</p>
+<p>Example</p>
+<table><tbody><tr><td>
+<p>The string is not correctly escaped.</p>
+</td><td>
+<p>
+<see href="http://www.contoso.com/path???/file"><a href="http://www.contoso.com/path???/file">http://www.contoso.com/path???/file</a></see> name</p>
+</td></tr><tr><td>
+<p>The string is an absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> that represents an implicit file <a class="xref" href="System.Uri.html#System_Uri">Uri</a>.</p>
+</td><td>
+<p>c:\directory\filename</p>
+</td></tr><tr><td>
+<p>The string is an absolute URI that is missing a slash before the path.</p>
+</td><td>
+<p>file://c:/directory/filename</p>
+</td></tr><tr><td>
+<p>The string contains unescaped backslashes even if they will be treated as forward slashes</p>
+</td><td>
+<p>http:\host/path/file</p>
+</td></tr><tr><td>
+<p>The string represents a hierarchical absolute <a class="xref" href="System.Uri.html#System_Uri">Uri</a> and does not contain &quot;://&quot;</p>
+</td><td>
+<p>www.contoso.com/path/file</p>
+</td></tr><tr><td>
+<p>The parser for the <a class="xref" href="System.Uri.html#System_Uri_Scheme">Scheme</a> indicates that the original string was not well-formed.</p>
+</td><td>
+<p>The example depends on the scheme of the URI.</p>
+</td></tr><tr><td>
+<p>Beginning with .NET 4.5, relative URIs with a colon (&#39;:&#39;) in their first segment are not considered well-formed.</p>
+</td><td>
+<p>2013.05.29_14:33:41</p>
+</td></tr></tbody></table>
+<p>For more information on IRI support, see the Remarks section for the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool IsWellFormedUriString(string uriString, UriKind uriKind)</code></pre>
@@ -1962,7 +2485,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the string was well-formed; else false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true </strong>if the string was well-formed; else <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1978,6 +2501,15 @@
               <div class="markdown level1 summary"><p>Determines the difference between two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_MakeRelativeUri_System_Uri__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The following table shows the URI instance, <em>toUri</em>, and the results of calling <a class="xref" href="System.Uri.html#System_Uri_MakeRelativeUri_System_Uri_">MakeRelativeUri(Uri)</a>.</p>
+<p>Current URI instance</p>
+<p>
+<em>toUri</em>
+</p>
+<p>Return value</p>
+<p>User information, if present in the URI, is ignored.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Uri MakeRelativeUri(Uri uri)</code></pre>
@@ -2011,7 +2543,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Uri.html#System_Uri">Uri</a></td>
-                    <td><p>If the hostname and scheme of this URI instance and <em>uri</em> are the same, then this method returns a relative <a class="xref" href="System.Uri.html#System_Uri">Uri</a> that, when appended to the current URI instance, yields <em>uri</em>.If the hostname or scheme is different, then this method returns a <a class="xref" href="System.Uri.html#System_Uri">Uri</a>  that represents the <em>uri</em> parameter.</p>
+                    <td><p>If the hostname and scheme of this URI instance and <em>uri</em> are the same, then this method returns a relative <a class="xref" href="System.Uri.html#System_Uri">Uri</a> that, when appended to the current URI instance, yields <em>uri</em>.</p>
+<p>If the hostname or scheme is different, then this method returns a <a class="xref" href="System.Uri.html#System_Uri">Uri</a>  that represents the <em>uri</em> parameter.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2027,7 +2560,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>uri</em> is null. </p>
+                    <td><p>
+<em>uri</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2048,6 +2582,10 @@
               <div class="markdown level1 summary"><p>Gets a canonical string representation for the specified <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The string returned by this method does not contain port information when the port is the default port for the scheme.</p>
+<p>The string returned by the <a class="xref" href="System.Uri.html#System_Uri_ToString">ToString()</a> method may contain control characters, which can corrupt the state of a console application. You can use the <a class="xref" href="System.Uri.html#System_Uri_GetComponents_System_UriComponents_System_UriFormat_">GetComponents(UriComponents, UriFormat)</a> method with the <a class="xref" href="System.UriFormat.html#System_UriFormat_SafeUnescaped">SafeUnescaped</a> format to remove control characters from the returned string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
@@ -2079,6 +2617,9 @@
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> using the specified <a class="xref" href="System.String.html#System_String">String</a> instance and a <a class="xref" href="System.UriKind.html#System_UriKind">UriKind</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_TryCreate_System_String_System_UriKind_System_Uri___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If this method returns <strong>true</strong>, the new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is in <em>result</em>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool TryCreate(string uriString, UriKind uriKind, out Uri result)</code></pre>
@@ -2124,7 +2665,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was successfully created; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was successfully created; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2140,6 +2681,9 @@
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> using the specified base and relative <a class="xref" href="System.String.html#System_String">String</a> instances.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_TryCreate_System_Uri_System_String_System_Uri___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If this method returns <strong>true</strong>, the new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is in <em>result</em>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool TryCreate(Uri baseUri, string relativeUri, out Uri result)</code></pre>
@@ -2185,7 +2729,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was successfully created; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was successfully created; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2201,6 +2745,10 @@
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> using the specified base and relative <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_TryCreate_System_Uri_System_Uri_System_Uri___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If this method returns <strong>true</strong>, the new <a class="xref" href="System.Uri.html#System_Uri">Uri</a> is in <em>result</em>.</p>
+<p>This method constructs the URI, puts it in canonical form, and validates it. If an unhandled exception occurs, this method catches it. If you want to create a <a class="xref" href="System.Uri.html#System_Uri">Uri</a> and get exceptions use one of the <see cref="Overload:System.Uri.#ctor"></see> constructors. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool TryCreate(Uri baseUri, Uri relativeUri, out Uri result)</code></pre>
@@ -2246,7 +2794,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was successfully created; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> was successfully created; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2262,7 +2810,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>baseUri</em> is null. </p>
+                    <td><p>
+<em>baseUri</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2278,6 +2827,10 @@
               <div class="markdown level1 summary"><p>Converts a string to its unescaped representation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_UnescapeDataString_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You should use this method with care. Unescaping a string that has been previously unescaped can lead to ambiguities and errors.</p>
+<p>Many Web browsers escape spaces inside of URIs into plus (&quot;+&quot;) characters; however, the UnescapeDataString method does not convert plus characters into spaces because this behavior is not standard across all URI schemes. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string UnescapeDataString(string stringToUnescape)</code></pre>
@@ -2327,7 +2880,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stringToUnescape</em> is null. </p>
+                    <td><p>
+<em>stringToUnescape</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2345,6 +2899,9 @@
               <div class="markdown level1 summary"><p>Determines whether two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances have the same value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_op_Equality_System_Uri_System_Uri__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload uses the <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> method to determine whether the two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances are equivalent. <a class="xref" href="System.Uri.html#System_Uri_UserInfo">UserInfo</a> and <a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a> content is ignored when making this comparison.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool operator ==(Uri uri1, Uri uri2)</code></pre>
@@ -2384,7 +2941,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances are equivalent; otherwise, false.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances are equivalent; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2400,6 +2957,9 @@
               <div class="markdown level1 summary"><p>Determines whether two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances do not have the same value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Uri_op_Inequality_System_Uri_System_Uri__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload uses the <a class="xref" href="System.Uri.html#System_Uri_Equals_System_Object_">Equals(Object)</a> method to determine whether the two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances are not equivalent. <a class="xref" href="System.Uri.html#System_Uri_UserInfo">UserInfo</a> and <a class="xref" href="System.Uri.html#System_Uri_Fragment">Fragment</a> content is ignored when making this comparison.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool operator !=(Uri uri1, Uri uri2)</code></pre>
@@ -2439,7 +2999,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is true if the two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances are not equal; otherwise, false. If either parameter is null, this method returns true.</p>
+                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that is <strong>true</strong> if the two <a class="xref" href="System.Uri.html#System_Uri">Uri</a> instances are not equal; otherwise, <strong>false</strong>. If either parameter is <strong>null</strong>, this method returns <strong>true</strong>.</p>
 </td>
                   </tr>
                 </tbody>

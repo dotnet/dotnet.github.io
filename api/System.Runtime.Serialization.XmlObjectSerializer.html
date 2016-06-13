@@ -87,6 +87,9 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class XmlObjectSerializer : object</code></pre>
               </div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Extend the <a class="xref" href="System.Runtime.Serialization.XmlObjectSerializer.html#System_Runtime_Serialization_XmlObjectSerializer">XmlObjectSerializer</a> to create your own serializer to serialize and deserialize objects. Both the <a class="xref" href="System.Runtime.Serialization.DataContractSerializer.html#System_Runtime_Serialization_DataContractSerializer">DataContractSerializer</a> class and the <span class="xref">System.Runtime.Serialization.NetDataContractSerializer</span> class inherit from the <a class="xref" href="System.Runtime.Serialization.XmlObjectSerializer.html#System_Runtime_Serialization_XmlObjectSerializer">XmlObjectSerializer</a> and are used to serialize and deserialize objects that conform to data contract rules (objects created using the <a class="xref" href="System.Runtime.Serialization.DataContractAttribute.html#System_Runtime_Serialization_DataContractAttribute">DataContractAttribute</a> and the <a class="xref" href="System.Runtime.Serialization.DataMemberAttribute.html#System_Runtime_Serialization_DataMemberAttribute">DataMemberAttribute</a>).</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +103,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.Serialization.XmlObjectSerializer.html#System_Runtime_Serialization_XmlObjectSerializer">XmlObjectSerializer</a> class.  </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor is marked protected to allow derived classes to chain constructors.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected XmlObjectSerializer()</code></pre>
@@ -138,6 +144,10 @@
               <div class="markdown level1 summary"><p>Gets a value that specifies whether the <a class="xref" href="System.Xml.XmlDictionaryReader.html#System_Xml_XmlDictionaryReader">XmlDictionaryReader</a> is positioned over an XML element that can be read.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_IsStartObject_System_Xml_XmlDictionaryReader__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method checks if the reader is positioned on an element to read, and returns <strong>true</strong> if the element is the top-level element for the object found in the XML stream or document. The <a class="xref" href="System.Runtime.Serialization.XmlObjectSerializer.html#System_Runtime_Serialization_XmlObjectSerializer">XmlObjectSerializer</a> implementation determines when to return <strong>true</strong>. Implementations may check that they are positioned on an element or look for an expected element name. One implementation of the <a class="xref" href="System.Runtime.Serialization.XmlObjectSerializer.html#System_Runtime_Serialization_XmlObjectSerializer">XmlObjectSerializer</a>, the <a class="xref" href="System.Runtime.Serialization.DataContractSerializer.html#System_Runtime_Serialization_DataContractSerializer">DataContractSerializer</a>, checks that it is positioned on an element and also checks that the element name is the top level expected name for the type currently being deserialized. </p>
+<p>If needed, additional attributes in the XML stream can be read while positioned on the top level element before reading XML contents using the <see cref="Overload:System.Runtime.Serialization.XmlObjectSerializer.ReadObject"></see> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool IsStartObject(XmlDictionaryReader reader)</code></pre>
@@ -171,7 +181,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the reader can read the data; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the reader can read the data; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -208,6 +219,10 @@
               <div class="markdown level1 summary"><p>Gets a value that specifies whether the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> is positioned over an XML element that can be read. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_IsStartObject_System_Xml_XmlReader__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method checks whether the reader is positioned on an element to read, and returns <strong>true</strong> if the element is the top-level element for the object found in the XML stream or document. To return <strong>true</strong>, the found element must have an expected name. The actual expected element name depends on the implementation of the serializer. </p>
+<p>With the <a class="xref" href="System.Runtime.Serialization.DataContractSerializer.html#System_Runtime_Serialization_DataContractSerializer">DataContractSerializer</a>, the starting element is specified in the constructor of the extension class.  For an example, see the constructors for the <a class="xref" href="System.Runtime.Serialization.DataContractSerializer.html#System_Runtime_Serialization_DataContractSerializer">DataContractSerializer</a> class. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool IsStartObject(XmlReader reader)</code></pre>
@@ -241,7 +256,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the reader is positioned over the starting element; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the reader is positioned over the starting element; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -278,6 +294,9 @@
               <div class="markdown level1 summary"><p>Reads the XML stream or document with a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> and returns the deserialized object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_ReadObject_System_IO_Stream__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is a virtual method, and has a default implementation that creates a dictionary reader to read the underlying stream and deserialize it. The default implementation assumes the stream is text or XML. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object ReadObject(IO.Stream stream)</code></pre>
@@ -348,6 +367,9 @@
               <div class="markdown level1 summary"><p>Reads the XML document or stream with an <a class="xref" href="System.Xml.XmlDictionaryReader.html#System_Xml_XmlDictionaryReader">XmlDictionaryReader</a> and returns the deserialized object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_ReadObject_System_Xml_XmlDictionaryReader__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is a virtual method, and has a default implementation that creates a dictionary reader to read the underlying stream and deserialize it. The default implementation assumes the stream is text or XML. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object ReadObject(XmlDictionaryReader reader)</code></pre>
@@ -418,6 +440,9 @@
               <div class="markdown level1 summary"><p>Reads the XML stream or document with an <a class="xref" href="System.Xml.XmlDictionaryReader.html#System_Xml_XmlDictionaryReader">XmlDictionaryReader</a> and returns the deserialized object; it also enables you to specify whether the serializer can read the data before attempting to read it.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_ReadObject_System_Xml_XmlDictionaryReader_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>verifyObjectName</em> parameter uses the same code as the <see cref="Overload:System.Runtime.Serialization.XmlObjectSerializer.IsStartObject"></see> method to determine whether the element is the start of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract object ReadObject(XmlDictionaryReader reader, bool verifyObjectName)</code></pre>
@@ -441,7 +466,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>verifyObjectName</em></td>
-                    <td><p>true to check whether the enclosing XML element name and namespace correspond to the root name and root namespace; otherwise, false to skip the verification.</p>
+                    <td><p>
+<strong>true</strong> to check whether the enclosing XML element name and namespace correspond to the root name and root namespace; otherwise, <strong>false</strong> to skip the verification.</p>
 </td>
                   </tr>
                 </tbody>
@@ -564,6 +590,9 @@
               <div class="markdown level1 summary"><p>Reads the XML document or stream with an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> and returns the deserialized object; it also enables you to specify whether the serializer can read the data before attempting to read it.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_ReadObject_System_Xml_XmlReader_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>verifyObjectName</em> parameter uses the same code as the <see cref="Overload:System.Runtime.Serialization.XmlObjectSerializer.IsStartObject"></see> method to determine whether the element is the start of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object ReadObject(XmlReader reader, bool verifyObjectName)</code></pre>
@@ -587,7 +616,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>verifyObjectName</em></td>
-                    <td><p>true to check whether the enclosing XML element name and namespace correspond to the root name and root namespace; false to skip the verification.</p>
+                    <td><p>
+<strong>true</strong> to check whether the enclosing XML element name and namespace correspond to the root name and root namespace; <strong>false</strong> to skip the verification.</p>
 </td>
                   </tr>
                 </tbody>
@@ -823,6 +853,9 @@
               <div class="markdown level1 summary"><p>Writes the complete content (start, content, and end) of the object to the XML document or stream with the specified <a class="xref" href="System.Xml.XmlDictionaryWriter.html#System_Xml_XmlDictionaryWriter">XmlDictionaryWriter</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_WriteObject_System_Xml_XmlDictionaryWriter_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This is a virtual method and has a default implementation that calls the <see cref="Overload:System.Runtime.Serialization.XmlObjectSerializer.WriteStartObject"></see>, <see cref="Overload:System.Runtime.Serialization.XmlObjectSerializer.WriteObjectContent"></see>, and <see cref="Overload:System.Runtime.Serialization.XmlObjectSerializer.WriteEndObject"></see> methods. Because of this, this method is intended to be the most commonly used method on a serializer. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void WriteObject(XmlDictionaryWriter writer, object graph)</code></pre>
@@ -888,6 +921,9 @@
               <div class="markdown level1 summary"><p>Writes the complete content (start, content, and end) of the object to the XML document or stream with the specified <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_XmlObjectSerializer_WriteObject_System_Xml_XmlWriter_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This is a virtual method, and has a default implementation that delegates writing to the <a class="xref" href="System.Runtime.Serialization.XmlObjectSerializer.html#System_Runtime_Serialization_XmlObjectSerializer_WriteObject_System_Xml_XmlDictionaryWriter_System_Object_">WriteObject(XmlDictionaryWriter, Object)</a> overload.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void WriteObject(XmlWriter writer, object graph)</code></pre>

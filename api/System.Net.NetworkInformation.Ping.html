@@ -87,6 +87,69 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Ping : IDisposable</code></pre>
               </div>
+              <h5 id="System_Net_NetworkInformation_Ping_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Applications use the <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> class to detect whether a remote computer is reachable. </p>
+<p>Network topology can determine whether <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> can successfully contact a remote host. The presence and configuration of proxies, network address translation (NAT) equipment, or firewalls can prevent <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> from succeeding. A successful <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> indicates only that the remote host can be reached on the network; the presence of higher level services (such as a Web server) on the remote host is not guaranteed.</p>
+<p>This class provides functionality similar to the Ping.exe command line tool. The <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> and <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> methods send an Internet Control Message Protocol (ICMP) echo request message to a remote computer and waits for an ICMP echo reply message from that computer. For a detailed description of ICMP messages, see RFC 792, available at <see href="http://www.ietf.org/"><a href="http://www.ietf.org">http://www.ietf.org</a></see>.</p>
+<p>The following types are used with the <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> class and are described in detail below.</p>
+<p>
+<strong>Type name</strong>
+</p>
+<p>
+<strong>Description</strong>
+</p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Net.NetworkInformation.IPStatus.html#System_Net_NetworkInformation_IPStatus">IPStatus</a>
+</p>
+</td><td>
+<p>Defines status codes that describe the outcome of an ICMP echo request message.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Net.NetworkInformation.PingOptions.html#System_Net_NetworkInformation_PingOptions">PingOptions</a>
+</p>
+</td><td>
+<p>Allows you to configure or retrieve the settings that control how many times the request packet can be forwarded (<a class="xref" href="System.Net.NetworkInformation.PingOptions.html#System_Net_NetworkInformation_PingOptions_Ttl">Ttl</a>), and whether it can be fragmented (<a class="xref" href="System.Net.NetworkInformation.PingOptions.html#System_Net_NetworkInformation_PingOptions_DontFragment">DontFragment</a> ).</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>
+</p>
+</td><td>
+<p>Contains the results of an ICMP echo request.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Net.NetworkInformation.PingException.html#System_Net_NetworkInformation_PingException">PingException</a>
+</p>
+</td><td>
+<p>Thrown if an unrecoverable error occurs.</p>
+</td></tr><tr><td>
+<p>
+<span class="xref">System.Net.NetworkInformation.PingCompletedEventArgs</span>
+</p>
+</td><td>
+<p>Contains the data associated with <span class="xref">System.Net.NetworkInformation.Ping.PingCompleted</span> events, which are raised when a <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> call completes or is canceled.</p>
+</td></tr><tr><td>
+<p>
+<span class="xref">System.Net.NetworkInformation.PingCompletedEventHandler</span>
+</p>
+</td><td>
+<p>The delegate that provides the callback method invoked when a <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> call completes or is canceled.</p>
+</td></tr></tbody></table>
+<p>The <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> and <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> methods return the reply in a <a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a> object. The <a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply_Status">Status</a> property returns an <a class="xref" href="System.Net.NetworkInformation.IPStatus.html#System_Net_NetworkInformation_IPStatus">IPStatus</a> value to indicate the outcome of the request. </p>
+<p>When sending the request, you must specify the remote computer. You can do this by providing a host name string, an IP address in string format, or an <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a> object. </p>
+<p>You can also specify any of the following types of information:</p>
+<ul><li>
+<p>Data to accompany the request. Specifying <em>buffer</em> allows you to learn the amount of time required for a packet of a particular size to travel to and from the remote host and the maximum transmission unit of the network path. (See the <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> or <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> overloads that take a <em>buffer</em> parameter.)</p>
+</li><li>
+<p>Whether the ICMP Echo packet can be fragmented in transit. (See the <a class="xref" href="System.Net.NetworkInformation.PingOptions.html#System_Net_NetworkInformation_PingOptions_DontFragment">DontFragment</a> property and the <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> or <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> overloads that take an <em>options</em> parameter.)</p>
+</li><li>
+<p>How many times routing nodes, such as routers or gateways, can forward the packet before it either reaches the destination computer or is discarded. (See <a class="xref" href="System.Net.NetworkInformation.PingOptions.html#System_Net_NetworkInformation_PingOptions_Ttl">Ttl</a> and the <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> or <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> overloads that take an <em>options</em> parameter.)</p>
+</li><li>
+<p>The time limit within which the reply must be received. (See the <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> or <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> overloads that take a <em>timeout</em> parameter.</p>
+</li></ul>
+<p>The <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> class offers both synchronous and asynchronous methods for sending the request. If your application should block while waiting for a reply, use the <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> methods; these methods are synchronous. If your application should not block, use the asynchronous <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> methods. A call to <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> executes in its own thread that is automatically allocated from the thread pool. When the asynchronous operation completes, it raises the <span class="xref">System.Net.NetworkInformation.Ping.PingCompleted</span> event. Applications use a <span class="xref">System.Net.NetworkInformation.PingCompletedEventHandler</span> delegate to specify the method that is called for <span class="xref">System.Net.NetworkInformation.Ping.PingCompleted</span> events. You must add a <span class="xref">System.Net.NetworkInformation.PingCompletedEventHandler</span> delegate to the event before calling <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see>. The delegate&#39;s method receives a <span class="xref">System.Net.NetworkInformation.PingCompletedEventArgs</span> object that contains a <a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a> object that describes the result of the <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> call. </p>
+<p>You cannot use the same instance of the <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> class to generate multiple simultaneous ICMP Echo requests. Calling <see cref="Overload:System.Net.NetworkInformation.Ping.Send"></see> while a <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> call is in progress or calling <see cref="Overload:System.Net.NetworkInformation.Ping.SendAsync"></see> multiple times before all previous calls have completed causes an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -131,6 +194,10 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> object, and optionally disposes of the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <strong>Dispose()</strong> method and the <span class="xref">System.ComponentModel.Component.Finalize</span> method. The public <strong>Dispose()</strong> method invokes the protected <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping_Dispose_System_Boolean_">Dispose(Boolean)</a> method with the <em>disposing</em> parameter set to <strong>true</strong>. <span class="xref">System.ComponentModel.Component.Finalize</span> invokes <strong>Dispose</strong> with <em>disposing</em> set to <strong>false</strong>.</p>
+<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Net.NetworkInformation.Ping.html#System_Net_NetworkInformation_Ping">Ping</a> object references. This method invokes the <strong>Dispose()</strong> method of each referenced object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -148,7 +215,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to releases only unmanaged resources.</p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to releases only unmanaged resources.</p>
 </td>
                   </tr>
                 </tbody>
@@ -164,6 +232,9 @@
               <div class="markdown level1 summary"><p>Send an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the computer that has the specified <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a>, and receives a corresponding ICMP echo reply message from that computer as an asynchronous operation. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_Net_IPAddress__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(IPAddress address)</code></pre>
@@ -197,7 +268,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -213,7 +285,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>address</em> is null.</p>
+                    <td><p>
+<em>address</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -228,7 +301,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a></td>
-                    <td><p><em>address</em> is not a valid IP address.</p>
+                    <td><p>
+<em>address</em> is not a valid IP address.</p>
 </td>
                   </tr>
                   <tr>
@@ -249,6 +323,9 @@
               <div class="markdown level1 summary"><p>Send an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the computer that has the specified <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a>, and receives a corresponding ICMP echo reply message from that computer as an asynchronous operation. This overload allows you to specify a time-out value for the operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_Net_IPAddress_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(IPAddress address, int timeout)</code></pre>
@@ -288,7 +365,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -304,6 +382,9 @@
               <div class="markdown level1 summary"><p>Send an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the computer that has the specified <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a>, and receives a corresponding ICMP echo reply message from that computer as an asynchronous operation. This overload allows you to specify a time-out value for the operation and a buffer to use for send and receive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_Net_IPAddress_System_Int32_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(IPAddress address, int timeout, byte[] buffer)</code></pre>
@@ -349,7 +430,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -365,12 +447,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>address</em> is null.-or-<em>buffer</em> is null.</p>
+                    <td><p>
+<em>address</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>timeout</em> is less than zero.</p>
+                    <td><p>
+<em>timeout</em> is less than zero.</p>
 </td>
                   </tr>
                   <tr>
@@ -385,7 +472,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a></td>
-                    <td><p><em>address</em> is not a valid IP address.</p>
+                    <td><p>
+<em>address</em> is not a valid IP address.</p>
 </td>
                   </tr>
                   <tr>
@@ -411,6 +499,9 @@
               <div class="markdown level1 summary"><p>Send an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the computer that has the specified <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a>, and receives a corresponding ICMP echo reply message from that computer as an asynchronous operation. This overload allows you to specify a time-out value for the operation, a buffer to use for send and receive, and control fragmentation and Time-to-Live values for the ICMP echo message packet.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_Net_IPAddress_System_Int32_System_Byte___System_Net_NetworkInformation_PingOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(IPAddress address, int timeout, byte[] buffer, PingOptions options)</code></pre>
@@ -462,7 +553,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -478,12 +570,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>address</em> is null.-or-<em>buffer</em> is null.</p>
+                    <td><p>
+<em>address</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>timeout</em> is less than zero.</p>
+                    <td><p>
+<em>timeout</em> is less than zero.</p>
 </td>
                   </tr>
                   <tr>
@@ -498,7 +595,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a></td>
-                    <td><p><em>address</em> is not a valid IP address.</p>
+                    <td><p>
+<em>address</em> is not a valid IP address.</p>
 </td>
                   </tr>
                   <tr>
@@ -524,6 +622,9 @@
               <div class="markdown level1 summary"><p>Sends an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the specified computer, and receive a corresponding ICMP echo reply message from that computer as an asynchronous operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(string hostNameOrAddress)</code></pre>
@@ -557,7 +658,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -573,6 +675,9 @@
               <div class="markdown level1 summary"><p>Sends an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the specified computer, and receive a corresponding ICMP echo reply message from that computer as an asynchronous operation. This overload allows you to specify a time-out value for the operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_String_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(string hostNameOrAddress, int timeout)</code></pre>
@@ -612,7 +717,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -628,6 +734,9 @@
               <div class="markdown level1 summary"><p>Sends an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the specified computer, and receive a corresponding ICMP echo reply message from that computer as an asynchronous operation. This overload allows you to specify a time-out value for the operation and a buffer to use for send and receive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_String_System_Int32_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(string hostNameOrAddress, int timeout, byte[] buffer)</code></pre>
@@ -673,7 +782,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -689,6 +799,9 @@
               <div class="markdown level1 summary"><p>Sends an Internet Control Message Protocol (ICMP) echo message with the specified data buffer to the specified computer, and receive a corresponding ICMP echo reply message from that computer as an asynchronous operation. This overload allows you to specify a time-out value for the operation, a buffer to use for send and receive, and control fragmentation and Time-to-Live values for the ICMP echo message packet.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_NetworkInformation_Ping_SendPingAsync_System_String_System_Int32_System_Byte___System_Net_NetworkInformation_PingOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>&gt; object will complete after the ICMP packet has been sent and the response has been received.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;PingReply&gt; SendPingAsync(string hostNameOrAddress, int timeout, byte[] buffer, PingOptions options)</code></pre>
@@ -740,7 +853,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.NetworkInformation.PingReply.html#System_Net_NetworkInformation_PingReply">PingReply</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>

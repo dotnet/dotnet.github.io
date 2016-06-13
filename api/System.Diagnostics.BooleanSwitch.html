@@ -88,6 +88,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class BooleanSwitch : Switch</code></pre>
               </div>
+              <h5 id="System_Diagnostics_BooleanSwitch_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>You can use a Boolean trace switch to enable or disable messages based on their importance. Use the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property to get the current value of the switch.</p>
+<p>You can enable or disable a <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> through the application configuration file and then use the configured <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> value in your application. Alternately, you can create a <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> in your code and set the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property directly to instrument a specific section of code.</p>
+<p>To configure a <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a>, edit the configuration file that corresponds to the name of your application. Within this file, you can add or remove a switch, set a switch&#39;s value, or clear all the switches previously set by the application. The configuration file should be formatted like the following example.</p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="1"></add>
+</switches>
+</system.diagnostics>
+</configuration></code></pre>
+<p>This example configuration section defines a <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> with the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_DisplayName">DisplayName</a> property set to <code>mySwitch</code> and the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> value set to <strong>true</strong>. Within your application, you can use the configured switch value by creating a <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> with the same name, as shown in the following code example.</p>Classic BooleanSwitch.BooleanSwitch Example#2<p>By default, the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property is set using the value specified in the configuration file. Configure the switch with a value of 0 to set the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property to <strong>false</strong>; configure the switch with a nonzero value to set the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property to <strong>true</strong>. If the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> constructor cannot find initial switch settings in the configuration file, the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property of the new switch is set to <strong>false</strong> by default.</p><p>You must enable tracing or debugging to use a switch. The following syntax is compiler specific. If you use compilers other than C# or Visual Basic, refer to the documentation for your compiler.</p><ul><li><p>To enable debugging in C#, add the <strong>/d:DEBUG</strong> flag to the compiler command line when you compile your code, or you can add <strong>#define DEBUG</strong> to the top of your file. In Visual Basic, add the <strong>/d:DEBUG=True</strong> flag to the compiler command line.</p></li><li><p>To enable tracing in C#, add the <strong>/d:TRACE</strong> flag to the compiler command line when you compile your code, or add <strong>#define TRACE</strong> to the top of your file. In Visual Basic, add the <strong>/d:TRACE=True</strong> flag to the compiler command line.</p></li></ul><p>These debug and trace compiler switches are not required when using the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> class in isolation. They are only required in conjunction with <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> or <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a> methods that are conditionally compiled.</p><p>For more information on instrumenting your application, see <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>. For more information about configuring and using trace switches, see Trace Switches.</p><p>To improve performance, you can make <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> members <strong>static</strong> in your class.</p></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +113,21 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> class with the specified display name and description.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_BooleanSwitch__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you create a <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a>, the <em>displayName</em> parameter is used to find initial switch settings. If the constructor cannot find initial settings, the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_Enabled">Enabled</a> property is set to <strong>false</strong> (disabled).</p>
+<p>To set the level of your <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a>, edit the configuration file corresponding to the name of your application. Within this file, you can add a switch and set its value, remove a switch, or clear all switches previously set by the application. The configuration file should be formatted like the following example: </p>
+<pre><code> <configuration>
+<system.diagnostics>
+<switches>
+   <add name="mySwitch" value="10"></add>
+   <add name="myNewSwitch" value="20"></add>
+   <remove name="mySwitch"></remove>
+   <clear></clear>
+</switches>
+</system.diagnostics>
+</configuration></code></pre>
+<p>The switches you created should be <strong>static</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BooleanSwitch(string displayName, string description)</code></pre>
@@ -140,6 +167,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch">BooleanSwitch</a> class with the specified display name, description, and default switch value. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_BooleanSwitch__ctor_System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>displayName</em> parameter is used to set the value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_DisplayName">DisplayName</a> property, and the <em>description</em> parameter is use to set the value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_Description">Description</a> property. The <em>defaultSwitchValue</em> parameter is saved as a field and used to initialize the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_Value">Value</a> property on first reference. For more information about constructor use, see the <span class="xref">System.Diagnostics.BooleanSwitch.</span> constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BooleanSwitch(string displayName, string description, string defaultSwitchValue)</code></pre>
@@ -187,6 +217,10 @@
               <div class="markdown level1 summary"><p>Gets or sets a value indicating whether the switch is enabled or disabled.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_BooleanSwitch_Enabled_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, this field is set to <strong>false</strong> (disabled). To enable the switch, assign this field the value of <strong>true</strong>. To disable the switch, assign the value to <strong>false</strong>.  The value of this property is determined by the value of the base class property <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_SwitchSetting">SwitchSetting</a>.</p>
+<p>This method uses the <span class="xref">System.Security.Permissions.SecurityAction.LinkDemand</span> flag to prevent being called from untrusted code; only the immediate caller is required to have <span class="xref">System.Security.Permissions.SecurityPermissionAttribute.UnmanagedCode</span> permission. If your code can be called from partially trusted code, do not pass the user input to <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal">Marshal</a> class methods without validation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Enabled { get; set; }</code></pre>
@@ -202,7 +236,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the switch is enabled; otherwise, false. The default is false.</p>
+                    <td><p>
+<strong>true</strong> if the switch is enabled; otherwise, <strong>false</strong>. The default is <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -236,6 +271,9 @@
               <div class="markdown level1 summary"><p>Determines whether the new value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_Value">Value</a> property can be parsed as a Boolean value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_BooleanSwitch_OnValueChanged_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.BooleanSwitch.html#System_Diagnostics_BooleanSwitch_OnValueChanged">OnValueChanged()</a> method determines whether the new value is a valid string representation of a Boolean value (&quot;false&quot; or &quot;true&quot;). If so, the method sets the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_SwitchSetting">SwitchSetting</a> property to 0 or 1.  Otherwise, the base method is called, which converts the string value to an integer value, which is then used to set the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_SwitchSetting">SwitchSetting</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected override void OnValueChanged()</code></pre>

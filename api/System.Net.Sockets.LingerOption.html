@@ -87,6 +87,10 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class LingerOption : object</code></pre>
               </div>
+              <h5 id="System_Net_Sockets_LingerOption_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>There may still be data available in the outgoing network buffer after an application calls the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> or <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> method. If you want to specify the amount of time that the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> will attempt to transmit unsent data after closing, create a <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> with the <em>enable</em> parameter set to <strong>true</strong>, and the <em>seconds</em> parameter set to the desired amount of time. The <em>seconds</em> parameter is used to indicate how long you would like the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> to remain connected before timing out. If you do not want the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> to stay connected for any length of time after closing, create a <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> instance with the <em>enable</em> parameter set to <strong>true</strong> and the <em>seconds</em> parameter set to zero. In this case, the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> will close immediately and any unsent data will be lost. Once created, pass the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> to the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_SetSocketOption_System_Net_Sockets_SocketOptionLevel_System_Net_Sockets_SocketOptionName_System_Int32_">SetSocketOption(SocketOptionLevel, SocketOptionName, Int32)</a> method. If you are sending and receiving data with a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a>, then set the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> instance in the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property.</p>
+<p>The IP stack computes the default IP protocol time-out period to use based on the round trip time of the connection. In most cases, the time-out computed by the stack is more relevant than one defined by an application. This is the default behavior for a <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> when the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is not set and for a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> when the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property is not set.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +104,19 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_LingerOption__ctor_System_Boolean_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>There may still be data available in the outgoing network buffer after you close the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a>. Use the <em>enable</em> parameter to specify whether you would like the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> to continue transmitting unsent data after the close method is called. Use the <em>seconds</em> parameter to indicate how long you would like the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> to attempt transferring unsent data before timing out. If you specify <strong>true</strong> for the <em>enable</em> parameter and 0 for the <em>seconds</em> parameter, the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> will attempt to send data until there is no data left in the outgoing network buffer. If you specify <strong>false</strong> for the <em>enable</em> parameter, the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> will close immediately and any unsent data will be lost.</p>
+<p>The following table describes the behavior on the <span class="xref">System.Net.Sockets.Socket.Close</span> and <span class="xref">System.Net.Sockets.TcpClient.Close</span> methods based on the possible values of the <em>enable</em> and <em>seconds</em> parameters when an T:System.Net.Sockets.LingerOption instance is created and set in the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> or <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property.</p>
+<p>
+<em>enable</em>
+</p>
+<p>
+<em>seconds</em>
+</p>
+<p>Behavior</p>
+<p>The IP stack computes the default IP protocol time-out period to use based on the round trip time of the connection. In most cases, the time-out computed by the stack is more relevant than one defined by an application. This is the default behavior for a socket when the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is not set.</p>
+<p>When the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is set greater than the default IP protocol time-out, the default IP protocol time-out will still apply and override.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public LingerOption(bool enable, int seconds)</code></pre>
@@ -117,7 +134,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>enable</em></td>
-                    <td><p>true to remain connected after the <span class="xref">System.Net.Sockets.Socket.Close</span> method is called; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to remain connected after the <span class="xref">System.Net.Sockets.Socket.Close</span> method is called; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -141,6 +159,19 @@
               <div class="markdown level1 summary"><p>Gets or sets a value that indicates whether to linger after the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> is closed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_LingerOption_Enabled_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can use the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_Enabled">Enabled</a> property to determine whether the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> will linger after closing. Change this value to <strong>true</strong> or <strong>false</strong> and pass the altered <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> to the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_SetSocketOption_System_Net_Sockets_SocketOptionLevel_System_Net_Sockets_SocketOptionName_System_Int32_">SetSocketOption(SocketOptionLevel, SocketOptionName, Int32)</a> method or set the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> or <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property.to disable or enable lingering.</p>
+<p>The following table describes the behavior for the possible values of the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_Enabled">Enabled</a> property and the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property.</p>
+<p>
+<em>enable</em>
+</p>
+<p>
+<em>seconds</em>
+</p>
+<p>Behavior</p>
+<p>The IP stack computes the default IP protocol time-out period to use based on the round trip time of the connection. In most cases, the time-out computed by the stack is more relevant than one defined by an application. This is the default behavior for a socket when the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is not set.</p>
+<p>When the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is set greater than the default IP protocol time-out, the default IP protocol time-out will still apply and override.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Enabled { get; set; }</code></pre>
@@ -156,7 +187,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> should linger after <span class="xref">System.Net.Sockets.Socket.Close</span> is called; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> should linger after <span class="xref">System.Net.Sockets.Socket.Close</span> is called; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -172,6 +204,20 @@
               <div class="markdown level1 summary"><p>Gets or sets the amount of time to remain connected after calling the <span class="xref">System.Net.Sockets.Socket.Close</span> method if data remains to be sent.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_LingerOption_LingerTime_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this value if you want to determine how long a closed <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> will attempt to transfer unsent data before timing out. You can also set this value to the desired time-out period, in seconds. </p>
+<p>If the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_Enabled">Enabled</a> property is <strong>true</strong>, and you set <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> to 0, the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> discards any pending data to send in the outgoing network buffer. If you change this value, you must pass the altered <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> instance to the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_SetSocketOption_System_Net_Sockets_SocketOptionLevel_System_Net_Sockets_SocketOptionName_System_Int32_">SetSocketOption(SocketOptionLevel, SocketOptionName, Int32)</a> method or set the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> or <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property.</p>
+<p>The following table describes the behavior for the possible values of the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_Enabled">Enabled</a> property and the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property.</p>
+<p>
+<em>enable</em>
+</p>
+<p>
+<em>seconds</em>
+</p>
+<p>Behavior</p>
+<p>The IP stack computes the default IP protocol time-out period to use based on the round trip time of the connection. In most cases, the time-out computed by the stack is more relevant than one defined by an application. This is the default behavior for a socket when the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is not set.</p>
+<p>When the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_LingerState">LingerState</a> property is set greater than the default IP protocol time-out, the default IP protocol time-out will still apply and override.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int LingerTime { get; set; }</code></pre>

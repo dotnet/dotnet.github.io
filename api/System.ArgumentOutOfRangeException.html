@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L25" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L52" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_ArgumentOutOfRangeException" data-uid="System.ArgumentOutOfRangeException">Class ArgumentOutOfRangeException
               </h1>
               <div class="markdown level0 summary"><p>The exception that is thrown when the value of an argument is outside the allowable range of values as defined by the invoked method.</p>
@@ -89,6 +89,21 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ArgumentOutOfRangeException : ArgumentException</code></pre>
               </div>
+              <h5 id="System_ArgumentOutOfRangeException_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>An 
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception is thrown when a method is invoked and at least one of the arguments passed to the method is not <strong>null</strong> and contains an invalid value that is not a member of the set of values expected for the argument. The <a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a> property identifies the invalid argument, and the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property, if a value is present, identifies the invalid value. </p>
+<p>Typically, an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> results from developer error. Instead of handling the exception in a <strong>try</strong>/<strong>catch</strong> block, you should eliminate the cause of the exception or, if the argument is returned by a method call or input by the user before being passed to the method that throws the exception, you should validate arguments before passing them to the method. </p>
+<p>
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> is used extensively by: </p>
+<ul><li>
+<p>Classes in the <a class="xref" href="System.Collections.html#System_Collections">System.Collections</a> and <a class="xref" href="System.IO.html#System_IO">System.IO</a> namespaces.</p>
+</li><li>
+<p>The <a class="xref" href="System.Array.html#System_Array">Array</a> class.</p>
+</li><li>
+<p>String manipulation methods in the <a class="xref" href="System.String.html#System_String">String</a> class. </p>
+</li></ul>
+<p>The conditions in which an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception
+    is thrown include the following: </p>You are retrieving the member of a collection by its index number, and the index number is invalid.<p>This is the most common cause of an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception.   Typically, the index number is invalid for one of three reasons:</p><ul><li><p>The collection has no members, and your code assumes that it does. The following example attempts to retrieve the first element of a collection that has no elements:</p>System.ArgumentOutOfRangeException#4<p>To prevent the exception, check whether the collection&#39;s <strong>Count</strong> property is greater than zero before attempting to retrieve any members, as the following code fragment does.</p>System.ArgumentOutOfRangeException#5<p>In some cases, this may occur because you are attempting to add a member to a collection by using an index that does not exist, rather than by calling the method, such as <code>Add</code>, that exists for this purpose.  The following example attempts to add an element to a collection by using a non-existent index rather than calling the <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1_Add__0_">Add(T)</a> method. </p>System.ArgumentOutOfRangeException#13<p>The following code fragment corrects this error:</p>System.ArgumentOutOfRangeException#14</li><li><p>You&#39;re attempting to retrieve an item whose index is negative. This usually occurs because you&#39;ve searched a collection for the index of a particular element and have erroneously assumed that the search is successful. In the following example, the call to the <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1_FindIndex_System_Predicate__0__">FindIndex(Predicate<t>)</t></a> method fails  to find a string equal to &quot;Z&quot; and so returns -1. However, this is an invalid index value.</p>System.ArgumentOutOfRangeException#6<p>To prevent the exception, check that the search is successful by making sure that the returned index is greater than or equal to zero before attempting to retrieve the item from the collection, as the following code fragment does.</p>System.ArgumentOutOfRangeException#7</li><li><p>You&#39;re attempting to retrieve an element whose index is equal to the value of the collection&#39;s <strong>Count</strong> property, as the following example illustrates. </p>System.ArgumentOutOfRangeException#8<p>Because collections in the .NET Framework use zero-based indexing, the first element of the collection is at index 0, and the last element is at index <strong>Count</strong> - 1. You can eliminate the error by ensuring that you access the last element at index  <strong>Count</strong> - 1, as the following code does. </p>System.ArgumentOutOfRangeException#9</li></ul>You are attempting to perform a string operation by calling a string manipulation method, and the starting index does not exist in the string. <p>Overloads of methods such as such as <a class="xref" href="System.String.html#System_String_Compare_System_String_System_String_">Compare(String, String)</a>, <a class="xref" href="System.String.html#System_String_CompareOrdinal_System_String_System_Int32_System_String_System_Int32_System_Int32_">CompareOrdinal(String, Int32, String, Int32, Int32)</a>, <a class="xref" href="System.String.html#System_String_IndexOf_System_String_">IndexOf(String)</a>, <a class="xref" href="System.String.html#System_String_IndexOfAny_System_Char___">IndexOfAny(Char[])</a>, <a class="xref" href="System.String.html#System_String_Insert_System_Int32_System_String_">Insert(Int32, String)</a>, <a class="xref" href="System.String.html#System_String_LastIndexOf_System_String_">LastIndexOf(String)</a>, <a class="xref" href="System.String.html#System_String_LastIndexOfAny_System_Char___">LastIndexOfAny(Char[])</a>, <a class="xref" href="System.String.html#System_String_Remove_System_Int32_">Remove(Int32)</a>,  or <a class="xref" href="System.String.html#System_String_Substring_System_Int32_">Substring(Int32)</a> that allow you to specify the starting index of the operation require that the index be a valid position within the string. Valid indexes range from 0 to <a class="xref" href="System.String.html#System_String_Length">Length</a> - 1.</p><p>There are four common causes of this <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception:</p><ul><li><p>You are working with an empty string., or <a class="xref" href="System.String.html#System_String_Empty">Empty</a>. Because its <a class="xref" href="System.String.html#System_String_Length">Length</a> property returns 0, any attempt to manipulate it by index throws an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception. The following example, defines a <code>GetFirstCharacter</code> method that returns the first character of a string. If the string is empty, as the final string passed to the method is, the method throws an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception. </p>System.ArgumentOutOfRangeException#15<p>You can eliminate the exception by testing whether the string&#39;s <a class="xref" href="System.String.html#System_String_Length">Length</a> is greater than zero or by calling the <a class="xref" href="System.String.html#System_String_IsNullOrEmpty_System_String_">IsNullOrEmpty(String)</a> method to ensure that the string is not <strong>null</strong> or empty. The following code fragment does the latter. In this case, if the string is <strong>null</strong> or empty, the <code>GetFirstCharacter</code> method returns U+0000.</p>System.ArgumentOutOfRangeException#16</li><li><p>You&#39;re manipulating a string based on the position of a substring within that string, and you&#39;ve failed to determine whether the substring was actually found.</p><p>The following example extracts the second word of a two-word phrase. It throws  an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception if the phrase consists of only one word, and therefore does not contain an embedded space character.  This occurs because the call to the <a class="xref" href="System.String.html#System_String_IndexOf_System_String_">IndexOf(String)</a> method returns -1 to indicate that the search failed, and this invalid value is then passed to the  <a class="xref" href="System.String.html#System_String_Substring_System_Int32_">Substring(Int32)</a> method.</p>System.ArgumentOutOfRangeException#17<p>To eliminate the exception, validate the value returned by the string search method before calling the string manipulation method.</p>System.ArgumentOutOfRangeException#18</li><li><p></li></ul>You&#39;ve attempted to extract a substring that is outside the range of the current string. <p>The methods that extract substrings all require that you specify the starting position of the substring and, for substrings that do not continue to the end of the string, the number of characters in the substring. Note that this is not the <em>index</em> of the last character in the substring. </p><p>An <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception is typically thrown in this case because you&#39;ve incorrectly calculated the number of characters in the substring.  If you are using a search method like <a class="xref" href="System.String.html#System_String_IndexOf_System_Char_">IndexOf(Char)</a> to identify the starting and ending positions of a substring:</p><ul><li><p>If the character in the ending position returned by <a class="xref" href="System.String.html#System_String_IndexOf_System_Char_">IndexOf(Char)</a> is to be included in the substring, the ending position of the substring is given by the formula</p><pre><code>endIndex - startIndex + 1</code></pre></li><li><p>If the character in the ending position returned by <a class="xref" href="System.String.html#System_String_IndexOf_System_Char_">IndexOf(Char)</a> is to be excluded from the substring, the ending position of the substring is given by the formula</p><pre><code>endIndex - startIndex </code></pre></li></ul><p>The following example defines a <code>FindWords</code> method that uses the <a class="xref" href="System.String.html#System_String_IndexOfAny_System_Char___System_Int32_">IndexOfAny(Char[], Int32)</a> method to identify space characters and punctuation marks in a string and returns an array that contains the words found in the string.</p>System.ArgumentOutOfRangeException#19You have passed a negative number to a method with an argument that requires only positive numbers and zero, or you have passed either a negative number or zero to a method with an argument that requires only positive numbers.<p>   For example, the <span class="xref">System.Array.CreateInstance(System.Type,System.Int32,System.Int32,System.Int32)</span> method requires that you specify the number of elements in each dimension of a two-dimensional array; valid values for each dimension can range from 0 to <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>. But because the dimension argument in the following example has a negative value, the method throws an <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception. </p>System.ArgumentOutOfRangeException#1<p>To correct the error, ensure that the value of the invalid argument is non-negative. You can do this by providing a valid value, as the following code fragment does.</p>System.ArgumentOutOfRangeException#2<p>You can also validate the input and, if it is invalid, take some action. The following code fragment displays an error message instead of calling the method.</p>System.ArgumentOutOfRangeException#3A race condition exists in an app that is multithreaded or has tasks that  execute asynchronously and that updates an array or collection. <p>The following example uses a <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> object to populate a collection of <code>Continent</code> objects. It throws an  <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception if the example attempts to display the seven items in the collection before the collection is fully populated. </p>System.ArgumentOutOfRangeException#11<p> In this case, two resources are accessed from multiple threads: </p><ul><li><p>The <code>continents</code> collection. Its <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1_Add__0_">Add(T)</a> method is called from multiple threads. In addition, the main or primary thread assumes the collection is fully populated with seven elements when it iterates its members.</p></li><li><p>The <code>msg</code> string, which is concatenated from multiple threads. </p></li></ul><p>To correct the error, ensure that shared state is accessed in a thread-safe way, as follows. </p><ul><li><p>if your app uses an array or collection object, consider using a thread-safe collection class, such as the types in the <a class="xref" href="System.Collections.Concurrent.html#System_Collections_Concurrent">System.Collections.Concurrent</a> namespace or the System.Collections.Immutable out-of-band release. </p></li><li><p>Ensure that shared state (that is, resources that can be accessed by multiple threads) is accessed in a thread-safe way, so that only one thread at a time has exclusive access to the resources. A large number of classes, such as <a class="xref" href="System.Threading.CountdownEvent.html#System_Threading_CountdownEvent">CountdownEvent</a>, <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a>, <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a>, and <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, are available to synchronize access to resources. For more information, see Managed Threading. In addition, language support is available through the lock statement in C# and the SyncLock construct in Visual Basic. </p></li></ul><p>The following example addresses the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> exception and the other issues from the previous example. It replaces the <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> object with a   <a class="xref" href="System.Collections.Concurrent.ConcurrentBag%601.html#System_Collections_Concurrent_ConcurrentBag_1">ConcurrentBag<t></t></a> object to ensure that access to the collection is thread-safe, uses a <a class="xref" href="System.Threading.CountdownEvent.html#System_Threading_CountdownEvent">CountdownEvent</a> object to ensure that the application thread continues only after other threads have executed, and uses a lock to ensure that only one thread can  access the <code>msg</code> variable at a time.</p>System.ArgumentOutOfRangeException#12<p><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> uses the HRESULT COR_E_ARGUMENTOUTOFRANGE, which has the value 0x80131502.</p><p>For a list of initial property values for an instance of <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a>, see the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> constructors.</p></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -96,12 +111,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException__ctor.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L42">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L54">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException__ctor" data-uid="System.ArgumentOutOfRangeException.#ctor">ArgumentOutOfRangeException()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArgumentOutOfRangeException__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.ArgumentException.html#System_ArgumentException_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;Nonnegative number required.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a>
+</p>
+</td><td>
+<p>The localized error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ArgumentOutOfRangeException()</code></pre>
@@ -111,12 +145,38 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L47">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L55">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException__ctor_System_String_" data-uid="System.ArgumentOutOfRangeException.#ctor(System.String)">ArgumentOutOfRangeException(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> class with the name of the parameter that causes this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArgumentOutOfRangeException__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.ArgumentException.html#System_ArgumentException_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;Nonnegative number required.&quot; This message takes into account the current system culture.</p></p>
+<p><p>This constructor initializes the <a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a> property of the new instance using the <em>paramName</em> parameter. The content of <em>paramName</em> is intended to be understood by humans.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a>
+</p>
+</td><td>
+<p>The empty string (&quot;&quot;). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a>
+</p>
+</td><td>
+<p>The parameter name string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ArgumentOutOfRangeException(string paramName)</code></pre>
@@ -144,7 +204,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException__ctor_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.%23ctor(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L57">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L56">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException__ctor_System_String_System_Exception_" data-uid="System.ArgumentOutOfRangeException.#ctor(System.String,System.Exception)">ArgumentOutOfRangeException(String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> class with a specified error message and the exception that is the cause of this exception.</p>
@@ -173,7 +233,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>innerException</em></td>
-                    <td><p>The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified. </p>
+                    <td><p>The exception that is the cause of the current exception, or a null reference (<strong>Nothing</strong> in Visual Basic) if no inner exception is specified. </p>
 </td>
                   </tr>
                 </tbody>
@@ -183,12 +243,45 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException__ctor_System_String_System_Object_System_String_.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.%23ctor(System.String%2CSystem.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L65">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L57">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException__ctor_System_String_System_Object_System_String_" data-uid="System.ArgumentOutOfRangeException.#ctor(System.String,System.Object,System.String)">ArgumentOutOfRangeException(String, Object, String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> class with the parameter name, the value of the argument, and a specified error message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArgumentOutOfRangeException__ctor_System_String_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a> property of the new instance using the <em>paramName</em> parameter, the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property using the <em>actualValue</em> parameter, and the <a class="xref" href="System.ArgumentException.html#System_ArgumentException_Message">Message</a> property using the <em>message</em> parameter. The content of the <em>paramName</em> and <em>message</em> parameters is intended to be understood by humans. The caller of this constructor is required to ensure that these strings have been localized for the current system culture.</p></p>
+<p><p>The <em>actualValue</em> parameter is not used within the .NET Framework class library. However, the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property is provided so that applications can use the available argument value.</p></p>
+<p><p>The <em>actualValue</em> parameter contains an invalid value that is passed to the method and causes this exception to be thrown. This value is stored in the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property and its string representation is appended to the message string held in the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a> property.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a>
+</p>
+</td><td>
+<p>The argument value. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>The null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a>
+</p>
+</td><td>
+<p>The parameter name string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ArgumentOutOfRangeException(string paramName, object actualValue, string message)</code></pre>
@@ -228,12 +321,39 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException__ctor_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.%23ctor(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L52">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L58">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException__ctor_System_String_System_String_" data-uid="System.ArgumentOutOfRangeException.#ctor(System.String,System.String)">ArgumentOutOfRangeException(String, String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> class with the name of the parameter that causes this exception and a specified error message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArgumentOutOfRangeException__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a> property of the new instance using the value of the <em>message</em> parameter. The content of the <em>message</em> parameter is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>This constructor initializes the <a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a> property of the new instance using the <em>paramName</em> parameter. The content of <em>paramName</em> is intended to be understood by humans.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ArgumentException.html#System_ArgumentException_ParamName">ParamName</a>
+</p>
+</td><td>
+<p>The parameter name string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ArgumentOutOfRangeException(string paramName, string message)</code></pre>
@@ -269,12 +389,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException_ActualValue.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.ActualValue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L88">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L59">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException_ActualValue" data-uid="System.ArgumentOutOfRangeException.ActualValue">ActualValue</h4>
               <div class="markdown level1 summary"><p>Gets the argument value that causes this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArgumentOutOfRangeException_ActualValue_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this property to retrieve the invalid argument.</p>
+<p>The <strong>ActualValue</strong> property returns the same value that was passed to the constructor, or <strong>null</strong> if no value was supplied.</p>
+<p>The <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property is assigned a value at the time of object construction. If the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property value is not <strong>null</strong>, a string representation of the value is appended to the message string held by the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_Message">Message</a> property.</p>
+<p>The <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property is not used within the .NET Framework class library. It carries a null value in all the <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a> objects thrown by the .NET Framework class library. The <a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException_ActualValue">ActualValue</a> property is provided so that applications can use the available argument value.</p>
+<p>This property is read-only and should be overridden only to customize the content or format of the value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object ActualValue { get; }</code></pre>
@@ -290,7 +417,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An Object that contains the value of the parameter that caused the current <a class="xref" href="System.Exception.html#System_Exception">Exception</a>.</p>
+                    <td><p>An <strong>Object</strong> that contains the value of the parameter that caused the current <a class="xref" href="System.Exception.html#System_Exception">Exception</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -300,12 +427,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArgumentOutOfRangeException_Message.md&amp;value=---%0Auid%3A%20System.ArgumentOutOfRangeException.Message%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArgumentOutOfRangeException.cs/#L71">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L60">View Source</a>
               </span>
               <h4 id="System_ArgumentOutOfRangeException_Message" data-uid="System.ArgumentOutOfRangeException.Message">Message</h4>
               <div class="markdown level1 summary"><p>Gets the error message and the string representation of the invalid argument value, or only the error message if the argument value is null.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArgumentOutOfRangeException_Message_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property overrides <a class="xref" href="System.ArgumentException.html#System_ArgumentException_Message">Message</a>.</p>
+<p>The error message should describe the expected values of the parameter that causes this exception. The error message should be localized.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string Message { get; }</code></pre>
@@ -321,7 +452,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The text message for this exception. The value of this property takes one of two forms, as follows.Condition Value The <em>actualValue</em> is null. The <em>message</em> string passed to the constructor. The <em>actualValue</em> is not null. The <em>message</em> string appended with the string representation of the invalid argument value. </p>
+                    <td><p><p>The text message for this exception. The value of this property takes one of two forms, as follows.</p></p>
+<p><p>Condition </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>The <em>actualValue</em> is <strong>null</strong>. </p>
+</td><td>
+<p>The <em>message</em> string passed to the constructor. </p>
+</td></tr><tr><td>
+<p>The <em>actualValue</em> is not <strong>null</strong>. </p>
+</td><td>
+<p>The <em>message</em> string appended with the string representation of the invalid argument value. </p>
+</td></tr></tbody></table>
 </td>
                   </tr>
                 </tbody>

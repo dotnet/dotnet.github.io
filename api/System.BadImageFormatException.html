@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException.md&amp;value=---%0Auid%3A%20System.BadImageFormatException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L23" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L229" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_BadImageFormatException" data-uid="System.BadImageFormatException">Class BadImageFormatException
               </h1>
               <div class="markdown level0 summary"><p>The exception that is thrown when the file image of a dynamic link library (DLL) or an executable program is invalid. </p>
@@ -88,6 +88,24 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class BadImageFormatException : Exception</code></pre>
               </div>
+              <h5 id="System_BadImageFormatException_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>This exception is thrown when the file format of a dynamic link library (.dll file) or an executable (.exe file) doesn’t conform to the format that the common language runtime expects. In particular, the exception is thrown under the following conditions:</p>
+<ul><li>
+<p>An earlier version of a .NET Framework utility, such as ILDasm.exe or installutil.exe, is used with an assembly that was developed with a later version of the .NET Framework.</p>
+<p>To address this exception, use the version of the tool that corresponds to the version of the .NET Framework that was used to develop the assembly. This may require modifying the <strong>Path</strong> environment variable or providing a fully qualified path to the correct executable.</p>
+</li><li>
+<p>You try to load an unmanaged dynamic link library or executable (such as a Windows system DLL) as if it were a .NET Framework assembly. The following example illustrates this by using the <span class="xref">System.Reflection.Assembly.LoadFile(System.String)</span> method to load Kernel32.dll.</p>System.BadImageFormatException.Class#1<p>To address this exception, access the methods defined in the DLL by using the features provided by your development language, such as the <strong>Declare</strong> statement in Visual Basic or the <a class="xref" href="System.Runtime.InteropServices.DllImportAttribute.html#System_Runtime_InteropServices_DllImportAttribute">DllImportAttribute</a> attribute with the <strong>extern</strong> keyword in C#. </p></li><li>
+<p>A DLL or executable is loaded as a 64-bit assembly, but it contains 32-bit features or resources. For example, it relies on COM interop or calls methods in a 32-bit dynamic link library.</p>
+<p>To address this exception, set the project&#39;s Platform target property to x86 (instead of x64 or AnyCPU) and recompile.</p>
+</li><li>
+<p>Your application’s components were created using different versions of the .NET Framework. Typically, this exception occurs when an application or component that was developed using the .NET Framework 1.0 or the .NET Framework 1.1 tries to load an assembly that was developed using the .NET Framework 2.0 SP1 or later, or when an application that was developed using the .NET Framework 2.0 SP1 or .NET Framework 3.5 tries to load an assembly that was developed using the .NET Framework 4 or later. The <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> may be reported as a compile-time error, or the exception may be thrown at run time. The following example defines a <code>StringLib</code> class that has a single member, <code>ToProperCase</code>, and that resides in an assembly named StringLib.dll.</p>System.BadImageFormatException.Class#2<p>The following example uses reflection to load an assembly named StringLib.dll. If the source code is compiled with a .NET Framework 1.1 compiler, a <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> is thrown by the <span class="xref">System.Reflection.Assembly.LoadFrom(System.String)</span> method. </p>System.BadImageFormatException.Class#3<p>To address this exception, make sure that the assembly whose code is executing and that throws the exception, and the assembly to be loaded both target compatible versions of the .NET Framework. </p></li><li>
+<p>The components of your application target different platforms. For example, you are trying to load ARM assemblies in an x86 application. You can use the following command-line utility to determine the target platforms of individual .NET Framework assemblies. The list of files should be provided as a space-delimited list at the command line.  </p>System.BadImageFormatException.Class#4</li><li>
+<p>Reflecting on C++ executable files may throw this exception. This is most likely caused by the C++ compiler stripping the relocation addresses or the .Reloc section from the executable file. To preserve the .relocation address in a C++ executable file, specify /fixed:no when linking.</p>
+</li></ul>
+<p>
+<a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> uses the HRESULT COR_E_BADIMAGEFORMAT, which has the value 0x8007000B.</p>
+<p>For a list of initial property values for an instance of <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a>, see the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> constructors.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,12 +113,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException__ctor.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L30">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L231">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException__ctor" data-uid="System.BadImageFormatException.#ctor">BadImageFormatException()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;Format of the executable or library is invalid.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The localized error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BadImageFormatException()</code></pre>
@@ -110,12 +147,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L35">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L232">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException__ctor_System_String_" data-uid="System.BadImageFormatException.#ctor(System.String)">BadImageFormatException(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> class with a specified error message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of the <em>message</em> parameter is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BadImageFormatException(string message)</code></pre>
@@ -143,12 +199,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException__ctor_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.%23ctor(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L40">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L233">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException__ctor_System_String_System_Exception_" data-uid="System.BadImageFormatException.#ctor(System.String,System.Exception)">BadImageFormatException(String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> class with a specified error message and a reference to the inner exception that is the cause of this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException__ctor_System_String_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or <strong>null</strong> if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>The inner exception reference. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BadImageFormatException(string message, Exception inner)</code></pre>
@@ -172,7 +247,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>inner</em></td>
-                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </p>
+                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not a null reference, the current exception is raised in a <strong>catch</strong> block that handles the inner exception. </p>
 </td>
                   </tr>
                 </tbody>
@@ -182,12 +257,30 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException__ctor_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.%23ctor(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L45">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L234">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException__ctor_System_String_System_String_" data-uid="System.BadImageFormatException.#ctor(System.String,System.String)">BadImageFormatException(String, String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> class with a specified error message and file name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of the <em>message</em> parameter is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_FileName">FileName</a>
+</p>
+</td><td>
+<p>The full name of the file with the invalid image. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BadImageFormatException(string message, string fileName)</code></pre>
@@ -221,12 +314,37 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException__ctor_System_String_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.%23ctor(System.String%2CSystem.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L51">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L235">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException__ctor_System_String_System_String_System_Exception_" data-uid="System.BadImageFormatException.#ctor(System.String,System.String,System.Exception)">BadImageFormatException(String, String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a> class with a specified error message and a reference to the inner exception that is the cause of this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException__ctor_System_String_System_String_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or <strong>null</strong> if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException">BadImageFormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>The inner exception reference. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_FileName">FileName</a>
+</p>
+</td><td>
+<p>The full name of the file with the invalid image. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BadImageFormatException(string message, string fileName, Exception inner)</code></pre>
@@ -256,7 +374,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>inner</em></td>
-                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not null, the current exception is raised in a catch block that handles the inner exception. </p>
+                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not <strong>null</strong>, the current exception is raised in a <strong>catch</strong> block that handles the inner exception. </p>
 </td>
                   </tr>
                 </tbody>
@@ -268,12 +386,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException_FileName.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.FileName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L77">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L236">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException_FileName" data-uid="System.BadImageFormatException.FileName">FileName</h4>
               <div class="markdown level1 summary"><p>Gets the name of the file that causes this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException_FileName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns the name of the file supplied to the constructor for the current instance, if any. If the file name was not specified or is a null reference (<strong>Nothing</strong> in Visual Basic), this property returns a null reference.</p>
+<p>This property is read-only.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string FileName { get; }</code></pre>
@@ -299,12 +421,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException_Message.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.Message%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L57">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L237">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException_Message" data-uid="System.BadImageFormatException.Message">Message</h4>
               <div class="markdown level1 summary"><p>Gets the error message and the name of the file that caused this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException_Message_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If no message was supplied to the constructor for the current exception, this property returns a system-supplied error message. If the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_FileName">FileName</a> property is not a null reference (<strong>Nothing</strong> in Visual Basic), the message includes the file name.</p>
+<p>This property is read-only.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string Message { get; }</code></pre>
@@ -332,12 +458,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BadImageFormatException_ToString.md&amp;value=---%0Auid%3A%20System.BadImageFormatException.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BadImageFormatException.cs/#L81">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L238">View Source</a>
               </span>
               <h4 id="System_BadImageFormatException_ToString" data-uid="System.BadImageFormatException.ToString">ToString()</h4>
               <div class="markdown level1 summary"><p>Returns the fully qualified name of this exception and possibly the error message, the name of the inner exception, and the stack trace.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_BadImageFormatException_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The string representation returned by this method includes the name of the exception, the value of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_Message">Message</a> property, the result of calling <strong>ToString</strong> on the inner exception, the value of the <a class="xref" href="System.BadImageFormatException.html#System_BadImageFormatException_FileName">FileName</a> property, and the result of calling <a class="xref" href="System.Environment.html#System_Environment_StackTrace">StackTrace</a>. If any of these members is a null reference (<strong>Nothing</strong> in Visual Basic), its value is not included in the returned string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>

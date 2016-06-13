@@ -87,6 +87,20 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class MutexAccessRule : AccessRule</code></pre>
               </div>
+              <h5 id="System_Security_AccessControl_MutexAccessRule_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> class is one of a set of classes that the .NET Framework provides for managing Windows access control security on named system mutexes. For an overview of these classes, and their relationship to the underlying Windows access control structures, see <a class="xref" href="System.Security.AccessControl.MutexSecurity.html#System_Security_AccessControl_MutexSecurity">MutexSecurity</a>.</p>
+<p>Windows access control security is meaningful only for named system mutexes. If a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object represents a local mutex, access control is irrelevant.</p>
+<p>To get a list of the rules currently applied to a named mutex, use the <span class="xref">System.Threading.Mutex.GetAccessControl</span> method to get a <a class="xref" href="System.Security.AccessControl.MutexSecurity.html#System_Security_AccessControl_MutexSecurity">MutexSecurity</a> object, and then use its <a class="xref" href="System.Security.AccessControl.CommonObjectSecurity.html#System_Security_AccessControl_CommonObjectSecurity_GetAccessRules_System_Boolean_System_Boolean_System_Type_">GetAccessRules(Boolean, Boolean, Type)</a> method to obtain a collection of <a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> objects.</p>
+<p>
+<a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> objects do not map one-to-one with access control entries in the underlying discretionary access control list (DACL). When you get the set of all access rules for a mutex, the set contains the minimum number of rules currently required to express all the access control entries. </p>
+<p>The underlying access control entries change as you apply and remove rules. The information in rules is merged if possible, to maintain the smallest number of access control entries. Thus, when you read the current list of rules, it might not look exactly like the list of all the rules you have added.</p>
+<p>Use <a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> objects to specify access rights to allow or deny to a user or group. A <a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> object always represents either allowed access or denied access, never both.</p>
+<p>To apply a rule to a named system mutex, use the <span class="xref">System.Threading.Mutex.GetAccessControl</span> method to get the <a class="xref" href="System.Security.AccessControl.MutexSecurity.html#System_Security_AccessControl_MutexSecurity">MutexSecurity</a> object. Modify the <a class="xref" href="System.Security.AccessControl.MutexSecurity.html#System_Security_AccessControl_MutexSecurity">MutexSecurity</a> object by using its methods to add the rule, and then use the <span class="xref">System.Threading.Mutex.SetAccessControl(System.Security.AccessControl.MutexSecurity)</span> method to reattach the security object.</p>
+<p>Changes you make to a <a class="xref" href="System.Security.AccessControl.MutexSecurity.html#System_Security_AccessControl_MutexSecurity">MutexSecurity</a> object do not affect the access levels of the named mutex until you call the <span class="xref">System.Threading.Mutex.SetAccessControl(System.Security.AccessControl.MutexSecurity)</span> method to assign the altered security object to the named mutex.</p>
+<p>
+<a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> objects are immutable. Security for a mutex is modified using the methods of the <a class="xref" href="System.Security.AccessControl.MutexSecurity.html#System_Security_AccessControl_MutexSecurity">MutexSecurity</a> class to add or remove rules; as you do this, the underlying access control entries are modified. </p>
+<p>Security on synchronization objects is not supported for Windows 98 or Windows Millennium Edition.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +114,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> class, specifying the user or group the rule applies to, the access rights, and whether the specified access rights are allowed or denied.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_MutexAccessRule__ctor_System_Security_Principal_IdentityReference_System_Security_AccessControl_MutexRights_System_Security_AccessControl_AccessControlType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To wait on a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> (by calling the <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see>, <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> or <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method), a user must have <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Synchronize">Synchronize</a> access. To release the mutex, by calling the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method, the user must have <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Modify">Modify</a> access.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public MutexAccessRule(Principal.IdentityReference identity, MutexRights eventRights, AccessControlType type)</code></pre>
@@ -145,17 +162,26 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>eventRights</em> specifies an invalid value.-or-<em>type</em> specifies an invalid value.</p>
+                    <td><p>
+<em>eventRights</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>type</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>identity</em> is null. -or-<em>eventRights</em> is zero.</p>
+                    <td><p>
+<em>identity</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>eventRights</em> is zero.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>identity</em> is neither of type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a> nor of a type such as <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> that can be converted to type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>.</p>
+                    <td><p>
+<em>identity</em> is neither of type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a> nor of a type such as <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> that can be converted to type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -171,6 +197,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> class, specifying the name of the user or group the rule applies to, the access rights, and whether the specified access rights are allowed or denied.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_MutexAccessRule__ctor_System_String_System_Security_AccessControl_MutexRights_System_Security_AccessControl_AccessControlType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To wait on a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> (by calling the <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see>, <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> or <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method), a user must have <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Synchronize">Synchronize</a> access. To release the mutex, by calling the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> methods, the user must have <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Modify">Modify</a> access.</p>
+<p>This constructor is equivalent to creating an <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> object, by passing <em>identity</em> to the <span class="xref">System.Security.Principal.NTAccount.</span> constructor, and passing the newly created <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> object to the <span class="xref">System.Security.AccessControl.MutexAccessRule.</span> constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public MutexAccessRule(string identity, MutexRights eventRights, AccessControlType type)</code></pre>
@@ -216,17 +246,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>eventRights</em> specifies an invalid value.-or-<em>type</em> specifies an invalid value.</p>
+                    <td><p>
+<em>eventRights</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>type</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>eventRights</em> is zero.</p>
+                    <td><p>
+<em>eventRights</em> is zero.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>identity</em> is null.-or-<em>identity</em> is a zero-length string.-or-<em>identity</em> is longer than 512 characters.</p>
+                    <td><p>
+<em>identity</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>identity</em> is a zero-length string.</p>
+<p>-or-</p>
+<p>
+<em>identity</em> is longer than 512 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -244,6 +286,10 @@
               <div class="markdown level1 summary"><p>Gets the rights allowed or denied by the access rule.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_MutexAccessRule_MutexRights_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Security.AccessControl.MutexAccessRule.html#System_Security_AccessControl_MutexAccessRule">MutexAccessRule</a> objects are immutable. You can create a new access rule representing a different user, different rights, or a different <a class="xref" href="System.Security.AccessControl.AccessControlType.html#System_Security_AccessControl_AccessControlType">AccessControlType</a>, but you cannot modify an existing access rule.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public MutexRights MutexRights { get; }</code></pre>

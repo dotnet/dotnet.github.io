@@ -87,6 +87,29 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class TextWriterTraceListener : TraceListener</code></pre>
               </div>
+              <h5 id="System_Diagnostics_TextWriterTraceListener_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> class provides the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Writer">Writer</a> property to get or set the text writer that receives the tracing or debugging output.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p>
+<p>This class also provides methods to <span class="xref">System.Diagnostics.TextWriterTraceListener.Close</span> the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Writer">Writer</a> so that it no longer receives tracing or debugging output, to <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Flush">Flush()</a> the output buffer for the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Writer">Writer</a>, and to <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Write_System_String_">Write(String)</a> a message to the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Writer">Writer</a>.</p>
+<p>You must enable tracing or debugging to use a trace listener. The following syntax is compiler specific. If you use compilers other than C# or Visual Basic, refer to the documentation for your compiler.</p>
+<ul><li>
+<p>To enable debugging in C#, add the <strong>/d:DEBUG</strong> flag to the compiler command line when you compile your code, or you can add <strong>#define DEBUG</strong> to the top of your file. In Visual Basic, add the <strong>/d:DEBUG=True</strong> flag to the compiler command line.</p>
+</li><li>
+<p>To enable tracing in C#, add the <strong>/d:TRACE</strong> flag to the compiler command line when you compile your code, or add <strong>#define TRACE</strong> to the top of your file. In Visual Basic, add the <strong>/d:TRACE=True</strong> flag to the compiler command line.</p>
+</li></ul>
+<p>To add a trace listener, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its type and set its parameter, remove a listener, or clear all the listeners previously set by the application. The configuration file should be formatted like the following example.</p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="4">
+<listeners>
+<add name="myListener" type="System.Diagnostics.TextWriterTraceListener" initializedata="TextWriterOutput.log"></add>
+<remove name="Default"></remove>
+</listeners>
+</trace>
+</system.diagnostics>
+</configuration></code></pre>
+<p>If an attempt is made to write to a file that is in use or unavailable, the file name is automatically prefixed by a GUID.      </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +123,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> class with <a class="xref" href="System.IO.TextWriter.html#System_IO_TextWriter">TextWriter</a> as the output recipient.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TextWriterTraceListener__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor uses the <a class="xref" href="System.IO.TextWriter.html#System_IO_TextWriter">TextWriter</a> stream as the recipient of the tracing or debugging output. Its <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Name">Name</a> property is initialized to an empty string (&quot;&quot;, or <a class="xref" href="System.String.html#System_String_Empty">Empty</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TextWriterTraceListener()</code></pre>
@@ -115,6 +141,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> class, using the stream as the recipient of the debugging and tracing output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TextWriterTraceListener__ctor_System_IO_Stream__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor initializes the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Name">Name</a> property to an empty string (&quot;&quot;).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TextWriterTraceListener(IO.Stream stream)</code></pre>
@@ -148,7 +177,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The stream is null. </p>
+                    <td><p>The stream is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -164,6 +193,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> class with the specified name, using the stream as the recipient of the debugging and tracing output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TextWriterTraceListener__ctor_System_IO_Stream_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor initializes the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Name">Name</a> property to the <em>name</em> parameter or to an empty string (&quot;&quot;), if the <em>name</em> parameter is <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TextWriterTraceListener(IO.Stream stream, string name)</code></pre>
@@ -203,7 +235,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The stream is null. </p>
+                    <td><p>The stream is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -219,6 +251,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> class using the specified writer as recipient of the tracing or debugging output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TextWriterTraceListener__ctor_System_IO_TextWriter__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor initializes the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Name">Name</a> property to an empty string (&quot;&quot;).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TextWriterTraceListener(IO.TextWriter writer)</code></pre>
@@ -252,7 +287,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The writer is null. </p>
+                    <td><p>The writer is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -307,7 +342,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The writer is null. </p>
+                    <td><p>The writer is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -358,6 +393,9 @@
               <div class="markdown level1 summary"><p>Disposes this <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TextWriterTraceListener_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <span class="xref">System.Diagnostics.TextWriterTraceListener.Close</span> method of the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> class to release the managed resources of a <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
@@ -375,7 +413,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release managed resources; if false, <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Dispose_System_Boolean_">Dispose(Boolean)</a> has no effect.</p>
+                    <td><p>
+<strong>true</strong> to release managed resources; if <strong>false</strong>, <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener_Dispose_System_Boolean_">Dispose(Boolean)</a> has no effect.</p>
 </td>
                   </tr>
                 </tbody>

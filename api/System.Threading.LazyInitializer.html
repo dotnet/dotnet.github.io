@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_LazyInitializer.md&amp;value=---%0Auid%3A%20System.Threading.LazyInitializer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/LazyInitializer.cs/#L57" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L143" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_LazyInitializer" data-uid="System.Threading.LazyInitializer">Class LazyInitializer
               </h1>
               <div class="markdown level0 summary"><p>Provides lazy initialization routines.</p>
@@ -87,6 +87,9 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class LazyInitializer : object</code></pre>
               </div>
+              <h5 id="System_Threading_LazyInitializer_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>These routines avoid needing to allocate a dedicated, lazy-initialization instance, instead using references to ensure targets have been initialized as they are accessed.</p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +97,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_LazyInitializer_EnsureInitialized__1___0__.md&amp;value=---%0Auid%3A%20System.Threading.LazyInitializer.EnsureInitialized%60%601(%60%600%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/LazyInitializer.cs/#L86">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L145">View Source</a>
               </span>
               <h4 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__" data-uid="System.Threading.LazyInitializer.EnsureInitialized``1(``0@)">EnsureInitialized&lt;T&gt;(ref T)</h4>
               <div class="markdown level1 summary"><p>Initializes a target reference type with the type&#39;s default constructor if it hasn&#39;t already been initialized.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_LazyInitializer_EnsureInitialized__1___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may only be used on reference types. To ensure initialization of value types, see other overloads of EnsureInitialized.</p>
+<p>This method may be used concurrently by multiple threads to initialize <em>target</em>. </p>
+<p>In the event that multiple threads access this method concurrently, multiple instances of <em>T</em> may be created, but only one will be stored into <em>target</em>. In such an occurrence, this method will not dispose of the objects that were not stored. If such objects must be disposed, it is up to the caller to determine if an object was not used and to then dispose of the object appropriately.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static T EnsureInitialized&lt;T&gt;(ref T target)where T : class</code></pre>
@@ -150,6 +158,7 @@
                   <tr>
                     <td><a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a></td>
                     <td><p>Permissions to access the constructor of type <em>T</em> were missing.</p>
+<p>
 </td>
                   </tr>
                   <tr>
@@ -164,12 +173,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Boolean__System_Object__.md&amp;value=---%0Auid%3A%20System.Threading.LazyInitializer.EnsureInitialized%60%601(%60%600%40%2CSystem.Boolean%40%2CSystem.Object%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/LazyInitializer.cs/#L169">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L146">View Source</a>
               </span>
               <h4 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Boolean__System_Object__" data-uid="System.Threading.LazyInitializer.EnsureInitialized``1(``0@,System.Boolean@,System.Object@)">EnsureInitialized&lt;T&gt;(ref T, ref Boolean, ref Object)</h4>
               <div class="markdown level1 summary"><p>Initializes a target reference or value type with its default constructor if it hasn&#39;t already been initialized.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Boolean__System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>intialized</em> is specified as true, then no further initialization occurs.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static T EnsureInitialized&lt;T&gt;(ref T target, ref bool initialized, ref object syncLock)</code></pre>
@@ -199,7 +211,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>syncLock</em></td>
-                    <td><p>A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is null, a new object will be instantiated.</p>
+                    <td><p>A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is <strong>null</strong>, a new object will be instantiated.</p>
 </td>
                   </tr>
                 </tbody>
@@ -232,6 +244,7 @@
                   <tr>
                     <td><a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a></td>
                     <td><p>Permissions to access the constructor of type <em>T</em> were missing.</p>
+<p>
 </td>
                   </tr>
                   <tr>
@@ -246,12 +259,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Boolean__System_Object__System_Func___0__.md&amp;value=---%0Auid%3A%20System.Threading.LazyInitializer.EnsureInitialized%60%601(%60%600%40%2CSystem.Boolean%40%2CSystem.Object%40%2CSystem.Func%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/LazyInitializer.cs/#L194">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L147">View Source</a>
               </span>
               <h4 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Boolean__System_Object__System_Func___0__" data-uid="System.Threading.LazyInitializer.EnsureInitialized``1(``0@,System.Boolean@,System.Object@,System.Func{``0})">EnsureInitialized&lt;T&gt;(ref T, ref Boolean, ref Object, Func&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Initializes a target reference or value type by using a specified function if it hasn&#39;t already been initialized.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Boolean__System_Object__System_Func___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>intialized</em> is specified as true, then no further initialization occurs.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static T EnsureInitialized&lt;T&gt;(ref T target, ref bool initialized, ref object syncLock, Func&lt;T&gt; valueFactory)</code></pre>
@@ -281,7 +297,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>syncLock</em></td>
-                    <td><p>A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is null, a new object will be instantiated.</p>
+                    <td><p>A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is <strong>null</strong>, a new object will be instantiated.</p>
 </td>
                   </tr>
                   <tr>
@@ -334,12 +350,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Func___0__.md&amp;value=---%0Auid%3A%20System.Threading.LazyInitializer.EnsureInitialized%60%601(%60%600%40%2CSystem.Func%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/LazyInitializer.cs/#L125">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L148">View Source</a>
               </span>
               <h4 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Func___0__" data-uid="System.Threading.LazyInitializer.EnsureInitialized``1(``0@,System.Func{``0})">EnsureInitialized&lt;T&gt;(ref T, Func&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Initializes a target reference type by using a specified function if it hasn&#39;t already been initialized.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_LazyInitializer_EnsureInitialized__1___0__System_Func___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may only be used on reference types, and <em>valueFactory</em> may not return a null reference (Nothing in Visual Basic). To ensure initialization of value types or to allow null reference types, see other overloads of EnsureInitialized.</p>
+<p>This method may be used concurrently by multiple threads to initialize <em>target</em>. </p>
+<p>In the event that multiple threads access this method concurrently, multiple instances of<em> T </em>may be created, but only one will be stored into <em>target</em>. In such an occurrence, this method will not dispose of the objects that were not stored. If such objects must be disposed, it is up to the caller to determine if an object was not used and to then dispose of the object appropriately.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static T EnsureInitialized&lt;T&gt;(ref T target, Func&lt;T&gt; valueFactory)where T : class</code></pre>
@@ -400,7 +421,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p><em>valueFactory</em> returned null (Nothing in Visual Basic).</p>
+                    <td><p>
+<em>valueFactory</em> returned null (Nothing in Visual Basic).</p>
 </td>
                   </tr>
                 </tbody>

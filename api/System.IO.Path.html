@@ -73,7 +73,8 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/IO/Path.Win32.cs/#L9" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IO_Path" data-uid="System.IO.Path">Class Path
               </h1>
-              <div class="markdown level0 summary"><p>Performs operations on <a class="xref" href="System.String.html#System_String">String</a> instances that contain file or directory path information. These operations are performed in a cross-platform manner.To browse the .NET Framework source code for this type, see the Reference Source.</p>
+              <div class="markdown level0 summary"><p>Performs operations on <a class="xref" href="System.String.html#System_String">String</a> instances that contain file or directory path information. These operations are performed in a cross-platform manner.</p>
+<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/io/path.cs#090eca8621a248ee">Reference Source</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +88,28 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Path : object</code></pre>
               </div>
+              <h5 id="System_IO_Path_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/io/path.cs#090eca8621a248ee">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>The .NET Framework does not support direct access to physical disks through paths that are device names, such as &quot;\.\PHYSICALDRIVE0 &quot;.</p>
+<p>A path is a string that provides the location of a file or directory. A path does not necessarily point to a location on disk; for example, a path might map to a location in memory or on a device. The exact format of a path is determined by the current platform. For example, on some systems, a path can start with a drive or volume letter, while this element is not present in other systems. On some systems, file paths can contain extensions, which indicate the type of information stored in the file. The format of a file name extension is platform-dependent; for example, some systems limit extensions to three characters, and others do not. The current platform also determines the set of characters used to separate the elements of a path, and the set of characters that cannot be used when specifying paths. Because of these differences, the fields of the <strong>Path</strong> class as well as the exact behavior of some members of the <strong>Path</strong> class are platform-dependent.</p>
+<p>A path can contain absolute or relative location information. Absolute paths fully specify a location: the file or directory can be uniquely identified regardless of the current location. Relative paths specify a partial location: the current location is used as the starting point when locating a file specified with a relative path. To determine the current directory, call <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>Most members of the <strong>Path</strong> class do not interact with the file system and do not verify the existence of the file specified by a path string. <strong>Path</strong> class members that modify a path string, such as <a class="xref" href="System.IO.Path.html#System_IO_Path_ChangeExtension_System_String_System_String_">ChangeExtension(String, String)</a>, have no effect on names of files in the file system. <strong>Path</strong> members do, however, validate the contents of a specified path string, and throw an <a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a> exception if the string contains characters that are not valid in path strings, as defined in the characters returned from the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method. For example, on Windows-based desktop platforms, invalid path characters might include quote (&quot;), less than (&lt;), greater than (&gt;), pipe (|), backspace (\b), null (\0), and Unicode characters 16 through 18 and 20 through 25.</p>
+<p>The members of the <strong>Path</strong> class enable you to quickly and easily perform common operations such as determining whether a file name extension is part of a path, and combining two strings into one path name.</p>
+<p>All members of the <strong>Path</strong> class are static and can therefore be called without having an instance of a path.</p>
+<p>In members that accept a path as an input string, that path must be well-formed or an exception is raised. For example, if a path is fully qualified but begins with a space, the path is not trimmed in methods of the class. Therefore, the path is malformed and an exception is raised. Similarly, a path or a combination of paths cannot be fully qualified twice. For example, &quot;c:\temp c:\windows&quot; also raises an exception in most cases. Ensure that your paths are well-formed when using methods that accept a path string.</p>
+<p>In members that accept a path, the path can refer to a file or just a directory. The specified path can also refer to a relative path or a Universal Naming Convention (UNC) path for a server and share name. For example, all the following are acceptable paths: </p>
+<ul><li>
+<p>&quot;c:\MyDir\MyFile.txt&quot; in C#, or &quot;c:\MyDir\MyFile.txt&quot; in Visual Basic.</p>
+</li><li>
+<p>&quot;c:\MyDir&quot; in C#, or &quot;c:\MyDir&quot; in Visual Basic.</p>
+</li><li>
+<p>&quot;MyDir\MySubdir&quot; in C#, or &quot;MyDir\MySubDir&quot; in Visual Basic.</p>
+</li><li>
+<p>&quot;\\MyServer\MyShare&quot; in C#, or &quot;\MyServer\MyShare&quot; in Visual Basic.</p>
+</li></ul>
+<p>Because all these operations are performed on strings, it is impossible to verify that the results are valid in all scenarios. For example, the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetExtension_System_String_">GetExtension(String)</a> method parses a string that you pass to it and returns the extension from that string. However, this does not mean that a file with that extension exists on the disk.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h3 id="fields">Fields
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +123,10 @@
               <div class="markdown level1 summary"><p>Provides a platform-specific alternate character used to separate directory levels in a path string that reflects a hierarchical file system organization.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_AltDirectorySeparatorChar_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The character stored in this field cannot be in <span class="xref">System.IO.Path.InvalidPathChars</span>. This field can be set to the same value as <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a>. <strong>AltDirectorySeparatorChar</strong> and <strong>DirectorySeparatorChar</strong> are both valid for separating directory levels in a path string.</p>
+<p>The value of this field is a backslash (&#39;\&#39;) on UNIX, and a slash (&#39;/&#39;) on Windows and Macintosh operating systems.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly char AltDirectorySeparatorChar</code></pre>
@@ -115,6 +142,9 @@
               <div class="markdown level1 summary"><p>Provides a platform-specific character used to separate directory levels in a path string that reflects a hierarchical file system organization.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_DirectorySeparatorChar_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The character stored in this field cannot be in <span class="xref">System.IO.Path.InvalidPathChars</span>. <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a> and <strong>DirectorySeparatorChar</strong> are both valid for separating directory levels in a path string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly char DirectorySeparatorChar</code></pre>
@@ -130,6 +160,9 @@
               <div class="markdown level1 summary"><p>A platform-specific separator character used to separate path strings in environment variables.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_PathSeparator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>On Windows-based desktop platforms, the value of this field is the semicolon (;) by default, but might vary on other platforms.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly char PathSeparator</code></pre>
@@ -145,6 +178,9 @@
               <div class="markdown level1 summary"><p>Provides a platform-specific volume separator character.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_VolumeSeparatorChar_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value of this field is a colon (:) on Windows and Macintosh, and a slash (/) on UNIX operating systems. This is most useful for parsing paths such as &quot;c:\windows&quot; or &quot;MacVolume:System Folder&quot;.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly char VolumeSeparatorChar</code></pre>
@@ -162,6 +198,16 @@
               <div class="markdown level1 summary"><p>Changes the extension of a path string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_ChangeExtension_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If neither <em>path</em> nor <em>extension</em> contains a period (.), <strong>ChangeExtension</strong> adds the period.</p>
+<p>The <em>extension</em> parameter can contain multiple periods and any valid path characters, and can be any length. If <em>extension</em> is <strong>null</strong>, the returned string contains the contents of <em>path</em> with the last period and all characters following it removed.</p>
+<p>If <em>extension</em> is an empty string, the returned path string contains the contents of <em>path</em> with any characters following the last period removed.</p>
+<p>If <em>path</em> does not have an extension and <em>extension</em> is not <strong>null</strong>, the returned string contains <em>path</em> followed by <em>extension</em>.</p>
+<p>If <em>extension</em> is not <strong>null</strong> and does not contain a leading period, the period is added.</p>
+<p>If <em>path</em> contains a multiple extension separated by multiple periods, the returned string contains the contents of <em>path</em> with the last period and all characters following it replaced by <em>extension</em>. For example, if <em>path</em> is &quot;\Dir1\examples\pathtests.csx.txt&quot; and <em>extension</em> is &quot;cs&quot;, the modified path is &quot;\Dir1\examples\pathtests.csx.cs&quot;.</p>
+<p>It is not possible to verify that the returned results are valid in all scenarios. For example, if <em>path</em> is empty, <em>extension</em> is appended.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string ChangeExtension(string path, string extension)</code></pre>
@@ -185,7 +231,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>extension</em></td>
-                    <td><p>The new extension (with or without a leading period). Specify null to remove an existing extension from <em>path</em>. </p>
+                    <td><p>The new extension (with or without a leading period). Specify <strong>null</strong> to remove an existing extension from <em>path</em>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -201,7 +247,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The modified path information.On Windows-based desktop platforms, if <em>path</em> is null or an empty string (&quot;&quot;), the path information is returned unmodified. If <em>extension</em> is null, the returned string contains the specified path with its extension removed. If <em>path</em> has no extension, and <em>extension</em> is not null, the returned path string contains <em>extension</em> appended to the end of <em>path</em>.</p>
+                    <td><p>The modified path information.</p>
+<p>On Windows-based desktop platforms, if <em>path</em> is <strong>null</strong> or an empty string (&quot;&quot;), the path information is returned unmodified. If <em>extension</em> is <strong>null</strong>, the returned string contains the specified path with its extension removed. If <em>path</em> has no extension, and <em>extension</em> is not <strong>null</strong>, the returned path string contains <em>extension</em> appended to the end of <em>path</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -217,7 +264,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.</p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -233,6 +281,13 @@
               <div class="markdown level1 summary"><p>Combines two strings into a path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_Combine_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>path1</em> is not a drive reference (that is, &quot;C:&quot; or &quot;D:&quot;) and does not end with a valid separator character as defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a>, <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a>, or <a class="xref" href="System.IO.Path.html#System_IO_Path_VolumeSeparatorChar">VolumeSeparatorChar</a>, <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a> is appended to <em>path1</em> before concatenation. </p>
+<p>If <em>path2</em> does not include a root (for example, if <em>path2</em> does not start with a separator character or a drive specification), the result is a concatenation of the two paths, with an intervening separator character. If <em>path2</em> includes a root, <em>path2</em> is returned.</p>
+<p>The parameters are not parsed if they have white space. Therefore, if <em>path2</em> includes white space (for example, &quot; \file.txt &quot;), the <a class="xref" href="System.IO.Path.html#System_IO_Path_Combine_System_String_System_String_">Combine(String, String)</a> method appends <em>path2</em> to <em>path1</em> instead of returning only <em>path2</em>.</p>
+<p>Not all invalid characters for directory and file names are interpreted as unacceptable by the <strong>Combine</strong> method, because you can use these characters for search wildcard characters. For example, while <code>Path.Combine("c:\\", "*.txt")</code> might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the <strong>Combine</strong> method.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string Combine(string path1, string path2)</code></pre>
@@ -288,12 +343,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path1</em> or <em>path2</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
+                    <td><p>
+<em>path1</em> or <em>path2</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path1</em> or <em>path2</em> is null. </p>
+                    <td><p>
+<em>path1</em> or <em>path2</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -309,6 +366,15 @@
               <div class="markdown level1 summary"><p>Combines three strings into a path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_Combine_System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<em>path1</em> should be an absolute path (for example, &quot;d:\archives&quot; or &quot;\archives\public&quot;). If <em>path2</em> or <em>path3</em> is also an absolute path, the combine operation discards all previously combined paths and resets to that absolute path.</p>
+<p>Zero-length strings are omitted from the combined path. </p>
+<p>If <em>path1</em> is not a drive reference (that is, &quot;C:&quot; or &quot;D:&quot;) and does not end with a valid separator character as defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a>, <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a>, or <a class="xref" href="System.IO.Path.html#System_IO_Path_VolumeSeparatorChar">VolumeSeparatorChar</a>, <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a> is appended to <em>path1</em> before concatenation. </p>
+<p>If <em>path2</em> does not include a root (for example, if <em>path2</em> does not start with a separator character or a drive specification), the result is a concatenation of the two paths, with an intervening separator character. If <em>path2</em> includes a root, <em>path2</em> is returned.</p>
+<p>The parameters are not parsed if they have white space. Therefore, if <em>path2</em> includes white space (for example, &quot; \file.txt &quot;), the <a class="xref" href="System.IO.Path.html#System_IO_Path_Combine_System_String_System_String_">Combine(String, String)</a> method appends <em>path2</em> to <em>path1</em>.</p>
+<p>Not all invalid characters for directory and file names are interpreted as unacceptable by the <strong>Combine</strong> method, because you can use these characters for search wildcard characters. For example, while <code>Path.Combine("c:\\", "*.txt")</code> might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the <strong>Combine</strong> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string Combine(string path1, string path2, string path3)</code></pre>
@@ -370,12 +436,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path1</em>, <em>path2</em>, or <em>path3</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
+                    <td><p>
+<em>path1</em>, <em>path2</em>, or <em>path3</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path1</em>, <em>path2</em>, or <em>path3</em> is null. </p>
+                    <td><p>
+<em>path1</em>, <em>path2</em>, or <em>path3</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -391,6 +459,13 @@
               <div class="markdown level1 summary"><p>Combines an array of strings into a path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_Combine_System_String____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<em>paths </em>should be an array of the parts of the path to combine. If the one of the subsequent paths is an absolute path, then the combine operation resets starting with that absolute path, discarding all previous combined paths.</p>
+<p>Zero-length strings are omitted from the combined path.</p>
+<p>The parameters are not parsed if they have white space. </p>
+<p>Not all invalid characters for directory and file names are interpreted as unacceptable by the <strong>Combine</strong> method, because you can use these characters for search wildcard characters. For example, while <code>Path.Combine("c:\\", "*.txt")</code> might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the <strong>Combine</strong> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string Combine(params string[] paths)</code></pre>
@@ -445,7 +520,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One of the strings in the array is null. </p>
+                    <td><p>One of the strings in the array is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -461,6 +536,10 @@
               <div class="markdown level1 summary"><p>Returns the directory information for the specified path string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetDirectoryName_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In most cases, the string returned by this method consists of all characters in the path up to but not including the last <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a> or <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a>. If the path consists of a root directory, such as &quot;c:\&quot;, null is returned. Note that this method does not support paths using &quot;file:&quot;. Because the returned path does not include the <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a> or <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a>, passing the returned path back into the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetDirectoryName_System_String_">GetDirectoryName(String)</a> method will result in the truncation of one folder level per subsequent call on the result string. For example, passing the path &quot;C:\Directory\SubDirectory\test.txt&quot; into the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetDirectoryName_System_String_">GetDirectoryName(String)</a> method will return &quot;C:\Directory\SubDirectory&quot;. Passing that string, &quot;C:\Directory\SubDirectory&quot;, into <a class="xref" href="System.IO.Path.html#System_IO_Path_GetDirectoryName_System_String_">GetDirectoryName(String)</a> will result in &quot;C:\Directory&quot;.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetDirectoryName(string path)</code></pre>
@@ -494,7 +573,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>Directory information for <em>path</em>, or null if <em>path</em> denotes a root directory or is null. Returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a> if <em>path</em> does not contain directory information.</p>
+                    <td><p>Directory information for <em>path</em>, or <strong>null</strong> if <em>path</em> denotes a root directory or is null. Returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a> if <em>path</em> does not contain directory information.</p>
 </td>
                   </tr>
                 </tbody>
@@ -515,7 +594,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a>, instead.The <em>path</em> parameter is longer than the system-defined maximum length.</p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a>, instead.</p>
+<p>The <em>path</em> parameter is longer than the system-defined maximum length.</p>
 </td>
                   </tr>
                 </tbody>
@@ -531,6 +611,10 @@
               <div class="markdown level1 summary"><p>Returns the extension of the specified path string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetExtension_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The extension of <em>path</em> is obtained by searching <em>path</em> for a period (.), starting with the last character in path and continuing toward the start of path. If a period is found before a <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a> or <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a> character, the returned string contains the period and the characters after it; otherwise, <a class="xref" href="System.String.html#System_String_Empty">Empty</a> is returned.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetExtension(string path)</code></pre>
@@ -564,7 +648,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The extension of the specified path (including the period &quot;.&quot;), or null, or <a class="xref" href="System.String.html#System_String_Empty">Empty</a>. If <em>path</em> is null, <a class="xref" href="System.IO.Path.html#System_IO_Path_GetExtension_System_String_">GetExtension(String)</a> returns null. If <em>path</em> does not have extension information, <a class="xref" href="System.IO.Path.html#System_IO_Path_GetExtension_System_String_">GetExtension(String)</a> returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a>.</p>
+                    <td><p>The extension of the specified path (including the period &quot;.&quot;), or <strong>null</strong>, or <a class="xref" href="System.String.html#System_String_Empty">Empty</a>. If <em>path</em> is <strong>null</strong>, <a class="xref" href="System.IO.Path.html#System_IO_Path_GetExtension_System_String_">GetExtension(String)</a> returns <strong>null</strong>. If <em>path</em> does not have extension information, <a class="xref" href="System.IO.Path.html#System_IO_Path_GetExtension_System_String_">GetExtension(String)</a> returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -580,7 +664,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.  </p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.  </p>
 </td>
                   </tr>
                 </tbody>
@@ -596,6 +681,11 @@
               <div class="markdown level1 summary"><p>Returns the file name and extension of the specified path string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetFileName_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The returned value is <strong>null</strong> if the file path is <strong>null</strong>.</p>
+<p>The separator characters used to determine the start of the file name are <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a> and <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetFileName(string path)</code></pre>
@@ -629,7 +719,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The characters after the last directory character in <em>path</em>. If the last character of <em>path</em> is a directory or volume separator character, this method returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a>. If <em>path</em> is null, this method returns null.</p>
+                    <td><p>The characters after the last directory character in <em>path</em>. If the last character of <em>path</em> is a directory or volume separator character, this method returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a>. If <em>path</em> is <strong>null</strong>, this method returns <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -645,7 +735,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -661,6 +752,10 @@
               <div class="markdown level1 summary"><p>Returns the file name of the specified path string without the extension.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetFileNameWithoutExtension_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not verify that the path or file name exists.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetFileNameWithoutExtension(string path)</code></pre>
@@ -710,7 +805,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.</p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -726,6 +822,16 @@
               <div class="markdown level1 summary"><p>Returns the absolute path for the specified path string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetFullPath_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The .NET Framework does not support direct access to physical disks through paths that are device names, such as &quot;\.\PHYSICALDRIVE0 &quot;.</p>
+<p>The absolute path includes all information required to locate a file or directory on a system.</p>
+<p>The file or directory specified by <em>path</em> is not required to exist. For example, if c:\temp\newdir is the current directory, calling <strong>GetFullPath</strong> on a file name such as test.txt returns c:\temp\newdir\test.txt. The file need not exist.</p>
+<p>However, if <em>path</em> does exist, the caller must have permission to obtain path information for <em>path</em>. Note that unlike most members of the <a class="xref" href="System.IO.Path.html#System_IO_Path">Path</a> class, this method accesses the file system.</p>
+<p>This method uses current directory and current volume information to fully qualify <em>path</em>. If you specify a file name only in <em>path</em>, <strong>GetFullPath</strong> returns the fully qualified path of the current directory.</p>
+<p>If you pass in a short file name, it is expanded to a long file name.</p>
+<p>If a path contains no significant characters it is invalid unless it contains one or more &quot;.&quot; characters followed by any number of spaces, then it will be parsed as either &quot;.&quot; or &quot;..&quot;.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetFullPath(string path)</code></pre>
@@ -775,7 +881,10 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.-or- The system could not retrieve the absolute path. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.</p>
+<p>-or- </p>
+<p>The system could not retrieve the absolute path. </p>
 </td>
                   </tr>
                   <tr>
@@ -785,12 +894,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> contains a colon (&quot;:&quot;) that is not part of a volume identifier (for example, &quot;c:\&quot;). </p>
+                    <td><p>
+<em>path</em> contains a colon (&quot;:&quot;) that is not part of a volume identifier (for example, &quot;c:\&quot;). </p>
 </td>
                   </tr>
                   <tr>
@@ -811,6 +922,9 @@
               <div class="markdown level1 summary"><p>Gets an array containing the characters that are not allowed in file names.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetInvalidFileNameChars_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The array returned from this method is not guaranteed to contain the complete set of characters that are invalid in file and directory names. The full set of invalid characters can vary by file system. For example, on Windows-based desktop platforms, invalid path characters might include ASCII/Unicode characters 1 through 31, as well as quote (&quot;), less than (&lt;), greater than (&gt;), pipe (|), backspace (\b), null (\0) and tab (\t).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static char[] GetInvalidFileNameChars()</code></pre>
@@ -842,6 +956,9 @@
               <div class="markdown level1 summary"><p>Gets an array containing the characters that are not allowed in path names.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetInvalidPathChars_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The array returned from this method is not guaranteed to contain the complete set of characters that are invalid in file and directory names. The full set of invalid characters can vary by file system. For example, on Windows-based desktop platforms, invalid path characters might include ASCII/Unicode characters 1 through 31, as well as quote (&quot;), less than (&lt;), greater than (&gt;), pipe (|), backspace (\b), null (\0) and tab (\t).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static char[] GetInvalidPathChars()</code></pre>
@@ -873,6 +990,23 @@
               <div class="markdown level1 summary"><p>Gets the root directory information of the specified path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetPathRoot_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not verify that the path or file name exists.</p>
+<p>Possible patterns for the string returned by this method are as follows: </p>
+<ul><li>
+<p>An empty string (<em>path</em> specified a relative path on the current drive or volume).</p>
+</li><li>
+<p>&quot;/&quot; (<em>path</em> specified an absolute path on the current drive).</p>
+</li><li>
+<p>&quot;X:&quot; (<em>path</em> specified a relative path on a drive, where X represents a drive or volume letter).</p>
+</li><li>
+<p>&quot;X:/&quot; (<em>path</em> specified an absolute path on a given drive).</p>
+</li><li>
+<p>&quot;\ComputerName\SharedFolder&quot; (a UNC path).</p>
+</li></ul>
+<p>The .NET Framework does not support direct access to physical disks through paths that are device names, such as &quot;\.\PHYSICALDRIVE0 &quot;.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetPathRoot(string path)</code></pre>
@@ -906,7 +1040,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The root directory of <em>path</em>, such as &quot;C:\&quot;, or null if <em>path</em> is null, or an empty string if <em>path</em> does not contain root directory information.</p>
+                    <td><p>The root directory of <em>path</em>, such as &quot;C:\&quot;, or <strong>null</strong> if <em>path</em> is <strong>null</strong>, or an empty string if <em>path</em> does not contain root directory information.</p>
 </td>
                   </tr>
                 </tbody>
@@ -922,7 +1056,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.-or- <a class="xref" href="System.String.html#System_String_Empty">Empty</a> was passed to <em>path</em>. </p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>.</p>
+<p>-or- </p>
+<p>
+<a class="xref" href="System.String.html#System_String_Empty">Empty</a> was passed to <em>path</em>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -938,6 +1076,9 @@
               <div class="markdown level1 summary"><p>Returns a random folder name or file name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetRandomFileName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.Path.html#System_IO_Path_GetRandomFileName">GetRandomFileName()</a> method returns a cryptographically strong, random string that can be used as either a folder name or a file name. Unlike <a class="xref" href="System.IO.Path.html#System_IO_Path_GetTempFileName">GetTempFileName()</a>, <a class="xref" href="System.IO.Path.html#System_IO_Path_GetRandomFileName">GetRandomFileName()</a> does not create a file. When the security of your file system is paramount, this method should be used instead of <a class="xref" href="System.IO.Path.html#System_IO_Path_GetTempFileName">GetTempFileName()</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetRandomFileName()</code></pre>
@@ -969,6 +1110,12 @@
               <div class="markdown level1 summary"><p>Creates a uniquely named, zero-byte temporary file on disk and returns the full path of that file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetTempFileName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method creates a temporary file with a .TMP file extension. The temporary file is created within the user’s temporary folder, which is the path returned by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetTempPath">GetTempPath()</a> method.</p>
+<p>The <a class="xref" href="System.IO.Path.html#System_IO_Path_GetTempFileName">GetTempFileName()</a> method will raise an <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a> if it is used to create more than 65535 files without deleting previous temporary files.</p>
+<p>The <a class="xref" href="System.IO.Path.html#System_IO_Path_GetTempFileName">GetTempFileName()</a> method will raise an <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a> if no unique temporary file name is available. To resolve this error, delete all unneeded temporary files.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetTempFileName()</code></pre>
@@ -1000,7 +1147,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>An I/O error occurs, such as no unique temporary file name is available.- or -This method was unable to create a temporary file.</p>
+                    <td><p>An I/O error occurs, such as no unique temporary file name is available.</p>
+<p>- or -</p>
+<p>This method was unable to create a temporary file.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1016,6 +1165,18 @@
               <div class="markdown level1 summary"><p>Returns the path of the current user&#39;s temporary folder.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_GetTempPath_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This method checks for the existence of environment variables in the following order and uses the first path found:</p></p>
+<ol><li>
+<p>The path specified by the TMP environment variable.</p>
+</li><li>
+<p>The path specified by the TEMP environment variable.</p>
+</li><li>
+<p>The path specified by the USERPROFILE environment variable.</p>
+</li><li>
+<p>The Windows directory.</p>
+</li></ol>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetTempPath()</code></pre>
@@ -1063,6 +1224,10 @@
               <div class="markdown level1 summary"><p>Determines whether a path includes a file name extension.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_HasExtension_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Starting from the end of <em>path</em>, this method searches for a period (.) followed by at least one character. If this pattern is found before a <a class="xref" href="System.IO.Path.html#System_IO_Path_DirectorySeparatorChar">DirectorySeparatorChar</a>, <a class="xref" href="System.IO.Path.html#System_IO_Path_AltDirectorySeparatorChar">AltDirectorySeparatorChar</a>, or <a class="xref" href="System.IO.Path.html#System_IO_Path_VolumeSeparatorChar">VolumeSeparatorChar</a> character is encountered, this method returns <strong>true</strong>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool HasExtension(string path)</code></pre>
@@ -1096,7 +1261,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the characters that follow the last directory separator (\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the characters that follow the last directory separator (\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1112,7 +1278,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1128,6 +1295,11 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the specified path string contains a root.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Path_IsPathRooted_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.Path.html#System_IO_Path_IsPathRooted_System_String_">IsPathRooted(String)</a> method returns <strong>true</strong> if the first character is a directory separator character such as &quot;\&quot;, or if the path starts with a drive letter and colon (:). For example, it returns <strong>true</strong> for <em>path</em> strings such as &quot;\MyDir\MyFile.txt&quot;, &quot;C:\MyDir&quot;, or &quot;C:MyDir&quot;. It returns <strong>false</strong> for <em>path</em> strings such as &quot;MyDir&quot;.</p>
+<p>This method does not verify that the path or file name exists.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool IsPathRooted(string path)</code></pre>
@@ -1161,7 +1333,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>path</em> contains a root; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>path</em> contains a root; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1177,7 +1350,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
+                    <td><p>
+<em>path</em> contains one or more of the invalid characters defined in <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a>. </p>
 </td>
                   </tr>
                 </tbody>

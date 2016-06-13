@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L81" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L93" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Text_EncoderFallbackBuffer" data-uid="System.Text.EncoderFallbackBuffer">Class EncoderFallbackBuffer
               </h1>
               <div class="markdown level0 summary"><p>Provides a buffer that allows a fallback handler to return an alternate string to an encoder when it cannot encode an input character. </p>
@@ -87,6 +87,33 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class EncoderFallbackBuffer : object</code></pre>
               </div>
+              <h5 id="System_Text_EncoderFallbackBuffer_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>An encoding defines a mapping between a Unicode character and an encoded sequence of bytes. An encoding operation, which converts an input character to an output byte sequence, fails if no mapping is defined for a particular character. </p></p>
+<p><p>The .NET Framework provides a failure handling mechanism, called a fallback, if a conversion cannot be performed. All encoder fallback handlers must implement the following: </p></p>
+<ul><li>
+<p>An encoder fallback, which is represented by a class derived from the <a class="xref" href="System.Text.EncoderFallback.html#System_Text_EncoderFallback">EncoderFallback</a> class.</p>
+</li><li>
+<p>An encoder fallback buffer, which is represented by a type derived from the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> class that can return a string to the conversion operation.</p>
+</li></ul>
+<p>Fallbacks can use three strategies to handle conversion failures: </p>
+<ul><li>
+<p>Best-fit mapping. The encoder fallback buffer can return a string that represents a close approximation to the input character. The .NET Framework does not provide a public best-fit <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> implementation.</p>
+</li><li>
+<p>Replacement. The encoder fallback buffer can return a string, such as a question mark (&quot;?&quot;), that indicates that a character could not be encoded. In the .NET Framework, the <a class="xref" href="System.Text.EncoderReplacementFallback.html#System_Text_EncoderReplacementFallback">EncoderReplacementFallback</a> and <span class="xref">System.Text.EncoderReplacementFallbackBuffer</span> classes provide a public replacement fallback buffer implementation. The constructor of the <a class="xref" href="System.Text.EncoderReplacementFallback.html#System_Text_EncoderReplacementFallback">EncoderReplacementFallback</a> class enables you to define the replacement string.</p>
+</li><li>
+<p>Exception. The <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> implementation throws an exception, which indicates that a character cannot be encoded, and terminates the encoding operation. In this case, the fallback handler must provide an <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> implementation, although it does not return a string to the encoder. In the .NET Framework, the <a class="xref" href="System.Text.EncoderExceptionFallback.html#System_Text_EncoderExceptionFallback">EncoderExceptionFallback</a> and <span class="xref">System.Text.EncoderExceptionFallbackBuffer</span> classes provide a public exception fallback implementation that throws an <a class="xref" href="System.Text.EncoderFallbackException.html#System_Text_EncoderFallbackException">EncoderFallbackException</a> when a character cannot be encoded.</p>
+</li></ul>
+<p>The buffer in an <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> implementation represents the entire string to be returned to the encoder in response to an encoder fallback. Generally, implementations also include state information, such as the index of the next character to return to the encoder and the number of remaining characters to be returned. Because <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> is an abstract class, it requires derived classes to implement the following members at a minimum:</p>
+<ul><li>
+<p>The overloaded <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32_">Fallback(Char, Int32)</a> method, which is called by the encoder when it cannot encode a character. The encoder passes two pieces of information to the fallback buffer implementation: the character or surrogate pair that could not be encoded and the index of the character in the input. In an encoder fallback exception handler, the exception is thrown in this method. Otherwise, the method returns <strong>true</strong> if it provides a fallback, or <strong>false</strong> if it does not.</p>
+</li><li>
+<p>The <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method, which is called repeatedly by the encoder if the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32_">Fallback(Char, Int32)</a> method returns <strong>true</strong>. In successive calls, the handler should return each character in its buffer. When it has returned all characters, it should return U+0000. An exception handler always returns U+0000.</p>
+</li><li>
+<p>The <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_MovePrevious">MovePrevious()</a> method, which tries to move the pointer to the previous position in the buffer and indicates whether the move was successful. An exception handler always returns <strong>false</strong>.</p>
+</li><li>
+<p>The <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Remaining">Remaining</a> property, which indicates the number of remaining characters to be returned to the encoder. An exception fallback handler always returns zero.</p>
+</li></ul>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -111,12 +138,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer_Remaining.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer.Remaining%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L102">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L96">View Source</a>
               </span>
               <h4 id="System_Text_EncoderFallbackBuffer_Remaining" data-uid="System.Text.EncoderFallbackBuffer.Remaining">Remaining</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, gets the number of characters in the current <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer">EncoderFallbackBuffer</a> object that remain to be processed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncoderFallbackBuffer_Remaining_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.Text.EncoderFallbackBuffer.Fallback"></see> method returns <strong>true</strong> if <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Remaining">Remaining</a> is a nonzero value.</p>
+<p>For an exception fallback handler, the <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer_Remaining">Remaining</a> method should return zero.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract int Remaining { get; }</code></pre>
@@ -144,12 +175,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Char_System_Int32_.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer.Fallback(System.Char%2CSystem.Char%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L90">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L97">View Source</a>
               </span>
               <h4 id="System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Char_System_Int32_" data-uid="System.Text.EncoderFallbackBuffer.Fallback(System.Char,System.Char,System.Int32)">Fallback(Char, Char, Int32)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, prepares the fallback buffer to handle the specified surrogate pair.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Char_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.Text.Encoding.GetBytes"></see> and <see cref="Overload:System.Text.Encoder.Convert"></see> methods call <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Char_System_Int32_">Fallback(Char, Char, Int32)</a> if they encounter a surrogate pair in their input. A return value of <strong>true</strong> indicates that the fallback buffer can process the surrogate pair, which causes the calling method to call the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method to obtain each character of the fallback buffer.  Because it does not process individual characters, the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32_">Fallback(Char, Int32)</a> method in an exception fallback handler throws an exception.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool Fallback(char charUnknownHigh, char charUnknownLow, int index)</code></pre>
@@ -195,7 +229,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the fallback buffer can process <em>charUnknownHigh</em> and <em>charUnknownLow</em>; false if the fallback buffer ignores the surrogate pair.</p>
+                    <td><p>
+<strong>true</strong> if the fallback buffer can process <em>charUnknownHigh</em> and <em>charUnknownLow</em>; <strong>false</strong> if the fallback buffer ignores the surrogate pair.</p>
 </td>
                   </tr>
                 </tbody>
@@ -205,12 +240,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32_.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer.Fallback(System.Char%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L88">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L98">View Source</a>
               </span>
               <h4 id="System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32_" data-uid="System.Text.EncoderFallbackBuffer.Fallback(System.Char,System.Int32)">Fallback(Char, Int32)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, prepares the fallback buffer to handle the specified input character. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.Text.Encoding.GetBytes"></see> and <see cref="Overload:System.Text.Encoder.Convert"></see> methods call <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer_Fallback_System_Byte___System_Int32_">Fallback(Byte[], Int32)</a> if they encounter an unknown input character that cannot be encoded. A return value of <strong>true</strong> indicates that the fallback buffer can process the input character, which causes the calling method to call the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method to obtain each character of the fallback buffer. Because it does not process individual characters, the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_Fallback_System_Char_System_Int32_">Fallback(Char, Int32)</a> method in an exception fallback handler throws an exception.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool Fallback(char charUnknown, int index)</code></pre>
@@ -250,7 +288,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the fallback buffer can process <em>charUnknown</em>; false if the fallback buffer ignores <em>charUnknown</em>.</p>
+                    <td><p>
+<strong>true</strong> if the fallback buffer can process <em>charUnknown</em>; <strong>false</strong> if the fallback buffer ignores <em>charUnknown</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -260,12 +299,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer_GetNextChar.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer.GetNextChar%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L94">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L99">View Source</a>
               </span>
               <h4 id="System_Text_EncoderFallbackBuffer_GetNextChar" data-uid="System.Text.EncoderFallbackBuffer.GetNextChar">GetNextChar()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, retrieves the next character in the fallback buffer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncoderFallbackBuffer_GetNextChar_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An encoding operation calls the <see cref="Overload:System.Text.EncoderFallbackBuffer.Fallback"></see> method if the operation encounters an unknown character or surrogate pair in the input. For example, in the case of a replacement fallback, if the <see cref="Overload:System.Text.EncoderFallbackBuffer.Fallback"></see> method returns <strong>true</strong>, a substitute string exists that can be encoded instead of the unknown input. The encoding operation calls the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method repeatedly and obtains the substitute string one character at a time. When all characters in the fallback buffer have been returned to the encoder, the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method should return U+0000.</p>
+<p>For an exception fallback handler, the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method should return U+0000.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract char GetNextChar()</code></pre>
@@ -291,12 +334,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer_MovePrevious.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer.MovePrevious%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L98">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L100">View Source</a>
               </span>
               <h4 id="System_Text_EncoderFallbackBuffer_MovePrevious" data-uid="System.Text.EncoderFallbackBuffer.MovePrevious">MovePrevious()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, causes the next call to the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_GetNextChar">GetNextChar()</a> method to access the data buffer character position that is prior to the current character position. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncoderFallbackBuffer_MovePrevious_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception fallback handler should return <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool MovePrevious()</code></pre>
@@ -312,7 +358,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_MovePrevious">MovePrevious()</a> operation was successful; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Text.EncoderFallbackBuffer.html#System_Text_EncoderFallbackBuffer_MovePrevious">MovePrevious()</a> operation was successful; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -322,7 +369,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncoderFallbackBuffer_Reset.md&amp;value=---%0Auid%3A%20System.Text.EncoderFallbackBuffer.Reset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncoderFallback.cs/#L107">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L101">View Source</a>
               </span>
               <h4 id="System_Text_EncoderFallbackBuffer_Reset" data-uid="System.Text.EncoderFallbackBuffer.Reset">Reset()</h4>
               <div class="markdown level1 summary"><p>Initializes all data and state information pertaining to this fallback buffer.</p>

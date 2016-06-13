@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L101" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L85" class="pull-right mobile-hide">View Source</a>
               <h1 id="Microsoft_Win32_RegistryKey" data-uid="Microsoft.Win32.RegistryKey">Class RegistryKey
               </h1>
               <div class="markdown level0 summary"><p>Represents a key-level node in the Windows registry. This class is a registry encapsulation.</p>
@@ -87,6 +87,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class RegistryKey : IDisposable</code></pre>
               </div>
+              <h5 id="Microsoft_Win32_RegistryKey_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To get an instance of <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>, use one of the static members of the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry">Registry</a> class.</p>
+<p>The registry acts as a central repository of information for the operating system and the applications on a computer. The registry is organized in a hierarchical format, based on a logical ordering of the elements stored within it (please see <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry">Registry</a> for the base-level items in this hierarchy). When storing information in the registry, select the appropriate location based on the type of information being stored. Be sure to avoid destroying information created by other applications, because this can cause those applications to exhibit unexpected behavior, and can also have an adverse effect upon your own application.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p>
+<p>Registry keys are the base unit of organization in the registry, and can be compared to folders in File Explorer. A particular key can have subkeys, just as a folder can have subfolders. Each key can be deleted, as long as the user has the appropriate permissions to do so, and the key is not a base key or at the level directly under the base keys. Each key can also have multiple values associated with it (a value can be compared to a file), which are used to store the information — for example, information about an application installed on the computer. Each value holds one particular piece of information, which can be retrieved or updated when required. For instance, you can create a <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> for your company, under the key HKEY_LOCAL_MACHINE\Software, and then a subkey for each application that your company creates. Each subkey holds the information specific to that application, such as color settings, screen location and size, or recognized file extensions.</p>
+<p>Note that information stored in the registry is available to other applications and users, and therefore should not be used to store security data or critical application information.</p>
+<p>Do not expose <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> objects in such a way that a malicious program could create thousands of meaningless subkeys or key/value pairs. For example, do not allow callers to enter arbitrary keys or values.</p>
+<p>Starting in the .NET Framework 4, the length of a registry key is no longer limited to 255 characters.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +103,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_Handle.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.Handle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L35">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L719">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_Handle" data-uid="Microsoft.Win32.RegistryKey.Handle">Handle</h4>
               <div class="markdown level1 summary"><p>Gets a <a class="xref" href="Microsoft.Win32.SafeHandles.SafeRegistryHandle.html#Microsoft_Win32_SafeHandles_SafeRegistryHandle">SafeRegistryHandle</a> object that represents the registry key that the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object encapsulates.</p>
@@ -156,12 +165,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_Name.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1378">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L1288">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_Name" data-uid="Microsoft.Win32.RegistryKey.Name">Name</h4>
               <div class="markdown level1 summary"><p>Retrieves the name of the key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The name of the key includes the absolute path of this key in the registry, always starting at a base key, for example, HKEY_LOCAL_MACHINE.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
@@ -203,12 +215,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_SubKeyCount.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.SubKeyCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L814">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L700">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_SubKeyCount" data-uid="Microsoft.Win32.RegistryKey.SubKeyCount">SubKeyCount</h4>
               <div class="markdown level1 summary"><p>Retrieves the count of subkeys of the current key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_SubKeyCount_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property does not recursively count names. It only returns the count of names on the base level from which it was called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int SubKeyCount { get; }</code></pre>
@@ -265,12 +280,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_ValueCount.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.ValueCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L984">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L872">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_ValueCount" data-uid="Microsoft.Win32.RegistryKey.ValueCount">ValueCount</h4>
               <div class="markdown level1 summary"><p>Retrieves the count of values in the key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_ValueCount_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Each registry key has a default value that is not associated with any name. This unnamed value can be set by using the <see cref="Overload:Microsoft.Win32.RegistryKey.SetValue"></see> method and specifying either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>. If the default value has never been set, it does not contribute to the total count returned by the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_ValueCount">ValueCount</a> property; once it has been set, however, it is always counted.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int ValueCount { get; }</code></pre>
@@ -327,12 +345,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_View.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.View%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L822">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L709">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_View" data-uid="Microsoft.Win32.RegistryKey.View">View</h4>
               <div class="markdown level1 summary"><p>Gets the view that was used to create the registry key. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_View_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>On the 64-bit versions of Windows, portions of the registry are stored separately for 32-bit and 64-bit applications. There is a 32-bit view for 32-bit applications and a 64-bit view for 64-bit applications.</p>
+<p>Do not assume that the view always corresponds to the actual view of the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryView View { get; }</code></pre>
@@ -348,7 +370,10 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryView.html#Microsoft_Win32_RegistryView">RegistryView</a></td>
-                    <td><p>The view that was used to create the registry key.-or-<a class="xref" href="Microsoft.Win32.RegistryView.html#Microsoft_Win32_RegistryView_Default">Default</a>, if no view was used.</p>
+                    <td><p>The view that was used to create the registry key.</p>
+<p>-or-</p>
+<p>
+<a class="xref" href="Microsoft.Win32.RegistryView.html#Microsoft_Win32_RegistryView_Default">Default</a>, if no view was used.</p>
 </td>
                   </tr>
                 </tbody>
@@ -360,12 +385,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_CreateSubKey_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.CreateSubKey(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L282">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L40">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_CreateSubKey_System_String_" data-uid="Microsoft.Win32.RegistryKey.CreateSubKey(System.String)">CreateSubKey(String)</h4>
               <div class="markdown level1 summary"><p>Creates a new subkey or opens an existing subkey for write access.  </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_CreateSubKey_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In order to perform this action, the user must have permission at this level and below in the registry hierarchy.</p>
+<p>Do not expose <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> objects in such a way that a malicious program could create thousands of meaningless subkeys or key/value pairs. For example, do not allow callers to enter arbitrary keys or values.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryKey CreateSubKey(string subkey)</code></pre>
@@ -399,7 +428,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a></td>
-                    <td><p>The newly created subkey, or null if the operation failed. If a zero-length string is specified for <em>subkey</em>, the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object is returned.</p>
+                    <td><p>The newly created subkey, or <strong>null</strong> if the operation failed. If a zero-length string is specified for <em>subkey</em>, the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object is returned.</p>
 </td>
                   </tr>
                 </tbody>
@@ -415,7 +444,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null. </p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -435,7 +465,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The nesting level exceeds 510.-or-A system error occurred, such as deletion of the key, or an attempt to create a key in the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_LocalMachine">LocalMachine</a> root.</p>
+                    <td><p>The nesting level exceeds 510.</p>
+<p>-or-</p>
+<p>A system error occurred, such as deletion of the key, or an attempt to create a key in the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_LocalMachine">LocalMachine</a> root.</p>
 </td>
                   </tr>
                 </tbody>
@@ -445,12 +477,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.CreateSubKey(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L299">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L41">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_" data-uid="Microsoft.Win32.RegistryKey.CreateSubKey(System.String,System.Boolean)">CreateSubKey(String, Boolean)</h4>
-              <div class="markdown level1 summary"><p>Creates a new subkey or opens an existing subkey with the specified access. Available starting in .NET Framework 2015</p>
+              <div class="markdown level1 summary"><p>Creates a new subkey or opens an existing subkey with the specified access. </p>
+<p>Available starting in .NET Framework 4.6</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In order to perform this action, the user must have permission at this level and below in the registry hierarchy.</p>
+<p>Do not expose <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> objects in such a way that a malicious program could create thousands of meaningless subkeys or key/value pairs. For example, do not allow callers to enter arbitrary keys or values.</p>
+<p>In order to use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_">CreateSubKey(String, Boolean)</a> method, you must have an instance of the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> class. To get an instance of <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>, use one of the static members of the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry">Registry</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryKey CreateSubKey(string subkey, bool writable)</code></pre>
@@ -474,7 +512,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>writable</em></td>
-                    <td><p>true to indicate the new subkey is writable; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to indicate the new subkey is writable; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -490,7 +529,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a></td>
-                    <td><p>The newly created subkey, or null if the operation failed. If a zero-length string is specified for <em>subkey</em>, the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object is returned.</p>
+                    <td><p>The newly created subkey, or <strong>null</strong> if the operation failed. If a zero-length string is specified for <em>subkey</em>, the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object is returned.</p>
 </td>
                   </tr>
                 </tbody>
@@ -506,7 +545,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null. </p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -521,7 +561,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The nesting level exceeds 510.-or-A system error occurred, such as deletion of the key, or an attempt to create a key in the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_LocalMachine">LocalMachine</a> root.</p>
+                    <td><p>The nesting level exceeds 510.</p>
+<p>-or-</p>
+<p>A system error occurred, such as deletion of the key, or an attempt to create a key in the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_LocalMachine">LocalMachine</a> root.</p>
 </td>
                   </tr>
                 </tbody>
@@ -531,12 +573,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_Microsoft_Win32_RegistryOptions_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.CreateSubKey(System.String%2CSystem.Boolean%2CMicrosoft.Win32.RegistryOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L305">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L42">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_Microsoft_Win32_RegistryOptions_" data-uid="Microsoft.Win32.RegistryKey.CreateSubKey(System.String,System.Boolean,Microsoft.Win32.RegistryOptions)">CreateSubKey(String, Boolean, RegistryOptions)</h4>
-              <div class="markdown level1 summary"><p>Creates a new subkey or opens an existing subkey with the specified access. Available starting in .NET Framework 2015</p>
+              <div class="markdown level1 summary"><p>Creates a new subkey or opens an existing subkey with the specified access. </p>
+<p>Available starting in .NET Framework 4.6</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_Microsoft_Win32_RegistryOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In order to perform this action, the user must have permission at this level and below in the registry hierarchy.</p>
+<p>Do not expose <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> objects in such a way that a malicious program could create thousands of meaningless subkeys or key/value pairs. For example, do not allow callers to enter arbitrary keys or values.</p>
+<p>In order to use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_CreateSubKey_System_String_System_Boolean_Microsoft_Win32_RegistryOptions_">CreateSubKey(String, Boolean, RegistryOptions)</a> method, you must have an instance of the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> class. To get an instance of <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>, use one of the static members of the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry">Registry</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryKey CreateSubKey(string subkey, bool writable, RegistryOptions options)</code></pre>
@@ -560,7 +608,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>writable</em></td>
-                    <td><p>true to indicate the new subkey is writable; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to indicate the new subkey is writable; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -582,7 +631,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a></td>
-                    <td><p>The newly created subkey, or null if the operation failed. If a zero-length string is specified for <em>subkey</em>, the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object is returned.</p>
+                    <td><p>The newly created subkey, or <strong>null</strong> if the operation failed. If a zero-length string is specified for <em>subkey</em>, the current <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object is returned.</p>
 </td>
                   </tr>
                 </tbody>
@@ -598,12 +647,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null. </p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>options</em> does not specify a valid Option</p>
+                    <td><p>
+<em>options</em> does not specify a valid Option</p>
 </td>
                   </tr>
                   <tr>
@@ -618,7 +669,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The nesting level exceeds 510.-or-A system error occurred, such as deletion of the key, or an attempt to create a key in the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_LocalMachine">LocalMachine</a> root.</p>
+                    <td><p>The nesting level exceeds 510.</p>
+<p>-or-</p>
+<p>A system error occurred, such as deletion of the key, or an attempt to create a key in the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_LocalMachine">LocalMachine</a> root.</p>
 </td>
                   </tr>
                 </tbody>
@@ -628,12 +681,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_DeleteSubKey_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.DeleteSubKey(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L405">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L43">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_DeleteSubKey_System_String_" data-uid="Microsoft.Win32.RegistryKey.DeleteSubKey(System.String)">DeleteSubKey(String)</h4>
               <div class="markdown level1 summary"><p>Deletes the specified subkey. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_DeleteSubKey_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To delete child subkeys, use <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String_">DeleteSubKeyTree(String)</a>.</p>
+<p>Use caution when deleting registry keys.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DeleteSubKey(string subkey)</code></pre>
@@ -677,7 +734,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null</p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong></p>
 </td>
                   </tr>
                   <tr>
@@ -702,12 +760,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_DeleteSubKey_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.DeleteSubKey(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L409">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L44">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_DeleteSubKey_System_String_System_Boolean_" data-uid="Microsoft.Win32.RegistryKey.DeleteSubKey(System.String,System.Boolean)">DeleteSubKey(String, Boolean)</h4>
               <div class="markdown level1 summary"><p>Deletes the specified subkey, and specifies whether an exception is raised if the subkey is not found. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_DeleteSubKey_System_String_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To delete child subkeys, use <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String_">DeleteSubKeyTree(String)</a>.</p>
+<p>Use caution when deleting registry keys.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DeleteSubKey(string subkey, bool throwOnMissingSubKey)</code></pre>
@@ -731,7 +793,7 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>throwOnMissingSubKey</em></td>
-                    <td><p>Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is true and the specified subkey does not exist, an exception is raised. If this argument is false and the specified subkey does not exist, no action is taken. </p>
+                    <td><p>Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is <strong>true</strong> and the specified subkey does not exist, an exception is raised. If this argument is <strong>false</strong> and the specified subkey does not exist, no action is taken. </p>
 </td>
                   </tr>
                 </tbody>
@@ -747,17 +809,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p><em>subkey</em> has child subkeys. </p>
+                    <td><p>
+<em>subkey</em> has child subkeys. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>subkey</em> does not specify a valid registry key, and <em>throwOnMissingSubKey</em> is true. </p>
+                    <td><p>
+<em>subkey</em> does not specify a valid registry key, and <em>throwOnMissingSubKey</em> is <strong>true</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null.</p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -782,12 +847,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.DeleteSubKeyTree(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L459">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L45">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String_" data-uid="Microsoft.Win32.RegistryKey.DeleteSubKeyTree(System.String)">DeleteSubKeyTree(String)</h4>
               <div class="markdown level1 summary"><p>Deletes a subkey and any child subkeys recursively. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must have appropriate permissions to delete the subkey and its tree.</p>
+<p>Deleting a particular key will remove all entries below the key in the tree. No warning will be provided. If you want to delete a subkey only when it has no child subkeys, use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_DeleteSubKey_System_String_">DeleteSubKey(String)</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DeleteSubKeyTree(string subkey)</code></pre>
@@ -821,12 +890,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null. </p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>Deletion of a root hive is attempted.-or-<em>subkey</em> does not specify a valid registry subkey. </p>
+                    <td><p>Deletion of a root hive is attempted.</p>
+<p>-or-</p>
+<p>
+<em>subkey</em> does not specify a valid registry subkey. </p>
 </td>
                   </tr>
                   <tr>
@@ -856,7 +929,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.DeleteSubKeyTree(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L463">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L46">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_DeleteSubKeyTree_System_String_System_Boolean_" data-uid="Microsoft.Win32.RegistryKey.DeleteSubKeyTree(System.String,System.Boolean)">DeleteSubKeyTree(String, Boolean)</h4>
               <div class="markdown level1 summary"><p>Deletes the specified subkey and any child subkeys recursively, and specifies whether an exception is raised if the subkey is not found. </p>
@@ -885,7 +958,7 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>throwOnMissingSubKey</em></td>
-                    <td><p>Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is true and the specified subkey does not exist, an exception is raised. If this argument is false and the specified subkey does not exist, no action is taken.</p>
+                    <td><p>Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is <strong>true</strong> and the specified subkey does not exist, an exception is raised. If this argument is <strong>false</strong> and the specified subkey does not exist, no action is taken.</p>
 </td>
                   </tr>
                 </tbody>
@@ -901,12 +974,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An attempt was made to delete the root hive of the tree.-or-<em>subkey</em> does not specify a valid registry subkey, and <em>throwOnMissingSubKey</em> is true.</p>
+                    <td><p>An attempt was made to delete the root hive of the tree.</p>
+<p>-or-</p>
+<p>
+<em>subkey</em> does not specify a valid registry subkey, and <em>throwOnMissingSubKey</em> is <strong>true</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>subkey</em> is null.</p>
+                    <td><p>
+<em>subkey</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -931,12 +1008,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_DeleteValue_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.DeleteValue(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L547">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L47">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_DeleteValue_System_String_" data-uid="Microsoft.Win32.RegistryKey.DeleteValue(System.String)">DeleteValue(String)</h4>
               <div class="markdown level1 summary"><p>Deletes the specified value from this key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_DeleteValue_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>On Windows 95, Windows 98, Windows 98 Second Edition, and Windows Millennium Edition, specifying an empty string for the <em>name</em> parameter does not delete the default value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DeleteValue(string name)</code></pre>
@@ -970,7 +1050,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is not a valid reference to a value. </p>
+                    <td><p>
+<em>name</em> is not a valid reference to a value. </p>
 </td>
                   </tr>
                   <tr>
@@ -995,12 +1076,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_DeleteValue_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.DeleteValue(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L551">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L48">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_DeleteValue_System_String_System_Boolean_" data-uid="Microsoft.Win32.RegistryKey.DeleteValue(System.String,System.Boolean)">DeleteValue(String, Boolean)</h4>
               <div class="markdown level1 summary"><p>Deletes the specified value from this key, and specifies whether an exception is raised if the value is not found.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_DeleteValue_System_String_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>throwOnMissingValue</em> is <strong>false</strong>, there is no way to tell if the deletion was successful, without subsequently trying to access the value just deleted. Therefore, use caution when deleting values from the registry in this manner.</p>
+<p>On Windows 95, Windows 98, Windows 98 Second Edition, and Windows Millennium Edition, specifying an empty string for the <em>name</em> parameter does not delete the default value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DeleteValue(string name, bool throwOnMissingValue)</code></pre>
@@ -1024,7 +1109,7 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>throwOnMissingValue</em></td>
-                    <td><p>Indicates whether an exception should be raised if the specified value cannot be found. If this argument is true and the specified value does not exist, an exception is raised. If this argument is false and the specified value does not exist, no action is taken. </p>
+                    <td><p>Indicates whether an exception should be raised if the specified value cannot be found. If this argument is <strong>true</strong> and the specified value does not exist, an exception is raised. If this argument is <strong>false</strong> and the specified value does not exist, no action is taken. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1040,7 +1125,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is not a valid reference to a value and <em>throwOnMissingValue</em> is true. -or- <em>name</em> is null.</p>
+                    <td><p>
+<em>name</em> is not a valid reference to a value and <em>throwOnMissingValue</em> is <strong>true</strong>. </p>
+<p>-or- </p>
+<p>
+<em>name</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1065,12 +1154,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_Dispose.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L49">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L258">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_Dispose" data-uid="Microsoft.Win32.RegistryKey.Dispose">Dispose()</h4>
               <div class="markdown level1 summary"><p>Releases all resources used by the current instance of the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call <strong>Dispose</strong> when you are finished using the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>. The <strong>Dispose</strong> method leaves the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> in an unusable state. After calling <strong>Dispose</strong>, you must release all references to the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> so the garbage collector can reclaim the memory that the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> was occupying.</p>
+<p>For more information, see Cleaning Up Unmanaged Resources and Implementing a Dispose Method.</p>
+<p>Always call <strong>Dispose</strong> before you release your last reference to the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object&#39;s <strong>Finalize</strong> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -1080,12 +1174,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_Flush.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.Flush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L257">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L246">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_Flush" data-uid="Microsoft.Win32.RegistryKey.Flush">Flush()</h4>
               <div class="markdown level1 summary"><p>Writes all the attributes of the specified open registry key into the registry.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_Flush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>It is not necessary to call <strong>Flush</strong> to write out changes to a key. Registry changes are flushed to disk when the registry uses its lazy flusher. Lazy flushing occurs automatically and regularly after a system-specified time interval. Registry changes are also flushed to disk at system shutdown.</p>
+<p>Unlike <span class="xref">Microsoft.Win32.RegistryKey.Close</span>, the <strong>Flush</strong> function returns only when all the data has been written to the registry. </p>
+<p>The <strong>Flush</strong> function might also write out parts of or all of the other keys. Calling this function excessively can have a negative effect on an application&#39;s performance.</p>
+<p>An application should only call <strong>Flush</strong> if it must be absolute certain that registry changes are recorded to disk. In general, <strong>Flush</strong> rarely, if ever, need be used.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Flush()</code></pre>
@@ -1095,7 +1195,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_FromHandle_Microsoft_Win32_SafeHandles_SafeRegistryHandle_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.FromHandle(Microsoft.Win32.SafeHandles.SafeRegistryHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L51">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L778">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_FromHandle_Microsoft_Win32_SafeHandles_SafeRegistryHandle_" data-uid="Microsoft.Win32.RegistryKey.FromHandle(Microsoft.Win32.SafeHandles.SafeRegistryHandle)">FromHandle(SafeRegistryHandle)</h4>
               <div class="markdown level1 summary"><p>Creates a registry key from a specified handle.</p>
@@ -1150,7 +1250,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>handle</em> is null.</p>
+                    <td><p>
+<em>handle</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1170,12 +1271,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_FromHandle_Microsoft_Win32_SafeHandles_SafeRegistryHandle_Microsoft_Win32_RegistryView_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.FromHandle(Microsoft.Win32.SafeHandles.SafeRegistryHandle%2CMicrosoft.Win32.RegistryView)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L53">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L784">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_FromHandle_Microsoft_Win32_SafeHandles_SafeRegistryHandle_Microsoft_Win32_RegistryView_" data-uid="Microsoft.Win32.RegistryKey.FromHandle(Microsoft.Win32.SafeHandles.SafeRegistryHandle,Microsoft.Win32.RegistryView)">FromHandle(SafeRegistryHandle, RegistryView)</h4>
               <div class="markdown level1 summary"><p>Creates a registry key from a specified handle and registry view setting. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_FromHandle_Microsoft_Win32_SafeHandles_SafeRegistryHandle_Microsoft_Win32_RegistryView__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>view</em> parameter for this method is used in subsequent operations, such as opening subkeys. </p>
+<p>If <em>view</em> is <a class="xref" href="Microsoft.Win32.RegistryView.html#Microsoft_Win32_RegistryView_Registry64">Registry64</a> but the machine is running a 32-bit operating system, the returned key will use the <a class="xref" href="Microsoft.Win32.RegistryView.html#Microsoft_Win32_RegistryView_Registry32">Registry32</a> view.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static RegistryKey FromHandle(SafeRegistryHandle handle, RegistryView view)</code></pre>
@@ -1231,12 +1336,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>view</em> is invalid.</p>
+                    <td><p>
+<em>view</em> is invalid.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>handle</em> is null.</p>
+                    <td><p>
+<em>handle</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1256,12 +1363,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_GetSubKeyNames.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.GetSubKeyNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L937">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L823">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_GetSubKeyNames" data-uid="Microsoft.Win32.RegistryKey.GetSubKeyNames">GetSubKeyNames()</h4>
               <div class="markdown level1 summary"><p>Retrieves an array of strings that contains all the subkey names.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_GetSubKeyNames_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not recursively find names. It returns the names on the base level from which it was called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string[] GetSubKeyNames()</code></pre>
@@ -1318,12 +1428,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_GetValue_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.GetValue(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1070">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L56">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_GetValue_System_String_" data-uid="Microsoft.Win32.RegistryKey.GetValue(System.String)">GetValue(String)</h4>
-              <div class="markdown level1 summary"><p>Retrieves the value associated with the specified name. Returns null if the name/value pair does not exist in the registry.</p>
+              <div class="markdown level1 summary"><p>Retrieves the value associated with the specified name. Returns <strong>null</strong> if the name/value pair does not exist in the registry.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_GetValue_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A registry key can have one value that is not associated with any name. When this unnamed value is displayed in the registry editor, the string &quot;(Default)&quot; appears instead of a name. To retrieve this unnamed value, specify either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>.</p>
+<p>When the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_">GetValue(String)</a> method retrieves expandable string values (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_ExpandString">ExpandString</a>), it expands environment strings using data from the local environment. To retrieve expandable string values from the registry on a remote computer, use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_Microsoft_Win32_RegistryValueOptions_">GetValue(String, Object, RegistryValueOptions)</a> method overload to specify that you do not want environment strings expanded.</p>
+<p>If a value containing expandable references to environment variables has been stored as a string (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_String">String</a>), rather than as an expandable string (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_ExpandString">ExpandString</a>), <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_">GetValue(String)</a> does not expand it. You can expand such a string after it has been retrieved by calling the <a class="xref" href="System.Environment.html#System_Environment_ExpandEnvironmentVariables_System_String_">ExpandEnvironmentVariables(String)</a> method.</p>
+<p>The recommended way to retrieve data from the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_PerformanceData">PerformanceData</a> key is to use the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class rather than the <see cref="Overload:Microsoft.Win32.RegistryKey.GetValue"></see> method.</p>
+<p>
+<a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_">GetValue(String)</a> does not support reading values of type REG_NONE or REG_LINK.  In both cases, the default value (<strong>null</strong>) is returned instead of the actual value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object GetValue(string name)</code></pre>
@@ -1357,7 +1475,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>The value associated with <em>name</em>, or null if <em>name</em> is not found.</p>
+                    <td><p>The value associated with <em>name</em>, or <strong>null</strong> if <em>name</em> is not found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1398,12 +1516,21 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.GetValue(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1092">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L57">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_" data-uid="Microsoft.Win32.RegistryKey.GetValue(System.String,System.Object)">GetValue(String, Object)</h4>
               <div class="markdown level1 summary"><p>Retrieves the value associated with the specified name. If the name is not found, returns the default value that you provide.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this overload of <see cref="Overload:Microsoft.Win32.RegistryKey.GetValue"></see> to handle the case where a name does not exist yet — for example, the first time your application is run. Whenever you call this overload, use the <em>defaultValue</em> parameter to specify the value to return if <em>name</em> does not exist.</p>
+<p>A registry key can have one value that is not associated with any name. When this unnamed value is displayed in the registry editor, the string &quot;(Default)&quot; appears instead of a name. To retrieve this unnamed value, specify either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>.</p>
+<p>When the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_">GetValue(String)</a> method retrieves expandable string values (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_ExpandString">ExpandString</a>), it expands environment strings using data from the local environment. To retrieve expandable string values from the registry on a remote computer, use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_Microsoft_Win32_RegistryValueOptions_">GetValue(String, Object, RegistryValueOptions)</a> overload to specify that you do not want environment strings expanded.</p>
+<p>If a value containing expandable references to environment variables has been stored as a string (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_String">String</a>), rather than as an expandable string (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_ExpandString">ExpandString</a>), the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_">GetValue(String)</a> method does not expand it. You can expand such a string after it has been retrieved by calling the <a class="xref" href="System.Environment.html#System_Environment_ExpandEnvironmentVariables_System_String_">ExpandEnvironmentVariables(String)</a> method.</p>
+<p>The recommended way to retrieve data from the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry_PerformanceData">PerformanceData</a> key is to use the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class rather than the <see cref="Overload:Microsoft.Win32.RegistryKey.GetValue"></see> method.</p>
+<p>
+<a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_">GetValue(String, Object)</a> does not support reading values of type REG_NONE or REG_LINK.  In both cases, the default value (<strong>null</strong>) is returned instead of the actual value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object GetValue(string name, object defaultValue)</code></pre>
@@ -1484,12 +1611,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_Microsoft_Win32_RegistryValueOptions_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.GetValue(System.String%2CSystem.Object%2CMicrosoft.Win32.RegistryValueOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1102">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L58">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_Microsoft_Win32_RegistryValueOptions_" data-uid="Microsoft.Win32.RegistryKey.GetValue(System.String,System.Object,Microsoft.Win32.RegistryValueOptions)">GetValue(String, Object, RegistryValueOptions)</h4>
               <div class="markdown level1 summary"><p>Retrieves the value associated with the specified name and retrieval options. If the name is not found, returns the default value that you provide.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_Microsoft_Win32_RegistryValueOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this overload to specify special processing of the retrieved value. For example, you can specify <a class="xref" href="Microsoft.Win32.RegistryValueOptions.html#Microsoft_Win32_RegistryValueOptions_DoNotExpandEnvironmentNames">DoNotExpandEnvironmentNames</a> when retrieving a registry value of type <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_ExpandString">ExpandString</a> to retrieve the string without expanding embedded environment variables.</p>
+<p>Use the <em>defaultValue</em> parameter to specify the value to return if <em>name</em> does not exist.</p>
+<p>A registry key can have one value that is not associated with any name. When this unnamed value is displayed in the registry editor, the string &quot;(Default)&quot; appears instead of a name. To retrieve this unnamed value, specify either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>.</p>
+<p>
+<a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValue_System_String_System_Object_Microsoft_Win32_RegistryValueOptions_">GetValue(String, Object, RegistryValueOptions)</a> does not support reading values of type REG_NONE or REG_LINK.  In both cases, the default value (<strong>null</strong>) is returned instead of the actual value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object GetValue(string name, object defaultValue, RegistryValueOptions options)</code></pre>
@@ -1566,7 +1700,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>options</em> is not a valid <a class="xref" href="Microsoft.Win32.RegistryValueOptions.html#Microsoft_Win32_RegistryValueOptions">RegistryValueOptions</a> value; for example, an invalid value is cast to <a class="xref" href="Microsoft.Win32.RegistryValueOptions.html#Microsoft_Win32_RegistryValueOptions">RegistryValueOptions</a>.</p>
+                    <td><p>
+<em>options</em> is not a valid <a class="xref" href="Microsoft.Win32.RegistryValueOptions.html#Microsoft_Win32_RegistryValueOptions">RegistryValueOptions</a> value; for example, an invalid value is cast to <a class="xref" href="Microsoft.Win32.RegistryValueOptions.html#Microsoft_Win32_RegistryValueOptions">RegistryValueOptions</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1581,12 +1716,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_GetValueKind_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.GetValueKind(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1335">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L1242">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_GetValueKind_System_String_" data-uid="Microsoft.Win32.RegistryKey.GetValueKind(System.String)">GetValueKind(String)</h4>
               <div class="markdown level1 summary"><p>Retrieves the registry data type of the value associated with the specified name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_GetValueKind_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A registry key can have one value that is not associated with any name. When this unnamed value is displayed in the registry editor, the string &quot;(Default)&quot; appears instead of a name. To retrieve the registry data type of this unnamed value, specify either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>.</p>
+<p>For a description of supported registry data types, please see the <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind">RegistryValueKind</a> enumeration.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryValueKind GetValueKind(string name)</code></pre>
@@ -1646,7 +1785,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The subkey that contains the specified value does not exist.-or-The name/value pair specified by <em>name</em> does not exist.This exception is not thrown on Windows 95, Windows 98, or Windows Millennium Edition.</p>
+                    <td><p>The subkey that contains the specified value does not exist.</p>
+<p>-or-</p>
+<p>The name/value pair specified by <em>name</em> does not exist.</p>
+<p>This exception is not thrown on Windows 95, Windows 98, or Windows Millennium Edition.</p>
 </td>
                   </tr>
                   <tr>
@@ -1661,12 +1803,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_GetValueNames.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.GetValueNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1019">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L909">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_GetValueNames" data-uid="Microsoft.Win32.RegistryKey.GetValueNames">GetValueNames()</h4>
               <div class="markdown level1 summary"><p>Retrieves an array of strings that contains all the value names associated with this key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_GetValueNames_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If no value names for the key are found, an empty array is returned.</p>
+<p>A registry key can have a default value — that is, a name/value pair in which the name is the empty string (&quot;&quot;). If a default value has been set for a registry key, the array returned by the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_GetValueNames">GetValueNames()</a> method includes the empty string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string[] GetValueNames()</code></pre>
@@ -1723,7 +1869,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_OpenBaseKey_Microsoft_Win32_RegistryHive_Microsoft_Win32_RegistryView_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive%2CMicrosoft.Win32.RegistryView)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L612">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L549">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_OpenBaseKey_Microsoft_Win32_RegistryHive_Microsoft_Win32_RegistryView_" data-uid="Microsoft.Win32.RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive,Microsoft.Win32.RegistryView)">OpenBaseKey(RegistryHive, RegistryView)</h4>
               <div class="markdown level1 summary"><p>Opens a new <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> that represents the requested key on the local machine with the specified view.</p>
@@ -1784,7 +1930,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>hKey</em> or <em>view</em> is invalid.</p>
+                    <td><p>
+<em>hKey</em> or <em>view</em> is invalid.</p>
 </td>
                   </tr>
                   <tr>
@@ -1804,12 +1951,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_OpenSubKey_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.OpenSubKey(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L803">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L62">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_OpenSubKey_System_String_" data-uid="Microsoft.Win32.RegistryKey.OpenSubKey(System.String)">OpenSubKey(String)</h4>
               <div class="markdown level1 summary"><p>Retrieves a subkey as read-only.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_OpenSubKey_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must open a key before it can be manipulated with other methods and properties. To modify a key, you must open it with an overload of the <see cref="Overload:Microsoft.Win32.RegistryKey.OpenSubKey"></see> method that allows you to specify write access, such as the <span class="xref">Microsoft.Win32.RegistryKey.OpenSubKey(System.String,Microsoft.Win32.RegistryKeyPermissionCheck)</span> overload or the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_OpenSubKey_System_String_System_Boolean_">OpenSubKey(String, Boolean)</a> overload.</p>
+<p>If the specified subkey cannot be found, then <strong>null</strong> is returned.</p>
+<p>In order to use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_OpenSubKey_System_String_">OpenSubKey(String)</a> method, you must have an instance of <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>. To get an instance of <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>, use the one of the static members of the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry">Registry</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryKey OpenSubKey(string name)</code></pre>
@@ -1843,7 +1995,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a></td>
-                    <td><p>The subkey requested, or null if the operation failed.</p>
+                    <td><p>The subkey requested, or <strong>null</strong> if the operation failed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1859,7 +2011,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong></p>
 </td>
                   </tr>
                   <tr>
@@ -1879,12 +2032,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_OpenSubKey_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.OpenSubKey(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L685">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L619">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_OpenSubKey_System_String_System_Boolean_" data-uid="Microsoft.Win32.RegistryKey.OpenSubKey(System.String,System.Boolean)">OpenSubKey(String, Boolean)</h4>
               <div class="markdown level1 summary"><p>Retrieves a specified subkey, and specifies whether write access is to be applied to the key. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_OpenSubKey_System_String_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the requested key does not exist, this method returns <strong>null</strong> instead of throwing an exception.</p>
+<p>If <em>writable</em> is <strong>true</strong>, the key will be opened for reading and writing, otherwise, the key will be opened as read-only.</p>
+<p>In order to use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_OpenSubKey_System_String_">OpenSubKey(String)</a> method, you must have an instance of the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> method. To get an instance of <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a>, use one of the static members of the <a class="xref" href="Microsoft.Win32.Registry.html#Microsoft_Win32_Registry">Registry</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryKey OpenSubKey(string name, bool writable)</code></pre>
@@ -1908,7 +2066,7 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>writable</em></td>
-                    <td><p>Set to true if you need write access to the key. </p>
+                    <td><p>Set to <strong>true</strong> if you need write access to the key. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1924,7 +2082,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a></td>
-                    <td><p>The subkey requested, or null if the operation failed.</p>
+                    <td><p>The subkey requested, or <strong>null</strong> if the operation failed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1940,7 +2098,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. </p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1963,9 +2122,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L64">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_OpenSubKey_System_String_System_Security_AccessControl_RegistryRights_" data-uid="Microsoft.Win32.RegistryKey.OpenSubKey(System.String,System.Security.AccessControl.RegistryRights)">OpenSubKey(String, RegistryRights)</h4>
-              <div class="markdown level1 summary"><p>Retrieves a subkey with the specified name and .Available starting in .NET Framework 2015</p>
+              <div class="markdown level1 summary"><p>Retrieves a subkey with the specified name and .</p>
+<p>Available starting in .NET Framework 4.6</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_OpenSubKey_System_String_System_Security_AccessControl_RegistryRights__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must open a key before it can be manipulated with other methods and properties. To modify a key, you must open it with an overload of the <see cref="Overload:Microsoft.Win32.RegistryKey.OpenSubKey"></see> method that allows you to specify write access.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryKey OpenSubKey(string name, RegistryRights rights)</code></pre>
@@ -2005,7 +2168,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a></td>
-                    <td><p>The subkey requested, or null if the operation failed.</p>
+                    <td><p>The subkey requested, or <strong>null</strong> if the operation failed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2021,7 +2184,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. </p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2041,12 +2205,23 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.SetValue(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1396">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L65">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_" data-uid="Microsoft.Win32.RegistryKey.SetValue(System.String,System.Object)">SetValue(String, Object)</h4>
               <div class="markdown level1 summary"><p>Sets the specified name/value pair.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Because many values can be stored in each key in the registry, you must use the <em>name</em> parameter to specify the particular value you want to set.</p>
+<p>A registry key can have one value that is not associated with any name. When this unnamed value is displayed in the registry editor, the string &quot;(Default)&quot; appears instead of a name. To set this unnamed value, specify either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>.</p>
+<p>In order to set values in a key, you must open the key with write access. After you have opened a key with write access, you can change any of the name/value pairs in that key.</p>
+<p>If the specified <em>name</em> does not exist in the key, it is created and the associated value is set to <em>value</em>.</p>
+<p>This overload of <see cref="Overload:Microsoft.Win32.RegistryKey.SetValue"></see> stores 64-bit integers as strings (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_String">String</a>). To store 64-bit numbers as <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_QWord">QWord</a> values, use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_Microsoft_Win32_RegistryValueKind_">SetValue(String, Object, RegistryValueKind)</a> overload that specifies <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind">RegistryValueKind</a>.</p>
+<p>This overload of <see cref="Overload:Microsoft.Win32.RegistryKey.SetValue"></see> stores all string values as <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_String">String</a>, even if they contain expandable references to environment variables. To save string values as expandable strings (<a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_ExpandString">ExpandString</a>), use the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_Microsoft_Win32_RegistryValueKind_">SetValue(String, Object, RegistryValueKind)</a> overload that specifies <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind">RegistryValueKind</a>.</p>
+<p>Numeric types other than 32-bit integers are stored as strings by this method overload. Enumeration elements are stored as strings containing the element names.</p>
+<p>Do not expose <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> objects in such a way that a malicious program could create thousands of meaningless subkeys or key/value pairs. For example, do not allow callers to enter arbitrary keys or values.</p>
+<p>On Windows 98 and Windows Millennium Edition the registry is not Unicode, and not all Unicode characters are valid for all code pages. A Unicode character that is invalid for the current code page is replaced by the best available match. No exception is thrown.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void SetValue(string name, object value)</code></pre>
@@ -2086,12 +2261,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>value</em> is null. </p>
+                    <td><p>
+<em>value</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>value</em> is an unsupported data type. </p>
+                    <td><p>
+<em>value</em> is an unsupported data type. </p>
 </td>
                   </tr>
                   <tr>
@@ -2101,7 +2278,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> is read-only, and cannot be written to; for example, the key has not been opened with write access. -or-The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object represents a root-level node, and the operating system is Windows Millennium Edition or Windows 98.</p>
+                    <td><p>The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> is read-only, and cannot be written to; for example, the key has not been opened with write access. </p>
+<p>-or-</p>
+<p>The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object represents a root-level node, and the operating system is Windows Millennium Edition or Windows 98.</p>
 </td>
                   </tr>
                   <tr>
@@ -2121,12 +2300,23 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_Microsoft_Win32_RegistryValueKind_.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.SetValue(System.String%2CSystem.Object%2CMicrosoft.Win32.RegistryValueKind)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1400">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs/#L66">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_Microsoft_Win32_RegistryValueKind_" data-uid="Microsoft.Win32.RegistryKey.SetValue(System.String,System.Object,Microsoft.Win32.RegistryValueKind)">SetValue(String, Object, RegistryValueKind)</h4>
               <div class="markdown level1 summary"><p>Sets the value of a name/value pair in the registry key, using the specified registry data type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_Microsoft_Win32_RegistryValueKind__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Because many values can be stored in each key in the registry, you must use the <em>name</em> parameter to specify the particular value you want to set.</p>
+<p>A registry key can have one value that is not associated with any name. When this unnamed value is displayed in the registry editor, the string &quot;(Default)&quot; appears instead of a name. To set this unnamed value, specify either <strong>null</strong> or the empty string (&quot;&quot;) for <em>name</em>.</p>
+<p>In order to set values in a key, you must open the key with write access. After you have opened a key with write access, you can change any of the name/value pairs in that key.</p>
+<p>If the specified <em>name</em> does not exist in the key, it is created, and the associated value is set to <em>value</em>.</p>
+<p>Specifying the registry data type <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_Unknown">Unknown</a> is the same as using the <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey_SetValue_System_String_System_Object_">SetValue(String, Object)</a> overload.</p>
+<p>If the type of the specified <em>value</em> does not match the specified <em>valueKind</em>, and the data cannot be converted, <a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a> is thrown. For example, you can store a <a class="xref" href="System.Int64.html#System_Int64">Int64</a> as a <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_DWord">DWord</a>, but only if its value is less than the maximum value of a <a class="xref" href="System.Int32.html#System_Int32">Int32</a>. You cannot store a single string value as a <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_MultiString">MultiString</a>.</p>
+<p>If boxed values are passed for <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_DWord">DWord</a> or <a class="xref" href="Microsoft.Win32.RegistryValueKind.html#Microsoft_Win32_RegistryValueKind_QWord">QWord</a>, the conversion is done using the invariant culture.</p>
+<p>Do not expose <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> objects in such a way that a malicious program could create thousands of meaningless subkeys or key/value pairs. For example, do not allow callers to enter arbitrary keys or values.</p>
+<p>On Windows 98 and Windows Millennium Edition the registry is not Unicode, and not all Unicode characters are valid for all code pages. A Unicode character that is invalid for the current code page is replaced by the best available match. No exception is thrown.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void SetValue(string name, object value, RegistryValueKind valueKind)</code></pre>
@@ -2172,7 +2362,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>value</em> is null. </p>
+                    <td><p>
+<em>value</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2187,7 +2378,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> is read-only, and cannot be written to; for example, the key has not been opened with write access.-or-The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object represents a root-level node, and the operating system is Windows Millennium Edition or Windows 98. </p>
+                    <td><p>The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> is read-only, and cannot be written to; for example, the key has not been opened with write access.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="Microsoft.Win32.RegistryKey.html#Microsoft_Win32_RegistryKey">RegistryKey</a> object represents a root-level node, and the operating system is Windows Millennium Edition or Windows 98. </p>
 </td>
                   </tr>
                   <tr>
@@ -2207,12 +2400,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=Microsoft_Win32_RegistryKey_ToString.md&amp;value=---%0Auid%3A%20Microsoft.Win32.RegistryKey.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/Microsoft/Win32/RegistryKey.cs/#L1572">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/Microsoft.Win32.Registry/src/Microsoft/Win32/RegistryKey.cs/#L1488">View Source</a>
               </span>
               <h4 id="Microsoft_Win32_RegistryKey_ToString" data-uid="Microsoft.Win32.RegistryKey.ToString">ToString()</h4>
               <div class="markdown level1 summary"><p>Retrieves a string representation of this key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="Microsoft_Win32_RegistryKey_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The return value includes the registry path of the specified key and the hexadecimal value for the key. The registry path includes the absolute root of the specified key, always starts at one of the base keys for the registry, for example, HKEY_LOCAL_MACHINE.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
@@ -2228,7 +2424,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>A string representing the key. If the specified key is invalid (cannot be found) then null is returned.</p>
+                    <td><p>A string representing the key. If the specified key is invalid (cannot be found) then <strong>null</strong> is returned.</p>
 </td>
                   </tr>
                 </tbody>

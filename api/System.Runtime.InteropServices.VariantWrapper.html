@@ -70,10 +70,10 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_VariantWrapper.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.VariantWrapper%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/VariantWrapper.cs/#L18" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L864" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_VariantWrapper" data-uid="System.Runtime.InteropServices.VariantWrapper">Class VariantWrapper
               </h1>
-              <div class="markdown level0 summary"><p>Marshals data of type VT_VARIANT | VT_BYREF from managed to unmanaged code. This class cannot be inherited.</p>
+              <div class="markdown level0 summary"><p>Marshals data of type <strong>VT_VARIANT | VT_BYREF</strong> from managed to unmanaged code. This class cannot be inherited.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +87,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class VariantWrapper : object</code></pre>
               </div>
+              <h5 id="System_Runtime_InteropServices_VariantWrapper_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The purpose of <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a> is to add one level of indirection when marshaling a managed type to the corresponding <strong>VARIANT</strong> type.</p>
+<p>You can use this class to wrap an <a class="xref" href="System.Object.html#System_Object">Object</a> that the interop marshaler passes as <strong>VT_VARIANT | VT_BYREF</strong>. In versions 1.0 and 1.1 of the .NET Framework, it was not possible to marshal variant data of type <strong>VT_VARIANT | VT_BYREF</strong> to unmanaged code. The interop marshaler passed a variant of the managed type (for example, <strong>VT_BSTR | VT_BYREF</strong> for <a class="xref" href="System.String.html#System_String">String</a>, or <strong>VT_I4 | VT_BYREF</strong> for <a class="xref" href="System.Int32.html#System_Int32">Int32</a>), but not <strong>VT_VARIANT | VT_BYREF</strong>.</p>
+<p>One advantage of using <strong>VT_VARIANT | VT_BYREF</strong> variant types is that the type of data can be changed during a method call. For example, you can pass a <strong>VT_VARIANT</strong><strong>| VT_BYREF</strong> variant type that contains a <strong>VT_BSTR</strong> and get a variant returned that contains a <strong>VT_I4</strong> after a method call. Because the COM interop marshaler has no way of knowing when to pass <strong>VT_BSTR | VT_BYREF</strong> and when to pass <strong>VT_VARIANT | VT_BYREF</strong>, which points to a variant that contains a <strong>BSTR</strong> for parameters declared as <strong>VARIANT *</strong>, you can instruct the marshaler by using <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a>.</p>
+<p>Note that early binding is not supported; you can use <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a> only when calling <span class="xref">System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])</span> or with a Dispatch-only interface called in an early bound fashion. In C#, you must also use the <strong>ref</strong> keyword to specify <strong>ByRef</strong> semantics for any parameter of type <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a>. In Visual Basic, <strong>ByRef</strong> semantics are added automatically for every implicit late binding call. Also note that nesting <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a> objects and arrays of <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a> objects is not supported.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +100,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_VariantWrapper__ctor_System_Object_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.VariantWrapper.%23ctor(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/VariantWrapper.cs/#L22">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L868">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_VariantWrapper__ctor_System_Object_" data-uid="System.Runtime.InteropServices.VariantWrapper.#ctor(System.Object)">VariantWrapper(Object)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a> class for the specified <a class="xref" href="System.Object.html#System_Object">Object</a> parameter.</p>
@@ -129,7 +135,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_VariantWrapper_WrappedObject.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.VariantWrapper.WrappedObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/VariantWrapper.cs/#L27">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L869">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_VariantWrapper_WrappedObject" data-uid="System.Runtime.InteropServices.VariantWrapper.WrappedObject">WrappedObject</h4>
               <div class="markdown level1 summary"><p>Gets the object wrapped by the <a class="xref" href="System.Runtime.InteropServices.VariantWrapper.html#System_Runtime_InteropServices_VariantWrapper">VariantWrapper</a> object.</p>

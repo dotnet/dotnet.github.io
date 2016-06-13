@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L145" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L11" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_Tasks_Parallel" data-uid="System.Threading.Tasks.Parallel">Class Parallel
               </h1>
               <div class="markdown level0 summary"><p>Provides support for parallel loops and regions.</p>
@@ -87,6 +87,9 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Parallel : object</code></pre>
               </div>
+              <h5 id="System_Threading_Tasks_Parallel_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel">Parallel</a> class provides library-based data parallel replacements for common operations such as for loops, for each loops, and execution of a set of statements.</p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +97,25 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Action_System_Int32_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int32%2CSystem.Int32%2CSystem.Action%7BSystem.Int32%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L589">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L13">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Action_System_Int32_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Action{System.Int32,System.Threading.Tasks.ParallelLoopState})">For(Int32, Int32, Action&lt;Int32, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop in which iterations may run in parallel and the state of the loop can be monitored and manipulated.  </p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Action_System_Int32_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with two arguments: </p>
+<ul><li>
+<p>An <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that represents the iteration count. </p>
+</li><li>
+<p>A <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that can be used to break out of the loop prematurely. The <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> object is created by the compiler; it cannot be instantiated in user code. </p>
+</li></ul>
+<p>Calling the <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a> method informs the <strong>for</strong> operation that iterations after the current one don&#39;t have to execute. However, all iterations before the current one will still have to be executed if they haven&#39;t already.</p>
+<p>Therefore, calling <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a> is similar to using a break operation within a conventional <strong>for</strong> loop in a language like C#, but it is not a perfect substitute: For example, there is no guarantee that iterations after the current one will definitely not execute. </p>
+<p>If executing all iterations before the current one is not necessary, use the <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Stop">Stop()</a> method instead of using <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a>. Calling <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Stop">Stop()</a> informs the <strong>for</strong> loop that it may abandon all remaining iterations, regardless of whether they&#39;re before or after the current iteration, because all required work will have already been completed. However, as with <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a>, there are no guarantees regarding which other iterations will not execute.</p>
+<p>If a loop is ended prematurely, the <a class="xref" href="System.Threading.Tasks.ParallelLoopResult.html#System_Threading_Tasks_ParallelLoopResult">ParallelLoopResult</a> structure that is returned will contain relevant information about the loop&#39;s completion.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(int fromInclusive, int toExclusive, Action&lt;int, ParallelLoopState&gt; body)</code></pre>
@@ -161,7 +177,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -176,12 +192,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Action_System_Int32__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int32%2CSystem.Int32%2CSystem.Action%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L422">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L14">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Action_System_Int32__" data-uid="System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Action{System.Int32})">For(Int32, Int32, Action&lt;Int32&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop in which iterations may run in parallel.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop in which iterations may run in parallel.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Action_System_Int32___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the iteration count (<a class="xref" href="System.Int32.html#System_Int32">Int32</a>) as a parameter.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(int fromInclusive, int toExclusive, Action&lt;int&gt; body)</code></pre>
@@ -243,7 +263,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -258,12 +278,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Action_System_Int32_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int32%2CSystem.Int32%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7BSystem.Int32%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L660">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L15">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Action_System_Int32_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Threading.Tasks.ParallelOptions,System.Action{System.Int32,System.Threading.Tasks.ParallelLoopState})">For(Int32, Int32, ParallelOptions, Action&lt;Int32, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Action_System_Int32_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int32.html#System_Int32">Int32</a>), and a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(int fromInclusive, int toExclusive, ParallelOptions parallelOptions, Action&lt;int, ParallelLoopState&gt; body)</code></pre>
@@ -336,7 +360,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -356,12 +382,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Action_System_Int32__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int32%2CSystem.Int32%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L490">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L16">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Action_System_Int32__" data-uid="System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Threading.Tasks.ParallelOptions,System.Action{System.Int32})">For(Int32, Int32, ParallelOptions, Action&lt;Int32&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop in which iterations may run in parallel and loop options can be configured.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop in which iterations may run in parallel and loop options can be configured.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Action_System_Int32___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the iteration count (<a class="xref" href="System.Int32.html#System_Int32">Int32</a>) as a parameter.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(int fromInclusive, int toExclusive, ParallelOptions parallelOptions, Action&lt;int&gt; body)</code></pre>
@@ -434,7 +464,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -454,12 +486,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int64%2CSystem.Int64%2CSystem.Action%7BSystem.Int64%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L619">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L17">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Action{System.Int64,System.Threading.Tasks.ParallelLoopState})">For(Int64, Int64, Action&lt;Int64, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>), and a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely.</p>
+<p>Calling the <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a> method informs the <strong>for</strong> operation that iterations after the current one don’t have to be executed, but all iterations before the current one do.</p>
+<p> Therefore, calling Break is similar to using a break operation within a conventional <strong>for</strong> loop in a language like C#, but it is not a perfect substitute: For example, there is no guarantee that iterations after the current one will definitely not execute.</p>
+<p>If executing all iterations before the current one is not necessary, use the <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Stop">Stop()</a> method instead of using <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a>. Calling <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Stop">Stop()</a> informs the <strong>for</strong> loop that it may abandon all remaining iterations, regardless of whether they&#39;re before or after the current iteration, because all required work will have already been completed. However, as with <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState_Break">Break()</a>, there are no guarantees regarding which other iterations will not execute.</p>
+<p>If a loop is ended prematurely, the <a class="xref" href="System.Threading.Tasks.ParallelLoopResult.html#System_Threading_Tasks_ParallelLoopResult">ParallelLoopResult</a> structure that is returned will contain relevant information about the loop&#39;s completion.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(long fromInclusive, long toExclusive, Action&lt;long, ParallelLoopState&gt; body)</code></pre>
@@ -521,7 +561,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -536,12 +576,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int64%2CSystem.Int64%2CSystem.Action%7BSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L451">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L18">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64__" data-uid="System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Action{System.Int64})">For(Int64, Int64, Action&lt;Int64&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the iteration count (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>) as a parameter.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(long fromInclusive, long toExclusive, Action&lt;long&gt; body)</code></pre>
@@ -603,7 +647,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -618,12 +662,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int64%2CSystem.Int64%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7BSystem.Int64%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L705">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L19">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Threading.Tasks.ParallelOptions,System.Action{System.Int64,System.Threading.Tasks.ParallelLoopState})">For(Int64, Int64, ParallelOptions, Action&lt;Int64, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic)  loop with 64-bit indexes in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic)  loop with 64-bit indexes in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>), and a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(long fromInclusive, long toExclusive, ParallelOptions parallelOptions, Action&lt;long, ParallelLoopState&gt; body)</code></pre>
@@ -696,7 +744,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -716,12 +766,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Action_System_Int64__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For(System.Int64%2CSystem.Int64%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7BSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L533">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L20">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Action_System_Int64__" data-uid="System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Threading.Tasks.ParallelOptions,System.Action{System.Int64})">For(Int64, Int64, ParallelOptions, Action&lt;Int64&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for  (For in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel and loop options can be configured.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong>  (<strong>For</strong> in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel and loop options can be configured.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Action_System_Int64___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Supports 64-bit indexes. The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the iteration count (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>) as a parameter.</p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For(long fromInclusive, long toExclusive, ParallelOptions parallelOptions, Action&lt;long&gt; body)</code></pre>
@@ -794,7 +848,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -814,12 +870,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For__1_System_Int32_System_Int32_System_Func___0__System_Func_System_Int32_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For%60%601(System.Int32%2CSystem.Int32%2CSystem.Func%7B%60%600%7D%2CSystem.Func%7BSystem.Int32%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%600%2C%60%600%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L760">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L21">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For__1_System_Int32_System_Int32_System_Func___0__System_Func_System_Int32_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__" data-uid="System.Threading.Tasks.Parallel.For``1(System.Int32,System.Int32,System.Func{``0},System.Func{System.Int32,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})">For&lt;TLocal&gt;(Int32, Int32, Func&lt;TLocal&gt;, Func&lt;Int32, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop with thread-local data in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop with thread-local data in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For__1_System_Int32_System_Int32_System_Func___0__System_Func_System_Int32_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int32.html#System_Int32">Int32</a>), a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and some local state that may be shared amongst iterations that execute on the same thread.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task&#39;s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__">For(Int64, Int64, Action<int64, parallelloopstate="">)</int64,></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+<p>For an example that uses this method, see How to: Write a Parallel.For Loop with Thread-Local Variables.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For&lt;TLocal&gt;(int fromInclusive, int toExclusive, Func&lt;TLocal&gt; localInit, Func&lt;int, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -893,7 +956,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -908,12 +975,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For__1_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Func___0__System_Func_System_Int32_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For%60%601(System.Int32%2CSystem.Int32%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Func%7B%60%600%7D%2CSystem.Func%7BSystem.Int32%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%600%2C%60%600%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L895">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L22">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For__1_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Func___0__System_Func_System_Int32_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__" data-uid="System.Threading.Tasks.Parallel.For``1(System.Int32,System.Int32,System.Threading.Tasks.ParallelOptions,System.Func{``0},System.Func{System.Int32,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})">For&lt;TLocal&gt;(Int32, Int32, ParallelOptions, Func&lt;TLocal&gt;, Func&lt;Int32, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic)  loop with thread-local data in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic)  loop with thread-local data in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For__1_System_Int32_System_Int32_System_Threading_Tasks_ParallelOptions_System_Func___0__System_Func_System_Int32_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int32.html#System_Int32">Int32</a>), a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and some local state that may be shared amongst iterations that execute on the same task.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task&#39;s local state. This delegate might be invoked concurrently on multiple threads; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__">For(Int64, Int64, Action<int64, parallelloopstate="">)</int64,></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For&lt;TLocal&gt;(int fromInclusive, int toExclusive, ParallelOptions parallelOptions, Func&lt;TLocal&gt; localInit, Func&lt;int, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -993,7 +1066,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1018,12 +1097,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For__1_System_Int64_System_Int64_System_Func___0__System_Func_System_Int64_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For%60%601(System.Int64%2CSystem.Int64%2CSystem.Func%7B%60%600%7D%2CSystem.Func%7BSystem.Int64%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%600%2C%60%600%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L822">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L23">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For__1_System_Int64_System_Int64_System_Func___0__System_Func_System_Int64_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__" data-uid="System.Threading.Tasks.Parallel.For``1(System.Int64,System.Int64,System.Func{``0},System.Func{System.Int64,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})">For&lt;TLocal&gt;(Int64, Int64, Func&lt;TLocal&gt;, Func&lt;Int64, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic)  loop with 64-bit indexes and thread-local data in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic)  loop with 64-bit indexes and thread-local data in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For__1_System_Int64_System_Int64_System_Func___0__System_Func_System_Int64_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>), a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and some local state that may be shared amongst iterations that execute on the same task.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task&#39;s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__">For(Int64, Int64, Action<int64, parallelloopstate="">)</int64,></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+<p>For an example that uses this method, see How to: Write a Parallel.For Loop with Thread-Local Variables.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For&lt;TLocal&gt;(long fromInclusive, long toExclusive, Func&lt;TLocal&gt; localInit, Func&lt;long, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -1097,7 +1183,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1112,12 +1202,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_For__1_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Func___0__System_Func_System_Int64_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.For%60%601(System.Int64%2CSystem.Int64%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Func%7B%60%600%7D%2CSystem.Func%7BSystem.Int64%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%600%2C%60%600%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L972">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L24">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_For__1_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Func___0__System_Func_System_Int64_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0__" data-uid="System.Threading.Tasks.Parallel.For``1(System.Int64,System.Int64,System.Threading.Tasks.ParallelOptions,System.Func{``0},System.Func{System.Int64,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})">For&lt;TLocal&gt;(Int64, Int64, ParallelOptions, Func&lt;TLocal&gt;, Func&lt;Int64, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a for (For in Visual Basic) loop with 64-bit indexes and thread-local data in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>for</strong> (<strong>For</strong> in Visual Basic) loop with 64-bit indexes and thread-local data in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_For__1_System_Int64_System_Int64_System_Threading_Tasks_ParallelOptions_System_Func___0__System_Func_System_Int64_System_Threading_Tasks_ParallelLoopState___0___0__System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each value in the iteration range (<em>fromInclusive</em>, <em>toExclusive</em>). It is provided with the following parameters: the iteration count (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>), a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and some local state that may be shared amongst iterations that execute on the same thread.</p>
+<p>The <em>localInit</em> delegate is invoked once for each thread that participates in the loop&#39;s execution and returns the initial local state for each of those threads. These initial states are passed to the first <em>body</em> invocations on each thread. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each thread returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per thread to perform a final action on each thread&#39;s local state. This delegate might be invoked concurrently on multiple threads; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_For_System_Int64_System_Int64_System_Action_System_Int64_System_Threading_Tasks_ParallelLoopState__">For(Int64, Int64, Action<int64, parallelloopstate="">)</int64,></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+<p>If <em>fromInclusive</em> is greater than or equal to <em>toExclusive</em>, then the method returns immediately without performing any iterations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult For&lt;TLocal&gt;(long fromInclusive, long toExclusive, ParallelOptions parallelOptions, Func&lt;TLocal&gt; localInit, Func&lt;long, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -1197,7 +1293,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1222,12 +1324,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_OrderablePartitioner___0__System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Concurrent.OrderablePartitioner%7B%60%600%7D%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2534">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L25">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_OrderablePartitioner___0__System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.OrderablePartitioner{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})">ForEach&lt;TSource&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt;, Action&lt;TSource, ParallelLoopState, Int64&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_OrderablePartitioner___0__System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt; source, Action&lt;TSource, ParallelLoopState, long&gt; body)</code></pre>
@@ -1283,12 +1388,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> orderable partitioner returns false.-or-The <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_KeysNormalized">KeysNormalized</a> property in the source orderable partitioner returns false.-or-Any methods in the source orderable partitioner return null.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> orderable partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_KeysNormalized">KeysNormalized</a> property in the source orderable partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>Any methods in the source orderable partitioner return <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1298,12 +1409,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Concurrent.OrderablePartitioner%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2942">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L26">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.OrderablePartitioner{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})">ForEach&lt;TSource&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt;, ParallelOptions, Action&lt;TSource, ParallelLoopState, Int64&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a>method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt; source, ParallelOptions parallelOptions, Action&lt;TSource, ParallelLoopState, long&gt; body)</code></pre>
@@ -1370,7 +1484,11 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is  null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is  <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1380,7 +1498,11 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> orderable partitioner returns false.-or-The <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_KeysNormalized">KeysNormalized</a> property in the <em>source</em> orderable partitioner returns false.-or-The exception that is thrown when any methods in the <em>source</em> orderable partitioner return null.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> orderable partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1_KeysNormalized">KeysNormalized</a> property in the <em>source</em> orderable partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>The exception that is thrown when any methods in the <em>source</em> orderable partitioner return <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1390,12 +1512,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Concurrent.Partitioner%7B%60%600%7D%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2472">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L27">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState})">ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt;, Action&lt;TSource, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt; source, Action&lt;TSource, ParallelLoopState&gt; body)</code></pre>
@@ -1411,7 +1536,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>The partitioner that contains the original data source.</p>
 </td>
@@ -1451,12 +1576,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns false.-or-A method in the <em>source</em> partitioner returns null.-or-The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_GetPartitions_System_Int32_">GetPartitions(Int32)</a> method in the <em>source</em> partitioner does not return the correct number of partitions.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>A method in the <em>source</em> partitioner returns <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_GetPartitions_System_Int32_">GetPartitions(Int32)</a> method in the <em>source</em> partitioner does not return the correct number of partitions.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1466,12 +1597,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Concurrent.Partitioner%7B%60%600%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2413">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L28">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Action{``0})">ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt;, Action&lt;TSource&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt; source, Action&lt;TSource&gt; body)</code></pre>
@@ -1487,7 +1621,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>The partitioner that contains the original data source.</p>
 </td>
@@ -1527,12 +1661,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is  null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is  <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns false.-or-The exception that is thrown when any methods in the <em>source</em> partitioner return null.-or-The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_GetPartitions_System_Int32_">GetPartitions(Int32)</a> method in the <em>source</em> partitioner does not return the correct number of partitions.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>The exception that is thrown when any methods in the <em>source</em> partitioner return <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_GetPartitions_System_Int32_">GetPartitions(Int32)</a> method in the <em>source</em> partitioner does not return the correct number of partitions.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1542,12 +1682,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Concurrent.Partitioner%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2864">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L29">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState})">ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt;, ParallelOptions, Action&lt;TSource, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt; source, ParallelOptions parallelOptions, Action&lt;TSource, ParallelLoopState&gt; body)</code></pre>
@@ -1563,7 +1706,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>The partitioner that contains the original data source.</p>
 </td>
@@ -1619,12 +1762,18 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns false.-or-The exception that is thrown when any methods in the <em>source</em> partitioner return null.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>The exception that is thrown when any methods in the <em>source</em> partitioner return <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1634,12 +1783,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Concurrent.Partitioner%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2789">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L30">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0})">ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt;, ParallelOptions, Action&lt;TSource&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel and loop options can be configured.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel and loop options can be configured.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt; source, ParallelOptions parallelOptions, Action&lt;TSource&gt; body)</code></pre>
@@ -1655,7 +1807,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>The partitioner that contains the original data source.</p>
 </td>
@@ -1711,12 +1863,18 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns false.-or-The exception that is thrown when any methods in the <em>source</em> partitioner return null.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em> partitioner returns <strong>false</strong>.</p>
+<p>-or-</p>
+<p>The exception that is thrown when any methods in the <em>source</em> partitioner return <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1726,12 +1884,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1827">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L31">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})">ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, Action&lt;TSource, ParallelLoopState, Int64&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with 64-bit indexes on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with 64-bit indexes on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and the current element&#39;s index (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, Action&lt;TSource, ParallelLoopState, long&gt; body)</code></pre>
@@ -1747,7 +1908,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -1787,7 +1948,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1802,12 +1965,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1740">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L32">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState})">ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, Action&lt;TSource, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, and a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, Action&lt;TSource, ParallelLoopState&gt; body)</code></pre>
@@ -1823,7 +1989,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -1863,7 +2029,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1878,12 +2046,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1655">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L33">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, Action&lt;TSource&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the current element as a parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, Action&lt;TSource&gt; body)</code></pre>
@@ -1899,7 +2070,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -1939,7 +2110,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1954,12 +2127,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1874">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L34">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})">ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, ParallelOptions, Action&lt;TSource, ParallelLoopState, Int64&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with 64-bit indexes on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with 64-bit indexes on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState_System_Int64___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and the current element&#39;s index (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, ParallelOptions parallelOptions, Action&lt;TSource, ParallelLoopState, long&gt; body)</code></pre>
@@ -1975,7 +2151,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2026,7 +2202,11 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2046,12 +2226,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1787">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L35">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState})">ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, ParallelOptions, Action&lt;TSource, ParallelLoopState&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0_System_Threading_Tasks_ParallelLoopState___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, and a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, ParallelOptions parallelOptions, Action&lt;TSource, ParallelLoopState&gt; body)</code></pre>
@@ -2067,7 +2250,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2118,7 +2301,11 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2138,12 +2325,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1700">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L36">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0__" data-uid="System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0})">ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, ParallelOptions, Action&lt;TSource&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel and loop options can be configured.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel and loop options can be configured.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Action___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the current element as a parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, ParallelOptions parallelOptions, Action&lt;TSource&gt; body)</code></pre>
@@ -2159,7 +2349,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2210,7 +2400,11 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2230,12 +2424,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Concurrent.OrderablePartitioner%7B%60%600%7D%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2706">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L37">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.OrderablePartitioner{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt;, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, Int64, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with thread-local data on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with thread-local data on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task&#39;s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt; source, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, long, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2303,12 +2502,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns false or the partitioner returns null partitions.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns <strong>false</strong> or the partitioner returns <strong>null</strong> partitions.</p>
 </td>
                   </tr>
                   <tr>
@@ -2323,12 +2528,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Concurrent.OrderablePartitioner%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L3146">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L38">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.OrderablePartitioner{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt;, ParallelOptions, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, Int64, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with 64-bit indexes and  with thread-local data on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel , loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with 64-bit indexes and  with thread-local data on a <a class="xref" href="System.Collections.Concurrent.OrderablePartitioner%601.html#System_Collections_Concurrent_OrderablePartitioner_1">OrderablePartitioner<tsource></tsource></a> in which iterations may run in parallel , loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_OrderablePartitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__">ForEach<tsource, tlocal="">(Collections.Concurrent.OrderablePartitioner<tsource>, ParallelOptions, Func<tlocal>, Func<tsource, parallelloopstate,="" int64,="" tlocal,="" tlocal="">, Action<tlocal>)</tlocal></tsource,></tlocal></tsource></tsource,></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each thread returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task’s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.OrderablePartitioner&lt;TSource&gt; source, ParallelOptions parallelOptions, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, long, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2402,12 +2612,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> or <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> or <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns false or the partitioner returns null  partitions.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns <strong>false</strong> or the partitioner returns <strong>null</strong>  partitions.</p>
 </td>
                   </tr>
                   <tr>
@@ -2432,12 +2648,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Concurrent.Partitioner%7B%60%600%7D%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2616">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L39">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.Partitioner{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt;, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with thread-local data on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with thread-local data on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__">ForEach<tsource, tlocal="">(Collections.Concurrent.Partitioner<tsource>, Func<tlocal>, Func<tsource, parallelloopstate,="" tlocal,="" tlocal="">, Action<tlocal>)</tlocal></tsource,></tlocal></tsource></tsource,></a> method expects custom partitioners to support dynamic partitioning. For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+<p>The <em>localInit</em> delegate is invoked once for each thread that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task&#39;s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt; source, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2453,7 +2674,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>The partitioner that contains the original data source.</p>
 </td>
@@ -2505,12 +2726,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns false or the partitioner returns null partitions.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns <strong>false</strong> or the partitioner returns <strong>null</strong> partitions.</p>
 </td>
                   </tr>
                   <tr>
@@ -2525,12 +2752,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Concurrent.Partitioner%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L3040">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L40">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.Partitioner{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt;, ParallelOptions, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation  with thread-local data on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation  with thread-local data on a <a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This overload is provided for scenarios where you want to override the default partitioning scheme. For example, small loop bodies might benefit from partitioning the range. The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Concurrent_Partitioner___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__">ForEach<tsource, tlocal="">(Collections.Concurrent.Partitioner<tsource>, ParallelOptions, Func<tlocal>, Func<tsource, parallelloopstate,="" tlocal,="" tlocal="">, Action<tlocal>)</tlocal></tsource,></tlocal></tsource></tsource,></a> method expects custom partitioners to support dynamic partitioning. This overload is provided for scenarios with small loop bodies that might benefit from static range partitioning. Partitioners must support dynamic partitions.  For more information, see Custom Partitioners for PLINQ and TPL and How to: Implement Dynamic Partitions.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task&#39;s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Concurrent.Partitioner&lt;TSource&gt; source, ParallelOptions parallelOptions, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2546,7 +2778,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Partitioner</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1">Collections.Concurrent.Partitioner</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>The partitioner that contains the original data source.</p>
 </td>
@@ -2604,12 +2836,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns false or the partitioner returns null partitions.</p>
+                    <td><p>The <a class="xref" href="System.Collections.Concurrent.Partitioner%601.html#System_Collections_Concurrent_Partitioner_1_SupportsDynamicPartitions">SupportsDynamicPartitions</a> property in the <em>source</em><a class="xref" href="System.Collections.Concurrent.Partitioner.html#System_Collections_Concurrent_Partitioner">Partitioner</a> returns <strong>false</strong> or the partitioner returns <strong>null</strong> partitions.</p>
 </td>
                   </tr>
                   <tr>
@@ -2634,12 +2874,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L1934">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L41">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with thread-local data on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with thread-local data on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and some local state that may be shared amongst iterations that execute on the same thread.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per thread to perform a final action on each task’s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2655,7 +2900,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2707,7 +2952,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2722,12 +2973,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2080">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L42">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, Int64, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with thread-local data on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with thread-local data on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, the current element&#39;s index (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>), and some local state that may be shared amongst iterations that execute on the same thread.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per task to perform a final action on each task’s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, long, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2743,7 +2999,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2795,7 +3051,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2810,12 +3072,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2010">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L43">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, ParallelOptions, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with thread-local data on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated..</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with thread-local data on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated..</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, and some local state that may be shared amongst iterations that execute on the same thread.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per thread to perform a final action on each task’s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, ParallelOptions parallelOptions, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2831,7 +3098,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2889,7 +3156,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2914,12 +3189,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.ForEach%60%602(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Threading.Tasks.ParallelOptions%2CSystem.Func%7B%60%601%7D%2CSystem.Func%7B%60%600%2CSystem.Threading.Tasks.ParallelLoopState%2CSystem.Int64%2C%60%601%2C%60%601%7D%2CSystem.Action%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L2156">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L44">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1__" data-uid="System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})">ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt;, ParallelOptions, Func&lt;TLocal&gt;, Func&lt;TSource, ParallelLoopState, Int64, TLocal, TLocal&gt;, Action&lt;TLocal&gt;)</h4>
-              <div class="markdown level1 summary"><p>Executes a foreach (For Each in Visual Basic) operation with thread-local data and 64-bit indexes on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
+              <div class="markdown level1 summary"><p>Executes a <strong>foreach</strong> (<strong>For Each</strong> in Visual Basic) operation with thread-local data and 64-bit indexes on an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_ForEach__2_System_Collections_Generic_IEnumerable___0__System_Threading_Tasks_ParallelOptions_System_Func___1__System_Func___0_System_Threading_Tasks_ParallelLoopState_System_Int64___1___1__System_Action___1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>body</em> delegate is invoked once for each element in the <em>source</em> enumerable. It is provided with the following parameters: the current element, a <a class="xref" href="System.Threading.Tasks.ParallelLoopState.html#System_Threading_Tasks_ParallelLoopState">ParallelLoopState</a> instance that may be used to break out of the loop prematurely, the current element&#39;s index (<a class="xref" href="System.Int64.html#System_Int64">Int64</a>), and some local state that may be shared amongst iterations that execute on the same thread.</p>
+<p>The <em>localInit</em> delegate is invoked once for each task that participates in the loop&#39;s execution and returns the initial local state for each of those tasks. These initial states are passed to the first <em>body</em> invocations on each task. Then, every subsequent body invocation returns a possibly modified state value that is passed to the next body invocation. Finally, the last body invocation on each task returns a state value that is passed to the <em>localFinally</em> delegate. The <em>localFinally</em> delegate is invoked once per thread to perform a final action on each task’s local state. This delegate might be invoked concurrently on multiple tasks; therefore, you must synchronize access to any shared variables.</p>
+<p>The <a class="xref" href="System.Threading.Tasks.Parallel.html#System_Threading_Tasks_Parallel_ForEach__1_System_Collections_Concurrent_Partitioner___0__System_Action___0__">ForEach<tsource>(Collections.Concurrent.Partitioner<tsource>, Action<tsource>)</tsource></tsource></tsource></a> method may use more tasks than threads over the lifetime of its execution, as existing tasks complete and are replaced by new tasks. This gives the underlying <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> object the chance to add, change, or remove threads that service the loop. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(Collections.Generic.IEnumerable&lt;TSource&gt; source, ParallelOptions parallelOptions, Func&lt;TLocal&gt; localInit, Func&lt;TSource, ParallelLoopState, long, TLocal, TLocal&gt; body, Action&lt;TLocal&gt; localFinally)</code></pre>
@@ -2935,7 +3215,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Generic.IEnumerable</a>&lt;TSource&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;TSource&gt;</td>
                     <td><em>source</em></td>
                     <td><p>An enumerable data source.</p>
 </td>
@@ -2993,7 +3273,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>source</em> argument is null.-or-The <em>parallelOptions</em> argument is null.-or-The <em>body</em> argument is null.-or-The <em>localInit</em> argument is null.-or-The <em>localFinally</em> argument is null.</p>
+                    <td><p>The <em>source</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>body</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localInit</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>localFinally</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -3018,12 +3306,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_Invoke_System_Action___.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.Invoke(System.Action%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L174">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L45">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_Invoke_System_Action___" data-uid="System.Threading.Tasks.Parallel.Invoke(System.Action[])">Invoke(Action[])</h4>
               <div class="markdown level1 summary"><p>Executes each of the provided actions, possibly in parallel.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_Invoke_System_Action____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be used to execute a set of operations, potentially in parallel. </p>
+<p> No guarantees are made about the order in which the operations execute or whether they execute in parallel. This method does not return until each of the provided operations has completed, regardless of whether completion occurs due to normal or exceptional termination.</p>
+<p>For more information, see How to: Use Parallel.Invoke to Execute Parallel Operations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Invoke(params Action[] actions)</code></pre>
@@ -3057,7 +3350,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>actions</em> argument is null.</p>
+                    <td><p>The <em>actions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -3067,7 +3360,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>actions</em> array contains a null element.</p>
+                    <td><p>The <em>actions</em> array contains a <strong>null</strong> element.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3077,12 +3370,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_Parallel_Invoke_System_Threading_Tasks_ParallelOptions_System_Action___.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.Parallel.Invoke(System.Threading.Tasks.ParallelOptions%2CSystem.Action%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/Parallel.cs/#L207">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks.Parallel/ref/System.Threading.Tasks.Parallel.cs/#L46">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_Parallel_Invoke_System_Threading_Tasks_ParallelOptions_System_Action___" data-uid="System.Threading.Tasks.Parallel.Invoke(System.Threading.Tasks.ParallelOptions,System.Action[])">Invoke(ParallelOptions, Action[])</h4>
               <div class="markdown level1 summary"><p>Executes each of the provided actions, possibly in parallel, unless the operation is cancelled by the user.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_Parallel_Invoke_System_Threading_Tasks_ParallelOptions_System_Action____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be used to execute a set of operations, potentially in parallel. The cancellation token passed in with the <a class="xref" href="System.Threading.Tasks.ParallelOptions.html#System_Threading_Tasks_ParallelOptions">ParallelOptions</a> structure enables the caller to cancel the entire operation. For more information, see Cancellation in Managed Threads.</p>
+<p> No guarantees are made about the order in which the operations execute or whether they execute in parallel. This method does not return until each of the provided operations has completed, regardless of whether completion occurs due to normal or exceptional termination.</p>
+<p>For more information, see How to: Use Parallel.Invoke to Execute Parallel Operations.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Invoke(ParallelOptions parallelOptions, params Action[] actions)</code></pre>
@@ -3127,7 +3425,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>actions</em> argument is null.-or-The <em>parallelOptions</em> argument is null.</p>
+                    <td><p>The <em>actions</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>parallelOptions</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -3137,7 +3437,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>actions</em> array contains a null element.</p>
+                    <td><p>The <em>actions</em> array contains a <strong>null</strong> element.</p>
 </td>
                   </tr>
                   <tr>

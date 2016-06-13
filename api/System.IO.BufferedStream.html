@@ -88,6 +88,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class BufferedStream : Stream</code></pre>
               </div>
+              <h5 id="System_IO_BufferedStream_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>A buffer is a block of bytes in memory used to cache data, thereby reducing the number of calls to the operating system. Buffers improve read and write performance. A buffer can be used for either reading or writing, but never both simultaneously. The <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> and <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> methods of <strong>BufferedStream</strong> automatically maintain the buffer.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p>
+<p>
+<strong>BufferedStream</strong> can be composed around certain types of streams. It provides implementations for reading and writing bytes to an underlying data source or repository. Use <a class="xref" href="System.IO.BinaryReader.html#System_IO_BinaryReader">BinaryReader</a> and <a class="xref" href="System.IO.BinaryWriter.html#System_IO_BinaryWriter">BinaryWriter</a> for reading and writing other data types. <strong>BufferedStream</strong> is designed to prevent the buffer from slowing down input and output when the buffer is not needed. If you always read and write for sizes greater than the internal buffer size, then <strong>BufferedStream</strong> might not even allocate the internal buffer. <strong>BufferedStream</strong> also buffers reads and writes in a shared buffer. It is assumed that you will almost always be doing a series of reads or writes, but rarely alternate between the two of them.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +107,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream">BufferedStream</a> class with a default buffer size of 4096 bytes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream__ctor_System_IO_Stream__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A shared read/write buffer is allocated the first time a <strong>BufferedStream</strong> object is initialized with this constructor. The shared buffer is not used if all reads and writes are greater than or equal to <em>bufferSize</em>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BufferedStream(Stream stream)</code></pre>
@@ -134,7 +143,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> is null. </p>
+                    <td><p>
+<em>stream</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -150,6 +160,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream">BufferedStream</a> class with the specified buffer size.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream__ctor_System_IO_Stream_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A shared read/write buffer is allocated the first time a <strong>BufferedStream</strong> object is initialized with this constructor. The shared buffer is not used if all reads and writes are greater than or equal to <em>bufferSize</em>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BufferedStream(Stream stream, int bufferSize)</code></pre>
@@ -189,12 +202,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> is null. </p>
+                    <td><p>
+<em>stream</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>bufferSize</em> is negative. </p>
+                    <td><p>
+<em>bufferSize</em> is negative. </p>
 </td>
                   </tr>
                 </tbody>
@@ -212,6 +227,10 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the current stream supports reading.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_CanRead_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a class derived from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> does not support reading, calls to the <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a>, <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_ReadByte">ReadByte()</a>, <span class="xref">System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)</span>, <span class="xref">System.IO.Stream.EndRead(System.IAsyncResult)</span>, and the <strong>Peek</strong> methods of <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a>, <a class="xref" href="System.IO.StringReader.html#System_IO_StringReader">StringReader</a>, and <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a> throw a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a>.</p>
+<p>If the stream is closed, this property returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanRead { get; }</code></pre>
@@ -227,7 +246,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the stream supports reading; false if the stream is closed or was opened with write-only access.</p>
+                    <td><p>
+<strong>true</strong> if the stream supports reading; <strong>false</strong> if the stream is closed or was opened with write-only access.</p>
 </td>
                   </tr>
                 </tbody>
@@ -243,6 +263,10 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the current stream supports seeking.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_CanSeek_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a class derived from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> does not support seeking, calls to <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Length">Length</a>, <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_SetLength_System_Int64_">SetLength(Int64)</a>, <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Position">Position</a>, and <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Seek_System_Int64_System_IO_SeekOrigin_">Seek(Int64, SeekOrigin)</a> throw a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a>.</p>
+<p>If the stream is closed, this property returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanSeek { get; }</code></pre>
@@ -258,7 +282,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the stream supports seeking; false if the stream is closed or if the stream was constructed from an operating system handle such as a pipe or output to the console.</p>
+                    <td><p>
+<strong>true</strong> if the stream supports seeking; <strong>false</strong> if the stream is closed or if the stream was constructed from an operating system handle such as a pipe or output to the console.</p>
 </td>
                   </tr>
                 </tbody>
@@ -274,6 +299,10 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the current stream supports writing.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_CanWrite_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a class derived from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> does not support writing, a call to <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_SetLength_System_Int64_">SetLength(Int64)</a>, <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a>, or <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_WriteByte_System_Byte_">WriteByte(Byte)</a> throws a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a>.</p>
+<p>If the stream is closed, this property returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanWrite { get; }</code></pre>
@@ -289,7 +318,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the stream supports writing; false if the stream is closed or was opened with read-only access.</p>
+                    <td><p>
+<strong>true</strong> if the stream supports writing; <strong>false</strong> if the stream is closed or was opened with read-only access.</p>
 </td>
                   </tr>
                 </tbody>
@@ -336,7 +366,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The underlying stream is null or closed. </p>
+                    <td><p>The underlying stream is <strong>null</strong> or closed. </p>
 </td>
                   </tr>
                   <tr>
@@ -362,6 +392,11 @@
               <div class="markdown level1 summary"><p>Gets the position within the current stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_Position_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <strong>get</strong> accessor invokes <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Seek_System_Int64_System_IO_SeekOrigin_">Seek(Int64, SeekOrigin)</a> to obtain the current position within the underlying stream and then adjusts this value according to the current position within the buffer.</p>
+<p>The <strong>set</strong> accessor copies any data previously written to the buffer to the underlying stream, and then invokes <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Seek_System_Int64_System_IO_SeekOrigin_">Seek(Int64, SeekOrigin)</a>.</p>
+<p>Seeking to any location beyond the length of the stream is supported.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Position { get; set; }</code></pre>
@@ -457,6 +492,11 @@
               <div class="markdown level1 summary"><p>Clears all buffers for this stream and causes any buffered data to be written to the underlying device.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_Flush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Flushing the stream will not flush its underlying encoder unless you explicitly call <strong>Flush</strong> or <span class="xref">System.IO.Stream.Close</span>.</p>
+<p>If you use the <span class="xref">System.IO.BufferedStream.</span> constructor, thus specifying the buffer size while creating the <strong>BufferedStream</strong> object, the content is flushed when it reaches the buffer size. For example, code such as <code>BufferedStream bs = new BufferedStream(bs, 5)</code> will flush the content when the buffer size reaches 5 bytes.</p>
+<p>All the read and write methods of <strong>BufferedStream</strong> automatically maintain the buffer, so there is no need to invoke <strong>Flush</strong> when switching back and forth between reading and writing.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Flush()</code></pre>
@@ -508,7 +548,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The token to monitor for cancellation requests.</p>
 </td>
@@ -525,7 +565,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><p>A task that represents the asynchronous flush operation.</p>
 </td>
                   </tr>
@@ -558,6 +598,10 @@
               <div class="markdown level1 summary"><p>Copies bytes from the current buffered stream to an array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_Read_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <strong>Read</strong> method will return 0 only if the end of the stream is reached. In all other cases, <strong>Read</strong> always reads at least one byte from the stream before returning. By definition, if no data is available from the stream upon a call to <strong>Read</strong>, the <strong>Read</strong> method returns 0 (the end of the stream is reached automatically). An implementation is free to return fewer bytes than requested even if the end of the stream has not been reached.</p>
+<p>Use <a class="xref" href="System.IO.BinaryReader.html#System_IO_BinaryReader">BinaryReader</a> for reading primitive data types.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int Read(byte[] array, int offset, int count)</code></pre>
@@ -624,17 +668,19 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>array</em> is null. </p>
+                    <td><p>
+<em>array</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is negative. </p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is negative. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The stream is not open or is null. </p>
+                    <td><p>The stream is not open or is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -660,6 +706,9 @@
               <div class="markdown level1 summary"><p>Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_ReadAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can create a cancellation token by creating an instance of the <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> class and passing the <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource_Token">Token</a> property as the <em>cancellationToken</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;int&gt; ReadAsync(byte[] buffer, int offset, int count, Threading.CancellationToken cancellationToken)</code></pre>
@@ -693,7 +742,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The token to monitor for cancellation requests.</p>
 </td>
@@ -727,12 +776,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null.</p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is negative.</p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is negative.</p>
 </td>
                   </tr>
                   <tr>
@@ -765,7 +816,7 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/src/System/IO/BufferedStream.cs/#L647">View Source</a>
               </span>
               <h4 id="System_IO_BufferedStream_ReadByte" data-uid="System.IO.BufferedStream.ReadByte">ReadByte()</h4>
-              <div class="markdown level1 summary"><p>Reads a byte from the underlying stream and returns the byte cast to an int, or returns -1 if reading from the end of the stream.</p>
+              <div class="markdown level1 summary"><p>Reads a byte from the underlying stream and returns the byte cast to an <strong>int</strong>, or returns -1 if reading from the end of the stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -783,7 +834,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The byte cast to an int, or -1 if reading from the end of the stream.</p>
+                    <td><p>The byte cast to an <strong>int</strong>, or -1 if reading from the end of the stream.</p>
 </td>
                   </tr>
                 </tbody>
@@ -825,6 +876,11 @@
               <div class="markdown level1 summary"><p>Sets the position within the current buffered stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_Seek_System_Int64_System_IO_SeekOrigin__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>offset</em> is negative, the new position will precede the position specified by <em>origin</em> by the number of bytes specified by <em>offset</em>. If <em>offset</em> is 0, the new position will be the position specified by <em>origin</em>. If <em>offset</em> is positive, the new position will follow the position specified by <em>origin</em> by the number of bytes specified by <em>offset</em>.</p>
+<p>When a <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream">BufferedStream</a> object is the base stream for a <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object, calling the <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Seek_System_Int64_System_IO_SeekOrigin_">Seek(Int64, SeekOrigin)</a> method can cause the position of the stream to no longer match the position of the internal buffer in the reader. To reset the internal buffer, call the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method; however, this method slows performance and should be called only when absolutely necessary.</p>
+<p>Seeking to any location beyond the length of the stream is supported.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Seek(long offset, SeekOrigin origin)</code></pre>
@@ -880,7 +936,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The stream is not open or is null. </p>
+                    <td><p>The stream is not open or is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -906,6 +962,12 @@
               <div class="markdown level1 summary"><p>Sets the length of the buffered stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_SetLength_System_Int64__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The buffer is flushed before setting the length of the underlying data source or repository. If the specified value is less than the current length of the buffered stream, the buffered stream is truncated. If the specified value is larger than the current length of the buffered stream, the buffered stream is expanded. If the buffered stream is expanded, the contents of the buffered stream between the old and the new lengths are not defined.</p>
+<p>
+<strong>SetLength</strong> flushes any buffered writes if necessary.</p>
+<p>A stream must support both writing and seeking for <strong>SetLength</strong> to work.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void SetLength(long value)</code></pre>
@@ -939,12 +1001,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>value</em> is negative. </p>
+                    <td><p>
+<em>value</em> is negative. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The stream is not open or is null. </p>
+                    <td><p>The stream is not open or is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1020,17 +1083,19 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>array</em> is null. </p>
+                    <td><p>
+<em>array</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is negative. </p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is negative. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The stream is closed or null. </p>
+                    <td><p>The stream is closed or <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1056,6 +1121,9 @@
               <div class="markdown level1 summary"><p>Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_BufferedStream_WriteAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can create a cancellation token by creating an instance of the <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> class and passing the <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource_Token">Token</a> property as the <em>cancellationToken</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task WriteAsync(byte[] buffer, int offset, int count, Threading.CancellationToken cancellationToken)</code></pre>
@@ -1089,7 +1157,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The token to monitor for cancellation requests.</p>
 </td>
@@ -1106,7 +1174,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><p>A task that represents the asynchronous write operation.</p>
 </td>
                   </tr>
@@ -1123,12 +1191,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null.</p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is negative.</p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is negative.</p>
 </td>
                   </tr>
                   <tr>
@@ -1202,7 +1272,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>value</em> is null. </p>
+                    <td><p>
+<em>value</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>

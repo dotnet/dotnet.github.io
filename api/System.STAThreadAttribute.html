@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_STAThreadAttribute.md&amp;value=---%0Auid%3A%20System.STAThreadAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ThreadAttributes.cs/#L15" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1486" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_STAThreadAttribute" data-uid="System.STAThreadAttribute">Class STAThreadAttribute
               </h1>
               <div class="markdown level0 summary"><p>Indicates that the COM threading model for an application is single-threaded apartment (STA). </p>
@@ -89,6 +89,37 @@
                 <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Method)]
 public sealed class STAThreadAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_STAThreadAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>Apply this attribute to the entry point method (the <code>Main()</code> method in C# and Visual Basic). It has no effect on other methods. To set the apartment state of threads you start in your code, use the <span class="xref">System.Threading.Thread.SetApartmentState(System.Threading.ApartmentState)</span> or <span class="xref">System.Threading.Thread.TrySetApartmentState(System.Threading.ApartmentState)</span> method before starting the thread.</p></p>
+<p><p>For an overview of COM threading models, see <see href="http://msdn.microsoft.com/library/ms809971.aspx">Understanding and Using COM Threading Models</see>.</p></p>
+<p><p>COM threading models only apply to applications that use COM interop. The COM threading model can be set to single-threaded apartment or multithreaded apartment. The application thread is only initialized for COM interop if the thread actually makes a call to a COM component. If COM interop is not used, then the thread is not initialized, and the <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a> attribute, if it is present, has no effect. </p></p>
+<p><p>Starting with the .NET Framework version 2.0, the default threading model for COM interop depends on the language in which you are developing your application, as the following table shows.  </p></p>
+<p><p>Language</p></p>
+<p><p>COM apartment model</p></p>
+<p><table><tbody><tr><td><p>
+<p><p>C#</p>
+</td><td><p>
+<p><p>Multithreaded apartment </p>
+</td></tr><tr><td><p>
+<p><p>C++</p>
+</td><td><p>
+<p><p>Multithreaded apartment</p>
+</td></tr><tr><td><p>
+<p><p>Visual Basic</p>
+</td><td><p>
+<p><p>Single-threaded apartment</p>
+</td></tr></tbody></table></p>
+<p><p>To change these defaults, you use the <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a> attribute to set the threading model for the application, or call the <span class="xref">System.Threading.Thread.SetApartmentState(System.Threading.ApartmentState)</span> or <span class="xref">System.Threading.Thread.TrySetApartmentState(System.Threading.ApartmentState)</span> method before starting the thread to set the threading model for a particular thread. In C++, you can also use the /CLRTHREADATTRIBUTE linker option to specify the apartment model. </p></p>
+<p><p>ASP.NET applications should set the <strong>ASPCompat</strong> attribute of the @ Page directive to <strong>true</strong> to force the page to be serviced by the STA thread pool.</p></p>
+<p><p>Here are some of the cases in which you’ll want to use the <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a> attribute to explicitly set the threading model to single-threaded apartment: </p></p>
+<ul><li>
+<p>You&#39;re developing a Windows Forms app. Windows Forms apps must be single-threaded if they communicate with Windows system components such as the Clipboard or Windows common dialog boxes, or if they use system features such as drag-and-drop functionality. The Windows Forms Application template for C# automatically adds the <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a> attribute to C# projects. Because the single-threaded apartment model is the default for Visual Basic, there is no need for the attribute. </p>
+</li><li>
+<p>You&#39;re developing a C# app that calls a Visual Basic library, which, in turn, relies on COM interop. Because the single-threaded apartment model is the default for Visual Basic, you should change your app&#39;s threading model to single-threaded by using the <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a> attribute. </p>
+</li><li>
+<p>Your application makes calls to COM components that use the single-threaded apartment model. </p>
+</li></ul>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -96,7 +127,7 @@ public sealed class STAThreadAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_STAThreadAttribute__ctor.md&amp;value=---%0Auid%3A%20System.STAThreadAttribute.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ThreadAttributes.cs/#L19">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1489">View Source</a>
               </span>
               <h4 id="System_STAThreadAttribute__ctor" data-uid="System.STAThreadAttribute.#ctor">STAThreadAttribute()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a> class.</p>

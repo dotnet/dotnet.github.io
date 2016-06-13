@@ -70,10 +70,10 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_CompilerServices_IsLong.md&amp;value=---%0Auid%3A%20System.Runtime.CompilerServices.IsLong%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/IsLong.cs/#L15" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.CompilerServices.VisualC/ref/System.Runtime.CompilerServices.VisualC.cs/#L51" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_CompilerServices_IsLong" data-uid="System.Runtime.CompilerServices.IsLong">Class IsLong
               </h1>
-              <div class="markdown level0 summary"><p>Indicates that a modified integer is a standard C++ long value. This class cannot be inherited.</p>
+              <div class="markdown level0 summary"><p>Indicates that a modified integer is a standard C++ <strong>long</strong> value. This class cannot be inherited.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +87,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class IsLong : object</code></pre>
               </div>
+              <h5 id="System_Runtime_CompilerServices_IsLong_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>The C++ standard indicates that a <strong>long</strong> value and an integer value are distinct types.  However, they are both represented using <strong>ELEMENT_TYPE_I4</strong> in an assembly.  To distinguish a <strong>long</strong> from an integer in C++, the Microsoft C++ compiler adds the <a class="xref" href="System.Runtime.CompilerServices.IsLong.html#System_Runtime_CompilerServices_IsLong">IsLong</a> modifier to any instance of a <strong>long</strong> when the instance is emited.  This process is critically important for maintaining language-level type safety.</p></p>
+<p><p>Compilers emit custom modifiers within metadata to change the way that the just-in-time (JIT) compiler handles values when the default behavior is not appropriate.  When the JIT compiler encounters a custom modifier, it handles the value in the way that the modifier specifies.  Compilers can apply custom modifiers to methods, parameters, and return values.  The JIT compiler must respond to required modifiers but can ignore optional modifiers.  </p></p>
+<p><p>You can emit custom modifiers into metadata using one of the following techniques:</p></p>
+<ul><li>
+<p>Using methods in the <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder">TypeBuilder</a> class such as <see cref="Overload:System.Reflection.Emit.TypeBuilder.DefineMethod"></see>, <see cref="Overload:System.Reflection.Emit.TypeBuilder.DefineField"></see>, <see cref="Overload:System.Reflection.Emit.TypeBuilder.DefineConstructor"></see>, and <see cref="Overload:System.Reflection.Emit.TypeBuilder.DefineProperty"></see>.</p>
+</li><li>
+<p>Generating a Microsoft intermediate language (MSIL) instruction file that contains calls to <strong>modopt</strong> and <strong>modreq</strong>, and assembling the file with the Ilasm.exe (IL Assembler).</p>
+</li><li>
+<p>Using the unmanaged reflection API.</p>
+</li></ul>
+</div>
             </article>
           </div>
           

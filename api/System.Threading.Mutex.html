@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex.md&amp;value=---%0Auid%3A%20System.Threading.Mutex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L33" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L202" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_Mutex" data-uid="System.Threading.Mutex">Class Mutex
               </h1>
               <div class="markdown level0 summary"><p>A synchronization primitive that can also be used for interprocess synchronization. </p>
@@ -87,6 +87,26 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class Mutex : WaitHandle</code></pre>
               </div>
+              <h5 id="System_Threading_Mutex_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/threading/mutex.cs#29b92e0e2832a8d6">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>When two or more threads need to access a shared resource at the same time, the system needs a synchronization mechanism to ensure that only one thread at a time uses the resource. <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> is a synchronization primitive that grants exclusive access to the shared resource to only one thread. If a thread acquires a mutex, the second thread that wants to acquire that mutex is suspended until the first thread releases the mutex.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic. </p>
+<p>You can use the <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> method to request ownership of a mutex. The calling thread blocks until one of the following occurs: </p>
+<ul><li>
+<p>The mutex is signaled to indicate that it is not owned. When this happens, the <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> method returns <strong>true</strong>, and the calling thread assumes ownership of the mutex and accesses the resource protected by the mutex. When it has finished accessing the resource, the thread must call the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method to release ownership of the mutex. The first example in the Examples section illustrates this pattern. </p>
+</li><li>
+<p>The time-out interval specified in the call to a <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> method that has a <em>millisecondsTimeout</em> or <em>timeout</em> parameter has elapsed. When this happens, the <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> method returns <strong>false</strong>, and the calling thread makes no further attempt to acquire ownership of the mutex. In this case, you should structure your code so that access to the resource that is protected by the mutex is denied to the calling thread. Because the thread never acquired ownership of the mutex, it must not call the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method. The second example in the Examples section illustrates this pattern. </p>
+</li></ul>
+<p>The <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class enforces thread identity, so a mutex can be released only by the thread that acquired it. By contrast, the <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> class does not enforce thread identity. A mutex can also be passed across application domain boundaries. </p>
+<p>The thread that owns a mutex can request the same mutex in repeated calls to <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> without blocking its execution. However, the thread must call the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method the same number of times to release ownership of the mutex.</p>
+<p>Because the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class inherits from <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, you can also call the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_Int32_">WaitAll(WaitHandle[], Int32)</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_Int32_">WaitAny(WaitHandle[], Int32)</a> methods to synchronize access to a protected resource. </p>
+<p>If a thread terminates while owning a mutex, the mutex is said to be abandoned. The state of the mutex is set to signaled, and the next waiting thread gets ownership. Beginning in version 2.0 of the .NET Framework, an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is thrown in the next thread that acquires the abandoned mutex. Before version 2.0 of the .NET Framework, no exception was thrown.</p>
+<p>An abandoned mutex often indicates a serious error in the code. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. The next thread to request ownership of the mutex can handle this exception and proceed, if the integrity of the data structures can be verified. </p>
+<p>In the case of a system-wide mutex, an abandoned mutex might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager).</p>
+<p>Mutexes are of two types: local mutexes, which are unnamed, and named system mutexes. A local mutex exists only within your process. It can be used by any thread in your process that has a reference to the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the mutex. Each unnamed <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object represents a separate local mutex.</p>
+<p>Named system mutexes are visible throughout the operating system, and can be used to synchronize the activities of processes. You can create a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents a named system mutex by using a constructor that accepts a name. The operating-system object can be created at the same time, or it can exist before the creation of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object. You can create multiple <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> objects that represent the same named system mutex, and you can use the <see cref="Overload:System.Threading.Mutex.OpenExisting"></see> method to open an existing named system mutex.</p>
+<p>On a server that is running Terminal Services, a named system mutex can have two levels of visibility. If its name begins with the prefix &quot;Global\&quot;, the mutex is visible in all terminal server sessions. If its name begins with the prefix &quot;Local\&quot;, the mutex is visible only in the terminal server session where it was created. In that case, a separate mutex with the same name can exist in each of the other terminal server sessions on the server. If you do not specify a prefix when you create a named mutex, it takes the prefix &quot;Local\&quot;. Within a terminal server session, two mutexes whose names differ only by their prefixes are separate mutexes, and both are visible to all processes in the terminal server session. That is, the prefix names &quot;Global\&quot; and &quot;Local\&quot; describe the scope of the mutex name relative to terminal server sessions, not relative to processes.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +114,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex__ctor.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L252">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L204">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex__ctor" data-uid="System.Threading.Mutex.#ctor">Mutex()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class with default properties.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Mutex__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling this constructor overload is the same as calling the <span class="xref">System.Threading.Mutex.</span> constructor overload and specifying <strong>false</strong> for initial ownership of the mutex. That is, the calling thread does not own the mutex.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Mutex()</code></pre>
@@ -109,7 +132,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L246">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L205">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex__ctor_System_Boolean_" data-uid="System.Threading.Mutex.#ctor(System.Boolean)">Mutex(Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex.</p>
@@ -132,7 +155,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>initiallyOwned</em></td>
-                    <td><p>true to give the calling thread initial ownership of the mutex; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to give the calling thread initial ownership of the mutex; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -142,12 +166,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex__ctor_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.%23ctor(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L241">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L206">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex__ctor_System_Boolean_System_String_" data-uid="System.Threading.Mutex.#ctor(System.Boolean,System.String)">Mutex(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, and a string that is the name of the mutex.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Mutex__ctor_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>name</em> is not <strong>null</strong> and <em>initiallyOwned</em> is <strong>true</strong>, the calling thread owns the mutex only if the named system mutex was created as a result of this call. Since there is no mechanism for determining whether the named system mutex was created, it is better to specify <strong>false</strong> for <em>initiallyOwned</em> when calling this constructor overload. You can use the <span class="xref">System.Threading.Mutex.</span> constructor if you need to determine initial ownership.</p>
+<p>This constructor initializes a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents a named system mutex. You can create multiple <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> objects that represent the same named system mutex.</p>
+<p>If the named mutex has already been created with access control security, and the caller does not have <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_FullControl">FullControl</a>, an exception is thrown. To open an existing named mutex with only those permissions needed for synchronizing thread activities, see the <see cref="Overload:System.Threading.Mutex.OpenExisting"></see> method.</p>
+<p>If you specify <strong>null</strong> or an empty string for <em>name</em>, a local mutex is created, as if you had called the <span class="xref">System.Threading.Mutex.</span> constructor. In this case, <em>createdNew</em> is always <strong>true</strong>.</p>
+<p>Because they are system-wide, named mutexes can be used to coordinate resource use across process boundaries.</p>
+<p>On a server that is running Terminal Services, a named system mutex can have two levels of visibility. If its name begins with the prefix &quot;Global\&quot;, the mutex is visible in all terminal server sessions. If its name begins with the prefix &quot;Local\&quot;, the mutex is visible only in the terminal server session where it was created. In that case, a separate mutex with the same name can exist in each of the other terminal server sessions on the server. If you do not specify a prefix when you create a named mutex, it takes the prefix &quot;Local\&quot;. Within a terminal server session, two mutexes whose names differ only by their prefixes are separate mutexes, and both are visible to all processes in the terminal server session. That is, the prefix names &quot;Global\&quot; and &quot;Local\&quot; describe the scope of the mutex name relative to terminal server sessions, not relative to processes.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Mutex(bool initiallyOwned, string name)</code></pre>
@@ -165,13 +197,14 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>initiallyOwned</em></td>
-                    <td><p>true to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>. If the value is null, the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> is unnamed. </p>
+                    <td><p>The name of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>. If the value is <strong>null</strong>, the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> is unnamed. </p>
 </td>
                   </tr>
                 </tbody>
@@ -202,7 +235,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is longer than 260 characters.</p>
+                    <td><p>
+<em>name</em> is longer than 260 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -212,12 +246,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex__ctor_System_Boolean_System_String_System_Boolean__.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.%23ctor(System.Boolean%2CSystem.String%2CSystem.Boolean%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L44">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L208">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex__ctor_System_Boolean_System_String_System_Boolean__" data-uid="System.Threading.Mutex.#ctor(System.Boolean,System.String,System.Boolean@)">Mutex(Boolean, String, out Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, and a Boolean value that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Mutex__ctor_System_Boolean_System_String_System_Boolean___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>name</em> is not <strong>null</strong> and <em>initiallyOwned</em> is <strong>true</strong>, the calling thread owns the named mutex only if <em>createdNew</em> is <strong>true</strong> after the call. Otherwise the thread can request the mutex by calling the <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see>method.</p>
+<p>This constructor initializes a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents a named system mutex. You can create multiple <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> objects that represent the same named system mutex.</p>
+<p>If the named mutex has already been created with access control security, and the caller does not have <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_FullControl">FullControl</a> rights, an exception is thrown. To open an existing named mutex with only those permissions needed for synchronizing thread activities, see the <see cref="Overload:System.Threading.Mutex.OpenExisting"></see> method.</p>
+<p>If you specify <strong>null</strong> or an empty string for <em>name</em>, a local mutex is created, as if you had called the <span class="xref">System.Threading.Mutex.</span> constructor. In this case, <em>createdNew</em> is always <strong>true</strong>.</p>
+<p>Because they are system-wide, named mutexes can be used to coordinate resource use across process boundaries.</p>
+<p>On a server that is running Terminal Services, a named system mutex can have two levels of visibility. If its name begins with the prefix &quot;Global\&quot;, the mutex is visible in all terminal server sessions. If its name begins with the prefix &quot;Local\&quot;, the mutex is visible only in the terminal server session where it was created. In that case, a separate mutex with the same name can exist in each of the other terminal server sessions on the server. If you do not specify a prefix when you create a named mutex, it takes the prefix &quot;Local\&quot;. Within a terminal server session, two mutexes whose names differ only by their prefixes are separate mutexes, and both are visible to all processes in the terminal server session. That is, the prefix names &quot;Global\&quot; and &quot;Local\&quot; describe the scope of the mutex name relative to terminal server sessions, not relative to processes.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Mutex(bool initiallyOwned, string name, out bool createdNew)</code></pre>
@@ -235,19 +277,20 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>initiallyOwned</em></td>
-                    <td><p>true to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>. If the value is null, the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> is unnamed. </p>
+                    <td><p>The name of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>. If the value is <strong>null</strong>, the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> is unnamed. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>createdNew</em></td>
-                    <td><p>When this method returns, contains a Boolean that is true if a local mutex was created (that is, if <em>name</em> is null or an empty string) or if the specified named system mutex was created; false if the specified named system mutex already existed. This parameter is passed uninitialized. </p>
+                    <td><p>When this method returns, contains a Boolean that is <strong>true</strong> if a local mutex was created (that is, if <em>name</em> is <strong>null</strong> or an empty string) or if the specified named system mutex was created; <strong>false</strong> if the specified named system mutex already existed. This parameter is passed uninitialized. </p>
 </td>
                   </tr>
                 </tbody>
@@ -278,7 +321,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is longer than 260 characters.</p>
+                    <td><p>
+<em>name</em> is longer than 260 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -290,12 +334,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex_OpenExisting_System_String_.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.OpenExisting(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L266">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L210">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex_OpenExisting_System_String_" data-uid="System.Threading.Mutex.OpenExisting(System.String)">OpenExisting(String)</h4>
               <div class="markdown level1 summary"><p>Opens the specified named mutex, if it already exists.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Mutex_OpenExisting_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.Threading.Mutex.OpenExisting"></see> method tries to open the specified named system mutex. If the system mutex does not exist, this method throws an exception instead of creating the system object. To create the system mutex when it does not already exist, use one of the <span class="xref">System.Threading.Mutex.</span> constructors that has a <em>name</em> parameter.</p>
+<p>Multiple calls to this method that use the same value for <em>name</em> do not necessarily return the same <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object, even though the objects that are returned represent the same named system mutex. </p>
+<p>This method overload is equivalent to calling the <span class="xref">System.Threading.Mutex.OpenExisting(System.String,System.Security.AccessControl.MutexRights)</span> method overload and specifying <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Synchronize">Synchronize</a> and <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Modify">Modify</a> rights, combined by using the bitwise OR operation. </p>
+<p>Specifying the <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Synchronize">Synchronize</a> flag allows a thread to wait on the mutex, and specifying the <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Modify">Modify</a> flag allows a thread to call the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method.</p>
+<p>This method does not request ownership of the mutex. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Mutex OpenExisting(string name)</code></pre>
@@ -345,12 +396,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is an empty string.-or-<em>name</em> is longer than 260 characters.</p>
+                    <td><p>
+<em>name</em> is an empty string.</p>
+<p>-or-</p>
+<p>
+<em>name</em> is longer than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -375,12 +431,14 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex_ReleaseMutex.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.ReleaseMutex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L382">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L212">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex_ReleaseMutex" data-uid="System.Threading.Mutex.ReleaseMutex">ReleaseMutex()</h4>
               <div class="markdown level1 summary"><p>Releases the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> once.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Mutex_ReleaseMutex_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Whenever a thread acquires a mutex (for example, by calling its <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitOne">WaitOne()</a> method), it must subsequently call <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> to relinquish ownership of the mutex and unblock other threads that are trying to gain ownership of the mutex. If the attempt to get ownership of the mutex fails (for example, when a call to the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitOne">WaitOne()</a> method with a <em>millisecondsTimeout</em> or a <em>timeout</em> parameter returns <strong>false</strong> because the request times out), the thread shouldn&#39;t call <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a>, In this case, the thread should also not be allowed to access the resource protected by the mutex, as the following example shows.  </p>System.Threading.Mutex.Class#2<p>A thread that owns a mutex can specify the same mutex in repeated wait function calls without blocking its execution. The number of calls is kept by the common language runtime. The thread must call <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> the same number of times to release ownership of the mutex. </p><p>If a thread terminates while owning a mutex, the mutex is said to be abandoned. The state of the mutex is set to signaled and the next waiting thread gets ownership. If no one owns the mutex, the state of the mutex is signaled. Beginning in version 2.0 of the .NET Framework, an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is thrown in the next thread that acquires the mutex. Prior to version 2.0 of the .NET Framework, no exception was thrown.</p><p>An abandoned mutex often indicates a serious error in the code. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. The next thread to request ownership of the mutex can handle this exception and proceed, if the integrity of the data structures can be verified. </p><p>In the case of a system-wide mutex, an abandoned mutex might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager).</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void ReleaseMutex()</code></pre>
@@ -399,6 +457,11 @@
                     <td><p>The calling thread does not own the mutex. </p>
 </td>
                   </tr>
+                  <tr>
+                    <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
+                    <td><p>The current instance has already been disposed. </p>
+</td>
+                  </tr>
                 </tbody>
               </table>
               <span class="small pull-right mobile-hide">
@@ -406,12 +469,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Mutex_TryOpenExisting_System_String_System_Threading_Mutex__.md&amp;value=---%0Auid%3A%20System.Threading.Mutex.TryOpenExisting(System.String%2CSystem.Threading.Mutex%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Mutex.cs/#L303">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L213">View Source</a>
               </span>
               <h4 id="System_Threading_Mutex_TryOpenExisting_System_String_System_Threading_Mutex__" data-uid="System.Threading.Mutex.TryOpenExisting(System.String,System.Threading.Mutex@)">TryOpenExisting(String, out Mutex)</h4>
               <div class="markdown level1 summary"><p>Opens the specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Mutex_TryOpenExisting_System_String_System_Threading_Mutex___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the named mutex does not exist, this method does not create it. To create the system mutex when it does not already exist, use one of the <span class="xref">System.Threading.Mutex.</span> constructors that has a <em>name</em> parameter.</p>
+<p>If you are uncertain whether a named mutex exists, use this method overload instead of the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_OpenExisting_System_String_">OpenExisting(String)</a> method overload, which throws an exception if the mutex does not exist.</p>
+<p>Multiple calls to this method that use the same value for <em>name</em> do not necessarily return the same <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object, even though the objects that are returned represent the same named system mutex. </p>
+<p>This method overload is equivalent to calling the <span class="xref">System.Threading.Mutex.TryOpenExisting(System.String,System.Security.AccessControl.MutexRights,System.Threading.Mutex@)</span> method overload and specifying <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Synchronize">Synchronize</a> and <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Modify">Modify</a> rights, combined by using the bitwise OR operation. Specifying the <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Synchronize">Synchronize</a> flag allows a thread to wait on the mutex, and specifying the <a class="xref" href="System.Security.AccessControl.MutexRights.html#System_Security_AccessControl_MutexRights_Modify">Modify</a> flag allows a thread to call the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method. </p>
+<p>This method does not request ownership of the mutex. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool TryOpenExisting(string name, out Mutex result)</code></pre>
@@ -435,7 +505,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a></td>
                     <td><em>result</em></td>
-                    <td><p>When this method returns, contains a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the named mutex if the call succeeded, or null if the call failed. This parameter is treated as uninitialized.</p>
+                    <td><p>When this method returns, contains a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the named mutex if the call succeeded, or <strong>null</strong> if the call failed. This parameter is treated as uninitialized.</p>
 </td>
                   </tr>
                 </tbody>
@@ -451,7 +521,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the named mutex was opened successfully; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the named mutex was opened successfully; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -467,12 +538,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is an empty string.-or-<em>name</em> is longer than 260 characters.</p>
+                    <td><p>
+<em>name</em> is an empty string.</p>
+<p>-or-</p>
+<p>
+<em>name</em> is longer than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_FormatException.md&amp;value=---%0Auid%3A%20System.FormatException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/FormatException.cs/#L17" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L863" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_FormatException" data-uid="System.FormatException">Class FormatException
               </h1>
               <div class="markdown level0 summary"><p>The exception that is thrown when the format of an argument is invalid, or when a composite format string is not well formed. </p>
@@ -88,6 +88,38 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class FormatException : Exception</code></pre>
               </div>
+              <h5 id="System_FormatException_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>A <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception can be thrown for one of the following reasons: </p>
+<ul><li>
+<p>In a call to a method that converts a string to some other data type, the string doesn&#39;t conform to the required pattern. This typically occurs when calling some methods of the <a class="xref" href="System.Convert.html#System_Convert">Convert</a> class and the <strong>Parse</strong> and <strong>ParseExact</strong> methods of some types. </p>
+<p>In most cases, particularly if the string that you&#39;re converting is input by a user or read from a file, you should use a <strong>try/catch</strong> block and handle the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception if the conversion is unsuccessful. You can also replace the call to the conversion method with a call to a <strong>TryParse</strong> or <strong>TryParseExact</strong> method, if one exists. However, a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception that is thrown when you&#39;re trying to parse a predefined or hard-coded string indicates a program error. In this case, you should correct the error rather than handle the exception.</p>
+<p>The conversion of a string to the following types in the <a class="xref" href="System.html#System">System</a> namespace can throw a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception: </p>
+<ul><li>
+<p>
+<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>. The <a class="xref" href="System.Boolean.html#System_Boolean_Parse_System_String_">Parse(String)</a> and <a class="xref" href="System.Convert.html#System_Convert_ToBoolean_System_String_">ToBoolean(String)</a> methods require the string to be converted to be &quot;True&quot;, &quot;true&quot;, &quot;False&quot;, or &quot;false&quot;. Any other value throws a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception. </p>
+</li><li>
+<p>
+<a class="xref" href="System.DateTime.html#System_DateTime">DateTime</a> and <a class="xref" href="System.DateTimeOffset.html#System_DateTimeOffset">DateTimeOffset</a>. All date and time data is interpreted based on the formatting conventions of a particular culture: either the current thread culture (or, in some cases, the current application domain culture), the invariant culture, or a specified culture. When you call the <a class="xref" href="System.DateTime.html#System_DateTime_ParseExact_System_String_System_String_System_IFormatProvider_System_Globalization_DateTimeStyles_">ParseExact(String, String, IFormatProvider, DateTimeStyles)</a> and <a class="xref" href="System.DateTimeOffset.html#System_DateTimeOffset_ParseExact_System_String_System_String___System_IFormatProvider_System_Globalization_DateTimeStyles_">ParseExact(String, String[], IFormatProvider, DateTimeStyles)</a> methods, date and time data must also conform <em>exactly</em> to a pattern specified by one or more standard format strings or custom format strings that are provided as arguments in the method call. If it doesn&#39;t conform to an expected culture-specific pattern, a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception is thrown. This means that date and time data saved in a culture-specific format on one system might not parse successfully on another system. </p>
+<p>For more information about parsing dates and times, see Parsing Date and Time Strings in the .NET Framework and the documentation for the method that threw the exception. </p>
+</li><li>
+<p>GUIDs. The string representation of a GUID must consist of 32 hexadecimal digits (0-F), and must be in one of the five formats output by the <span class="xref">System.Guid.ToString(System.String,System.IFormatProvider)</span> method. For more information, see the <a class="xref" href="System.Guid.html#System_Guid_Parse_System_String_">Parse(String)</a> method.</p>
+</li><li>
+<p>Numeric types, including all signed integers, unsigned integers, and floating-point types. The string to be parsed must consist of the Latin digits 0-9. A positive or negative sign, decimal separator, group separators, and currency symbol may also be permitted. Trying to parse a string that contains any other character always throws a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception. </p>
+<p>All numeric strings are interpreted based on the formatting conventions of a particular culture: either the current thread culture (or, in some cases, the current application domain culture), the invariant culture, or a specified culture. As a result, a numeric string that is parsed by using the conventions of one culture might fail when using the conventions of another. </p>
+<p>For more information about parsing numeric strings, see Parsing Numeric Strings in the .NET Framework and the documentation for the specific method that threw the exception. </p>
+</li><li>
+<p>Time intervals. The string to be parsed must be either in fixed culture-insensitive format or in a culture-sensitive format defined by the current thread culture (or, in some cases, the current application domain culture), the invariant culture, or a specified culture. If the string isn&#39;t in an appropriate format, or if, at the minimum, the days, hours, and minutes components of the time interval aren&#39;t present, the parsing method throws a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception. For more information, see the documentation for the <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> parsing method that threw the exception. </p>
+</li></ul>
+</li><li>
+<p>A type implements the <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> interface, which supports format strings that define how an object is converted to its string representation, and an invalid format string is used. This is most common in a formatting operation. In the following example, the &quot;Q&quot; standard format string is used in a composite format string to format a number. However, &quot;Q&quot; is not a valid standard format string. </p>System.FormatException#7<p>This exception results from a coding error. To correct the error, either remove the format string or substitute a valid one. The following example corrects the error by replacing the invalid format string with the &quot;C&quot; (currency) format string. </p>System.FormatException#8<p>A <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception can also be thrown by parsing methods, such as <a class="xref" href="System.DateTime.html#System_DateTime_ParseExact_System_String_System_String_System_IFormatProvider_System_Globalization_DateTimeStyles_">ParseExact(String, String, IFormatProvider, DateTimeStyles)</a> and <a class="xref" href="System.Guid.html#System_Guid_ParseExact_System_String_System_String_">ParseExact(String, String)</a>, that require the string to be parsed to conform exactly to the pattern specified by a format string. In the following example, the string representation of a GUID is expected to conform to the pattern specified by the &quot;G&quot; standard format string. However, the <a class="xref" href="System.Guid.html#System_Guid">Guid</a> structure&#39;s implementation of <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> does not support the &quot;G&quot; format string. </p>System.FormatException#9<p>This exception also results from a coding error. To correct it, call a parsing method that doesn’t require a precise format, such as <a class="xref" href="System.DateTime.html#System_DateTime_Parse_System_String_">Parse(String)</a> or <a class="xref" href="System.Guid.html#System_Guid_Parse_System_String_">Parse(String)</a>, or substitute a valid format string. The following example corrects the error by calling the <a class="xref" href="System.Guid.html#System_Guid_Parse_System_String_">Parse(String)</a> method. </p>System.FormatException#10</li><li>
+<p>One or more of the indexes of the format items in a composite format string is greater than the indexes of the items in the object list or parameter array. In the following example, the largest index of a format item in the format string is 3. Because the indexes of items in the object list are zero-based, this format string would require the object list to have four items. Instead, it has only three, <code>dat</code>, <code>temp</code>, and <code>scale</code>, so the code results in a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception at run time:.  </p>System.FormatException#1<p>In this case, the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception is a result of developer error. It should be corrected rather than handled in a <strong>try/catch</strong> block by making sure that each item in the object list corresponds to the index of a format item. To correct this example, change the index of the second format item to refer to the <code>dat</code> variable, and decrement the index of each subsequent format item by one. </p>System.FormatException#2</li><li>
+<p>The composite format string isn&#39;t well-formed. When this happens, the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception is always a result of developer error. It should be corrected rather than handled in a <strong>try/catch</strong> block. </p>
+<p>Trying to include literal braces in a string, as the following example does, will throw the exception.</p>System.String.Format#23<p>The recommended technique for including literal braces in a composite format string is to include them in the object list and use format items to insert them into the result string. For example, you can modify the previous composite format string as shown here. </p>System.String.Format#24<p>The exception is also thrown if your format string contains a typo. The following call to the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object_">Format(String, Object)</a> method omits a closing brace and pairs an opening brace with a closing bracket. </p>System.FormatException#3<p>To correct the error, ensure that all opening and closing braces correspond. </p>System.FormatException#4</li><li>
+<p>You&#39;ve supplied the object list in a composite formatting method as a strongly typed parameter array, and the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception indicates that the index of one or more format items exceeds the number of arguments in the object list. This occurs because no explicit conversion between array types exists, so instead the compiler treats the array as a single argument rather than as a parameter array. For example, the following call to the <a class="xref" href="System.Console.html#System_Console_WriteLine_System_String_System_Object___">WriteLine(String, Object[])</a> method throws a <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> exception, although the highest index of the format items is 3, and the parameter array of type <a class="xref" href="System.Int32.html#System_Int32">Int32</a> has four elements. </p>System.FormatException#5<p>Instead of handling this exception, you should eliminate its cause. Because neither Visual Basic nor C# can convert an integer array to an object array, you have to perform the conversion yourself before calling the composite formatting method. The following example provides one implementation. </p>System.FormatException#6</li></ul>
+<p>
+<a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> uses the HRESULT COR_E_FORMAT, which has the value 0x80131537.</p>
+<p>The <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> class derives from  <a class="xref" href="System.Exception.html#System_Exception">Exception</a> and adds no unique members. For a list of initial property values for an instance of <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>, see the <span class="xref">System.FormatException.</span> constructors.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,12 +127,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_FormatException__ctor.md&amp;value=---%0Auid%3A%20System.FormatException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/FormatException.cs/#L20">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L865">View Source</a>
               </span>
               <h4 id="System_FormatException__ctor" data-uid="System.FormatException.#ctor">FormatException()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_FormatException__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;Invalid format.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The localized error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public FormatException()</code></pre>
@@ -110,12 +161,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_FormatException__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.FormatException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/FormatException.cs/#L25">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L866">View Source</a>
               </span>
               <h4 id="System_FormatException__ctor_System_String_" data-uid="System.FormatException.#ctor(System.String)">FormatException(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> class with a specified error message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_FormatException__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a> property of the new exception using the <em>message</em> parameter. The content of <em>message</em> is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public FormatException(string message)</code></pre>
@@ -143,12 +213,31 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_FormatException__ctor_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.FormatException.%23ctor(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/FormatException.cs/#L30">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L867">View Source</a>
               </span>
               <h4 id="System_FormatException__ctor_System_String_System_Exception_" data-uid="System.FormatException.#ctor(System.String,System.Exception)">FormatException(String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a> class with a specified error message and a reference to the inner exception that is the cause of this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_FormatException__ctor_System_String_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or a null reference (<strong>Nothing</strong> in Visual Basic) if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>The inner exception reference. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public FormatException(string message, Exception innerException)</code></pre>
@@ -172,7 +261,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>innerException</em></td>
-                    <td><p>The exception that is the cause of the current exception. If the <em>innerException</em> parameter is not a null reference (Nothing in Visual Basic), the current exception is raised in a catch block that handles the inner exception. </p>
+                    <td><p>The exception that is the cause of the current exception. If the <em>innerException</em> parameter is not a null reference (<strong>Nothing</strong> in Visual Basic), the current exception is raised in a <strong>catch</strong> block that handles the inner exception. </p>
 </td>
                   </tr>
                 </tbody>

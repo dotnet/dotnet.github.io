@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncodingProvider.md&amp;value=---%0Auid%3A%20System.Text.EncodingProvider%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncodingProvider.cs/#L11" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L188" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Text_EncodingProvider" data-uid="System.Text.EncodingProvider">Class EncodingProvider
               </h1>
               <div class="markdown level0 summary"><p>Provides the base class for an encoding provider, which supplies encodings that are unavailable on a particular platform. </p>
@@ -87,6 +87,38 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class EncodingProvider : object</code></pre>
               </div>
+              <h5 id="System_Text_EncodingProvider_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>An encoding provider supplies encodings that are not otherwise available on a particular target platform. </p>
+<p>The .NET Framework on the Windows desktop supports a large number of character encodings and code pages. You can get a complete list of encodings available in the .NET Framework on the Windows desktop by calling the <span class="xref">System.Text.Encoding.GetEncodings</span> method. .NET Core, on the other hand, by default supports only the following encodings: </p>
+<ul><li>
+<p>ASCII (code page 20127), which is returned by the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_ASCII">ASCII</a> property. </p>
+</li><li>
+<p>ISO-8859-1 (code page 28591). </p>
+</li><li>
+<p>UTF-7 (code page 65000), which is returned by the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_UTF7">UTF7</a> property. </p>
+</li><li>
+<p>UTF-8 (code page 65001), which is returned by the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_UTF8">UTF8</a> property. </p>
+</li><li>
+<p>UTF-16 and UTF-16LE (code page 1200), which is returned by the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_Unicode">Unicode</a> property. </p>
+</li><li>
+<p>UTF-16BE (code page 1201), which is instantiated by calling the <span class="xref">System.Text.UnicodeEncoding.</span> or <span class="xref">System.Text.UnicodeEncoding.</span> constructor with a <em>bigEndian</em> value of <strong>true</strong>. </p>
+</li><li>
+<p>UTF-32 and UTF-32LE (code page 12000), which is returned by the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_UTF32">UTF32</a> property. </p>
+</li><li>
+<p>UTF-32BE (code page 12001), which is instantiated by calling an <a class="xref" href="System.Text.UTF32Encoding.html#System_Text_UTF32Encoding">UTF32Encoding</a> constructor that has a <em>bigEndian</em> parameter and providing a value of <strong>true</strong> in the method call. </p>
+</li></ul>
+<p>In .NET Framework 4.6, <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> is the base class that makes otherwise unavailable encodings available to the .NET Framework. This involves the following steps: </p>
+<ol><li>
+<p>Define a subclass of <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> that overrides the two abstract <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider_GetEncoding_System_Int32_">GetEncoding(Int32)</a> overloads, <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider_GetEncoding_System_Int32_">GetEncoding(Int32)</a> and <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider_GetEncoding_System_String_">GetEncoding(String)</a>. These overloads return the otherwise unsupported encoding by code page identifier and by name. </p>
+</li><li>
+<p>Optionally, you can override the virtual <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider_GetEncoding_System_Int32_System_Text_EncoderFallback_System_Text_DecoderFallback_">GetEncoding(Int32, EncoderFallback, DecoderFallback)</a> and <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider_GetEncoding_System_String_System_Text_EncoderFallback_System_Text_DecoderFallback_">GetEncoding(String, EncoderFallback, DecoderFallback)</a> methods. In most cases, this is not necessary, since the base class provides a default implementation. </p>
+</li><li>
+<p>Pass the <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> instance to the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_RegisterProvider_System_Text_EncodingProvider_">RegisterProvider(EncodingProvider)</a> method to make the encodings supplied by the <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> object available to the common language runtime. </p>
+</li><li>
+<p>Call an <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetEncoding_System_Int32_">GetEncoding(Int32)</a> overload to retrieve the encoding. The <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetEncoding_System_Int32_">GetEncoding(Int32)</a> method will call the corresponding <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider_GetEncoding_System_Int32_">GetEncoding(Int32)</a> to determine whether it can supply the requested encoding. </p>
+</li></ol>
+<p>The .NET Framework Class Library provides one static property, <a class="xref" href="System.Text.CodePagesEncodingProvider.html#System_Text_CodePagesEncodingProvider_Instance">Instance</a>, that returns an <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> object that makes the full set of encodings available on the desktop .NET Framework Class Library available to .NET Core applications. In addition, you can derive from the <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> class to make your own encodings available. </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +126,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncodingProvider__ctor.md&amp;value=---%0Auid%3A%20System.Text.EncodingProvider.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncodingProvider.cs/#L14">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L190">View Source</a>
               </span>
               <h4 id="System_Text_EncodingProvider__ctor" data-uid="System.Text.EncodingProvider.#ctor">EncodingProvider()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> class. </p>
@@ -111,7 +143,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncodingProvider_GetEncoding_System_Int32_.md&amp;value=---%0Auid%3A%20System.Text.EncodingProvider.GetEncoding(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncodingProvider.cs/#L16">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L191">View Source</a>
               </span>
               <h4 id="System_Text_EncodingProvider_GetEncoding_System_Int32_" data-uid="System.Text.EncodingProvider.GetEncoding(System.Int32)">GetEncoding(Int32)</h4>
               <div class="markdown level1 summary"><p>Returns the encoding associated with the specified code page identifier. </p>
@@ -150,7 +182,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Text.Encoding</a></td>
-                    <td><p>The encoding that is associated with the specified code page, or null if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>codepage</em>. </p>
+                    <td><p>The encoding that is associated with the specified code page, or <strong>null</strong> if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>codepage</em>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -160,12 +192,22 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncodingProvider_GetEncoding_System_Int32_System_Text_EncoderFallback_System_Text_DecoderFallback_.md&amp;value=---%0Auid%3A%20System.Text.EncodingProvider.GetEncoding(System.Int32%2CSystem.Text.EncoderFallback%2CSystem.Text.DecoderFallback)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncodingProvider.cs/#L32">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L192">View Source</a>
               </span>
               <h4 id="System_Text_EncodingProvider_GetEncoding_System_Int32_System_Text_EncoderFallback_System_Text_DecoderFallback_" data-uid="System.Text.EncodingProvider.GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)">GetEncoding(Int32, EncoderFallback, DecoderFallback)</h4>
               <div class="markdown level1 summary"><p>Returns the encoding associated with the specified code page identifier. Parameters specify an error handler for characters that cannot be encoded and byte sequences that cannot be decoded. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncodingProvider_GetEncoding_System_Int32_System_Text_EncoderFallback_System_Text_DecoderFallback__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>encoderFallback</em> and <em>decoderFallback</em> parameters are objects that define the fallback strategy used in the event that an encoder cannot convert a character to a sequence of bytes or a decoder cannot convert a sequence of bytes to a character. The .NET Framework provides the following fallback mechanisms:</p></p>
+<ul><li>
+<p>Exception fallback. If the <em>encoderFallback</em> argument is an instance of <a class="xref" href="System.Text.EncoderExceptionFallback.html#System_Text_EncoderExceptionFallback">EncoderExceptionFallback</a>, or the <em>decoderExceptionFallback</em> argument is an instance of <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>, the encoding method throws an exception if characters cannot be encoded, and the decoding method throws an exception if a byte sequence cannot be decoded.  </p>
+</li><li>
+<p>Replacement fallback. If the <em>encoderFallback</em> argument is an instance of <a class="xref" href="System.Text.EncoderReplacementFallback.html#System_Text_EncoderReplacementFallback">EncoderReplacementFallback</a>, or the <em>decoderExceptionFallback</em> argument is an instance of <a class="xref" href="System.Text.DecoderReplacementFallback.html#System_Text_DecoderReplacementFallback">DecoderReplacementFallback</a>, the encoding and decoding methods substitute a replacement string for characters that cannot be encoded and byte sequences cannot be decoded. If you instantiated the replacement fallback object by calling the default constructor, the replacement character is a &quot;?&quot;. If you call the <span class="xref">System.Text.EncoderReplacementFallback.</span> or <span class="xref">System.Text.DecoderReplacementFallback.</span> constructor, you can specify the replacement string. </p>
+</li><li>
+<p>Best-fit fallback. You can derive from the <a class="xref" href="System.Text.EncoderFallback.html#System_Text_EncoderFallback">EncoderFallback</a> or <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> class to implement a best-fit replacement mechanism. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Encoding GetEncoding(int codepage, EncoderFallback encoderFallback, DecoderFallback decoderFallback)</code></pre>
@@ -211,7 +253,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Text.Encoding</a></td>
-                    <td><p>The encoding that is associated with the specified code page, or null if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>codepage</em>. </p>
+                    <td><p>The encoding that is associated with the specified code page, or <strong>null</strong> if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>codepage</em>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -221,7 +263,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncodingProvider_GetEncoding_System_String_.md&amp;value=---%0Auid%3A%20System.Text.EncodingProvider.GetEncoding(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncodingProvider.cs/#L15">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L193">View Source</a>
               </span>
               <h4 id="System_Text_EncodingProvider_GetEncoding_System_String_" data-uid="System.Text.EncodingProvider.GetEncoding(System.String)">GetEncoding(String)</h4>
               <div class="markdown level1 summary"><p>Returns the encoding with the specified name. </p>
@@ -260,7 +302,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Text.Encoding</a></td>
-                    <td><p>The encoding that is associated with the specified name, or null if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>name</em>.</p>
+                    <td><p>The encoding that is associated with the specified name, or <strong>null</strong> if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>name</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -270,12 +312,22 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_EncodingProvider_GetEncoding_System_String_System_Text_EncoderFallback_System_Text_DecoderFallback_.md&amp;value=---%0Auid%3A%20System.Text.EncodingProvider.GetEncoding(System.String%2CSystem.Text.EncoderFallback%2CSystem.Text.DecoderFallback)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/EncodingProvider.cs/#L19">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L194">View Source</a>
               </span>
               <h4 id="System_Text_EncodingProvider_GetEncoding_System_String_System_Text_EncoderFallback_System_Text_DecoderFallback_" data-uid="System.Text.EncodingProvider.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)">GetEncoding(String, EncoderFallback, DecoderFallback)</h4>
               <div class="markdown level1 summary"><p>Returns the encoding associated with the specified name. Parameters specify an error handler for characters that cannot be encoded and byte sequences that cannot be decoded. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_EncodingProvider_GetEncoding_System_String_System_Text_EncoderFallback_System_Text_DecoderFallback__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>encoderFallback</em> and <em>decoderFallback</em> parameters are objects that define the fallback strategy used in the event that an encoder cannot convert a character to a sequence of bytes or a decoder cannot convert a sequence of bytes to a character. The .NET Framework provides the following fallback mechanisms:</p></p>
+<ul><li>
+<p>Exception fallback. If the <em>encoderFallback</em> argument is an instance of <a class="xref" href="System.Text.EncoderExceptionFallback.html#System_Text_EncoderExceptionFallback">EncoderExceptionFallback</a>, or the <em>decoderExceptionFallback</em> argument is an instance of <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>, the encoding method throws an exception if characters cannot be encoded, and the decoding method throws an exception if a byte sequence cannot be decoded.  </p>
+</li><li>
+<p>Replacement fallback. If the <em>encoderFallback</em> argument is an instance of <a class="xref" href="System.Text.EncoderReplacementFallback.html#System_Text_EncoderReplacementFallback">EncoderReplacementFallback</a>, or the <em>decoderExceptionFallback</em> argument is an instance of <a class="xref" href="System.Text.DecoderReplacementFallback.html#System_Text_DecoderReplacementFallback">DecoderReplacementFallback</a>, the encoding and decoding methods substitute a replacement string for characters that cannot be encoded and byte sequences cannot be decoded. If you instantiated the replacement fallback object by calling the default constructor, the replacement character is a &quot;?&quot;. If you call the <span class="xref">System.Text.EncoderReplacementFallback.</span> or <span class="xref">System.Text.DecoderReplacementFallback.</span> constructor, you can specify the replacement string. </p>
+</li><li>
+<p>Best-fit fallback. You can derive from the <a class="xref" href="System.Text.EncoderFallback.html#System_Text_EncoderFallback">EncoderFallback</a> or <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> class to implement a best-fit replacement mechanism. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Encoding GetEncoding(string name, EncoderFallback encoderFallback, DecoderFallback decoderFallback)</code></pre>
@@ -321,7 +373,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Text.Encoding</a></td>
-                    <td><p>The encoding that is associated with the specified name, or null if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>name</em>. </p>
+                    <td><p>The encoding that is associated with the specified name, or <strong>null</strong> if this <a class="xref" href="System.Text.EncodingProvider.html#System_Text_EncodingProvider">EncodingProvider</a> cannot return a valid encoding that corresponds to <em>name</em>. </p>
 </td>
                   </tr>
                 </tbody>

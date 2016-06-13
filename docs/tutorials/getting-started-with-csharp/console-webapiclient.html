@@ -114,7 +114,7 @@ engine and creates your application. Finally, you execute “dotnet run” to
 run your application.</p>
 <h1 id="adding-new-dependencies">Adding New Dependencies</h1>
 <p>One of the key design goals for .NET Core is to minimize the size of
-the .NET framework installation. The .NET Core Standard library contains
+the .NET framework installation. The .NET Core Application framework contains
 only the most common elements of the .NET full framework. This application
 needs more libraries for some of its features. You&#39;ll add those
 dependencies into your project.json file. You&#39;ll need to add the
@@ -124,21 +124,25 @@ so your application can process JSON responses.</p>
 <p>Open your project.json file. Look for the dependencies section. You should
 see one line that looks similar to this:</p>
 <pre><code>&quot;dependencies&quot;: {
-  &quot;NETStandard.Library&quot;: &quot;1.0.0-rc2-23704&quot;
+    &quot;Microsoft.NETCore.App&quot;: {
+        &quot;type&quot;: &quot;platform&quot;,
+        &quot;version&quot;: &quot;1.0.0-rc2-3002702&quot;
+    }
 },
-</code></pre><blockquote><p>Note: The actual version of the .NET Standard Library may be different.</p>
-</blockquote>
-<p>You&#39;ll add two lines to this section to include the two new libraries:</p>
+</code></pre><p>You&#39;ll add two lines to this section to include the two new libraries:</p>
 <pre><code>&quot;dependencies&quot;: {
-  &quot;NETStandard.Library&quot;: &quot;1.0.0-rc2-23704&quot;,
-  &quot;System.Net.Http&quot;: &quot;4.0.1-rc2-23704&quot;,
-  &quot;System.Runtime.Serialization.Json&quot;: &quot;4.0.1-rc2-23704&quot;
+   &quot;Microsoft.NETCore.App&quot;: {
+        &quot;type&quot;: &quot;platform&quot;
+        &quot;version&quot;: &quot;1.0.0-rc2-3002702&quot;,
+    },
+    &quot;System.Runtime.Serialization.Json&quot;: &quot;4.0.2-rc2-24027&quot;,
+    &quot;System.Runtime.Serialization.Primitives&quot;: &quot;4.1.1-rc2-24027&quot;
 },
 </code></pre><p>Most code editors will provide completion for different versions of these
 libraries. You&#39;ll usually want to use the latest version of any package
 that you add. However, it is important to make sure that the versions
 of all packages match, and that they also match the version of the .NET
-Standard Library.</p>
+Core Application framework.</p>
 <p>After you&#39;ve made these changes, you should run &quot;dotnet restore&quot; again so
 that those packages are installed on your system.</p>
 <h1 id="making-web-requests">Making Web Requests</h1>
@@ -416,9 +420,8 @@ property accessor throws an exception.</p>
 again:</p>
 <pre><code class="lang-cs">Console.WriteLine(repo.LastPush);
 </code></pre>
-<p>Your version should now match the finished version located <a href="https://github.com/dotnet/core-docs/">here</a>.</p>
-<blockquote><p>note: I can&#39;t find a way to create a link to the blob until it&#39;s been merged. Hmmm.</p>
-</blockquote>
+<p>Your version should now match the finished version located
+<a href="https://github.com/dotnet/core-docs/tree/master/docs/tutorials/getting-started-with-csharp/console-webapiclient">here</a>.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>This tutorial showed you how to make web requests, parse the result, and display properties of
 those results. You&#39;ve also added new packages as dependencies in your project. You&#39;ve seen some of

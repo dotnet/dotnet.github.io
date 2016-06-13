@@ -88,6 +88,76 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class HttpWebRequest : WebRequest</code></pre>
               </div>
+              <h5 id="System_Net_HttpWebRequest_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class provides support for the properties and methods defined in <a class="xref" href="System.Net.WebRequest.html#System_Net_WebRequest">WebRequest</a> and for additional properties and methods that enable the user to interact directly with servers using HTTP.</p>
+<p>Do not use the <span class="xref">System.Net.HttpWebRequest.</span> constructor. Use the <see cref="Overload:System.Net.WebRequest.Create"></see> method to initialize new <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> objects. If the scheme for the Uniform Resource Identifier (URI) is <code>http://</code> or <code>https://</code>, <see cref="Overload:System.Net.WebRequest.Create"></see> returns an <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> object.</p>
+<p>The <span class="xref">System.Net.HttpWebRequest.GetResponse</span> method makes a synchronous request to the resource specified in the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_RequestUri">RequestUri</a> property and returns an <a class="xref" href="System.Net.HttpWebResponse.html#System_Net_HttpWebResponse">HttpWebResponse</a> that contains the response object. The response data can be received by using the stream returned by <a class="xref" href="System.Net.HttpWebResponse.html#System_Net_HttpWebResponse_GetResponseStream">GetResponseStream()</a>. If the response object or the response stream is closed, remaining data will be forfeited. The remaining data will be drained and the socket will be re-used for subsequent requests when closing the response object or stream if the following conditions hold: it&#39;s a keep-alive or pipelined request, only a small amount of data needs to be received, or the remaining data is received in a small time interval. If none of the mentioned conditions hold or the drain time is exceeded, the socket will be closed. For keep-alive or pipelined connections, we strongly recommend that the application reads the streams until EOF. This ensures that the socket will be re-used for subsequent requests resulting in better performance and less resources used.</p>
+<p>When you want to send data to the resource, the <span class="xref">System.Net.HttpWebRequest.GetRequestStream</span> method returns a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object to use to send data. The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> and <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetRequestStream_System_IAsyncResult_">EndGetRequestStream(IAsyncResult)</a> methods provide asynchronous access to the send data stream.</p>
+<p>For client authentication with <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a>, the client certificate must be installed in the My certificate store of the current user.</p>
+<p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class throws a <a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a> when errors occur while accessing a resource. The <a class="xref" href="System.Net.WebException.html#System_Net_WebException_Status">Status</a> property contains a <a class="xref" href="System.Net.WebExceptionStatus.html#System_Net_WebExceptionStatus">WebExceptionStatus</a> value that indicates the source of the error. When <a class="xref" href="System.Net.WebException.html#System_Net_WebException_Status">Status</a> is <a class="xref" href="System.Net.WebExceptionStatus.html#System_Net_WebExceptionStatus_ProtocolError">ProtocolError</a>, the <a class="xref" href="System.Net.WebException.html#System_Net_WebException_Response">Response</a> property contains the <a class="xref" href="System.Net.HttpWebResponse.html#System_Net_HttpWebResponse">HttpWebResponse</a> received from the resource.</p>
+<p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> exposes common HTTP header values sent to the Internet resource as properties, set by methods, or set by the system; the following table contains a complete list. You can set other headers in the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Headers">Headers</a> property as name/value pairs. Note that servers and caches may change or add headers during the request.</p>
+<p>The following table lists the HTTP headers that are set either by properties or methods or the system.</p>
+<p>Header </p>
+<p>Set by </p>
+<table><tbody><tr><td>
+<p>Accept </p>
+</td><td>
+<p>Set by the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Accept">Accept</a> property. </p>
+</td></tr><tr><td>
+<p>Connection </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Connection</span> property, <span class="xref">System.Net.HttpWebRequest.KeepAlive</span> property. </p>
+</td></tr><tr><td>
+<p>Content-Length </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property. </p>
+</td></tr><tr><td>
+<p>Content-Type </p>
+</td><td>
+<p>Set by the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_ContentType">ContentType</a> property. </p>
+</td></tr><tr><td>
+<p>Expect </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Expect</span> property. </p>
+</td></tr><tr><td>
+<p>Date </p>
+</td><td>
+<p>Set by the system to current date. </p>
+</td></tr><tr><td>
+<p>Host </p>
+</td><td>
+<p>Set by the system to current host information. </p>
+</td></tr><tr><td>
+<p>If-Modified-Since </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.IfModifiedSince</span> property. </p>
+</td></tr><tr><td>
+<p>Range </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.AddRange(System.Int32,System.Int32)</span> method. </p>
+</td></tr><tr><td>
+<p>Referer </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Referer</span> property. </p>
+</td></tr><tr><td>
+<p>Transfer-Encoding </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.TransferEncoding</span> property (the <span class="xref">System.Net.HttpWebRequest.SendChunked</span> property must be <strong>true</strong>). </p>
+</td></tr><tr><td>
+<p>User-Agent </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.UserAgent</span> property. </p>
+</td></tr></tbody></table>
+<p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> is registered automatically. You do not need to call the <a class="xref" href="System.Net.WebRequest.html#System_Net_WebRequest_RegisterPrefix_System_String_System_Net_IWebRequestCreate_">RegisterPrefix(String, IWebRequestCreate)</a> method to register <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> before using URIs beginning with <code>http://</code> or <code>https://</code>.</p>
+<p>The local computer or application config file may specify that a default proxy be used. If the <span class="xref">System.Net.HttpWebRequest.Proxy</span> property is specified, then the proxy settings from the <span class="xref">System.Net.HttpWebRequest.Proxy</span> property override the local computer or application config file and the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> instance will use the proxy settings specified. If no proxy is specified in a config file and the <span class="xref">System.Net.HttpWebRequest.Proxy</span> property is unspecified, the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class uses the proxy settings inherited from Internet Explorer on the local computer. If there are no proxy settings in Internet Explorer, the request is sent directly to the server.</p>
+<p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class parses a proxy bypass list with wildcard characters inherited from Internet Explorer differently than the bypass list is parsed directly by Internet Explorer. For example, the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class will parse a bypass list of &quot;nt*&quot; from Internet Explorer as a regular expression of &quot;nt.$&quot;. This differs from the native behavior of Internet Explorer. So a URL of &quot;<code>http://intxxxxx</code>&quot; would bypass the proxy using the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class, but would not bypass the proxy using Internet Explorer.</p>
+<p>The Framework caches SSL sessions as they are created and attempts to reuse a cached session for a new request, if possible. When attempting to reuse an SSL session, the Framework uses the first element of <span class="xref">System.Net.HttpWebRequest.ClientCertificates</span> (if there is one), or tries to reuse an anonymous sessions if <span class="xref">System.Net.HttpWebRequest.ClientCertificates</span> is empty.</p>
+<p>For security reasons, cookies are disabled by default. If you want to use cookies, use the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_CookieContainer">CookieContainer</a> property to enable cookies.</p>
+<p>The .NET Framework 4.6 includes a new security feature that blocks insecure cipher and hashing algorithms for connections. Applications using TLS/SSL through APIs such as HttpClient, HttpWebRequest, FTPClient, SmtpClient, SslStream, etc. and targeting .NET Framework 4.6 get the more-secure behavior by default.</p>
+<p>Developers may want to opt out of this behavior in order to maintain interoperability with their existing SSL3 services OR TLS w/ RC4 services. <see href="https://support.microsoft.com/kb/3069494">This article</see> explains how to modify your code so that the new behavior is disabled.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -98,9 +168,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Requests/src/System/Net/HttpWebRequest.cs/#L61">View Source</a>
               </span>
               <h4 id="System_Net_HttpWebRequest_Accept" data-uid="System.Net.HttpWebRequest.Accept">Accept</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the value of the Accept HTTP header.</p>
+              <div class="markdown level1 summary"><p>Gets or sets the value of the <strong>Accept</strong> HTTP header.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_Accept_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To clear the <strong>Accept</strong> HTTP header, set the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Accept">Accept</a> property to <strong>null</strong>.</p>
+<p>The value for this property is stored in <a class="xref" href="System.Net.WebHeaderCollection.html#System_Net_WebHeaderCollection">WebHeaderCollection</a>. If WebHeaderCollection is set, the property value is lost.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Accept { get; set; }</code></pre>
@@ -116,7 +190,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The value of the Accept HTTP header. The default value is null.</p>
+                    <td><p>The value of the <strong>Accept</strong> HTTP header. The default value is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -147,7 +221,10 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true to buffer the received from the Internet resource; otherwise, false.true to enable buffering of the data received from the Internet resource; false to disable buffering. The default is true.</p>
+                    <td><p>
+<strong>true</strong> to buffer the received from the Internet resource; otherwise, <strong>false</strong>.</p>
+<p>
+<strong>true</strong> to enable buffering of the data received from the Internet resource; <strong>false</strong> to disable buffering. The default is <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -160,9 +237,14 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Requests/src/System/Net/HttpWebRequest.cs/#L85">View Source</a>
               </span>
               <h4 id="System_Net_HttpWebRequest_ContentType" data-uid="System.Net.HttpWebRequest.ContentType">ContentType</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the value of the Content-type HTTP header.</p>
+              <div class="markdown level1 summary"><p>Gets or sets the value of the <strong>Content-type</strong> HTTP header.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_ContentType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_ContentType">ContentType</a> property contains the media type of the request. Values assigned to the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_ContentType">ContentType</a> property replace any existing contents when the request sends the <strong>Content-type</strong> HTTP header.</p>
+<p>To clear the <strong>Content-type</strong> HTTP header, set the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_ContentType">ContentType</a> property to <strong>null</strong>.</p>
+<p>The value for this property is stored in <a class="xref" href="System.Net.WebHeaderCollection.html#System_Net_WebHeaderCollection">WebHeaderCollection</a> . If <a class="xref" href="System.Net.WebHeaderCollection.html#System_Net_WebHeaderCollection">WebHeaderCollection</a> is set, the property value is lost.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ContentType { get; set; }</code></pre>
@@ -178,7 +260,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The value of the Content-type HTTP header. The default value is null.</p>
+                    <td><p>The value of the <strong>Content-type</strong> HTTP header. The default value is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -194,6 +276,9 @@
               <div class="markdown level1 summary"><p>Gets or sets a timeout, in milliseconds, to wait until the 100-Continue is received from the server. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_ContinueTimeout_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the 100-Continue response is received before the timeout expires, the entity body can be sent.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int ContinueTimeout { get; set; }</code></pre>
@@ -225,6 +310,12 @@
               <div class="markdown level1 summary"><p>Gets or sets the cookies associated with the request.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_CookieContainer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_CookieContainer">CookieContainer</a> property provides an instance of the <a class="xref" href="System.Net.CookieContainer.html#System_Net_CookieContainer">CookieContainer</a> class that contains the cookies associated with this request.</p>
+<p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_CookieContainer">CookieContainer</a> is <strong>null</strong> by default. You must assign a <a class="xref" href="System.Net.CookieContainer.html#System_Net_CookieContainer">CookieContainer</a> object to the property to have cookies returned in the <a class="xref" href="System.Net.HttpWebResponse.html#System_Net_HttpWebResponse_Cookies">Cookies</a> property of the <a class="xref" href="System.Net.HttpWebResponse.html#System_Net_HttpWebResponse">HttpWebResponse</a> returned by the <span class="xref">System.Net.HttpWebRequest.GetResponse</span> method.</p>
+<p>For security reasons, cookies are disabled by default. If you want to use cookies, use the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_CookieContainer">CookieContainer</a> property to enable cookies.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual CookieContainer CookieContainer { get; set; }</code></pre>
@@ -256,6 +347,14 @@
               <div class="markdown level1 summary"><p>Gets or sets authentication information for the request.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_Credentials_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Credentials">Credentials</a> property contains authentication information to identify the maker of the request. The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Credentials">Credentials</a> property can be either a <a class="xref" href="System.Net.NetworkCredential.html#System_Net_NetworkCredential">NetworkCredential</a>, in which case the user, password, and domain information contained in the <a class="xref" href="System.Net.NetworkCredential.html#System_Net_NetworkCredential">NetworkCredential</a> object is used to authenticate the request, or it can be a <a class="xref" href="System.Net.CredentialCache.html#System_Net_CredentialCache">CredentialCache</a>, in which case the Uniform Resource Identifier (URI) of the request is used to determine the user, password, and domain information to use to authenticate the request.</p>
+<p>In most client scenarios, you should use the <a class="xref" href="System.Net.CredentialCache.html#System_Net_CredentialCache_DefaultCredentials">DefaultCredentials</a> property, which contains the credentials of the currently logged on user. To do this, set the <span class="xref">System.Net.WebClient.UseDefaultCredentials</span> property to <strong>true</strong> instead of setting this property.</p>
+<p>If the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class is being used in a middle-tier application, such as an ASP.NET application, the credentials in the <a class="xref" href="System.Net.CredentialCache.html#System_Net_CredentialCache_DefaultCredentials">DefaultCredentials</a> property belong to the account running the ASP page (the server-side credentials). Typically, you would set this property to the credentials of the client on whose behalf the request is made. </p>
+<p>The NTLM authentication scheme cannot be used to impersonate another user. Kerberos must be specially configured to support impersonation.</p>
+<p>To restrict HttpWebRequest to one or more authentication methods, use the <a class="xref" href="System.Net.CredentialCache.html#System_Net_CredentialCache">CredentialCache</a> class and bind your credentials to one or more authentication schemes</p>
+<p>Supported authentication schemes include Digest, Negotiate, Kerberos, NTLM, and Basic.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override ICredentials Credentials { get; set; }</code></pre>
@@ -271,7 +370,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Net.ICredentials.html#System_Net_ICredentials">ICredentials</a></td>
-                    <td><p>An <a class="xref" href="System.Net.ICredentials.html#System_Net_ICredentials">ICredentials</a> that contains the authentication credentials associated with the request. The default is null.</p>
+                    <td><p>An <a class="xref" href="System.Net.ICredentials.html#System_Net_ICredentials">ICredentials</a> that contains the authentication credentials associated with the request. The default is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -302,7 +401,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if a response has been received; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if a response has been received; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -318,6 +418,63 @@
               <div class="markdown level1 summary"><p>Specifies a collection of the name/value pairs that make up the HTTP headers.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_Headers_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Headers">Headers</a> collection contains the protocol headers associated with the request. The following table lists the HTTP headers that are not stored in the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Headers">Headers</a> collection but are either set by the system or set by properties or methods.</p>
+<p>Header </p>
+<p>Set by </p>
+<table><tbody><tr><td>
+<p>Accept </p>
+</td><td>
+<p>Set by the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Accept">Accept</a> property. </p>
+</td></tr><tr><td>
+<p>Connection </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Connection</span> property and <span class="xref">System.Net.HttpWebRequest.KeepAlive</span> property. </p>
+</td></tr><tr><td>
+<p>Content-Length </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property. </p>
+</td></tr><tr><td>
+<p>Content-Type </p>
+</td><td>
+<p>Set by the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_ContentType">ContentType</a> property. </p>
+</td></tr><tr><td>
+<p>Expect </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Expect</span> property. </p>
+</td></tr><tr><td>
+<p>Date </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Date</span> property. </p>
+</td></tr><tr><td>
+<p>Host </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Host</span> property. </p>
+</td></tr><tr><td>
+<p>If-Modified-Since </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.IfModifiedSince</span> property. </p>
+</td></tr><tr><td>
+<p>Range </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.AddRange(System.Int32,System.Int32)</span> method. </p>
+</td></tr><tr><td>
+<p>Referer </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.Referer</span> property. </p>
+</td></tr><tr><td>
+<p>Transfer-Encoding </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.TransferEncoding</span> property (the <span class="xref">System.Net.HttpWebRequest.SendChunked</span> property must be true). </p>
+</td></tr><tr><td>
+<p>User-Agent </p>
+</td><td>
+<p>Set by the <span class="xref">System.Net.HttpWebRequest.UserAgent</span> property. </p>
+</td></tr></tbody></table>
+<p>The <span class="xref">System.Net.WebHeaderCollection.Add(System.Net.HttpRequestHeader,System.String)</span> method throws an <a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a> if you try to set one of these protected headers.</p>
+<p>Changing the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Headers">Headers</a> property after the request has been started by calling <span class="xref">System.Net.HttpWebRequest.GetRequestStream</span>, <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a>, <span class="xref">System.Net.HttpWebRequest.GetResponse</span>, or <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method throws an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p>
+<p>You should not assume that the header values will remain unchanged, because Web servers and caches may change or add headers to a Web request.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override WebHeaderCollection Headers { get; set; }</code></pre>
@@ -365,6 +522,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the method for the request.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_Method_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> property can be set to any of the HTTP 1.1 protocol verbs: GET, HEAD, POST, PUT, DELETE, TRACE, or OPTIONS.</p>
+<p>If the <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property is set to any value other than -1, the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> property must be set to a protocol property that uploads data.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string Method { get; set; }</code></pre>
@@ -396,7 +557,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>No method is supplied.-or- The method string contains invalid characters. </p>
+                    <td><p>No method is supplied.</p>
+<p>-or- </p>
+<p>The method string contains invalid characters. </p>
 </td>
                   </tr>
                 </tbody>
@@ -412,6 +575,10 @@
               <div class="markdown level1 summary"><p>Gets the original Uniform Resource Identifier (URI) of the request.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_RequestUri_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Uri.html#System_Uri">Uri</a> object passed to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> by the call to <a class="xref" href="System.Net.WebRequest.html#System_Net_WebRequest_Create_System_String_">Create(String)</a>.</p>
+<p>Following a redirection header does not change the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_RequestUri">RequestUri</a> property. To get the actual URI that responded to the request, examine the <span class="xref">System.Net.HttpWebRequest.Address</span> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Uri RequestUri { get; }</code></pre>
@@ -458,7 +625,10 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the request provides support for a <a class="xref" href="System.Net.CookieContainer.html#System_Net_CookieContainer">CookieContainer</a>; otherwise, false.true if a <a class="xref" href="System.Net.CookieContainer.html#System_Net_CookieContainer">CookieContainer</a> is supported; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> if the request provides support for a <a class="xref" href="System.Net.CookieContainer.html#System_Net_CookieContainer">CookieContainer</a>; otherwise, <strong>false</strong>.</p>
+<p>
+<strong>true</strong> if a <a class="xref" href="System.Net.CookieContainer.html#System_Net_CookieContainer">CookieContainer</a> is supported; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -474,6 +644,9 @@
               <div class="markdown level1 summary"><p>Gets or sets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that controls whether default credentials are sent with requests.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_UseDefaultCredentials_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Set this property to <strong>true</strong> when requests made by this <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> object should, if requested by the server, be authenticated using the credentials of the currently logged on user. For client applications, this is the desired behavior in most scenarios. For middle-tier applications, such as ASP.NET applications, instead of using this property, you would typically set the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Credentials">Credentials</a> property to the credentials of the client on whose behalf the request is made.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool UseDefaultCredentials { get; set; }</code></pre>
@@ -489,7 +662,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the default credentials are used; otherwise false. The default value is false.</p>
+                    <td><p>
+<strong>true</strong> if the default credentials are used; otherwise <strong>false</strong>. The default value is <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -523,6 +697,11 @@
               <div class="markdown level1 summary"><p>Cancels a request to an Internet resource.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_Abort_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> method cancels a request to a resource. After a request is canceled, calling the <span class="xref">System.Net.HttpWebRequest.GetResponse</span>, <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a>, <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetResponse_System_IAsyncResult_">EndGetResponse(IAsyncResult)</a>, <span class="xref">System.Net.HttpWebRequest.GetRequestStream</span>, <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a>, or <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetRequestStream_System_IAsyncResult_">EndGetRequestStream(IAsyncResult)</a> method causes a <a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a> with the <a class="xref" href="System.Net.WebException.html#System_Net_WebException_Status">Status</a> property set to <a class="xref" href="System.Net.WebExceptionStatus.html#System_Net_WebExceptionStatus_RequestCanceled">RequestCanceled</a>.</p>
+<p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> method will synchronously execute the callback specified to the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> or <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> methods if the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> method is called while either of these operations are outstanding. This can lead to potential deadlock issues.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Abort()</code></pre>
@@ -538,6 +717,13 @@
               <div class="markdown level1 summary"><p>Begins an asynchronous request for a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object to use to write data.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method starts an asynchronous request for a stream used to send data for the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a>. The asynchronous callback method uses the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetRequestStream_System_IAsyncResult_">EndGetRequestStream(IAsyncResult)</a> method to return the actual stream.</p>
+<p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method requires some synchronous setup tasks to complete (DNS resolution, proxy detection, and TCP socket connection, for example) before this method becomes asynchronous. As a result, this method should never be called on a user interface (UI) thread because it might take considerable time (up to several minutes depending on network settings) to complete the initial synchronous setup tasks before an exception for an error is thrown or the method succeeds.  </p>
+<p>To learn more about the thread pool, see The Managed Thread Pool.</p>
+<p>Your application cannot mix synchronous and asynchronous methods for a particular request. If you call the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method, you must use the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method to retrieve the response.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override IAsyncResult BeginGetRequestStream(AsyncCallback callback, object state)</code></pre>
@@ -593,12 +779,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Net.ProtocolViolationException.html#System_Net_ProtocolViolationException">ProtocolViolationException</a></td>
-                    <td><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> property is GET or HEAD.-or- <span class="xref">System.Net.HttpWebRequest.KeepAlive</span> is true, <span class="xref">System.Net.HttpWebRequest.AllowWriteStreamBuffering</span> is false, <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is -1, <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is false, and <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> is POST or PUT. </p>
+                    <td><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> property is GET or HEAD.</p>
+<p>-or- </p>
+<p>
+<span class="xref">System.Net.HttpWebRequest.KeepAlive</span> is <strong>true</strong>, <span class="xref">System.Net.HttpWebRequest.AllowWriteStreamBuffering</span> is <strong>false</strong>, <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is -1, <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is <strong>false</strong>, and <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> is POST or PUT. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The stream is being used by a previous call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a>-or- <span class="xref">System.Net.HttpWebRequest.TransferEncoding</span> is set to a value and <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is false.-or- The thread pool is running out of threads. </p>
+                    <td><p>The stream is being used by a previous call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a></p>
+<p>-or- </p>
+<p>
+<span class="xref">System.Net.HttpWebRequest.TransferEncoding</span> is set to a value and <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is <strong>false</strong>.</p>
+<p>-or- </p>
+<p>The thread pool is running out of threads. </p>
 </td>
                   </tr>
                   <tr>
@@ -608,12 +802,13 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a></td>
-                    <td><p><a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called. </p>
+                    <td><p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>In a .NET Compact Framework application, a request stream with zero content length was not obtained and closed correctly. For more information about handling zero content length requests, see Network Programming in the .NET Compact Framework.</p>
+                    <td><p>In a .NET Compact Framework application, a request stream with zero content length was not obtained and closed correctly. For more information about handling zero content length requests, see <see href="https://msdn.microsoft.com/subscriptions/downloads/1afx2b0f(v=vs.80).aspx">Network Programming in the .NET Compact Framework</see>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -629,6 +824,15 @@
               <div class="markdown level1 summary"><p>Begins an asynchronous request to an Internet resource.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method starts an asynchronous request for a response from the Internet resource. The asynchronous callback method uses the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetResponse_System_IAsyncResult_">EndGetResponse(IAsyncResult)</a> method to return the actual <a class="xref" href="System.Net.WebResponse.html#System_Net_WebResponse">WebResponse</a>.</p>
+<p>A <a class="xref" href="System.Net.ProtocolViolationException.html#System_Net_ProtocolViolationException">ProtocolViolationException</a> is thrown in several cases when the properties set on the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> class are conflicting. This exception occurs if an application sets the <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property and the <span class="xref">System.Net.HttpWebRequest.SendChunked</span> property to <strong>true</strong>, and then sends an HTTP GET request. This exception occurs if an application tries to send chunked to a server that only supports HTTP 1.0 protocol, where this is not supported. This exception occurs if an application tries to send data without setting the <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property or the <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is <strong>false</strong> when buffering is disabled and on a keepalive connection (the <span class="xref">System.Net.HttpWebRequest.KeepAlive</span> property is <strong>true</strong>)<strong>.</strong></p>
+<p>If a <a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a> is thrown, use the <a class="xref" href="System.Net.WebException.html#System_Net_WebException_Response">Response</a> and <a class="xref" href="System.Net.WebException.html#System_Net_WebException_Status">Status</a> properties of the exception to determine the response from the server.</p>
+<p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method requires some synchronous setup tasks to complete (DNS resolution, proxy detection, and TCP socket connection, for example) before this method becomes asynchronous. As a result, this method should never be called on a user interface (UI) thread because it might take considerable time (up to several minutes depending on network settings) to complete the initial synchronous setup tasks before an exception for an error is thrown or the method succeeds.  </p>
+<p>To learn more about the thread pool, see The Managed Thread Pool.</p>
+<p>Your application cannot mix synchronous and asynchronous methods for a particular request. If you call the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method, you must use the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method to retrieve the response. </p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override IAsyncResult BeginGetResponse(AsyncCallback callback, object state)</code></pre>
@@ -684,17 +888,31 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The stream is already in use by a previous call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a>-or- <span class="xref">System.Net.HttpWebRequest.TransferEncoding</span> is set to a value and <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is false.-or- The thread pool is running out of threads. </p>
+                    <td><p>The stream is already in use by a previous call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a></p>
+<p>-or- </p>
+<p>
+<span class="xref">System.Net.HttpWebRequest.TransferEncoding</span> is set to a value and <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is <strong>false</strong>.</p>
+<p>-or- </p>
+<p>The thread pool is running out of threads. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.ProtocolViolationException.html#System_Net_ProtocolViolationException">ProtocolViolationException</a></td>
-                    <td><p><a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> is GET or HEAD, and either <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is greater than zero or <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is true.-or- <span class="xref">System.Net.HttpWebRequest.KeepAlive</span> is true, <span class="xref">System.Net.HttpWebRequest.AllowWriteStreamBuffering</span> is false, and either <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is -1, <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is false and <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> is POST or PUT.-or- The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> has an entity body but the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method is called without calling the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method. -or- The <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is greater than zero, but the application does not write all of the promised data.</p>
+                    <td><p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> is GET or HEAD, and either <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is greater than zero or <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is <strong>true</strong>.</p>
+<p>-or- </p>
+<p>
+<span class="xref">System.Net.HttpWebRequest.KeepAlive</span> is <strong>true</strong>, <span class="xref">System.Net.HttpWebRequest.AllowWriteStreamBuffering</span> is <strong>false</strong>, and either <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is -1, <span class="xref">System.Net.HttpWebRequest.SendChunked</span> is <strong>false</strong> and <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Method">Method</a> is POST or PUT.</p>
+<p>-or- </p>
+<p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> has an entity body but the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method is called without calling the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method. </p>
+<p>-or- </p>
+<p>The <span class="xref">System.Net.HttpWebRequest.ContentLength</span> is greater than zero, but the application does not write all of the promised data.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a></td>
-                    <td><p><a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called. </p>
+                    <td><p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called. </p>
 </td>
                   </tr>
                 </tbody>
@@ -710,6 +928,12 @@
               <div class="markdown level1 summary"><p>Ends an asynchronous request for a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object to use to write data.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_EndGetRequestStream_System_IAsyncResult__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetRequestStream_System_IAsyncResult_">EndGetRequestStream(IAsyncResult)</a> method completes an asynchronous request for a stream that was started by the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a> method. After the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object has been returned, you can send data with the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> by using the <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method.</p>
+<p>You must set the value of the <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property before writing data to the stream.</p>
+<p>You must call the <span class="xref">System.IO.Stream.Close</span> method to close the stream and release the connection for reuse. Failure to close the stream causes your application to run out of connections.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override IO.Stream EndGetRequestStream(IAsyncResult asyncResult)</code></pre>
@@ -759,7 +983,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>asyncResult</em> is null. </p>
+                    <td><p>
+<em>asyncResult</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -769,7 +994,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>asyncResult</em> was not returned by the current instance from a call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a>. </p>
+                    <td><p>
+<em>asyncResult</em> was not returned by the current instance from a call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetRequestStream_System_AsyncCallback_System_Object_">BeginGetRequestStream(AsyncCallback, Object)</a>. </p>
 </td>
                   </tr>
                   <tr>
@@ -779,7 +1005,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a></td>
-                    <td><p><a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called.-or- An error occurred while processing the request. </p>
+                    <td><p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called.</p>
+<p>-or- </p>
+<p>An error occurred while processing the request. </p>
 </td>
                   </tr>
                 </tbody>
@@ -795,6 +1024,11 @@
               <div class="markdown level1 summary"><p>Ends an asynchronous request to an Internet resource.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_HttpWebRequest_EndGetResponse_System_IAsyncResult__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_EndGetResponse_System_IAsyncResult_">EndGetResponse(IAsyncResult)</a> method completes an asynchronous request for an Internet resource that was started by calling the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a> method.</p>
+<p>You must call the <span class="xref">System.Net.HttpWebResponse.Close</span> method to close the stream and release the connection. Failure to do so may cause your application to run out of connections.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override WebResponse EndGetResponse(IAsyncResult asyncResult)</code></pre>
@@ -844,22 +1078,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>asyncResult</em> is null. </p>
+                    <td><p>
+<em>asyncResult</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>This method was called previously using <em>asyncResult.</em>-or- The <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property is greater than 0 but the data has not been written to the request stream. </p>
+                    <td><p>This method was called previously using <em>asyncResult.</em></p>
+<p>-or- </p>
+<p>The <span class="xref">System.Net.HttpWebRequest.ContentLength</span> property is greater than 0 but the data has not been written to the request stream. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.WebException.html#System_Net_WebException">WebException</a></td>
-                    <td><p><a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called.-or- An error occurred while processing the request. </p>
+                    <td><p>
+<a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_Abort">Abort()</a> was previously called.</p>
+<p>-or- </p>
+<p>An error occurred while processing the request. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>asyncResult</em> was not returned by the current instance from a call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a>. </p>
+                    <td><p>
+<em>asyncResult</em> was not returned by the current instance from a call to <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest_BeginGetResponse_System_AsyncCallback_System_Object_">BeginGetResponse(AsyncCallback, Object)</a>. </p>
 </td>
                   </tr>
                 </tbody>

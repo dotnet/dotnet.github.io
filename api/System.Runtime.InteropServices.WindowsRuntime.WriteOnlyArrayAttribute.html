@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/WindowsRuntime/Attributes.cs/#L97" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices.WindowsRuntime/ref/System.Runtime.InteropServices.WindowsRuntime.cs/#L76" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute" data-uid="System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute">Class WriteOnlyArrayAttribute
               </h1>
               <div class="markdown level0 summary"><p>When applied to an array parameter in a Windows Runtime component, specifies that the contents of an array that is passed to that parameter are used only for output. The caller does not guarantee that the contents are initialized, and the called method should not read the contents. See the Remarks section for important information about callers that are written using managed code.</p>
@@ -87,6 +87,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class WriteOnlyArrayAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>If an array parameter in your Windows Runtime component is passed by value (<strong>ByVal</strong> in Visual Basic), you must apply one of the following attributes to it: </p>
+<ul><li>
+<p>Apply the <a class="xref" href="System.Runtime.InteropServices.WindowsRuntime.ReadOnlyArrayAttribute.html#System_Runtime_InteropServices_WindowsRuntime_ReadOnlyArrayAttribute">ReadOnlyArrayAttribute</a> attribute if you intend the contents of the array to be used for input only. </p>
+</li><li>
+<p>Apply the <a class="xref" href="System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute.html#System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute">WriteOnlyArrayAttribute</a> attribute if you intend the contents of the array to be used for output only (that is, the method sets the contents of the array but does not read them).</p>
+</li></ul>
+<p>Applying both attributes to a parameter causes an error. For more information, including the standard pattern for making changes to an array, see <see href="http://go.microsoft.com/fwlink/?LinkId=251026">Passing arrays to a Windows Runtime component</see> in the Windows Dev Center.</p>
+<p>Parameters that have the <a class="xref" href="System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute.html#System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute">WriteOnlyArrayAttribute</a> attribute behave differently depending on whether the caller is written in native code or managed code. If the caller is native code (JavaScript or Visual C++ component extensions), the called method can&#39;t make any assumptions about the contents of the original array. For example, the array the method receives might not be initialized, or might contain default values. The method is expected to set the values of all the elements in the array. </p>
+<p>If the caller is managed code, the caller&#39;s original array is passed to the called method, as it would be in any method call in the .NET Framework. Array contents are mutable in managed code, so the method can selectively read and change those values. This is important to remember because it affects unit tests written for a Windows Runtime component. If the tests are written in managed code, the contents of an array will appear to be mutable during testing, and the results are likely to be different if the method is called from native code later. </p>
+<p>Applying this attribute to an <strong>out</strong> parameter or to a parameter that has the <a class="xref" href="System.Runtime.InteropServices.InAttribute.html#System_Runtime_InteropServices_InAttribute">InAttribute</a> attribute causes an error when the module is exported. Applying the attribute to a parameter that has the <a class="xref" href="System.Runtime.InteropServices.OutAttribute.html#System_Runtime_InteropServices_OutAttribute">OutAttribute</a> attribute causes an error unless the parameter also has the Visual Basic <strong>ByRef</strong> modifier. In that case, the attribute is redundant but allowed. </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +106,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute__ctor.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/WindowsRuntime/Attributes.cs/#L100">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices.WindowsRuntime/ref/System.Runtime.InteropServices.WindowsRuntime.cs/#L79">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute__ctor" data-uid="System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute.#ctor">WriteOnlyArrayAttribute()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.WindowsRuntime.WriteOnlyArrayAttribute.html#System_Runtime_InteropServices_WindowsRuntime_WriteOnlyArrayAttribute">WriteOnlyArrayAttribute</a> class. </p>

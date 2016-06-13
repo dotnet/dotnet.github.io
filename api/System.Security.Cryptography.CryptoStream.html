@@ -87,6 +87,11 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class CryptoStream : IO.Stream, IDisposable</code></pre>
               </div>
+              <h5 id="System_Security_Cryptography_CryptoStream_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The common language runtime uses a stream-oriented design for cryptography. The core of this design is <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a>. Any cryptographic objects that implement <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> can be chained together with any objects that implement <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, so the streamed output from one object can be fed into the input of another object. The intermediate result (the output from the first object) does not need to be stored separately.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly by calling its <span class="xref">System.Security.Cryptography.CryptoStream.Clear</span> method, which in turn calls its <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> implementation. To dispose of the type directly, call its <span class="xref">System.Security.Cryptography.CryptoStream.Clear</span> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic. </p>
+<p>You should always explicitly close your <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> object after you are done using it by calling the <span class="xref">System.Security.Cryptography.CryptoStream.Clear</span> method.  Doing so flushes the underlying stream and causes all remaining blocks of data to be processed by the <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> object.  However, if an exception occurs before you call the <span class="xref">System.IO.Stream.Close</span> method, the <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> object might not be closed.  To ensure that the <span class="xref">System.IO.Stream.Close</span> method always gets called, place your call to the <span class="xref">System.Security.Cryptography.CryptoStream.Clear</span> method within the <strong>finally</strong> block of a <strong>try</strong>/<strong>catch</strong> statement.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +105,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> class with a target data stream, the transformation to use, and the mode of the stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream__ctor_System_IO_Stream_System_Security_Cryptography_ICryptoTransform_System_Security_Cryptography_CryptoStreamMode__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Any object that derives from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> can be passed into the <em>stream</em> parameter. Any object that implements <a class="xref" href="System.Security.Cryptography.ICryptoTransform.html#System_Security_Cryptography_ICryptoTransform">ICryptoTransform</a> (such as <a class="xref" href="System.Security.Cryptography.HashAlgorithm.html#System_Security_Cryptography_HashAlgorithm">HashAlgorithm</a>) can be passed into the <em>transform</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public CryptoStream(IO.Stream stream, ICryptoTransform transform, CryptoStreamMode mode)</code></pre>
@@ -145,17 +153,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> is not readable.</p>
+                    <td><p>
+<em>stream</em> is not readable.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> is not writable.</p>
+                    <td><p>
+<em>stream</em> is not writable.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> is invalid.</p>
+                    <td><p>
+<em>stream</em> is invalid.</p>
 </td>
                   </tr>
                 </tbody>
@@ -188,7 +199,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current stream is readable; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current stream is readable; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -204,6 +216,9 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether you can seek within the current <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_CanSeek_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Seeking is not enabled in a <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a>, so this method always returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanSeek { get; }</code></pre>
@@ -219,7 +234,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>Always false.</p>
+                    <td><p>Always <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -250,7 +265,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current stream is writable; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current stream is writable; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -266,6 +282,9 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the final buffer block has been written to the underlying stream. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_HasFlushedFinalBlock_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is set <strong>true</strong> when the <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_FlushFinalBlock">FlushFinalBlock()</a> method is called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool HasFlushedFinalBlock { get; }</code></pre>
@@ -281,7 +300,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the final block has been flushed; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> if the final block has been flushed; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -297,6 +317,9 @@
               <div class="markdown level1 summary"><p>Gets the length in bytes of the stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_Length_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property exists only to support inheritance from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, and cannot be used.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Length { get; }</code></pre>
@@ -344,6 +367,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the position within the current stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_Position_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property exists only to support inheritance from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, and cannot be used.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Position { get; set; }</code></pre>
@@ -393,6 +419,10 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> and optionally releases the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <strong>Dispose()</strong> method and the <strong>Finalize</strong> method. <strong>Dispose()</strong> invokes the protected <strong>Dispose(Boolean)</strong> method with the disposing parameter set to <strong>true</strong>. <strong>Finalize</strong> invokes <strong>Dispose</strong> with disposing set to <strong>false</strong>.</p>
+<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream">CryptoStream</a> references. This method invokes the <strong>Dispose()</strong> method of each referenced object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
@@ -410,7 +440,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources. </p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>
 </td>
                   </tr>
                 </tbody>
@@ -426,6 +457,10 @@
               <div class="markdown level1 summary"><p>Clears all buffers for the current stream and causes any buffered data to be written to the underlying device.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_Flush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_Flush">Flush()</a> or <span class="xref">System.IO.Stream.Close</span>. Setting <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p>
+<p>You should call either the <span class="xref">System.IO.Stream.Close</span> method or the <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_FlushFinalBlock">FlushFinalBlock()</a> method to complete flushing the buffer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Flush()</code></pre>
@@ -441,6 +476,10 @@
               <div class="markdown level1 summary"><p>Clears all buffers for the current stream asynchronously, causes any buffered data to be written to the underlying device, and monitors cancellation requests.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_FlushAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must preface your call to <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_FlushAsync_System_Threading_CancellationToken_">FlushAsync(Threading.CancellationToken)</a> with the <strong>await</strong> (C#) or <strong>Await</strong> (Visual Basic) operator to suspend execution of the method until the task is complete. For more information, see Asynchronous Programming with Async and Await (C# and Visual Basic).</p>
+<p>If the operation is canceled before it completes, the returned task contains the <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> value for the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Status">Status</a> property. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task FlushAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -456,7 +495,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The token to monitor for cancellation requests. The default value is <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_None">None</a>.</p>
 </td>
@@ -473,7 +512,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><p>A task that represents the asynchronous flush operation.</p>
 </td>
                   </tr>
@@ -506,6 +545,9 @@
               <div class="markdown level1 summary"><p>Updates the underlying data source or repository with the current state of the buffer, then clears the buffer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_FlushFinalBlock_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling the <span class="xref">System.IO.Stream.Close</span> method will call <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_FlushFinalBlock">FlushFinalBlock()</a>. If you do not call <span class="xref">System.IO.Stream.Close</span>, call <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_FlushFinalBlock">FlushFinalBlock()</a> to complete flushing the buffer. Call <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_FlushFinalBlock">FlushFinalBlock()</a> only when all stream activity is complete.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void FlushFinalBlock()</code></pre>
@@ -526,7 +568,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>The current stream is not writable.-or- The final block has already been transformed. </p>
+                    <td><p>The current stream is not writable.</p>
+<p>-or- </p>
+<p>The final block has already been transformed. </p>
 </td>
                   </tr>
                 </tbody>
@@ -608,7 +652,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p>The <em>offset</em> parameter is less than zero.-or- The <em>count</em> parameter is less than zero. </p>
+                    <td><p>The <em>offset</em> parameter is less than zero.</p>
+<p>-or- </p>
+<p>The <em>count</em> parameter is less than zero. </p>
 </td>
                   </tr>
                   <tr>
@@ -629,6 +675,10 @@
               <div class="markdown level1 summary"><p>Reads a sequence of bytes from the current stream asynchronously, advances the position within the stream by the number of bytes read, and monitors cancellation requests.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_ReadAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must preface your call to <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_ReadAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken_">ReadAsync(Byte[], Int32, Int32, Threading.CancellationToken)</a> with the <strong>await</strong> (C#) or <strong>Await</strong> (Visual Basic) operator to suspend execution of the method until the task is complete. For more information, see Asynchronous Programming with Async and Await (C# and Visual Basic).</p>
+<p>If the operation is canceled before it completes, the returned task contains the <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> value for the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Status">Status</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;int&gt; ReadAsync(byte[] buffer, int offset, int count, Threading.CancellationToken cancellationToken)</code></pre>
@@ -662,7 +712,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The token to monitor for cancellation requests. The default value is <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_None">None</a>.</p>
 </td>
@@ -696,12 +746,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null.</p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is negative.</p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is negative.</p>
 </td>
                   </tr>
                   <tr>
@@ -737,6 +789,9 @@
               <div class="markdown level1 summary"><p>Sets the position within the current stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_Seek_System_Int64_System_IO_SeekOrigin__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method exists only to support inheritance from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, and cannot be used.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Seek(long offset, IO.SeekOrigin origin)</code></pre>
@@ -808,6 +863,9 @@
               <div class="markdown level1 summary"><p>Sets the length of the current stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_SetLength_System_Int64__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property exists only to support inheritance from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, and cannot be used.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void SetLength(long value)</code></pre>
@@ -907,7 +965,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p>The <em>offset</em> parameter is less than zero.-or- The <em>count</em> parameter is less than zero. </p>
+                    <td><p>The <em>offset</em> parameter is less than zero.</p>
+<p>-or- </p>
+<p>The <em>count</em> parameter is less than zero. </p>
 </td>
                   </tr>
                   <tr>
@@ -928,6 +988,10 @@
               <div class="markdown level1 summary"><p>Writes a sequence of bytes to the current stream asynchronously, advances the current position within the stream by the number of bytes written, and monitors cancellation requests.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Cryptography_CryptoStream_WriteAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must preface your call to <a class="xref" href="System.Security.Cryptography.CryptoStream.html#System_Security_Cryptography_CryptoStream_WriteAsync_System_Byte___System_Int32_System_Int32_System_Threading_CancellationToken_">WriteAsync(Byte[], Int32, Int32, Threading.CancellationToken)</a> with the <strong>await</strong> (C#) or <strong>Await</strong> (Visual Basic) operator to suspend execution of the method until the task is complete. For more information, see Asynchronous Programming with Async and Await (C# and Visual Basic).</p>
+<p>If the operation is canceled before it completes, the returned task contains the <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> value for the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Status">Status</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task WriteAsync(byte[] buffer, int offset, int count, Threading.CancellationToken cancellationToken)</code></pre>
@@ -961,7 +1025,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The token to monitor for cancellation requests. The default value is <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_None">None</a>.</p>
 </td>
@@ -978,7 +1042,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><p>A task that represents the asynchronous write operation.</p>
 </td>
                   </tr>
@@ -995,12 +1059,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null.</p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is negative.</p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is negative.</p>
 </td>
                   </tr>
                   <tr>

@@ -87,6 +87,16 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class TcpClient : IDisposable</code></pre>
               </div>
+              <h5 id="System_Net_Sockets_TcpClient_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> class provides simple methods for connecting, sending, and receiving stream data over a network in synchronous blocking mode.</p>
+<p>In order for <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> to connect and exchange data, a <a class="xref" href="System.Net.Sockets.TcpListener.html#System_Net_Sockets_TcpListener">TcpListener</a> or <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> created with the TCP <a class="xref" href="System.Net.Sockets.ProtocolType.html#System_Net_Sockets_ProtocolType">ProtocolType</a> must be listening for incoming connection requests. You can connect to this listener in one of the following two ways: </p>
+<ul><li>
+<p>Create a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> and call one of the three available <span class="xref">System.Net.Sockets.TcpClient.Connect(System.String,System.Int32)</span> methods.</p>
+</li><li>
+<p>Create a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> using the host name and port number of the remote host. This constructor will automatically attempt a connection.</p>
+</li></ul>
+<p>If you want to send connectionless datagrams in synchronous blocking mode, use the <a class="xref" href="System.Net.Sockets.UdpClient.html#System_Net_Sockets_UdpClient">UdpClient</a> class.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +110,11 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates a new <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> and allows the underlying service provider to assign the most appropriate local IP address and port number. You must first call the <span class="xref">System.Net.Sockets.TcpClient.Connect(System.String,System.Int32)</span> method before sending and receiving data.</p>
+<p>This constructor works only with IPv4 address types.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TcpClient()</code></pre>
@@ -115,6 +130,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> class with the specified family.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient__ctor_System_Net_Sockets_AddressFamily__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TcpClient(AddressFamily family)</code></pre>
@@ -148,7 +166,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>family</em> parameter is not equal to AddressFamily.InterNetwork -or- The <em>family</em> parameter is not equal to AddressFamily.InterNetworkV6 </p>
+                    <td><p>The <em>family</em> parameter is not equal to AddressFamily.InterNetwork </p>
+<p>-or- </p>
+<p>The <em>family</em> parameter is not equal to AddressFamily.InterNetworkV6 </p>
 </td>
                   </tr>
                 </tbody>
@@ -166,6 +186,9 @@
               <div class="markdown level1 summary"><p>Gets or set a value that indicates whether a connection has been made.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_Active_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes deriving from <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> can use this property to determine if a connection attempt has succeeded. It does not monitor the ongoing connection state of <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a>. If the remote host closes the connection, <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Active">Active</a> will not be updated. If you are deriving from <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> and require closer attention to the connection state, use the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_Connected">Connected</a> property of the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> returned by the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected bool Active { get; set; }</code></pre>
@@ -181,7 +204,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the connection has been made; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the connection has been made; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -197,6 +221,11 @@
               <div class="markdown level1 summary"><p>Gets the amount of data that has been received from the network and is available to be read.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_Available_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Available">Available</a> is a way to determine whether data is queued for reading. If data is available, call <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> to get the data. The available data is the total amount of data queued in the network buffer for reading. If no data is queued in the network buffer, <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Available">Available</a> returns 0.</p>
+<p>If the remote host shuts down or closes the connection, <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Available">Available</a> may throw a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>. If you receive a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>, use <span class="xref">System.Net.Sockets.SocketException.ErrorCode</span> to obtain the specific error code. After you have obtained this code, you can refer to the Windows Sockets version 2 API error code documentation in the MSDN library at <see href="http://msdn.microsoft.com/library"><a href="http://msdn.microsoft.com/library">http://msdn.microsoft.com/library</a></see> for a detailed description of the error.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Available { get; }</code></pre>
@@ -249,6 +278,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the underlying <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_Client_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> creates a <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> to send and receive data over a network. Classes deriving from <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> can use this property to get or set this <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a>. Use the underlying <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> returned from <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> if you require access beyond that which <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> provides. You can also use <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> to set the underlying <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> to an existing <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a>. This might be useful if you want to take advantage of the simplicity of <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> using a pre-existing <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Socket Client { get; set; }</code></pre>
@@ -280,6 +313,10 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the underlying <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> for a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> is connected to a remote host.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_Connected_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Connected">Connected</a> property gets the connection state of the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> socket as of the last I/O operation. When it returns <strong>false</strong>, the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> socket was either never connected, or is no longer connected.</p>
+<p>Because the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Connected">Connected</a> property only reflects the state of the connection as of the most recent operation, you should attempt to send or receive a message to determine the current state. After the message send fails, this property no longer returns <strong>true</strong>. Note that this behavior is by design. You cannot reliably test the state of the connection because, in the time between the test and a send/receive, the connection could have been lost. Your code should assume the socket is connected, and gracefully handle failed transmissions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Connected { get; }</code></pre>
@@ -295,7 +332,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> socket was connected to a remote resource as of the most recent operation; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_Client">Client</a> socket was connected to a remote resource as of the most recent operation; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -311,6 +349,10 @@
               <div class="markdown level1 summary"><p>Gets or sets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that specifies whether the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> allows only one client to use a port.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_ExclusiveAddressUse_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, multiple clients can use a specific port; however, only one of the clients can perform operations on the network traffic sent to the port. You can use the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_ExclusiveAddressUse">ExclusiveAddressUse</a> property to prevent multiple clients from using a specific port.</p>
+<p>This property must be set before the underlying socket is bound to a client port. If you call <see cref="Overload:System.Net.Sockets.TcpClient.Connect"></see>, <see cref="Overload:System.Net.Sockets.TcpClient.BeginConnect"></see>, <span class="xref">System.Net.Sockets.TcpClient.</span>, or <span class="xref">System.Net.Sockets.TcpClient.</span>, the client port is bound as a side effect of the method, and you cannot subsequently set the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_ExclusiveAddressUse">ExclusiveAddressUse</a> property </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool ExclusiveAddressUse { get; set; }</code></pre>
@@ -326,7 +368,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> allows only one client to use a specific port; otherwise, false. The default is true for Windows Server 2003 and Windows XP Service Pack 2 and later, and false for all other versions.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> allows only one client to use a specific port; otherwise, <strong>false</strong>. The default is <strong>true</strong> for Windows Server 2003 and Windows XP Service Pack 2 and later, and <strong>false</strong> for all other versions.</p>
 </td>
                   </tr>
                 </tbody>
@@ -363,6 +406,17 @@
               <div class="markdown level1 summary"><p>Gets or sets information about the linger state of the associated socket.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_LingerState_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property changes the way <span class="xref">System.Net.Sockets.Socket.Close</span> method behaves. This property when set modifies the conditions under which the connection can be reset by Winsock. Connection resets can still occur based on the IP protocol behavior. </p>
+<p>This property controls the length of time that the TCP connection will remain open after a call to <span class="xref">System.Net.Sockets.TcpClient.Close</span> when data remains to be sent. When you call the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method, data is placed in the outgoing network buffer. This property can be used to ensure that this data is sent to the remote host before the <span class="xref">System.Net.Sockets.TcpClient.Close</span> method drops the connection. </p>
+<p>To enable lingering, create a <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption">LingerOption</a> instance containing the desired values, and set the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property to this instance.</p>
+<p>The following table describes the behavior of the <span class="xref">System.Net.Sockets.TcpClient.Close</span> method for the possible values of the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_Enabled">Enabled</a> property and the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property.</p>
+<p>LingerState.Enabled</p>
+<p>LingerState.LingerTime</p>
+<p>Behavior</p>
+<p>The IP stack computes the default IP protocol time-out period to use based on the round trip time of the connection. In most cases, the time-out computed by the stack is more relevant than one defined by an application. This is the default behavior for a socket when the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property is not set.</p>
+<p>When the <a class="xref" href="System.Net.Sockets.LingerOption.html#System_Net_Sockets_LingerOption_LingerTime">LingerTime</a> property stored in the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_LingerState">LingerState</a> property is set greater than the default IP protocol time-out, the default IP protocol time-out will still apply and override. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public LingerOption LingerState { get; set; }</code></pre>
@@ -394,6 +448,9 @@
               <div class="markdown level1 summary"><p>Gets or sets a value that disables a delay when send or receive buffers are not full.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_NoDelay_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_NoDelay">NoDelay</a> is <strong>false</strong>, a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> does not send a packet over the network until it has collected a significant amount of outgoing data. Because of the amount of overhead in a TCP segment, sending small amounts of data is inefficient. However, situations do exist where you need to send very small amounts of data or expect immediate responses from each packet you send. Your decision should weigh the relative importance of network efficiency versus application requirements.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool NoDelay { get; set; }</code></pre>
@@ -409,7 +466,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the delay is disabled, otherwise false. The default value is false.</p>
+                    <td><p>
+<strong>true</strong> if the delay is disabled, otherwise <strong>false</strong>. The default value is <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -425,6 +483,11 @@
               <div class="markdown level1 summary"><p>Gets or sets the size of the receive buffer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_ReceiveBufferSize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_ReceiveBufferSize">ReceiveBufferSize</a> property gets or sets the number of bytes that you are expecting to store in the receive buffer for each read operation. This property actually manipulates the network buffer space allocated for receiving incoming data.</p>
+<p>Your network buffer should be at least as large as your application buffer to ensure that the desired data will be available when you call the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> method. Use the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_ReceiveBufferSize">ReceiveBufferSize</a> property to set this size. If your application will be receiving bulk data, you should pass the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> method a very large application buffer.</p>
+<p>If the network buffer is smaller than the amount of data you request in the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> method, you will not be able to retrieve the desired amount of data in one read operation. This incurs the overhead of additional calls to the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int ReceiveBufferSize { get; set; }</code></pre>
@@ -456,7 +519,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a></td>
-                    <td><p>An error occurred when setting the buffer size.-or-In .NET Compact Framework applications, you cannot set this property. For a workaround, see the Platform Note in Remarks.</p>
+                    <td><p>An error occurred when setting the buffer size.</p>
+<p>-or-</p>
+<p>In .NET Compact Framework applications, you cannot set this property. For a workaround, see the Platform Note in Remarks.</p>
 </td>
                   </tr>
                 </tbody>
@@ -472,6 +537,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the amount of time a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> will wait to receive data once a read operation is initiated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_ReceiveTimeout_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_ReceiveTimeout">ReceiveTimeout</a> property determines the amount of time that the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> method will block until it is able to receive data. This time is measured in milliseconds. If the time-out expires before <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> successfully completes, <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> throws a <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a>. There is no time-out by default.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int ReceiveTimeout { get; set; }</code></pre>
@@ -503,6 +571,11 @@
               <div class="markdown level1 summary"><p>Gets or sets the size of the send buffer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_SendBufferSize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_SendBufferSize">SendBufferSize</a> property gets or sets the number of bytes that you are expecting to send in each call to the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method. This property actually manipulates the network buffer space allocated for send operation.</p>
+<p>Your network buffer should be at least as large as your application buffer to ensure that the desired data will be stored and sent in one operation. Use the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_SendBufferSize">SendBufferSize</a> property to set this size. If your application will be sending bulk data, you should pass the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method a very large application buffer.</p>
+<p>If the network buffer is smaller than the amount of data you provide the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method, several network send operations will be performed for every call you make to the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method. You can achieve greater data throughput by ensuring that your network buffer is at least as large as your application buffer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int SendBufferSize { get; set; }</code></pre>
@@ -534,6 +607,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the amount of time a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> will wait for a send operation to complete successfully.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_SendTimeout_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_SendTimeout">SendTimeout</a> property determines the amount of time that the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_Send_System_Byte___System_Int32_System_Net_Sockets_SocketFlags_">Send(Byte[], Int32, SocketFlags)</a> method will block until it is able to return successfully. This time is measured in milliseconds.</p>
+<p>After you call the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method, the underlying <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> returns the number of bytes actually sent to the host. The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_SendTimeout">SendTimeout</a> property determines the amount of time a <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> will wait before receiving the number of bytes returned. If the time-out expires before the <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket_Send_System_Byte___System_Int32_System_Net_Sockets_SocketFlags_">Send(Byte[], Int32, SocketFlags)</a> method successfully completes, <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> will throw a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>. There is no time-out by default.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int SendTimeout { get; set; }</code></pre>
@@ -567,6 +644,12 @@
               <div class="markdown level1 summary"><p>Connects the client to a remote TCP host using the specified IP address and port number as an asynchronous operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_ConnectAsync_System_Net_IPAddress_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a>  object will complete after the TCP connection has been established. This method does not block the calling thread while the connection request is underway.</p>
+<p>Call this method to establish a synchronous remote host connection to the specified <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a> and port number as an asynchronous operation. After connecting with the remote host, use the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_GetStream">GetStream()</a> method to obtain the underlying <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>. Use this <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> to send and receive data.</p>
+<p>If you receive a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>, use <span class="xref">System.Net.Sockets.SocketException.ErrorCode</span> to obtain the specific error code. After you have obtained this code, you can refer to the Windows Sockets version 2 API error code documentation in MSDN for a detailed description of the error.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task ConnectAsync(IPAddress address, int port)</code></pre>
@@ -605,8 +688,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a>The task object representing the asynchronous operation.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -622,7 +706,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>address</em> parameter is null. </p>
+                    <td><p>The <em>address</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -637,7 +721,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p><a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> is closed. </p>
+                    <td><p>
+<a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> is closed. </p>
 </td>
                   </tr>
                 </tbody>
@@ -653,6 +738,12 @@
               <div class="markdown level1 summary"><p>Connects the client to a remote TCP host using the specified IP addresses and port number as an asynchronous operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_ConnectAsync_System_Net_IPAddress___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a>  object will complete after the TCP connection has been established. This method does not block the calling thread while the connection request is underway.</p>
+<p>This method is typically used immediately after a call to the <span class="xref">System.Net.Dns.BeginGetHostAddresses(System.String,System.AsyncCallback,System.Object)</span> method, which can return multiple IP addresses for a single host. Call this method to establish a synchronous remote host connection to the host specified by the array of <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress">IPAddress</a> elements and the port number as an asynchronous operation. After connecting with the remote host, use the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_GetStream">GetStream()</a> method to obtain the underlying <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>. Use this <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> to send and receive data.</p>
+<p>If you receive a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>, use <span class="xref">System.Net.Sockets.SocketException.ErrorCode</span> to obtain the specific error code. After you have obtained this code, you can refer to the Windows Sockets version 2 API error code documentation in the MSDN library at <see href="http://msdn.microsoft.com/library"><a href="http://msdn.microsoft.com/library">http://msdn.microsoft.com/library</a></see> for a detailed description of the error.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task ConnectAsync(IPAddress[] addresses, int port)</code></pre>
@@ -691,8 +782,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a>The task object representing the asynchronous operation.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -708,7 +800,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>ipAddresses</em> parameter is null. </p>
+                    <td><p>The <em>ipAddresses</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -749,6 +841,13 @@
               <div class="markdown level1 summary"><p>Connects the client to the specified TCP port on the specified host as an asynchronous operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_ConnectAsync_System_String_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a>  object will complete after the TCP connection has been established. This method does not block the calling thread while the connection request is underway.</p>
+<p>Call this method to establish a synchronous remote host connection to the specified host name and port number as an asynchronous operation. After connecting with the remote host, use the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_GetStream">GetStream()</a> method to obtain the underlying <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>. Use this <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> to send and receive data.</p>
+<p>If IPv6 is enabled and the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_ConnectAsync_System_String_System_Int32_">ConnectAsync(String, Int32)</a> method is called to connect to a host that resolves to both IPv6 and IPv4 addresses, the connection to the IPv6 address will be attempted first before the IPv4 address. This may have the effect of delaying the time to establish the connection if the host is not listening on the IPv6 address.</p>
+<p>If you receive a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>, use <span class="xref">System.Net.Sockets.SocketException.ErrorCode</span> to obtain the specific error code. After you have obtained this code, you can refer to the Windows Sockets version 2 API error code documentation in MSDN for a detailed description of the error.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task ConnectAsync(string host, int port)</code></pre>
@@ -787,8 +886,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a>The task object representing the asynchronous operation.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -804,7 +904,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>hostname</em> parameter is null. </p>
+                    <td><p>The <em>hostname</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -819,7 +919,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p><a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> is closed. </p>
+                    <td><p>
+<a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> is closed. </p>
 </td>
                   </tr>
                 </tbody>
@@ -832,7 +933,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Sockets/src/System/Net/Sockets/TCPClient.cs/#L236">View Source</a>
               </span>
               <h4 id="System_Net_Sockets_TcpClient_Dispose" data-uid="System.Net.Sockets.TcpClient.Dispose">Dispose()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Releases the managed and unmanaged resources used by the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -849,6 +951,11 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> and optionally releases the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <strong>Dispose()</strong> method and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method. <strong>Dispose()</strong> invokes this method with the <em>disposing</em> parameter set to <strong>true</strong>. <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> invokes this method with <em>disposing</em> set to <strong>false</strong>.</p>
+<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> references. It does this by invoking the <strong>Dispose()</strong> method of each referenced object.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -866,7 +973,7 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>Set to true to release both managed and unmanaged resources; false to release only unmanaged resources. </p>
+                    <td><p>Set to <strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>
 </td>
                   </tr>
                 </tbody>
@@ -882,6 +989,11 @@
               <div class="markdown level1 summary"><p>Frees resources used by the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_Finalize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method overrides <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a>. Application code should not call this method; an object&#39;s <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method is automatically invoked during garbage collection, unless finalization by the garbage collector has been disabled by a call to the <a class="xref" href="System.GC.html#System_GC_SuppressFinalize_System_Object_">SuppressFinalize(Object)</a> method.</p>
+<p>The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> class finalizer closes the TCP connection and releases all managed resources associated with the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a>. These resources include the underlying <a class="xref" href="System.Net.Sockets.Socket.html#System_Net_Sockets_Socket">Socket</a> used for connecting with the remote host, and the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> used to send and receive data. The finalizer does not release any unmanaged resources.</p>
+<p>For more information, see Finalize Methods and Destructors, Cleaning Up Unmanaged Resources, and Overriding the Finalize Method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
@@ -897,6 +1009,14 @@
               <div class="markdown level1 summary"><p>Returns the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> used to send and receive data.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Sockets_TcpClient_GetStream_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_GetStream">GetStream()</a> returns a <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> that you can use to send and receive data. The <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> class inherits from the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> class, which provides a rich collection of methods and properties used to facilitate network communications.</p>
+<p>You must call the <span class="xref">System.Net.Sockets.TcpClient.Connect(System.String,System.Int32)</span> method first, or the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_GetStream">GetStream()</a> method will throw an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>. After you have obtained the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>, call the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> method to send data to the remote host. Call the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> method to receive data arriving from the remote host. Both of these methods block until the specified operation is performed. You can avoid blocking on a read operation by checking the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_DataAvailable">DataAvailable</a> property. A <strong>true</strong> value means that data has arrived from the remote host and is available for reading. In this case, <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> is guaranteed to complete immediately. If the remote host has shutdown its connection, <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> will immediately return with zero bytes.</p>
+<p>You must close the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> when you are through sending and receiving data. Closing <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> does not release the <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>.</p>
+<p>If you receive a <a class="xref" href="System.Net.Sockets.SocketException.html#System_Net_Sockets_SocketException">SocketException</a>, use <span class="xref">System.Net.Sockets.SocketException.ErrorCode</span> to obtain the specific error code. After you have obtained this code, you can refer to the Windows Sockets version 2 API error code documentation in MSDN for a detailed description of the error.</p>
+<p>This member outputs trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public NetworkStream GetStream()</code></pre>

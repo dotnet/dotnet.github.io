@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObserver_1.md&amp;value=---%0Auid%3A%20System.IObserver%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IObserver.cs/#L21" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1192" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IObserver_1" data-uid="System.IObserver`1">Interface IObserver&lt;T&gt;
               </h1>
               <div class="markdown level0 summary"><p>Provides a mechanism for receiving push-based notifications.</p>
@@ -82,6 +82,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public interface IObserver&lt;in T&gt;</code></pre>
               </div>
+              <h5 id="System_IObserver_1_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> and <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> interfaces provide a generalized mechanism for push-based notification, also known as the observer design pattern. The <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> interface represents the class that sends notifications (the provider); the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> interface represents the class that receives them (the observer). <em>T</em> represents the class that provides the notification information.</p></p>
+<p><p>An <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> implementation arranges to receive notifications from a provider (an <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> implementation) by passing an instance of itself to the provider&#39;s <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. This method returns an <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> object that can be used to unsubscribe the observer before the provider finishes sending notifications.</p></p>
+<p><p>The <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> interface defines the following three methods that the observer must implement:</p></p>
+<ul><li>
+<p>The <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method, which is typically called by the provider to supply the observer with new data or state information.</p>
+</li><li>
+<p>The <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method, which is typically called by the provider to indicate that data is unavailable, inaccessible, or corrupted, or that the provider has experienced some other error condition. </p>
+</li><li>
+<p>The <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method, which is typically called by the provider to indicate that it has finished sending notifications to observers.</p>
+</li></ul>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -89,12 +101,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObserver_1_OnCompleted.md&amp;value=---%0Auid%3A%20System.IObserver%601.OnCompleted%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IObserver.cs/#L25">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1194">View Source</a>
               </span>
               <h4 id="System_IObserver_1_OnCompleted" data-uid="System.IObserver`1.OnCompleted">OnCompleted()</h4>
               <div class="markdown level1 summary"><p>Notifies the observer that the provider has finished sending push-based notifications.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IObserver_1_OnCompleted_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When the observer&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> implementation is called, the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method can optionally call the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> object that was returned to the observer when it called the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void OnCompleted()</code></pre>
@@ -104,12 +119,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObserver_1_OnError_System_Exception_.md&amp;value=---%0Auid%3A%20System.IObserver%601.OnError(System.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IObserver.cs/#L24">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1195">View Source</a>
               </span>
               <h4 id="System_IObserver_1_OnError_System_Exception_" data-uid="System.IObserver`1.OnError(System.Exception)">OnError(Exception)</h4>
               <div class="markdown level1 summary"><p>Notifies the observer that the provider has experienced an error condition.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IObserver_1_OnError_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Although <em>error</em> is an object that is derived from <a class="xref" href="System.Exception.html#System_Exception">Exception</a>, it does not necessarily represent an exception that is thrown by the provider. It can also represent a routine or expected error condition, such as data that is missing or unavailable. The <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method should be seen as informational, and the provider should not expect the observer to provide error handling.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void OnError(Exception error)</code></pre>
@@ -137,12 +155,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObserver_1_OnNext__0_.md&amp;value=---%0Auid%3A%20System.IObserver%601.OnNext(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IObserver.cs/#L23">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1196">View Source</a>
               </span>
               <h4 id="System_IObserver_1_OnNext__0_" data-uid="System.IObserver`1.OnNext(`0)">OnNext(T)</h4>
               <div class="markdown level1 summary"><p>Provides the observer with new data.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IObserver_1_OnNext__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After an observer has called a provider&#39;s <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method, the provider calls the observer&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method to provide notifications. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void OnNext(T value)</code></pre>

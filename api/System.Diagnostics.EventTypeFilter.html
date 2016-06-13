@@ -88,6 +88,21 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class EventTypeFilter : TraceFilter</code></pre>
               </div>
+              <h5 id="System_Diagnostics_EventTypeFilter_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>One of several different types of filters can be assigned to a trace listener through the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Filter">Filter</a> property to provide a layer of screening beyond that provided by the <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a>. The filter can be used to control the event types that are produced by the listener.</p>
+<p>This class filters events based on the value of the <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter_EventType">EventType</a> property.  This property can be set by code or in a configuration file to specify the event type of messages that should be traced by the listener. The value of the property indicates the threshold at which to begin tracing. Event types at and above the specified level are traced. The <a class="xref" href="System.Diagnostics.TraceFilter.html#System_Diagnostics_TraceFilter_ShouldTrace_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___System_Object_System_Object___">ShouldTrace(TraceEventCache, String, TraceEventType, Int32, String, Object[], Object, Object[])</a> method, called by listeners  to determine if an event should be traced, uses the value of the <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter_EventType">EventType</a> property.</p>
+<p>To set the event type at which to begin tracing, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its filter type, and specify the event type to trace. The configuration file should be formatted as follows. </p>
+<pre><code><configuration>
+<system.diagnostics>
+<sharedlisteners>
+<add name="Console" type="System.Diagnostics.ConsoleTraceListener">
+<filter type="System.Diagnostics.EventTypeFilter" initializedata="Warning"></filter>
+</add>
+</sharedlisteners>
+</system.diagnostics>
+</configuration></code></pre>
+<p>For more information about how to initialize data for an <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter">EventTypeFilter</a>, see <filter> Element for <add> for <sharedlisteners>.<p>
+</sharedlisteners></add></filter></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +116,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter">EventTypeFilter</a> class. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_EventTypeFilter__ctor_System_Diagnostics_SourceLevels__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value of the <em>level</em> parameter is used to initialize the <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter_EventType">EventType</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public EventTypeFilter(SourceLevels level)</code></pre>
@@ -136,6 +154,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the event type of the messages to trace.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_EventTypeFilter_EventType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter_EventType">EventType</a> property indicates the level at which to trace.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SourceLevels EventType { get; set; }</code></pre>
@@ -169,6 +190,9 @@
               <div class="markdown level1 summary"><p>Determines whether the trace listener should trace the event. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_EventTypeFilter_ShouldTrace_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___System_Object_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the value of the <em>eventType</em> parameter is greater than or equal to the value of the <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter_EventType">EventType</a> property, the method returns <strong>true</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool ShouldTrace(TraceEventCache cache, string source, TraceEventType eventType, int id, string formatOrMessage, object[] args, object data1, object[] data)</code></pre>
@@ -244,7 +268,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>trueif the trace should be produced; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong>if the trace should be produced; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>

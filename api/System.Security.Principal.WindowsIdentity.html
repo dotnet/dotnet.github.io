@@ -87,6 +87,10 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class WindowsIdentity : Claims.ClaimsIdentity, IDisposable</code></pre>
               </div>
+              <h5 id="System_Security_Principal_WindowsIdentity_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Call the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetCurrent">GetCurrent()</a> method to create a <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object that represents the current user.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic. </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +104,37 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> class for the user represented by the specified Windows account token.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity__ctor_System_IntPtr__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The following table shows initial property values for an instance of <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>.</p>
+<p>Property </p>
+<p>Initial value </p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>
+<strong>Negotiate</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<span class="xref">System.Security.Principal.WindowsAccountType</span>
+</p>
+</td><td>
+<p>
+<strong>Normal</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>
+<strong>false</strong>
+</p>
+</td></tr></tbody></table>
+<p>You can retrieve the token represented by <em>userToken</em> by calling unmanaged code such as the Win32 API LogonUser function. Always release <em>userToken</em> by calling the Win32 API CloseHandle function. For more information on calling unmanaged code, see Consuming Unmanaged DLL Functions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public WindowsIdentity(IntPtr userToken)</code></pre>
@@ -133,12 +168,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>userToken</em> is 0.-or-<em>userToken</em> is duplicated and invalid for impersonation.</p>
+                    <td><p>
+<em>userToken</em> is 0.</p>
+<p>-or-</p>
+<p>
+<em>userToken</em> is duplicated and invalid for impersonation.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a></td>
-                    <td><p>The caller does not have the correct permissions. -or-A Win32 error occurred.</p>
+                    <td><p>The caller does not have the correct permissions. </p>
+<p>-or-</p>
+<p>A Win32 error occurred.</p>
 </td>
                   </tr>
                 </tbody>
@@ -154,6 +195,30 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> class for the user represented by the specified Windows account token and the specified authentication type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity__ctor_System_IntPtr_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The following table shows initial property values for an instance of <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>.</p>
+<p>Property </p>
+<p>Initial value </p>
+<table><tbody><tr><td>
+<p>
+<span class="xref">System.Security.Principal.WindowsAccountType</span>
+</p>
+</td><td>
+<p>
+<strong>Normal</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>
+<strong>false</strong>
+</p>
+</td></tr></tbody></table>
+<p>The value of the <em>type</em> parameter is used to set the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_AuthenticationType">AuthenticationType</a> parameter. If <em>type</em> is <strong>null</strong>, the security system sets <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_AuthenticationType">AuthenticationType</a> to <strong>Negotiate</strong> on Windows Vista and later versions of the Windows operating system, and to <strong>Kerberos</strong> on earlier versions of the Windows operating system. The security system does not use this value; it is for informational use only.</p>
+<p>You can retrieve the token represented by <em>userToken</em> by calling unmanaged code such as the Win32 API LogonUser function. Always release <em>userToken</em> by calling the Win32 API CloseHandle function. For more information on calling unmanaged code, see Consuming Unmanaged DLL Functions.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public WindowsIdentity(IntPtr userToken, string type)</code></pre>
@@ -193,12 +258,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>userToken</em> is 0.-or-<em>userToken</em> is duplicated and invalid for impersonation.</p>
+                    <td><p>
+<em>userToken</em> is 0.</p>
+<p>-or-</p>
+<p>
+<em>userToken</em> is duplicated and invalid for impersonation.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a></td>
-                    <td><p>The caller does not have the correct permissions. -or-A Win32 error occurred.</p>
+                    <td><p>The caller does not have the correct permissions. </p>
+<p>-or-</p>
+<p>A Win32 error occurred.</p>
 </td>
                   </tr>
                 </tbody>
@@ -214,6 +285,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> class for the user represented by the specified User Principal Name (UPN).</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A UPN has the format username@domainname.com, in other words, an email address. The UPN identified in <em>sUserPrincipalName</em> is used to retrieve a token for that user through the Win32 API LsaLogonUser function. In turn that token is used to identify the user. An exception might be returned due to the inability to log on using the supplied UPN.</p>
+<p>This constructor is intended for use only on computers joined to Windows Server 2003 or later domains. An exception is thrown for earlier domain types. This restriction is due to the fact that this constructor uses the <see href="http://go.microsoft.com/fwlink/?LinkId=143533">KERB_S4U_LOGON structure</see>, which was first introduced in Windows Server 2003. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public WindowsIdentity(string sUserPrincipalName)</code></pre>
@@ -257,7 +332,13 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a></td>
-                    <td><p>The caller does not have the correct permissions. -or-The computer is not attached to a Windows 2003 or later domain.-or-The computer is not running Windows 2003 or later.-or-The user is not a member of the domain the computer is attached to.</p>
+                    <td><p>The caller does not have the correct permissions. </p>
+<p>-or-</p>
+<p>The computer is not attached to a Windows 2003 or later domain.</p>
+<p>-or-</p>
+<p>The computer is not running Windows 2003 or later.</p>
+<p>-or-</p>
+<p>The user is not a member of the domain the computer is attached to.</p>
 </td>
                   </tr>
                 </tbody>
@@ -323,6 +404,9 @@
               <div class="markdown level1 summary"><p>Gets the type of authentication used to identify the user.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_AuthenticationType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is informational; it is not used by the security system. On Windows Vista and later versions of the Windows operating system, the default value for this property is <strong>Negotiate</strong>, which chooses the best security support provider (SSP) based on customer-configured security policy. The default property value for earlier versions of the Windows operating system is <strong>Kerberos</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override sealed string AuthenticationType { get; }</code></pre>
@@ -364,7 +448,13 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a></td>
-                    <td><p>The caller does not have the correct permissions. -or-The computer is not attached to a Windows 2003 or later domain.-or-The computer is not running Windows 2003 or later.-or-The user is not a member of the domain the computer is attached to.</p>
+                    <td><p>The caller does not have the correct permissions. </p>
+<p>-or-</p>
+<p>The computer is not attached to a Windows 2003 or later domain.</p>
+<p>-or-</p>
+<p>The computer is not running Windows 2003 or later.</p>
+<p>-or-</p>
+<p>The user is not a member of the domain the computer is attached to.</p>
 </td>
                   </tr>
                 </tbody>
@@ -442,6 +532,9 @@
               <div class="markdown level1 summary"><p>Gets the impersonation level for the user.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_ImpersonationLevel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Describes the impersonation level to be used to connect to WMI.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TokenImpersonationLevel ImpersonationLevel { get; }</code></pre>
@@ -456,7 +549,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.TokenImpersonationLevel.html#System_Security_Principal_TokenImpersonationLevel">Security.Principal.TokenImpersonationLevel</a></td>
+                    <td><a class="xref" href="System.Security.Principal.TokenImpersonationLevel.html#System_Security_Principal_TokenImpersonationLevel">TokenImpersonationLevel</a></td>
                     <td><p>One of the enumeration values that specifies the impersonation level. </p>
 </td>
                   </tr>
@@ -473,6 +566,10 @@
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the user account is identified as an anonymous account by the system.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_IsAnonymous_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_IsAnonymous">IsAnonymous</a> property detects both the Windows anonymous identity and the anonymous identity that is returned by the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetAnonymous">GetAnonymous()</a> method. </p>
+<p>Anonymous accounts are typically only encountered only from within ASP.NET-based applications when anonymous access is allowed by Internet Information Services (IIS).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool IsAnonymous { get; }</code></pre>
@@ -488,7 +585,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the user account is an anonymous account; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the user account is an anonymous account; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -519,7 +617,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the user was authenticated; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the user was authenticated; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -550,7 +649,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the user account is a <span class="xref">System.Security.Principal.WindowsAccountType.Guest</span> account; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the user account is a <span class="xref">System.Security.Principal.WindowsAccountType.Guest</span> account; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -581,7 +681,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the user account is a <span class="xref">System.Security.Principal.WindowsAccountType.System</span> account; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the user account is a <span class="xref">System.Security.Principal.WindowsAccountType.System</span> account; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -597,6 +698,9 @@
               <div class="markdown level1 summary"><p>Gets the user&#39;s Windows logon name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The logon name is in the form DOMAIN\USERNAME.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string Name { get; }</code></pre>
@@ -628,6 +732,9 @@
               <div class="markdown level1 summary"><p>Gets the security identifier (SID) for the token owner.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_Owner_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The SID uniquely identifies a user or group on all Windows NT implementations.  The returned SID identifies the default owner SID that will be applied to newly created objects.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SecurityIdentifier Owner { get; }</code></pre>
@@ -642,7 +749,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">Principal.SecurityIdentifier</a></td>
+                    <td><a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a></td>
                     <td><p>An object for the token owner.</p>
 </td>
                   </tr>
@@ -659,6 +766,10 @@
               <div class="markdown level1 summary"><p>Gets the security identifier (SID) for the user.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_User_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The SID uniquely identifies a user or group on all Windows NT implementations.  </p>
+<p>The <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object returned by the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetAnonymous">GetAnonymous()</a> method is not the same as the Windows anonymous user. This property gets <strong>null</strong> for an anonymous user represented by the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object returned by the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetAnonymous">GetAnonymous()</a> method; it does not get the SID representing an anonymous Windows user.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SecurityIdentifier User { get; }</code></pre>
@@ -673,7 +784,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">Principal.SecurityIdentifier</a></td>
+                    <td><a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a></td>
                     <td><p>An object for the user.</p>
 </td>
                   </tr>
@@ -723,6 +834,10 @@
               <div class="markdown level1 summary"><p>Releases all resources used by the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_Dispose">Dispose()</a> when you are finished using the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>. The <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_Dispose">Dispose()</a> method leaves the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> in an unusable state. After calling <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_Dispose">Dispose()</a>, you must release all references to the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> so the garbage collector can reclaim the memory that the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> was occupying. For more information, see Cleaning Up Unmanaged Resources and Implementing a Dispose Method. </p>
+<p>Always call <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_Dispose">Dispose()</a> before you release your last reference to the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object&#39;s <strong>Finalize</strong> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -738,6 +853,10 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> and optionally releases the managed resources. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <strong>Dispose()</strong><strong></strong>method and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method. <strong>Dispose()</strong> invokes the protected <strong>Dispose(Boolean)</strong> method with the <em>disposing</em> parameter set to <strong>true</strong>. <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> invokes <strong>Dispose</strong> with <em>disposing</em> set to <strong>false</strong>.</p>
+<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> references. This method invokes the <strong>Dispose()</strong> method of each referenced object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -755,7 +874,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources. </p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>
 </td>
                   </tr>
                 </tbody>
@@ -771,6 +891,10 @@
               <div class="markdown level1 summary"><p>Returns a <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object that you can use as a sentinel value in your code to represent an anonymous user. The property value does not represent the built-in anonymous identity used by the Windows operating system.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_GetAnonymous_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns an empty <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object that enables you to treat operations as anonymous. The property value does not correspond to a Windows anonymous user and cannot be used for impersonation. Also, note that the identity returned by this property is not static; each call to <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetAnonymous">GetAnonymous()</a> returns a different anonymous identity.</p>
+<p>You can use the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_IsAnonymous">IsAnonymous</a> property to detect the return value from <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetAnonymous">GetAnonymous()</a>. However, <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_IsAnonymous">IsAnonymous</a> detects both the Windows anonymous identity and the anonymous identity returned by this method. To use the latter identity, cache the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_GetAnonymous">GetAnonymous()</a> return value instead of relying on the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity_IsAnonymous">IsAnonymous</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static WindowsIdentity GetAnonymous()</code></pre>
@@ -849,6 +973,9 @@
               <div class="markdown level1 summary"><p>Returns a <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object that represents the Windows identity for either the thread or the process, depending on the value of the <em>ifImpersonating</em> parameter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_GetCurrent_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>ifImpersonating</em> is <strong>true</strong> and the thread is not impersonating, the returned <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object has no value.  If <em>ifImpersonating</em> is <strong>false</strong> and the thread is impersonating, the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> for the thread is returned.  If <em>ifImpersonating</em> is <strong>false</strong> and the thread is not impersonating, the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> for the process is returned.  </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static WindowsIdentity GetCurrent(bool ifImpersonating)</code></pre>
@@ -866,7 +993,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>ifImpersonating</em></td>
-                    <td><p>true to return the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> only if the thread is currently impersonating; false to return the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>   of the thread if it is impersonating or the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> of the process if the thread is not currently impersonating.</p>
+                    <td><p>
+<strong>true</strong> to return the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> only if the thread is currently impersonating; <strong>false</strong> to return the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a>   of the thread if it is impersonating or the <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> of the process if the thread is not currently impersonating.</p>
 </td>
                   </tr>
                 </tbody>
@@ -898,6 +1026,9 @@
               <div class="markdown level1 summary"><p>Returns a <a class="xref" href="System.Security.Principal.WindowsIdentity.html#System_Security_Principal_WindowsIdentity">WindowsIdentity</a> object that represents the current Windows user, using the specified desired token access level.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Principal_WindowsIdentity_GetCurrent_System_Security_Principal_TokenAccessLevels__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>desiredAccess</em> parameter specifies an access mask that identifies the requested types of access to the access token. These requested access types are compared with the token&#39;s discretionary access control list (DACL) to determine which types of access are granted or denied. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static WindowsIdentity GetCurrent(TokenAccessLevels desiredAccess)</code></pre>

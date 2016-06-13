@@ -87,6 +87,16 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ConcurrentDictionary&lt;TKey, TValue&gt; : Generic.ICollection&lt;Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;, Generic.IDictionary&lt;TKey, TValue&gt;, Generic.IEnumerable&lt;Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;, Generic.IReadOnlyCollection&lt;Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;, Generic.IReadOnlyDictionary&lt;TKey, TValue&gt;, ICollection, IDictionary, IEnumerable</code></pre>
               </div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>For very large <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> objects, you can increase the maximum array size to 2 gigabytes (GB) on a 64-bit system by setting the  configuration element to <strong>true</strong> in the run-time environment.</p>
+<p>
+<a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> implements the <a class="xref" href="System.Collections.Generic.IReadOnlyCollection%601.html#System_Collections_Generic_IReadOnlyCollection_1">IReadOnlyCollection<t></t></a> and <a class="xref" href="System.Collections.Generic.IReadOnlyDictionary%602.html#System_Collections_Generic_IReadOnlyDictionary_2">IReadOnlyDictionary<tkey, tvalue=""></tkey,></a> interfaces starting with the .NET Framework 4.6; in previous versions of the .NET Framework, the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> class did not implement these interfaces. </p>
+<p>Like the <a class="xref" href="System.Collections.Generic.Dictionary%602.html#System_Collections_Generic_Dictionary_2">Dictionary<tkey, tvalue=""></tkey,></a> class, <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> implements the <a class="xref" href="System.Collections.Generic.IDictionary%602.html#System_Collections_Generic_IDictionary_2">IDictionary<tkey, tvalue=""></tkey,></a> interface. In addition, <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> provides several methods for adding or updating key/value pairs in the dictionary, as described in the following table. </p>
+<p>To do this</p>
+<p>Use this method</p>
+<p>Usage notes</p>
+<p>All these operations are atomic and are thread-safe with regards to all other operations on the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> class. The only exceptions are the methods that accept a delegate, that is, <see cref="Overload:System.Collections.Concurrent.ConcurrentDictionary`2.AddOrUpdate"></see> and <see cref="Overload:System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd"></see>. For modifications and write operations to the dictionary, <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> uses fine-grained locking to ensure thread safety. (Read operations on the dictionary are performed in a lock-free manner.) However, delegates for these methods are called outside the locks to avoid the problems that can arise from executing unknown code under a lock. Therefore, the code executed by these delegates is not subject to the atomicity of the operation.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +110,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> class that is empty, has the default concurrency level, has the default initial capacity, and uses the default comparer for the key type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default concurrency level is the default concurrency multiplier (DEFAULT_CONCURRENCY_MULTIPLIER) times the number of CPUs. The higher the default concurrency multiplier is, the more concurrent write operations can take place without interference and blocking. Higher multiplier values also cause operations that require all locks (for example, table resizing, <strong>ToArray</strong> and <strong>Count</strong>) to become more expensive. The default concurrency multiplier is 4. The default capacity (DEFAULT_CAPACITY), which represents the initial number of buckets, is a trade-off between the size of a very small dictionary and the number of resizes when constructing a large dictionary. Also, the capacity should not be divisible by a small prime number. The default capacity is 31.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ConcurrentDictionary()</code></pre>
@@ -148,12 +161,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>collection</em> or any of its keys is  null.</p>
+                    <td><p>
+<em>collection</em> or any of its keys is  <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>collection</em> contains one or more duplicate keys.</p>
+                    <td><p>
+<em>collection</em> contains one or more duplicate keys.</p>
 </td>
                   </tr>
                 </tbody>
@@ -190,7 +205,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Collections.Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
                     <td><em>comparer</em></td>
                     <td><p>The <a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">IEqualityComparer<t></t></a> implementation to use when comparing keys.</p>
 </td>
@@ -208,7 +223,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>collection</em> or <em>comparer</em> is null.</p>
+                    <td><p>
+<em>collection</em> or <em>comparer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -239,7 +255,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Collections.Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
                     <td><em>comparer</em></td>
                     <td><p>The equality comparison implementation to use when comparing keys.</p>
 </td>
@@ -257,7 +273,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>comparer</em> is null.</p>
+                    <td><p>
+<em>comparer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -300,7 +317,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Collections.Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
                     <td><em>comparer</em></td>
                     <td><p>The <a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">IEqualityComparer<t></t></a> implementation to use when comparing keys.</p>
 </td>
@@ -318,17 +335,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>collection</em> or <em>comparer</em> is null.</p>
+                    <td><p>
+<em>collection</em> or <em>comparer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>concurrencyLevel</em> is less than 1.</p>
+                    <td><p>
+<em>concurrencyLevel</em> is less than 1.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>collection</em> contains one or more duplicate keys.</p>
+                    <td><p>
+<em>collection</em> contains one or more duplicate keys.</p>
 </td>
                   </tr>
                 </tbody>
@@ -383,7 +403,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>concurrencyLevel</em> is less than 1.-or-<em>capacity</em> is less than 0.</p>
+                    <td><p>
+<em>concurrencyLevel</em> is less than 1.</p>
+<p>-or-</p>
+<p>
+<em>capacity</em> is less than 0.</p>
 </td>
                   </tr>
                 </tbody>
@@ -426,7 +450,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">Collections.Generic.IEqualityComparer</a>&lt;TKey&gt;</td>
                     <td><em>comparer</em></td>
                     <td><p>The <a class="xref" href="System.Collections.Generic.IEqualityComparer%601.html#System_Collections_Generic_IEqualityComparer_1">IEqualityComparer<t></t></a> implementation to use when comparing keys.</p>
 </td>
@@ -444,12 +468,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>comparer</em> is null.</p>
+                    <td><p>
+<em>comparer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>concurrencyLevel</em> or <em>capacity</em> is less than 1.</p>
+                    <td><p>
+<em>concurrencyLevel</em> or <em>capacity</em> is less than 1.</p>
 </td>
                   </tr>
                 </tbody>
@@ -467,6 +493,9 @@
               <div class="markdown level1 summary"><p>Gets the number of key/value pairs contained in the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2_Count_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property has snapshot semantics and represents the number of items in the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> at the moment when the property was accessed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Count { get; }</code></pre>
@@ -529,7 +558,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> is empty; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> is empty; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -594,7 +624,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is  null.</p>
+                    <td><p>
+<em>key</em> is  <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -629,7 +660,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">Generic.ICollection</a>&lt;TKey&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection</a>&lt;TKey&gt;</td>
                     <td><p>A collection of keys in the <a class="xref" href="System.Collections.Generic.Dictionary%602.html#System_Collections_Generic_Dictionary_2">Dictionary<tkey, tvalue=""></tkey,></a>.</p>
 </td>
                   </tr>
@@ -660,7 +691,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">Generic.ICollection</a>&lt;TValue&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection</a>&lt;TValue&gt;</td>
                     <td><p>A collection that contains the values in the <a class="xref" href="System.Collections.Generic.Dictionary%602.html#System_Collections_Generic_Dictionary_2">Dictionary<tkey, tvalue=""></tkey,></a>. </p>
 </td>
                   </tr>
@@ -740,7 +771,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> or <em>updateValueFactory</em> is null.</p>
+                    <td><p>
+<em>key</em> or <em>updateValueFactory</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -761,6 +793,9 @@
               <div class="markdown level1 summary"><p>Uses the specified functions to add a key/value pair to the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> if the key does not already exist, or to update a key/value pair in the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> if the key already exists.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2_AddOrUpdate__0_System_Func__0__1__System_Func__0__1__1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If you call <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2_AddOrUpdate__0_System_Func__0__1__System_Func__0__1__1__">AddOrUpdate(TKey, Func<tkey, tvalue="">, Func<tkey, tvalue,="" tvalue="">)</tkey,></tkey,></a> simultaneously on different threads, <em>addValueFactory</em> may be called multiple times, but its key/value pair might not be added to the dictionary for every call. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TValue AddOrUpdate(TKey key, Func&lt;TKey, TValue&gt; addValueFactory, Func&lt;TKey, TValue, TValue&gt; updateValueFactory)</code></pre>
@@ -822,7 +857,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em>, <em>addValueFactory</em>, or <em>updateValueFactory</em> is null.</p>
+                    <td><p>
+<em>key</em>, <em>addValueFactory</em>, or <em>updateValueFactory</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -891,7 +927,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> contains an element with the specified key; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> contains an element with the specified key; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -907,7 +944,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -923,6 +961,9 @@
               <div class="markdown level1 summary"><p>Returns an enumerator that iterates through the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2_GetEnumerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The enumerator returned from the dictionary is safe to use concurrently with reads and writes to the dictionary, however it does not represent a moment-in-time snapshot of the dictionary. The contents exposed through the enumerator may contain modifications made to the dictionary after <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2_GetEnumerator">GetEnumerator()</a> was called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Generic.IEnumerator&lt;Generic.KeyValuePair&lt;TKey, TValue&gt;&gt; GetEnumerator()</code></pre>
@@ -1009,7 +1050,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1030,6 +1072,9 @@
               <div class="markdown level1 summary"><p>Adds a key/value pair to the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> by using the specified function, if the key does not already exist.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2_GetOrAdd__0_System_Func__0__1___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If you call <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2_GetOrAdd__0_System_Func__0__1__">GetOrAdd(TKey, Func<tkey, tvalue="">)</tkey,></a> simultaneously on different threads, <em>addValueFactory</em> may be called multiple times, but its key/value pair might not be added to the dictionary for every call. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TValue GetOrAdd(TKey key, Func&lt;TKey, TValue&gt; valueFactory)</code></pre>
@@ -1085,7 +1130,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> or <em>valueFactory</em> is null.</p>
+                    <td><p>
+<em>key</em> or <em>valueFactory</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1120,7 +1166,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.KeyValuePair%602.html#System_Collections_Generic_KeyValuePair_2">Generic.KeyValuePair</a>&lt;TKey, TValue&gt;[]</td>
+                    <td><a class="xref" href="System.Collections.Generic.KeyValuePair%602.html#System_Collections_Generic_KeyValuePair_2">KeyValuePair</a>&lt;TKey, TValue&gt;[]</td>
                     <td><p>A new array containing a snapshot of key and value pairs copied from the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>.</p>
 </td>
                   </tr>
@@ -1137,6 +1183,9 @@
               <div class="markdown level1 summary"><p>Attempts to add the specified key and value to the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Concurrent_ConcurrentDictionary_2_TryAdd__0__1__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method returns <strong>false</strong> if the key already exists. Use the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2_TryUpdate__0__1__1_">TryUpdate(TKey, TValue, TValue)</a> or <see cref="Overload:System.Collections.Concurrent.ConcurrentDictionary`2.AddOrUpdate"></see> method to update the value in case a key already exists.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool TryAdd(TKey key, TValue value)</code></pre>
@@ -1160,7 +1209,7 @@
                   <tr>
                     <td><span class="xref">TValue</span></td>
                     <td><em>value</em></td>
-                    <td><p>The value of the element to add. The value can be  null for reference types.</p>
+                    <td><p>The value of the element to add. The value can be  <strong>null</strong> for reference types.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1176,7 +1225,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the key/value pair was added to the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> successfully; false if the key already exists.</p>
+                    <td><p>
+<strong>true</strong> if the key/value pair was added to the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a> successfully; <strong>false</strong> if the key already exists.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1192,7 +1242,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is  null.</p>
+                    <td><p>
+<em>key</em> is  <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1252,7 +1303,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the key was found in the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the key was found in the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1268,7 +1320,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is  null.</p>
+                    <td><p>
+<em>key</em> is  <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1307,7 +1360,7 @@
                   <tr>
                     <td><span class="xref">TValue</span></td>
                     <td><em>value</em></td>
-                    <td><p>When this method returns, contains the object removed from the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>, or the default value of  the TValue type if <em>key</em> does not exist. </p>
+                    <td><p>When this method returns, contains the object removed from the <a class="xref" href="System.Collections.Concurrent.ConcurrentDictionary%602.html#System_Collections_Concurrent_ConcurrentDictionary_2">ConcurrentDictionary<tkey, tvalue=""></tkey,></a>, or the default value of  the <strong>TValue</strong> type if <em>key</em> does not exist.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1323,7 +1376,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the object was removed successfully; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the object was removed successfully; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1339,7 +1393,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is  null.</p>
+                    <td><p>
+<em>key</em> is  <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1400,7 +1455,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the value with <em>key</em> was equal to <em>comparisonValue</em> and was replaced with <em>newValue</em>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the value with <em>key</em> was equal to <em>comparisonValue</em> and was replaced with <em>newValue</em>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1416,7 +1472,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>key</em> is null.</p>
+                    <td><p>
+<em>key</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>

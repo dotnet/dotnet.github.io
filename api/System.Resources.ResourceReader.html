@@ -73,7 +73,9 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Resources.Reader/src/System/Resources/ResourceReader.cs/#L11" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Resources_ResourceReader" data-uid="System.Resources.ResourceReader">Class ResourceReader
               </h1>
-              <div class="markdown level0 summary"><p>Enumerates the resources in a binary resources (.resources) file by reading sequential resource name/value pairs.Security Note: Calling methods in this class with untrusted data is a security risk. Call the methods in the class only with trusted data. For more information, see Untrusted Data Security Risks.</p>
+              <div class="markdown level0 summary"><p>Enumerates the resources in a binary resources (.resources) file by reading sequential resource name/value pairs.</p>
+<p>
+<strong>Security Note</strong>: Calling methods in this class with untrusted data is a security risk. Call the methods in the class only with trusted data. For more information, see <see href="http://curah.microsoft.com/57301/security-some-apis-are-not-necessarily-appropriate-for-untrusted-input">Untrusted Data Security Risks</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +89,21 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class ResourceReader : IDisposable</code></pre>
               </div>
+              <h5 id="System_Resources_ResourceReader_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class provides a standard implementation of the <span class="xref">System.Resources.IResourceReader</span> interface. A <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> instance represents either a standalone .resources file or a .resources file that is embedded in an assembly. It is used to enumerate the resources in a .resources file and retrieve its name/value pairs. It differs from the <a class="xref" href="System.Resources.ResourceManager.html#System_Resources_ResourceManager">ResourceManager</a> class, which is used to retrieve specified named resources from a .resources file that is embedded in an assembly. The <a class="xref" href="System.Resources.ResourceManager.html#System_Resources_ResourceManager">ResourceManager</a> class is used to retrieve resources whose names are known in advance, whereas the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class is useful for retrieving resources whose number or precise names are not known at compile time. For example, an application may use a resources file to store configuration information that is organized into sections and items in a section, where the number of sections or items in a section is not known in advance. Resources can then be named generically (such as <code>Section1</code>, <code>Section1Item1</code>, <code>Section1Item2</code>, and so on) and retrieved by using a <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> object.</p></p>
+<p><p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p></p>
+<p><p>For more information about using the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class, see the following sections:</p></p>
+<ul><li>
+<p>Instantiating a ResourceReader object</p>
+</li><li>
+<p>Enumerating a ResourceReader object&#39;s resources</p>
+<ul><li>
+<p>Retrieving resources by using IDictionaryEnumerator properties</p>
+</li><li>
+<p>Retrieving resources by name with GetResourceData</p>
+</li></ul>
+</li></ul>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +117,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class for the specified stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Resources_ResourceReader__ctor_System_IO_Stream__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <span class="xref">System.Resources.ResourceReader.</span> constructor instantiates a <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> object that retrieves resources either from a standalone .resources file or from a .resources file that is embedded in an assembly. To read from a standalone .resources file, instantiate a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object and pass it to the <span class="xref">System.Resources.ResourceReader.</span> constructor. To read from an embedded .resources file, call the <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_GetManifestResourceStream_System_String_">GetManifestResourceStream(String)</a> method with the case-sensitive name of the .resources file, and pass the returned <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object to the <span class="xref">System.Resources.ResourceReader.</span> constructor. </p>
+<p>Using an instance of this object with untrusted data is a security risk. Use this object only with trusted data. For more information, see <see href="http://go.microsoft.com/fwlink/?LinkId=330378">Untrusted Data Security Risks</see>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ResourceReader(IO.Stream stream)</code></pre>
@@ -138,7 +159,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>stream</em> parameter is null. </p>
+                    <td><p>The <em>stream</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -161,6 +182,11 @@
               <div class="markdown level1 summary"><p>Releases all resources used by the current instance of the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Resources_ResourceReader_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you are finished using this instance of <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a>, call <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader_Dispose">Dispose()</a> to release all resources used by this instance. You should eliminate further references to this <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> instance so that the garbage collector can reclaim the memory of the instance instead of keeping it alive for finalization. </p>
+<p>
+<a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader_Dispose">Dispose()</a> calls the private Dispose(Boolean) method, which contains the code to release managed and unmanaged resources. For more information, see Implementing a Dispose Method. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -176,6 +202,28 @@
               <div class="markdown level1 summary"><p>Returns an enumerator for this <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Resources_ResourceReader_GetEnumerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Typically, you enumerate resources by calling the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader_GetEnumerator">GetEnumerator()</a> method and then repeatedly calling the <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> method on the returned <a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator">IDictionaryEnumerator</a> object until the method returns <strong>false</strong>. The resource name is available from the <a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator_Key">Key</a> property; its value from the <a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator_Value">Value</a> property. The example illustrates how to enumerate resources in this way.</p>
+<p>The implementation of the <a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator_Value">Value</a> property by the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class can throw the following exceptions:</p>
+<ul><li>
+<p>
+<a class="xref" href="System.IO.FileNotFoundException.html#System_IO_FileNotFoundException">FileNotFoundException</a>
+</p>
+<p>The assembly that contains the type to which the data belongs cannot be found.</p>
+</li><li>
+<p>
+<a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a>
+</p>
+<p>The data is not in the expected format.</p>
+</li><li>
+<p>
+<a class="xref" href="System.TypeLoadException.html#System_TypeLoadException">TypeLoadException</a>
+</p>
+<p>The type to which the data belongs cannot be found.</p>
+</li></ul>
+<p>You can handle the exception by calling the <span class="xref">System.Resources.ResourceReader.GetResourceData(System.String,System.String@,System.Byte[]@)</span> method to retrieve information about the data type and the byte array assigned to the named resource. For more information, see the &quot;Retrieving Resources by Name with GetResourceData&quot; section in the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class topic.</p>
+<p>The <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class includes two methods that return enumerators. The <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader_GetEnumerator">GetEnumerator()</a> method returns an <a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator">IDictionaryEnumerator</a> interface object and is the recommended method to call when enumerating resources.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Collections.IDictionaryEnumerator GetEnumerator()</code></pre>
@@ -190,7 +238,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator">IDictionaryEnumerator</a></td>
+                    <td><a class="xref" href="System.Collections.IDictionaryEnumerator.html#System_Collections_IDictionaryEnumerator">Collections.IDictionaryEnumerator</a></td>
                     <td><p>An enumerator for this <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> object.</p>
 </td>
                   </tr>

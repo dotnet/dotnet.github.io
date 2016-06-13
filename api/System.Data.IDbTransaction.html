@@ -82,6 +82,11 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public interface IDbTransaction : IDisposable</code></pre>
               </div>
+              <h5 id="System_Data_IDbTransaction_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction">IDbTransaction</a> interface allows an inheriting class to implement a Transaction class, which represents the transaction to be performed at a data source. For more information about Transaction classes, see Transactions and Concurrency. </p>
+<p>An application does not create an instance of the <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction">IDbTransaction</a> interface directly, but creates an instance of a class that inherits <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction">IDbTransaction</a>.</p>
+<p>Classes that inherit <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction">IDbTransaction</a> must implement the inherited members, and typically define additional members to add provider-specific functionality. For example, the <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction">IDbTransaction</a> interface defines the <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction_Commit">Commit()</a> method. In turn, the <span class="xref">System.Data.OleDb.OleDbTransaction</span> class inherits this property, and also defines the <span class="xref">System.Data.OleDb.OleDbTransaction.Begin(System.Data.IsolationLevel)</span> method.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,6 +100,9 @@
               <div class="markdown level1 summary"><p>Specifies the Connection object to associate with the transaction.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_IDbTransaction_Connection_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A single application may have multiple database connections, each with zero or more transactions. This property enables you to determine the connection object associated with a particular transaction.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">IDbConnection Connection { get; }</code></pre>
@@ -126,6 +134,9 @@
               <div class="markdown level1 summary"><p>Specifies the <a class="xref" href="System.Data.IsolationLevel.html#System_Data_IsolationLevel">IsolationLevel</a> for this transaction.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_IDbTransaction_IsolationLevel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Parallel transactions are not supported. Therefore, the <a class="xref" href="System.Data.IsolationLevel.html#System_Data_IsolationLevel">IsolationLevel</a> applies to the entire transaction.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">IsolationLevel IsolationLevel { get; }</code></pre>
@@ -141,7 +152,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Data.IsolationLevel.html#System_Data_IsolationLevel">IsolationLevel</a></td>
-                    <td><p>The <a class="xref" href="System.Data.IsolationLevel.html#System_Data_IsolationLevel">IsolationLevel</a> for this transaction. The default is ReadCommitted.</p>
+                    <td><p>The <a class="xref" href="System.Data.IsolationLevel.html#System_Data_IsolationLevel">IsolationLevel</a> for this transaction. The default is <strong>ReadCommitted</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -179,7 +190,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The transaction has already been committed or rolled back.-or- The connection is broken. </p>
+                    <td><p>The transaction has already been committed or rolled back.</p>
+<p>-or- </p>
+<p>The connection is broken. </p>
 </td>
                   </tr>
                 </tbody>
@@ -195,6 +208,9 @@
               <div class="markdown level1 summary"><p>Rolls back a transaction from a pending state.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_IDbTransaction_Rollback_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The transaction can only be rolled back from a pending state (after <a class="xref" href="System.Data.IDbConnection.html#System_Data_IDbConnection_BeginTransaction">BeginTransaction()</a> has been called, but before <a class="xref" href="System.Data.IDbTransaction.html#System_Data_IDbTransaction_Commit">Commit()</a> is called).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void Rollback()</code></pre>
@@ -215,7 +231,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The transaction has already been committed or rolled back.-or- The connection is broken. </p>
+                    <td><p>The transaction has already been committed or rolled back.</p>
+<p>-or- </p>
+<p>The connection is broken. </p>
 </td>
                   </tr>
                 </tbody>

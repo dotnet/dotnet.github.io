@@ -87,6 +87,51 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class TraceSource : object</code></pre>
               </div>
+              <h5 id="System_Diagnostics_TraceSource_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class is used by applications to produce traces that can be associated with the application. <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> provides tracing methods that allow you to easily trace events, trace data, and issue informational traces. Trace output from <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> can be controlled by configuration file settings. The configuration file is located in the folder with the application executable and has the name of the application with the .config file name extension added. For example, the name of the configuration file for TraceSourceSample.exe is TraceSourceSample.exe.config. The configuration file can be used to determine where the trace information is to be sent and what levels of activity are to be traced. The following example shows the contents of a sample application configuration file.</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<sources>
+<source name="TraceTest" switchname="SourceSwitch" switchtype="System.Diagnostics.SourceSwitch">
+<listeners>
+  <add name="console"></add>
+  <remove name="Default"></remove>
+</listeners>
+</source>
+</sources>
+<switches>
+<!-- You can set the level at which tracing is to occur -->
+<add name="SourceSwitch" value="Warning"></add>
+<!-- You can turn tracing off -->
+<!--add name="SourceSwitch" value="Off" -->
+</switches>
+<sharedlisteners>
+<add name="console" type="System.Diagnostics.ConsoleTraceListener" initializedata="false"></add>
+</sharedlisteners>
+<trace autoflush="true" indentsize="4">
+<listeners>
+<add name="console"></add>
+</listeners>
+</trace>
+</system.diagnostics>
+</configuration></code></pre>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class is identified by the name of a source, typically the name of the application.  The trace messages coming from a particular component can be initiated by a particular trace source, allowing all messages coming from that component to be easily identified.</p>
+<p>
+<a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> defines tracing methods but does not actually provide any specific mechanism for generating and storing tracing data. The tracing data is produced by trace listeners, which are plug-ins that can be loaded by trace sources. </p>
+<p>You should not call the tracing methods during finalization. Doing so can result in an <a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a> being thrown.</p>
+<p>You can customize the tracing output's target by adding or removing <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances to or from the collection stored in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> property. By default, trace output is produced using an instance of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> class. The preceding configuration file example demonstrates removing the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> and adding a <span class="xref">System.Diagnostics.ConsoleTraceListener</span> to produce the trace output for the trace source. For more information, see <listeners> Element for <source> and <sharedlisteners> Element.<p>
+<p>Adding a trace listener to the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection can cause an exception to be thrown while tracing, if a resource used by the trace listener is not available. The conditions and the exception thrown depend on the trace listener and cannot be enumerated in this topic. It may be useful to place calls to the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> methods in <strong>try</strong>/<strong>catch</strong> blocks to detect and handle any exceptions from trace listeners.</p>
+<p>The <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> class provides the means to dynamically control the tracing output. The preceding configuration file example shows how you can turn off tracing from a trace source and control the level at which tracing occurs.  You can modify the value of the source switch without recompiling your application. For information on using the configuration file to set a switch, see <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch">Switch</a> and How to: Create, Initialize and Configure Trace Switches.</p>
+<p>If you modify a configuration file while an application is executing, the application must be stopped and restarted or the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Refresh">Refresh()</a> method must be called before the new settings take effect.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType">TraceEventType</a> enumeration is used to define the event type of the trace message. Trace filters use the <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType">TraceEventType</a> to determine if a trace listener should produce the trace message.</p>
+<p>The trace listeners can optionally have an additional layer of filtering through a trace filter.  If a trace listener has an associated filter, the listener calls the <a class="xref" href="System.Diagnostics.TraceFilter.html#System_Diagnostics_TraceFilter_ShouldTrace_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___System_Object_System_Object___">ShouldTrace(TraceEventCache, String, TraceEventType, Int32, String, Object[], Object, Object[])</a> method on that filter to determine whether or not to produce the trace information.</p>
+<p>The trace listeners use the values of the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class properties <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a>, and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to format trace output. You can use configuration file attributes to set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a>, and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> properties. The following example sets the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> property to <strong>false</strong> and the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> property to 3. </p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="3"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</sharedlisteners></source></listeners></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +145,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class, using the specified name for the source. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The source name is used to identify traces. It is used by a <a class="xref" href="System.Diagnostics.SourceFilter.html#System_Diagnostics_SourceFilter">SourceFilter</a> to determine whether a trace listener should produce the trace. The recommended practice is to use the name of the application for the source name.</p>
+<p>It is not necessary to create a new <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> instance for each trace request. Create one <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> instance and use it for all trace requests for the application.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TraceSource(string name)</code></pre>
@@ -133,12 +182,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is an empty string (&quot;&quot;).</p>
+                    <td><p>
+<em>name</em> is an empty string (&quot;&quot;).</p>
 </td>
                   </tr>
                 </tbody>
@@ -154,6 +205,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class, using the specified name for the source and the default source level at which tracing is to occur.  </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource__ctor_System_String_System_Diagnostics_SourceLevels__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The source name is used to identify traces. It can be used by a <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> to determine if tracing is to occur and by a <a class="xref" href="System.Diagnostics.SourceFilter.html#System_Diagnostics_SourceFilter">SourceFilter</a> to determine whether to produce the trace. The default source level is used by an <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter">EventTypeFilter</a> to determine if tracing is to occur based on the source level of the message to be traced.</p>
+<p>It is not necessary to create a new <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> instance for each trace request. Create one <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> instance and use it for all trace requests for the application.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TraceSource(string name, SourceLevels defaultLevel)</code></pre>
@@ -193,12 +248,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is an empty string (&quot;&quot;).</p>
+                    <td><p>
+<em>name</em> is an empty string (&quot;&quot;).</p>
 </td>
                   </tr>
                 </tbody>
@@ -216,6 +273,9 @@
               <div class="markdown level1 summary"><p>Gets the collection of trace listeners for the trace source.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_Listeners_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this property to access and perform operations on the trace listeners.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TraceListenerCollection Listeners { get; }</code></pre>
@@ -247,6 +307,18 @@
               <div class="markdown level1 summary"><p>Gets the name of the trace source.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The name is set by the <em>name</em> parameter passed to the constructor. You can refer to the trace source by using the <strong>name</strong> attribute in the configuration file.</p></p>
+<p><p>The following XML element shows referring to a trace source in the configuration file.</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<sources>
+<source name="TraceTest">
+</source>
+</sources>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
@@ -278,6 +350,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the source switch value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_Switch_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property allows the filtering of messages before the trace source calls the listeners.</p>
+<p>The switch is used to check whether trace calls should be generated or ignored. Each trace method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> to determine whether to proceed with the trace. If the call returns <strong>true</strong>, the listeners are called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SourceSwitch Switch { get; set; }</code></pre>
@@ -309,7 +385,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> is set to null.</p>
+                    <td><p>
+<a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> is set to <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -327,6 +404,9 @@
               <div class="markdown level1 summary"><p>Closes all the trace listeners in the trace listener collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_Close_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Close">Close()</a> method calls the <span class="xref">System.Diagnostics.TraceListener.Close</span> method of each trace listener in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Close()</code></pre>
@@ -342,6 +422,9 @@
               <div class="markdown level1 summary"><p>Flushes all the trace listeners in the trace listener collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_Flush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Flush">Flush()</a> method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Flush">Flush()</a> method of each trace listener in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Flush()</code></pre>
@@ -373,6 +456,11 @@
               <div class="markdown level1 summary"><p>Writes trace data to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified event type, event identifier, and trace data.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object_">TraceData(TraceEventType, Int32, Object)</a> method, like the <see cref="Overload:System.Diagnostics.TraceSource.TraceEvent"></see> method, is intended for automated tools, but it also allows the attaching of an additional object, such as an exception instance, to the trace.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object_">TraceData(TraceEventType, Int32, Object)</a> method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> object returned by the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property. If <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> returns <strong>true</strong>, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object_">TraceData(TraceEventType, Int32, Object)</a> calls the corresponding <see cref="Overload:System.Diagnostics.TraceListener.TraceData"></see> method on all listeners. Otherwise, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object_">TraceData(TraceEventType, Int32, Object)</a> returns without calling the listeners&#39; methods.</p>
+<p>The <span class="xref">System.Diagnostics.EventLogTraceListener</span> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <span class="xref">System.Diagnostics.EventLogTraceListener</span> object uses 65,535.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceData(TraceEventType eventType, int id, object data)</code></pre>
@@ -434,6 +522,11 @@
               <div class="markdown level1 summary"><p>Writes trace data to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified event type, event identifier, and trace data array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object___">TraceData(TraceEventType, Int32, Object[])</a> method, like the <see cref="Overload:System.Diagnostics.TraceSource.TraceEvent"></see> method, is intended for automated tools, but it also allows the attaching of additional objects, such as an exception instance and a stack trace, to the trace.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object___">TraceData(TraceEventType, Int32, Object[])</a> method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> object returned by the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property. If <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> returns <strong>true</strong>, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object___">TraceData(TraceEventType, Int32, Object[])</a> calls the corresponding <see cref="Overload:System.Diagnostics.TraceListener.TraceData"></see> method on all listeners. Otherwise, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceData_System_Diagnostics_TraceEventType_System_Int32_System_Object___">TraceData(TraceEventType, Int32, Object[])</a> returns without calling the listeners&#39; methods.</p>
+<p>The <span class="xref">System.Diagnostics.EventLogTraceListener</span> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <span class="xref">System.Diagnostics.EventLogTraceListener</span> object uses 65,535.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceData(TraceEventType eventType, int id, params object[] data)</code></pre>
@@ -495,6 +588,12 @@
               <div class="markdown level1 summary"><p>Writes a trace event message to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified event type and event identifier.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_">TraceEvent(TraceEventType, Int32)</a> method is intended to trace events that can be processed automatically by tools. For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_">TraceEvent(TraceEventType, Int32)</a> method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> object returned by the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property. If <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> returns <strong>true</strong>, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_">TraceEvent(TraceEventType, Int32)</a> calls the corresponding <see cref="Overload:System.Diagnostics.TraceListener.TraceEvent"></see> method of each listener. Otherwise, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_">TraceEvent(TraceEventType, Int32)</a> returns without calling the listeners&#39; methods.</p>
+<p>The trace content is listener specific. If the method is not overridden by the listener implementation, the default output is the name of the trace source, its numeric identity, and the event type.  Additional trace content is dependent upon the listener&#39;s <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property value.</p>
+<p>The <span class="xref">System.Diagnostics.EventLogTraceListener</span> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <span class="xref">System.Diagnostics.EventLogTraceListener</span> uses 65,535.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceEvent(TraceEventType eventType, int id)</code></pre>
@@ -550,6 +649,12 @@
               <div class="markdown level1 summary"><p>Writes a trace event message to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified event type, event identifier, and message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventType, Int32, String)</a> method is intended to trace events that can be processed automatically by tools. For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventType, Int32, String)</a> method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> object returned by the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property. If <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> returns <strong>true</strong>, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventType, Int32, String)</a> calls the corresponding <see cref="Overload:System.Diagnostics.TraceListener.TraceEvent"></see> method of each listener. Otherwise, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventType, Int32, String)</a> returns without calling the listeners&#39; methods.</p>
+<p>The trace content is listener specific. If the method is not overridden by the listener implementation, the default output is the name of the trace source, its numeric identity, the event type, and the message.  Additional trace content is dependent upon the listener&#39;s <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property value.</p>
+<p>The <span class="xref">System.Diagnostics.EventLogTraceListener</span> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <span class="xref">System.Diagnostics.EventLogTraceListener</span> object uses 65,535.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceEvent(TraceEventType eventType, int id, string message)</code></pre>
@@ -611,6 +716,13 @@
               <div class="markdown level1 summary"><p>Writes a trace event to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified event type, event identifier, and argument array and format.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about the <em>format</em> parameter, see Composite Formatting.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventType, Int32, String, Object[])</a> method is intended to trace events that can be processed automatically by tools. For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventType, Int32, String, Object[])</a> method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> object returned by the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property. If <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> returns <strong>true</strong>, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventType, Int32, String, Object[])</a> calls the corresponding <see cref="Overload:System.Diagnostics.TraceListener.TraceEvent"></see> method of each listener. Otherwise, <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventType, Int32, String, Object[])</a> returns without calling the listeners&#39; methods.</p>
+<p>The trace content is listener specific. The default <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceEvent_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventCache, String, TraceEventType, Int32, String, Object[])</a> method writes the source name, event type, and numeric identity in the trace header, then calls the <a class="xref" href="System.String.html#System_String_Format_System_IFormatProvider_System_String_System_Object___">Format(IFormatProvider, String, Object[])</a> method, passing the <em>format</em> string and <em>args</em> array and using the <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo_InvariantCulture">InvariantCulture</a> property to format the string as the message output. </p>
+<p>The <span class="xref">System.Diagnostics.EventLogTraceListener</span> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <span class="xref">System.Diagnostics.EventLogTraceListener</span> object uses 65,535.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceEvent(TraceEventType eventType, int id, string format, params object[] args)</code></pre>
@@ -646,7 +758,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>An object array containing zero or more objects to format.</p>
+                    <td><p>An <strong>object</strong> array containing zero or more objects to format.</p>
 </td>
                   </tr>
                 </tbody>
@@ -662,12 +774,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>format</em> is null. </p>
+                    <td><p>
+<em>format</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a></td>
-                    <td><p><em>format</em> is invalid.-or- The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format. </p>
+                    <td><p>
+<em>format</em> is invalid.</p>
+<p>-or- </p>
+<p>The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format. </p>
 </td>
                   </tr>
                   <tr>
@@ -688,6 +804,11 @@
               <div class="markdown level1 summary"><p>Writes an informational message to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceInformation_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceInformation_System_String_">TraceInformation(String)</a> method provides an informational message intended to be read by users and not by tools.</p>
+<p>
+<a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceInformation_System_String_">TraceInformation(String)</a> calls the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventType, Int32, String)</a> method, setting <em>eventType</em> to <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Information">Information</a> and passing the informative message as the message string. The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventType, Int32, String)</a> method in turn calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceEvent_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_">TraceEvent(TraceEventCache, String, TraceEventType, Int32, String)</a> method of each trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceInformation(string message)</code></pre>
@@ -737,6 +858,12 @@
               <div class="markdown level1 summary"><p>Writes an informational message to the trace listeners in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Listeners">Listeners</a> collection using the specified object array and formatting information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceSource_TraceInformation_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about the <em>format</em> parameter, see Composite Formatting.</p>
+<p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceInformation_System_String_System_Object___">TraceInformation(String, Object[])</a> method provides an informational message intended to be read by users and not by tools.</p>
+<p>
+<a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceInformation_System_String_System_Object___">TraceInformation(String, Object[])</a> calls the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventType, Int32, String, Object[])</a> method, setting <em>eventType</em> to <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Information">Information</a> and passing the message content as an object array with formatting information. The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_TraceEvent_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventType, Int32, String, Object[])</a> method in turn calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceEvent_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object___">TraceEvent(TraceEventCache, String, TraceEventType, Int32, String, Object[])</a> method of each trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TraceInformation(string format, params object[] args)</code></pre>
@@ -776,12 +903,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>format</em> is null. </p>
+                    <td><p>
+<em>format</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.FormatException.html#System_FormatException">FormatException</a></td>
-                    <td><p><em>format</em> is invalid.-or- The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format. </p>
+                    <td><p>
+<em>format</em> is invalid.</p>
+<p>-or- </p>
+<p>The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format. </p>
 </td>
                   </tr>
                   <tr>

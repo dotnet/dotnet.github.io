@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1394" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L16" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_ThreadPool" data-uid="System.Threading.ThreadPool">Class ThreadPool
               </h1>
               <div class="markdown level0 summary"><p>Provides a pool of threads that can be used to execute tasks, post work items, process asynchronous I/O, wait on behalf of other threads, and process timers.</p>
@@ -87,6 +87,31 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ThreadPool : object</code></pre>
               </div>
+              <h5 id="System_Threading_ThreadPool_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Many applications create threads that spend a great deal of time in the sleeping state, waiting for an event to occur. Other threads might enter a sleeping state only to be awakened periodically to poll for a change or update status information. The thread pool enables you to use threads more efficiently by providing your application with a pool of worker threads that are managed by the system. Examples of operations that use thread pool threads include the following: </p>
+<ul><li>
+<p>When you create a <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> or <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> object to perform some task asynchronously, by default the task is scheduled to run on a thread pool thread.</p>
+</li><li>
+<p>Asynchronous timers use the thread pool. Thread pool threads execute callbacks from the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> class and raise events from the <span class="xref">System.Timers.Timer</span> class.</p>
+</li><li>
+<p>When you use registered wait handles, a system thread monitors the status of the wait handles. When a wait operation completes, a worker thread from the thread pool executes the corresponding callback function.</p>
+</li><li>
+<p>When you call the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method to queue a method for execution on a thread pool thread. You do this by passing the method a <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> delegate.   The delegate has the signature</p>
+<pre><code class="c#">void WaitCallback(Object state)</code></pre>
+<pre><code class="vb">Sub WaitCallback(state As Object)</code></pre>
+<p>where <em>state</em>  is an object that contains data to be used by the delegate. The actual data can be passed to the delegate by calling the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a> method.</p>
+</li></ul>
+<p>The threads in the managed thread pool are background threads. That is, their <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_IsBackground">IsBackground</a> properties are <strong>true</strong>. This means that a <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a> thread will not keep an application running after all foreground threads have exited.</p>
+<p>When the thread pool reuses a thread, it does not clear the data in thread local storage or in fields that are marked with the <a class="xref" href="System.ThreadStaticAttribute.html#System_ThreadStaticAttribute">ThreadStaticAttribute</a> attribute. Therefore, when a method examines thread local storage or fields that are marked with the <a class="xref" href="System.ThreadStaticAttribute.html#System_ThreadStaticAttribute">ThreadStaticAttribute</a> attribute, the values it finds might be left over from an earlier use of the thread pool thread. </p>
+<p>You can also queue work items that are not related to a wait operation to the thread pool. To request that a work item be handled by a thread in the thread pool, call the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a> method. This method takes as a parameter a reference to the method or delegate that will be called by the thread selected from the thread pool. There is no way to cancel a work item after it has been queued.</p>
+<p>Timer-queue timers and registered wait operations also use the thread pool. Their callback functions are queued to the thread pool.</p>
+<p>There is one thread pool per process. Beginning with the .NET Framework 4, the default size of the thread pool for a process depends on several factors, such as the size of the virtual address space. A process can call the <span class="xref">System.Threading.ThreadPool.GetMaxThreads(System.Int32@,System.Int32@)</span> method to determine the number of threads. The number of threads in the thread pool can be changed by using the <span class="xref">System.Threading.ThreadPool.SetMaxThreads(System.Int32,System.Int32)</span> method. Each thread uses the default stack size and runs at the default priority. </p>
+<p>Unmanaged code that hosts the .NET Framework can change the size of the thread pool by using the CorSetMaxThreads function, defined in the mscoree.h file.</p>
+<p>The thread pool provides new worker threads or I/O completion threads on demand until it reaches the minimum for each category. When a minimum is reached, the thread pool can create additional threads in that category or wait until some tasks complete. Beginning with the .NET Framework 4, the thread pool creates and destroys worker threads in order to optimize throughput, which is defined as the number of tasks that complete per unit of time. Too few threads might not make optimal use of available resources, whereas too many threads could increase resource contention. </p>
+<p>When demand is low, the actual number of thread pool threads can fall below the minimum values.</p>
+<p>You can use the <span class="xref">System.Threading.ThreadPool.GetMinThreads(System.Int32@,System.Int32@)</span> method to obtain these minimum values. </p>
+<p>You can use the <span class="xref">System.Threading.ThreadPool.SetMinThreads(System.Int32,System.Int32)</span> method to increase the minimum number of threads. However, unnecessarily increasing these values can cause performance problems. If too many tasks start at the same time, all of them might appear to be slow. In most cases the thread pool will perform better with its own algorithm for allocating threads. </p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +119,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_BindHandle_System_Runtime_InteropServices_SafeHandle_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.BindHandle(System.Runtime.InteropServices.SafeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1922">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L18">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_BindHandle_System_Runtime_InteropServices_SafeHandle_" data-uid="System.Threading.ThreadPool.BindHandle(System.Runtime.InteropServices.SafeHandle)">BindHandle(Runtime.InteropServices.SafeHandle)</h4>
               <div class="markdown level1 summary"><p>Binds an operating system handle to the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_BindHandle_System_Runtime_InteropServices_SafeHandle__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>osHandle</em> parameter should be a <a class="xref" href="Microsoft.Win32.SafeHandles.SafeFileHandle.html#Microsoft_Win32_SafeHandles_SafeFileHandle">SafeFileHandle</a>, which derives from the abstract <a class="xref" href="System.Runtime.InteropServices.SafeHandle.html#System_Runtime_InteropServices_SafeHandle">SafeHandle</a> class. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool BindHandle(Runtime.InteropServices.SafeHandle osHandle)</code></pre>
@@ -133,7 +161,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the handle is bound; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the handle is bound; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -149,7 +178,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>osHandle</em> is null. </p>
+                    <td><p>
+<em>osHandle</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -159,12 +189,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1633">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L20">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_" data-uid="System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback)">QueueUserWorkItem(WaitCallback)</h4>
               <div class="markdown level1 summary"><p>Queues a method for execution. The method executes when a thread pool thread becomes available.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can place data required by the queued method in the instance fields of the class in which the method is defined, or you can use the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a> overload that accepts an object containing the necessary data.</p>
+<p>Visual Basic users can omit the <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> constructor, and simply use the <strong>AddressOf</strong> operator when passing the callback method to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a>. Visual Basic automatically calls the correct delegate constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool QueueUserWorkItem(WaitCallback callBack)</code></pre>
@@ -198,7 +232,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the method is successfully queued; <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown if the work item could not be queued.</p>
+                    <td><p>
+<strong>true</strong> if the method is successfully queued; <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown if the work item could not be queued.</p>
 </td>
                   </tr>
                 </tbody>
@@ -214,7 +249,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>callBack</em> is null.</p>
+                    <td><p>
+<em>callBack</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -229,12 +265,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1622">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L21">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_" data-uid="System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback,System.Object)">QueueUserWorkItem(WaitCallback, Object)</h4>
               <div class="markdown level1 summary"><p>Queues a method for execution, and specifies an object containing data to be used by the method. The method executes when a thread pool thread becomes available.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the callback method requires complex data, you can define a class to contain the data.</p>
+<p>Visual Basic users can omit the <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> constructor, and simply use the <strong>AddressOf</strong> operator when passing the callback method to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a>. Visual Basic automatically calls the correct delegate constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool QueueUserWorkItem(WaitCallback callBack, object state)</code></pre>
@@ -274,7 +314,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the method is successfully queued; <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown if the work item could not be queued.</p>
+                    <td><p>
+<strong>true</strong> if the method is successfully queued; <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown if the work item could not be queued.</p>
 </td>
                   </tr>
                 </tbody>
@@ -295,7 +336,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>callBack</em> is null.</p>
+                    <td><p>
+<em>callBack</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -305,12 +347,26 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle%2CSystem.Threading.WaitOrTimerCallback%2CSystem.Object%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1516">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L22">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean_" data-uid="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int32,System.Boolean)">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int32, Boolean)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate to wait for a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, specifying a 32-bit signed integer for the time-out in milliseconds.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you are finished using the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a> that is returned by this method, call its <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method to release references to the wait handle. We recommend that you always call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method instead of depending on the registered wait handle&#39;s finalizer.</p>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int32, Boolean)</a> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>
+<ul><li>
+<p>The specified object is in the signaled state.</p>
+</li><li>
+<p>The time-out interval elapses.</p>
+</li></ul>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int32, Boolean)</a> method checks the current state of the specified object&#39;s <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. If the object&#39;s state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object&#39;s state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>
+<p>Using a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, use a <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> with a maximum count of 1.</p>
+<p>To cancel the wait operation, call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method.</p>
+<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int32, Boolean)</a>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int32, Boolean)</a>, because the wait thread might not detect that the event is signaled before it is reset.</p>
+<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, int millisecondsTimeOutInterval, bool executeOnlyOnce)</code></pre>
@@ -352,7 +408,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>executeOnlyOnce</em></td>
-                    <td><p>true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
+                    <td><p>
+<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
 </td>
                   </tr>
                 </tbody>
@@ -394,12 +451,26 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle%2CSystem.Threading.WaitOrTimerCallback%2CSystem.Object%2CSystem.Int64%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1550">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L23">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_" data-uid="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate to wait for a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, specifying a 64-bit signed integer for the time-out in milliseconds.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you are finished using the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a> that is returned by this method, call its <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method to release references to the wait handle. We recommend that you always call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method instead of depending on the registered wait handle&#39;s finalizer.</p>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>
+<ul><li>
+<p>The specified object is in the signaled state.</p>
+</li><li>
+<p>The time-out interval elapses.</p>
+</li></ul>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a> method checks the current state of the specified object&#39;s <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. If the object&#39;s state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object&#39;s state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>
+<p>Using a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, use a <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> with a maximum count of 1.</p>
+<p>To cancel the wait operation, call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method.</p>
+<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a>, because the wait thread might not detect that the event is signaled before it is reset.</p>
+<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, long millisecondsTimeOutInterval, bool executeOnlyOnce)</code></pre>
@@ -441,7 +512,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>executeOnlyOnce</em></td>
-                    <td><p>true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
+                    <td><p>
+<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
 </td>
                   </tr>
                 </tbody>
@@ -483,12 +555,26 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle%2CSystem.Threading.WaitOrTimerCallback%2CSystem.Object%2CSystem.TimeSpan%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1584">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L24">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean_" data-uid="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.TimeSpan,System.Boolean)">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, TimeSpan, Boolean)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate to wait for a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, specifying a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> value for the time-out.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you are finished using the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a> that is returned by this method, call its <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method to release references to the wait handle. We recommend that you always call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method instead of depending on the registered wait handle&#39;s finalizer.</p>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, TimeSpan, Boolean)</a> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>
+<ul><li>
+<p>The specified object is in the signaled state.</p>
+</li><li>
+<p>The time-out interval elapses.</p>
+</li></ul>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, TimeSpan, Boolean)</a> method checks the current state of the specified object&#39;s <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. If the object&#39;s state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object&#39;s state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>
+<p>Using a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, use a <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> with a maximum count of 1.</p>
+<p>To cancel the wait operation, call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method.</p>
+<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, TimeSpan, Boolean)</a>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_TimeSpan_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, TimeSpan, Boolean)</a>, because the wait thread might not detect that the event is signaled before it is reset.</p>
+<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, TimeSpan timeout, bool executeOnlyOnce)</code></pre>
@@ -530,7 +616,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>executeOnlyOnce</em></td>
-                    <td><p>true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
+                    <td><p>
+<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
 </td>
                   </tr>
                 </tbody>
@@ -577,12 +664,26 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle%2CSystem.Threading.WaitOrTimerCallback%2CSystem.Object%2CSystem.UInt32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1442">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L25">View Source</a>
               </span>
               <h4 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_" data-uid="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate to wait for a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, specifying a 32-bit unsigned integer for the time-out in milliseconds.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you are finished using the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a> that is returned by this method, call its <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method to release references to the wait handle. We recommend that you always call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method instead of depending on the registered wait handle&#39;s finalizer.</p>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>
+<ul><li>
+<p>The specified object is in the signaled state.</p>
+</li><li>
+<p>The time-out interval elapses.</p>
+</li></ul>
+<p>The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a>method checks the current state of the specified object&#39;s <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. If the object&#39;s state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object&#39;s state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>
+<p>Using a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, use a <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> with a maximum count of 1.</p>
+<p>To cancel the wait operation, call the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle_Unregister_System_Threading_WaitHandle_">Unregister(WaitHandle)</a> method.</p>
+<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_Int64_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, Int64, Boolean)</a>, because the wait thread might not detect that the event is signaled before it is reset.</p>
+<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, uint millisecondsTimeOutInterval, bool executeOnlyOnce)</code></pre>
@@ -624,7 +725,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>executeOnlyOnce</em></td>
-                    <td><p>true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
+                    <td><p>
+<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>
 </td>
                   </tr>
                 </tbody>

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ManualResetEvent.md&amp;value=---%0Auid%3A%20System.Threading.ManualResetEvent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ManualResetEvent.cs/#L20" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L161" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_ManualResetEvent" data-uid="System.Threading.ManualResetEvent">Class ManualResetEvent
               </h1>
               <div class="markdown level0 summary"><p>Notifies one or more waiting threads that an event has occurred. This class cannot be inherited.</p>
@@ -88,6 +88,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class ManualResetEvent : EventWaitHandle</code></pre>
               </div>
+              <h5 id="System_Threading_ManualResetEvent_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>In the .NET Framework version 2.0, <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> derives from the new <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> class. A <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> is functionally equivalent to an <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> created with <a class="xref" href="System.Threading.EventResetMode.html#System_Threading_EventResetMode_ManualReset">ManualReset</a>. </p>
+<p>Unlike the <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> class, the <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> class provides access to named system synchronization events.</p>
+<p>
+<a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> allows threads to communicate with each other by signaling. Typically, this communication concerns a task which one thread must complete before other threads can proceed.</p>
+<p>When a thread begins an activity that must complete before other threads proceed, it calls <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Reset">Reset()</a> to put <strong>ManualResetEvent</strong> in the non-signaled state. This thread can be thought of as controlling the <strong>ManualResetEvent</strong>. Threads that call <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> on the <strong>ManualResetEvent</strong> will block, awaiting the signal. When the controlling thread completes the activity, it calls <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a> to signal that the waiting threads can proceed. All waiting threads are released.</p>
+<p>Once it has been signaled, <strong>ManualResetEvent</strong> remains signaled until it is manually reset. That is, calls to <strong>WaitOne</strong> return immediately.</p>
+<p>You can control the initial state of a <strong>ManualResetEvent</strong> by passing a Boolean value to the constructor, <strong>true</strong> if the initial state is signaled and <strong>false</strong> otherwise.</p>
+<p>
+<strong>ManualResetEvent</strong> can also be used with the <strong>static</strong><span class="xref">System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> and <span class="xref">System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> methods.</p>
+<p>For more information about thread synchronization mechanisms, see ManualResetEvent and ManualResetEventSlim in the conceptual documentation.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,12 +107,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ManualResetEvent__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.ManualResetEvent.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ManualResetEvent.cs/#L24">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L163">View Source</a>
               </span>
               <h4 id="System_Threading_ManualResetEvent__ctor_System_Boolean_" data-uid="System.Threading.ManualResetEvent.#ctor(System.Boolean)">ManualResetEvent(Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> class with a Boolean value indicating whether to set the initial state to signaled.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_ManualResetEvent__ctor_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the initial state of a <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> is signaled (that is, if it is created by passing <strong>true</strong> for <em>initialState</em>), threads that wait on the <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a> do not block. If the initial state is nonsignaled, threads block until the <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a> method is called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ManualResetEvent(bool initialState)</code></pre>
@@ -118,7 +133,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>initialState</em></td>
-                    <td><p>true to set the initial state signaled; false to set the initial state to nonsignaled. </p>
+                    <td><p>
+<strong>true</strong> to set the initial state signaled; <strong>false</strong> to set the initial state to nonsignaled. </p>
 </td>
                   </tr>
                 </tbody>

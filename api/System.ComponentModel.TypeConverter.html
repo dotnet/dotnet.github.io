@@ -87,6 +87,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class TypeConverter : object</code></pre>
               </div>
+              <h5 id="System_ComponentModel_TypeConverter_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The most common type of converter is one that converts to and from a text representation. The type converter for a class is bound to the class with a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>. Unless this attribute is overridden, all classes that inherit from this class use the same type converter as the base class.</p>
+<p>For general type system purposes, do not access a type converter directly. Instead, access the appropriate converter by using <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a>. For more information, see the code examples provided.</p>
+<p>Note   For XAML purposes, a XAML processor searches for the <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a> directly, instead of going through <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a>. For cases where you do want a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> instance from code, or where you create a shared instance in WPF resources, it is acceptable to construct it directly without referencing <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> or other reflection and type system support.</p>
+<p>Classes derived from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> are often referenced as part of how a XAML processor converts an attribute or initialization text value from markup (which is inherently a string) and generates an object for a run-time representation. Custom type authors that intend to support a type conversion behavior for XAML typically implement a <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> class that supports their own unique <strong>ConvertFrom</strong> behavior from a string. This behavior enables type conversion from the string provided as a XAML attribute value and provides a XAML processor with the support needed to create an object from the string, so that the object can be produced in a parsed object graph. Custom types or members of custom types are indicated by applying <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a> to the definitions, with the attribute referencing the custom <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> implementation. For more information, see Type Converters for XAML Overview.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -117,6 +123,9 @@
               <div class="markdown level1 summary"><p>Returns whether this converter can convert an object of the given type to the type of this converter, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_CanConvertFrom_System_ComponentModel_ITypeDescriptorContext_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method returns <strong>false</strong>, unless <em>sourceType</em> is an <span class="xref">System.ComponentModel.Design.Serialization.InstanceDescriptor</span>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)</code></pre>
@@ -156,7 +165,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this converter can perform the conversion; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this converter can perform the conversion; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -172,6 +182,9 @@
               <div class="markdown level1 summary"><p>Returns whether this converter can convert an object of the given type to the type of this converter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_CanConvertFrom_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>. It never returns <strong>true</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool CanConvertFrom(Type sourceType)</code></pre>
@@ -205,7 +218,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this converter can perform the conversion; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this converter can perform the conversion; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -221,6 +235,10 @@
               <div class="markdown level1 summary"><p>Returns whether this converter can convert the object to the specified type, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_CanConvertTo_System_ComponentModel_ITypeDescriptorContext_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>If <em>destinationType</em> is a string, the default implementation of <see cref="Overload:System.ComponentModel.TypeConverter.CanConvertTo"></see> always returns <strong>true</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)</code></pre>
@@ -260,7 +278,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this converter can perform the conversion; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this converter can perform the conversion; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -276,6 +295,9 @@
               <div class="markdown level1 summary"><p>Returns whether this converter can convert the object to the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_CanConvertTo_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>destinationType</em> is a string, the default implementation of <see cref="Overload:System.ComponentModel.TypeConverter.CanConvertTo"></see> always returns <strong>true</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool CanConvertTo(Type destinationType)</code></pre>
@@ -309,7 +331,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this converter can perform the conversion; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this converter can perform the conversion; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -325,6 +348,10 @@
               <div class="markdown level1 summary"><p>Converts the given object to the type of this converter, using the specified context and culture information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertFrom_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Custom type authors that intend to support a type conversion behavior for XAML typically implement a <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> class that supports <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_ConvertFrom_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_">ConvertFrom(ITypeDescriptorContext, Globalization.CultureInfo, Object)</a> behavior from a string. This behavior enables type conversion from the string provided as a XAML attribute value and provides a XAML processor with the support needed to create an object from the string, so that the object can be produced in a parsed object graph. Custom types or members of custom types are indicated by applying <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a> to the definitions, with the attribute referencing the custom <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> implementation. </p>
+<p>For XAML purposes, you do not typically provide branching implementations based on <em>culture</em>. This is because XAML is precompiled in a development environment context, and culture-specific information for runtime XAML is not relevant for XAML type conversion. For more information, see Type Converters for XAML Overview.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object ConvertFrom(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value)</code></pre>
@@ -346,7 +373,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">Globalization.CultureInfo</a></td>
+                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a></td>
                     <td><em>culture</em></td>
                     <td><p>The <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a> to use as the current culture. </p>
 </td>
@@ -467,6 +494,10 @@
               <div class="markdown level1 summary"><p>Converts the given string to the type of this converter, using the invariant culture and the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertFromInvariantString_System_ComponentModel_ITypeDescriptorContext_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception is raised if the string cannot be converted into the appropriate object. The default implementation always returns <strong>null</strong>.</p>
+<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object ConvertFromInvariantString(ITypeDescriptorContext context, string text)</code></pre>
@@ -538,6 +569,9 @@
               <div class="markdown level1 summary"><p>Converts the given string to the type of this converter, using the invariant culture.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertFromInvariantString_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default implementation always returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object ConvertFromInvariantString(string text)</code></pre>
@@ -603,6 +637,10 @@
               <div class="markdown level1 summary"><p>Converts the given text to an object, using the specified context and culture information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertFromString_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception is raised if the string cannot be converted into the appropriate object. The default implementation always returns <strong>null</strong>.</p>
+<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object ConvertFromString(ITypeDescriptorContext context, Globalization.CultureInfo culture, string text)</code></pre>
@@ -624,9 +662,9 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">Globalization.CultureInfo</a></td>
+                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a></td>
                     <td><em>culture</em></td>
-                    <td><p>A <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a>. If null is passed, the current culture is assumed. </p>
+                    <td><p>A <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a>. If <strong>null</strong> is passed, the current culture is assumed. </p>
 </td>
                   </tr>
                   <tr>
@@ -680,6 +718,10 @@
               <div class="markdown level1 summary"><p>Converts the given text to an object, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertFromString_System_ComponentModel_ITypeDescriptorContext_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception is raised if the string cannot be converted into the appropriate object. The default implementation always returns <strong>null</strong>.</p>
+<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object ConvertFromString(ITypeDescriptorContext context, string text)</code></pre>
@@ -751,6 +793,9 @@
               <div class="markdown level1 summary"><p>Converts the specified text to an object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertFromString_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default implementation always returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object ConvertFromString(string text)</code></pre>
@@ -816,6 +861,12 @@
               <div class="markdown level1 summary"><p>Converts the given value object to the specified type, using the specified context and culture information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertTo_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The most common types to convert are to and from a string object. This implementation calls <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> on the object if the object is valid and if the destination type is a string.</p>
+<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>Custom type authors that intend to support a type conversion behavior for XAML typically implement a <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> class that supports <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_ConvertFrom_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_">ConvertFrom(ITypeDescriptorContext, Globalization.CultureInfo, Object)</a> behavior from a string. These type converters might also implement <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_ConvertTo_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_System_Type_">ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)</a> to support serialization back to XAML.</p>
+<p>Some XAML serialization scenarios cannot be adequately addressed with <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> alone. In these cases, it may be necessary to also define a <span class="xref">System.Windows.Markup.ValueSerializer</span> that handles the serialization cases that would otherwise be handled by <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_ConvertTo_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_System_Type_">ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)</a>. For more information, see <span class="xref">System.Windows.Markup.ValueSerializer</span>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object ConvertTo(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value, Type destinationType)</code></pre>
@@ -837,9 +888,9 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">Globalization.CultureInfo</a></td>
+                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a></td>
                     <td><em>culture</em></td>
-                    <td><p>A <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a>. If null is passed, the current culture is assumed. </p>
+                    <td><p>A <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a>. If <strong>null</strong> is passed, the current culture is assumed. </p>
 </td>
                   </tr>
                   <tr>
@@ -883,7 +934,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>destinationType</em> parameter is null. </p>
+                    <td><p>The <em>destinationType</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -904,6 +955,9 @@
               <div class="markdown level1 summary"><p>Converts the given value object to the specified type, using the arguments.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertTo_System_Object_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The most common type to convert to and from is a string object. This implementation calls <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> on the object, if the object is valid and if the destination type is a string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object ConvertTo(object value, Type destinationType)</code></pre>
@@ -959,7 +1013,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>destinationType</em> parameter is null. </p>
+                    <td><p>The <em>destinationType</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -980,6 +1034,10 @@
               <div class="markdown level1 summary"><p>Converts the specified value to a culture-invariant string representation, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertToInvariantString_System_ComponentModel_ITypeDescriptorContext_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ConvertToInvariantString(ITypeDescriptorContext context, object value)</code></pre>
@@ -1051,6 +1109,10 @@
               <div class="markdown level1 summary"><p>Converts the specified value to a culture-invariant string representation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertToInvariantString_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>context</em> parameter can be used to extract additional information about the environment from which this converter is being invoked. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ConvertToInvariantString(object value)</code></pre>
@@ -1116,6 +1178,10 @@
               <div class="markdown level1 summary"><p>Converts the given value to a string representation, using the specified context and culture information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertToString_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ConvertToString(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value)</code></pre>
@@ -1137,9 +1203,9 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">Globalization.CultureInfo</a></td>
+                    <td><a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a></td>
                     <td><em>culture</em></td>
-                    <td><p>A <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a>. If null is passed, the current culture is assumed. </p>
+                    <td><p>A <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a>. If <strong>null</strong> is passed, the current culture is assumed. </p>
 </td>
                   </tr>
                   <tr>
@@ -1193,6 +1259,10 @@
               <div class="markdown level1 summary"><p>Converts the given value to a string representation, using the given context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertToString_System_ComponentModel_ITypeDescriptorContext_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ConvertToString(ITypeDescriptorContext context, object value)</code></pre>
@@ -1264,6 +1334,9 @@
               <div class="markdown level1 summary"><p>Converts the specified value to a string representation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_ConvertToString_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ConvertToString(object value)</code></pre>
@@ -1329,6 +1402,10 @@
               <div class="markdown level1 summary"><p>Re-creates an <a class="xref" href="System.Object.html#System_Object">Object</a> given a set of property values for the object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_CreateInstance_System_Collections_IDictionary__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this method for objects that are immutable, but for which you want to provide changeable properties.</p>
+<p>The dictionary provided by the <em>propertyValues</em> parameter has a series of name/value pairs, one for each property returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetProperties_System_Object_">GetProperties(Object)</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object CreateInstance(Collections.IDictionary propertyValues)</code></pre>
@@ -1362,7 +1439,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An <a class="xref" href="System.Object.html#System_Object">Object</a> representing the given <a class="xref" href="System.Collections.IDictionary.html#System_Collections_IDictionary">IDictionary</a>, or null if the object cannot be created. This method always returns null.</p>
+                    <td><p>An <a class="xref" href="System.Object.html#System_Object">Object</a> representing the given <a class="xref" href="System.Collections.IDictionary.html#System_Collections_IDictionary">IDictionary</a>, or <strong>null</strong> if the object cannot be created. This method always returns <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1378,6 +1455,9 @@
               <div class="markdown level1 summary"><p>Creates an instance of the type that this <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a> is associated with, using the specified context, given a set of property values for the object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_CreateInstance_System_ComponentModel_ITypeDescriptorContext_System_Collections_IDictionary__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this method for objects that are immutable, but for which you want to provide changeable properties.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object CreateInstance(ITypeDescriptorContext context, Collections.IDictionary propertyValues)</code></pre>
@@ -1417,7 +1497,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An <a class="xref" href="System.Object.html#System_Object">Object</a> representing the given <a class="xref" href="System.Collections.IDictionary.html#System_Collections_IDictionary">IDictionary</a>, or null if the object cannot be created. This method always returns null.</p>
+                    <td><p>An <a class="xref" href="System.Object.html#System_Object">Object</a> representing the given <a class="xref" href="System.Collections.IDictionary.html#System_Collections_IDictionary">IDictionary</a>, or <strong>null</strong> if the object cannot be created. This method always returns <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1450,7 +1530,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>value</em></td>
-                    <td><p>The <a class="xref" href="System.Object.html#System_Object">Object</a> to convert, or null if the object is not available. </p>
+                    <td><p>The <a class="xref" href="System.Object.html#System_Object">Object</a> to convert, or <strong>null</strong> if the object is not available. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1515,7 +1595,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>value</em></td>
-                    <td><p>The <a class="xref" href="System.Object.html#System_Object">Object</a> to convert, or null if the object is not available. </p>
+                    <td><p>The <a class="xref" href="System.Object.html#System_Object">Object</a> to convert, or <strong>null</strong> if the object is not available. </p>
 </td>
                   </tr>
                   <tr>
@@ -1584,7 +1664,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if changing a property on this object requires a call to <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_CreateInstance_System_Collections_IDictionary_">CreateInstance(Collections.IDictionary)</a> to create a new value; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if changing a property on this object requires a call to <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_CreateInstance_System_Collections_IDictionary_">CreateInstance(Collections.IDictionary)</a> to create a new value; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1600,6 +1681,9 @@
               <div class="markdown level1 summary"><p>Returns whether changing a value on this object requires a call to <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_CreateInstance_System_Collections_IDictionary_">CreateInstance(Collections.IDictionary)</a> to create a new value, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetCreateInstanceSupported_System_ComponentModel_ITypeDescriptorContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool GetCreateInstanceSupported(ITypeDescriptorContext context)</code></pre>
@@ -1633,7 +1717,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if changing a property on this object requires a call to <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_CreateInstance_System_Collections_IDictionary_">CreateInstance(Collections.IDictionary)</a> to create a new value; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if changing a property on this object requires a call to <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_CreateInstance_System_Collections_IDictionary_">CreateInstance(Collections.IDictionary)</a> to create a new value; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1649,6 +1734,11 @@
               <div class="markdown level1 summary"><p>Returns a collection of properties for the type of array specified by the value parameter, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetProperties_System_ComponentModel_ITypeDescriptorContext_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+<p>As implemented in this class, this method always returns <strong>null</strong>.</p>
+<p>By default, a type does not return properties. An easy implementation of this method can call <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_">GetProperties(Type)</a> for the correct data type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value)</code></pre>
@@ -1688,7 +1778,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for this data type, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for this data type, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1704,6 +1794,9 @@
               <div class="markdown level1 summary"><p>Returns a collection of properties for the type of array specified by the value parameter, using the specified context and attributes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetProperties_System_ComponentModel_ITypeDescriptorContext_System_Object_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)</code></pre>
@@ -1749,7 +1842,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for this data type, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for this data type, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1765,6 +1858,10 @@
               <div class="markdown level1 summary"><p>Returns a collection of properties for the type of array specified by the value parameter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetProperties_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>null</strong>.</p>
+<p>By default, a type does not return properties. An easy implementation of this method can call <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_">GetProperties(Type)</a> for the correct data type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PropertyDescriptorCollection GetProperties(object value)</code></pre>
@@ -1798,7 +1895,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for this data type, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptorCollection.html#System_ComponentModel_PropertyDescriptorCollection">PropertyDescriptorCollection</a> with the properties that are exposed for this data type, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1814,6 +1911,9 @@
               <div class="markdown level1 summary"><p>Returns whether this object supports properties.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetPropertiesSupported_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool GetPropertiesSupported()</code></pre>
@@ -1829,7 +1929,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetProperties_System_Object_">GetProperties(Object)</a> should be called to find the properties of this object; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetProperties_System_Object_">GetProperties(Object)</a> should be called to find the properties of this object; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1845,6 +1946,9 @@
               <div class="markdown level1 summary"><p>Returns whether this object supports properties, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetPropertiesSupported_System_ComponentModel_ITypeDescriptorContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool GetPropertiesSupported(ITypeDescriptorContext context)</code></pre>
@@ -1878,7 +1982,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetProperties_System_Object_">GetProperties(Object)</a> should be called to find the properties of this object; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetProperties_System_Object_">GetProperties(Object)</a> should be called to find the properties of this object; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1894,6 +1999,9 @@
               <div class="markdown level1 summary"><p>Returns a collection of standard values from the default context for the data type this type converter is designed for.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetStandardValues_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Collections.ICollection GetStandardValues()</code></pre>
@@ -1908,8 +2016,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> containing a standard set of valid values, or null if the data type does not support a standard set of values.</p>
+                    <td><a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">Collections.ICollection</a></td>
+                    <td><p>A <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> containing a standard set of valid values, or <strong>null</strong> if the data type does not support a standard set of values.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1925,6 +2033,9 @@
               <div class="markdown level1 summary"><p>Returns a collection of standard values for the data type this type converter is designed for when provided with a format context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetStandardValues_System_ComponentModel_ITypeDescriptorContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter">TypeConverter</a>, this method always returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)</code></pre>
@@ -1942,7 +2053,7 @@
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.ITypeDescriptorContext.html#System_ComponentModel_ITypeDescriptorContext">ITypeDescriptorContext</a></td>
                     <td><em>context</em></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.ITypeDescriptorContext.html#System_ComponentModel_ITypeDescriptorContext">ITypeDescriptorContext</a> that provides a format context that can be used to extract additional information about the environment from which this converter is invoked. This parameter or properties of this parameter can be null. </p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.ITypeDescriptorContext.html#System_ComponentModel_ITypeDescriptorContext">ITypeDescriptorContext</a> that provides a format context that can be used to extract additional information about the environment from which this converter is invoked. This parameter or properties of this parameter can be <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1958,7 +2069,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> that holds a standard set of valid values, or null if the data type does not support a standard set of values.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> that holds a standard set of valid values, or <strong>null</strong> if the data type does not support a standard set of values.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1974,6 +2085,10 @@
               <div class="markdown level1 summary"><p>Returns whether the collection of standard values returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> is an exclusive list.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetStandardValuesExclusive_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>.</p>
+<p>If the list is exclusive, such as in an enumeration data type, then no other values are valid. If the list is not exclusive, then other valid values might exist in addition to the list of standard values that the <see cref="Overload:System.ComponentModel.TypeConverter.GetStandardValues"></see> method provides. If the values are exclusive, the list returned by <see cref="Overload:System.ComponentModel.TypeConverter.GetStandardValues"></see> should not allow these values to be edited.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool GetStandardValuesExclusive()</code></pre>
@@ -1989,7 +2104,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> is an exhaustive list of possible values; false if other values are possible.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> is an exhaustive list of possible values; <strong>false</strong> if other values are possible.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2005,6 +2121,10 @@
               <div class="markdown level1 summary"><p>Returns whether the collection of standard values returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> is an exclusive list of possible values, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetStandardValuesExclusive_System_ComponentModel_ITypeDescriptorContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>.</p>
+<p>If the list is exclusive, such as in an enumeration data type, then no other values are valid. If the list is not exclusive, then other valid values might exist in addition to the list of standard values that the <see cref="Overload:System.ComponentModel.TypeConverter.GetStandardValues"></see> method provides. If the values are exclusive, the list returned by <see cref="Overload:System.ComponentModel.TypeConverter.GetStandardValues"></see> should not allow these values to be edited.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool GetStandardValuesExclusive(ITypeDescriptorContext context)</code></pre>
@@ -2038,7 +2158,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> is an exhaustive list of possible values; false if other values are possible.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.ComponentModel.TypeConverter.StandardValuesCollection.html#System_ComponentModel_TypeConverter_StandardValuesCollection">TypeConverter.StandardValuesCollection</a> returned from <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> is an exhaustive list of possible values; <strong>false</strong> if other values are possible.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2069,7 +2190,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> should be called to find a common set of values the object supports; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> should be called to find a common set of values the object supports; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2085,6 +2207,10 @@
               <div class="markdown level1 summary"><p>Returns whether this object supports a standard set of values that can be picked from a list, using the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_GetStandardValuesSupported_System_ComponentModel_ITypeDescriptorContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>As implemented in this class, this method always returns <strong>false</strong>.</p>
+<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool GetStandardValuesSupported(ITypeDescriptorContext context)</code></pre>
@@ -2118,7 +2244,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> should be called to find a common set of values the object supports; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_GetStandardValues">GetStandardValues()</a> should be called to find a common set of values the object supports; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2134,6 +2261,17 @@
               <div class="markdown level1 summary"><p>Returns whether the given value object is valid for this type and for the specified context.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_IsValid_System_ComponentModel_ITypeDescriptorContext_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>. </p>
+<p>Starting in .NET Framework 4, the <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_IsValid_System_ComponentModel_ITypeDescriptorContext_System_Object_">IsValid(ITypeDescriptorContext, Object)</a> method catches exceptions from the <see cref="Overload:System.ComponentModel.TypeConverter.CanConvertFrom"></see> and <see cref="Overload:System.ComponentModel.TypeConverter.ConvertFrom"></see> methods. If the input value type causes <see cref="Overload:System.ComponentModel.TypeConverter.CanConvertFrom"></see> to return <strong>false</strong>, or if the input value causes <see cref="Overload:System.ComponentModel.TypeConverter.ConvertFrom"></see> to raise an exception, the <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_IsValid_System_ComponentModel_ITypeDescriptorContext_System_Object_">IsValid(ITypeDescriptorContext, Object)</a> method returns <strong>false</strong>. </p>
+<p>To enable the legacy behavior, insert the following lines into the configuration file of the application, for example, application1.exe.config. </p>
+<pre><code class="xml"><configuration>
+<appsettings>
+<add key="UseCompatibleTypeConverterBehavior" value="true"></add>
+</appsettings>
+</configuration></code></pre>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool IsValid(ITypeDescriptorContext context, object value)</code></pre>
@@ -2173,7 +2311,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified value is valid for this object; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the specified value is valid for this object; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2189,6 +2328,16 @@
               <div class="markdown level1 summary"><p>Returns whether the given value object is valid for this type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_IsValid_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Starting in .NET Framework 4, the <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_IsValid_System_ComponentModel_ITypeDescriptorContext_System_Object_">IsValid(ITypeDescriptorContext, Object)</a> method catches exceptions from the <see cref="Overload:System.ComponentModel.TypeConverter.CanConvertFrom"></see> and <see cref="Overload:System.ComponentModel.TypeConverter.ConvertFrom"></see> methods. If the input value type causes <see cref="Overload:System.ComponentModel.TypeConverter.CanConvertFrom"></see> to return <strong>false</strong>, or if the input value causes <see cref="Overload:System.ComponentModel.TypeConverter.ConvertFrom"></see> to raise an exception, the <a class="xref" href="System.ComponentModel.TypeConverter.html#System_ComponentModel_TypeConverter_IsValid_System_ComponentModel_ITypeDescriptorContext_System_Object_">IsValid(ITypeDescriptorContext, Object)</a> method returns <strong>false</strong>. </p>
+<p>To enable the legacy behavior, insert the following lines into the configuration file of the application, for example, application1.exe.config. </p>
+<pre><code class="xml"><configuration>
+<appsettings>
+<add key="UseCompatibleTypeConverterBehavior" value="true"></add>
+</appsettings>
+</configuration></code></pre>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsValid(object value)</code></pre>
@@ -2222,7 +2371,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified value is valid for this object; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the specified value is valid for this object; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2238,6 +2388,9 @@
               <div class="markdown level1 summary"><p>Sorts a collection of properties.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeConverter_SortProperties_System_ComponentModel_PropertyDescriptorCollection_System_String____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>All properties in the collection that are not already in the array of names are added alphabetically to the end. If the <em>names</em> parameter is an empty array or <strong>null</strong>, all the properties in the collection are sorted alphabetically.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected PropertyDescriptorCollection SortProperties(PropertyDescriptorCollection props, string[] names)</code></pre>

@@ -87,6 +87,36 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class TypeDescriptor : object</code></pre>
               </div>
+              <h5 id="System_ComponentModel_TypeDescriptor_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The .NET Framework provides two ways to access metadata on a type: the reflection API provided in the <a class="xref" href="System.Reflection.html#System_Reflection">System.Reflection</a> namespace, and the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> class. Reflection is a general mechanism available to all types because its foundation is established in the <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a> method of the root <a class="xref" href="System.Object.html#System_Object">Object</a> class. The information it returns for a type is not extensible, in that it cannot be modified after compilation of the target type. For more information, see the topics in Reflection in the .NET Framework.</p>
+<p>In contrast, <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> is an extensible inspection mechanism for components: those classes that implement the <a class="xref" href="System.ComponentModel.IComponent.html#System_ComponentModel_IComponent">IComponent</a> interface. Unlike reflection, it does not inspect for methods. <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> can be dynamically extended by several services available through the target component&#39;s <span class="xref">System.ComponentModel.Component.Site</span>. The following table shows these services.</p>
+<p>Service name</p>
+<p>Description</p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.ComponentModel.IExtenderProvider.html#System_ComponentModel_IExtenderProvider">IExtenderProvider</a>
+</p>
+</td><td>
+<p>Enables another class, such as <span class="xref">System.Windows.Forms.ToolTip</span>, to provide extra properties to a component.</p>
+</td></tr><tr><td>
+<p>
+<span class="xref">System.ComponentModel.Design.ITypeDescriptorFilterService</span>
+</p>
+</td><td>
+<p>Enables another object to modify the standard metadata that is exposed by a component. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a>
+</p>
+</td><td>
+<p>Enables a class to completely and dynamically specify its own metadata, replacing the standard inspection mechanism of <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a>.</p>
+</td></tr></tbody></table>
+<p>The extensibility provided by <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> allows the design-time representation of a component to differ from its actual run-time representation, which makes <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> useful for building design-time infrastructure.</p>
+<p>All the methods in <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> are <strong>static</strong>. You cannot create an instance of this class, and this class cannot be inherited.</p>
+<p>You can set property and event values two different ways: specify them in the component class or change them at design time. Because you can set these values two ways, the overloaded methods of <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> take two different types of parameters: a class type or an object instance. </p>
+<p>When you want to access <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> information and you have an instance of the object, use the method that calls for a component. Use the method that calls for the class type only when you do not have an instance of the object.</p>
+<p>Properties and events are cached by <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> for speed. Typically, they are constant for the lifetime of an object. However, extender providers and designers can change the set of properties on an object. If this is the case, then the <see cref="Overload:System.ComponentModel.TypeDescriptor.Refresh"></see> method must be called to update the cache.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +130,9 @@
               <div class="markdown level1 summary"><p>Gets a type that represents a type description provider for all interface types. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_InterfaceType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_InterfaceType">InterfaceType</a> property gets a <a class="xref" href="System.Type.html#System_Type">Type</a> object that you can pass to the <see cref="Overload:System.ComponentModel.TypeDescriptor.AddProvider"></see> methods to define a type description provider for interface types. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Type InterfaceType { get; }</code></pre>
@@ -133,6 +166,9 @@
               <div class="markdown level1 summary"><p>Adds class-level attributes to the target component instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddAttributes_System_Object_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddAttributes_System_Object_System_Attribute___">AddAttributes(Object, Attribute[])</a> method adds class-level attributes to the specified instance of a component. Because this is a common requirement of applications using the Visual Studio Windows Forms Designer and Properties window, this method provides a shortcut by creating a type description provider that merges the provided attributes with the attributes that already exist on the class. The return value is the type description provider that was used to add the attributes. This provider can later be passed to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">RemoveProvider(TypeDescriptionProvider, Object)</a> method when the added attributes are no longer needed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeDescriptionProvider AddAttributes(object instance, params Attribute[] attributes)</code></pre>
@@ -188,7 +224,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters is null.</p>
+                    <td><p>One or both of the parameters is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -204,6 +240,9 @@
               <div class="markdown level1 summary"><p>Adds class-level attributes to the target component type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddAttributes_System_Type_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddAttributes_System_Type_System_Attribute___">AddAttributes(Type, Attribute[])</a> method adds class-level attributes to the specified type of a component. Because this is a common requirement of applications using the Visual Studio Windows Forms Designer and Properties window, this method provides a shortcut by creating a type description provider that merges the provided attributes with the attributes that already exist on the class. The return value is the type description provider that was used to add the attributes. This provider can later be passed to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">RemoveProvider(TypeDescriptionProvider, Type)</a> method when the added attributes are no longer needed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeDescriptionProvider AddAttributes(Type type, params Attribute[] attributes)</code></pre>
@@ -259,7 +298,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters is null.</p>
+                    <td><p>One or both of the parameters is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -275,6 +314,10 @@
               <div class="markdown level1 summary"><p>Adds an editor table for the given editor base type. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddEditorTable_System_Type_System_Collections_Hashtable__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddEditorTable_System_Type_System_Collections_Hashtable_">AddEditorTable(Type, Collections.Hashtable)</a> method adds an editor table for the given editor base type. Typically, editors are specified as metadata on a component. However, if no metadata for a requested editor base type can be found on the component, the associated <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> will search an editor table for the editor type, if one can be found. Once an editor table has been added to a type descriptor, it cannot be removed and is owned by the type descriptor. The type descriptor may freely make modifications to this table.</p>
+<p>The format for an editor table uses data types as keys and editors as values. The value portion of an entry in the table represents an editor instance. It can have one of three values. If it contains a string, the type descriptor will assume this is a fully qualified name of a type, and then load the type for the object. If it contains a type, an instance of this type will be created to obtain an editor. Finally, the value portion may contain an actual editor instance. If the type descriptor resolves an editor to an instance, it will store the instance back into the table for future use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AddEditorTable(Type editorBaseType, Collections.Hashtable table)</code></pre>
@@ -314,6 +357,14 @@
               <div class="markdown level1 summary"><p>Adds a type description provider for a single instance of a component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">AddProvider(TypeDescriptionProvider, Object)</a> method adds a type description provider that supplies type information for a single instance of a component. If a provider is added by this method, the provider&#39;s <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_CreateInstance_System_IServiceProvider_System_Type_System_Type___System_Object___">CreateInstance(IServiceProvider, Type, Type[], Object[])</a> method will not be called because the instance already exists. </p>
+<p>This method does not maintain a hard reference to the component, so it does not prevent the component from finalizing.</p>
+<p>It is possible to add multiple type description providers for the same type or object. If this occurs, the first type description provider encountered that provides type information will be used exclusively. Since type information providers are stored in a stack, the last provider added will be the first one queried. This behavior enables the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">AddProvider(TypeDescriptionProvider, Object)</a> and <see cref="Overload:System.ComponentModel.TypeDescriptor.RemoveProvider"></see> methods to be used to push and pop type description providers as required for particular scenarios. </p>
+<p>If successful, this method calls the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refresh_System_Object_">Refresh(Object)</a> method on the <em>instance</em> parameter.</p>
+<p>The two versions of this method produce results with different scopes. The <see cref="Overload:System.ComponentModel.TypeDescriptor.AddProvider"></see> method that takes an <a class="xref" href="System.Object.html#System_Object">Object</a> parameter affects only that single instance of the component specified. In contrast, the other overload, which takes a <a class="xref" href="System.Type.html#System_Type">Type</a> parameter, affects all instances of the component described by that type.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Object_">AddProviderTransparent(TypeDescriptionProvider, Object)</a> method if you need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AddProvider(TypeDescriptionProvider provider, object instance)</code></pre>
@@ -353,7 +404,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -369,6 +420,15 @@
               <div class="markdown level1 summary"><p>Adds a type description provider for a component class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">AddProvider(TypeDescriptionProvider, Type)</a> method adds a type description provider that supplies type information for the specified class, derived classes, and all instances of these types.</p>
+<p>The <em>type</em> parameter can be any type, including an interface. For example, to provide custom type and instance information for all components, you would specify <code>typeof(IComponent)</code>. Passing <code>typeof(object)</code> will call the provider to supply type information for all types.</p>
+<p>This method does not maintain a hard reference to any object, so it does not prevent objects from finalizing.</p>
+<p>It is possible to add multiple type description providers for the same type or object. If this occurs, the first type description provider encountered that provides type information will be used exclusively. Because type information providers are stored in a stack, the last provider added will be the first one queried. This behavior enables the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">AddProvider(TypeDescriptionProvider, Type)</a> and <see cref="Overload:System.ComponentModel.TypeDescriptor.RemoveProvider"></see> methods to be used to push and pop type description providers as required for particular scenarios. </p>
+<p>If successful, this method calls the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refresh_System_Type_">Refresh(Type)</a> method on the <em>type</em> parameter.</p>
+<p>The two versions of this method produce results with different scopes. The <see cref="Overload:System.ComponentModel.TypeDescriptor.AddProvider"></see> method that takes an <a class="xref" href="System.Object.html#System_Object">Object</a> parameter affects only that single instance of the component specified. In contrast, the other overload, which takes a <a class="xref" href="System.Type.html#System_Type">Type</a> parameter, affects all instances of the component described by that type.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Type_">AddProviderTransparent(TypeDescriptionProvider, Type)</a> method if you need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AddProvider(TypeDescriptionProvider provider, Type type)</code></pre>
@@ -408,7 +468,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -424,6 +484,10 @@
               <div class="markdown level1 summary"><p>Adds a type description provider for a single instance of a component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be called from partially trusted code. If <span class="xref">System.Security.Permissions.TypeDescriptorPermissionFlags.RestrictedRegistrationAccess</span> is defined, the caller can register a provider for the specified instance if its type is also partially trusted.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">AddProvider(TypeDescriptionProvider, Object)</a> method if you do not need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AddProviderTransparent(TypeDescriptionProvider provider, object instance)</code></pre>
@@ -463,7 +527,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -479,6 +543,10 @@
               <div class="markdown level1 summary"><p>Adds a type description provider for a component class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_AddProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be called from partially trusted code. If <span class="xref">System.Security.Permissions.TypeDescriptorPermissionFlags.RestrictedRegistrationAccess</span> is defined, the caller can register a provider for the specified type if it is also partially trusted. </p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">AddProvider(TypeDescriptionProvider, Type)</a> method if you do not need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AddProviderTransparent(TypeDescriptionProvider provider, Type type)</code></pre>
@@ -518,7 +586,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -534,6 +602,10 @@
               <div class="markdown level1 summary"><p>Creates a primary-secondary association between two objects.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_CreateAssociation_System_Object_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_CreateAssociation_System_Object_System_Object_">CreateAssociation(Object, Object)</a> method creates an association between a primary and a secondary object. Once an association is created, a designer or other filtering mechanism can add properties that route to either object into the primary object&#39;s property set. When a property invocation is made against the primary object, the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetAssociation_System_Type_System_Object_">GetAssociation(Type, Object)</a> method will be called to resolve the actual object instance that is related to its type parameter. </p>
+<p>A <a class="xref" href="System.WeakReference.html#System_WeakReference">WeakReference</a> is used to maintain the association between the primary and secondary object; therefore, this method does not prevent either object from being finalized and reclaimed by garbage collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void CreateAssociation(object primary, object secondary)</code></pre>
@@ -573,12 +645,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>primary</em> is equal to <em>secondary</em>.</p>
+                    <td><p>
+<em>primary</em> is equal to <em>secondary</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -722,6 +795,9 @@
               <div class="markdown level1 summary"><p>Creates an object that can substitute for another data type. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_CreateInstance_System_IServiceProvider_System_Type_System_Type___System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_CreateInstance_System_IServiceProvider_System_Type_System_Type___System_Object___">CreateInstance(IServiceProvider, Type, Type[], Object[])</a> method will search for a <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a> that is associated with the specified <em>objectType</em> data type. This method first tries to obtain a type description provider from the <em>provider</em> parameter. If this fails, it searches its own internal tables for a provider (these entries were created through previous calls to <see cref="Overload:System.ComponentModel.TypeDescriptor.AddProvider"></see>). If it finds a provider, this method will delegate the creation call to that object. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)</code></pre>
@@ -739,7 +815,7 @@
                   <tr>
                     <td><a class="xref" href="System.IServiceProvider.html#System_IServiceProvider">IServiceProvider</a></td>
                     <td><em>provider</em></td>
-                    <td><p>The service provider that provides a <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a> service. This parameter can be null.</p>
+                    <td><p>The service provider that provides a <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a> service. This parameter can be <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -751,13 +827,13 @@
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>argTypes</em></td>
-                    <td><p>An optional array of parameter types to be passed to the object&#39;s constructor. This parameter can be null or an array of zero length.</p>
+                    <td><p>An optional array of parameter types to be passed to the object&#39;s constructor. This parameter can be <strong>null</strong> or an array of zero length.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>An optional array of parameter values to pass to the object&#39;s constructor. If not null, the number of elements must be the same as <em>argTypes</em>. </p>
+                    <td><p>An optional array of parameter values to pass to the object&#39;s constructor. If not <strong>null</strong>, the number of elements must be the same as <em>argTypes</em>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -773,7 +849,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An instance of the substitute data type if an associated <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a> is found; otherwise, null.</p>
+                    <td><p>An instance of the substitute data type if an associated <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a> is found; otherwise, <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -789,12 +865,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>objectType</em> is null, or <em>args</em> is null when <em>argTypes</em> is not null.</p>
+                    <td><p>
+<em>objectType</em> is <strong>null</strong>, or <em>args</em> is <strong>null</strong> when <em>argTypes</em> is not <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>argTypes</em> and <em>args</em> have different number of elements.</p>
+                    <td><p>
+<em>argTypes</em> and <em>args</em> have different number of elements.</p>
 </td>
                   </tr>
                 </tbody>
@@ -938,6 +1016,10 @@
               <div class="markdown level1 summary"><p>Returns an instance of the type associated with the specified primary object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetAssociation_System_Type_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a previous association has been made for the <em>type</em> parameter using the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_CreateAssociation_System_Object_System_Object_">CreateAssociation(Object, Object)</a> method, then the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetAssociation_System_Type_System_Object_">GetAssociation(Type, Object)</a> method returns the correct secondary object to invoke for the requested type. Otherwise, <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetAssociation_System_Type_System_Object_">GetAssociation(Type, Object)</a> searches for a compatible designer for <em>type</em> and returns the designer if one is found. This method never returns <strong>null</strong>.</p>
+<p>A <a class="xref" href="System.WeakReference.html#System_WeakReference">WeakReference</a> is used to maintain the association between the primary and secondary object; therefore, this method does not prevent either the primary or secondary object from being finalized and reclaimed by garbage collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object GetAssociation(Type type, object primary)</code></pre>
@@ -993,7 +1075,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1009,6 +1091,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of attributes for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetAttributes_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The attributes returned by the <see cref="Overload:System.ComponentModel.TypeDescriptor.GetAttributes"></see> method may be dynamically modified from the original component&#39;s source listing by extender providers (<a class="xref" href="System.ComponentModel.IExtenderProvider.html#System_ComponentModel_IExtenderProvider">IExtenderProvider</a>), filter services (<span class="xref">System.ComponentModel.Design.ITypeDescriptorFilterService</span>), and attribute filters.</p>
+<p>When you define a custom attribute with <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> set to <strong>true</strong>, you must override the <span class="xref">System.Attribute.TypeId</span> property to make it unique. If all instances of your attribute are unique, override <span class="xref">System.Attribute.TypeId</span> to return the object identity of your attribute. If only some instances of your attribute are unique, return a value from <span class="xref">System.Attribute.TypeId</span> that would return equality in those cases. For example, some attributes have a constructor parameter that acts as a unique key. For these attributes, return the value of the constructor parameter from the <span class="xref">System.Attribute.TypeId</span> property.</p>
+<p>The default implementation of <span class="xref">System.Attribute.TypeId</span> returns the type identity regardless of the value of the <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> property. In order to return multiple instances of an <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> attribute from the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a>, your attribute must override the <span class="xref">System.Attribute.TypeId</span> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static AttributeCollection GetAttributes(object component)</code></pre>
@@ -1042,7 +1129,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> containing the attributes for the component. If <em>component</em> is null, this method returns an empty collection.</p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> containing the attributes for the component. If <em>component</em> is <strong>null</strong>, this method returns an empty collection.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1058,6 +1145,11 @@
               <div class="markdown level1 summary"><p>Returns a collection of attributes for the specified component and a Boolean indicating that a custom type descriptor has been created.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetAttributes_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The attributes returned by the <see cref="Overload:System.ComponentModel.TypeDescriptor.GetAttributes"></see> method may be dynamically modified from the original components source listing by extender providers (<a class="xref" href="System.ComponentModel.IExtenderProvider.html#System_ComponentModel_IExtenderProvider">IExtenderProvider</a>), filter services (<span class="xref">System.ComponentModel.Design.ITypeDescriptorFilterService</span>), and attribute filters.</p>
+<p>When you define a custom attribute with <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> set to <strong>true</strong>, you must override the <span class="xref">System.Attribute.TypeId</span> property to make it unique. If all instances of your attribute are unique, override <span class="xref">System.Attribute.TypeId</span> to return the object identity of your attribute. If only some instances of your attribute are unique, return a value from <span class="xref">System.Attribute.TypeId</span> that would return equality in those cases. For example, some attributes have a constructor parameter that acts as a unique key. For these attributes, return the value of the constructor parameter from the <span class="xref">System.Attribute.TypeId</span> property.</p>
+<p>The default implementation of <span class="xref">System.Attribute.TypeId</span> returns the type identity regardless of the value of the <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> property. In order to return multiple instances of an <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> attribute from the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a>, your attribute must override the <span class="xref">System.Attribute.TypeId</span> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static AttributeCollection GetAttributes(object component, bool noCustomTypeDesc)</code></pre>
@@ -1081,7 +1173,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to use a baseline set of attributes from the custom type descriptor if <em>component</em> is of type <a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to use a baseline set of attributes from the custom type descriptor if <em>component</em> is of type <a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1097,7 +1190,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> with the attributes for the component. If the component is null, this method returns an empty collection.</p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> with the attributes for the component. If the component is <strong>null</strong>, this method returns an empty collection.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1113,6 +1206,12 @@
               <div class="markdown level1 summary"><p>Returns a collection of attributes for the specified type of component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetAttributes_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>For attributes with <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> set to <strong>true</strong>, the attribute collection removes duplicate instances. These are instances in which the <span class="xref">System.Attribute.TypeId</span> property returns equal values.</p>
+<p>When you define a custom attribute with <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> set to <strong>true</strong>, you must override the <span class="xref">System.Attribute.TypeId</span> property to make it unique. If all instances of your attribute are unique, override <span class="xref">System.Attribute.TypeId</span> to return the object identity of your attribute. If only some instances of your attribute are unique, return a value from <span class="xref">System.Attribute.TypeId</span> that would return equality in those cases. For example, some attributes have a constructor parameter that acts as a unique key. For these attributes, return the value of the constructor parameter from the <span class="xref">System.Attribute.TypeId</span> property.</p>
+<p>The default implementation of <span class="xref">System.Attribute.TypeId</span> returns the type identity regardless of the value of the <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> property. In order to return multiple instances of an <a class="xref" href="System.AttributeUsageAttribute.html#System_AttributeUsageAttribute_AllowMultiple">AllowMultiple</a> attribute from the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a>, your attribute must override the <span class="xref">System.Attribute.TypeId</span> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static AttributeCollection GetAttributes(Type componentType)</code></pre>
@@ -1146,7 +1245,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> with the attributes for the type of the component. If the component is null, this method returns an empty collection.</p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> with the attributes for the type of the component. If the component is <strong>null</strong>, this method returns an empty collection.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1162,6 +1261,10 @@
               <div class="markdown level1 summary"><p>Returns the name of the class for the specified component using the default type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetClassName_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Typically, this method returns the full <a class="xref" href="System.Type.html#System_Type">Type</a> name for the <em>component</em> parameter type. For example, the class name for a button is &quot;System.Windows.Forms.Button&quot;. If <em>component</em> implements <a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a>, it can return an alternate name. </p>
+<p>This method is equivalent to the overloaded <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetClassName_System_Object_System_Boolean_">GetClassName(Object, Boolean)</a> method with a second parameter of <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetClassName(object component)</code></pre>
@@ -1211,7 +1314,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1227,6 +1331,9 @@
               <div class="markdown level1 summary"><p>Returns the name of the class for the specified component using a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetClassName_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Typically, this method returns the full <a class="xref" href="System.Type.html#System_Type">Type</a> name for the <em>component</em> parameter type. For example, the class name for a button is &quot;System.Windows.Forms.Button&quot;. If the <em>component</em> parameter implements <a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a>, it can return an alternate name. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetClassName(object component, bool noCustomTypeDesc)</code></pre>
@@ -1250,7 +1357,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1282,12 +1390,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1303,6 +1413,9 @@
               <div class="markdown level1 summary"><p>Returns the name of the class for the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetClassName_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method uses the cached custom type descriptor for the specified type to discover the associated class name.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetClassName(Type componentType)</code></pre>
@@ -1352,7 +1465,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>componentType</em> is null.</p>
+                    <td><p>
+<em>componentType</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1368,6 +1482,11 @@
               <div class="markdown level1 summary"><p>Returns the name of the specified component using the default type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetComponentName_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Typically, this method returns the name for the site of the component, if one exists. For example, the class name for a button is &quot;System.Windows.Forms.Button&quot;.</p>
+<p>This method is equivalent to the overloaded <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetComponentName_System_Object_System_Boolean_">GetComponentName(Object, Boolean)</a> method with a second parameter of <strong>false</strong>.</p>
+<p>This method is used at design time to retrieve the name of an instance of a component.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetComponentName(object component)</code></pre>
@@ -1401,7 +1520,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>A <a class="xref" href="System.String.html#System_String">String</a> containing the name of the specified component, or null if there is no component name.</p>
+                    <td><p>A <a class="xref" href="System.String.html#System_String">String</a> containing the name of the specified component, or <strong>null</strong> if there is no component name.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1417,12 +1536,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1438,6 +1559,9 @@
               <div class="markdown level1 summary"><p>Returns the name of the specified component using a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetComponentName_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is used at design time to retrieve the name of an instance of a component. Typically, this method returns the name for the site of the component, if one exists. For example, the class name for a button is &quot;System.Windows.Forms.Button&quot;. If the component implements the <a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a> interface, it can return an alternate name.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetComponentName(object component, bool noCustomTypeDesc)</code></pre>
@@ -1461,7 +1585,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1477,7 +1602,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The name of the class for the specified component, or null if there is no component name.</p>
+                    <td><p>The name of the class for the specified component, or <strong>null</strong> if there is no component name.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1493,12 +1618,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1514,6 +1641,10 @@
               <div class="markdown level1 summary"><p>Returns a type converter for the type of the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetConverter_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method locates an appropriate type converter by looking for a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>. If it cannot find a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>, it traverses the base class hierarchy of the class until it finds a primitive type.</p>
+<p>This method is equivalent to the overloaded <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetConverter_System_Object_System_Boolean_">GetConverter(Object, Boolean)</a> method with a second parameter of <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeConverter GetConverter(object component)</code></pre>
@@ -1563,12 +1694,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1584,6 +1717,9 @@
               <div class="markdown level1 summary"><p>Returns a type converter for the type of the specified component with a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetConverter_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method looks for the appropriate type converter by trying to find a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>. If it cannot find a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>, it traverses the base class hierarchy of the class until it finds a primitive type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeConverter GetConverter(object component, bool noCustomTypeDesc)</code></pre>
@@ -1607,7 +1743,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1639,12 +1776,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1660,6 +1799,10 @@
               <div class="markdown level1 summary"><p>Returns a type converter for the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetConverter_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>This method looks for the appropriate type converter by looking for a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>. If it cannot find a <a class="xref" href="System.ComponentModel.TypeConverterAttribute.html#System_ComponentModel_TypeConverterAttribute">TypeConverterAttribute</a>, it traverses the base class hierarchy of the class until it finds a primitive type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeConverter GetConverter(Type type)</code></pre>
@@ -1709,7 +1852,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1725,6 +1869,9 @@
               <div class="markdown level1 summary"><p>Returns the default event for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetDefaultEvent_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the overloaded <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetDefaultEvent_System_Object_System_Boolean_">GetDefaultEvent(Object, Boolean)</a> method with a second parameter of <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptor GetDefaultEvent(object component)</code></pre>
@@ -1758,7 +1905,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a> with the default event, or null if there are no events.</p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a> with the default event, or <strong>null</strong> if there are no events.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1774,12 +1921,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1818,7 +1967,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1834,7 +1984,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a> with the default event, or null if there are no events.</p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a> with the default event, or <strong>null</strong> if there are no events.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1850,12 +2000,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1871,6 +2023,9 @@
               <div class="markdown level1 summary"><p>Returns the default event for the specified type of component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetDefaultEvent_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptor GetDefaultEvent(Type componentType)</code></pre>
@@ -1904,7 +2059,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a></td>
-                    <td><p>An <a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a> with the default event, or null if there are no events.</p>
+                    <td><p>An <a class="xref" href="System.ComponentModel.EventDescriptor.html#System_ComponentModel_EventDescriptor">EventDescriptor</a> with the default event, or <strong>null</strong> if there are no events.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1920,7 +2075,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null. </p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1936,6 +2092,9 @@
               <div class="markdown level1 summary"><p>Returns the default property for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetDefaultProperty_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <em>component</em> parameter is <strong>null</strong>, this method returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptor GetDefaultProperty(object component)</code></pre>
@@ -1969,7 +2128,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a> with the default property, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a> with the default property, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1985,7 +2144,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2001,6 +2161,9 @@
               <div class="markdown level1 summary"><p>Returns the default property for the specified component with a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetDefaultProperty_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <em>component</em> parameter is <strong>null</strong>, this method returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptor GetDefaultProperty(object component, bool noCustomTypeDesc)</code></pre>
@@ -2024,7 +2187,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2040,7 +2204,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a> with the default property, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a> with the default property, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2056,7 +2220,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2072,6 +2237,10 @@
               <div class="markdown level1 summary"><p>Returns the default property for the specified type of component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetDefaultProperty_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>If the <em>componentType</em> parameter is <strong>null</strong>, this method returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptor GetDefaultProperty(Type componentType)</code></pre>
@@ -2105,7 +2274,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a></td>
-                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a> with the default property, or null if there are no properties.</p>
+                    <td><p>A <a class="xref" href="System.ComponentModel.PropertyDescriptor.html#System_ComponentModel_PropertyDescriptor">PropertyDescriptor</a> with the default property, or <strong>null</strong> if there are no properties.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2121,6 +2290,10 @@
               <div class="markdown level1 summary"><p>Gets an editor with the specified base type for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEditor_System_Object_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The type of <em>editorBaseType</em> is usually <span class="xref">System.Drawing.Design.UITypeEditor</span>, but you can also use other types (for example, <span class="xref">System.ComponentModel.ComponentEditor</span> and <span class="xref">System.ComponentModel.InstanceCreationEditor</span>).</p>
+<p>You can define multiple editors for a property. You use this method to select the editor you want to use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object GetEditor(object component, Type editorBaseType)</code></pre>
@@ -2160,7 +2333,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An instance of the editor that can be cast to the specified editor type, or null if no editor of the requested type can be found.</p>
+                    <td><p>An instance of the editor that can be cast to the specified editor type, or <strong>null</strong> if no editor of the requested type can be found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2176,12 +2349,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> or <em>editorBaseType</em> is null. </p>
+                    <td><p>
+<em>component</em> or <em>editorBaseType</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2197,6 +2372,10 @@
               <div class="markdown level1 summary"><p>Returns an editor with the specified base type and with a custom type descriptor for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEditor_System_Object_System_Type_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The type of <em>editorBaseType</em> is usually <span class="xref">System.Drawing.Design.UITypeEditor</span>, but you can also use other types (for example <span class="xref">System.ComponentModel.ComponentEditor</span> and <span class="xref">System.ComponentModel.InstanceCreationEditor</span>).</p>
+<p>You can define multiple editors for a property. You use this method to select the editor you want to use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object GetEditor(object component, Type editorBaseType, bool noCustomTypeDesc)</code></pre>
@@ -2242,7 +2421,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An instance of the editor that can be cast to the specified editor type, or null if no editor of the requested type can be found.</p>
+                    <td><p>An instance of the editor that can be cast to the specified editor type, or <strong>null</strong> if no editor of the requested type can be found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2258,12 +2437,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> or <em>editorBaseType</em> is null. </p>
+                    <td><p>
+<em>component</em> or <em>editorBaseType</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2279,6 +2460,11 @@
               <div class="markdown level1 summary"><p>Returns an editor with the specified base type for the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEditor_System_Type_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The type of <em>editorBaseType</em> is usually <span class="xref">System.Drawing.Design.UITypeEditor</span>, but you can also use other types (for example <span class="xref">System.ComponentModel.ComponentEditor</span> and <span class="xref">System.ComponentModel.InstanceCreationEditor</span>).</p>
+<p>You can define multiple editors for a type. You use this method to select the one you want to use.</p>
+<p>Call this version of this method only when you do not have an instance of the object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static object GetEditor(Type type, Type editorBaseType)</code></pre>
@@ -2318,7 +2504,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An instance of the editor object that can be cast to the given base type, or null if no editor of the requested type can be found.</p>
+                    <td><p>An instance of the editor object that can be cast to the given base type, or <strong>null</strong> if no editor of the requested type can be found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2334,7 +2520,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> or <em>editorBaseType</em> is null. </p>
+                    <td><p>
+<em>type</em> or <em>editorBaseType</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2350,6 +2537,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of events for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEvents_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Retrieves a collection of events that the given <em>component</em> parameter instance provides. This collection can differ from the set of events the class provides. If the <em>component</em> parameter is sited, the site can add or remove additional events.</p>
+<p>If <em>component</em> is <strong>null</strong>, then an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptorCollection GetEvents(object component)</code></pre>
@@ -2399,7 +2591,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2415,6 +2608,21 @@
               <div class="markdown level1 summary"><p>Returns the collection of events for a specified component using a specified array of attributes as a filter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEvents_System_Object_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The events for the <em>component</em> parameter can differ from the events of a class, because the site can add or remove events if the <em>component</em> parameter is sited.</p>
+<p>The <em>attributes</em> array can have a mix of <a class="xref" href="System.Type.html#System_Type">Type</a> and <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> objects. Filtering is defined by the following rules: </p>
+<ul><li>
+<p>A <a class="xref" href="System.Type.html#System_Type">Type</a> is treated as a wildcard; it matches any event that has the <a class="xref" href="System.Type.html#System_Type">Type</a> in its set of attributes.</p>
+</li><li>
+<p>If an event does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the event is not included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> class, the event must be an exact match or it is not included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default event, it is included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the event.</p>
+</li></ul>
+<p>If <em>component</em> is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptorCollection GetEvents(object component, Attribute[] attributes)</code></pre>
@@ -2470,7 +2678,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2486,6 +2695,21 @@
               <div class="markdown level1 summary"><p>Returns the collection of events for a specified component using a specified array of attributes as a filter and using a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEvents_System_Object_System_Attribute___System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The events for the <em>component</em> parameter can differ from the events of a class, because the site can add or remove events if the <em>component</em> parameter is sited.</p>
+<p>The <em>attributes</em> parameter array can have a mix of <a class="xref" href="System.Type.html#System_Type">Type</a> and <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> objects. Filtering is defined by the following rules: </p>
+<ul><li>
+<p>A <a class="xref" href="System.Type.html#System_Type">Type</a> is treated as a wildcard; it matches any event that has the <a class="xref" href="System.Type.html#System_Type">Type</a> in its set of attributes.</p>
+</li><li>
+<p>If an event does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the event is not included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> class, the event must be an exact match or it is not included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default event, it is included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the event.</p>
+</li></ul>
+<p>If <em>component</em> is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptorCollection GetEvents(object component, Attribute[] attributes, bool noCustomTypeDesc)</code></pre>
@@ -2515,7 +2739,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2547,7 +2772,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2563,6 +2789,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of events for a specified component with a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEvents_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method retrieves a collection of events that the given <em>component</em> parameter instance provides. This can differ from the set of events the class provides. If the <em>component</em> parameter is sited, the site can add or remove additional events.</p>
+<p>If <em>component</em> is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptorCollection GetEvents(object component, bool noCustomTypeDesc)</code></pre>
@@ -2586,7 +2817,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2618,7 +2850,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2634,6 +2867,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of events for a specified type of component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEvents_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>If the <em>componentType</em> parameter is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptorCollection GetEvents(Type componentType)</code></pre>
@@ -2683,6 +2921,21 @@
               <div class="markdown level1 summary"><p>Returns the collection of events for a specified type of component using a specified array of attributes as a filter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetEvents_System_Type_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>The <em>attributes</em> parameter array can have a mix of <a class="xref" href="System.Type.html#System_Type">Type</a> and <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> objects. Filtering is defined by the following rules: </p>
+<ul><li>
+<p>A <a class="xref" href="System.Type.html#System_Type">Type</a> is treated as a wildcard; it matches any event that has the <a class="xref" href="System.Type.html#System_Type">Type</a> in its set of attributes.</p>
+</li><li>
+<p>If an event does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the event is not included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> class, the event must be an exact match or it is not included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default event, it is included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the event.</p>
+</li></ul>
+<p>If the <em>componentType</em> parameter is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static EventDescriptorCollection GetEvents(Type componentType, Attribute[] attributes)</code></pre>
@@ -2738,6 +2991,9 @@
               <div class="markdown level1 summary"><p>Returns the fully qualified name of the component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetFullComponentName_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In many cases, the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetFullComponentName_System_Object_">GetFullComponentName(Object)</a> method will return the same value as the <see cref="Overload:System.ComponentModel.TypeDescriptor.GetComponentName"></see> method. However, if the component resides in a nested container or has other nested semantics, it may return a different fully qualified name.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string GetFullComponentName(object component)</code></pre>
@@ -2771,7 +3027,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The fully qualified name of the specified component, or null if the component has no name.</p>
+                    <td><p>The fully qualified name of the specified component, or <strong>null</strong> if the component has no name.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2787,7 +3043,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>component</em> is null.</p>
+                    <td><p>
+<em>component</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2803,6 +3060,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of properties for a specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProperties_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The properties for a component can differ from the properties of a class, because the site can add or remove properties if the component is sited.</p>
+<p>If the <em>component</em> parameter is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptorCollection GetProperties(object component)</code></pre>
@@ -2852,7 +3114,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2868,6 +3131,21 @@
               <div class="markdown level1 summary"><p>Returns the collection of properties for a specified component using a specified array of attributes as a filter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProperties_System_Object_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The properties for the <em>component</em> parameter can differ from the properties of a class, because the site can add or remove properties if the <em>component</em> parameter is sited.</p>
+<p>The <em>attributes</em> parameter array is used to filter the array. Filtering is defined by the following rules: </p>
+<ul><li>
+<p>If a property does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the property is not included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> class, the property must be an exact match or it is not included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default property, it is included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the property.</p>
+</li><li>
+<p>If <em>attributes</em> has a default attribute, the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Object_System_Attribute___">GetProperties(Object, Attribute[])</a> method matches the case when the property does not have the attribute applied.</p>
+</li></ul>
+<p>If <em>component</em> is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptorCollection GetProperties(object component, Attribute[] attributes)</code></pre>
@@ -2923,7 +3201,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2939,6 +3218,21 @@
               <div class="markdown level1 summary"><p>Returns the collection of properties for a specified component using a specified array of attributes as a filter and using a custom type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProperties_System_Object_System_Attribute___System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The properties for a <em>component</em> can differ from the properties of a class, because the site can add or remove properties if the <em>component</em> is sited.</p>
+<p>The <em>attributes</em> parameter array is used to filter the array. Filtering is defined by the following rules: </p>
+<ul><li>
+<p>If a property does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the property is not included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> class, the property must be an exact match or it is not included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default property, it is included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the property.</p>
+</li><li>
+<p>If <em>attributes</em> has a default attribute, the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Object_System_Attribute___System_Boolean_">GetProperties(Object, Attribute[], Boolean)</a> method matches the case when the property does not have the attribute applied.</p>
+</li></ul>
+<p>If the <em>component</em> parameter is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptorCollection GetProperties(object component, Attribute[] attributes, bool noCustomTypeDesc)</code></pre>
@@ -2968,7 +3262,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3000,7 +3295,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3016,6 +3312,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of properties for a specified component using the default type descriptor.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProperties_System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The properties for the <em>component</em> parameter can differ from the properties of a class, because the site can add or remove properties if the <em>component</em> parameter is sited.</p>
+<p>If <em>component</em> is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptorCollection GetProperties(object component, bool noCustomTypeDesc)</code></pre>
@@ -3039,7 +3340,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>noCustomTypeDesc</em></td>
-                    <td><p>true to not consider custom type description information; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to not consider custom type description information; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3071,7 +3373,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>component</em> is a cross-process remoted object.</p>
+                    <td><p>
+<em>component</em> is a cross-process remoted object.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3087,6 +3390,11 @@
               <div class="markdown level1 summary"><p>Returns the collection of properties for a specified type of component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProperties_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>If the <em>componentType</em> parameter is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptorCollection GetProperties(Type componentType)</code></pre>
@@ -3136,6 +3444,21 @@
               <div class="markdown level1 summary"><p>Returns the collection of properties for a specified type of component using a specified array of attributes as a filter.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProperties_System_Type_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>The <em>attributes</em> parameter array is used to filter the array. Filtering is defined by the following rules: </p>
+<ul><li>
+<p>If a property does not have an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> of the same class, the property is not included in the returned array.</p>
+</li><li>
+<p>If the attribute is an instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> class, the property must be an exact match or it is not included in the returned array.</p>
+</li><li>
+<p>If an <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> instance is specified and it is the default property, it is included in the returned array even if there is no instance of the <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> in the property.</p>
+</li><li>
+<p>If <em>attributes</em> has a default attribute, the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_System_Attribute___">GetProperties(Type, Attribute[])</a> method matches the case when the property does not have the attribute applied.</p>
+</li></ul>
+<p>If the <em>componentType</em> parameter is <strong>null</strong>, an empty collection is returned.</p>
+<p>The order of the returned collection is not guaranteed to be identical between calls, so always order it before use.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static PropertyDescriptorCollection GetProperties(Type componentType, Attribute[] attributes)</code></pre>
@@ -3191,6 +3514,9 @@
               <div class="markdown level1 summary"><p>Returns the type description provider for the specified component.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProvider_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.ComponentModel.TypeDescriptor.GetProvider"></see> method will always return a type description provider. Even the default <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> implementation is built on a <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeDescriptionProvider GetProvider(object instance)</code></pre>
@@ -3240,7 +3566,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>instance</em> is null.</p>
+                    <td><p>
+<em>instance</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3256,6 +3583,9 @@
               <div class="markdown level1 summary"><p>Returns the type description provider for the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetProvider_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.ComponentModel.TypeDescriptor.GetProvider"></see> method will always return a type description provider. Even the default <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> implementation is built on a <a class="xref" href="System.ComponentModel.TypeDescriptionProvider.html#System_ComponentModel_TypeDescriptionProvider">TypeDescriptionProvider</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TypeDescriptionProvider GetProvider(Type type)</code></pre>
@@ -3305,7 +3635,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null.</p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3321,6 +3652,9 @@
               <div class="markdown level1 summary"><p>Returns a <a class="xref" href="System.Type.html#System_Type">Type</a> that can be used to perform reflection, given an object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetReflectionType_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.ComponentModel.TypeDescriptor.GetReflectionType"></see> method is a low-level version of the <see cref="Overload:System.ComponentModel.TypeDescriptionProvider.GetTypeDescriptor"></see> method. <see cref="Overload:System.ComponentModel.TypeDescriptor.GetReflectionType"></see> is typically used to perform standard reflection against an object when no custom type descriptor can be located for it.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Type GetReflectionType(object instance)</code></pre>
@@ -3370,7 +3704,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>instance</em> is null.</p>
+                    <td><p>
+<em>instance</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3386,6 +3721,9 @@
               <div class="markdown level1 summary"><p>Returns a <a class="xref" href="System.Type.html#System_Type">Type</a> that can be used to perform reflection, given a class type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_GetReflectionType_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <see cref="Overload:System.ComponentModel.TypeDescriptor.GetReflectionType"></see> method is a low-level version of the <see cref="Overload:System.ComponentModel.TypeDescriptionProvider.GetTypeDescriptor"></see> method. <see cref="Overload:System.ComponentModel.TypeDescriptor.GetReflectionType"></see> is typically used to perform standard reflection against a class when no custom type descriptor can be located for it.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Type GetReflectionType(Type type)</code></pre>
@@ -3435,7 +3773,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null.</p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3451,6 +3790,10 @@
               <div class="markdown level1 summary"><p>Clears the properties and events for the specified component from the cache.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_Refresh_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Properties and events are cached by <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> for speed. Typically, they are constant for the lifetime of an object. However, extender providers and designers can change the set of properties on an object. If they do, they should call this method to clear the property and event descriptors of the object. This method is used only at design time. It is not used during run time.</p>
+<p>This method also raises a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event when the properties or events of a component change. This event is only raised if there was a prior call to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_">GetProperties(Type)</a> or <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetEvents_System_Type_">GetEvents(Type)</a> method that cached the information.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Refresh(object component)</code></pre>
@@ -3484,6 +3827,11 @@
               <div class="markdown level1 summary"><p>Clears the properties and events for the specified assembly from the cache.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_Refresh_System_Reflection_Assembly__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Properties and events are cached by <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> for speed. Typically, they are constant for the lifetime of an object. However, extender providers and designers can change the set of properties on an object. If they do, they can call this method to clear the property and event descriptors of the object. This method is used only at design time. It is not used during run time.</p>
+<p>Before you make a call to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refresh_System_Object_">Refresh(Object)</a> method to clear the cache, you need to call the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_">GetProperties(Type)</a> method for the specific assembly to cache the information first.</p>
+<p>This method also raises a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event to notify all classes that want to be notified when the property set of a component changes.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Refresh(Reflection.Assembly assembly)</code></pre>
@@ -3517,6 +3865,11 @@
               <div class="markdown level1 summary"><p>Clears the properties and events for the specified module from the cache.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_Refresh_System_Reflection_Module__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Properties and events are cached by <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> for speed. Typically, they are constant for the lifetime of an object. However, extender providers and designers can change the set of properties on an object. If they do, they can call this method to clear the property and event descriptors of the object. This method is used only at design time. It is not used during run time.</p>
+<p>Before you make a call to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refresh_System_Object_">Refresh(Object)</a> method to clear the cache, you need to call the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_">GetProperties(Type)</a> method for the specific module to cache the information first.</p>
+<p>This method also raises a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event to notify all classes that want to be notified when the property set of a component changes.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Refresh(Reflection.Module module)</code></pre>
@@ -3550,6 +3903,11 @@
               <div class="markdown level1 summary"><p>Clears the properties and events for the specified type of component from the cache.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_Refresh_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call this version of this method only when you do not have an instance of the object.</p>
+<p>Properties and events are cached by <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor">TypeDescriptor</a> for speed. Typically, they are constant for the lifetime of an object. However, extender providers and designers can change the set of properties on an object. If they do, they can call this method to clear the property and event descriptors of the object. This method is used only at design time. It is not used during run time.</p>
+<p>This method also raises a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event when the properties or events of a component change. This event is only raised if there was a prior call to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetProperties_System_Type_">GetProperties(Type)</a> or <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_GetEvents_System_Type_">GetEvents(Type)</a> method that cached the information.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Refresh(Type type)</code></pre>
@@ -3583,6 +3941,10 @@
               <div class="markdown level1 summary"><p>Removes an association between two objects.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_RemoveAssociation_System_Object_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveAssociation_System_Object_System_Object_">RemoveAssociation(Object, Object)</a> method removes an association between two objects formed by the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_CreateAssociation_System_Object_System_Object_">CreateAssociation(Object, Object)</a> method.</p>
+<p>A <a class="xref" href="System.WeakReference.html#System_WeakReference">WeakReference</a> is used to maintain the association between the primary and secondary object; therefore, this method does not influence when either object is finalized or reclaimed by garbage collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void RemoveAssociation(object primary, object secondary)</code></pre>
@@ -3622,7 +3984,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3638,6 +4000,10 @@
               <div class="markdown level1 summary"><p>Removes all associations for a primary object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_RemoveAssociations_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveAssociations_System_Object_">RemoveAssociations(Object)</a> method removes all associations between a primary object and all of its secondary objects, created by calls to the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_CreateAssociation_System_Object_System_Object_">CreateAssociation(Object, Object)</a> method.</p>
+<p>A <a class="xref" href="System.WeakReference.html#System_WeakReference">WeakReference</a> is used to maintain the association between the primary and secondary object; therefore, this method does not influence when either the primary of secondary objects are finalized or reclaimed by garbage collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void RemoveAssociations(object primary)</code></pre>
@@ -3671,7 +4037,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>primary</em> is null.</p>
+                    <td><p>
+<em>primary</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3687,6 +4054,10 @@
               <div class="markdown level1 summary"><p>Removes a previously added type description provider that is associated with the specified object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_RemoveProvider_System_ComponentModel_TypeDescriptionProvider_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method removes a type description provider previously added with the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">AddProvider(TypeDescriptionProvider, Object)</a> method. Removing a provider causes a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event to be raised for the associated object.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Object_">RemoveProviderTransparent(TypeDescriptionProvider, Object)</a> method if you need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void RemoveProvider(TypeDescriptionProvider provider, object instance)</code></pre>
@@ -3726,7 +4097,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3742,6 +4113,10 @@
               <div class="markdown level1 summary"><p>Removes a previously added type description provider that is associated with the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_RemoveProvider_System_ComponentModel_TypeDescriptionProvider_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method removes a type description provider previously added with the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">AddProvider(TypeDescriptionProvider, Type)</a> method. Removing a provider causes a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event to be raised for the associated type.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Type_">RemoveProviderTransparent(TypeDescriptionProvider, Type)</a> method if you need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void RemoveProvider(TypeDescriptionProvider provider, Type type)</code></pre>
@@ -3781,7 +4156,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3797,6 +4172,11 @@
               <div class="markdown level1 summary"><p>Removes a previously added type description provider that is associated with the specified object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_RemoveProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method removes a type description provider previously added with the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">AddProvider(TypeDescriptionProvider, Object)</a> method. Removing a provider causes a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event to be raised for the associated object.</p>
+<p>This method can be called from partially trusted code. If <span class="xref">System.Security.Permissions.TypeDescriptorPermissionFlags.RestrictedRegistrationAccess</span> is defined, the caller can register a provider for the specified instance if its type is also partially trusted.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveProvider_System_ComponentModel_TypeDescriptionProvider_System_Object_">RemoveProvider(TypeDescriptionProvider, Object)</a> method if you do not need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void RemoveProviderTransparent(TypeDescriptionProvider provider, object instance)</code></pre>
@@ -3836,7 +4216,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3852,6 +4232,11 @@
               <div class="markdown level1 summary"><p>Removes a previously added type description provider that is associated with the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_RemoveProviderTransparent_System_ComponentModel_TypeDescriptionProvider_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method removes a type description provider previously added with the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_AddProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">AddProvider(TypeDescriptionProvider, Type)</a> method. Removing a provider causes a <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_Refreshed">Refreshed</a> event to be raised for the associated type.</p>
+<p>This method can be called from partially trusted code. If <span class="xref">System.Security.Permissions.TypeDescriptorPermissionFlags.RestrictedRegistrationAccess</span> is defined, the caller can unregister a provider for the specified type if it is also partially trusted.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.TypeDescriptor.html#System_ComponentModel_TypeDescriptor_RemoveProvider_System_ComponentModel_TypeDescriptionProvider_System_Type_">RemoveProvider(TypeDescriptionProvider, Type)</a> method if you do not need to call from partially trusted code.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void RemoveProviderTransparent(TypeDescriptionProvider provider, Type type)</code></pre>
@@ -3891,7 +4276,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>One or both of the parameters are null.</p>
+                    <td><p>One or both of the parameters are <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3940,7 +4325,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>infos</em> is null.</p>
+                    <td><p>
+<em>infos</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3958,6 +4344,9 @@
               <div class="markdown level1 summary"><p>Occurs when the cache for a component is cleared.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_TypeDescriptor_Refreshed_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about handling events, see NIB: Consuming Events. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static event RefreshEventHandler Refreshed</code></pre>

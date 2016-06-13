@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator.md&amp;value=---%0Auid%3A%20System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/Dictionary.cs/#L939" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Collections/ref/System.Collections.cs/#L121" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator" data-uid="System.Collections.Generic.Dictionary`2.KeyCollection.Enumerator">Struct Dictionary&lt;TKey, TValue&gt;.KeyCollection.Enumerator
               </h1>
               <div class="markdown level0 summary"><p>Enumerates the elements of a <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.html#System_Collections_Generic_Dictionary_2_KeyCollection">Dictionary<tkey, tvalue="">.KeyCollection</tkey,></a>.</p>
@@ -82,6 +82,17 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public struct Enumerator : IEnumerator&lt;TKey&gt;, IEnumerator, IDisposable</code></pre>
               </div>
+              <h5 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <strong>foreach</strong> statement of the C# language (<strong>for each</strong> in C++, <strong>For Each</strong> in Visual Basic) hides the complexity of enumerators. Therefore, using <strong>foreach</strong> is recommended, instead of directly manipulating the enumerator.</p>
+<p>Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.</p>
+<p>Initially, the enumerator is positioned before the first element in the collection. At this position, <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> is undefined. Therefore, you must call <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> to advance the enumerator to the first element of the collection before reading the value of <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a>.</p>
+<p>
+<a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> returns the same object until <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> is called. <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> sets <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> to the next element.</p>
+<p>If <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> passes the end of the collection, the enumerator is positioned after the last element in the collection and <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> returns <strong>false</strong>. When the enumerator is at this position, subsequent calls to <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> also return <strong>false</strong>. If the last call to <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> returned <strong>false</strong>, <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> is undefined. You cannot set <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> to the first element of the collection again; you must create a new enumerator instance instead.</p>
+<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated and its behavior is undefined.</p>
+<p>The enumerator does not have exclusive access to the collection; therefore, enumerating through a collection is intrinsically not a thread-safe procedure. To guarantee thread safety during enumeration, you can lock the collection during the entire enumeration.  To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.</p>
+<p>Default implementations of collections in <a class="xref" href="System.Collections.Generic.html#System_Collections_Generic">System.Collections.Generic</a> are not synchronized.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -89,12 +100,24 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current.md&amp;value=---%0Auid%3A%20System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.Current%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/Dictionary.cs/#L976">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Collections/ref/System.Collections.cs/#L124">View Source</a>
               </span>
               <h4 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current" data-uid="System.Collections.Generic.Dictionary`2.KeyCollection.Enumerator.Current">Current</h4>
               <div class="markdown level1 summary"><p>Gets the element at the current position of the enumerator.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> is undefined under any of the following conditions:</p>
+<ul><li>
+<p>The enumerator is positioned before the first element in the collection, immediately after the enumerator is created.   <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> must be called to advance the enumerator to the first element of the collection before reading the value of <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a>.</p>
+</li><li>
+<p>The last call to <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> returned <strong>false</strong>, which indicates the end of the collection.</p>
+</li></ul>
+<p>
+<a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> returns the same object until <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> is called. <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> sets <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Current">Current</a> to the next element. If the collection is modified between <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> and <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_Current">Current</a>, <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_Current">Current</a> returns the element that it is set to, even if the enumerator is already invalidated.</p>
+<p>For better performance, this property does not throw an exception if the enumerator is positioned before the first element or after the last element; the value of the property is undefined. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TKey Current { get; }</code></pre>
@@ -122,12 +145,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Dispose.md&amp;value=---%0Auid%3A%20System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/Dictionary.cs/#L954">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Collections/ref/System.Collections.cs/#L126">View Source</a>
               </span>
               <h4 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Dispose" data-uid="System.Collections.Generic.Dictionary`2.KeyCollection.Enumerator.Dispose">Dispose()</h4>
               <div class="markdown level1 summary"><p>Releases all resources used by the <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator">Dictionary<tkey, tvalue="">.KeyCollection.Enumerator</tkey,></a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -137,12 +163,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext.md&amp;value=---%0Auid%3A%20System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.MoveNext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/Dictionary.cs/#L957">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Collections/ref/System.Collections.cs/#L127">View Source</a>
               </span>
               <h4 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext" data-uid="System.Collections.Generic.Dictionary`2.KeyCollection.Enumerator.MoveNext">MoveNext()</h4>
               <div class="markdown level1 summary"><p>Advances the enumerator to the next element of the <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.html#System_Collections_Generic_Dictionary_2_KeyCollection">Dictionary<tkey, tvalue="">.KeyCollection</tkey,></a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After an enumerator is created, the enumerator is positioned before the first element in the collection, and the first call to <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> advances the enumerator to the first element of the collection.</p>
+<p>If <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> passes the end of the collection, the enumerator is positioned after the last element in the collection and <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> returns <strong>false</strong>. When the enumerator is at this position, subsequent calls to <a class="xref" href="System.Collections.Generic.Dictionary%602.KeyCollection.Enumerator.html#System_Collections_Generic_Dictionary_2_KeyCollection_Enumerator_MoveNext">MoveNext()</a> also return <strong>false</strong>.</p>
+<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool MoveNext()</code></pre>
@@ -158,7 +189,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the enumerator was successfully advanced to the next element; false if the enumerator has passed the end of the collection.</p>
+                    <td><p>
+<strong>true</strong> if the enumerator was successfully advanced to the next element; <strong>false</strong> if the enumerator has passed the end of the collection.</p>
 </td>
                   </tr>
                 </tbody>

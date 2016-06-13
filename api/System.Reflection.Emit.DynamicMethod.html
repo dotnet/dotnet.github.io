@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L21" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.Manual.cs/#L11" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_Emit_DynamicMethod" data-uid="System.Reflection.Emit.DynamicMethod">Class DynamicMethod
               </h1>
               <div class="markdown level0 summary"><p>Defines and represents a dynamic method that can be compiled, executed, and discarded. Discarded methods are available for garbage collection.</p>
@@ -87,6 +87,25 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class DynamicMethod : MethodInfo, MethodInfo</code></pre>
               </div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>You can use the <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod">DynamicMethod</a> class to generate and execute a method at run time, without having to generate a dynamic assembly and a dynamic type to contain the method. The executable code created by the just-in-time (JIT) compiler is reclaimed when the <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod">DynamicMethod</a> object is reclaimed. Dynamic methods are the most efficient way to generate and execute small amounts of code.</p>
+<p>A dynamic method can be anonymously hosted, or it can belogically associated with a module or with a type. </p>
+<ul><li>
+<p>If the dynamic method is anonymously hosted, it is located in a system-provided assembly, and therefore is isolated from other code. By default, it does not have access to any non-public data. An anonymously hosted dynamic method can have restricted ability to skip the JIT compiler&#39;s visibility checks, if it has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag. The trust level of the assembly whose non-public members are accessed by the dynamic method must be equal to, or a subset of, the trust level of the call stack that emitted the dynamic method. For more information about anonymously hosted dynamic methods, see Walkthrough: Emitting Code in Partial Trust Scenarios.</p>
+</li><li>
+<p>If the dynamic method is associated with a module that you specify, the dynamic method is effectively global to that module. It can access all types in the module and all <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of the types. You can associate a dynamic method with any module, regardless of whether you created the module, provided that a demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag can be satisfied by the call stack that includes your code. If the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag is included in the grant, the dynamic method can skip the JIT compiler&#39;s visibility checks and access the private data of all types declared in the module or in any other module in any assembly. </p>
+<p>When you specify the module with which a dynamic method is associated, that module must not be in the system-provided assembly that is used for anonymous hosting.</p>
+</li><li>
+<p>If the dynamic method is associated with a type that you specify, it has access to all members of the type, regardless of access level. In addition, JIT visibility checks can be skipped. This gives the dynamic method access to the private data of other types declared in the same module or in any other module in any assembly. You can associate a dynamic method with any type, but your code must be granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with both the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> and <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flags.</p>
+</li></ul>
+<p>The following table shows which types and members are accessible to an anonymously hosted dynamic method, with and without JIT visibility checks, depending on whether <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag is granted. </p>
+<p>Prior to the .NET Framework 2.0 Service Pack 1, emitting code required <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. This permission is included by default in the FullTrust and LocalIntranet named permission sets, but not in the Internet permission set. Therefore, in earlier versions of the .NET Framework a library can be used with Internet permissions only if it has the <a class="xref" href="System.Security.SecurityCriticalAttribute.html#System_Security_SecurityCriticalAttribute">SecurityCriticalAttribute</a> attribute and also executes an <span class="xref">System.Security.PermissionSet.Assert</span> for <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span>. Such libraries require careful security review because coding errors could result in security holes. The .NET Framework 2.0 SP1 allows code to be emitted in partial trust scenarios without issuing any security demands, because generating code is not inherently a privileged operation. That is, the generated code has no more permissions than the assembly that emits it. This allows libraries that emit code to be security transparent and removes the need to assert <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span>, which simplifies the task of writing a secure library. To use this feature, your application should target the .NET Framework 3.5 or later.</p>
+<p>The following table shows which types and members are accessible to a dynamic method that is associated with a module or with a type in a module. </p>
+<p>A dynamic method that is associated with a module has the permissions of that module. A dynamic method that is associated with a type has the permissions of the module containing that type. </p>
+<p>Dynamic methods and their parameters do not have to be named, but you can specify names to assist in debugging. Custom attributes are not supported on dynamic methods or their parameters.</p>
+<p>Although dynamic methods are <strong>static</strong> methods (<strong>Shared</strong> methods in Visual Basic), the relaxed rules for delegate binding introduced in the .NET Framework 2.0 allow a dynamic method to be bound to an object, so that it acts like an instance method when called using that delegate instance. An example that demonstrates this is provided for the <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_System_Object_">CreateDelegate(Type, Object)</a> method overload. </p>
+<p>In the .NET Framework 2.0, dynamic methods do not support symbol information, that is, local variable names and line-number mapping. This limitation might be removed in a future version. You can use <a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder">AssemblyBuilder</a> during development to simplify debugging the generated Microsoft intermediate language (MSIL), and then switch to dynamic methods during final deployment, because the <a class="xref" href="System.Reflection.Emit.ILGenerator.html#System_Reflection_Emit_ILGenerator">ILGenerator</a> calls are the same in both cases.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +113,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Reflection_MethodAttributes_System_Reflection_CallingConventions_System_Type_System_Type___System_Reflection_Module_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Reflection.MethodAttributes%2CSystem.Reflection.CallingConventions%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Reflection.Module%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L166">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L13">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Reflection_MethodAttributes_System_Reflection_CallingConventions_System_Type_System_Type___System_Reflection_Module_System_Boolean_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Reflection.MethodAttributes,System.Reflection.CallingConventions,System.Type,System.Type[],System.Reflection.Module,System.Boolean)">DynamicMethod(String, MethodAttributes, CallingConventions, Type, Type[], Module, Boolean)</h4>
               <div class="markdown level1 summary"><p>Creates a dynamic method that is global to a module, specifying the method name, attributes, calling convention, return type, parameter types, module, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Reflection_MethodAttributes_System_Reflection_CallingConventions_System_Type_System_Type___System_Reflection_Module_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The dynamic method created with this constructor has access to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the public and internal types contained in module <em>m</em>. </p>
+<p>Skipping the JIT compiler&#39;s visibility checks allows the dynamic method to access private and protected members of all other types in the module and in all other assemblies as well. This is useful, for example, when writing code to serialize objects.</p>
+<p>For backward compatibility, this constructor demands <span class="xref">System.Security.Permissions.SecurityPermission</span> with the <span class="xref">System.Security.Permissions.SecurityPermissionFlag.ControlEvidence</span> flag if the following conditions are both true: <em>m</em> is a module other than the calling module, and the demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag has failed. If the demand for <span class="xref">System.Security.Permissions.SecurityPermission</span> succeeds, the operation is allowed.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes, Module m, bool skipVisibility)</code></pre>
@@ -117,7 +142,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null.</p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -135,13 +160,13 @@
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
@@ -153,7 +178,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>skipVisibility</em></td>
-                    <td><p>true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -169,17 +195,31 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>.-or-<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>.</p>
+<p>-or-</p>
+<p>
+<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. -or-<em>m</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>m</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>attributes</em> is a combination of flags other than <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>.-or-<em>callingConvention</em> is not <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.-or-<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>attributes</em> is a combination of flags other than <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>.</p>
+<p>-or-</p>
+<p>
+<em>callingConvention</em> is not <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+<p>-or-</p>
+<p>
+<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -189,12 +229,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Reflection_MethodAttributes_System_Reflection_CallingConventions_System_Type_System_Type___System_Type_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Reflection.MethodAttributes%2CSystem.Reflection.CallingConventions%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Type%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L242">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L15">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Reflection_MethodAttributes_System_Reflection_CallingConventions_System_Type_System_Type___System_Type_System_Boolean_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Reflection.MethodAttributes,System.Reflection.CallingConventions,System.Type,System.Type[],System.Type,System.Boolean)">DynamicMethod(String, MethodAttributes, CallingConventions, Type, Type[], Type, Boolean)</h4>
               <div class="markdown level1 summary"><p>Creates a dynamic method, specifying the method name, attributes, calling convention, return type, parameter types, the type with which the dynamic method is logically associated, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Reflection_MethodAttributes_System_Reflection_CallingConventions_System_Type_System_Type___System_Type_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The dynamic method is global to the module that contains the type <em>owner</em>. It has access to all members of the type <em>owner</em>.</p>
+<p>The dynamic method created with this constructor has access to all members of the type <em>owner</em>, and to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the types contained in the module that contains <em>owner</em>. Skipping the JIT compiler&#39;s visibility checks allows the dynamic method to access private and protected members of all other types as well. This is useful, for example, when writing code to serialize objects.</p>
+<p>For backward compatibility, this constructor demands <span class="xref">System.Security.Permissions.SecurityPermission</span> with the <span class="xref">System.Security.Permissions.SecurityPermissionFlag.ControlEvidence</span> flag if the following conditions are both true: <em>owner</em> is in a module other than the calling module, and the demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag has failed. If the demand for <span class="xref">System.Security.Permissions.SecurityPermission</span> succeeds, the operation is allowed.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes, Type owner, bool skipVisibility)</code></pre>
@@ -212,7 +258,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null.</p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -230,13 +276,13 @@
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
@@ -248,7 +294,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>skipVisibility</em></td>
-                    <td><p>true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -264,17 +311,31 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>. -or-<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.</p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>. </p>
+<p>-or-</p>
+<p>
+<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. -or-<em>owner</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>owner</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>attributes</em> is a combination of flags other than <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>.-or-<em>callingConvention</em> is not <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.-or-<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>attributes</em> is a combination of flags other than <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>.</p>
+<p>-or-</p>
+<p>
+<em>callingConvention</em> is not <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+<p>-or-</p>
+<p>
+<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -284,12 +345,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Type%2CSystem.Type%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L75">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L17">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[])">DynamicMethod(String, Type, Type[])</h4>
               <div class="markdown level1 summary"><p>Initializes an anonymously hosted dynamic method, specifying the method name, return type, and parameter types. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The dynamic method that is created by this constructor is associated with an anonymous assembly instead of an existing type or module. The anonymous assembly exists only to provide a sandbox environment for dynamic methods, that is, to isolate them from other code. This environment makes it safe for the dynamic method to be emitted and executed by partially trusted code. </p>
+<p>This constructor specifies that just-in-time (JIT) visibility checks will be enforced for the Microsoft intermediate language (MSIL) of the dynamic method. That is, the code in the dynamic method has access to public methods of public classes. Exceptions are thrown if the method tries to access types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong> (<strong>Friend</strong> in Visual Basic). To create a dynamic method that has restricted ability to skip JIT visibility checks, use the <span class="xref">System.Reflection.Emit.DynamicMethod.</span> constructor.</p>
+<p>When an anonymously hosted dynamic method is constructed, the call stack of the emitting assembly is included. When the method is invoked, the permissions of the emitting assembly are used instead of the permissions of the actual caller. Thus, the dynamic method cannot execute at a higher level of privilege than that of the assembly that emitted it, even if it is passed to and executed by an assembly that has a higher trust level.</p>
+<p>This constructor specifies the method attributes <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>, and the calling convention <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+<p>This constructor was introduced in the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, Type returnType, Type[] parameterTypes)</code></pre>
@@ -307,19 +375,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null. </p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                 </tbody>
@@ -335,17 +403,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>. </p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. </p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -355,12 +425,28 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Boolean_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L95">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L19">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Boolean_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[],System.Boolean)">DynamicMethod(String, Type, Type[], Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes an anonymously hosted dynamic method, specifying the method name, return type, parameter types, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The dynamic method that is created by this constructor is associated with an anonymous assembly instead of an existing type or module. The anonymous assembly exists only to provide a sandbox environment for dynamic methods, that is, to isolate them from other code. This environment makes it safe for the dynamic method to be emitted and executed by partially trusted code. </p>
+<p>Anonymously hosted dynamic methods do not have automatic access to any types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong> (<strong>Friend</strong> in Visual Basic). This is different from dynamic methods that are associated with an existing type or module, which have access to hidden members in their associated scope. </p>
+<p>Specify <strong>true</strong> for <em>restrictedSkipVisibility</em> if your dynamic method has to access types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong>. This gives the dynamic method restricted access to these members. That is, the members can be accessed only if the following conditions are met:</p>
+<ul><li>
+<p>The target members belong to an assembly that has a level of trust equal to or lower than the call stack that emits the dynamic method.</p>
+</li><li>
+<p>The call stack that emits the dynamic method is granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag. This is always true when the code is executed with full trust. For partially trusted code, it is true only if the host explicitly grants the permission.</p>
+<p>If the permission has not been granted, a security exception is thrown when <see cref="Overload:System.Reflection.Emit.DynamicMethod.CreateDelegate"></see> is called or when the dynamic method is invoked, not when this constructor is called. No special permissions are required to emit the dynamic method.</p>
+</li></ul>
+<p>For example, a dynamic method that is created with <em>restrictedSkipVisibility</em> set to <strong>true</strong> can access a private member of any assembly on the call stack if the call stack has been granted restricted member access. If the dynamic method is created with partially trusted code on the call stack, it cannot access a private member of a type in a .NET Framework assembly, because such assemblies are fully trusted. </p>
+<p>If <em>restrictedSkipVisibility</em> is <strong>false</strong>, JIT visibility checks are enforced. The code in the dynamic method has access to public methods of public classes, and exceptions are thrown if it tries to access types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong>. </p>
+<p>When an anonymously hosted dynamic method is constructed, the call stack of the emitting assembly is included. When the method is invoked, the permissions of the emitting call stack are used instead of the permissions of the actual caller. Thus, the dynamic method cannot execute at a higher level of privilege than that of the assembly that emitted it, even if it is passed to and executed by an assembly that has a higher trust level.</p>
+<p>This constructor specifies the method attributes <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>, and the calling convention <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+<p>This constructor was introduced in the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, Type returnType, Type[] parameterTypes, bool restrictedSkipVisibility)</code></pre>
@@ -378,25 +464,26 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null. </p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>restrictedSkipVisibility</em></td>
-                    <td><p>true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method, with this restriction: the trust level of the assemblies that contain those types and members must be equal to or less than the trust level of the call stack that emits the dynamic method; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method, with this restriction: the trust level of the assemblies that contain those types and members must be equal to or less than the trust level of the call stack that emits the dynamic method; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -412,17 +499,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>.</p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. </p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -432,12 +521,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Reflection_Module_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Reflection.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L117">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L21">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Reflection_Module_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[],System.Reflection.Module)">DynamicMethod(String, Type, Type[], Module)</h4>
               <div class="markdown level1 summary"><p>Creates a dynamic method that is global to a module, specifying the method name, return type, parameter types, and module.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Reflection_Module__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor specifies method attributes <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>, calling convention <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>, and does not skip just-in-time (JIT) visibility checks.</p>
+<p>The dynamic method created with this constructor has access to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the types contained in module <em>m</em>. </p>
+<p>For backward compatibility, this constructor demands <span class="xref">System.Security.Permissions.SecurityPermission</span> with the <span class="xref">System.Security.Permissions.SecurityPermissionFlag.ControlEvidence</span> flag if the following conditions are both true: <em>m</em> is a module other than the calling module, and the demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag has failed. If the demand for <span class="xref">System.Security.Permissions.SecurityPermission</span> succeeds, the operation is allowed.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Module m)</code></pre>
@@ -455,19 +550,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null. </p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
@@ -489,17 +584,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>. -or-<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>. </p>
+<p>-or-</p>
+<p>
+<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. -or-<em>m</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>m</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -509,12 +612,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Reflection_Module_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Reflection.Module%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L141">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L23">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Reflection_Module_System_Boolean_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[],System.Reflection.Module,System.Boolean)">DynamicMethod(String, Type, Type[], Module, Boolean)</h4>
               <div class="markdown level1 summary"><p>Creates a dynamic method that is global to a module, specifying the method name, return type, parameter types, module, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Reflection_Module_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor specifies method attributes <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>, and calling convention <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+<p>The dynamic method created with this constructor has access to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the types in contained module <em>m</em>. Skipping the JIT compiler&#39;s visibility checks allows the dynamic method to access private and protected members of all other types as well. This is useful, for example, when writing code to serialize objects.</p>
+<p>For backward compatibility, this constructor demands <span class="xref">System.Security.Permissions.SecurityPermission</span> with the <span class="xref">System.Security.Permissions.SecurityPermissionFlag.ControlEvidence</span> flag if the following conditions are both true: <em>m</em> is a module other than the calling module, and the demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag has failed. If the demand for <span class="xref">System.Security.Permissions.SecurityPermission</span> succeeds, the operation is allowed.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Module m, bool skipVisibility)</code></pre>
@@ -532,19 +641,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null. </p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
@@ -556,7 +665,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>skipVisibility</em></td>
-                    <td><p>true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method. </p>
+                    <td><p>
+<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method. </p>
 </td>
                   </tr>
                 </tbody>
@@ -572,17 +682,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>. -or-<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>. </p>
+<p>-or-</p>
+<p>
+<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. -or-<em>m</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>m</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>returnType</em> is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -592,12 +710,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Type_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L193">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L25">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Type_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[],System.Type)">DynamicMethod(String, Type, Type[], Type)</h4>
               <div class="markdown level1 summary"><p>Creates a dynamic method, specifying the method name, return type, parameter types, and the type with which the dynamic method is logically associated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The dynamic method created with this constructor has access to all members of the type <em>owner</em>, and to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the other types in the module that contains <em>owner</em>.</p>
+<p>This constructor specifies method attributes <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>, calling convention <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>, and does not skip just-in-time (JIT) visibility checks.</p>
+<p>For backward compatibility, this constructor demands <span class="xref">System.Security.Permissions.SecurityPermission</span> with the <span class="xref">System.Security.Permissions.SecurityPermissionFlag.ControlEvidence</span> flag if the following conditions are both true: <em>owner</em> is in a module other than the calling module, and the demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag has failed. If the demand for <span class="xref">System.Security.Permissions.SecurityPermission</span> succeeds, the operation is allowed.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Type owner)</code></pre>
@@ -615,19 +739,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null. </p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
@@ -649,17 +773,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>.-or- <em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method. </p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>.</p>
+<p>-or- </p>
+<p>
+<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. -or-<em>owner</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>owner</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>returnType</em> is null, or is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>returnType</em> is <strong>null</strong>, or is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -669,12 +801,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Type_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.%23ctor(System.String%2CSystem.Type%2CSystem.Type%5B%5D%2CSystem.Type%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L217">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L27">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Type_System_Boolean_" data-uid="System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[],System.Type,System.Boolean)">DynamicMethod(String, Type, Type[], Type, Boolean)</h4>
               <div class="markdown level1 summary"><p>Creates a dynamic method, specifying the method name, return type, parameter types, the type with which the dynamic method is logically associated, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod__ctor_System_String_System_Type_System_Type___System_Type_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The dynamic method created with this constructor has access to all members of the type <em>owner</em>, and to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the other types in the module that contains <em>owner</em>. Skipping the JIT compiler&#39;s visibility checks allows the dynamic method to access private and protected members of all other types as well. This is useful, for example, when writing code to serialize objects.</p>
+<p>This constructor specifies method attributes <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>, and calling convention <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+<p>For backward compatibility, this constructor demands <span class="xref">System.Security.Permissions.SecurityPermission</span> with the <span class="xref">System.Security.Permissions.SecurityPermissionFlag.ControlEvidence</span> flag if the following conditions are both true: <em>owner</em> is in a module other than the calling module, and the demand for <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.MemberAccess</span> flag has failed. If the demand for <span class="xref">System.Security.Permissions.SecurityPermission</span> succeeds, the operation is allowed.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Type owner, bool skipVisibility)</code></pre>
@@ -692,19 +830,19 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>name</em></td>
-                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be null. </p>
+                    <td><p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
                     <td><em>returnType</em></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or null if the method has no return type. </p>
+                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
                     <td><em>parameterTypes</em></td>
-                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. </p>
+                    <td><p>An array of <a class="xref" href="System.Type.html#System_Type">Type</a> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>
 </td>
                   </tr>
                   <tr>
@@ -716,7 +854,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>skipVisibility</em></td>
-                    <td><p>true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -732,17 +871,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>An element of <em>parameterTypes</em> is null or <a class="xref" href="System.Void.html#System_Void">Void</a>.-or- <em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.</p>
+                    <td><p>An element of <em>parameterTypes</em> is <strong>null</strong> or <a class="xref" href="System.Void.html#System_Void">Void</a>.</p>
+<p>-or- </p>
+<p>
+<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. -or-<em>owner</em> is null.</p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>owner</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>returnType</em> is null, or is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns true. </p>
+                    <td><p>
+<em>returnType</em> is <strong>null</strong>, or is a type for which <a class="xref" href="System.Type.html#System_Type_IsByRef">IsByRef</a> returns <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -754,12 +901,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_Attributes.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.Attributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L617">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L29">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_Attributes" data-uid="System.Reflection.Emit.DynamicMethod.Attributes">Attributes</h4>
               <div class="markdown level1 summary"><p>Gets the attributes specified when the dynamic method was created.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_Attributes_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Currently, the method attributes for a dynamic method are always <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Public">Public</a> and <a class="xref" href="System.Reflection.MethodAttributes.html#System_Reflection_MethodAttributes_Static">Static</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override MethodAttributes Attributes { get; }</code></pre>
@@ -785,12 +935,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_CallingConvention.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.CallingConvention%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L619">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L30">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_CallingConvention" data-uid="System.Reflection.Emit.DynamicMethod.CallingConvention">CallingConvention</h4>
               <div class="markdown level1 summary"><p>Gets the calling convention specified when the dynamic method was created.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_CallingConvention_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Currently, the calling convention for a dynamic method is always <a class="xref" href="System.Reflection.CallingConventions.html#System_Reflection_CallingConventions_Standard">Standard</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override CallingConventions CallingConvention { get; }</code></pre>
@@ -816,12 +969,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_DeclaringType.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.DeclaringType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L608">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L31">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_DeclaringType" data-uid="System.Reflection.Emit.DynamicMethod.DeclaringType">DeclaringType</h4>
-              <div class="markdown level1 summary"><p>Gets the type that declares the method, which is always null for dynamic methods.</p>
+              <div class="markdown level1 summary"><p>Gets the type that declares the method, which is always <strong>null</strong> for dynamic methods.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_DeclaringType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property always returns <strong>null</strong> for dynamic methods. Even when a dynamic method is logically associated with a type, it is not declared by the type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Type DeclaringType { get; }</code></pre>
@@ -837,7 +993,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
-                    <td><p>Always null.</p>
+                    <td><p>Always <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -847,12 +1003,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_InitLocals.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.InitLocals%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L834">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L32">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_InitLocals" data-uid="System.Reflection.Emit.DynamicMethod.InitLocals">InitLocals</h4>
               <div class="markdown level1 summary"><p>Gets or sets a value indicating whether the local variables in the method are zero-initialized. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_InitLocals_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If this property is set to <strong>true</strong>, the emitted Microsoft intermediate language (MSIL) includes initialization of local variables. If it is set to <strong>false</strong>, local variables are not initialized and the generated code is unverifiable.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool InitLocals { get; set; }</code></pre>
@@ -868,7 +1027,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the local variables in the method are zero-initialized; otherwise, false. The default is true.</p>
+                    <td><p>
+<strong>true</strong> if the local variables in the method are zero-initialized; otherwise, <strong>false</strong>. The default is <strong>true</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -907,12 +1067,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_Name.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L606">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L33">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_Name" data-uid="System.Reflection.Emit.DynamicMethod.Name">Name</h4>
               <div class="markdown level1 summary"><p>Gets the name of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>It is not necessary to name dynamic methods.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string Name { get; }</code></pre>
@@ -938,12 +1101,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_ReturnParameter.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.ReturnParameter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L771">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L34">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_ReturnParameter" data-uid="System.Reflection.Emit.DynamicMethod.ReturnParameter">ReturnParameter</h4>
               <div class="markdown level1 summary"><p>Gets the return parameter of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_ReturnParameter_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property always returns <strong>null</strong> for dynamic methods.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override ParameterInfo ReturnParameter { get; }</code></pre>
@@ -959,7 +1125,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.ParameterInfo.html#System_Reflection_ParameterInfo">ParameterInfo</a></td>
-                    <td><p>Always null. </p>
+                    <td><p>Always <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -969,12 +1135,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_ReturnType.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.ReturnType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L769">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L35">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_ReturnType" data-uid="System.Reflection.Emit.DynamicMethod.ReturnType">ReturnType</h4>
               <div class="markdown level1 summary"><p>Gets the type of return value for the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_ReturnType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <strong>null</strong> was specified for the return type when the dynamic method was created, this property returns <a class="xref" href="System.Void.html#System_Void">Void</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Type ReturnType { get; }</code></pre>
@@ -1002,12 +1171,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L532">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L36">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_" data-uid="System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type)">CreateDelegate(Type)</h4>
               <div class="markdown level1 summary"><p>Completes the dynamic method and creates a delegate that can be used to execute it.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling the <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_">CreateDelegate(Type)</a> method or the <see cref="Overload:System.Reflection.Emit.DynamicMethod.Invoke"></see> method completes the dynamic method. Any further attempt to alter the dynamic method, such as modifying parameter definitions or emitting more Microsoft intermediate language (MSIL), is ignored; no exception is thrown.</p>
+<p>To create a method body for a dynamic method when you have your own MSIL generator, call the <span class="xref">System.Reflection.Emit.DynamicMethod.GetDynamicILInfo</span> method to obtain a <span class="xref">System.Reflection.Emit.DynamicILInfo</span> object. If you do not have your own MSIL generator, call the <see cref="Overload:System.Reflection.Emit.DynamicMethod.GetILGenerator"></see> method to obtain an <a class="xref" href="System.Reflection.Emit.ILGenerator.html#System_Reflection_Emit_ILGenerator">ILGenerator</a> object that can be used to generate the method body.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override sealed Delegate CreateDelegate(Type delegateType)</code></pre>
@@ -1062,7 +1235,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>delegateType</em> has the wrong number of parameters or the wrong parameter types.</p>
+                    <td><p>
+<em>delegateType</em> has the wrong number of parameters or the wrong parameter types.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1072,12 +1246,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L548">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L38">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_System_Object_" data-uid="System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type,System.Object)">CreateDelegate(Type, Object)</h4>
               <div class="markdown level1 summary"><p>Completes the dynamic method and creates a delegate that can be used to execute it, specifying the delegate type and an object the delegate is bound to.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method overload creates a delegate bound to a particular object. Such a delegate is said to be closed over its first argument. Although the method is static, it acts as if it were an instance method; the instance is <em>target</em>. </p>
+<p>This method overload requires <em>target</em> to be of the same type as the first parameter of the dynamic method, or to be assignable to that type (for example, a derived class).  The signature of <em>delegateType</em> has all the parameters of the dynamic method except the first. For example, if the dynamic method has the parameters <a class="xref" href="System.String.html#System_String">String</a>, <a class="xref" href="System.Int32.html#System_Int32">Int32</a>, and <a class="xref" href="System.Byte.html#System_Byte">Byte</a>, then <em>delegateType</em> has the parameters <a class="xref" href="System.Int32.html#System_Int32">Int32</a> and <a class="xref" href="System.Byte.html#System_Byte">Byte</a>; <em>target</em> is of type <a class="xref" href="System.String.html#System_String">String</a>. </p>
+<p>Calling the <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod_CreateDelegate_System_Type_">CreateDelegate(Type)</a> method or the <see cref="Overload:System.Reflection.Emit.DynamicMethod.Invoke"></see> method completes the dynamic method. Any further attempt to alter the dynamic method, such as modifying parameter definitions or emitting more Microsoft intermediate language (MSIL), is ignored; no exception is thrown.</p>
+<p>To create a method body for a dynamic method when you have your own MSIL generator, call the <span class="xref">System.Reflection.Emit.DynamicMethod.GetDynamicILInfo</span> method to obtain a <span class="xref">System.Reflection.Emit.DynamicILInfo</span> object. If you do not have your own MSIL generator, call the <see cref="Overload:System.Reflection.Emit.DynamicMethod.GetILGenerator"></see> method to obtain an <a class="xref" href="System.Reflection.Emit.ILGenerator.html#System_Reflection_Emit_ILGenerator">ILGenerator</a> object that can be used to generate the method body.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override sealed Delegate CreateDelegate(Type delegateType, object target)</code></pre>
@@ -1138,7 +1318,11 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>target</em> is not the same type as the first parameter of the dynamic method, and is not assignable to that type.-or-<em>delegateType</em> has the wrong number of parameters or the wrong parameter types.</p>
+                    <td><p>
+<em>target</em> is not the same type as the first parameter of the dynamic method, and is not assignable to that type.</p>
+<p>-or-</p>
+<p>
+<em>delegateType</em> has the wrong number of parameters or the wrong parameter types.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1148,12 +1332,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_GetILGenerator.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.GetILGenerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L818">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L40">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_GetILGenerator" data-uid="System.Reflection.Emit.DynamicMethod.GetILGenerator">GetILGenerator()</h4>
               <div class="markdown level1 summary"><p>Returns a Microsoft intermediate language (MSIL) generator for the method with a default MSIL stream size of 64 bytes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_GetILGenerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After a dynamic method has been completed, by calling the <see cref="Overload:System.Reflection.Emit.DynamicMethod.CreateDelegate"></see> or <see cref="Overload:System.Reflection.Emit.DynamicMethod.Invoke"></see> method, any further attempt to add MSIL is ignored. No exception is thrown.</p>
+<p>There are restrictions on unverifiable code in dynamic methods, even in some full-trust scenarios. See the &quot;Verification&quot; section in Remarks for <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod">DynamicMethod</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ILGenerator GetILGenerator()</code></pre>
@@ -1179,12 +1367,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_GetILGenerator_System_Int32_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.GetILGenerator(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L822">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L41">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_GetILGenerator_System_Int32_" data-uid="System.Reflection.Emit.DynamicMethod.GetILGenerator(System.Int32)">GetILGenerator(Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a Microsoft intermediate language (MSIL) generator for the method with the specified MSIL stream size.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_GetILGenerator_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After a dynamic method has been completed, by calling the <see cref="Overload:System.Reflection.Emit.DynamicMethod.CreateDelegate"></see> or <see cref="Overload:System.Reflection.Emit.DynamicMethod.Invoke"></see> method, any further attempt to add MSIL is ignored. No exception is thrown.</p>
+<p>There are restrictions on unverifiable code in dynamic methods, even in some full-trust scenarios. See the &quot;Verification&quot; section in Remarks for <a class="xref" href="System.Reflection.Emit.DynamicMethod.html#System_Reflection_Emit_DynamicMethod">DynamicMethod</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ILGenerator GetILGenerator(int streamSize)</code></pre>
@@ -1228,12 +1420,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_GetParameters.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.GetParameters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L623">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L43">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_GetParameters" data-uid="System.Reflection.Emit.DynamicMethod.GetParameters">GetParameters()</h4>
               <div class="markdown level1 summary"><p>Returns the parameters of the dynamic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_GetParameters_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Reflection.ParameterInfo.html#System_Reflection_ParameterInfo">ParameterInfo</a> objects returned by this method are for information only. Use the <span class="xref">System.Reflection.Emit.DynamicMethod.DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)</span> method to set or change the characteristics of the parameters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override ParameterInfo[] GetParameters()</code></pre>
@@ -1259,12 +1454,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_DynamicMethod_ToString.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.DynamicMethod.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs/#L604">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs/#L44">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_DynamicMethod_ToString" data-uid="System.Reflection.Emit.DynamicMethod.ToString">ToString()</h4>
               <div class="markdown level1 summary"><p>Returns the signature of the method, represented as a string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_DynamicMethod_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The signature includes only types and the method name, if any. Parameter names are not included.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>

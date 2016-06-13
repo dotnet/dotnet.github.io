@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComEventInterfaceAttribute.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComEventInterfaceAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1024" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L111" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_ComEventInterfaceAttribute" data-uid="System.Runtime.InteropServices.ComEventInterfaceAttribute">Class ComEventInterfaceAttribute
               </h1>
               <div class="markdown level0 summary"><p>Identifies the source interface and the class that implements the methods of the event interface that is generated when a coclass is imported from a COM type library.</p>
@@ -87,6 +87,16 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class ComEventInterfaceAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_Runtime_InteropServices_ComEventInterfaceAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>You can apply this attribute to interfaces, although the Tlbimp.exe (Type Library Importer) typically applies it for you when it imports a type library.</p>
+<p>When a source interface is imported from a type library, any methods it implements are added as events to a generated event interface. Tlbimp.exe applies <a class="xref" href="System.Runtime.InteropServices.ComEventInterfaceAttribute.html#System_Runtime_InteropServices_ComEventInterfaceAttribute">ComEventInterfaceAttribute</a> to the event interface to identify the managed class that implements the methods of the event interface and implements the original source interface. The common language runtime uses this attribute at run time to perform the following tasks: </p>
+<ul><li>
+<p>Associate events exposed by the interface to their implementation in the event provider class.</p>
+</li><li>
+<p>Link the events to the original COM source interface.</p>
+</li></ul>
+<p>You rarely apply this attribute. However, if you plan to write source code that produces metadata that closely simulates metadata produced by Tlbimp.exe, you should create a event interface for each original source interface. For a detailed description about how Tlbimp.exe imports events, see Imported Member Conversion. For instruction about how to expose a COM event to a.NET client, see How to: Handle Events Raised by a COM Source.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +104,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComEventInterfaceAttribute__ctor_System_Type_System_Type_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComEventInterfaceAttribute.%23ctor(System.Type%2CSystem.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1031">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L116">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ComEventInterfaceAttribute__ctor_System_Type_System_Type_" data-uid="System.Runtime.InteropServices.ComEventInterfaceAttribute.#ctor(System.Type,System.Type)">ComEventInterfaceAttribute(Type, Type)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.ComEventInterfaceAttribute.html#System_Runtime_InteropServices_ComEventInterfaceAttribute">ComEventInterfaceAttribute</a> class with the source interface and event provider class.</p>
@@ -135,12 +145,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComEventInterfaceAttribute_EventProvider.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComEventInterfaceAttribute.EventProvider%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1038">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L117">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ComEventInterfaceAttribute_EventProvider" data-uid="System.Runtime.InteropServices.ComEventInterfaceAttribute.EventProvider">EventProvider</h4>
               <div class="markdown level1 summary"><p>Gets the class that implements the methods of the event interface.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_InteropServices_ComEventInterfaceAttribute_EventProvider_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This value is set to the type of the event provider class generated by the Tlbimp.exe (Type Library Importer). Tlbimp.exe appends the source interface name with EventProvider. For example, IMyInterface becomes IMyInterfaceEventProvider.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Type EventProvider { get; }</code></pre>
@@ -166,12 +179,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComEventInterfaceAttribute_SourceInterface.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComEventInterfaceAttribute.SourceInterface%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1037">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L118">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ComEventInterfaceAttribute_SourceInterface" data-uid="System.Runtime.InteropServices.ComEventInterfaceAttribute.SourceInterface">SourceInterface</h4>
               <div class="markdown level1 summary"><p>Gets the original source interface from the type library.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_InteropServices_ComEventInterfaceAttribute_SourceInterface_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A source interface has at least one event member, and typically one for each method of the source interface. COM uses this interface to call back to the managed class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Type SourceInterface { get; }</code></pre>

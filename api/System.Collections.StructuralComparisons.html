@@ -87,6 +87,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class StructuralComparisons : object</code></pre>
               </div>
+              <h5 id="System_Collections_StructuralComparisons_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Collections.StructuralComparisons.html#System_Collections_StructuralComparisons">StructuralComparisons</a> class returns the following two predefined comparison objects:</p>
+<ul><li>
+<p>An <a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer">IComparer</a> implementation that can be passed to a method such as <span class="xref">System.Array.System</span> or <span class="xref">System.Tuple`3.System</span> to perform a structural comparison of two objects. It is designed to indicate whether the first object precedes, follows, or occurs in the same position as the second object in the sort order. </p>
+</li><li>
+<p>An <a class="xref" href="System.Collections.IEqualityComparer.html#System_Collections_IEqualityComparer">IEqualityComparer</a> implementation that can be passed to a method such as <span class="xref">System.Array.System</span> or <span class="xref">System.Tuple`3.System</span> to perform a comparison for structural equality.</p>
+</li></ul>
+<p>The objects can be used to perform a structural comparison or a structural equality comparison of two collection objects, such as array or tuple objects. In structural comparison, two objects are compared based on their values. Objects can be ordered based on some criteria, and two objects are considered equal when they have equal values, not because they reference the same physical object </p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +109,16 @@
               <div class="markdown level1 summary"><p>Gets a predefined object that performs a structural comparison of two objects.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_StructuralComparisons_StructuralComparer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>When the <a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer">IComparer</a> object returned by this property is passed to the comparison method of a collection object, such as <span class="xref">System.Array.System</span> or <span class="xref">System.Tuple`3.System</span>, its <a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer_Compare_System_Object_System_Object_">Compare(Object, Object)</a> method is called for each member of an array or for each component of a tuple. This implementation of the <a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer_Compare_System_Object_System_Object_">Compare(Object, Object)</a> method behaves as follows when it compares each item of a collection object with the corresponding item of another collection object:</p></p>
+<ul><li>
+<p>It considers two items that are <strong>null</strong> to be equal, and considers a null item to be less than an item that is not null.</p>
+</li><li>
+<p>If the first item in the comparison can be cast to an <a class="xref" href="System.Collections.IStructuralComparable.html#System_Collections_IStructuralComparable">IStructuralComparable</a> object (in other words, if it is a collection object that implements the <a class="xref" href="System.Collections.IStructuralComparable.html#System_Collections_IStructuralComparable">IStructuralComparable</a> interface), it calls the <a class="xref" href="System.Collections.IStructuralComparable.html#System_Collections_IStructuralComparable_CompareTo_System_Object_System_Collections_IComparer_">CompareTo(Object, IComparer)</a> method.</p>
+</li><li>
+<p>If the first item in the comparison cannot be cast to an <a class="xref" href="System.Collections.IStructuralComparable.html#System_Collections_IStructuralComparable">IStructuralComparable</a> object (in other words, if it is not a collection object that implements the <a class="xref" href="System.Collections.IStructuralComparable.html#System_Collections_IStructuralComparable">IStructuralComparable</a> interface), it calls the <strong>Comparer.Default.Compare</strong> method.</p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IComparer StructuralComparer { get; }</code></pre>
@@ -114,7 +133,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer">IComparer</a></td>
+                    <td><a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer">Collections.IComparer</a></td>
                     <td><p>A predefined object that is used to perform a structural comparison of two collection objects.</p>
 </td>
                   </tr>
@@ -131,6 +150,18 @@
               <div class="markdown level1 summary"><p>Gets a predefined object that compares two objects for structural equality.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_StructuralComparisons_StructuralEqualityComparer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>When the <a class="xref" href="System.Collections.IComparer.html#System_Collections_IComparer">IComparer</a> object returned by this property is passed to the equality comparison method of a collection object, such as <span class="xref">System.Array.System</span> or <span class="xref">System.Tuple`3.System</span>, its <a class="xref" href="System.Collections.IEqualityComparer.html#System_Collections_IEqualityComparer_Equals_System_Object_System_Object_">Equals(Object, Object)</a> method is called for each member of an array or for each component of a tuple. This implementation of the <a class="xref" href="System.Collections.IEqualityComparer.html#System_Collections_IEqualityComparer_Equals_System_Object_System_Object_">Equals(Object, Object)</a> method behaves as follows when it compares each item of a collection object with the corresponding item of another collection object:</p></p>
+<ul><li>
+<p>If both items are <strong>null</strong>, it considers the two items to be equal.</p>
+</li><li>
+<p>If one item is null but the other item is not, it considers the two items to be unequal.</p>
+</li><li>
+<p>If the first item in the comparison can be cast to an <a class="xref" href="System.Collections.IStructuralEquatable.html#System_Collections_IStructuralEquatable">IStructuralEquatable</a> object (in other words, if it is a collection object that implements the <a class="xref" href="System.Collections.IStructuralEquatable.html#System_Collections_IStructuralEquatable">IStructuralEquatable</a> interface), it calls the <a class="xref" href="System.Collections.IStructuralEquatable.html#System_Collections_IStructuralEquatable_Equals_System_Object_System_Collections_IEqualityComparer_">Equals(Object, IEqualityComparer)</a> method.</p>
+</li><li>
+<p>If the first item in the comparison cannot be cast to an <a class="xref" href="System.Collections.IStructuralEquatable.html#System_Collections_IStructuralEquatable">IStructuralEquatable</a> object (in other words, if it is not a collection object that implements the <a class="xref" href="System.Collections.IStructuralEquatable.html#System_Collections_IStructuralEquatable">IStructuralEquatable</a> interface), it calls the item&#39;s <strong>Equals</strong> method.</p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEqualityComparer StructuralEqualityComparer { get; }</code></pre>
@@ -145,7 +176,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.IEqualityComparer.html#System_Collections_IEqualityComparer">IEqualityComparer</a></td>
+                    <td><a class="xref" href="System.Collections.IEqualityComparer.html#System_Collections_IEqualityComparer">Collections.IEqualityComparer</a></td>
                     <td><p>A predefined object that is used to compare two collection objects for structural equality.</p>
 </td>
                   </tr>

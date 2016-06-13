@@ -88,6 +88,29 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class DefaultTraceListener : TraceListener</code></pre>
               </div>
+              <h5 id="System_Diagnostics_DefaultTraceListener_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>An instance of this class is automatically added to the <span class="xref">System.Diagnostics.Debug.Listeners</span> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collections. Explicitly adding a second <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> causes duplicate messages in the debugger output window and duplicate message boxes for asserts.</p></p>
+<p><p>By default, the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener_Write_System_String_">Write(String)</a> and <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener_WriteLine_System_String_">WriteLine(String)</a> methods emit the message to the Win32 <strong>OutputDebugString</strong> function and to the <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span> method. For information about the <strong>OutputDebugString</strong> function, see the Platform SDK or MSDN.</p></p>
+<p><p>The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener_Fail_System_String_">Fail(String)</a> method, by default, displays a message box when the application is running in a user interface mode; it also emits the message using <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener_WriteLine_System_String_">WriteLine(String)</a>.</p></p>
+<p><p>The display of the message box for <see cref="Overload:System.Diagnostics.Debug.Assert"></see> and <see cref="Overload:System.Diagnostics.Debug.Fail"></see> method calls depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> element, by the <remove> element, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You must enable tracing or debugging to use a trace listener. The following syntax is compiler specific. If you use compilers other than C# or Visual Basic, refer to the documentation for your compiler.</p></p>
+<p><ul><li><p>
+<p><p>To enable debugging in C#, add the <strong>/d:DEBUG</strong> flag to the compiler command line when you compile your code, or add <strong>#define DEBUG</strong> to the top of your file. In Visual Basic, add the <strong>/d:DEBUG=True</strong> flag to the compiler command line.</p>
+</li><li><p>
+<p><p>To enable tracing in C#, add the <strong>/d:TRACE</strong> flag to the compiler command line when you compile your code, or add <strong>#define TRACE</strong> to the top of your file. In Visual Basic, add the <strong>/d:TRACE=True</strong> flag to the compiler command line.</p>
+</li></ul></p>
+<p><p>To add a trace listener, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its type and set its parameters, remove a listener, or clear all the listeners previously set by the application. The configuration file should be formatted similar to the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="4">
+<listeners>
+<remove name="Default"></remove>
+<add name="myListener" type="System.Diagnostics.TextWriterTraceListener" initializedata="c:\myListener.log"></add>
+</listeners>
+</trace>
+</system.diagnostics>
+</configuration></code></pre>
+</remove></clear></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -118,6 +141,9 @@
               <div class="markdown level1 summary"><p>Emits or displays a message and a stack trace for an assertion that always fails.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_DefaultTraceListener_Fail_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, this method sends the <em>message</em> parameter and a stack trace to a message box (when the application runs in user-interface mode) and to the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Fail(string message)</code></pre>
@@ -151,6 +177,9 @@
               <div class="markdown level1 summary"><p>Emits or displays detailed messages and a stack trace for an assertion that always fails.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_DefaultTraceListener_Fail_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, this method sends the <em>message</em> parameter, the <em>detailMessage</em> parameter, and a stack trace to a message box (when the application runs in user-interface mode) and to the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Fail(string message, string detailMessage)</code></pre>
@@ -187,9 +216,12 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/DefaultTraceListener.cs/#L78">View Source</a>
               </span>
               <h4 id="System_Diagnostics_DefaultTraceListener_Write_System_String_" data-uid="System.Diagnostics.DefaultTraceListener.Write(System.String)">Write(String)</h4>
-              <div class="markdown level1 summary"><p>Writes the output to the OutputDebugString function and to the <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span> method.</p>
+              <div class="markdown level1 summary"><p>Writes the output to the <strong>OutputDebugString</strong> function and to the <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span> method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_DefaultTraceListener_Write_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For information about the Win32 <strong>OutputDebugString</strong> debugging function, see &quot;OutputDebugString&quot; in the Platform SDK or MSDN.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Write(string message)</code></pre>
@@ -207,7 +239,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>message</em></td>
-                    <td><p>The message to write to OutputDebugString and <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span>. </p>
+                    <td><p>The message to write to <strong>OutputDebugString</strong> and <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -220,9 +252,14 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/DefaultTraceListener.cs/#L104">View Source</a>
               </span>
               <h4 id="System_Diagnostics_DefaultTraceListener_WriteLine_System_String_" data-uid="System.Diagnostics.DefaultTraceListener.WriteLine(System.String)">WriteLine(String)</h4>
-              <div class="markdown level1 summary"><p>Writes the output to the OutputDebugString function and to the <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span> method, followed by a carriage return and line feed (\r\n).</p>
+              <div class="markdown level1 summary"><p>Writes the output to the <strong>OutputDebugString</strong> function and to the <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span> method, followed by a carriage return and line feed (\r\n).</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_DefaultTraceListener_WriteLine_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default line terminator is a carriage return followed by a line feed (\r\n).</p>
+<p>For information about the Win32 <strong>OutputDebugString</strong> debugging function, see the Platform SDK or MSDN.</p>
+<p>This method sets the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> property to <strong>true</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void WriteLine(string message)</code></pre>
@@ -240,7 +277,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>message</em></td>
-                    <td><p>The message to write to OutputDebugString and <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span>. </p>
+                    <td><p>The message to write to <strong>OutputDebugString</strong> and <span class="xref">System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)</span>. </p>
 </td>
                   </tr>
                 </tbody>

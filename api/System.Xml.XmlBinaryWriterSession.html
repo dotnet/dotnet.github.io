@@ -87,6 +87,13 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class XmlBinaryWriterSession : object</code></pre>
               </div>
+              <h5 id="System_Xml_XmlBinaryWriterSession_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Session objects (this class together with <a class="xref" href="System.Xml.XmlBinaryReaderSession.html#System_Xml_XmlBinaryReaderSession">XmlBinaryReaderSession</a>) enable dynamic string atomization that can span an entire conversation. These session objects manage dynamic dictionaries. For more information about dynamic dictionaries see <a class="xref" href="System.Xml.XmlDictionary.html#System_Xml_XmlDictionary">XmlDictionary</a>.</p>
+<p>Due to asynchronous processing, it is possible for messages that arrive synchronously to be processed in a different order than the order in which they were sent. String atomization that spans messages must ensure the messages are processed in the original order or the atomized strings must be conveyed using a different mechanism.</p>
+<p>To use them, you create a session object and pass it to the constructor or initializer for a binary XML reader or writer. </p>
+<p>To reuse a dynamic dictionary pass the same session object to all subsequent readers and writers.</p>
+<p>The session object can be reset to allow pooling.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -132,6 +139,9 @@
               <div class="markdown level1 summary"><p>Tries to add an <a class="xref" href="System.Xml.XmlDictionaryString.html#System_Xml_XmlDictionaryString">XmlDictionaryString</a> to the internal collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_XmlBinaryWriterSession_TryAdd_System_Xml_XmlDictionaryString_System_Int32___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you use this class you must override this method to send the collection of keys along with the message. Without overriding, a new key is added to the collection, which is saved, but not sent with the message.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryAdd(XmlDictionaryString value, out int key)</code></pre>
@@ -171,7 +181,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the string could be added; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the string could be added; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -187,7 +198,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>value</em> is null.</p>
+                    <td><p>
+<em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>

@@ -87,6 +87,14 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ClaimsIdentity : IIdentity</code></pre>
               </div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class is a concrete implementation of a claims-based identity; that is, an identity described by a collection of claims. A claim is a statement about an entity made by an issuer that describes a property, right, or some other quality of that entity. Such an entity is said to be the subject of the claim. A claim is represented by the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> class. The claims contained in a <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> describe the entity that the corresponding identity represents, and can be used to make authorization and authentication decisions. A claims-based access model has many advantages over more traditional access models that rely exclusively on roles. For example, claims can provide much richer information about the identity they represent and can be evaluated for authorization or authentication in a far more specific manner. </p>
+<p>Beginning with .NET Framework 4.5, Windows Identity Foundation (WIF) and claims-based identity have been fully integrated into the .NET Framework. This means that many classes that represent an identity in the .NET Framework now derive from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> and describe their properties through a collection of claims. This is different from previous versions of the .NET Framework, in which, these classes implemented the <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a> interface directly. The collection of claims that describe the identity can be accessed through the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> property. The <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class provides several methods for finding and modifying claims and fully supports language integrated queries (LINQ). In application code, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> objects are typically accessed through <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal">ClaimsPrincipal</a> objects; for example, the principal returned by <span class="xref">System.Threading.Thread.CurrentPrincipal</span>.</p>
+<p>The <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal">ClaimsPrincipal</a> class has a <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_Claims">Claims</a> property as well. In the majority of cases you should access the user’s claims through the <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_Claims">Claims</a> collection rather than through the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. You will need to access the claims of an individual <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> only in the cases where the principal contains more than one <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> and you need to evaluate or modify a specific identity.</p>
+<p>To add or remove claims from the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection, a caller must have full trust. </p>
+<p>In the claims-based model, the <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property and the <a class="xref" href="System.Security.Principal.IPrincipal.html#System_Security_Principal_IPrincipal_IsInRole_System_String_">IsInRole(String)</a> method are implemented by evaluating the claims contained by an identity. The base implementations in the claims-based model are provided by the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property and the <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_IsInRole_System_String_">IsInRole(String)</a> method. The <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a> properties enable you to specify a claim type that should be used to evaluate the claims contained by the identity when performing these operations. </p>
+<p>Delegation scenarios are supported through the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a> and <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a> properties.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +108,72 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class with an empty claims collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>A empty collection.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a>. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity()</code></pre>
@@ -115,6 +189,72 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class using an enumerated collection of <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> objects.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>Initialized from the <em>claims</em> parameter.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a>. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(Collections.Generic.IEnumerable&lt;Claim&gt; claims)</code></pre>
@@ -148,6 +288,71 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class with the specified claims and authentication type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim__System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The value of the <em>authenticationType</em> parameter. If the <em>authenticationType</em> parameter is <strong>null</strong> or an empty string, the property is set to <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>Initialized from the <em>claims</em> parameter.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a>. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(Collections.Generic.IEnumerable&lt;Claim&gt; claims, string authenticationType)</code></pre>
@@ -184,9 +389,72 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L44">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity__ctor_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim__System_String_System_String_System_String_" data-uid="System.Security.Claims.ClaimsIdentity.#ctor(System.Collections.Generic.IEnumerable{System.Security.Claims.Claim},System.String,System.String,System.String)">ClaimsIdentity(Collections.Generic.IEnumerable&lt;Claim&gt;, String, String, String)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class with the specified, claims, authentication type, name claim type, and role claim type.</p>
+              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class with the specified claims, authentication type, name claim type, and role claim type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim__System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The value of the <em>authenticationType</em> parameter. If the <em>authenticationType</em> parameter is <strong>null</strong> or an empty string, the property is set to <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>Initialized from the <em>claims</em> parameter.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>The value of the <em>nameType</em> parameter. However, if the <em>nameType</em> parameter is <strong>null</strong> or an empty string, the property is set to <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>The value of the <em>roleClaimType</em> parameter. However, if the <em>roleClaimType</em> parameter is <strong>null</strong> or an empty string, the property is set to <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a>.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(Collections.Generic.IEnumerable&lt;Claim&gt; claims, string authenticationType, string nameType, string roleType)</code></pre>
@@ -235,7 +503,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L45">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity__ctor_System_IO_BinaryReader_" data-uid="System.Security.Claims.ClaimsIdentity.#ctor(System.IO.BinaryReader)">ClaimsIdentity(IO.BinaryReader)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -254,7 +523,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.BinaryReader.html#System_IO_BinaryReader">BinaryReader</a></td>
                     <td><em>reader</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -266,7 +536,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/src/System/Security/Claims/ClaimsIdentity.cs/#L216">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity__ctor_System_Security_Claims_ClaimsIdentity_" data-uid="System.Security.Claims.ClaimsIdentity.#ctor(System.Security.Claims.ClaimsIdentity)">ClaimsIdentity(ClaimsIdentity)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -285,7 +556,8 @@
                   <tr>
                     <td><a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a></td>
                     <td><em>other</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -300,6 +572,67 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class using the name and authentication type from the specified <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_Security_Principal_IIdentity__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.Actor</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The value of the <strong>identity.AuthenticationType</strong> (<a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_AuthenticationType">AuthenticationType</a>) property is used.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.BootStrapContext</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the claims from <em>identity</em> are added to the new instance; otherwise, an empty collection.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.Label</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is not assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, is not <strong>null</strong>, and has an <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property that is not <strong>null</strong>; a name claim is added to the new instance using the value of the <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property. </p>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.NameClaimType</strong> property is used; otherwise, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a> is used.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.RoleClaimType</strong> property is used; otherwise, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a> is used.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(IIdentity identity)</code></pre>
@@ -315,7 +648,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">Principal.IIdentity</a></td>
+                    <td><a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a></td>
                     <td><em>identity</em></td>
                     <td><p>The identity from which to base the new claims identity.</p>
 </td>
@@ -333,6 +666,67 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class using the specified claims and the specified <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_Security_Principal_IIdentity_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.Actor</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The <em>authenticationType</em> parameter. If the <em>authenticationType</em> parameter is <strong>null</strong> or an empty string, the value of the <strong>identity.AuthenticationType</strong> (<a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_AuthenticationType">AuthenticationType</a>) property is used.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.BootStrapContext</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>Initialized from the <em>claims</em> parameter. If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the claims from <em>identity</em> are added to the new instance before those specified by the <em>claims</em> parameter.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.Label</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is not assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, is not <strong>null</strong>, and has an <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property that is not <strong>null</strong>; a name claim is added to the new instance using the value of the <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property. </p>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.NameClaimType</strong> property is used; otherwise, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a> is used.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.RoleClaimType</strong> property is used; otherwise, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a> is used.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(IIdentity identity, Collections.Generic.IEnumerable&lt;Claim&gt; claims)</code></pre>
@@ -348,7 +742,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">Principal.IIdentity</a></td>
+                    <td><a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a></td>
                     <td><em>identity</em></td>
                     <td><p>The identity from which to base the new claims identity.</p>
 </td>
@@ -372,6 +766,67 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class from the specified <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a> using the specified claims, authentication type, name claim type, and role claim type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_Security_Principal_IIdentity_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim__System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.Actor</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The <em>authenticationType</em> parameter. If the <em>authenticationType</em> parameter is <strong>null</strong> or an empty string, the value of the <strong>identity.AuthenticationType</strong> (<a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_AuthenticationType">AuthenticationType</a>) property is used.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.BootStrapContext</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>Initialized from the <em>claims</em> parameter. If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the claims from <em>identity</em> are added to the new instance before those specified by the <em>claims</em> parameter.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.Label</strong> property; otherwise, <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>If <em>identity</em> is not assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, is not <strong>null</strong>, and has an <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property that is not <strong>null</strong>; a name claim is added to the new instance using the value of the <a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity_Name">Name</a> property. </p>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>The value of the <em>nameType</em> parameter. However, if the value of the <em>nameType</em> parameter is <strong>null</strong> or an empty string and <em>identity</em> is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.NameClaimType</strong> property is used; otherwise, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a> is used.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>The value of the <em>roleClaimType</em> parameter. However, if the value of the <em>roleClaimType</em> parameter is <strong>null</strong> or an empty string and identity is assignable from <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>, the value of the <strong>identity.RoleClaimType</strong> property is used; otherwise, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a> is used.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(IIdentity identity, Collections.Generic.IEnumerable&lt;Claim&gt; claims, string authenticationType, string nameType, string roleType)</code></pre>
@@ -387,7 +842,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">Principal.IIdentity</a></td>
+                    <td><a class="xref" href="System.Security.Principal.IIdentity.html#System_Security_Principal_IIdentity">IIdentity</a></td>
                     <td><em>identity</em></td>
                     <td><p>The identity from which to base the new claims identity.</p>
 </td>
@@ -429,6 +884,71 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class with an empty claims collection and the specified authentication type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The value of the <em>authenticationType</em> parameter. If the <em>authenticationType</em> parameter is <strong>null</strong> or an empty string, the property is set to <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>An empty collection.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a>. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(string authenticationType)</code></pre>
@@ -462,6 +982,69 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class with the specified authentication type, name claim type, and role claim type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity__ctor_System_String_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> class. </p></p>
+<p><p>Property</p></p>
+<p><p>Value</p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a>
+</p>
+</td><td>
+<p>The value of the <em>authenticationType</em> parameter. If the <em>authenticationType</em> parameter is <strong>null</strong> or an empty string, the property is set to <strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a>
+</p>
+</td><td>
+<p>An empty collection.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_IsAuthenticated">IsAuthenticated</a> property is returned based on the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Label">Label</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a>
+</p>
+</td><td>
+<p>When accessed, the value of the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property is returned based on the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> and the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a>
+</p>
+</td><td>
+<p>The value of the <em>nameType</em> parameter. If the <em>nameType</em> parameter is null or an empty string, the property is set to <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultNameClaimType">DefaultNameClaimType</a>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a>
+</p>
+</td><td>
+<p>The value of the <em>roleType</em> parameter. If the <em>roleType</em> parameter is null or an empty string, the property is set to <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_DefaultRoleClaimType">DefaultRoleClaimType</a>. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity(string authenticationType, string nameType, string roleType)</code></pre>
@@ -556,6 +1139,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the identity of the calling party that was granted delegation rights.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_Actor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An application can access the delegation chain that led to the current call, by recursively examining the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Actor">Actor</a> property. The token on whose behalf the call is being delegated can be accessed through the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ClaimsIdentity Actor { get; set; }</code></pre>
@@ -603,6 +1189,9 @@
               <div class="markdown level1 summary"><p>Gets the authentication type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_AuthenticationType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Typically one of the values defined by the <span class="xref">System.Security.Claims.AuthenticationTypes</span> class. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual string AuthenticationType { get; }</code></pre>
@@ -634,6 +1223,11 @@
               <div class="markdown level1 summary"><p>Gets or sets the token that was used to create this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_BootstrapContext_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The underlying object is an instance of the <span class="xref">System.IdentityModel.Tokens.BootstrapContext</span> class.</p>
+<p>Set the <strong>saveBootstrapContext</strong> attribute on either the <identityconfiguration> or the <securitytokenhandlerconfiguration> element in a configuration file to specify whether the token used to generate the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> should be preserved in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a> property. <p>
+<p>If the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_BootstrapContext">BootstrapContext</a> property is not <strong>null</strong>, applications can access the original token and the claims it produced through the properties and methods of the <span class="xref">System.IdentityModel.Tokens.BootstrapContext</span> class.</p>
+</securitytokenhandlerconfiguration></identityconfiguration></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object BootstrapContext { get; set; }</code></pre>
@@ -665,6 +1259,11 @@
               <div class="markdown level1 summary"><p>Gets the claims associated with this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_Claims_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The collection may contain entries that are <strong>null</strong>.</p>
+<p>The claims contained in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection essentially describe the entity that is represented by the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a>. The claims describe the properties and rights possessed by the entity and can be examined by applications to make decisions about authentication and authorization.</p>
+<p>The <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal">ClaimsPrincipal</a> class has a <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_Claims">Claims</a> property as well. In the majority of cases you should access the user’s claims through the <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_Claims">Claims</a> collection rather than through the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection. You will need to access the claims of an individual <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> only in the cases where the principal contains more than one <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> and you need to evaluate or modify a specific identity.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.Generic.IEnumerable&lt;Claim&gt; Claims { get; }</code></pre>
@@ -693,7 +1292,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/src/System/Security/Claims/ClaimsIdentity.cs/#L320">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity_CustomSerializationData" data-uid="System.Security.Claims.ClaimsIdentity.CustomSerializationData">CustomSerializationData</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -710,7 +1310,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -725,6 +1326,10 @@
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the identity has been authenticated.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_IsAuthenticated_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<strong>true</strong> if the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_AuthenticationType">AuthenticationType</a> property is not <strong>null</strong> or an empty string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool IsAuthenticated { get; }</code></pre>
@@ -740,7 +1345,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the identity has been authenticated; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the identity has been authenticated; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -787,6 +1393,9 @@
               <div class="markdown level1 summary"><p>Gets the name of this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Returns the value of the first claim with a type that matches the name claim type set in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> property. If no claim is found that matches the name claim type, returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual string Name { get; }</code></pre>
@@ -802,7 +1411,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The name or null.</p>
+                    <td><p>The name or <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -818,6 +1427,10 @@
               <div class="markdown level1 summary"><p>Gets the claim type that is used to determine which claims provide the value for the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property of this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_NameClaimType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_NameClaimType">NameClaimType</a> property specifies the claim type (<a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a>) that is used to provide the name for this identity. The name is accessed through the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Name">Name</a> property.</p>
+<p>This property is set by the constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string NameClaimType { get; }</code></pre>
@@ -849,6 +1462,9 @@
               <div class="markdown level1 summary"><p>Gets the claim type that will be interpreted as a .NET Framework role among the claims in this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_RoleClaimType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The role claim type is the claim type (<a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Type">Type</a>) that is used when evaluating this identity for the <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_IsInRole_System_String_">IsInRole(String)</a> method. The <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal_IsInRole_System_String_">IsInRole(String)</a> method is called to determine whether the current principal is in a specified role. The claims-based model extends this check to use claims presented by the principal. A <a class="xref" href="System.Security.Claims.ClaimsPrincipal.html#System_Security_Claims_ClaimsPrincipal">ClaimsPrincipal</a> object can contain one or more <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> objects and each identity object can contain multiple <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a> objects. The <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RoleClaimType">RoleClaimType</a> property specifies the claim type of the claim that should be used to provide the value for the role when evaluating this <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity">ClaimsIdentity</a> object. The property is set by the constructor. A common value is <a class="xref" href="System.Security.Claims.ClaimTypes.html#System_Security_Claims_ClaimTypes_Role">Role</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string RoleClaimType { get; }</code></pre>
@@ -882,6 +1498,10 @@
               <div class="markdown level1 summary"><p>Adds a single claim to this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_AddClaim_System_Security_Claims_Claim__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The claim is examined and if the subject is different than this claims identity, the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Clone_System_Security_Claims_ClaimsIdentity_">Clone(ClaimsIdentity)</a> method is invoked with this claims identity as the parameter to create a new claim with the correct subject.</p>
+<p>This method has the <strong>SecurityCritical</strong> attribute applied to control which entities can add claims to the identity. Further down the pipe, authorization decisions are made based on the claims that are present in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void AddClaim(Claim claim)</code></pre>
@@ -915,7 +1535,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>claim</em> is null.</p>
+                    <td><p>
+<em>claim</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -931,6 +1552,10 @@
               <div class="markdown level1 summary"><p>Adds a list of claims to this claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_AddClaims_System_Collections_Generic_IEnumerable_System_Security_Claims_Claim___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Each claim is examined and if the subject is different than this claims identity, the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Clone_System_Security_Claims_ClaimsIdentity_">Clone(ClaimsIdentity)</a> method is invoked with this claims identity as the parameter to create a new claim with the correct subject.</p>
+<p>This method has the <strong>SecurityCritical</strong> attribute applied to control which entities can add claims to the identity. Further down the pipe, authorization decisions are made based on the claims that are present in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void AddClaims(Collections.Generic.IEnumerable&lt;Claim&gt; claims)</code></pre>
@@ -964,7 +1589,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>claims</em> is null.</p>
+                    <td><p>
+<em>claims</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1008,7 +1634,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L67">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity_CreateClaim_System_IO_BinaryReader_" data-uid="System.Security.Claims.ClaimsIdentity.CreateClaim(System.IO.BinaryReader)">CreateClaim(IO.BinaryReader)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -1027,7 +1654,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.BinaryReader.html#System_IO_BinaryReader">BinaryReader</a></td>
                     <td><em>reader</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -1042,7 +1670,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -1106,7 +1735,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>match</em> is null.</p>
+                    <td><p>
+<em>match</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1122,6 +1752,9 @@
               <div class="markdown level1 summary"><p>Retrieves all of the claims that have the specified claim type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_FindAll_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The comparison is made using Ordinal case in-sensitive on <em>type</em>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.Generic.IEnumerable&lt;Claim&gt; FindAll(string type)</code></pre>
@@ -1171,7 +1804,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null.</p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1220,7 +1854,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a></td>
-                    <td><p>The first matching claim or null if no match is found.</p>
+                    <td><p>The first matching claim or <strong>null</strong> if no match is found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1236,7 +1870,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>match</em> is null.</p>
+                    <td><p>
+<em>match</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1285,7 +1920,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim">Claim</a></td>
-                    <td><p>The first matching claim or null if no match is found.</p>
+                    <td><p>The first matching claim or <strong>null</strong> if no match is found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1301,7 +1936,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null.</p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1350,7 +1986,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if a matching claim exists; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if a matching claim exists; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1366,7 +2003,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>match</em> is null.</p>
+                    <td><p>
+<em>match</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1382,6 +2020,9 @@
               <div class="markdown level1 summary"><p>Determines whether this claims identity has a claim with the specified claim type and value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_HasClaim_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Does not check the <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_Issuer">Issuer</a> or <a class="xref" href="System.Security.Claims.Claim.html#System_Security_Claims_Claim_OriginalIssuer">OriginalIssuer</a> properties. The comparison is made using Ordinal, case sensitive on value; case in-sensitive on type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool HasClaim(string type, string value)</code></pre>
@@ -1421,7 +2062,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if a match is found; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if a match is found; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1437,7 +2079,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null.-or-<em>value</em> is null.</p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>value</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1453,6 +2099,11 @@
               <div class="markdown level1 summary"><p>Attempts to remove a claim from the claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_RemoveClaim_System_Security_Claims_Claim__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>It is possible that the claim cannot be removed because it is not owned by the identity. For example, this would be the case for role claims that are owned by the principal. Unlike the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_TryRemoveClaim_System_Security_Claims_Claim_">TryRemoveClaim(Claim)</a> method, which returns a Boolean value that indicates whether the claim has been removed, <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_RemoveClaim_System_Security_Claims_Claim_">RemoveClaim(Claim)</a> throws an exception if the claim could not be removed</p>
+<p>The specified claim is matched by object reference (<a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>).</p>
+<p>This method has the <strong>SecurityCritical</strong> attribute applied to control which entities can remove claims from the identity. Further down the pipe, authorization decisions are made based on the claims that are present in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void RemoveClaim(Claim claim)</code></pre>
@@ -1502,6 +2153,11 @@
               <div class="markdown level1 summary"><p>Attempts to remove a claim from the claims identity.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_Claims_ClaimsIdentity_TryRemoveClaim_System_Security_Claims_Claim__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>It is possible that the claim cannot be removed because it is not owned by the identity. For example, this would be the case for role claims that are owned by the principal. </p>
+<p>The specified claim is matched by object reference (<a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>).</p>
+<p>This method has the <strong>SecurityCritical</strong> attribute applied to control which entities can remove claims from the identity. Further down the pipe, authorization decisions are made based on the claims that are present in the <a class="xref" href="System.Security.Claims.ClaimsIdentity.html#System_Security_Claims_ClaimsIdentity_Claims">Claims</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryRemoveClaim(Claim claim)</code></pre>
@@ -1535,7 +2191,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the claim was successfully removed; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the claim was successfully removed; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1548,7 +2205,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L78">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity_WriteTo_System_IO_BinaryWriter_" data-uid="System.Security.Claims.ClaimsIdentity.WriteTo(System.IO.BinaryWriter)">WriteTo(IO.BinaryWriter)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -1567,7 +2225,8 @@
                   <tr>
                     <td><a class="xref" href="System.IO.BinaryWriter.html#System_IO_BinaryWriter">BinaryWriter</a></td>
                     <td><em>writer</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>
@@ -1579,7 +2238,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/ref/System.Security.Claims.cs/#L79">View Source</a>
               </span>
               <h4 id="System_Security_Claims_ClaimsIdentity_WriteTo_System_IO_BinaryWriter_System_Byte___" data-uid="System.Security.Claims.ClaimsIdentity.WriteTo(System.IO.BinaryWriter,System.Byte[])">WriteTo(IO.BinaryWriter, Byte[])</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -1598,12 +2258,14 @@
                   <tr>
                     <td><a class="xref" href="System.IO.BinaryWriter.html#System_IO_BinaryWriter">BinaryWriter</a></td>
                     <td><em>writer</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
                     <td><em>userData</em></td>
-                    <td></td>
+                    <td><p>
+</td>
                   </tr>
                 </tbody>
               </table>

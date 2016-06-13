@@ -88,6 +88,10 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class DelegatingHandler : HttpMessageHandler</code></pre>
               </div>
+              <h5 id="System_Net_Http_DelegatingHandler_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>This application normally instantiate this class and then set the inner handler or provide an inner handler in the constructor.</p>
+<p>Note that <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_InnerHandler">InnerHandler</a> property may be a delegating handler too. This approach allows the creation of handler stacks to process the HTTP response messages.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +105,9 @@
               <div class="markdown level1 summary"><p>Creates a new instance of the <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler">DelegatingHandler</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Http_DelegatingHandler__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The inner handle can be set using the <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_InnerHandler">InnerHandler</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected DelegatingHandler()</code></pre>
@@ -151,6 +158,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the inner handler which processes the HTTP response messages.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Http_DelegatingHandler_InnerHandler_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_InnerHandler">InnerHandler</a> property can only be set before the class is used (the <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method is called).</p>
+<p>Note that <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_InnerHandler">InnerHandler</a> property may be a delegating handler too, although this is uncommon. This approach allows the creation of handler stacks for the HTTP response messages.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public HttpMessageHandler InnerHandler { get; set; }</code></pre>
@@ -166,7 +177,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a></td>
-                    <td><p>Returns <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a>.The inner handler for HTTP response messages.</p>
+                    <td><p>Returns <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a>.</p>
+<p>The inner handler for HTTP response messages.</p>
 </td>
                   </tr>
                 </tbody>
@@ -201,7 +213,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to releases only unmanaged resources. </p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to releases only unmanaged resources. </p>
 </td>
                   </tr>
                 </tbody>
@@ -217,6 +230,10 @@
               <div class="markdown level1 summary"><p>Sends an HTTP request to the inner handler to send to the server as an asynchronous operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Http_DelegatingHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation does not block. This overridable implementation of <a class="xref" href="System.Net.Http.HttpClientHandler.html#System_Net_Http_HttpClientHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method forwards the HTTP request to the inner handler to send to the server as an asynchronous operation.</p>
+<p>The <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method is mainly used by the system and not by applications. When this method is called, it calls the <a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method on the inner handler. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected override Threading.Tasks.Task&lt;HttpResponseMessage&gt; SendAsync(HttpRequestMessage request, Threading.CancellationToken cancellationToken)</code></pre>
@@ -238,7 +255,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>A cancellation token to cancel operation.</p>
 </td>
@@ -256,7 +273,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.Http.HttpResponseMessage.html#System_Net_Http_HttpResponseMessage">HttpResponseMessage</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>. The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>. </p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -272,7 +290,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>request</em> was null.</p>
+                    <td><p>The <em>request</em> was <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>

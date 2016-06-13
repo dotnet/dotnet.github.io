@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L41" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L478" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_Tasks_TaskFactory_1" data-uid="System.Threading.Tasks.TaskFactory`1">Class TaskFactory&lt;TResult&gt;
               </h1>
               <div class="markdown level0 summary"><p>Provides support for creating and scheduling <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> objects.</p>
@@ -87,6 +87,23 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class TaskFactory&lt;TResult&gt; : object</code></pre>
               </div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The .NET Framework provides two factories for creating and scheduling tasks: </p>
+<ul><li>
+<p>The <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory">TaskFactory</a> class, which creates <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> and <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> objects. </p>
+</li><li>
+<p>The <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> class, which creates <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> objects. </p>
+</li></ul>
+<p>The <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> class allows you to do the following: </p>
+<ul><li>
+<p>Create a task and start it immediately by calling the <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_StartNew_System_Action_">StartNew(Action)</a> method. You can call the overloads of this method to create and execute a task that requires non-default arguments. </p>
+<p>Starting with the .NET Framework 4.5, the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Run_System_Action_">Run(Action)</a> method provides the easiest way to create a task with default configuration values and start it immediately. </p>
+</li><li>
+<p>Create a task that starts when any one of the tasks in an array has completed by calling the <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_ContinueWhenAny_System_Threading_Tasks_Task___System_Action_System_Threading_Tasks_Task__">ContinueWhenAny(Task[], Action<task>)</task></a> or   <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_ContinueWhenAny__1_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task___0__">ContinueWhenAny<tresult>(Task[], Func<task, tresult="">)</task,></tresult></a> method. </p>
+</li><li>
+<p>Create a task that starts when all the tasks in an array have completed by calling the <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_ContinueWhenAll_System_Threading_Tasks_Task___System_Action_System_Threading_Tasks_Task____">ContinueWhenAll(Task[], Action<task[]>)</task[]></a> or <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_ContinueWhenAll__1_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task_____0__">ContinueWhenAll<tresult>(Task[], Func<task[], tresult="">)</task[],></tresult></a> method. </p>
+</li></ul>
+<p>The static <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1_Factory">Factory</a> property returns a default <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> object. You can also call one of the <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> class constructors to configure the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> objects that  the <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> class creates. The following example configures a new <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> object to create tasks that have a specified cancellation token, task creation options, continuation options, and a customized task scheduler. </p>TPL_Factories#2<p>In most cases, you do not have to instantiate a new <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance. Instead, you can use the static <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1_Factory">Factory</a> property, which returns a factory object that uses default values. You can then call its methods to start new tasks or define task continuations. For an illustration, see the example. </p></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +111,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1__ctor.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L89">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L480">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1__ctor" data-uid="System.Threading.Tasks.TaskFactory`1.#ctor">TaskFactory()</h4>
               <div class="markdown level1 summary"><p>Initializes a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with the default configuration.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with a default configuration. The <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a> property is initialized to <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions_None">None</a>, the <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a> property is initialized to <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions_None">None</a>, and the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> property is initialized to the current scheduler (see <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskFactory()</code></pre>
@@ -109,12 +129,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.%23ctor(System.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L110">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L481">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.#ctor(System.Threading.CancellationToken)">TaskFactory(CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Initializes a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with the default configuration.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with a default configuration. The <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a> property is initialized to <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions_None">None</a>, the <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a> property is initialized to <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions_None">None</a>, and the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> property is initialized to the current scheduler (see <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskFactory(CancellationToken cancellationToken)</code></pre>
@@ -130,7 +153,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The default cancellation token that will be assigned to tasks created by this <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory">TaskFactory</a> unless another cancellation token is explicitly specified when calling the factory methods.</p>
 </td>
@@ -142,12 +165,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.%23ctor(System.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskCreationOptions%2CSystem.Threading.Tasks.TaskContinuationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L205">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L482">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.#ctor(System.Threading.CancellationToken,System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskContinuationOptions,System.Threading.Tasks.TaskScheduler)">TaskFactory(CancellationToken, TaskCreationOptions, TaskContinuationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Initializes a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with the specified configuration.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>With this constructor, the <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a> property is initialized to <em>creationOptions</em>, the <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a> property is initialized to <em>continuationOptions</em>, and the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> property is initialized to <em>scheduler</em>, unless it&#39;s <strong>null</strong>, in which case the property is initialized to the current scheduler (see <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskFactory(CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)</code></pre>
@@ -163,7 +189,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The default cancellation token that will be assigned to tasks created by this <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory">TaskFactory</a> unless another cancellation token is explicitly specified when calling the factory methods.</p>
 </td>
@@ -172,18 +198,21 @@
                     <td><a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a></td>
                     <td><em>creationOptions</em></td>
                     <td><p>The default options to use when creating tasks with this <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a>.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a></td>
                     <td><em>continuationOptions</em></td>
                     <td><p>The default options to use when creating continuation tasks with this <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a>.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a></td>
                     <td><em>scheduler</em></td>
                     <td><p>The default scheduler to use to schedule any tasks created with this <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a>. A null value indicates that <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a> should be used.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -199,7 +228,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>creationOptions</em> or <em>continuationOptions</em> specifies an invalid value.</p>
+                    <td><p>
+<em>creationOptions</em> or <em>continuationOptions</em> specifies an invalid value.</p>
 </td>
                   </tr>
                 </tbody>
@@ -209,12 +239,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskContinuationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.%23ctor(System.Threading.Tasks.TaskCreationOptions%2CSystem.Threading.Tasks.TaskContinuationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L165">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L483">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskContinuationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.#ctor(System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskContinuationOptions)">TaskFactory(TaskCreationOptions, TaskContinuationOptions)</h4>
               <div class="markdown level1 summary"><p>Initializes a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with the specified configuration.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskContinuationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>With this constructor, the <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a> property is initialized to <em>creationOptions</em>, the <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a> property is initialized to <em>continuationOptions</em>, and the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> property is initialized to the current scheduler (see <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskFactory(TaskCreationOptions creationOptions, TaskContinuationOptions continuationOptions)</code></pre>
@@ -254,7 +287,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>creationOptions</em> or <em>continuationOptions</em> specifies an invalid value.</p>
+                    <td><p>
+<em>creationOptions</em> or <em>continuationOptions</em> specifies an invalid value.</p>
 </td>
                   </tr>
                 </tbody>
@@ -264,12 +298,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.%23ctor(System.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L134">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L484">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.#ctor(System.Threading.Tasks.TaskScheduler)">TaskFactory(TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Initializes a <a class="xref" href="System.Threading.Tasks.TaskFactory%601.html#System_Threading_Tasks_TaskFactory_1">TaskFactory<tresult></tresult></a> instance with the specified configuration.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1__ctor_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>With this constructor, the <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a> property is initialized to <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions_None">None</a>, the <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a> property is initialized to <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions_None">None</a>, and the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> property is initialized to <em>scheduler</em>, unless it&#39;s <strong>null</strong>, in which case the property is initialized to the current scheduler (see <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a>).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskFactory(TaskScheduler scheduler)</code></pre>
@@ -299,12 +336,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_CancellationToken.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.CancellationToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L227">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L485">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_CancellationToken" data-uid="System.Threading.Tasks.TaskFactory`1.CancellationToken">CancellationToken</h4>
               <div class="markdown level1 summary"><p>Gets the default cancellation token for this task factory.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_CancellationToken_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns the default cancellation token that will be assigned to all tasks created by this factory unless another cancellation token value is explicitly specified during the call to the task factory methods. </p>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public CancellationToken CancellationToken { get; }</code></pre>
@@ -319,7 +360,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><p>The default cancellation token for this task factory.</p>
 </td>
                   </tr>
@@ -330,12 +371,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinuationOptions.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinuationOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L259">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L486">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinuationOptions" data-uid="System.Threading.Tasks.TaskFactory`1.ContinuationOptions">ContinuationOptions</h4>
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a> enumeration value for this task factory.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinuationOptions_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns the default continuation options for this factory. They will be used to create all continuation tasks unless other options are explicitly specified during calls to this factory&#39;s methods.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskContinuationOptions ContinuationOptions { get; }</code></pre>
@@ -361,12 +405,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_CreationOptions.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.CreationOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L249">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L487">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_CreationOptions" data-uid="System.Threading.Tasks.TaskFactory`1.CreationOptions">CreationOptions</h4>
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Threading.Tasks.TaskCreationOptions.html#System_Threading_Tasks_TaskCreationOptions">TaskCreationOptions</a> enumeration value for this task factory.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_CreationOptions_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns the default creation options for this factory. They will be used to create all tasks unless other options are explicitly specified during calls to this factory&#39;s methods.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskCreationOptions CreationOptions { get; }</code></pre>
@@ -392,12 +439,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_Scheduler.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.Scheduler%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L239">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L488">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_Scheduler" data-uid="System.Threading.Tasks.TaskFactory`1.Scheduler">Scheduler</h4>
               <div class="markdown level1 summary"><p>Gets the task scheduler for this task factory.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_Scheduler_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns the default scheduler for this factory. It will be used to schedule all tasks unless another scheduler is explicitly specified during calls to this factory&#39;s methods.</p>
+<p>If this property returns <strong>null</strong>, <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a> will be used.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TaskScheduler Scheduler { get; }</code></pre>
@@ -425,12 +476,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%5B%5D%2C%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1491">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L489">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task[],`0})">ContinueWhenAll(Task[], Func&lt;Task[], TResult&gt;)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll(Task[] tasks, Func&lt;Task[], TResult&gt; continuationFunction)</code></pre>
@@ -491,12 +545,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>tasks</em> array is null.-or-The <em>continuationFunction</em> is null.</p>
+                    <td><p>
+<em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -506,12 +564,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%5B%5D%2C%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1522">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L490">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task[],`0},System.Threading.CancellationToken)">ContinueWhenAll(Task[], Func&lt;Task[], TResult&gt;, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll(Task[] tasks, Func&lt;Task[], TResult&gt; continuationFunction, CancellationToken cancellationToken)</code></pre>
@@ -539,7 +600,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -573,17 +634,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-<em>continuationFunction</em> is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>continuationFunction</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -593,12 +660,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%5B%5D%2C%600%7D%2CSystem.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskContinuationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1606">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L491">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task[],`0},System.Threading.CancellationToken,System.Threading.Tasks.TaskContinuationOptions,System.Threading.Tasks.TaskScheduler)">ContinueWhenAll(Task[], Func&lt;Task[], TResult&gt;, CancellationToken, TaskContinuationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided Tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll(Task[] tasks, Func&lt;Task[], TResult&gt; continuationFunction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)</code></pre>
@@ -626,7 +696,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -672,22 +742,30 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>continuationOptions</em> specifies an invalid value.</p>
+                    <td><p>
+<em>continuationOptions</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -697,12 +775,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_Tasks_TaskContinuationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%5B%5D%2C%600%7D%2CSystem.Threading.Tasks.TaskContinuationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1559">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L492">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_Tasks_TaskContinuationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task[],`0},System.Threading.Tasks.TaskContinuationOptions)">ContinueWhenAll(Task[], Func&lt;Task[], TResult&gt;, TaskContinuationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided Tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task____0__System_Threading_Tasks_TaskContinuationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll(Task[] tasks, Func&lt;Task[], TResult&gt; continuationFunction, TaskContinuationOptions continuationOptions)</code></pre>
@@ -769,7 +850,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -780,6 +863,7 @@
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -789,12 +873,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1634">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L493">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],`0})">ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt;)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt; continuationFunction)</code></pre>
@@ -855,12 +942,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -870,12 +960,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1666">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L494">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],`0},System.Threading.CancellationToken)">ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt;, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt; continuationFunction, CancellationToken cancellationToken)</code></pre>
@@ -903,7 +996,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -937,17 +1030,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -957,12 +1056,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%600%7D%2CSystem.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskContinuationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1754">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L495">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],`0},System.Threading.CancellationToken,System.Threading.Tasks.TaskContinuationOptions,System.Threading.Tasks.TaskScheduler)">ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt;, CancellationToken, TaskContinuationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt; continuationFunction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)</code></pre>
@@ -990,7 +1092,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -1036,12 +1138,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                   <tr>
@@ -1051,7 +1158,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -1061,12 +1171,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_Tasks_TaskContinuationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAll%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%600%7D%2CSystem.Threading.Tasks.TaskContinuationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1705">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L496">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_Tasks_TaskContinuationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAll``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],`0},System.Threading.Tasks.TaskContinuationOptions)">ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt;, TaskContinuationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of a set of provided tasks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAll__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0_____0__System_Threading_Tasks_TaskContinuationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAll&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;[], TResult&gt; continuationFunction, TaskContinuationOptions continuationOptions)</code></pre>
@@ -1133,7 +1246,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1144,6 +1259,7 @@
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -1153,12 +1269,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%2C%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1891">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L497">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task,`0})">ContinueWhenAny(Task[], Func&lt;Task, TResult&gt;)</h4>
-              <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set. </p>
+              <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny(Task[] tasks, Func&lt;Task, TResult&gt; continuationFunction)</code></pre>
@@ -1219,12 +1338,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
                     <td><p>The <em>tasks</em> array contains a null value or is empty.</p>
+<p>
 </td>
                   </tr>
                 </tbody>
@@ -1234,12 +1356,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%2C%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1922">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L498">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task,`0},System.Threading.CancellationToken)">ContinueWhenAny(Task[], Func&lt;Task, TResult&gt;, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny(Task[] tasks, Func&lt;Task, TResult&gt; continuationFunction, CancellationToken cancellationToken)</code></pre>
@@ -1267,7 +1392,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -1301,17 +1426,24 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is null.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is null.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1321,12 +1453,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%2C%600%7D%2CSystem.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskContinuationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L2006">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L499">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task,`0},System.Threading.CancellationToken,System.Threading.Tasks.TaskContinuationOptions,System.Threading.Tasks.TaskScheduler)">ContinueWhenAny(Task[], Func&lt;Task, TResult&gt;, CancellationToken, TaskContinuationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny(Task[] tasks, Func&lt;Task, TResult&gt; continuationFunction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)</code></pre>
@@ -1354,7 +1489,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -1362,7 +1497,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a></td>
                     <td><em>continuationOptions</em></td>
-                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The NotOn* or OnlyOn* values are not valid.</p>
+                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The <strong>NotOn<em></em></strong> or <strong>OnlyOn</strong> values are not valid.</p>
 </td>
                   </tr>
                   <tr>
@@ -1400,12 +1535,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                   <tr>
@@ -1415,7 +1556,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed. </p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1425,12 +1568,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_Tasks_TaskContinuationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny(System.Threading.Tasks.Task%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%2C%600%7D%2CSystem.Threading.Tasks.TaskContinuationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1959">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L500">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_Tasks_TaskContinuationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny(System.Threading.Tasks.Task[],System.Func{System.Threading.Tasks.Task,`0},System.Threading.Tasks.TaskContinuationOptions)">ContinueWhenAny(Task[], Func&lt;Task, TResult&gt;, TaskContinuationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny_System_Threading_Tasks_Task___System_Func_System_Threading_Tasks_Task__0__System_Threading_Tasks_TaskContinuationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny(Task[] tasks, Func&lt;Task, TResult&gt; continuationFunction, TaskContinuationOptions continuationOptions)</code></pre>
@@ -1460,7 +1606,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a></td>
                     <td><em>continuationOptions</em></td>
-                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The NotOn* or OnlyOn* values are not valid.</p>
+                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The <strong>NotOn<em></em></strong> or <strong>OnlyOn</strong> values are not valid.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1497,7 +1643,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1507,7 +1655,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1517,12 +1667,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%2C%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L2034">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L501">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0},`0})">ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt;)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt; continuationFunction)</code></pre>
@@ -1583,12 +1736,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1598,12 +1755,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%2C%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L2066">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L502">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0},`0},System.Threading.CancellationToken)">ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt;, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt; continuationFunction, CancellationToken cancellationToken)</code></pre>
@@ -1631,7 +1791,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -1665,17 +1825,24 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1685,12 +1852,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%2C%600%7D%2CSystem.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskContinuationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L2154">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L503">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0},`0},System.Threading.CancellationToken,System.Threading.Tasks.TaskContinuationOptions,System.Threading.Tasks.TaskScheduler)">ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt;, CancellationToken, TaskContinuationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_CancellationToken_System_Threading_Tasks_TaskContinuationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt; continuationFunction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)</code></pre>
@@ -1718,7 +1888,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new continuation task.</p>
 </td>
@@ -1726,7 +1896,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a></td>
                     <td><em>continuationOptions</em></td>
-                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The NotOn* or OnlyOn* values are not valid.</p>
+                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The <strong>NotOn<em></em></strong> or <strong>OnlyOn</strong> values are not valid.</p>
 </td>
                   </tr>
                   <tr>
@@ -1764,12 +1934,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is null.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                   <tr>
@@ -1779,7 +1955,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed. </p>
+                    <td><p>One of the elements in the <em>tasks</em> array has been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1789,12 +1967,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_Tasks_TaskContinuationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.ContinueWhenAny%60%601(System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%2C%600%7D%2CSystem.Threading.Tasks.TaskContinuationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L2105">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L504">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_Tasks_TaskContinuationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.ContinueWhenAny``1(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0},`0},System.Threading.Tasks.TaskContinuationOptions)">ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[], Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt;, TaskContinuationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a continuation task that will be started upon the completion of any task in the provided set.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_ContinueWhenAny__1_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0___0__System_Threading_Tasks_TaskContinuationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After completion, a task is in one of these states: <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_RanToCompletion">RanToCompletion</a>, <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Faulted">Faulted</a>, or <a class="xref" href="System.Threading.Tasks.TaskStatus.html#System_Threading_Tasks_TaskStatus_Canceled">Canceled</a> states.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; ContinueWhenAny&lt;TAntecedentResult&gt;(Task&lt;TAntecedentResult&gt;[] tasks, Func&lt;Task&lt;TAntecedentResult&gt;, TResult&gt; continuationFunction, TaskContinuationOptions continuationOptions)</code></pre>
@@ -1824,7 +2005,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.TaskContinuationOptions.html#System_Threading_Tasks_TaskContinuationOptions">TaskContinuationOptions</a></td>
                     <td><em>continuationOptions</em></td>
-                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The NotOn* or OnlyOn* values are not valid.</p>
+                    <td><p>One of the enumeration values that controls the behavior of the created continuation task. The <strong>NotOn<em></em></strong> or <strong>OnlyOn</strong> values are not valid.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1861,7 +2042,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>tasks</em> array is null.-or-The <em>continuationFunction</em> argument is null.</p>
+                    <td><p>The <em>tasks</em> array is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>continuationFunction</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1871,7 +2054,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>tasks</em> array contains a null value.-or-The <em>tasks</em> array is empty.</p>
+                    <td><p>The <em>tasks</em> array contains a null value.</p>
+<p>-or-</p>
+<p>The <em>tasks</em> array is empty.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1881,12 +2066,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync_System_Func_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0__System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync(System.Func%7BSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L771">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L505">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_Func_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0__System_Object_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync(System.Func{System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},System.Object)">FromAsync(Func&lt;AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, Object)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_Func_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0__System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync(Func&lt;AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, object state)</code></pre>
@@ -1948,7 +2136,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1958,12 +2148,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync_System_Func_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0__System_Object_System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync(System.Func%7BSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2CSystem.Object%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L800">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L506">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_Func_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0__System_Object_System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync(System.Func{System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},System.Object,System.Threading.Tasks.TaskCreationOptions)">FromAsync(Func&lt;AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, Object, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_Func_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0__System_Object_System_Threading_Tasks_TaskCreationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync(Func&lt;AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, object state, TaskCreationOptions creationOptions)</code></pre>
@@ -2031,7 +2224,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2046,7 +2241,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync_System_IAsyncResult_System_Func_System_IAsyncResult__0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync(System.IAsyncResult%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L607">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L507">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_IAsyncResult_System_Func_System_IAsyncResult__0__" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync(System.IAsyncResult,System.Func{System.IAsyncResult,`0})">FromAsync(IAsyncResult, Func&lt;IAsyncResult, TResult&gt;)</h4>
               <div class="markdown level1 summary"><p>Creates a task that executes an end method function when a specified <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> completes.</p>
@@ -2107,7 +2302,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>asyncResult</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>asyncResult</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2117,7 +2314,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync_System_IAsyncResult_System_Func_System_IAsyncResult__0__System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync(System.IAsyncResult%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L633">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L508">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_IAsyncResult_System_Func_System_IAsyncResult__0__System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync(System.IAsyncResult,System.Func{System.IAsyncResult,`0},System.Threading.Tasks.TaskCreationOptions)">FromAsync(IAsyncResult, Func&lt;IAsyncResult, TResult&gt;, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a task that executes an end method function when a specified <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> completes.</p>
@@ -2184,7 +2381,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>asyncResult</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>asyncResult</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2199,7 +2398,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync_System_IAsyncResult_System_Func_System_IAsyncResult__0__System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync(System.IAsyncResult%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2CSystem.Threading.Tasks.TaskCreationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L668">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L509">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync_System_IAsyncResult_System_Func_System_IAsyncResult__0__System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync(System.IAsyncResult,System.Func{System.IAsyncResult,`0},System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskScheduler)">FromAsync(IAsyncResult, Func&lt;IAsyncResult, TResult&gt;, TaskCreationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates a task that executes an end method function when a specified <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> completes.</p>
@@ -2272,7 +2471,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>asyncResult</em> argument is null.-or-The <em>endMethod</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>asyncResult</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2287,12 +2490,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync__1_System_Func___0_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync%60%601(System.Func%7B%60%600%2CSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2C%60%600%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L902">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L510">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync__1_System_Func___0_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0_System_Object_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync``1(System.Func{``0,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,System.Object)">FromAsync&lt;TArg1&gt;(Func&lt;TArg1, AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, TArg1, Object)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync__1_System_Func___0_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync&lt;TArg1&gt;(Func&lt;TArg1, AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, TArg1 arg1, object state)</code></pre>
@@ -2360,7 +2566,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2370,12 +2578,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync__1_System_Func___0_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0_System_Object_System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync%60%601(System.Func%7B%60%600%2CSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2C%60%600%2CSystem.Object%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L936">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L511">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync__1_System_Func___0_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0_System_Object_System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync``1(System.Func{``0,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,System.Object,System.Threading.Tasks.TaskCreationOptions)">FromAsync&lt;TArg1&gt;(Func&lt;TArg1, AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, TArg1, Object, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync__1_System_Func___0_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0_System_Object_System_Threading_Tasks_TaskCreationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync&lt;TArg1&gt;(Func&lt;TArg1, AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, TArg1 arg1, object state, TaskCreationOptions creationOptions)</code></pre>
@@ -2449,7 +2660,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2464,12 +2677,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync__2_System_Func___0___1_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync%60%602(System.Func%7B%60%600%2C%60%601%2CSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2C%60%600%2C%60%601%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1043">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L512">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync__2_System_Func___0___1_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1_System_Object_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync``2(System.Func{``0,``1,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,System.Object)">FromAsync&lt;TArg1, TArg2&gt;(Func&lt;TArg1, TArg2, AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, TArg1, TArg2, Object)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync__2_System_Func___0___1_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync&lt;TArg1, TArg2&gt;(Func&lt;TArg1, TArg2, AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, TArg1 arg1, TArg2 arg2, object state)</code></pre>
@@ -2543,7 +2759,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2553,12 +2771,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync__2_System_Func___0___1_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1_System_Object_System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync%60%602(System.Func%7B%60%600%2C%60%601%2CSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2C%60%600%2C%60%601%2CSystem.Object%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1081">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L513">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync__2_System_Func___0___1_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1_System_Object_System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync``2(System.Func{``0,``1,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,System.Object,System.Threading.Tasks.TaskCreationOptions)">FromAsync&lt;TArg1, TArg2&gt;(Func&lt;TArg1, TArg2, AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, TArg1, TArg2, Object, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync__2_System_Func___0___1_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1_System_Object_System_Threading_Tasks_TaskCreationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync&lt;TArg1, TArg2&gt;(Func&lt;TArg1, TArg2, AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, TArg1 arg1, TArg2 arg2, object state, TaskCreationOptions creationOptions)</code></pre>
@@ -2638,7 +2859,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2653,12 +2876,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync__3_System_Func___0___1___2_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1___2_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync%60%603(System.Func%7B%60%600%2C%60%601%2C%60%602%2CSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2C%60%600%2C%60%601%2C%60%602%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1191">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L514">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync__3_System_Func___0___1___2_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1___2_System_Object_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync``3(System.Func{``0,``1,``2,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,System.Object)">FromAsync&lt;TArg1, TArg2, TArg3&gt;(Func&lt;TArg1, TArg2, TArg3, AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, TArg1, TArg2, TArg3, Object)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync__3_System_Func___0___1___2_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1___2_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync&lt;TArg1, TArg2, TArg3&gt;(Func&lt;TArg1, TArg2, TArg3, AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, TArg1 arg1, TArg2 arg2, TArg3 arg3, object state)</code></pre>
@@ -2738,7 +2964,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2748,12 +2976,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_FromAsync__3_System_Func___0___1___2_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1___2_System_Object_System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.FromAsync%60%603(System.Func%7B%60%600%2C%60%601%2C%60%602%2CSystem.AsyncCallback%2CSystem.Object%2CSystem.IAsyncResult%7D%2CSystem.Func%7BSystem.IAsyncResult%2C%600%7D%2C%60%600%2C%60%601%2C%60%602%2CSystem.Object%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L1233">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L515">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_FromAsync__3_System_Func___0___1___2_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1___2_System_Object_System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.FromAsync``3(System.Func{``0,``1,``2,System.AsyncCallback,System.Object,System.IAsyncResult},System.Func{System.IAsyncResult,`0},``0,``1,``2,System.Object,System.Threading.Tasks.TaskCreationOptions)">FromAsync&lt;TArg1, TArg2, TArg3&gt;(Func&lt;TArg1, TArg2, TArg3, AsyncCallback, Object, IAsyncResult&gt;, Func&lt;IAsyncResult, TResult&gt;, TArg1, TArg2, TArg3, Object, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates a task that represents a pair of begin and end methods that conform to the Asynchronous Programming Model pattern.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_FromAsync__3_System_Func___0___1___2_System_AsyncCallback_System_Object_System_IAsyncResult__System_Func_System_IAsyncResult__0____0___1___2_System_Object_System_Threading_Tasks_TaskCreationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method throws any exceptions thrown by the <em>beginMethod</em>. Exceptions for <em>endmethod</em> are thrown when waiting on the returned task.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; FromAsync&lt;TArg1, TArg2, TArg3&gt;(Func&lt;TArg1, TArg2, TArg3, AsyncCallback, object, IAsyncResult&gt; beginMethod, Func&lt;IAsyncResult, TResult&gt; endMethod, TArg1 arg1, TArg2 arg2, TArg3 arg3, object state, TaskCreationOptions creationOptions)</code></pre>
@@ -2839,7 +3070,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>beginMethod</em> argument is null.-or-The <em>endMethod</em> argument is null.</p>
+                    <td><p>The <em>beginMethod</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>endMethod</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -2854,12 +3087,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L280">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L516">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{`0})">StartNew(Func&lt;TResult&gt;)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors, and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;TResult&gt; function)</code></pre>
@@ -2909,7 +3146,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2919,12 +3156,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7B%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L309">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L517">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{`0},System.Threading.CancellationToken)">StartNew(Func&lt;TResult&gt;, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;TResult&gt; function, CancellationToken cancellationToken)</code></pre>
@@ -2946,7 +3187,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new task.</p>
 </td>
@@ -2981,11 +3222,12 @@
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
                     <td><p>The cancellation token source that created<em>cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -2995,12 +3237,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7B%600%7D%2CSystem.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskCreationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L382">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L518">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{`0},System.Threading.CancellationToken,System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskScheduler)">StartNew(Func&lt;TResult&gt;, CancellationToken, TaskCreationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;TResult&gt; function, CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskScheduler scheduler)</code></pre>
@@ -3022,7 +3268,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new task.</p>
 </td>
@@ -3069,11 +3315,14 @@
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
                     <td><p>The cancellation token source that created<em>cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -3088,12 +3337,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7B%600%7D%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L340">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L519">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{`0},System.Threading.Tasks.TaskCreationOptions)">StartNew(Func&lt;TResult&gt;, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func__0__System_Threading_Tasks_TaskCreationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;TResult&gt; function, TaskCreationOptions creationOptions)</code></pre>
@@ -3149,7 +3402,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -3164,12 +3417,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7BSystem.Object%2C%600%7D%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L409">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L520">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{System.Object,`0},System.Object)">StartNew(Func&lt;Object, TResult&gt;, Object)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;object, TResult&gt; function, object state)</code></pre>
@@ -3225,7 +3482,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3235,12 +3492,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7BSystem.Object%2C%600%7D%2CSystem.Object%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L440">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L521">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_CancellationToken_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{System.Object,`0},System.Object,System.Threading.CancellationToken)">StartNew(Func&lt;Object, TResult&gt;, Object, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;object, TResult&gt; function, object state, CancellationToken cancellationToken)</code></pre>
@@ -3268,7 +3529,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new task.</p>
 </td>
@@ -3303,11 +3564,12 @@
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
                     <td><p>The cancellation token source that created<em>cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3317,12 +3579,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7BSystem.Object%2C%600%7D%2CSystem.Object%2CSystem.Threading.CancellationToken%2CSystem.Threading.Tasks.TaskCreationOptions%2CSystem.Threading.Tasks.TaskScheduler)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L517">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L522">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{System.Object,`0},System.Object,System.Threading.CancellationToken,System.Threading.Tasks.TaskCreationOptions,System.Threading.Tasks.TaskScheduler)">StartNew(Func&lt;Object, TResult&gt;, Object, CancellationToken, TaskCreationOptions, TaskScheduler)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_CancellationToken_System_Threading_Tasks_TaskCreationOptions_System_Threading_Tasks_TaskScheduler__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;object, TResult&gt; function, object state, CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskScheduler scheduler)</code></pre>
@@ -3350,7 +3616,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token that will be assigned to the new task.</p>
 </td>
@@ -3397,11 +3663,14 @@
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
                     <td><p>The cancellation token source that created<em>cancellationToken</em> has already been disposed.</p>
+<p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.-or-The <em>scheduler</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>The <em>scheduler</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -3416,12 +3685,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_Tasks_TaskCreationOptions_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskFactory%601.StartNew(System.Func%7BSystem.Object%2C%600%7D%2CSystem.Object%2CSystem.Threading.Tasks.TaskCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/FutureFactory.cs/#L473">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L523">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_Tasks_TaskCreationOptions_" data-uid="System.Threading.Tasks.TaskFactory`1.StartNew(System.Func{System.Object,`0},System.Object,System.Threading.Tasks.TaskCreationOptions)">StartNew(Func&lt;Object, TResult&gt;, Object, TaskCreationOptions)</h4>
               <div class="markdown level1 summary"><p>Creates and starts a task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskFactory_1_StartNew_System_Func_System_Object__0__System_Object_System_Threading_Tasks_TaskCreationOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>StartNew</strong> is functionally equivalent to creating a task by using one of the <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> constructors and then calling the <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task_Start">Start()</a> method to schedule it for execution.</p>
+<p>However, unless creation and scheduling must be separated, <strong>StartNew</strong> is the recommended approach for both simplicity and performance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Task&lt;TResult&gt; StartNew(Func&lt;object, TResult&gt; function, object state, TaskCreationOptions creationOptions)</code></pre>
@@ -3483,7 +3756,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>function</em> argument is null.</p>
+                    <td><p>The <em>function</em> argument is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>

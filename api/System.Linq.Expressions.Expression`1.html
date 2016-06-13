@@ -89,6 +89,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class Expression&lt;TDelegate&gt; : LambdaExpression</code></pre>
               </div>
+              <h5 id="System_Linq_Expressions_Expression_1_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>When a lambda expression is assigned to a variable, field, or parameter whose type is <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1">Expression<tdelegate></tdelegate></a>, the compiler emits instructions to build an expression tree.</p>
+<p>A conversion from a lambda expression to type Expression<d> (Expression(Of D) in Visual Basic) exists if a conversion from the lambda expression to a delegate of type D exists. However, the conversion may fail, for example, if the body of the lambda expression is a block. This means that delegates and expression trees behave similarly with regard to overload resolution.<p>
+<p>The expression tree is an in-memory data representation of the lambda expression. The expression tree makes the structure of the lambda expression transparent and explicit. You can interact with the data in the expression tree just as you can with any other data structure.</p>
+<p>The ability to treat expressions as data structures enables APIs to receive user code in a format that can be inspected, transformed, and processed in a custom manner. For example, the LINQ to SQL data access implementation uses this facility to translate expression trees to Transact-SQL statements that can be evaluated by the database.</p>
+<p>Many standard query operators defined in the <a class="xref" href="System.Linq.Queryable.html#System_Linq_Queryable">Queryable</a> class have one or more parameters of type <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1">Expression<tdelegate></tdelegate></a>.</p>
+<p>The <a class="xref" href="System.Linq.Expressions.Expression.html#System_Linq_Expressions_Expression_NodeType">NodeType</a> of an <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1">Expression<tdelegate></tdelegate></a> is <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType_Lambda">Lambda</a>.</p>
+<p>Use the <a class="xref" href="System.Linq.Expressions.Expression.html#System_Linq_Expressions_Expression_Lambda__1_System_Linq_Expressions_Expression_System_Collections_Generic_IEnumerable_System_Linq_Expressions_ParameterExpression__">Lambda<tdelegate>(Expression, Collections.Generic.IEnumerable<parameterexpression>)</parameterexpression></tdelegate></a> or <a class="xref" href="System.Linq.Expressions.Expression.html#System_Linq_Expressions_Expression_Lambda__1_System_Linq_Expressions_Expression_System_Linq_Expressions_ParameterExpression___">Lambda<tdelegate>(Expression, ParameterExpression[])</tdelegate></a> method to create an <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1">Expression<tdelegate></tdelegate></a> object.</p>
+</d></div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -148,6 +157,11 @@
               <div class="markdown level1 summary"><p>Compiles the lambda expression described by the expression tree into executable code and produces a delegate that represents the lambda expression.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Linq_Expressions_Expression_1_Compile_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1_Compile">Compile()</a> method produces a delegate of type <em>TDelegate</em> at runtime. When that delegate is executed, it has the behavior described by the semantics of the <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1">Expression<tdelegate></tdelegate></a>.</p>
+<p>The <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1_Compile">Compile()</a> method can be used to obtain the value of any expression tree. First, create a lambda expression that has the expression as its body by using the <a class="xref" href="System.Linq.Expressions.Expression.html#System_Linq_Expressions_Expression_Lambda_System_Linq_Expressions_Expression_System_Linq_Expressions_ParameterExpression___">Lambda(Expression, ParameterExpression[])</a> method. Then call <a class="xref" href="System.Linq.Expressions.Expression%601.html#System_Linq_Expressions_Expression_1_Compile">Compile()</a> to obtain a delegate, and execute the delegate to obtain the value of the expression.</p>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TDelegate Compile()</code></pre>

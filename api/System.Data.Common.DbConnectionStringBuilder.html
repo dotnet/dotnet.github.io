@@ -87,6 +87,29 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class DbConnectionStringBuilder : Collections.ICollection, Collections.IDictionary, Collections.IEnumerable, Collections.ICollection</code></pre>
               </div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class provides the base class from which the strongly typed connection string builders (<a class="xref" href="System.Data.SqlClient.SqlConnectionStringBuilder.html#System_Data_SqlClient_SqlConnectionStringBuilder">SqlConnectionStringBuilder</a>, <span class="xref">System.Data.OleDb.OleDbConnectionStringBuilder</span>, and so on) derive. The connection string builders let developers programmatically create syntactically correct connection strings, and parse and rebuild existing connection strings. </p></p>
+<p><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> has been defined in a database-agnostic manner. Because of the addition of the <a class="xref" href="System.Data.Common.html#System_Data_Common">System.Data.Common</a> namespace, developers require a base class against which they can program in order to build connection strings that can work against an arbitrary database. Therefore, the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class lets users assign arbitrary key/value pairs and pass the resulting connection string to a strongly typed provider. All the data providers that are included as part of the .NET Framework provide a strongly typed class that inherits from <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>: <a class="xref" href="System.Data.SqlClient.SqlConnectionStringBuilder.html#System_Data_SqlClient_SqlConnectionStringBuilder">SqlConnectionStringBuilder</a>, <span class="xref">System.Data.OracleClient.OracleConnectionStringBuilder</span>, <span class="xref">System.Data.Odbc.OdbcConnectionStringBuilder</span>, and <span class="xref">System.Data.OleDb.OleDbConnectionStringBuilder</span>.</p></p>
+<p><p>The developer can build, assign, and edit connection strings for any arbitrary provider. For providers that support specific key/value pairs, the connection string builder provides strongly typed properties corresponding to the known pairs. In order to support providers that require the ability to support unknown values, developers can also supply arbitrary key/value pairs.</p></p>
+<p><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class implements the <a class="xref" href="System.ComponentModel.ICustomTypeDescriptor.html#System_ComponentModel_ICustomTypeDescriptor">ICustomTypeDescriptor</a> interface. This means that the class works with Visual Studio designers at design time. When developers use the designer to build strongly typed DataSets and strongly typed connections within Visual Studio, the strongly typed connection string builder class will display the properties associated with its type and will also have converters that can map common values for known keys.</p></p>
+<p><p>Developers needing to create connection strings as part of applications can use the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class or one of its strongly typed derivatives to build and modify connection strings. The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class also makes it easy to manage connection strings stored in an application configuration file.</p></p>
+<p><p>Developers can create connection strings using either a strongly typed connection string builder class, or they can use the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class. The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> performs no checks for valid key/value pairs. Therefore, it is possible using this class to create invalid connection strings. The <a class="xref" href="System.Data.SqlClient.SqlConnectionStringBuilder.html#System_Data_SqlClient_SqlConnectionStringBuilder">SqlConnectionStringBuilder</a> supports only key/value pairs that are supported by SQL Server; trying to add invalid pairs will throw an exception.</p></p>
+<p><p>Both the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Add_System_String_System_Object_">Add(String, Object)</a> method and <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Item_System_String_">Item[String]</a> property handle tries to insert malicious entries. For example, the following code correctly escapes the nested key/value pair:</p></p>
+<p><p>[Visual Basic]</p></p>
+<pre><code>Dim builder As New System.Data.Common.DbConnectionStringBuilder
+builder("Data Source") = "(local)"
+builder("integrated sSecurity") = True
+builder("Initial Catalog") = "AdventureWorks;NewValue=Bad"</code></pre>
+<p>[C#]</p>
+<pre><code>System.Data.Common.DbConnectionStringBuilder builder = 
+new System.Data.Common.DbConnectionStringBuilder();
+builder["Data Source"] = "(local)";
+builder["integrated Security"] = true;
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";</code></pre>
+<p>The result is the following connection string that handles the invalid value in a safe manner:</p>
+<pre><code>data source=(local);integrated security=True;
+initial catalog="AdventureWorks;NewValue=Bad"</code></pre>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -117,6 +140,12 @@
               <div class="markdown level1 summary"><p>Gets or sets the connection string associated with the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_ConnectionString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property returns a semicolon-delimited list of key/value pairs stored within the collection maintained by the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>. Each pair contains the key and value, separated by an equal sign. The following example illustrates a typical connection string.</p>
+<pre><code>"Persist Security Info=False;Integrated Security=SSPI;Initial Catalog=AdventureWorks;Data Source=(local)"</code></pre>
+<p>Data providers may expect specific keys and values for each connection string property. , These values are documented individually. The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class does not validate the key/value pairs associated with its connection string, although classes that inherit from it can.</p>
+<p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_ConnectionString">ConnectionString</a> property of the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class acts generally as a mechanism for creating and parsing semicolon-delimited lists of key/value pairs separated with equal signs. It provides no validation or other support specific to connection strings. If you add items to the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> collection, the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_ConnectionString">ConnectionString</a> property will reflect the changes. If you assign a value to the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_ConnectionString">ConnectionString</a> property, the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> will try to parse the value, using the semicolon and equal-sign delimiters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ConnectionString { get; set; }</code></pre>
@@ -195,6 +224,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the value associated with the specified key.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_Item_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you set this property, if the specified key already exists in the dictionary, the value is replaced; otherwise, a new element is created.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object this[string keyword] { get; set; }</code></pre>
@@ -228,7 +260,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>The value associated with the specified key. If the specified key is not found, trying to get it returns a null reference (Nothing in Visual Basic), and trying to set it creates a new element using the specified key.Passing a null (Nothing in Visual Basic) key throws an <a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a>. Assigning a null value removes the key/value pair.</p>
+                    <td><p>The value associated with the specified key. If the specified key is not found, trying to get it returns a null reference (<strong>Nothing</strong> in Visual Basic), and trying to set it creates a new element using the specified key.</p>
+<p>Passing a null (<strong>Nothing</strong> in Visual Basic) key throws an <a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a>. Assigning a null value removes the key/value pair.</p>
 </td>
                   </tr>
                 </tbody>
@@ -244,12 +277,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>keyword</em> is a null reference (Nothing in Visual Basic).</p>
+                    <td><p>
+<em>keyword</em> is a null reference (<strong>Nothing</strong> in Visual Basic).</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>The property is set, and the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> is read-only. -or-The property is set, <em>keyword</em> does not exist in the collection, and the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> has a fixed size.</p>
+                    <td><p>The property is set, and the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> is read-only. </p>
+<p>-or-</p>
+<p>The property is set, <em>keyword</em> does not exist in the collection, and the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> has a fixed size.</p>
 </td>
                   </tr>
                 </tbody>
@@ -265,6 +301,10 @@
               <div class="markdown level1 summary"><p>Gets an <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> that contains the keys in the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_Keys_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of the values in the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> is unspecified, but it is the same order as the associated values in the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> returned by the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Values">Values</a> property.</p>
+<p>The returned <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> is not a static copy; instead, the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> refers back to the keys in the original <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>. Therefore, changes to the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> are reflected in the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.ICollection Keys { get; }</code></pre>
@@ -279,7 +319,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a></td>
+                    <td><a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">Collections.ICollection</a></td>
                     <td><p>An <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> that contains the keys in the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </td>
                   </tr>
@@ -296,6 +336,10 @@
               <div class="markdown level1 summary"><p>Gets an <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> that contains the values in the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_Values_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of the values in the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> is unspecified, but it is the same order as the associated keys in the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> returned by the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Keys">Keys</a> method.</p>
+<p>The returned <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> is not a static copy; instead, the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> refers back to the values in the original <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>. Therefore, changes to the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> are reflected in the <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.ICollection Values { get; }</code></pre>
@@ -310,7 +354,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a></td>
+                    <td><a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">Collections.ICollection</a></td>
                     <td><p>An <a class="xref" href="System.Collections.ICollection.html#System_Collections_ICollection">ICollection</a> that contains the values in the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </td>
                   </tr>
@@ -329,6 +373,10 @@
               <div class="markdown level1 summary"><p>Adds an entry with the specified key and value into the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_Add_System_String_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Item_System_String_">Item[String]</a> property can also be used to add new elements by setting the value of a key that does not exist in the dictionary. For example: <code>myCollection["myNonexistentKey"] = myValue</code>. </p>
+<p>Calling the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Add_System_String_System_Object_">Add(String, Object)</a> method by passing a null (<strong>Nothing</strong> in Visual Basic) key throws an <a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a>. However, calling the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Add_System_String_System_Object_">Add(String, Object)</a> method by passing a null value removes the key/value pair. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Add(string keyword, object value)</code></pre>
@@ -368,12 +416,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>keyword</em> is a null reference (Nothing in Visual Basic).</p>
+                    <td><p>
+<em>keyword</em> is a null reference (<strong>Nothing</strong> in Visual Basic).</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> is read-only. -or-The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> has a fixed size.</p>
+                    <td><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> is read-only. </p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> has a fixed size.</p>
 </td>
                   </tr>
                 </tbody>
@@ -389,6 +440,9 @@
               <div class="markdown level1 summary"><p>Provides an efficient and safe way to append a key and value to an existing <a class="xref" href="System.Text.StringBuilder.html#System_Text_StringBuilder">StringBuilder</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_AppendKeyValuePair_System_Text_StringBuilder_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method allows developers using a <a class="xref" href="System.Text.StringBuilder.html#System_Text_StringBuilder">StringBuilder</a> to create a collection of key/value pairs to be able to take advantage of the features included in the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> class when you add key/value pairs, without having to incur the overhead of creating and maintaining a <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> instance. The <strong>AppendKeyValuePair</strong> method formats the key and value correctly and adds the new string to the supplied <a class="xref" href="System.Text.StringBuilder.html#System_Text_StringBuilder">StringBuilder</a>. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AppendKeyValuePair(Text.StringBuilder builder, string keyword, string value)</code></pre>
@@ -434,6 +488,9 @@
               <div class="markdown level1 summary"><p>Clears the contents of the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_Clear_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Clear">Clear()</a> method removes all key/value pairs from the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> and resets all corresponding properties. This includes setting the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Count">Count</a> property to 0 and the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_ConnectionString">ConnectionString</a> property to an empty string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void Clear()</code></pre>
@@ -498,7 +555,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> contains an entry with the specified key; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> contains an entry with the specified key; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -514,7 +572,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>keyword</em> is a null reference (Nothing in Visual Basic).</p>
+                    <td><p>
+<em>keyword</em> is a null reference (<strong>Nothing</strong> in Visual Basic).</p>
 </td>
                   </tr>
                 </tbody>
@@ -530,6 +589,10 @@
               <div class="markdown level1 summary"><p>Compares the connection information in this <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> object with the connection information in the supplied object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_EquivalentTo_System_Data_Common_DbConnectionStringBuilder__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Comparisons on key names are case insensitive; value comparisons are case sensitive.</p>
+<p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_EquivalentTo_System_Data_Common_DbConnectionStringBuilder_">EquivalentTo(DbConnectionStringBuilder)</a> method returns <strong>true</strong> if the key/value pairs are equal, regardless of their order. The connection behavior of the two connection strings are equivalent, because order is never significant within connection strings. However, different order may affect connection pooling behavior of connections based on these connection strings.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool EquivalentTo(DbConnectionStringBuilder connectionStringBuilder)</code></pre>
@@ -545,7 +608,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">Common.DbConnectionStringBuilder</a></td>
+                    <td><a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a></td>
                     <td><em>connectionStringBuilder</em></td>
                     <td><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> to be compared with this <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> object.</p>
 </td>
@@ -563,7 +626,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the connection information in both of the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> objects causes an equivalent connection string; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if the connection information in both of the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> objects causes an equivalent connection string; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -579,6 +643,9 @@
               <div class="markdown level1 summary"><p>Removes the entry with the specified key from the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_Remove_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Because the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_Remove_System_String_">Remove(String)</a> method returns a value that indicates its success, it is not required to look for the key before trying to remove the key/value pair from the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool Remove(string keyword)</code></pre>
@@ -612,7 +679,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the key existed within the connection string and was removed; false if the key did not exist.</p>
+                    <td><p>
+<strong>true</strong> if the key existed within the connection string and was removed; <strong>false</strong> if the key did not exist.</p>
 </td>
                   </tr>
                 </tbody>
@@ -628,7 +696,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>keyword</em> is null (Nothing in Visual Basic)</p>
+                    <td><p>
+<em>keyword</em> is null (<strong>Nothing</strong> in Visual Basic)</p>
 </td>
                   </tr>
                   <tr>
@@ -649,6 +718,9 @@
               <div class="markdown level1 summary"><p>Indicates whether the specified key exists in this <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_ShouldSerialize_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method behaves identically to the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_ContainsKey_System_String_">ContainsKey(String)</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool ShouldSerialize(string keyword)</code></pre>
@@ -682,7 +754,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> contains an entry with the specified key; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> contains an entry with the specified key; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -729,6 +802,9 @@
               <div class="markdown level1 summary"><p>Retrieves a value corresponding to the supplied key from this <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_Common_DbConnectionStringBuilder_TryGetValue_System_String_System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_TryGetValue_System_String_System_Object__">TryGetValue(String, out Object)</a> method lets developers safely retrieve a value from a <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder">DbConnectionStringBuilder</a> without needing to first call the <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_ContainsKey_System_String_">ContainsKey(String)</a> method. Because <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_TryGetValue_System_String_System_Object__">TryGetValue(String, out Object)</a> does not raise an exception when you call it, passing in a nonexistent key, you do not have to look for a key before retrieving its value. Calling <a class="xref" href="System.Data.Common.DbConnectionStringBuilder.html#System_Data_Common_DbConnectionStringBuilder_TryGetValue_System_String_System_Object__">TryGetValue(String, out Object)</a> with a nonexistent key will place the null value (<strong>Nothing</strong> in Visual Basic) in the <em>value</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryGetValue(string keyword, out object value)</code></pre>
@@ -768,7 +844,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>keyword</em> was found within the connection string, false otherwise.</p>
+                    <td><p>
+<strong>true</strong> if <em>keyword</em> was found within the connection string, <strong>false</strong> otherwise.</p>
 </td>
                   </tr>
                 </tbody>
@@ -784,7 +861,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>keyword</em> contains a null value (Nothing in Visual Basic).</p>
+                    <td><p>
+<em>keyword</em> contains a null value (<strong>Nothing</strong> in Visual Basic).</p>
 </td>
                   </tr>
                 </tbody>

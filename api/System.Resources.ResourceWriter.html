@@ -87,6 +87,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class ResourceWriter : IDisposable</code></pre>
               </div>
+              <h5 id="System_Resources_ResourceWriter_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>
+<a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter">ResourceWriter</a> provides a default implementation of the <span class="xref">System.Resources.IResourceWriter</span> interface. It enables you to programmatically create a binary resource (.resources) file. </p>
+<p>Resources are specified as name and value pairs using the <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_AddResource_System_String_System_String_">AddResource(String, String)</a> method. Resource names are case-sensitive when used for lookups, but to more easily support authoring tools and help eliminate bugs, <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter">ResourceWriter</a> will not allow a .resources file to have names that vary only by case. The <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter">ResourceWriter</a> class enables you to create string, object, and binary resources. Binary resources can be written to the resource file as a byte array or a stream. </p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p>
+<p>To create a resources file, create a <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter">ResourceWriter</a> with a unique file name, call <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_AddResource_System_String_System_String_">AddResource(String, String)</a> at least once, call <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a> to write the resources file to disk, and then call <span class="xref">System.Resources.ResourceWriter.Close</span> to close the file. Calling <span class="xref">System.Resources.ResourceWriter.Close</span> will implicitly call <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a> if you do not explicitly call <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a>.</p>
+<p>The resources will not necessarily be written in the same order they were added.</p>
+<p>To retrieve resources from a binary .resources file created by the <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter">ResourceWriter</a> class, you can use the <a class="xref" href="System.Resources.ResourceManager.html#System_Resources_ResourceManager">ResourceManager</a> class, which lets you retrieve named resources, or the <a class="xref" href="System.Resources.ResourceReader.html#System_Resources_ResourceReader">ResourceReader</a> class, which lets you enumerate all the resources in the file. </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -138,7 +147,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>stream</em> parameter is null. </p>
+                    <td><p>The <em>stream</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -156,6 +165,10 @@
               <div class="markdown level1 summary"><p>Adds a string resource to the list of resources to be written.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Resources_ResourceWriter_AddResource_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The resource is not written until <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a> is called.</p>
+<p>You can retrieve the resources written by the <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_AddResource_System_String_System_String_">AddResource(String, String)</a> method by calling the <a class="xref" href="System.Resources.ResourceManager.html#System_Resources_ResourceManager_GetString_System_String_">GetString(String)</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void AddResource(string name, string value)</code></pre>
@@ -195,12 +208,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> (or a name that varies only by capitalization) has already been added to this ResourceWriter. </p>
+                    <td><p>
+<em>name</em> (or a name that varies only by capitalization) has already been added to this ResourceWriter. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>name</em> parameter is null. </p>
+                    <td><p>The <em>name</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -221,6 +235,9 @@
               <div class="markdown level1 summary"><p>Allows users to close the resource file or stream, explicitly releasing resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Resources_ResourceWriter_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The implementation of this method is the same as <span class="xref">System.Resources.ResourceWriter.Close</span>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -257,6 +274,13 @@
               <div class="markdown level1 summary"><p>Saves all resources to the output stream in the system default format.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Resources_ResourceWriter_Generate_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a> method is called implicitly by the <span class="xref">System.Resources.ResourceWriter.Close</span> method if it is not called by your application code.</p>
+<p>
+<a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a> can only be called once, after all calls to <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_AddResource_System_String_System_String_">AddResource(String, String)</a> and <span class="xref">System.Resources.ResourceWriter.AddResourceData(System.String,System.String,System.Byte[])</span> have been made. If an exception occurs while writing the resources, the output stream will be closed to prevent writing invalid information.</p>
+<p>
+<a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a> does not close the output stream in normal cases. Unless you are combining extra data with your .resources file or need access to the stream afterwards, you should call <span class="xref">System.Resources.ResourceWriter.Close</span> after calling <a class="xref" href="System.Resources.ResourceWriter.html#System_Resources_ResourceWriter_Generate">Generate()</a>, or simply call <span class="xref">System.Resources.ResourceWriter.Close</span>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Generate()</code></pre>

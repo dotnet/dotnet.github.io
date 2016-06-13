@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L42" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L261" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_SemaphoreSlim" data-uid="System.Threading.SemaphoreSlim">Class SemaphoreSlim
               </h1>
               <div class="markdown level0 summary"><p>Represents a lightweight alternative to <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> that limits the number of threads that can access a resource or pool of resources concurrently.</p>
@@ -87,6 +87,20 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class SemaphoreSlim : IDisposable</code></pre>
               </div>
+              <h5 id="System_Threading_SemaphoreSlim_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Semaphores are of two types: local semaphores and named system semaphores. The former is local to an app. The latter is visible throughout the operating system and is suitable for inter-process synchronization. The <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> is a lightweight alternative to the <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> class that doesn&#39;t use Windows kernel semaphores. Unlike the <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> class, the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> class doesn’t support named system semaphores. You can use it as a local semaphore only. The <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> class is the recommended semaphore for synchronization within a single app. </p>
+<p>A lightweight semaphore controls access to a pool of resources that is local to your application. When you instantiate a semaphore, you can specify the maximum number of threads that can enter the semaphore concurrently. You also specify the initial number of threads that can enter the semaphore concurrently. This defines the semaphore&#39;s count. </p>
+<p>The count is decremented each time a thread enters the semaphore, and incremented each time a thread releases the semaphore. To enter the semaphore, a thread calls one of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a> or <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a> overloads. To release the semaphore, it calls one of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> overloads. When the count reaches zero, subsequent calls to one of the <strong>Wait</strong> methods block until other threads release the semaphore. If multiple threads are blocked, there is no guaranteed order, such as FIFO or LIFO, that controls when threads enter the semaphore. </p>
+<p>The basic structure for code that uses a semaphore to protect resources is:</p>
+<pre><code>' Enter semaphore by calling one of the Wait or WaitAsync methods.
+SemaphoreSlim.Wait()
+' 
+' Execute code protected by the semaphore. 
+'
+SemaphoreSlim.Release()</code></pre>
+<p>When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created. The semaphore&#39;s count is available from the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property. </p>
+<p>The <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> class doesn’t enforce thread or task identity on calls to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a>, <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a>, and <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> methods. In addition, if the <span class="xref">System.Threading.SemaphoreSlim.</span> constructor is used to instantiate the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> object, the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property can increase beyond the value set by the constructor. It is the programmer&#39;s responsibility to ensure that calls to <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a> or <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a> methods are appropriately paired with calls to <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> methods. </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +108,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim__ctor_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.%23ctor(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L160">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L263">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim__ctor_System_Int32_" data-uid="System.Threading.SemaphoreSlim.#ctor(System.Int32)">SemaphoreSlim(Int32)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> class, specifying the initial number of requests that can be granted concurrently.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim__ctor_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>initialCount</em> parameter defines the number of concurrent requests to enter the semaphore that can be granted. However, it doesn’t define the maximum number of requests that can be granted concurrently. A   <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> object instantiated by calling this constructor doesn’t throw a <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> exception if a call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> method increases the value of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property beyond <em>initialCount</em>. This occurs if there are more calls to <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> methods than there are to <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a> or <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a> methods. To set the maximum number of concurrent requests to enter the semaphore that can be granted, call the <span class="xref">System.Threading.SemaphoreSlim.</span> constructor. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SemaphoreSlim(int initialCount)</code></pre>
@@ -133,7 +150,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>initialCount</em> is less than 0.</p>
+                    <td><p>
+<em>initialCount</em> is less than 0.</p>
 </td>
                   </tr>
                 </tbody>
@@ -143,7 +161,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim__ctor_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.%23ctor(System.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L177">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L264">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim__ctor_System_Int32_System_Int32_" data-uid="System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)">SemaphoreSlim(Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> class, specifying the initial and maximum number of requests that can be granted concurrently.</p>
@@ -188,7 +206,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>initialCount</em> is less than 0, or <em>initialCount</em> is greater than <em>maxCount</em>, or <em>maxCount</em> is equal to or less than 0.</p>
+                    <td><p>
+<em>initialCount</em> is less than 0, or <em>initialCount</em> is greater than <em>maxCount</em>, or <em>maxCount</em> is equal to or less than 0.</p>
 </td>
                   </tr>
                 </tbody>
@@ -200,12 +219,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_AvailableWaitHandle.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.AvailableWaitHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L125">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L265">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_AvailableWaitHandle" data-uid="System.Threading.SemaphoreSlim.AvailableWaitHandle">AvailableWaitHandle</h4>
               <div class="markdown level1 summary"><p>Returns a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> that can be used to wait on the semaphore.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_AvailableWaitHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this property only when you must wait on a SemaphoreSlim together with other kernel-based synchronization objects with the same wait handle. A successful wait on the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_AvailableWaitHandle">AvailableWaitHandle</a> does not imply a successful wait on the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> itself, nor does it decrement the semaphore&#39;s count. After the available wait handle is signaled, you should wait on the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> specifically.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public WaitHandle AvailableWaitHandle { get; }</code></pre>
@@ -247,12 +269,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_CurrentCount.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.CurrentCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L107">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L266">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_CurrentCount" data-uid="System.Threading.SemaphoreSlim.CurrentCount">CurrentCount</h4>
               <div class="markdown level1 summary"><p>Gets the number of remaining threads that can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> object. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_CurrentCount_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The initial value of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property is set by the call to the <see cref="Overload:System.Threading.SemaphoreSlim.#ctor"></see> class constructor. It is decremented by each call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a> or <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a> method, and incremented by each call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> method. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int CurrentCount { get; }</code></pre>
@@ -280,12 +305,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Dispose.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L846">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L267">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Dispose" data-uid="System.Threading.SemaphoreSlim.Dispose">Dispose()</h4>
               <div class="markdown level1 summary"><p>Releases all resources used by the current instance of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Call <strong>Dispose</strong> when you are finished using the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>. The <strong>Dispose</strong> method leaves the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> in an unusable state. After calling <strong>Dispose</strong>, you must release all references to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> so the garbage collector can reclaim the memory that the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> was occupying.</p>
+<p>For more information, see Cleaning Up Unmanaged Resources and Implementing a Dispose Method.</p>
+<p>Always call <strong>Dispose</strong> before you release your last reference to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> object&#39;s <strong>Finalize</strong> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -295,12 +325,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Dispose_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Dispose(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L862">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L268">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Dispose_System_Boolean_" data-uid="System.Threading.SemaphoreSlim.Dispose(System.Boolean)">Dispose(Boolean)</h4>
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, and optionally releases the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Unlike most of the members of <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Dispose_System_Boolean_">Dispose(Boolean)</a> is not thread-safe and may not be used concurrently with other members of this instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -318,7 +351,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources.</p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources.</p>
 </td>
                   </tr>
                 </tbody>
@@ -328,12 +362,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Release.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Release%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L740">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L269">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Release" data-uid="System.Threading.SemaphoreSlim.Release">Release()</h4>
               <div class="markdown level1 summary"><p>Releases the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> object once.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Release_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release">Release()</a> method increments the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. If the value of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property is zero before this method is called, the method also allows one thread or task blocked by a call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a> or <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a> method to enter the semaphore. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Release()</code></pre>
@@ -380,12 +417,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Release_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Release(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L756">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L270">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Release_System_Int32_" data-uid="System.Threading.SemaphoreSlim.Release(System.Int32)">Release(Int32)</h4>
               <div class="markdown level1 summary"><p>Releases the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a> object a specified number of times.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Release_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Release_System_Int32_">Release(Int32)</a> method increments the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by <em>releaseCount</em>. If the value of the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property is zero before this method is called, the method also allows <em>releaseCount</em> threads or tasks blocked by a call to the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait">Wait()</a> or <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_WaitAsync">WaitAsync()</a> method to enter the semaphore. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Release(int releaseCount)</code></pre>
@@ -440,7 +480,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>releaseCount</em> is less than 1.</p>
+                    <td><p>
+<em>releaseCount</em> is less than 1.</p>
 </td>
                   </tr>
                   <tr>
@@ -455,12 +496,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Wait.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Wait%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L204">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L271">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Wait" data-uid="System.Threading.SemaphoreSlim.Wait">Wait()</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until it can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Wait_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a thread or task is able to enter the semaphore, it decrements the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Wait()</code></pre>
@@ -486,12 +530,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Wait_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Wait(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L292">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L272">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Wait_System_Int32_" data-uid="System.Threading.SemaphoreSlim.Wait(System.Int32)">Wait(Int32)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until it can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a 32-bit signed integer that specifies the timeout.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Wait_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a thread or task is able to enter the semaphore, it decrements the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. </p>
+<p>If a thread or task is blocked when calling <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait_System_Int32_">Wait(Int32)</a>, and the time-out interval specified by <em>millisecondsTimeout</em> expires, the thread or task doesn’t enter the semaphore, and the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property isn’t decremented.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Wait(int millisecondsTimeout)</code></pre>
@@ -525,7 +573,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -541,7 +590,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
+                    <td><p>
+<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
 </td>
                   </tr>
                 </tbody>
@@ -551,12 +601,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Wait_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Wait(System.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L310">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L273">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Wait_System_Int32_System_Threading_CancellationToken_" data-uid="System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">Wait(Int32, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until it can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a 32-bit signed integer that specifies the timeout, while observing a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Wait_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a thread or task is able to enter the semaphore, it decrements the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. </p>
+<p>If <em>cancellationToken</em> is cancelled, or if a thread or task is blocked when calling <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait_System_Int32_System_Threading_CancellationToken_">Wait(Int32, CancellationToken)</a> and the time-out interval specified by <em>millisecondsTimeout</em> expires, the thread or task doesn’t enter the semaphore, and the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property isn’t decremented. If <em>cancellationToken</em> is cancelled, the method throws an   <a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a> exception. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Wait(int millisecondsTimeout, CancellationToken cancellationToken)</code></pre>
@@ -578,7 +632,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> to observe.</p>
 </td>
@@ -596,7 +650,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -612,12 +667,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a></td>
-                    <td><p><em>cancellationToken</em> was canceled.</p>
+                    <td><p>
+<em>cancellationToken</em> was canceled.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
+                    <td><p>
+<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
 </td>
                   </tr>
                   <tr>
@@ -632,12 +689,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Wait_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L220">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L274">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Wait_System_Threading_CancellationToken_" data-uid="System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">Wait(CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until it can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, while observing a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Wait_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a thread or task is able to enter the semaphore, it decrements the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. </p>
+<p>If <em>cancellationToken</em> is cancelled, the thread or task doesn’t enter the semaphore, and the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property isn’t decremented. Instead, the method throws an <a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a> exception. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Wait(CancellationToken cancellationToken)</code></pre>
@@ -653,7 +714,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> token to observe.</p>
 </td>
@@ -671,12 +732,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a></td>
-                    <td><p><em>cancellationToken</em> was canceled.</p>
+                    <td><p>
+<em>cancellationToken</em> was canceled.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>The current instance has already been disposed.-or-The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
+                    <td><p>The current instance has already been disposed.</p>
+<p>-or-</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created<em> cancellationToken</em> has already been disposed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -686,12 +750,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Wait_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Wait(System.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L238">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L275">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Wait_System_TimeSpan_" data-uid="System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">Wait(TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until it can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> to specify the timeout.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Wait_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a thread or task is able to enter the semaphore, it decrements the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. </p>
+<p>If a thread or task is blocked when calling <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait_System_TimeSpan_">Wait(TimeSpan)</a> and the time-out interval specified by <em>timeout</em> expires, the thread or task doesn’t enter the semaphore, and the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property isn’t decremented. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Wait(TimeSpan timeout)</code></pre>
@@ -725,7 +793,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -741,7 +810,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+                    <td><p>
+<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -756,12 +826,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_Wait_System_TimeSpan_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.Wait(System.TimeSpan%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L268">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L276">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_Wait_System_TimeSpan_System_Threading_CancellationToken_" data-uid="System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">Wait(TimeSpan, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until it can enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that specifies the timeout, while observing a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreSlim_Wait_System_TimeSpan_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If a thread or task is able to enter the semaphore, it decrements the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property by one. </p>
+<p>If <em>cancellationToken</em> is cancelled, or if a thread or task is blocked when calling <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_Wait_System_TimeSpan_System_Threading_CancellationToken_">Wait(TimeSpan, CancellationToken)</a> and the timeout interval specified by <em>timeout</em> expires, the thread or task doesn’t enter the semaphore, and the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim_CurrentCount">CurrentCount</a> property isn’t decremented. If <em>cancellationToken</em> is cancelled, the method throws an <a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a> exception. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Wait(TimeSpan timeout, CancellationToken cancellationToken)</code></pre>
@@ -783,7 +857,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> to observe.</p>
 </td>
@@ -801,7 +875,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -817,17 +892,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a></td>
-                    <td><p><em>cancellationToken</em> was canceled.</p>
+                    <td><p>
+<em>cancellationToken</em> was canceled.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+                    <td><p>
+<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>The semaphoreSlim instance has been disposed<em>.</em><em>-or-</em>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created <em>cancellationToken</em> has already been disposed.</p>
+                    <td><p>The semaphoreSlim instance has been disposed<em>.</em></p>
+<p>
+<em>-or-</em>
+</p>
+<p>The <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> that created <em>cancellationToken</em> has already been disposed.</p>
 </td>
                   </tr>
                 </tbody>
@@ -837,7 +918,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_WaitAsync.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.WaitAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L479">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L277">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_WaitAsync" data-uid="System.Threading.SemaphoreSlim.WaitAsync">WaitAsync()</h4>
               <div class="markdown level1 summary"><p>Asynchronously waits to enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>. </p>
@@ -857,7 +938,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><p>A task that will complete when the semaphore has been entered.</p>
 </td>
                   </tr>
@@ -868,7 +949,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_WaitAsync_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.WaitAsync(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L516">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L278">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_WaitAsync_System_Int32_" data-uid="System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">WaitAsync(Int32)</h4>
               <div class="markdown level1 summary"><p>Asynchronously waits to enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a 32-bit signed integer to measure the time interval. </p>
@@ -906,8 +987,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
-                    <td><p>A task that will complete with a result of true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of false.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><p>A task that will complete with a result of <strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -928,7 +1009,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
+                    <td><p>
+<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
 </td>
                   </tr>
                 </tbody>
@@ -938,7 +1020,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_WaitAsync_System_Int32_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.WaitAsync(System.Int32%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L597">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L279">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_WaitAsync_System_Int32_System_Threading_CancellationToken_" data-uid="System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">WaitAsync(Int32, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Asynchronously waits to enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a 32-bit signed integer to measure the time interval, while observing a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>. </p>
@@ -965,7 +1047,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> to observe.</p>
 </td>
@@ -982,8 +1064,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
-                    <td><p>A task that will complete with a result of true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of false. </p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><p>A task that will complete with a result of <strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -999,7 +1081,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out. </p>
+                    <td><p>
+<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out. </p>
 </td>
                   </tr>
                   <tr>
@@ -1009,7 +1092,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a></td>
-                    <td><p><em>cancellationToken</em> was canceled. </p>
+                    <td><p>
+<em>cancellationToken</em> was canceled. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1019,7 +1103,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_WaitAsync_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L495">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L280">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_WaitAsync_System_Threading_CancellationToken_" data-uid="System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)">WaitAsync(CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Asynchronously waits to enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, while observing a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>. </p>
@@ -1040,7 +1124,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> token to observe.</p>
 </td>
@@ -1057,7 +1141,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><p>A task that will complete when the semaphore has been entered. </p>
 </td>
                   </tr>
@@ -1079,7 +1163,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a></td>
-                    <td><p><em>cancellationToken</em> was canceled. </p>
+                    <td><p>
+<em>cancellationToken</em> was canceled. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1089,7 +1174,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_WaitAsync_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L544">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L281">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_WaitAsync_System_TimeSpan_" data-uid="System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">WaitAsync(TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Asynchronously waits to enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> to measure the time interval.</p>
@@ -1127,8 +1212,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
-                    <td><p>A task that will complete with a result of true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of false.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><p>A task that will complete with a result of <strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1149,7 +1234,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+                    <td><p>
+<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out </p>
+<p>-or- </p>
+<p>timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1159,7 +1247,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreSlim_WaitAsync_System_TimeSpan_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs/#L565">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L282">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreSlim_WaitAsync_System_TimeSpan_System_Threading_CancellationToken_" data-uid="System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">WaitAsync(TimeSpan, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Asynchronously waits to enter the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> to measure the time interval, while observing a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>.</p>
@@ -1186,7 +1274,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> token to observe.</p>
 </td>
@@ -1203,8 +1291,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
-                    <td><p>A task that will complete with a result of true if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of false.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><p>A task that will complete with a result of <strong>true</strong> if the current thread successfully entered the <a class="xref" href="System.Threading.SemaphoreSlim.html#System_Threading_SemaphoreSlim">SemaphoreSlim</a>, otherwise with a result of <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1220,12 +1308,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out-or-timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+                    <td><p>
+<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out</p>
+<p>-or-</p>
+<p>timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a></td>
-                    <td><p><em>cancellationToken</em> was canceled. </p>
+                    <td><p>
+<em>cancellationToken</em> was canceled. </p>
 </td>
                   </tr>
                 </tbody>

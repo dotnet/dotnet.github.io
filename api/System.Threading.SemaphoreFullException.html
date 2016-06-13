@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreFullException.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreFullException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreFullException.cs/#L10" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L255" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_SemaphoreFullException" data-uid="System.Threading.SemaphoreFullException">Class SemaphoreFullException
               </h1>
               <div class="markdown level0 summary"><p>The exception that is thrown when the <see cref="Overload:System.Threading.Semaphore.Release"></see> method is called on a semaphore whose count is already at the maximum. </p>
@@ -87,6 +87,13 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class SemaphoreFullException : Exception</code></pre>
               </div>
+              <h5 id="System_Threading_SemaphoreFullException_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The count on a semaphore is decremented each time a thread enters the semaphore, and incremented when a thread releases the semaphore. When the count is zero, subsequent requests block until other threads release the semaphore. When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created. If a programming error causes a thread to call the <see cref="Overload:System.Threading.Semaphore.Release"></see> method at this point, a <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> is thrown.</p>
+<p>The <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> class does not enforce thread identity on calls to the <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> and <see cref="Overload:System.Threading.Semaphore.Release"></see> methods. It is not necessary for the same thread that called <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> to call <see cref="Overload:System.Threading.Semaphore.Release"></see>.</p>
+<p>
+<a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> does not necessarily indicate a problem with the code where the exception occurred. Consider the following scenario: Thread A and thread B enter a semaphore that has a maximum count of two. A programming error in thread B causes it to call <see cref="Overload:System.Threading.Semaphore.Release"></see> twice, so that the count on the semaphore is full. As a result, when thread A eventually calls <see cref="Overload:System.Threading.Semaphore.Release"></see>, a <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> is thrown.</p>
+<p>For a list of initial property values for an instance of the <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> class, see the <span class="xref">System.Threading.SemaphoreFullException.</span> constructor.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +101,32 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreFullException__ctor.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreFullException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreFullException.cs/#L15">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L257">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreFullException__ctor" data-uid="System.Threading.SemaphoreFullException.#ctor">SemaphoreFullException()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> class with default values.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreFullException__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;Adding the given count to the semaphore would cause it to exceed its maximum count.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of the <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> class.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The system-supplied error message string. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SemaphoreFullException()</code></pre>
@@ -109,12 +136,33 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreFullException__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreFullException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreFullException.cs/#L18">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L258">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreFullException__ctor_System_String_" data-uid="System.Threading.SemaphoreFullException.#ctor(System.String)">SemaphoreFullException(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> class with a specified error message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreFullException__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of <em>message</em> is a text string intended to inform the user about the exception. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of the <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> class initialized with this constructor.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>
+<em>message</em>. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SemaphoreFullException(string message)</code></pre>
@@ -142,12 +190,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SemaphoreFullException__ctor_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.Threading.SemaphoreFullException.%23ctor(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreFullException.cs/#L21">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L259">View Source</a>
               </span>
               <h4 id="System_Threading_SemaphoreFullException__ctor_System_String_System_Exception_" data-uid="System.Threading.SemaphoreFullException.#ctor(System.String,System.Exception)">SemaphoreFullException(String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.SemaphoreFullException.html#System_Threading_SemaphoreFullException">SemaphoreFullException</a> class with a specified error message and a reference to the inner exception that is the cause of this exception.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_SemaphoreFullException__ctor_System_String_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or <strong>null</strong> if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SemaphoreFullException(string message, Exception innerException)</code></pre>
@@ -171,7 +222,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>innerException</em></td>
-                    <td><p>The exception that is the cause of the current exception. If the <em>innerException</em> parameter is not null, the current exception is raised in a catch block that handles the inner exception.</p>
+                    <td><p>The exception that is the cause of the current exception. If the <em>innerException</em> parameter is not <strong>null</strong>, the current exception is raised in a <strong>catch</strong> block that handles the inner exception.</p>
 </td>
                   </tr>
                 </tbody>

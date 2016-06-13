@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L19" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L11" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_AbandonedMutexException" data-uid="System.Threading.AbandonedMutexException">Class AbandonedMutexException
               </h1>
               <div class="markdown level0 summary"><p>The exception that is thrown when one thread acquires a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that another thread has abandoned by exiting without releasing it.</p>
@@ -87,6 +87,11 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class AbandonedMutexException : Exception</code></pre>
               </div>
+              <h5 id="System_Threading_AbandonedMutexException_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>When a thread abandons a mutex, the exception is thrown in the next thread that acquires the mutex. The thread might acquire the mutex because it was already waiting on the mutex or because it enters the mutex at a later time.</p>
+<p>An abandoned mutex indicates a serious programming error. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. Prior to version 2.0 of the .NET Framework, such problems were hard to discover because no exception was thrown if a wait completed as the result of an abandoned mutex. For more information, see the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class.</p>
+<p>The next thread to request ownership of the mutex can handle this exception and proceed, provided that the integrity of the data structures can be verified.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +99,45 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException__ctor.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L26">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L13">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException__ctor" data-uid="System.Threading.AbandonedMutexException.#ctor">AbandonedMutexException()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> class with default values.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;The wait completed due to an abandoned mutex.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>The system-supplied error message string. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_Mutex">Mutex</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_MutexIndex">MutexIndex</a>
+</p>
+</td><td>
+<p>–1 (minus one).</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AbandonedMutexException()</code></pre>
@@ -109,12 +147,46 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException__ctor_System_Int32_System_Threading_WaitHandle_.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.%23ctor(System.Int32%2CSystem.Threading.WaitHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L41">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L14">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException__ctor_System_Int32_System_Threading_WaitHandle_" data-uid="System.Threading.AbandonedMutexException.#ctor(System.Int32,System.Threading.WaitHandle)">AbandonedMutexException(Int32, WaitHandle)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> class with a specified index for the abandoned mutex, if applicable, and a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the mutex.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException__ctor_System_Int32_System_Threading_WaitHandle__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;The wait completed due to an abandoned mutex.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> initialized with this constructor.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>A system-supplied error message string.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_Mutex">Mutex</a>
+</p>
+</td><td>
+<p>
+<em>handle</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_MutexIndex">MutexIndex</a>
+</p>
+</td><td>
+<p>
+<em>location</em>.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AbandonedMutexException(int location, WaitHandle handle)</code></pre>
@@ -148,12 +220,46 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L31">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L15">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException__ctor_System_String_" data-uid="System.Threading.AbandonedMutexException.#ctor(System.String)">AbandonedMutexException(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> class with a specified error message.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of <em>message</em> is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> initialized with this constructor.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>
+<em>message</em>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_Mutex">Mutex</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_MutexIndex">MutexIndex</a>
+</p>
+</td><td>
+<p>–1 (minus one).</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AbandonedMutexException(string message)</code></pre>
@@ -181,12 +287,47 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException__ctor_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.%23ctor(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L36">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L16">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException__ctor_System_String_System_Exception_" data-uid="System.Threading.AbandonedMutexException.#ctor(System.String,System.Exception)">AbandonedMutexException(String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> class with a specified error message and inner exception. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException__ctor_System_String_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of <em>message</em> is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or <strong>null</strong> if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> initialized with this constructor.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<em>inner</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>
+<em>message</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_Mutex">Mutex</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_MutexIndex">MutexIndex</a>
+</p>
+</td><td>
+<p>–1 (minus one).</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AbandonedMutexException(string message, Exception inner)</code></pre>
@@ -210,7 +351,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>inner</em></td>
-                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not null, the current exception is raised in a catch block that handles the inner exception.</p>
+                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not <strong>null</strong>, the current exception is raised in a <strong>catch</strong> block that handles the inner exception.</p>
 </td>
                   </tr>
                 </tbody>
@@ -220,12 +361,48 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException__ctor_System_String_System_Exception_System_Int32_System_Threading_WaitHandle_.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.%23ctor(System.String%2CSystem.Exception%2CSystem.Int32%2CSystem.Threading.WaitHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L53">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L17">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException__ctor_System_String_System_Exception_System_Int32_System_Threading_WaitHandle_" data-uid="System.Threading.AbandonedMutexException.#ctor(System.String,System.Exception,System.Int32,System.Threading.WaitHandle)">AbandonedMutexException(String, Exception, Int32, WaitHandle)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> class with a specified error message, the inner exception, the index for the abandoned mutex, if applicable, and a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the mutex.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException__ctor_System_String_System_Exception_System_Int32_System_Threading_WaitHandle__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of <em>message</em> is a text string intended to inform the user about the exception. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or <strong>null</strong> if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> initialized with this constructor.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<em>inner</em>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>
+<em>message</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_Mutex">Mutex</a>
+</p>
+</td><td>
+<p>
+<em>handle</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_MutexIndex">MutexIndex</a>
+</p>
+</td><td>
+<p>
+<em>location</em>.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AbandonedMutexException(string message, Exception inner, int location, WaitHandle handle)</code></pre>
@@ -249,7 +426,7 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>inner</em></td>
-                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not null, the current exception is raised in a catch block that handles the inner exception.</p>
+                    <td><p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not <strong>null</strong>, the current exception is raised in a <strong>catch</strong> block that handles the inner exception.</p>
 </td>
                   </tr>
                   <tr>
@@ -271,12 +448,47 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException__ctor_System_String_System_Int32_System_Threading_WaitHandle_.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.%23ctor(System.String%2CSystem.Int32%2CSystem.Threading.WaitHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L47">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L18">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException__ctor_System_String_System_Int32_System_Threading_WaitHandle_" data-uid="System.Threading.AbandonedMutexException.#ctor(System.String,System.Int32,System.Threading.WaitHandle)">AbandonedMutexException(String, Int32, WaitHandle)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> class with a specified error message, the index of the abandoned mutex, if applicable, and the abandoned mutex. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException__ctor_System_String_System_Int32_System_Threading_WaitHandle__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of <em>message</em> is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> initialized with this constructor.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>
+<strong>null</strong>. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>
+</p>
+</td><td>
+<p>
+<em>message</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_Mutex">Mutex</a>
+</p>
+</td><td>
+<p>
+<em>handle</em>.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException_MutexIndex">MutexIndex</a>
+</p>
+</td><td>
+<p>
+<em>location</em>.</p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AbandonedMutexException(string message, int location, WaitHandle handle)</code></pre>
@@ -318,12 +530,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException_Mutex.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.Mutex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L69">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L19">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException_Mutex" data-uid="System.Threading.AbandonedMutexException.Mutex">Mutex</h4>
               <div class="markdown level1 summary"><p>Gets the abandoned mutex that caused the exception, if known.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException_Mutex_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the exception is thrown on a call to the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method, the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> returned is the abandoned mutex with the lowest index in the array of <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> objects that was passed to <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see>, or <strong>null</strong> if the abandoned mutex could not be identified. If the exception is thrown on a call to <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> or <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see>, this property always returns <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Mutex Mutex { get; }</code></pre>
@@ -339,7 +554,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a></td>
-                    <td><p>A <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the abandoned mutex, or null if the abandoned mutex could not be identified.</p>
+                    <td><p>A <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> object that represents the abandoned mutex, or <strong>null</strong> if the abandoned mutex could not be identified.</p>
 </td>
                   </tr>
                 </tbody>
@@ -349,12 +564,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AbandonedMutexException_MutexIndex.md&amp;value=---%0Auid%3A%20System.Threading.AbandonedMutexException.MutexIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AbandonedMutexException.cs/#L76">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L20">View Source</a>
               </span>
               <h4 id="System_Threading_AbandonedMutexException_MutexIndex" data-uid="System.Threading.AbandonedMutexException.MutexIndex">MutexIndex</h4>
               <div class="markdown level1 summary"><p>Gets the index of the abandoned mutex that caused the exception, if known.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_AbandonedMutexException_MutexIndex_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the exception is thrown on a call to the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method, this property returns the index of the abandoned mutex with the lowest index in the array of <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> objects that was passed to <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see>, or –1 if the abandoned mutex could not be identified. If the exception is thrown on a call to <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> or <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see>, this property always returns –1.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int MutexIndex { get; }</code></pre>

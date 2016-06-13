@@ -73,7 +73,8 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.Windows.cs/#L7" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Diagnostics_Stopwatch" data-uid="System.Diagnostics.Stopwatch">Class Stopwatch
               </h1>
-              <div class="markdown level0 summary"><p>Provides a set of methods and properties that you can use to accurately measure elapsed time.To browse the .NET Framework source code for this type, see the Reference Source.</p>
+              <div class="markdown level0 summary"><p>Provides a set of methods and properties that you can use to accurately measure elapsed time.</p>
+<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs#ceb0ba9cc88de82e">Reference Source</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +88,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Stopwatch : object</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Stopwatch_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs#ceb0ba9cc88de82e">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>A <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance can measure elapsed time for one interval, or the total of elapsed time across multiple intervals. In a typical <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> scenario, you call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> method, then eventually call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> method, and then you check elapsed time using the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a> property.</p>
+<p>A <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is either running or stopped; use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_IsRunning">IsRunning</a> to determine the current state of a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a>. Use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> to begin measuring elapsed time; use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> to stop measuring elapsed time. Query the elapsed time value through the properties <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a>, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedMilliseconds">ElapsedMilliseconds</a>, or <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a>. You can query the elapsed time properties while the instance is running or stopped. The elapsed time properties steadily increase while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> is running; they remain constant when the instance is stopped.</p>
+<p>By default, the elapsed time value of a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance equals the total of all measured time intervals. Each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> begins counting at the cumulative elapsed time; each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> ends the current interval measurement and freezes the cumulative elapsed time value. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> method to clear the cumulative elapsed time in an existing <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance.</p>
+<p>The <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> measures elapsed time by counting timer ticks in the underlying timer mechanism. If the installed hardware and operating system support a high-resolution performance counter, then the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class uses that counter to measure elapsed time. Otherwise, the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class uses the system timer to measure elapsed time. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> and <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_IsHighResolution">IsHighResolution</a> fields to determine the precision and resolution of the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> timing implementation.</p>
+<p>The <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class assists the manipulation of timing-related performance counters within managed code. Specifically, the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> field and <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_GetTimestamp">GetTimestamp()</a> method can be used in place of the unmanaged Win32 APIs <strong>QueryPerformanceFrequency</strong> and <strong>QueryPerformanceCounter</strong>.</p>
+<p>On a multiprocessor computer, it does not matter which processor the thread runs on. However, because of bugs in the BIOS or the Hardware Abstraction Layer (HAL), you can get different timing results on different processors. To specify processor affinity for a thread, use the <a class="xref" href="System.Diagnostics.ProcessThread.html#System_Diagnostics_ProcessThread_ProcessorAffinity">ProcessorAffinity</a> method.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +110,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The returned <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is stopped, and the elapsed time property of the instance is zero.</p>
+<p>Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> method to begin measuring elapsed time with the new <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_StartNew">StartNew()</a> method to initialize a new <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance and immediately start it.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Stopwatch()</code></pre>
@@ -117,6 +131,11 @@
               <div class="markdown level1 summary"><p>Gets the frequency of the timer as the number of ticks per second. This field is read-only.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_Frequency_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The timer frequency indicates the timer precision and resolution. For example, a timer frequency of 2 million ticks per second equals a timer resolution of 500 nanoseconds per tick. In other words, because one second equals 1 billion nanoseconds, a timer frequency of 2 million ticks per second is equivalent to 2 million ticks per 1 billion nanoseconds, which can be further simplified to 1 tick per 500 nanoseconds.</p>
+<p>The <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> value depends on the resolution of the underlying timing mechanism. If the installed hardware and operating system support a high-resolution performance counter, then the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> value reflects the frequency of that counter. Otherwise, the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> value is based on the system timer frequency.</p>
+<p>Because the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> frequency depends on the installed hardware and operating system, the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> value remains constant while the system is running.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly long Frequency</code></pre>
@@ -132,6 +151,9 @@
               <div class="markdown level1 summary"><p>Indicates whether the timer is based on a high-resolution performance counter. This field is read-only.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_IsHighResolution_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The timer used by the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class depends on the system hardware and operating system. <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_IsHighResolution">IsHighResolution</a> is <strong>true</strong> if the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> timer is based on a high-resolution performance counter. Otherwise, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_IsHighResolution">IsHighResolution</a> is <strong>false</strong>, which indicates that the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> timer is based on the system timer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly bool IsHighResolution</code></pre>
@@ -149,6 +171,12 @@
               <div class="markdown level1 summary"><p>Gets the total elapsed time measured by the current instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_Elapsed_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In a typical <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> scenario, you call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> method, then eventually call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> method, and then you check elapsed time using the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a> property.</p>
+<p>Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a> property to retrieve the elapsed time value using <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> methods and properties. For example, you can format the returned <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> instance into a text representation, or pass it to another class that requires a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> parameter.</p>
+<p>You can query the properties <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a>, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedMilliseconds">ElapsedMilliseconds</a>, and <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a> while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is running or stopped. The elapsed time properties steadily increase while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> is running; they remain constant when the instance is stopped.</p>
+<p>By default, the elapsed time value of a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance equals the total of all measured time intervals. Each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> begins counting at the cumulative elapsed time; each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> ends the current interval measurement and freezes the cumulative elapsed time value. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> method to clear the cumulative elapsed time in an existing <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TimeSpan Elapsed { get; }</code></pre>
@@ -180,6 +208,11 @@
               <div class="markdown level1 summary"><p>Gets the total elapsed time measured by the current instance, in milliseconds.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_ElapsedMilliseconds_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property represents elapsed time rounded down to the nearest whole millisecond value. For higher precision measurements, use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a> or <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a> properties.</p>
+<p>You can query the properties <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a>, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedMilliseconds">ElapsedMilliseconds</a>, and <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a> while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is running or stopped. The elapsed time properties steadily increase while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> is running; they remain constant when the instance is stopped.</p>
+<p>By default, the elapsed time value of a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance equals the total of all measured time intervals. Each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> begins counting at the cumulative elapsed time; each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> ends the current interval measurement and freezes the cumulative elapsed time value. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> method to clear the cumulative elapsed time in an existing <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long ElapsedMilliseconds { get; }</code></pre>
@@ -211,6 +244,13 @@
               <div class="markdown level1 summary"><p>Gets the total elapsed time measured by the current instance, in timer ticks.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_ElapsedTicks_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property represents the number of elapsed ticks in the underlying timer mechanism. A tick is the smallest unit of time that the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> timer can measure. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a> field to convert the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a> value into a number of seconds.</p>
+<p>You can query the properties <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a>, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedMilliseconds">ElapsedMilliseconds</a>, and <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a> while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is running or stopped. The elapsed time properties steadily increase while the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> is running; they remain constant when the instance is stopped.</p>
+<p>By default, the elapsed time value of a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance equals the total of all measured time intervals. Each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> begins counting at the cumulative elapsed time; each call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> ends the current interval measurement and freezes the cumulative elapsed time value. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> method to clear the cumulative elapsed time in an existing <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance.</p>
+<p>
+<a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> ticks are different from <a class="xref" href="System.DateTime.html#System_DateTime_Ticks">Ticks</a>. Each tick in the <a class="xref" href="System.DateTime.html#System_DateTime_Ticks">Ticks</a> value represents one 100-nanosecond interval. Each tick in the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_ElapsedTicks">ElapsedTicks</a> value represents the time interval equal to 1 second divided by the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Frequency">Frequency</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long ElapsedTicks { get; }</code></pre>
@@ -242,6 +282,9 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> timer is running.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_IsRunning_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance begins running with a call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> or <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_StartNew">StartNew()</a>. The instance stops running with a call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> or <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsRunning { get; }</code></pre>
@@ -257,7 +300,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is currently running and measuring elapsed time for an interval; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance is currently running and measuring elapsed time for an interval; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -275,6 +319,9 @@
               <div class="markdown level1 summary"><p>Gets the current number of ticks in the timer mechanism.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_GetTimestamp_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class uses a high-resolution performance counter, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_GetTimestamp">GetTimestamp()</a> returns the current value of that counter. If the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> class uses the system timer, <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_GetTimestamp">GetTimestamp()</a> returns the current <a class="xref" href="System.DateTime.html#System_DateTime_Ticks">Ticks</a> property of the <a class="xref" href="System.DateTime.html#System_DateTime_Now">Now</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static long GetTimestamp()</code></pre>
@@ -306,6 +353,9 @@
               <div class="markdown level1 summary"><p>Stops time interval measurement and resets the elapsed time to zero.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_Reset_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance calculates and retains the cumulative elapsed time across multiple time intervals, until the instance is reset. Use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> to stop the current interval measurement and retain the cumulative elapsed time value. Use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> to stop any interval measurement in progress and clear the elapsed time value. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Reset()</code></pre>
@@ -321,6 +371,9 @@
               <div class="markdown level1 summary"><p>Stops time interval measurement, resets the elapsed time to zero, and starts measuring elapsed time.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_Restart_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance calculates and retains the cumulative elapsed time across multiple time intervals, until the instance is reset or restarted. Use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> to stop the current interval measurement and retain the cumulative elapsed time value. Use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> to stop any interval measurement in progress and clear the elapsed time value. Use <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Restart">Restart()</a> to stop current interval measurement and start a new interval measurement.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Restart()</code></pre>
@@ -336,6 +389,11 @@
               <div class="markdown level1 summary"><p>Starts, or resumes, measuring elapsed time for an interval.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_Start_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In a typical <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> scenario, you call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> method, then eventually call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> method, and then you check elapsed time using the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a> property.</p>
+<p>Once started, a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> timer measures the current interval, in elapsed timer ticks, until the instance is stopped or reset. Starting a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> that is already running does not change the timer state or reset the elapsed time properties.</p>
+<p>When a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance measures more than one interval, the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> method resumes measuring time from the current elapsed time value. A <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance calculates and retains the cumulative elapsed time across multiple time intervals, until the instance is reset. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> method before calling <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> to clear the cumulative elapsed time in a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Restart">Restart()</a> method to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> and <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> with a single command.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Start()</code></pre>
@@ -351,6 +409,9 @@
               <div class="markdown level1 summary"><p>Initializes a new <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance, sets the elapsed time property to zero, and starts measuring elapsed time.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_StartNew_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to calling the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> constructor and then calling <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> on the new instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Stopwatch StartNew()</code></pre>
@@ -382,6 +443,11 @@
               <div class="markdown level1 summary"><p>Stops measuring elapsed time for an interval.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Stopwatch_Stop_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>In a typical <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> scenario, you call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> method, then eventually call the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> method, and then you check elapsed time using the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Elapsed">Elapsed</a> property.</p>
+<p>The <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> method ends the current time interval measurement. Stopping a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> that is not running does not change the timer state or reset the elapsed time properties.</p>
+<p>When a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance measures more than one interval, the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Stop">Stop()</a> method is equivalent to pausing the elapsed time measurement. A subsequent call to <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Start">Start()</a> resumes measuring time from the current elapsed time value. Use the <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch_Reset">Reset()</a> method to clear the cumulative elapsed time in a <a class="xref" href="System.Diagnostics.Stopwatch.html#System_Diagnostics_Stopwatch">Stopwatch</a> instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Stop()</code></pre>

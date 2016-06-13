@@ -70,10 +70,11 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader.md&amp;value=---%0Auid%3A%20System.IO.StreamReader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L32" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L186" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IO_StreamReader" data-uid="System.IO.StreamReader">Class StreamReader
               </h1>
-              <div class="markdown level0 summary"><p>Implements a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a> that reads characters from a byte stream in a particular encoding.To browse the .NET Framework source code for this type, see the Reference Source.</p>
+              <div class="markdown level0 summary"><p>Implements a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a> that reads characters from a byte stream in a particular encoding.</p>
+<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/io/streamreader.cs#b5fe1efcec14de32">Reference Source</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -88,6 +89,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class StreamReader : TextReader</code></pre>
               </div>
+              <h5 id="System_IO_StreamReader_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/io/streamreader.cs#b5fe1efcec14de32">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>
+<a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> is designed for character input in a particular encoding, whereas the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> class is designed for byte input and output. Use <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> for reading lines of information from a standard text file.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a>  method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic. </p>
+<p>
+<a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> defaults to UTF-8 encoding unless specified otherwise, instead of defaulting to the ANSI code page for the current system. UTF-8 handles Unicode characters correctly and provides consistent results on localized versions of the operating system. If you get the current character encoding using the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_CurrentEncoding">CurrentEncoding</a> property, the value is not reliable until after the first <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read">Read()</a> method, since encoding auto detection is not done until the first call to a <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read">Read()</a> method.</p>
+<p>By default, a <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> is not thread safe. See <span class="xref">System.IO.TextReader.Synchronized(System.IO.TextReader)</span> for a thread-safe wrapper.</p>
+<p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read_System_Char___System_Int32_System_Int32_">Read(Char[], Int32, Int32)</a>  and <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter_Write_System_Char___System_Int32_System_Int32_">Write(Char[], Int32, Int32)</a>  method overloads read and write the number of characters specified by the <em>count</em> parameter. These are to be distinguished from <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> and <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a>, which read and write the number of bytes specified by the <em>count</em> parameter. Use the <a class="xref" href="System.IO.BufferedStream.html#System_IO_BufferedStream">BufferedStream</a> methods only for reading and writing an integral number of byte array elements.</p>
+<p>When reading from a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, it is more efficient to use a buffer that is the same size as the internal buffer of the stream.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,12 +108,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader__ctor_System_IO_Stream_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.%23ctor(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L131">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L189">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader__ctor_System_IO_Stream_" data-uid="System.IO.StreamReader.#ctor(System.IO.Stream)">StreamReader(Stream)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class for the specified stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader__ctor_System_IO_Stream__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor initializes the encoding to <a class="xref" href="System.Text.UTF8Encoding.html#System_Text_UTF8Encoding">UTF8Encoding</a>, the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_BaseStream">BaseStream</a> property using the <em>stream</em> parameter, and the internal buffer size to 1024 bytes.</p>
+<p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object calls <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Dispose">Dispose()</a> on the provided <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object when <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> is called. </p>
+<p>When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public StreamReader(Stream stream)</code></pre>
@@ -134,12 +153,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> does not support reading. </p>
+                    <td><p>
+<em>stream</em> does not support reading. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> is null. </p>
+                    <td><p>
+<em>stream</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -149,12 +170,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader__ctor_System_IO_Stream_System_Boolean_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.%23ctor(System.IO.Stream%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L135">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L190">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Boolean_" data-uid="System.IO.StreamReader.#ctor(System.IO.Stream,System.Boolean)">StreamReader(Stream, Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class for the specified stream, with the specified byte order mark detection option.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor initializes the encoding to <a class="xref" href="System.Text.UTF8Encoding.html#System_Text_UTF8Encoding">UTF8Encoding</a>, the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_BaseStream">BaseStream</a> property using the <em>stream</em> parameter, and the internal buffer size to 1024 bytes.</p>
+<p>The <em>detectEncodingFromByteOrderMarks</em> parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. See the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetPreamble">GetPreamble()</a> method for more information.</p>
+<p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object calls <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Dispose">Dispose()</a> on the provided <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object when <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> is called.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public StreamReader(Stream stream, bool detectEncodingFromByteOrderMarks)</code></pre>
@@ -194,12 +221,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> does not support reading. </p>
+                    <td><p>
+<em>stream</em> does not support reading. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> is null. </p>
+                    <td><p>
+<em>stream</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -209,12 +238,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.%23ctor(System.IO.Stream%2CSystem.Text.Encoding)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L139">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L191">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_" data-uid="System.IO.StreamReader.#ctor(System.IO.Stream,System.Text.Encoding)">StreamReader(Stream, Text.Encoding)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class for the specified stream, with the specified character encoding.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The character encoding is set by the <em>encoding</em> parameter, and the buffer size is set to 1024 bytes. The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object attempts to  detect the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetPreamble">GetPreamble()</a> method for more information.</p>
+<p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object calls <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Dispose">Dispose()</a> on the provided <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object when <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> is called.</p>
+<p>When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public StreamReader(Stream stream, Text.Encoding encoding)</code></pre>
@@ -254,12 +289,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> does not support reading. </p>
+                    <td><p>
+<em>stream</em> does not support reading. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> or <em>encoding</em> is null. </p>
+                    <td><p>
+<em>stream</em> or <em>encoding</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -269,12 +306,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.%23ctor(System.IO.Stream%2CSystem.Text.Encoding%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L143">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L192">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_" data-uid="System.IO.StreamReader.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean)">StreamReader(Stream, Text.Encoding, Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class for the specified stream, with the specified character encoding and byte order mark detection option.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor initializes the encoding as specified by the <em>encoding</em> parameter, the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_BaseStream">BaseStream</a> property using the <em>stream</em> parameter, and the internal buffer size to 1024 bytes.</p>
+<p>The <em>detectEncodingFromByteOrderMarks</em> parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetPreamble">GetPreamble()</a> method for more information.</p>
+<p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object calls <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Dispose">Dispose()</a> on the provided <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object when <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> is called.</p>
+<p>When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public StreamReader(Stream stream, Text.Encoding encoding, bool detectEncodingFromByteOrderMarks)</code></pre>
@@ -320,12 +364,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>stream</em> does not support reading. </p>
+                    <td><p>
+<em>stream</em> does not support reading. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> or <em>encoding</em> is null. </p>
+                    <td><p>
+<em>stream</em> or <em>encoding</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -335,12 +381,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_System_Int32_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.%23ctor(System.IO.Stream%2CSystem.Text.Encoding%2CSystem.Boolean%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L157">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L193">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_System_Int32_" data-uid="System.IO.StreamReader.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean,System.Int32)">StreamReader(Stream, Text.Encoding, Boolean, Int32)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class for the specified stream, with the specified character encoding, byte order mark detection option, and buffer size.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The buffer size, in number of 16-bit characters, is set by the <em>bufferSize</em> parameter. If <em>bufferSize</em> is less than the minimum allowable size (128 characters), the minimum allowable size is used.</p>
+<p>This constructor allows you to change the encoding the first time you read from the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object. The <em>detectEncodingFromByteOrderMarks</em> parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetPreamble">GetPreamble()</a> method for more information.</p>
+<p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object calls <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Dispose">Dispose()</a> on the provided <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object when <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> is called.</p>
+<p>When reading from a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, it is more efficient to use a buffer that is the same size as the internal buffer of the stream.</p>
+<p>When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public StreamReader(Stream stream, Text.Encoding encoding, bool detectEncodingFromByteOrderMarks, int bufferSize)</code></pre>
@@ -397,12 +451,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>stream</em> or <em>encoding</em> is null. </p>
+                    <td><p>
+<em>stream</em> or <em>encoding</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>bufferSize</em> is less than or equal to zero. </p>
+                    <td><p>
+<em>bufferSize</em> is less than or equal to zero. </p>
 </td>
                   </tr>
                 </tbody>
@@ -412,12 +468,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.%23ctor(System.IO.Stream%2CSystem.Text.Encoding%2CSystem.Boolean%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L161">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L194">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_System_Int32_System_Boolean_" data-uid="System.IO.StreamReader.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean,System.Int32,System.Boolean)">StreamReader(Stream, Text.Encoding, Boolean, Int32, Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class for the specified stream based on the specified character encoding, byte order mark detection option, and buffer size, and optionally leaves the stream open.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader__ctor_System_IO_Stream_System_Text_Encoding_System_Boolean_System_Int32_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Unless you set the <em>leaveOpen</em> parameter to <strong>true</strong>, the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object calls <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Dispose">Dispose()</a> on the provided <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object when <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> is called.</p>
+<p>The buffer size, in number of 16-bit characters, is set by the <em>bufferSize</em> parameter. If <em>bufferSize</em> is less than the minimum allowable size (128 characters), the minimum allowable size is used.</p>
+<p>This constructor enables you to change the encoding the first time you read from the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object. If the <em>detectEncodingFromByteOrderMarks</em> parameter is <strong>true</strong>, the constructor detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetPreamble">GetPreamble()</a> method for more information.</p>
+<p>When reading from a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, it is more efficient to use a buffer that is the same size as the internal buffer of the stream.</p>
+<p>When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpreted correctly, and could cause an exception to be thrown.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public StreamReader(Stream stream, Text.Encoding encoding, bool detectEncodingFromByteOrderMarks, int bufferSize, bool leaveOpen)</code></pre>
@@ -447,7 +510,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>detectEncodingFromByteOrderMarks</em></td>
-                    <td><p>true to look for byte order marks at the beginning of the file; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to look for byte order marks at the beginning of the file; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -459,7 +523,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>leaveOpen</em></td>
-                    <td><p>true to leave the stream open after the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object is disposed; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to leave the stream open after the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object is disposed; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -471,12 +536,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_Null.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.Null%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L37">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L188">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_Null" data-uid="System.IO.StreamReader.Null">StreamReader</h4>
               <div class="markdown level1 summary"><p>A <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object around an empty stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_Null_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When read methods are invoked on <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Null"></a>, zero is always returned. When <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_ReadLine">ReadLine()</a> is invoked on <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Null"></a>, <strong>null</strong> is returned.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly StreamReader Null</code></pre>
@@ -488,12 +557,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_BaseStream.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.BaseStream%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L284">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L195">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_BaseStream" data-uid="System.IO.StreamReader.BaseStream">BaseStream</h4>
               <div class="markdown level1 summary"><p>Returns the underlying stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_BaseStream_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You use this property to access the underlying stream. The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> class buffers input from the underlying stream when you call one of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read">Read()</a> methods. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method; however, this method slows performance and should be called only when absolutely necessary. The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> constructors that have the <em>detectEncodingFromByteOrderMarks</em> parameter can change the encoding the first time you read from the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Stream BaseStream { get; }</code></pre>
@@ -519,12 +592,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_CurrentEncoding.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.CurrentEncoding%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L280">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L196">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_CurrentEncoding" data-uid="System.IO.StreamReader.CurrentEncoding">CurrentEncoding</h4>
               <div class="markdown level1 summary"><p>Gets the current character encoding that the current <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object is using.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_CurrentEncoding_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Text.Encoding CurrentEncoding { get; }</code></pre>
@@ -550,7 +626,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_EndOfStream.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.EndOfStream%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L314">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L197">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_EndOfStream" data-uid="System.IO.StreamReader.EndOfStream">EndOfStream</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the current stream position is at the end of the stream.</p>
@@ -571,7 +647,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current stream position is at the end of the stream; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if the current stream position is at the end of the stream; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -599,12 +676,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_DiscardBufferedData.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.DiscardBufferedData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L299">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L198">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_DiscardBufferedData" data-uid="System.IO.StreamReader.DiscardBufferedData">DiscardBufferedData()</h4>
               <div class="markdown level1 summary"><p>Clears the internal buffer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_DiscardBufferedData_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method to reset the internal buffer for the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object. You need to call this method only when the position of the internal buffer and the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_BaseStream">BaseStream</a> do not match. These positions can become mismatched when you read data into the buffer and then seek a new position in the underlying stream. This method slows performance and should be used only when absolutely necessary, such as when you want to read a portion of the contents of a <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object more than once. </p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void DiscardBufferedData()</code></pre>
@@ -614,12 +695,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_Dispose_System_Boolean_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.Dispose(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L255">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L199">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_Dispose_System_Boolean_" data-uid="System.IO.StreamReader.Dispose(System.Boolean)">Dispose(Boolean)</h4>
               <div class="markdown level1 summary"><p>Closes the underlying stream, releases the unmanaged resources used by the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a>, and optionally releases the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method. <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> invokes the protected <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> method with the <em>disposing</em> parameter set to true. <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> invokes <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Dispose_System_Boolean_">Dispose(Boolean)</a> with <em>disposing</em> set to false.</p>
+<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object references. This method invokes the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of each referenced object.</p>
+<p>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
@@ -637,7 +723,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources. </p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>
 </td>
                   </tr>
                 </tbody>
@@ -647,12 +734,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_Peek.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.Peek%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L330">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L200">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_Peek" data-uid="System.IO.StreamReader.Peek">Peek()</h4>
               <div class="markdown level1 summary"><p>Returns the next available character but does not consume it.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_Peek_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Peek">Peek()</a> method returns an integer value in order to determine whether the end of the file, or another error has occurred. This allows a user to first check if the returned value is -1 before casting it to a <a class="xref" href="System.Char.html#System_Char">Char</a> type.</p>
+<p>This method overrides <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader_Peek">Peek()</a>.</p>
+<p>The current position of the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader">StreamReader</a> object is not changed by <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Peek">Peek()</a>. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int Peek()</code></pre>
@@ -694,12 +786,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_Read.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.Read%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L344">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L201">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_Read" data-uid="System.IO.StreamReader.Read">Read()</h4>
               <div class="markdown level1 summary"><p>Reads the next character from the input stream and advances the character position by one character.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_Read_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method overrides <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader_Read">Read()</a>.</p>
+<p>This method returns an integer so that it can return -1 if the end of the stream has been reached. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method; however, this method slows performance and should be called only when absolutely necessary.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int Read()</code></pre>
@@ -741,12 +838,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_Read_System_Char___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.Read(System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L358">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L202">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_Read_System_Char___System_Int32_System_Int32_" data-uid="System.IO.StreamReader.Read(System.Char[],System.Int32,System.Int32)">Read(Char[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Reads a specified maximum of characters from the current stream into a buffer, beginning at the specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_Read_System_Char___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method overrides <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader_Read">Read()</a>.</p>
+<p>This method returns an integer so that it can return 0 if the end of the stream has been reached.</p>
+<p>When using the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read_System_Char___System_Int32_System_Int32_">Read(Char[], Int32, Int32)</a> method, it is more efficient to use a buffer that is the same size as the internal buffer of the stream, where the internal buffer is set to your desired block size, and to always read less than the block size. If the size of the internal buffer was unspecified when the stream was constructed, its default size is 4 kilobytes (4096 bytes). If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method; however, this method slows performance and should be called only when absolutely necessary.</p>
+<p>This method returns after either the number of characters specified by the <em>count</em> parameter are read, or the end of the file is reached. <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader_ReadBlock_System_Char___System_Int32_System_Int32_">ReadBlock(Char[], Int32, Int32)</a> is a blocking version of <see cref="Overload:System.IO.StreamReader.Read"></see>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int Read(char[] buffer, int index, int count)</code></pre>
@@ -813,12 +917,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null. </p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> or <em>count</em> is negative. </p>
+                    <td><p>
+<em>index</em> or <em>count</em> is negative. </p>
 </td>
                   </tr>
                   <tr>
@@ -833,12 +939,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadAsync_System_Char___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadAsync(System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L896">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L203">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadAsync_System_Char___System_Int32_System_Int32_" data-uid="System.IO.StreamReader.ReadAsync(System.Char[],System.Int32,System.Int32)">ReadAsync(Char[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Reads a specified maximum number of characters from the current stream asynchronously and writes the data to a buffer, beginning at the specified index. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_ReadAsync_System_Char___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The task completes after either the number of characters specified by the <em>count</em> parameter are read or the end of the stream is reached.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;int&gt; ReadAsync(char[] buffer, int index, int count)</code></pre>
@@ -900,12 +1009,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null.</p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> or <em>count</em> is negative.</p>
+                    <td><p>
+<em>index</em> or <em>count</em> is negative.</p>
 </td>
                   </tr>
                   <tr>
@@ -930,12 +1041,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadBlock_System_Char___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadBlock(System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L416">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L204">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadBlock_System_Char___System_Int32_System_Int32_" data-uid="System.IO.StreamReader.ReadBlock(System.Char[],System.Int32,System.Int32)">ReadBlock(Char[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Reads a specified maximum number of characters from the current stream and writes the data to a buffer, beginning at the specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_ReadBlock_System_Char___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The position of the underlying stream is advanced by the number of characters that were read into <em>buffer</em>.</p>
+<p>The method blocks until either <em>count</em> characters are read, or the end of the stream has been reached. This is a blocking version of <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read">Read()</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int ReadBlock(char[] buffer, int index, int count)</code></pre>
@@ -997,7 +1112,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null. </p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1007,7 +1123,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> or <em>count</em> is negative. </p>
+                    <td><p>
+<em>index</em> or <em>count</em> is negative. </p>
 </td>
                   </tr>
                   <tr>
@@ -1027,12 +1144,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadBlockAsync_System_Char___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadBlockAsync(System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L1084">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L205">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadBlockAsync_System_Char___System_Int32_System_Int32_" data-uid="System.IO.StreamReader.ReadBlockAsync(System.Char[],System.Int32,System.Int32)">ReadBlockAsync(Char[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Reads a specified maximum number of characters from the current stream asynchronously and writes the data to a buffer, beginning at the specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_ReadBlockAsync_System_Char___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The task does not complete until either the number of characters specified by the <em>count</em> parameter are read, or the end of the stream has been reached.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;int&gt; ReadBlockAsync(char[] buffer, int index, int count)</code></pre>
@@ -1094,12 +1214,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>buffer</em> is null.</p>
+                    <td><p>
+<em>buffer</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> or <em>count</em> is negative.</p>
+                    <td><p>
+<em>index</em> or <em>count</em> is negative.</p>
 </td>
                   </tr>
                   <tr>
@@ -1124,12 +1246,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadLine.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadLine%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L734">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L206">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadLine" data-uid="System.IO.StreamReader.ReadLine">ReadLine()</h4>
               <div class="markdown level1 summary"><p>Reads a line of characters from the current stream and returns the data as a string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_ReadLine_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A line is defined as a sequence of characters followed by a line feed (&quot;\n&quot;), a carriage return (&quot;\r&quot;), or a carriage return immediately followed by a line feed (&quot;\r\n&quot;). The string that is returned does not contain the terminating carriage return or line feed. The returned value is <strong>null</strong> if the end of the input stream is reached.</p>
+<p>This method overrides <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader_ReadLine">ReadLine()</a>.</p>
+<p>If the current method throws an <a class="xref" href="System.OutOfMemoryException.html#System_OutOfMemoryException">OutOfMemoryException</a>, the reader&#39;s position in the underlying <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object is advanced by the number of characters the method was able to read, but the characters already read into the internal <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_ReadLine">ReadLine()</a> buffer are discarded. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method; however, this method slows performance and should be called only when absolutely necessary. </p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ReadLine()</code></pre>
@@ -1145,7 +1273,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The next line from the input stream, or null if the end of the input stream is reached.</p>
+                    <td><p>The next line from the input stream, or <strong>null</strong> if the end of the input stream is reached.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1176,7 +1304,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadLineAsync.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadLineAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L778">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L207">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadLineAsync" data-uid="System.IO.StreamReader.ReadLineAsync">ReadLineAsync()</h4>
               <div class="markdown level1 summary"><p>Reads a line of characters asynchronously from the current stream and returns the data as a string.</p>
@@ -1197,7 +1325,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.String.html#System_String">String</a>&gt;</td>
-                    <td><p>A task that represents the asynchronous read operation. The value of the <em>TResult</em> parameter contains the next line from the stream, or is null if all the characters have been read.</p>
+                    <td><p>A task that represents the asynchronous read operation. The value of the <em>TResult</em> parameter contains the next line from the stream, or is <strong>null</strong> if all the characters have been read.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1233,12 +1361,22 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadToEnd.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadToEnd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L398">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L208">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadToEnd" data-uid="System.IO.StreamReader.ReadToEnd">ReadToEnd()</h4>
               <div class="markdown level1 summary"><p>Reads all characters from the current position to the end of the stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_StreamReader_ReadToEnd_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method overrides <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader_ReadToEnd">ReadToEnd()</a>.</p>
+<p>
+<a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_ReadToEnd">ReadToEnd()</a> works best when you need to read all the input from the current position to the end of the stream. If more control is needed over how many characters are read from the stream, use the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read_System_Char___System_Int32_System_Int32_">Read(Char[], Int32, Int32)</a> method overload, which generally results in better performance.</p>
+<p>
+<a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_ReadToEnd">ReadToEnd()</a> assumes that the stream knows when it has reached an end. For interactive protocols in which the server sends data only when you ask for it and does not close the connection, <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_ReadToEnd">ReadToEnd()</a> might block indefinitely because it does not reach an end, and should be avoided. </p>
+<p>Note that when using the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_Read">Read()</a>  method, it is more efficient to use a buffer that is the same size as the internal buffer of the stream. If the size of the buffer was unspecified when the stream was constructed, its default size is 4 kilobytes (4096 bytes).</p>
+<p>If the current method throws an <a class="xref" href="System.OutOfMemoryException.html#System_OutOfMemoryException">OutOfMemoryException</a>, the reader&#39;s position in the underlying <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object is advanced by the number of characters the method was able to read, but the characters already read into the internal <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_ReadLine">ReadLine()</a> buffer are discarded. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <a class="xref" href="System.IO.StreamReader.html#System_IO_StreamReader_DiscardBufferedData">DiscardBufferedData()</a> method; however, this method slows performance and should be called only when absolutely necessary. </p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ReadToEnd()</code></pre>
@@ -1285,7 +1423,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IO_StreamReader_ReadToEndAsync.md&amp;value=---%0Auid%3A%20System.IO.StreamReader.ReadToEndAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StreamReader.cs/#L859">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO/ref/System.IO.cs/#L209">View Source</a>
               </span>
               <h4 id="System_IO_StreamReader_ReadToEndAsync" data-uid="System.IO.StreamReader.ReadToEndAsync">ReadToEndAsync()</h4>
               <div class="markdown level1 summary"><p>Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.</p>

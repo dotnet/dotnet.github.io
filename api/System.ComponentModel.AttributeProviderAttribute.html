@@ -87,6 +87,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class AttributeProviderAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_ComponentModel_AttributeProviderAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>There are a few cases in the .NET Framework object model where a property is purposely typed to be vague. For example, the <span class="xref">System.Windows.Forms.DataGridView.DataSource</span> property is typed as <strong>object</strong>. The reason for this is that this property can accept several types of input. Unfortunately, this provides no common place to add metadata to describe the characteristics of the property. Each <code>DataSource</code> property throughout the .NET Framework needs to have identical metadata for type converters, UI type editors, and other services that require metadata. The <a class="xref" href="System.ComponentModel.AttributeProviderAttribute.html#System_ComponentModel_AttributeProviderAttribute">AttributeProviderAttribute</a> remedies this situation.</p></p>
+<p><p>Once this attribute is placed on a property, the rules for obtaining attributes for the property descriptor&#39;s <a class="xref" href="System.ComponentModel.MemberDescriptor.html#System_ComponentModel_MemberDescriptor_Attributes">Attributes</a> collection differ. Typically, the property descriptor gathers local attributes, and then merges these with attributes from the property type. In this case, the attributes are taken from the type returned from the <a class="xref" href="System.ComponentModel.AttributeProviderAttribute.html#System_ComponentModel_AttributeProviderAttribute">AttributeProviderAttribute</a>, not from the actual property type. This attribute is used on <span class="xref">System.Windows.Forms.DataGridView.DataSource</span> to point the <span class="xref">System.Windows.Forms.DataGridView.DataSource</span> object&#39;s specific type to <a class="xref" href="System.ComponentModel.IListSource.html#System_ComponentModel_IListSource">IListSource</a>, and the appropriate metadata is placed on <a class="xref" href="System.ComponentModel.IListSource.html#System_ComponentModel_IListSource">IListSource</a> to enable data binding. In so doing, external parties can easily add metadata to all data sources.</p></p>
+<p><p>Attributes obtained from a type declared in the <a class="xref" href="System.ComponentModel.AttributeProviderAttribute.html#System_ComponentModel_AttributeProviderAttribute">AttributeProviderAttribute</a> have a priority in between the attributes of the property’s type and the attributes on the property. The following list, in priority order, shows the full set of available merged attributes:</p></p>
+<ul><li>
+<p>Property Attributes</p>
+</li><li>
+<p>Attribute Provider Attributes</p>
+</li><li>
+<p>Property Type Attributes</p>
+</li></ul>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -133,7 +145,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>typeName</em> is null.</p>
+                    <td><p>
+<em>typeName</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -188,12 +201,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>typeName</em> is null.</p>
+                    <td><p>
+<em>typeName</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>propertyName</em> is null.</p>
+                    <td><p>
+<em>propertyName</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -242,7 +257,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>type</em> is null.</p>
+                    <td><p>
+<em>type</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>

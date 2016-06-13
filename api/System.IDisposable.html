@@ -70,10 +70,11 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IDisposable.md&amp;value=---%0Auid%3A%20System.IDisposable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IDisposable.cs/#L54" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L990" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IDisposable" data-uid="System.IDisposable">Interface IDisposable
               </h1>
-              <div class="markdown level0 summary"><p>Provides a mechanism for releasing unmanaged resources.To browse the .NET Framework source code for this type, see the Reference Source.</p>
+              <div class="markdown level0 summary"><p>Provides a mechanism for releasing unmanaged resources.</p>
+<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/idisposable.cs#1f55292c3174123d">Reference Source</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <h6><strong>Namespace</strong>:System</h6>
@@ -82,6 +83,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public interface IDisposable</code></pre>
               </div>
+              <h5 id="System_IDisposable_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/idisposable.cs#1f55292c3174123d">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>The primary use of this interface is to release unmanaged resources. The garbage collector automatically releases the memory allocated to a managed object when that object is no longer used. However, it is not possible to predict when garbage collection will occur. Furthermore, the garbage collector has no knowledge of unmanaged resources such as window handles, or open files and streams.</p>
+<p>Use the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of this interface to explicitly release unmanaged resources in conjunction with the garbage collector. The consumer of an object can call this method when the object is no longer needed.</p>
+<p>It is a breaking change to add the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface to an existing class. Because pre-existing consumers of your type cannot call <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a>, you cannot be certain that unmanaged resources held by your type will be released. </p>
+<p>Because the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> implementation is called by the consumer of a type when the resources owned by an instance are no longer needed, you should either wrap the managed object in a <a class="xref" href="System.Runtime.InteropServices.SafeHandle.html#System_Runtime_InteropServices_SafeHandle">SafeHandle</a> (the recommended alternative), or you should override <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> to free unmanaged resources in the event that the consumer forgets to call <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a>. </p>
+<p>In the .NET Framework, the C++ compiler supports deterministic disposal of resources and does not allow direct implementation of the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method. </p>
+<p>For a detailed discussion about how this interface and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method are used, see the Garbage Collection and Implementing a Dispose Method topics.</p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -89,12 +99,28 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IDisposable_Dispose.md&amp;value=---%0Auid%3A%20System.IDisposable.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IDisposable.cs/#L56">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L992">View Source</a>
               </span>
               <h4 id="System_IDisposable_Dispose" data-uid="System.IDisposable.Dispose">Dispose()</h4>
               <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IDisposable_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this method to close or release unmanaged resources such as files, streams, and handles held by an instance of the class that implements this interface. By convention, this method is used for all tasks associated with freeing resources held by an object, or preparing an object for reuse.</p>
+<p>If you are using a class that implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface, you should call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> implementation when you are finished using the class. For more information, see the &quot;Using an object that implements IDisposable&quot; section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> topic. </p>
+<p>When implementing this method, ensure that all held resources are freed by propagating the call through the containment hierarchy. For example, if an object A allocates an object B, and object B allocates an object C, then A&#39;s <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> implementation must call <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> on B, which must in turn call <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> on C. </p>
+<p>The C++ compiler supports deterministic disposal of resources and does not allow direct implementation of the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method. </p>
+<p>An object must also call the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of its base class if the base class implements <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a>. For more information about implementing <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> on a base class and its subclasses, see the &quot;IDisposable and the inheritance hierarchy&quot; section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> topic. </p>
+<p>If an object&#39;s <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method is called more than once, the object must ignore all calls after the first one. The object must not throw an exception if its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method is called multiple times. Instance methods other than <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> can throw an <a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a> when resources are already disposed.</p>
+<p>Users might expect a resource type to use a particular convention to denote an allocated state versus a freed state. An example of this is stream classes, which are traditionally thought of as open or closed. The implementer of a class that has such a convention might choose to implement a public method with a customized name, such as <code>Close</code>, that calls the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method.</p>
+<p>Because the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method must be called explicitly, there is always a danger that the unmanaged resources will not be released, because the consumer of an object fails to call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method. There are two ways to avoid this: </p>
+<ul><li>
+<p>Wrap the managed resource in an object derived from <a class="xref" href="System.Runtime.InteropServices.SafeHandle.html#System_Runtime_InteropServices_SafeHandle">SafeHandle</a>. Your <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> implementation then calls the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of the <a class="xref" href="System.Runtime.InteropServices.SafeHandle.html#System_Runtime_InteropServices_SafeHandle">SafeHandle</a> instances. For more information, see &quot;The SafeHandle alternative&quot; section in the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> topic. </p>
+</li><li>
+<p>Implement a finalizer to free resources when <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> is not called. By default, the garbage collector automatically calls an object&#39;s finalizer before reclaiming its memory. However, if the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method has been called, it is typically unnecessary for the garbage collector to call the disposed object&#39;s finalizer. To prevent automatic finalization, <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> implementations can call the <a class="xref" href="System.GC.html#System_GC_SuppressFinalize_System_Object_">SuppressFinalize(Object)</a> method. </p>
+</li></ul>
+<p>When you use an object that accesses unmanaged resources, such as a <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter">StreamWriter</a>, a good practice is to create the instance with a <strong>using</strong> statement. The <strong>using</strong> statement automatically closes the stream and calls <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> on the object when the code that is using it has completed. For an example, see the <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter">StreamWriter</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void Dispose()</code></pre>

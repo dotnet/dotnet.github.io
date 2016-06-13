@@ -88,6 +88,45 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class CommonAcl : GenericAcl, Collections.IEnumerable</code></pre>
               </div>
+              <h5 id="System_Security_AccessControl_CommonAcl_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><ul><li><p>
+<p>Certain combinations of inheritance and access mask flags are meaningless:</p>
+</li><li>
+<p>Any access control entry (ACE) with a zero-access mask is removed.</p>
+</li><li>
+<p>Inherit-only ACEs inside object ACLs are removed.</p>
+</li><li>
+<p>
+<a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_InheritOnly">InheritOnly</a>, <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_NoPropagateInherit">NoPropagateInherit</a>, <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a>, and <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flags on all ACEs in leaf object ACLs are cleared.</p>
+</li><li>
+<p>ACEs that have an <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_InheritOnly">InheritOnly</a> flag in the absence of the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a> or <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag are meaningless; they are removed.</p>
+</li><li>
+<p>The <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_NoPropagateInherit">NoPropagateInherit</a> flag in the absence of the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a> or <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag can be removed.</p>
+</li><li>
+<p>ACEs that have an <a class="xref" href="System.Security.AccessControl.AuditFlags.html#System_Security_AccessControl_AuditFlags">AuditFlags</a> value of <a class="xref" href="System.Security.AccessControl.AuditFlags.html#System_Security_AccessControl_AuditFlags_Success">Success</a> or <a class="xref" href="System.Security.AccessControl.AuditFlags.html#System_Security_AccessControl_AuditFlags_Failure">Failure</a> in discretionary access control lists (DACLs) are removed.</p>
+</li><li>
+<p>Any audit ACE that does not specify either <a class="xref" href="System.Security.AccessControl.AuditFlags.html#System_Security_AccessControl_AuditFlags_Success">Success</a> or <a class="xref" href="System.Security.AccessControl.AuditFlags.html#System_Security_AccessControl_AuditFlags_Failure">Failure</a> is removed.</p>
+</li><li>
+<p>On DACLs, SystemAudit and SystemAlarm ACEs are removed.</p>
+</li><li>
+<p>On system access control lists (SACLs), AccessAllowed and AccessDenied ACEs are removed.</p>
+</li></ul>
+<p>Canonical order is maintained according to the following algorithm:</p>
+<ul><li>
+<p>Explicit ACEs take precedence over inherited ACEs; this rule applies to both DACLs and SACLs.</p>
+</li><li>
+<p>In DACLs, among the explicit ACEs, ACEs that deny access take precedence over ACEs that allow access. For directory object ACLs, the nonobject ACEs come before object ACEs.</p>
+</li><li>
+<p>All common ACEs take precedence over noncommon ACEs.</p>
+</li><li>
+<p>Inherited ACEs maintain their relative order after canonicity.</p>
+</li><li>
+<p>Unrecognized and custom ACEs are disallowed in both DACLs and SACLs.</p>
+</li><li>
+<p>Within contiguous ranges (explicit AccessDenied and AccessAllowed ACEs on DACLs, all explicit ACEs on SACLs), the ACEs are sorted by using the <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier_CompareTo_System_Security_Principal_SecurityIdentifier_">CompareTo(SecurityIdentifier)</a> methods of the <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a> objects associated with the ACEs.</p>
+</li></ul>
+<p>Adjacent ACEs are combined, if appropriate.  This reduces the size of the ACL without affecting the access control semantics it grants.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -178,7 +217,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the ACEs in the current <a class="xref" href="System.Security.AccessControl.CommonAcl.html#System_Security_AccessControl_CommonAcl">CommonAcl</a> object are in canonical order; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the ACEs in the current <a class="xref" href="System.Security.AccessControl.CommonAcl.html#System_Security_AccessControl_CommonAcl">CommonAcl</a> object are in canonical order; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -209,7 +249,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current <a class="xref" href="System.Security.AccessControl.CommonAcl.html#System_Security_AccessControl_CommonAcl">CommonAcl</a> object is a container.</p>
+                    <td><p>
+<strong>true</strong> if the current <a class="xref" href="System.Security.AccessControl.CommonAcl.html#System_Security_AccessControl_CommonAcl">CommonAcl</a> object is a container.</p>
 </td>
                   </tr>
                 </tbody>
@@ -240,7 +281,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the current <a class="xref" href="System.Security.AccessControl.CommonAcl.html#System_Security_AccessControl_CommonAcl">CommonAcl</a> object is a directory object ACL.</p>
+                    <td><p>
+<strong>true</strong> if the current <a class="xref" href="System.Security.AccessControl.CommonAcl.html#System_Security_AccessControl_CommonAcl">CommonAcl</a> object is a directory object ACL.</p>
 </td>
                   </tr>
                 </tbody>
@@ -392,7 +434,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">Principal.SecurityIdentifier</a></td>
+                    <td><a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a></td>
                     <td><em>sid</em></td>
                     <td><p>The <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a> object to check for.</p>
 </td>

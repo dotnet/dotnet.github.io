@@ -70,10 +70,11 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Timer.md&amp;value=---%0Auid%3A%20System.Threading.Timer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Timer.cs/#L775" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Timer/ref/System.Threading.Timer.Manual.cs/#L17" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_Timer" data-uid="System.Threading.Timer">Class Timer
               </h1>
-              <div class="markdown level0 summary"><p>Provides a mechanism for executing a method at specified intervals. This class cannot be inherited.To browse the .NET Framework source code for this type, see the Reference Source.</p>
+              <div class="markdown level0 summary"><p>Provides a mechanism for executing a method on a thread pool thread at specified intervals. This class cannot be inherited.</p>
+<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/threading/timer.cs#051a39d380760b26">Reference Source</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +88,34 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class Timer : IDisposable</code></pre>
               </div>
+              <h5 id="System_Threading_Timer_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/threading/timer.cs#051a39d380760b26">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>Use a <a class="xref" href="System.Threading.TimerCallback.html#System_Threading_TimerCallback">TimerCallback</a> delegate to specify the method you want the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> to execute. The signature of the <a class="xref" href="System.Threading.TimerCallback.html#System_Threading_TimerCallback">TimerCallback</a> delegate is: </p>
+<pre><code class="c#">void TimerCallback(Object state)</code></pre>
+<pre><code class="cpp">void TimerCallback(Object state)</code></pre>
+<pre><code class="vb">Sub TimerCallback(state As Object)</code></pre>
+<p>The timer delegate is specified when the timer is constructed, and cannot be changed. The method does not execute on the thread that created the timer; it executes on a <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a> thread supplied by the system.</p>
+<p>The .NET Framework Class Library includes four classes named <strong>Timer</strong>, each of which offers different functionality: </p>
+<ul><li>
+<p>
+<span class="xref">System.Timers.Timer</span>, which fires an event and executes the code in one or more event sinks at regular intervals. The class is intended for use as a server-based or service component in a multithreaded environment; it has no user interface and is not visible at runtime. </p>
+</li><li>
+<p>
+<a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a>, which executes a single callback method on a thread pool thread at regular intervals. The callback method is defined when the timer is instantiated and cannot be changed. Like the <span class="xref">System.Timers.Timer</span> class, this class is intended for use as a server-based or service component in a multithreaded environment; it has no user interface and is not visible at runtime. </p>
+</li><li>
+<p>
+<span class="xref">System.Windows.Forms.Timer</span>, a Windows Forms component that fires an event and executes the code in one or more event sinks at regular intervals. The component has no user interface and is designed for use in a single-threaded environment; it executes on the UI thread. </p>
+</li><li>
+<p>
+<span class="xref">System.Web.UI.Timer</span>, an ASP.NET component that performs asynchronous or synchronous web page postbacks at a regular interval. </p>
+</li></ul>
+<p>When you create a timer, you can specify an amount of time to wait before the first execution of the method (due time), and an amount of time to wait between subsequent executions (period). The <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> class has the same resolution as the system clock. This means that if the period is less than the resolution of the system clock, the <a class="xref" href="System.Threading.TimerCallback.html#System_Threading_TimerCallback">TimerCallback</a> delegate will execute at intervals defined by the resolution of the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems. You can change the due time and period, or disable the timer, by using the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method.</p>
+<p>As long as you are using a <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a>, you must keep a reference to it. As with any managed object, a <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> is subject to garbage collection when there are no references to it. The fact that a <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> is still active does not prevent it from being collected.</p>
+<p>When a timer is no longer needed, use the <see cref="Overload:System.Threading.Timer.Dispose"></see> method to free the resources held by the timer. Note that callbacks can occur after the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Dispose">Dispose()</a> method overload has been called, because the timer queues callbacks for execution by thread pool threads. You can use the <span class="xref">System.Threading.Timer.Dispose(System.Threading.WaitHandle)</span> method overload to wait until all callbacks have completed. </p>
+<p>The callback method executed by the timer should be reentrant, because it is called on <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a> threads. The callback can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the callback, or if all thread pool threads are in use and the callback is queued multiple times.</p>
+<p>
+<a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> is a simple, lightweight timer that uses callback methods and is served by thread pool threads. It is not recommended for use with Windows Forms, because its callbacks do not occur on the user interface thread. <span class="xref">System.Windows.Forms.Timer</span> is a better choice for use with Windows Forms. For server-based timer functionality, you might consider using <span class="xref">System.Timers.Timer</span>, which raises events and has additional features.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +123,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Timer__ctor_System_Threading_TimerCallback_System_Object_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.Timer.%23ctor(System.Threading.TimerCallback%2CSystem.Object%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Timer.cs/#L787">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Timer/ref/System.Threading.Timer.cs/#L13">View Source</a>
               </span>
               <h4 id="System_Threading_Timer__ctor_System_Threading_TimerCallback_System_Object_System_Int32_System_Int32_" data-uid="System.Threading.Timer.#ctor(System.Threading.TimerCallback,System.Object,System.Int32,System.Int32)">Timer(TimerCallback, Object, Int32, Int32)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the Timer class, using a 32-bit signed integer to specify the time interval.</p>
+              <div class="markdown level1 summary"><p>Initializes a new instance of the <strong>Timer</strong> class, using a 32-bit signed integer to specify the time interval.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Timer__ctor_System_Threading_TimerCallback_System_Object_System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The delegate specified by the <em>callback</em> parameter is invoked once after <em>dueTime</em> elapses, and thereafter each time the <em>period</em> time interval elapses.</p>
+<p>If <em>dueTime</em> is zero (0), <em>callback</em> is invoked immediately. If <em>dueTime</em> is <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, <em>callback</em> is not invoked; the timer is disabled, but can be re-enabled by calling the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method.</p>
+<p>Because the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> class has the same resolution as the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems, the <em>callback</em> delegate executes at intervals defined by the resolution of the system clock if <em>period</em> is less than the resolution of the system clock. If <em>period</em> is zero (0) or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> and <em>dueTime</em> is not <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, <em>callback</em> is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled using the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method.</p>
+<p>The method specified for <em>callback</em> should be reentrant, because it is called on <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Timer(TimerCallback callback, object state, int dueTime, int period)</code></pre>
@@ -123,7 +158,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>state</em></td>
-                    <td><p>An object containing information to be used by the callback method, or null. </p>
+                    <td><p>An object containing information to be used by the callback method, or <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -156,7 +191,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>callback</em> parameter is null. </p>
+                    <td><p>The <em>callback</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -166,12 +201,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Timer__ctor_System_Threading_TimerCallback_System_Object_System_TimeSpan_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.Timer.%23ctor(System.Threading.TimerCallback%2CSystem.Object%2CSystem.TimeSpan%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Timer.cs/#L804">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Timer/ref/System.Threading.Timer.cs/#L14">View Source</a>
               </span>
               <h4 id="System_Threading_Timer__ctor_System_Threading_TimerCallback_System_Object_System_TimeSpan_System_TimeSpan_" data-uid="System.Threading.Timer.#ctor(System.Threading.TimerCallback,System.Object,System.TimeSpan,System.TimeSpan)">Timer(TimerCallback, Object, TimeSpan, TimeSpan)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the Timer class, using <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> values to measure time intervals.</p>
+              <div class="markdown level1 summary"><p>Initializes a new instance of the <strong>Timer</strong> class, using <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> values to measure time intervals.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Timer__ctor_System_Threading_TimerCallback_System_Object_System_TimeSpan_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The delegate specified by the <em>callback</em> parameter is invoked once after <em>dueTime</em> elapses, and thereafter each time the <em>period</em> time interval elapses.</p>
+<p>If <em>dueTime</em> is zero (0), <em>callback</em> is invoked immediately. If <em>dueTime</em> is negative one (-1) milliseconds, <em>callback</em> is not invoked; the timer is disabled, but can be re-enabled by calling the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method.</p>
+<p>Because the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> class has the same resolution as the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems, the <em>callback</em> delegate executes at intervals defined by the resolution of the system clock if <em>period</em> is less than the resolution of the system clock. If <em>period</em> is zero (0) or negative one (-1) milliseconds and <em>dueTime</em> is positive, <em>callback</em> is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled using the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method.</p>
+<p>The method specified for <em>callback</em> should be reentrant, because it is called on <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Timer(TimerCallback callback, object state, TimeSpan dueTime, TimeSpan period)</code></pre>
@@ -195,7 +236,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>state</em></td>
-                    <td><p>An object containing information to be used by the callback method, or null. </p>
+                    <td><p>An object containing information to be used by the callback method, or <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -228,7 +269,7 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>callback</em> parameter is null. </p>
+                    <td><p>The <em>callback</em> parameter is <strong>null</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -240,12 +281,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Timer_Change_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.Timer.Change(System.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Timer.cs/#L898">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Timer/ref/System.Threading.Timer.cs/#L15">View Source</a>
               </span>
               <h4 id="System_Threading_Timer_Change_System_Int32_System_Int32_" data-uid="System.Threading.Timer.Change(System.Int32,System.Int32)">Change(Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Changes the start time and the interval between method invocations for a timer, using 32-bit signed integers to measure time intervals.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Timer_Change_System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The callback method is invoked once after <em>dueTime</em> elapses, and thereafter each time the time interval specified by <em>period</em> elapses.</p>
+<p>If <em>dueTime</em> is zero (0), the callback method is invoked immediately. If <em>dueTime</em> is <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, the callback method is never invoked; the timer is disabled, but can be re-enabled by calling <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> and specifying a positive value for <em>dueTime</em>.</p>
+<p>If <em>period</em> is zero (0) or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, and <em>dueTime</em> is not <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, the callback method is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled by calling <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> and specifying a positive value for <em>period</em>.</p>
+<p>The <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method can be called from the <a class="xref" href="System.Threading.TimerCallback.html#System_Threading_TimerCallback">TimerCallback</a> delegate. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Change(int dueTime, int period)</code></pre>
@@ -285,7 +332,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the timer was successfully updated; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the timer was successfully updated; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -316,12 +364,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Timer_Change_System_TimeSpan_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.Timer.Change(System.TimeSpan%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Timer.cs/#L909">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Timer/ref/System.Threading.Timer.cs/#L16">View Source</a>
               </span>
               <h4 id="System_Threading_Timer_Change_System_TimeSpan_System_TimeSpan_" data-uid="System.Threading.Timer.Change(System.TimeSpan,System.TimeSpan)">Change(TimeSpan, TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Changes the start time and the interval between method invocations for a timer, using <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> values to measure time intervals.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Timer_Change_System_TimeSpan_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The callback method is invoked once after <em>dueTime</em> elapses, and thereafter each time the time interval specified by <em>period</em> elapses.</p>
+<p>If <em>dueTime</em> is zero (0), the callback method is invoked immediately. If <em>dueTime</em> is negative one (-1) milliseconds, the callback method is never invoked; the timer is disabled, but can be re-enabled by calling <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> and specifying a positive value for <em>dueTime</em>.</p>
+<p>If <em>period</em> is zero (0) or negative one (-1) milliseconds, and <em>dueTime</em> is positive, the callback method is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled by calling <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> and specifying a value greater than zero for <em>period</em>.</p>
+<p>The <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Change_System_Int32_System_Int32_">Change(Int32, Int32)</a> method can be called from the <a class="xref" href="System.Threading.TimerCallback.html#System_Threading_TimerCallback">TimerCallback</a> delegate. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Change(TimeSpan dueTime, TimeSpan period)</code></pre>
@@ -361,7 +415,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the timer was successfully updated; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the timer was successfully updated; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -397,12 +452,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Timer_Dispose.md&amp;value=---%0Auid%3A%20System.Threading.Timer.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Timer.cs/#L944">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Timer/ref/System.Threading.Timer.cs/#L17">View Source</a>
               </span>
               <h4 id="System_Threading_Timer_Dispose" data-uid="System.Threading.Timer.Dispose">Dispose()</h4>
               <div class="markdown level1 summary"><p>Releases all resources used by the current instance of <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Timer_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <strong>Dispose</strong> allows the resources used by the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer">Timer</a> to be reallocated for other purposes. For more information about <strong>Dispose</strong>, see Cleaning Up Unmanaged Resources.</p>
+<p>Callbacks can occur after the <a class="xref" href="System.Threading.Timer.html#System_Threading_Timer_Dispose">Dispose()</a> method overload has been called, because the timer queues callbacks for execution by thread pool threads. You can use the <span class="xref">System.Threading.Timer.Dispose(System.Threading.WaitHandle)</span> method overload to wait until all callbacks have completed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>

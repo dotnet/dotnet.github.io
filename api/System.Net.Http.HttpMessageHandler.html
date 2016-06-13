@@ -87,6 +87,24 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class HttpMessageHandler : IDisposable</code></pre>
               </div>
+              <h5 id="System_Net_Http_HttpMessageHandler_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>There are various HTTP message handles that can be used. These include the following. </p>
+<ol><li>
+<p>
+<a class="xref" href="System.Net.Http.DelegatingHandler.html#System_Net_Http_DelegatingHandler">DelegatingHandler</a> - A class used to plug a handler into a handler chain.</p>
+</li><li>
+<p>
+<a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a> - A simple to class to derive from that supports the most common requirements for most applications.</p>
+</li><li>
+<p>
+<a class="xref" href="System.Net.Http.HttpClientHandler.html#System_Net_Http_HttpClientHandler">HttpClientHandler</a> - A class that operates at the bottom of the handler chain that actually handles the HTTP transport operations.</p>
+</li><li>
+<p>
+<span class="xref">System.Net.Http.WebRequestHandler</span> - A specialty class that operates at the bottom of the handler chain class that handles HTTP transport operations with options that are specific to the <a class="xref" href="System.Net.HttpWebRequest.html#System_Net_HttpWebRequest">HttpWebRequest</a> object.</p>
+</li></ol>
+<p>If developers derive classes from <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a> and override the <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method, they must make sure that <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> can get called concurrently by different threads.</p>
+<p>This is necessary since methods on <a class="xref" href="System.Net.Http.HttpClient.html#System_Net_Http_HttpClient">HttpClient</a> can be called concurrently and need a guarantee of thread safety. So if a handler is assigned to an <a class="xref" href="System.Net.Http.HttpClient.html#System_Net_Http_HttpClient">HttpClient</a> instance, the <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method of the handler may get called concurrently by the <a class="xref" href="System.Net.Http.HttpClient.html#System_Net_Http_HttpClient">HttpClient</a> instance and needs to be thread safe.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -132,6 +150,9 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a> and optionally disposes of the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Http_HttpMessageHandler_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <strong>Dispose()</strong> method and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method. <strong>Dispose()</strong> invokes the protected <strong>Dispose(Boolean)</strong> method with the <em>disposing</em> parameter set to <strong>true</strong>. <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> invokes <strong>Dispose</strong> with <em>disposing</em> set to <strong>false</strong>.When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler">HttpMessageHandler</a> references. This method invokes the <strong>Dispose()</strong> method of each referenced object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -149,7 +170,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to releases only unmanaged resources.</p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to releases only unmanaged resources.</p>
 </td>
                   </tr>
                 </tbody>
@@ -165,6 +187,10 @@
               <div class="markdown level1 summary"><p>Send an HTTP request as an asynchronous operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Net_Http_HttpMessageHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This operation will not block. The returned <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a> object will complete once the entire response including content is read.</p>
+<p>The <a class="xref" href="System.Net.Http.HttpMessageHandler.html#System_Net_Http_HttpMessageHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_">SendAsync(HttpRequestMessage, Threading.CancellationToken)</a> method is used primarily by the system. This method is called by the system one of the  <a class="xref" href="System.Net.Http.HttpClient.html#System_Net_Http_HttpClient_SendAsync_System_Net_Http_HttpRequestMessage_">SendAsync(HttpRequestMessage)</a> methods is called. Most apps will never call this method. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected abstract Threading.Tasks.Task&lt;HttpResponseMessage&gt; SendAsync(HttpRequestMessage request, Threading.CancellationToken cancellationToken)</code></pre>
@@ -186,7 +212,7 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation token to cancel operation.</p>
 </td>
@@ -204,7 +230,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Net.Http.HttpResponseMessage.html#System_Net_Http_HttpResponseMessage">HttpResponseMessage</a>&gt;</td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.The task object representing the asynchronous operation.</p>
+                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Task<tresult></tresult></a>.</p>
+<p>The task object representing the asynchronous operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -220,7 +247,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <em>request</em> was null.</p>
+                    <td><p>The <em>request</em> was <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>

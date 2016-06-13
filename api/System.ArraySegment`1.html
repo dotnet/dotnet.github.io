@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1.md&amp;value=---%0Auid%3A%20System.ArraySegment%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L28" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L160" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_ArraySegment_1" data-uid="System.ArraySegment`1">Struct ArraySegment&lt;T&gt;
               </h1>
               <div class="markdown level0 summary"><p>Delimits a section of a one-dimensional array.</p>
@@ -83,6 +83,29 @@
                 <pre><code class="lang-csharp hljs">[StructLayout(LayoutKind.Sequential)]
 public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IReadOnlyList&lt;T&gt;, IReadOnlyCollection&lt;T&gt;, IEnumerable&lt;T&gt;, IEnumerable</code></pre>
               </div>
+              <h5 id="System_ArraySegment_1_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>
+<p><a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> is a wrapper around an array that delimits a range of elements in that array. Multiple <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instances can refer to the same original array and can overlap. The original array must be one-dimensional and must have zero-based indexing. </p></p>
+<p><p>
+<p><a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> implements the <a class="xref" href="System.Collections.Generic.IReadOnlyCollection%601.html#System_Collections_Generic_IReadOnlyCollection_1">IReadOnlyCollection<t></t></a> interface starting with the .NET Framework 4.6; in previous versions of the .NET Framework, the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure did not implement this interface. </p></p>
+<p><p>The <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure is useful whenever the elements of an array will be manipulated in distinct segments. For example: </p></p>
+<p><ul><li><p>
+<p><p>You can pass an <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> object that represents only a portion of an array as an argument to a method, rather than call a relatively expensive method like <a class="xref" href="System.Array.html#System_Array_Copy_System_Array_System_Int32_System_Array_System_Int32_System_Int32_">Copy(Array, Int32, Array, Int32, Int32)</a> to pass a copy of a portion of an array.  </p>
+</li><li><p>
+<p><p>In a multithreaded app, you can use the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure to have each thread operate on only a portion of the array. </p>
+</li><li><p>
+<p><p>For task-based asynchronous operations, you can use an <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> object to ensure that each task operates on a distinct segment of the array. The following example divides an array into individual segments with up to ten elements. Each element in the segment is multiplied by its segment number. The result shows that using the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> class to manipulate elements in this way changes the values of its underlying array. </p>System.ArraySegment#2</li></ul></p>
+<p><p>Note, however, that although the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure can be used to divide an array into distinct segments, the segments are not completely independent of one another. The <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1_Array">Array</a> property returns the entire original array, not a copy of the array; therefore, changes made to the array returned by the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1_Array">Array</a> property are made to the original array. If this is undesirable, you should perform operations on a copy of the array, rather than an <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> object that represents a portion of the array. </p></p>
+<p><p>The<a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1_Equals_System_ArraySegment__0__">Equals(ArraySegment<t>)</t></a> method and the equality and inequality operators test for reference equality when they compare two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> objects. For two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> objects to be considered equal, they must meet all of the following conditions: </p></p>
+<p><ul><li><p>
+<p><p>Reference the same array. </p>
+</li><li><p>
+<p><p>Begin at the same index in the array. </p>
+</li><li><p>
+<p><p>Have the same number of elements. </p>
+</li></ul></p>
+<p><p>If you want to retrieve an element by its index in the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> object, you must cast it to an <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> object and retrieve it or modify it by using the <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1_Item_System_Int32_">Item[Int32]</a> property. The following example retrieves the element in an <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> object that delimits a section of a string array. </p>System.ArraySegment.Class#1</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -90,12 +113,17 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1__ctor__0___.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.%23ctor(%600%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L35">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L163">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1__ctor__0___" data-uid="System.ArraySegment`1.#ctor(`0[])">ArraySegment(T[])</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure that delimits all the elements in the specified array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1__ctor__0____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor creates an <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> that delimits all the elements of <em>array</em>. That is, the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1_Offset">Offset</a> property of the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> is 0 and its <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1_Count">Count</a> property is the length of <em>array</em>. To create an <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> that delimits only part of an array, use the <span class="xref">System.ArraySegment`1.</span> constructor.</p>
+<p>The original array must be one-dimensional and must have zero-based indexing.</p>
+<p>Multiple <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instances can refer to the same original array and can overlap.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ArraySegment(T[] array)</code></pre>
@@ -129,7 +157,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>array</em> is null.</p>
+                    <td><p>
+<em>array</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -139,12 +168,16 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1__ctor__0___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.%23ctor(%600%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L46">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L164">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1__ctor__0___System_Int32_System_Int32_" data-uid="System.ArraySegment`1.#ctor(`0[],System.Int32,System.Int32)">ArraySegment(T[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure that delimits the specified range of the elements in the specified array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1__ctor__0___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The original array must be one-dimensional and must have zero-based indexing.</p>
+<p>Multiple <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instances can refer to the same original array and can overlap.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ArraySegment(T[] array, int offset, int count)</code></pre>
@@ -190,17 +223,20 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>array</em> is null.</p>
+                    <td><p>
+<em>array</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>offset</em> or <em>count</em> is less than 0.</p>
+                    <td><p>
+<em>offset</em> or <em>count</em> is less than 0.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>offset</em> and <em>count</em> do not specify a valid range in <em>array</em>.</p>
+                    <td><p>
+<em>offset</em> and <em>count</em> do not specify a valid range in <em>array</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -212,12 +248,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_Array.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.Array%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L63">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L165">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_Array" data-uid="System.ArraySegment`1.Array">Array</h4>
               <div class="markdown level1 summary"><p>Gets the original array containing the range of elements that the array segment delimits.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_Array_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1_Array">Array</a> property returns the original array, not a copy of the array; therefore, changes made through the property are made directly to the original array. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public T[] Array { get; }</code></pre>
@@ -243,7 +282,7 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_Count.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.Count%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L94">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L166">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_Count" data-uid="System.ArraySegment`1.Count">Count</h4>
               <div class="markdown level1 summary"><p>Gets the number of elements in the range delimited by the array segment.</p>
@@ -274,7 +313,7 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_Offset.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.Offset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L75">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L167">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_Offset" data-uid="System.ArraySegment`1.Offset">Offset</h4>
               <div class="markdown level1 summary"><p>Gets the position of the first element in the range delimited by the array segment, relative to the start of the original array.</p>
@@ -307,12 +346,22 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_Equals_System_ArraySegment__0__.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.Equals(System.ArraySegment%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L128">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L171">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_Equals_System_ArraySegment__0__" data-uid="System.ArraySegment`1.Equals(System.ArraySegment{`0})">Equals(ArraySegment&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Determines whether the specified <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure is equal to the current instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_Equals_System_ArraySegment__0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> objects are considered to be equal if all the following conditions are met: </p></p>
+<ul><li>
+<p>They reference the same array. </p>
+</li><li>
+<p>They begin at the same index in the array. </p>
+</li><li>
+<p>They have the same number of elements. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Equals(ArraySegment&lt;T&gt; obj)</code></pre>
@@ -346,7 +395,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure is equal to the current instance; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the specified <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure is equal to the current instance; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -356,12 +406,22 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L120">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L172">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_Equals_System_Object_" data-uid="System.ArraySegment`1.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Determines whether the specified object is equal to the current instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_Equals_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> objects are considered to be equal if all the following conditions are met: </p></p>
+<ul><li>
+<p>They reference the same array. </p>
+</li><li>
+<p>They begin at the same index in the array. </p>
+</li><li>
+<p>They have the same number of elements. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
@@ -395,7 +455,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified object is a <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure and is equal to the current instance; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the specified object is a <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structure and is equal to the current instance; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -405,7 +466,7 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_GetHashCode.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L113">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L173">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_GetHashCode" data-uid="System.ArraySegment`1.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for the current instance.</p>
@@ -438,12 +499,22 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_op_Equality_System_ArraySegment__0__System_ArraySegment__0__.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.op_Equality(System.ArraySegment%7B%600%7D%2CSystem.ArraySegment%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L133">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L174">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_op_Equality_System_ArraySegment__0__System_ArraySegment__0__" data-uid="System.ArraySegment`1.op_Equality(System.ArraySegment{`0},System.ArraySegment{`0})">Equality(ArraySegment&lt;T&gt;, ArraySegment&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Indicates whether two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structures are equal.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_op_Equality_System_ArraySegment__0__System_ArraySegment__0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> objects are considered to be equal if all the following conditions are met: </p></p>
+<ul><li>
+<p>They reference the same array. </p>
+</li><li>
+<p>They begin at the same index. </p>
+</li><li>
+<p>They have the same number of elements. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool operator ==(ArraySegment&lt;T&gt; a, ArraySegment&lt;T&gt; b)</code></pre>
@@ -483,7 +554,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>a</em> is equal to <em>b</em>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>a</em> is equal to <em>b</em>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -493,12 +565,22 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_op_Inequality_System_ArraySegment__0__System_ArraySegment__0__.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.op_Inequality(System.ArraySegment%7B%600%7D%2CSystem.ArraySegment%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L138">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L175">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_op_Inequality_System_ArraySegment__0__System_ArraySegment__0__" data-uid="System.ArraySegment`1.op_Inequality(System.ArraySegment{`0},System.ArraySegment{`0})">Inequality(ArraySegment&lt;T&gt;, ArraySegment&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Indicates whether two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> structures are unequal.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_op_Inequality_System_ArraySegment__0__System_ArraySegment__0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Two <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> objects are considered to be unequal if they are of the same closed generic type but any of the following conditions is true: </p></p>
+<ul><li>
+<p>They do not reference the same array. </p>
+</li><li>
+<p>They have different starting indexes. </p>
+</li><li>
+<p>They have a different number of elements. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool operator !=(ArraySegment&lt;T&gt; a, ArraySegment&lt;T&gt; b)</code></pre>
@@ -538,7 +620,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>a</em> is not equal to <em>b</em>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>a</em> is not equal to <em>b</em>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -550,12 +633,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_ICollection_T__Add__0_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23ICollection%7BT%7D%23Add(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L221">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L176">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Add__0_" data-uid="System.ArraySegment`1.System#Collections#Generic#ICollection{T}#Add(`0)">ICollection&lt;T&gt;.Add(T)</h4>
               <div class="markdown level1 summary"><p>Adds an item to the array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Add__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void ICollection&lt;T&gt;.Add(T item)</code></pre>
@@ -599,12 +685,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_ICollection_T__Clear.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23ICollection%7BT%7D%23Clear%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L226">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L177">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Clear" data-uid="System.ArraySegment`1.System#Collections#Generic#ICollection{T}#Clear">ICollection&lt;T&gt;.Clear()</h4>
               <div class="markdown level1 summary"><p>Removes all items from the array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Clear_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void ICollection&lt;T&gt;.Clear()</code></pre>
@@ -630,12 +719,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_ICollection_T__Contains__0_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23ICollection%7BT%7D%23Contains(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L231">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L178">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Contains__0_" data-uid="System.ArraySegment`1.System#Collections#Generic#ICollection{T}#Contains(`0)">ICollection&lt;T&gt;.Contains(T)</h4>
               <div class="markdown level1 summary"><p>Determines whether the array segment contains a specific value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Contains__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">bool ICollection&lt;T&gt;.Contains(T item)</code></pre>
@@ -669,7 +761,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>item</em> is found in the array segment; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>item</em> is found in the array segment; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -679,12 +772,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_ICollection_T__CopyTo__0___System_Int32_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23ICollection%7BT%7D%23CopyTo(%600%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L245">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L179">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__CopyTo__0___System_Int32_" data-uid="System.ArraySegment`1.System#Collections#Generic#ICollection{T}#CopyTo(`0[],System.Int32)">ICollection&lt;T&gt;.CopyTo(T[], Int32)</h4>
               <div class="markdown level1 summary"><p>Copies the elements of the array segment to an array, starting at the specified array index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__CopyTo__0___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void ICollection&lt;T&gt;.CopyTo(T[] array, int arrayIndex)</code></pre>
@@ -724,17 +820,24 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>array</em> is null.</p>
+                    <td><p>
+<em>array</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>arrayIndex</em> is less than 0.</p>
+                    <td><p>
+<em>arrayIndex</em> is less than 0.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>array</em> is multidimensional.-or-The number of elements in the source array segment is greater than the available space from <em>arrayIndex</em> to the end of the destination <em>array</em>.-or-Type <em>T</em> cannot be cast automatically to the type of the destination <em>array</em>.</p>
+                    <td><p>
+<em>array</em> is multidimensional.</p>
+<p>-or-</p>
+<p>The number of elements in the source array segment is greater than the available space from <em>arrayIndex</em> to the end of the destination <em>array</em>.</p>
+<p>-or-</p>
+<p>Type <em>T</em> cannot be cast automatically to the type of the destination <em>array</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -744,12 +847,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_ICollection_T__IsReadOnly.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23ICollection%7BT%7D%23IsReadOnly%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L211">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L168">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__IsReadOnly" data-uid="System.ArraySegment`1.System#Collections#Generic#ICollection{T}#IsReadOnly">ICollection&lt;T&gt;.IsReadOnly</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the array segment  is read-only.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__IsReadOnly_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">bool ICollection&lt;T&gt;.IsReadOnly { get; }</code></pre>
@@ -765,7 +871,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the array segment is read-only; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the array segment is read-only; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -775,12 +882,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_ICollection_T__Remove__0_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23ICollection%7BT%7D%23Remove(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L254">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L180">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Remove__0_" data-uid="System.ArraySegment`1.System#Collections#Generic#ICollection{T}#Remove(`0)">ICollection&lt;T&gt;.Remove(T)</h4>
               <div class="markdown level1 summary"><p>Removes the first occurrence of a specific object from the array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_ICollection_T__Remove__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">bool ICollection&lt;T&gt;.Remove(T item)</code></pre>
@@ -814,7 +924,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>item</em> was successfully removed from the array segment; otherwise, false. This method also returns false if <em>item</em> is not found in the array segment.</p>
+                    <td><p>
+<strong>true</strong> if <em>item</em> was successfully removed from the array segment; otherwise, <strong>false</strong>. This method also returns <strong>false</strong> if <em>item</em> is not found in the array segment.</p>
 </td>
                   </tr>
                 </tbody>
@@ -840,12 +951,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_IEnumerable_T__GetEnumerator.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23IEnumerable%7BT%7D%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L261">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L181">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_IEnumerable_T__GetEnumerator" data-uid="System.ArraySegment`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator">IEnumerable&lt;T&gt;.GetEnumerator()</h4>
               <div class="markdown level1 summary"><p>Returns an enumerator that iterates through the array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_IEnumerable_T__GetEnumerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">IEnumerator&lt;T&gt; IEnumerable&lt;T&gt;.GetEnumerator()</code></pre>
@@ -860,7 +974,7 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1">Generic.IEnumerator</a>&lt;T&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1">IEnumerator</a>&lt;T&gt;</td>
                     <td><p>An enumerator that can be used to iterate through the array segment.</p>
 </td>
                   </tr>
@@ -871,12 +985,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_IList_T__IndexOf__0_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23IList%7BT%7D%23IndexOf(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L169">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L182">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_IList_T__IndexOf__0_" data-uid="System.ArraySegment`1.System#Collections#Generic#IList{T}#IndexOf(`0)">IList&lt;T&gt;.IndexOf(T)</h4>
               <div class="markdown level1 summary"><p>Determines the index of a specific item in the array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_IList_T__IndexOf__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">int IList&lt;T&gt;.IndexOf(T item)</code></pre>
@@ -920,12 +1037,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_IList_T__Insert_System_Int32__0_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23IList%7BT%7D%23Insert(System.Int32%2C%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L183">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L183">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_IList_T__Insert_System_Int32__0_" data-uid="System.ArraySegment`1.System#Collections#Generic#IList{T}#Insert(System.Int32,`0)">IList&lt;T&gt;.Insert(Int32, T)</h4>
               <div class="markdown level1 summary"><p>Inserts an item into the array segment at the specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_IList_T__Insert_System_Int32__0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void IList&lt;T&gt;.Insert(int index, T item)</code></pre>
@@ -965,7 +1085,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> is not a valid index in the array segment.</p>
+                    <td><p>
+<em>index</em> is not a valid index in the array segment.</p>
 </td>
                   </tr>
                   <tr>
@@ -980,12 +1101,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_IList_T__Item_System_Int32_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23IList%7BT%7D%23Item(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L144">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L169">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_IList_T__Item_System_Int32_" data-uid="System.ArraySegment`1.System#Collections#Generic#IList{T}#Item(System.Int32)">IList&lt;T&gt;.Item[Int32]</h4>
               <div class="markdown level1 summary"><p>Gets or sets the element at the specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_IList_T__Item_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> interface, as the following example shows.</p>System.ArraySegment.Class#1</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">T IList&lt;T&gt;.this[int index] { get; set; }</code></pre>
@@ -1035,7 +1159,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> is not a valid index in the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a>.</p>
+                    <td><p>
+<em>index</em> is not a valid index in the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1050,12 +1175,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_IList_T__RemoveAt_System_Int32_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23IList%7BT%7D%23RemoveAt(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L188">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L184">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_IList_T__RemoveAt_System_Int32_" data-uid="System.ArraySegment`1.System#Collections#Generic#IList{T}#RemoveAt(System.Int32)">IList&lt;T&gt;.RemoveAt(Int32)</h4>
               <div class="markdown level1 summary"><p>Removes the array segment item at the specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_IList_T__RemoveAt_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void IList&lt;T&gt;.RemoveAt(int index)</code></pre>
@@ -1089,7 +1217,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> is not a valid index in the array segment.</p>
+                    <td><p>
+<em>index</em> is not a valid index in the array segment.</p>
 </td>
                   </tr>
                   <tr>
@@ -1104,12 +1233,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_Generic_IReadOnlyList_T__Item_System_Int32_.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23Generic%23IReadOnlyList%7BT%7D%23Item(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L195">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L170">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_Generic_IReadOnlyList_T__Item_System_Int32_" data-uid="System.ArraySegment`1.System#Collections#Generic#IReadOnlyList{T}#Item(System.Int32)">IReadOnlyList&lt;T&gt;.Item[Int32]</h4>
               <div class="markdown level1 summary"><p>Gets the element at the specified index of the array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_Generic_IReadOnlyList_T__Item_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.Generic.IReadOnlyList%601.html#System_Collections_Generic_IReadOnlyList_1">IReadOnlyList<t></t></a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">T IReadOnlyList&lt;T&gt;.this[int index] { get; }</code></pre>
@@ -1159,7 +1291,8 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> is not a valid index in the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a>.</p>
+                    <td><p>
+<em>index</em> is not a valid index in the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1174,12 +1307,15 @@ public struct ArraySegment&lt;T&gt; : IList&lt;T&gt;, ICollection&lt;T&gt;, IRea
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ArraySegment_1_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20System.ArraySegment%601.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/ArraySegment.cs/#L272">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L185">View Source</a>
               </span>
               <h4 id="System_ArraySegment_1_System_Collections_IEnumerable_GetEnumerator" data-uid="System.ArraySegment`1.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
               <div class="markdown level1 summary"><p>Returns an enumerator that iterates through an array segment.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ArraySegment_1_System_Collections_IEnumerable_GetEnumerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This member is an explicit interface member implementation. It can be used only when the <a class="xref" href="System.ArraySegment%601.html#System_ArraySegment_1">ArraySegment<t></t></a> instance is cast to an <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> interface.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>

@@ -87,6 +87,14 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ServiceController : IDisposable</code></pre>
               </div>
+              <h5 id="System_ServiceProcess_ServiceController_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>You can use the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> class to connect to and control the behavior of existing services. When you create an instance of the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> class, you set its properties so it interacts with a specific Windows service. You can then use the class to start, stop, and otherwise manipulate the service.</p>
+<p>You will most likely use the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> component in an administrative capacity. For example, you could create a Windows or Web application that sends custom commands to a service through the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> instance. This would be useful, because the Service Control Manager (SCM) Microsoft Management Console snap-in does not support custom commands.</p>
+<p>After you create an instance of <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a>, you must set two properties on it to identify the service with which it interacts: the computer name and the name of the service you want to control.</p>
+<p>By default, <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_MachineName">MachineName</a> is set to the local computer, so you do not need to change it unless you want to set the instance to point to another computer.</p>
+<p>Generally, the service author writes code that customizes the action associated with a specific command. For example, a service can contain code to respond to an <span class="xref">System.ServiceProcess.ServiceBase.OnPause</span> command. In that case, the custom processing for the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Pause">Pause()</a> task runs before the system pauses the service.</p>
+<p>The set of commands a service can process depends on its properties; for example, you can set the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_CanStop">CanStop</a> property for a service to <strong>false</strong>. This setting renders the <strong>Stop</strong> command unavailable on that particular service; it prevents you from stopping the service from the SCM by disabling the necessary button. If you try to stop the service from your code, the system raises an error and displays the error message &quot;Failed to stop <em>servicename</em>.&quot; </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -133,7 +141,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is invalid. </p>
+                    <td><p>
+<em>name</em> is invalid. </p>
 </td>
                   </tr>
                 </tbody>
@@ -149,6 +158,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> class that is associated with an existing service on the specified computer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For the <em>machineName</em> parameter, you can use &quot;.&quot; to represent the local computer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ServiceController(string name, string machineName)</code></pre>
@@ -188,7 +200,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> is invalid.-or- <em>machineName</em> is invalid. </p>
+                    <td><p>
+<em>name</em> is invalid.</p>
+<p>-or- </p>
+<p>
+<em>machineName</em> is invalid. </p>
 </td>
                   </tr>
                 </tbody>
@@ -221,7 +237,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the service can be paused; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the service can be paused; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -273,7 +290,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the service should be notified when the system is shutting down; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the service should be notified when the system is shutting down; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -325,7 +343,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the service can be stopped and the <span class="xref">System.ServiceProcess.ServiceBase.OnStop</span> method called; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the service can be stopped and the <span class="xref">System.ServiceProcess.ServiceBase.OnStop</span> method called; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -362,6 +381,9 @@
               <div class="markdown level1 summary"><p>Gets the set of services that depends on the service associated with this <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_DependentServices_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DependentServices">DependentServices</a> array represents the services that the system stops if your application calls <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Stop">Stop()</a> for this service.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ServiceController[] DependentServices { get; }</code></pre>
@@ -414,6 +436,9 @@
               <div class="markdown level1 summary"><p>Gets or sets a friendly name for the service.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_DisplayName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can set the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DisplayName">DisplayName</a> to an empty string (&quot;&quot;), but setting the property to <strong>null</strong> throws an exception.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string DisplayName { get; }</code></pre>
@@ -445,7 +470,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DisplayName">DisplayName</a> is null. </p>
+                    <td><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DisplayName">DisplayName</a> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -471,6 +496,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the name of the computer on which this service resides.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_MachineName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The computer name is the name of the server that is running this service, without the preceding backslash characters (\).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string MachineName { get; }</code></pre>
@@ -565,6 +593,11 @@
               <div class="markdown level1 summary"><p>Gets or sets the name that identifies the service that this instance references.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_ServiceName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServiceName">ServiceName</a> identifies the service to the Service Control Manager. Changing this property causes the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> instance to bind to another service, it does not change what the Service Control Manager&#39;s Microsoft Management Console snap-in displays.</p>
+<p>When you are implementing a custom service, the value of this property must be identical to the name recorded for the service in the <span class="xref">System.ServiceProcess.ServiceInstaller.ServiceName</span> property of the corresponding <span class="xref">System.ServiceProcess.ServiceInstaller</span> class. In code, the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServiceName">ServiceName</a> is usually set in the <code>main()</code> function of the executable.</p>
+<p>When you reset the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServiceName">ServiceName</a> property, the method that sets the property sets this instance&#39;s <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DisplayName">DisplayName</a> to an empty string (&quot;&quot;).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string ServiceName { get; }</code></pre>
@@ -596,7 +629,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServiceName">ServiceName</a> is null. </p>
+                    <td><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServiceName">ServiceName</a> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -622,6 +655,9 @@
               <div class="markdown level1 summary"><p>The set of services that this service depends on.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_ServicesDependedOn_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If any service in the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServicesDependedOn">ServicesDependedOn</a> array is not running, you will not be able to start this service.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ServiceController[] ServicesDependedOn { get; }</code></pre>
@@ -674,6 +710,9 @@
               <div class="markdown level1 summary"><p>Gets the type of service that this object references.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_ServiceType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The service type indicates how the service is used by the system. The value of the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServiceType">ServiceType</a> property represents a set of flags combined using the bitwise OR operator.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ServiceType ServiceType { get; }</code></pre>
@@ -717,6 +756,54 @@
               </table>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
+                <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ServiceProcess_ServiceController_StartType.md&amp;value=---%0Auid%3A%20System.ServiceProcess.ServiceController.StartType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+              </span>
+              <span class="small pull-right mobile-hide">
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.ServiceProcess.ServiceController/src/System/ServiceProcess/ServiceController.cs/#L311">View Source</a>
+              </span>
+              <h4 id="System_ServiceProcess_ServiceController_StartType" data-uid="System.ServiceProcess.ServiceController.StartType">StartType</h4>
+              <div class="markdown level1 summary"><p>Gets a value that indicates how the service represented by the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> object starts.  </p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public ServiceStartMode StartType { get; }</code></pre>
+              </div>
+              <h5 class="propertyValue"></h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.ServiceProcess.ServiceStartMode.html#System_ServiceProcess_ServiceStartMode">ServiceStartMode</a></td>
+                    <td><p>A value that indicates how the service starts.</p>
+<p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="exceptions">Exceptions</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
+                    <td><p>An error occurred when accessing a system API. </p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <span class="small pull-right mobile-hide">
+                <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ServiceProcess_ServiceController_Status.md&amp;value=---%0Auid%3A%20System.ServiceProcess.ServiceController.Status%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
@@ -726,6 +813,9 @@
               <div class="markdown level1 summary"><p>Gets the status of the service that is referenced by this instance.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Status_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The status indicates the current state of the service. The set of possible values includes several that indicate whether a state-changing command is pending.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ServiceControllerStatus Status { get; }</code></pre>
@@ -780,6 +870,10 @@
               <div class="markdown level1 summary"><p>Continues a service after it has been paused.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Continue_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you call <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Continue">Continue()</a> for a service, its status is first changed to <strong>ContinuePending</strong> and then, when the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Continue">Continue()</a> method returns, it is changed to <strong>Running</strong>.</p>
+<p>You cannot call <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Continue">Continue()</a> for the service until the service controller status is <strong>Paused</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Continue()</code></pre>
@@ -830,6 +924,10 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> and optionally releases the managed resources. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <strong>Dispose()</strong><strong></strong>method and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method. <strong>Dispose()</strong> invokes the protected <strong>Dispose(Boolean)</strong> method with the <em>disposing</em> parameter set to <strong>true</strong>. <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> invokes <strong>Dispose</strong> with <em>disposing</em> set to <strong>false</strong>.</p>
+<p>When the <em>disposing</em> parameter is true, this method releases all resources held by any managed objects that this <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController">ServiceController</a> references. This method invokes the <strong>Dispose()</strong> method of each referenced object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -847,7 +945,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources.</p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources.</p>
 </td>
                   </tr>
                 </tbody>
@@ -863,6 +962,10 @@
               <div class="markdown level1 summary"><p>Retrieves the device driver services on the local computer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_GetDevices_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetDevices">GetDevices()</a> returns only the device driver services from the local computer. To retrieve the non-device driver services or services that are not drivers, call the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetServices">GetServices()</a> method. Together, the two methods provide access to all the services on a computer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ServiceController[] GetDevices()</code></pre>
@@ -910,6 +1013,10 @@
               <div class="markdown level1 summary"><p>Retrieves the device driver services on the specified computer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_GetDevices_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetDevices">GetDevices()</a> returns only the device driver services from the specified computer. To retrieve the non-device driver services or services that are not drivers, call the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetServices">GetServices()</a> method. Together, the two methods provide access to all the services on a computer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ServiceController[] GetDevices(string machineName)</code></pre>
@@ -980,6 +1087,10 @@
               <div class="markdown level1 summary"><p>Retrieves all the services on the local computer, except for the device driver services.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_GetServices_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetServices">GetServices()</a> returns only the non-device driver services and the services that are not drivers from the local computer. To retrieve device driver services, call the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetDevices">GetDevices()</a> method. Together, the two methods provide access to all the services on a computer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ServiceController[] GetServices()</code></pre>
@@ -1027,6 +1138,10 @@
               <div class="markdown level1 summary"><p>Retrieves all the services on the specified computer, except for the device driver services.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_GetServices_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetServices">GetServices()</a> returns only the non-device driver services and the services that are not drivers from the specified computer. To retrieve device driver services, call the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_GetDevices">GetDevices()</a> method. Together, the two methods provide access to all the services on a computer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static ServiceController[] GetServices(string machineName)</code></pre>
@@ -1097,6 +1212,9 @@
               <div class="markdown level1 summary"><p>Suspends a service&#39;s operation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Pause_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You cannot call <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Continue">Continue()</a> for the service until the service controller status is <strong>Paused</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Pause()</code></pre>
@@ -1133,6 +1251,9 @@
               <div class="markdown level1 summary"><p>Refreshes property values by resetting the properties to their current values.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Refresh_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Refresh">Refresh()</a> method causes the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServicesDependedOn">ServicesDependedOn</a>, <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DependentServices">DependentServices</a>, and <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Status">Status</a> properties to be reset to their current values when they are next referenced.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Refresh()</code></pre>
@@ -1148,6 +1269,9 @@
               <div class="markdown level1 summary"><p>Starts the service, passing no arguments.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Start_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You cannot call <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Stop">Stop()</a> for the service until the service controller status is <strong>Running</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Start()</code></pre>
@@ -1184,6 +1308,9 @@
               <div class="markdown level1 summary"><p>Starts a service, passing the specified arguments.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Start_System_String____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You cannot call <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Stop">Stop()</a> for the service until the service controller status is <strong>Running</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Start(string[] args)</code></pre>
@@ -1227,7 +1354,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>args</em> is null.-or-A member of the array is null.</p>
+                    <td><p>
+<em>args</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>A member of the array is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1243,6 +1373,10 @@
               <div class="markdown level1 summary"><p>Stops this service and any services that are dependent on this service.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_Stop_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If any services depend on this service for their operation, they will be stopped before this service is stopped. The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_DependentServices">DependentServices</a> property contains the set of services that depend on this one.</p>
+<p>If you stop a service that this service depends on, call the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Stop">Stop()</a> method on this service within the <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_Stop">Stop()</a> method of the parent service. The <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_ServicesDependedOn">ServicesDependedOn</a> property contains the services that this service depends on.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Stop()</code></pre>
@@ -1279,6 +1413,10 @@
               <div class="markdown level1 summary"><p>Infinitely waits for the service to reach the specified status.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_WaitForStatus_System_ServiceProcess_ServiceControllerStatus__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_WaitForStatus_System_ServiceProcess_ServiceControllerStatus_">WaitForStatus(ServiceControllerStatus)</a> to suspend an application&#39;s processing until the service has reached the required status.</p>
+<p>The <see cref="Overload:System.ServiceProcess.ServiceController.WaitForStatus"></see> method waits approximately 250 milliseconds between each status check.  <see cref="Overload:System.ServiceProcess.ServiceController.WaitForStatus"></see> cannot detect the case of the observed service changing to the <em>desiredStatus</em> and then immediately to another status in that interval.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void WaitForStatus(ServiceControllerStatus desiredStatus)</code></pre>
@@ -1322,12 +1460,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_ServiceProcess_ServiceController_WaitForStatus_System_ServiceProcess_ServiceControllerStatus_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.ServiceProcess.ServiceController.WaitForStatus(System.ServiceProcess.ServiceControllerStatus%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.ServiceProcess.ServiceController/ref/4.0/System.ServiceProcess.ServiceController.cs/#L39">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.ServiceProcess.ServiceController/ref/System.ServiceProcess.ServiceController.cs/#L40">View Source</a>
               </span>
               <h4 id="System_ServiceProcess_ServiceController_WaitForStatus_System_ServiceProcess_ServiceControllerStatus_System_TimeSpan_" data-uid="System.ServiceProcess.ServiceController.WaitForStatus(System.ServiceProcess.ServiceControllerStatus,System.TimeSpan)">WaitForStatus(ServiceControllerStatus, TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Waits for the service to reach the specified status or for the specified time-out to expire.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ServiceProcess_ServiceController_WaitForStatus_System_ServiceProcess_ServiceControllerStatus_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use <a class="xref" href="System.ServiceProcess.ServiceController.html#System_ServiceProcess_ServiceController_WaitForStatus_System_ServiceProcess_ServiceControllerStatus_">WaitForStatus(ServiceControllerStatus)</a> to suspend an application&#39;s processing until the service has reached the required status.</p>
+<p>The <see cref="Overload:System.ServiceProcess.ServiceController.WaitForStatus"></see> method waits approximately 250 milliseconds between each status check.  <see cref="Overload:System.ServiceProcess.ServiceController.WaitForStatus"></see> cannot detect the case of the observed service changing to the <em>desiredStatus</em> and then immediately to another status in that interval.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void WaitForStatus(ServiceControllerStatus desiredStatus, TimeSpan timeout)</code></pre>

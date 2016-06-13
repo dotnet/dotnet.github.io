@@ -87,6 +87,19 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class RegistryAccessRule : AccessRule</code></pre>
               </div>
+              <h5 id="System_Security_AccessControl_RegistryAccessRule_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> class is one of a set of classes that the .NET Framework provides for managing Windows access control security on registry keys. For an overview of these classes, and their relationship to the underlying Windows access control structures, see <a class="xref" href="System.Security.AccessControl.RegistrySecurity.html#System_Security_AccessControl_RegistrySecurity">RegistrySecurity</a>.</p>
+<p>Windows access control security can only be applied to registry keys. It cannot be applied to individual key/value pairs stored in a key. </p>
+<p>To get a list of the rules currently applied to a registry key, use the <span class="xref">Microsoft.Win32.RegistryKey.GetAccessControl</span> method to get a <a class="xref" href="System.Security.AccessControl.RegistrySecurity.html#System_Security_AccessControl_RegistrySecurity">RegistrySecurity</a> object, and then use its <a class="xref" href="System.Security.AccessControl.CommonObjectSecurity.html#System_Security_AccessControl_CommonObjectSecurity_GetAccessRules_System_Boolean_System_Boolean_System_Type_">GetAccessRules(Boolean, Boolean, Type)</a> method to obtain a collection of <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> objects.</p>
+<p>
+<a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> objects do not map one-to-one with access control entries in the underlying discretionary control access list (DACL). When you get the set of all access rules for a registry key, the set contains the minimum number of rules currently required to express all the access control entries. </p>
+<p>The underlying access control entries change as you apply and remove rules. The information in rules is merged if possible, to maintain the smallest number of access control entries. Thus, when you read the current list of rules, it might not look exactly like the list of all the rules you have added.</p>
+<p>Use <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> objects to specify access rights to allow or deny to a user or group. A <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> object always represents either allowed access or denied access, never both.</p>
+<p>To apply a rule to a registry key, use the <span class="xref">Microsoft.Win32.RegistryKey.GetAccessControl</span> method to get the <a class="xref" href="System.Security.AccessControl.RegistrySecurity.html#System_Security_AccessControl_RegistrySecurity">RegistrySecurity</a> object. Modify the <a class="xref" href="System.Security.AccessControl.RegistrySecurity.html#System_Security_AccessControl_RegistrySecurity">RegistrySecurity</a> object by using its methods to add the rule, and then use the <span class="xref">Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)</span> method to reattach the security object.</p>
+<p>Changes you make to a <a class="xref" href="System.Security.AccessControl.RegistrySecurity.html#System_Security_AccessControl_RegistrySecurity">RegistrySecurity</a> object do not affect the access levels of the registry key until you call the <span class="xref">Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)</span> method to assign the altered security object to the registry key.</p>
+<p>
+<a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> objects are immutable. Security for a registry key is modified using the methods of the <a class="xref" href="System.Security.AccessControl.RegistrySecurity.html#System_Security_AccessControl_RegistrySecurity">RegistrySecurity</a> class to add or remove rules; as you do this, the underlying access control entries are modified. </p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +113,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> class, specifying the user or group the rule applies to, the access rights, and whether the specified access rights are allowed or denied.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_RegistryAccessRule__ctor_System_Security_Principal_IdentityReference_System_Security_AccessControl_RegistryRights_System_Security_AccessControl_AccessControlType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor specifies default propagation and inheritance. That is, <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_None">None</a> and <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_None">None</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryAccessRule(Principal.IdentityReference identity, RegistryRights registryRights, AccessControlType type)</code></pre>
@@ -145,17 +161,26 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>registryRights</em> specifies an invalid value.-or-<em>type</em> specifies an invalid value.</p>
+                    <td><p>
+<em>registryRights</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>type</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>identity</em> is null. -or-<em>eventRights</em> is zero.</p>
+                    <td><p>
+<em>identity</em> is <strong>null</strong>. </p>
+<p>-or-</p>
+<p>
+<em>eventRights</em> is zero.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>identity</em> is neither of type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a> nor of a type such as <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> that can be converted to type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>.</p>
+                    <td><p>
+<em>identity</em> is neither of type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a> nor of a type such as <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> that can be converted to type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -171,6 +196,16 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> class, specifying the user or group the rule applies to, the access rights, the inheritance flags, the propagation flags, and whether the specified access rights are allowed or denied.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_RegistryAccessRule__ctor_System_Security_Principal_IdentityReference_System_Security_AccessControl_RegistryRights_System_Security_AccessControl_InheritanceFlags_System_Security_AccessControl_PropagationFlags_System_Security_AccessControl_AccessControlType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>All registry keys are containers, so the only inheritance flag that is meaningful for registry keys is the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a> flag. If this flag is not specified, the propagation flags are ignored, and only the immediate key is affected. If the flag is present, the rule is propagated as shown in the following table. The table assumes there is a subkey S with child subkey CS and grandchild subkey GS. That is, the path for the grandchild subkey is S\CS\GS.</p>
+<p>Propagation flags</p>
+<p>S</p>
+<p>CS</p>
+<p>GS</p>
+<p>The pattern for the grandchild subkey governs all subkeys contained by the grandchild subkey. </p>
+<p>For example, if the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a> flag is specified for <em>inheritanceFlags</em> and the <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_InheritOnly">InheritOnly</a> propagation flag is specified for <em>propagationFlags</em>, this rule does not apply to the immediate subkey, but does apply to all its immediate child subkeys and to all subkeys they contain. </p>
+<p>Although you can specify the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag for <em>inheritanceFlags</em>, there is no point in doing so. For the purposes of access control, the name/value pairs in a subkey are not separate objects. The access rights to name/value pairs are controlled by the rights of the subkey. Furthermore, since all subkeys are containers (that is, they can contain other subkeys), they are not affected by the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag. Finally, specifying the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag needlessly complicates the maintenance of rules, because it interferes with the combination of otherwise compatible rules.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryAccessRule(Principal.IdentityReference identity, RegistryRights registryRights, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags, AccessControlType type)</code></pre>
@@ -228,17 +263,32 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>registryRights</em> specifies an invalid value.-or-<em>type</em> specifies an invalid value.-or-<em>inheritanceFlags</em> specifies an invalid value.-or-<em>propagationFlags</em> specifies an invalid value.</p>
+                    <td><p>
+<em>registryRights</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>type</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>inheritanceFlags</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>propagationFlags</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>identity</em> is null.-or-<em>registryRights</em> is zero.</p>
+                    <td><p>
+<em>identity</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>registryRights</em> is zero.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>identity</em> is neither of type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>, nor of a type such as <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> that can be converted to type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>.</p>
+                    <td><p>
+<em>identity</em> is neither of type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>, nor of a type such as <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> that can be converted to type <a class="xref" href="System.Security.Principal.SecurityIdentifier.html#System_Security_Principal_SecurityIdentifier">SecurityIdentifier</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -254,6 +304,10 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> class, specifying the name of the user or group the rule applies to, the access rights, and whether the specified access rights are allowed or denied.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_RegistryAccessRule__ctor_System_String_System_Security_AccessControl_RegistryRights_System_Security_AccessControl_AccessControlType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor specifies default propagation and inheritance. That is, <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_None">None</a> and <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_None">None</a>.</p>
+<p>This constructor is equivalent to creating an <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> object, by passing <em>identity</em> to the <span class="xref">System.Security.Principal.NTAccount.</span> constructor, and passing the newly created <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> object to the <span class="xref">System.Security.AccessControl.RegistryAccessRule.</span> constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryAccessRule(string identity, RegistryRights registryRights, AccessControlType type)</code></pre>
@@ -299,17 +353,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>registryRights</em> specifies an invalid value.-or-<em>type</em> specifies an invalid value.</p>
+                    <td><p>
+<em>registryRights</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>type</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>registryRights</em> is zero.</p>
+                    <td><p>
+<em>registryRights</em> is zero.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>identity</em> is null.-or-<em>identity</em> is a zero-length string.-or-<em>identity</em> is longer than 512 characters.</p>
+                    <td><p>
+<em>identity</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>identity</em> is a zero-length string.</p>
+<p>-or-</p>
+<p>
+<em>identity</em> is longer than 512 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -325,6 +391,17 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> class, specifying the name of the user or group the rule applies to, the access rights, the inheritance flags, the propagation flags, and whether the specified access rights are allowed or denied.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_RegistryAccessRule__ctor_System_String_System_Security_AccessControl_RegistryRights_System_Security_AccessControl_InheritanceFlags_System_Security_AccessControl_PropagationFlags_System_Security_AccessControl_AccessControlType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>All registry keys are containers, so the only inheritance flag that is meaningful for registry keys is the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a> flag. If this flag is not specified, the propagation flags are ignored, and only the immediate key is affected. If the flag is present, the rule is propagated as shown in the following table. The table assumes there is a subkey S with child subkey CS and grandchild subkey GS. That is, the path for the grandchild subkey is S\CS\GS.</p>
+<p>Propagation flags</p>
+<p>S</p>
+<p>CS</p>
+<p>GS</p>
+<p>The pattern for the grandchild subkey governs all subkeys contained by the grandchild subkey. </p>
+<p>For example, if the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ContainerInherit">ContainerInherit</a> flag is specified for <em>inheritanceFlags</em> and the <a class="xref" href="System.Security.AccessControl.PropagationFlags.html#System_Security_AccessControl_PropagationFlags_InheritOnly">InheritOnly</a> propagation flag is specified for <em>propagationFlags</em>, this rule does not apply to the immediate subkey, but does apply to all its immediate child subkeys and to all subkeys they contain. </p>
+<p>Although you can specify the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag for <em>inheritanceFlags</em>, there is no point in doing so. For the purposes of access control, the name/value pairs in a subkey are not separate objects. The access rights to name/value pairs are controlled by the rights of the subkey. Furthermore, since all subkeys are containers (that is, they can contain other subkeys), they are not affected by the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag. Finally, specifying the <a class="xref" href="System.Security.AccessControl.InheritanceFlags.html#System_Security_AccessControl_InheritanceFlags_ObjectInherit">ObjectInherit</a> flag needlessly complicates the maintenance of rules, because it interferes with the combination of otherwise compatible rules.</p>
+<p>This constructor is equivalent to creating an <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> object, by passing <em>identity</em> to the <span class="xref">System.Security.Principal.NTAccount.</span> constructor, and passing the newly created <a class="xref" href="System.Security.Principal.NTAccount.html#System_Security_Principal_NTAccount">NTAccount</a> object to the <span class="xref">System.Security.AccessControl.RegistryAccessRule.</span> constructor.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryAccessRule(string identity, RegistryRights registryRights, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags, AccessControlType type)</code></pre>
@@ -382,17 +459,35 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>registryRights</em> specifies an invalid value.-or-<em>type</em> specifies an invalid value.-or-<em>inheritanceFlags</em> specifies an invalid value.-or-<em>propagationFlags</em> specifies an invalid value.</p>
+                    <td><p>
+<em>registryRights</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>type</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>inheritanceFlags</em> specifies an invalid value.</p>
+<p>-or-</p>
+<p>
+<em>propagationFlags</em> specifies an invalid value.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>eventRights</em> is zero.</p>
+                    <td><p>
+<em>eventRights</em> is zero.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>identity</em> is null.-or-<em>identity</em> is a zero-length string.-or-<em>identity</em> is longer than 512 characters.</p>
+                    <td><p>
+<em>identity</em> is <strong>null</strong>.</p>
+<p>-or-</p>
+<p>
+<em>identity</em> is a zero-length string.</p>
+<p>-or-</p>
+<p>
+<em>identity</em> is longer than 512 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -410,6 +505,10 @@
               <div class="markdown level1 summary"><p>Gets the rights allowed or denied by the access rule.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Security_AccessControl_RegistryAccessRule_RegistryRights_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Security.AccessControl.RegistryAccessRule.html#System_Security_AccessControl_RegistryAccessRule">RegistryAccessRule</a> objects are immutable. You can create a new access rule representing a different user, different rights, or a different <a class="xref" href="System.Security.AccessControl.AccessControlType.html#System_Security_AccessControl_AccessControlType">AccessControlType</a>, but you cannot modify an existing access rule.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public RegistryRights RegistryRights { get; }</code></pre>

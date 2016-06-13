@@ -87,6 +87,59 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class SqlCommand : Common.DbCommand, Common.DbCommand</code></pre>
               </div>
+              <h5 id="System_Data_SqlClient_SqlCommand_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>When an instance of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> is created, the read/write properties are set to their initial values. For a list of these values, see the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> constructor.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> features the following methods for executing commands at a SQL Server database: </p>
+<p>Item </p>
+<p>Description </p>
+<table><tbody><tr><td>
+<p>
+<span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteNonQuery</span>
+</p>
+</td><td>
+<p>Initiates the asynchronous execution of the Transact-SQL statement or stored procedure that is described by this <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>, generally executing commands such as INSERT, DELETE, UPDATE, and SET statements. Each call to <span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteNonQuery</span> must be paired with a call to <span class="xref">System.Data.SqlClient.SqlCommand.EndExecuteNonQuery(System.IAsyncResult)</span> which finishes the operation, typically on a separate thread.</p>
+</td></tr><tr><td>
+<p>
+<span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteReader</span>
+</p>
+</td><td>
+<p>Initiates the asynchronous execution of the Transact-SQL statement or stored procedure that is described by this <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> and retrieves one or more results sets from the server. Each call to <span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteReader</span> must be paired with a call to <span class="xref">System.Data.SqlClient.SqlCommand.EndExecuteReader(System.IAsyncResult)</span> which finishes the operation, typically on a separate thread.</p>
+</td></tr><tr><td>
+<p>
+<span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteXmlReader</span>
+</p>
+</td><td>
+<p>Initiates the asynchronous execution of the Transact-SQL statement or stored procedure that is described by this <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>. Each call to <strong>BeginExecuteXmlReader</strong> must be paired with a call to <strong>EndExecuteXmlReader</strong>, which finishes the operation, typically on a separate thread, and returns an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object.</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a>
+</p>
+</td><td>
+<p>Executes commands that return rows. For increased performance, <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> invokes commands using the Transact-SQL <strong>sp_executesql</strong> system stored procedure. Therefore, <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> might not have the effect that you want if used to execute commands such as Transact-SQL SET statements. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteNonQuery">ExecuteNonQuery()</a>
+</p>
+</td><td>
+<p>Executes commands such as Transact-SQL INSERT, DELETE, UPDATE, and SET statements. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalar">ExecuteScalar()</a>
+</p>
+</td><td>
+<p>Retrieves a single value (for example, an aggregate value) from a database. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a>
+</p>
+</td><td>
+<p>Sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object. </p>
+</td></tr></tbody></table>
+<p>You can reset the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property and reuse the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> object. However, you must close the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> before you can execute a new or previous command.</p>
+<p>If a <a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a> is generated by the method executing a <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>, the <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> remains open when the severity level is 19 or less. When the severity level is 20 or greater, the server ordinarily closes the <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a>. However, the user can reopen the connection and continue.</p>
+<p>Nameless, also called ordinal, parameters are not supported by the .NET Framework Data Provider for SQL Server.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +153,39 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The base constructor initializes all fields to their default values. The following table shows initial property values for an instance of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>.</p>
+<p>Properties </p>
+<p>Initial value </p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a>
+</p>
+</td><td>
+<p>empty string (&quot;&quot;) </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a>
+</p>
+</td><td>
+<p>30 </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a>
+</p>
+</td><td>
+<p>
+<strong>CommandType.Text</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>
+</p>
+</td><td>
+<p>Null </p>
+</td></tr></tbody></table>
+<p>You can change the value for any of these properties through a separate call to the property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlCommand()</code></pre>
@@ -115,6 +201,41 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> class with the text of the query.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When an instance of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> is created, the following read/write properties are set to initial values.</p>
+<p>Properties </p>
+<p>Initial value </p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a>
+</p>
+</td><td>
+<p>
+<em>cmdText</em>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a>
+</p>
+</td><td>
+<p>30 </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a>
+</p>
+</td><td>
+<p>
+<strong>CommandType.Text</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>
+</p>
+</td><td>
+<p>null </p>
+</td></tr></tbody></table>
+<p>You can change the value for any of these properties through a separate call to the property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlCommand(string cmdText)</code></pre>
@@ -148,6 +269,41 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> class with the text of the query and a <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand__ctor_System_String_System_Data_SqlClient_SqlConnection__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The following table shows initial property values for an instance of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>.</p>
+<p>Properties </p>
+<p>Initial value </p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a>
+</p>
+</td><td>
+<p>
+<em>cmdText</em>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a>
+</p>
+</td><td>
+<p>30 </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a>
+</p>
+</td><td>
+<p>
+<strong>CommandType.Text</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>
+</p>
+</td><td>
+<p>A new <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> that is the value for the <em>connection</em> parameter. </p>
+</td></tr></tbody></table>
+<p>You can change the value for any of these parameters by setting the related property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlCommand(string cmdText, SqlConnection connection)</code></pre>
@@ -187,6 +343,41 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> class with the text of the query, a <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a>, and the <a class="xref" href="System.Data.SqlClient.SqlTransaction.html#System_Data_SqlClient_SqlTransaction">SqlTransaction</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand__ctor_System_String_System_Data_SqlClient_SqlConnection_System_Data_SqlClient_SqlTransaction__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The following table shows initial property values for an instance of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>.</p>
+<p>Properties </p>
+<p>Initial value </p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a>
+</p>
+</td><td>
+<p>
+<em>cmdText</em>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a>
+</p>
+</td><td>
+<p>30 </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a>
+</p>
+</td><td>
+<p>
+<strong>CommandType.Text</strong>
+</p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>
+</p>
+</td><td>
+<p>A new <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> that is the value for the <em>connection</em> parameter. </p>
+</td></tr></tbody></table>
+<p>You can change the value for any of these parameters by setting the related property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlCommand(string cmdText, SqlConnection connection, SqlTransaction transaction)</code></pre>
@@ -234,6 +425,12 @@
               <div class="markdown level1 summary"><p>Gets or sets the Transact-SQL statement, table name or stored procedure to execute at the data source.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_CommandText_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a> property is set to <strong>StoredProcedure</strong>, the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property should be set to the name of the stored procedure. The user may be required to use escape character syntax if the stored procedure name contains any special characters. The command executes this stored procedure when you call one of the <strong>Execute</strong> methods.</p>
+<p>The Microsoft .NET Framework Data Provider for SQL Server does not support the question mark (?) placeholder for passing parameters to a Transact-SQL statement or a stored procedure called by a command of <strong>CommandType.Text</strong>. In this case, named parameters must be used. For example: </p>
+<pre><code> SELECT * FROM dbo.Customers WHERE CustomerID = @CustomerID</code></pre>
+<p>For more information, see Configuring Parameters and Parameter Data Types.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string CommandText { get; set; }</code></pre>
@@ -265,6 +462,38 @@
               <div class="markdown level1 summary"><p>Gets or sets the wait time before terminating the attempt to execute a command and generating an error.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_CommandTimeout_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>A value of 0 indicates no limit (an attempt to execute a command will wait indefinitely).</p></p>
+<p><p>The <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a> property will be ignored during asynchronous method calls such as <span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteReader</span>.</p></p>
+<p><p>
+<p><a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a> has no effect when the command is executed against a context connection (a <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> opened with &quot;context connection=true&quot; in the connection string).</p></p>
+<p><p>This property is the cumulative time-out (for all network packets that are read during the invocation of a method) for all network reads during command execution or processing of the results. A time-out can still occur after the first row is returned, and does not include user processing time, only network read time.</p></p>
+<p><p>For example, with a 30 second time out, if <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> requires two network packets, then it has 30 seconds to read both network packets. If you call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> again, it will have another 30 seconds to read any data that it requires.</p></p>
+<pre><code>using System;
+using System.Data.SqlClient;
+/// 
+public class A {
+/// 
+public static void Main() {
+string connectionString = "";
+// Wait for 5 second delay in the command
+string queryString = "waitfor delay '00:00:05'";
+using (SqlConnection connection = new SqlConnection(connectionString)) {
+ connection.Open();
+ SqlCommand command = new SqlCommand(queryString, connection);
+ // Setting command timeout to 1 second
+ command.CommandTimeout = 1;
+ try {
+    command.ExecuteNonQuery();
+ }
+ catch (SqlException e) {
+    Console.WriteLine("Got expected SqlException due to command timeout ");
+    Console.WriteLine(e);
+ }
+}
+}
+}</code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int CommandTimeout { get; set; }</code></pre>
@@ -296,6 +525,12 @@
               <div class="markdown level1 summary"><p>Gets or sets a value indicating how the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property is to be interpreted.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_CommandType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you set the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a> property to <strong>StoredProcedure</strong>, you should set the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property to the name of the stored procedure. The command executes this stored procedure when you call one of the Execute methods.</p>
+<p>The Microsoft .NET Framework Data Provider for SQL Server does not support the question mark (?) placeholder for passing parameters to a SQL Statement or a stored procedure called with a <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a> of <a class="xref" href="System.Data.CommandType.html#System_Data_CommandType_Text">Text</a>. In this case, named parameters must be used. For example: </p>
+<p>SELECT * FROM Customers WHERE CustomerID = @CustomerID </p>
+<p>For more information, see Configuring Parameters and Parameter Data Types.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override CommandType CommandType { get; set; }</code></pre>
@@ -311,7 +546,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Data.CommandType.html#System_Data_CommandType">CommandType</a></td>
-                    <td><p>One of the <a class="xref" href="System.Data.CommandType.html#System_Data_CommandType">CommandType</a> values. The default is Text.</p>
+                    <td><p>One of the <a class="xref" href="System.Data.CommandType.html#System_Data_CommandType">CommandType</a> values. The default is <strong>Text</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -343,6 +578,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> used by this instance of the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_Connection_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the command is enlisted in an existing transaction, and the connection is changed, trying to execute the command will throw an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p>
+<p>If the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Transaction">Transaction</a> property is not null and the transaction has already been committed or rolled back, <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Transaction">Transaction</a> is set to null.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlConnection Connection { get; set; }</code></pre>
@@ -358,7 +597,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a></td>
-                    <td><p>The connection to a data source. The default value is null.</p>
+                    <td><p>The connection to a data source. The default value is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -403,7 +642,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Data.Common.DbConnection.html#System_Data_Common_DbConnection">Common.DbConnection</a></td>
+                    <td><a class="xref" href="System.Data.Common.DbConnection.html#System_Data_Common_DbConnection">DbConnection</a></td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -432,7 +671,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Data.Common.DbParameterCollection.html#System_Data_Common_DbParameterCollection">Common.DbParameterCollection</a></td>
+                    <td><a class="xref" href="System.Data.Common.DbParameterCollection.html#System_Data_Common_DbParameterCollection">DbParameterCollection</a></td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -461,7 +700,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Data.Common.DbTransaction.html#System_Data_Common_DbTransaction">Common.DbTransaction</a></td>
+                    <td><a class="xref" href="System.Data.Common.DbTransaction.html#System_Data_Common_DbTransaction">DbTransaction</a></td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -492,7 +731,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>A value indicating whether the command object should be visible in a control. The default is true.</p>
+                    <td><p>A value indicating whether the command object should be visible in a control. The default is <strong>true</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -508,6 +747,12 @@
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Data.SqlClient.SqlParameterCollection.html#System_Data_SqlClient_SqlParameterCollection">SqlParameterCollection</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_Parameters_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The Microsoft .NET Framework Data Provider for SQL Server does not support the question mark (?) placeholder for passing parameters to a SQL Statement or a stored procedure called by a command of <strong>CommandType.Text</strong>. In this case, named parameters must be used. For example: </p>
+<p>SELECT * FROM Customers WHERE CustomerID = @CustomerID </p>
+<p>If the parameters in the collection do not match the requirements of the query to be executed, an error may result.</p>
+<p>For more information, see Configuring Parameters and Parameter Data Types.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlParameterCollection Parameters { get; }</code></pre>
@@ -539,6 +784,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the <a class="xref" href="System.Data.SqlClient.SqlTransaction.html#System_Data_SqlClient_SqlTransaction">SqlTransaction</a> within which the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> executes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_Transaction_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You cannot set the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Transaction">Transaction</a> property if it is already set to a specific value, and the command is in the process of executing. If you set the transaction property to a <a class="xref" href="System.Data.SqlClient.SqlTransaction.html#System_Data_SqlClient_SqlTransaction">SqlTransaction</a> object that is not connected to the same <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> as the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> object, an exception is thrown the next time that you attempt to execute a statement.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlTransaction Transaction { get; set; }</code></pre>
@@ -554,7 +802,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlTransaction.html#System_Data_SqlClient_SqlTransaction">SqlTransaction</a></td>
-                    <td><p>The <a class="xref" href="System.Data.SqlClient.SqlTransaction.html#System_Data_SqlClient_SqlTransaction">SqlTransaction</a>. The default value is null.</p>
+                    <td><p>The <a class="xref" href="System.Data.SqlClient.SqlTransaction.html#System_Data_SqlClient_SqlTransaction">SqlTransaction</a>. The default value is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -567,9 +815,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/src/System/Data/SqlClient/SqlCommand.cs/#L455">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlCommand_UpdatedRowSource" data-uid="System.Data.SqlClient.SqlCommand.UpdatedRowSource">UpdatedRowSource</h4>
-              <div class="markdown level1 summary"><p>Gets or sets how command results are applied to the <span class="xref">System.Data.DataRow</span> when used by the Update method of the <span class="xref">System.Data.Common.DbDataAdapter</span>.</p>
+              <div class="markdown level1 summary"><p>Gets or sets how command results are applied to the <span class="xref">System.Data.DataRow</span> when used by the <strong>Update </strong>method of the <span class="xref">System.Data.Common.DbDataAdapter</span>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_UpdatedRowSource_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default <a class="xref" href="System.Data.UpdateRowSource.html#System_Data_UpdateRowSource">UpdateRowSource</a> value is <strong>Both</strong> unless the command is automatically generated (as in the case of the <span class="xref">System.Data.SqlClient.SqlCommandBuilder</span>), in which case the default is <strong>None</strong>.</p>
+<p>For more information about using the <strong>UpdatedRowSource</strong> property, see DataAdapter Parameters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override UpdateRowSource UpdatedRowSource { get; set; }</code></pre>
@@ -603,6 +855,10 @@
               <div class="markdown level1 summary"><p>Tries to cancel the execution of a <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_Cancel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If there is nothing to cancel, nothing occurs. However, if there is a command in process, and the attempt to cancel fails, no exception is generated. </p>
+<p>In some, rare, cases, if you call <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> then call <span class="xref">System.Data.SqlClient.SqlDataReader.Close</span> (implicitily or explicitly) before calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Cancel">Cancel()</a>, and then call <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Cancel">Cancel()</a>, the cancel command will not be sent to SQL Server and the result set can continue to stream after you call <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection_Close">Close()</a>. To avoid this, make sure that you call <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Cancel">Cancel()</a> before closing the reader or connection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Cancel()</code></pre>
@@ -631,7 +887,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Data.Common.DbParameter.html#System_Data_Common_DbParameter">Common.DbParameter</a></td>
+                    <td><a class="xref" href="System.Data.Common.DbParameter.html#System_Data_Common_DbParameter">DbParameter</a></td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -647,6 +903,9 @@
               <div class="markdown level1 summary"><p>Creates a new instance of a <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter">SqlParameter</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_CreateParameter_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CreateParameter">CreateParameter()</a> method is a strongly-typed version of <a class="xref" href="System.Data.IDbCommand.html#System_Data_IDbCommand_CreateParameter">CreateParameter()</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlParameter CreateParameter()</code></pre>
@@ -739,7 +998,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Data.Common.DbDataReader.html#System_Data_Common_DbDataReader">Common.DbDataReader</a></td>
+                    <td><a class="xref" href="System.Data.Common.DbDataReader.html#System_Data_Common_DbDataReader">DbDataReader</a></td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -774,7 +1033,7 @@
                     <td></td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td></td>
                   </tr>
@@ -790,7 +1049,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Data.Common.DbDataReader.html#System_Data_Common_DbDataReader">Common.DbDataReader</a>&gt;</td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Data.Common.DbDataReader.html#System_Data_Common_DbDataReader">DbDataReader</a>&gt;</td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -806,6 +1065,11 @@
               <div class="markdown level1 summary"><p>Executes a Transact-SQL statement against the connection and returns the number of rows affected.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteNonQuery_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can use the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteNonQuery">ExecuteNonQuery()</a> to perform catalog operations (for example, querying the structure of a database or creating database objects such as tables), or to change the data in a database without using a <span class="xref">System.Data.DataSet</span> by executing UPDATE, INSERT, or DELETE statements.</p>
+<p>Although the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteNonQuery">ExecuteNonQuery()</a> returns no rows, any output parameters or return values mapped to parameters are populated with data.</p>
+<p>For UPDATE, INSERT, and DELETE statements, the return value is the number of rows affected by the command. When a trigger exists on a table being inserted or updated, the return value includes the number of rows affected by both the insert or update operation and the number of rows affected by the trigger or triggers. For all other types of statements, the return value is -1. If a rollback occurs, the return value is also -1.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int ExecuteNonQuery()</code></pre>
@@ -837,12 +1101,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -873,6 +1140,9 @@
               <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteNonQuery">ExecuteNonQuery()</a>, which executes a Transact-SQL statement against the connection and returns the number of rows affected. The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteNonQueryAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;int&gt; ExecuteNonQueryAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -888,7 +1158,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -922,17 +1192,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteNonQueryAsync_System_Threading_CancellationToken_">ExecuteNonQueryAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteNonQueryAsync_System_Threading_CancellationToken_">ExecuteNonQueryAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -958,6 +1234,12 @@
               <div class="markdown level1 summary"><p>Sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteReader_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a> property is set to <strong>StoredProcedure</strong>, the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property should be set to the name of the stored procedure. The command executes this stored procedure when you call <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a>.</p>
+<p>If a transaction is deadlocked, an exception may not be thrown until <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> is called.</p>
+<p>The multiple active result set (MARS) feature allows for multiple actions using the same connection.</p>
+<p>If you use <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> or <span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteReader</span> to access XML data, SQL Server will return any XML results greater than 2,033 characters in length in multiple rows of 2,033 characters each. To avoid this behavior, use <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a> or <see cref="Overload:System.Data.SqlClient.SqlCommand.BeginExecuteXmlReader"></see> to read FOR XML queries. For more information, see article Q310378, &quot;PRB: XML Data Is Truncated When You Use SqlDataReader,&quot; in the Microsoft Knowledge Base at <a href="http://support.microsoft.com">http://support.microsoft.com</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlDataReader ExecuteReader()</code></pre>
@@ -989,17 +1271,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The current state of the connection is closed. <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> requires an open <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a>.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>The current state of the connection is closed. <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> requires an open <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a>.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1025,6 +1311,12 @@
               <div class="markdown level1 summary"><p>Sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>, and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> using one of the <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior">CommandBehavior</a> values.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteReader_System_Data_CommandBehavior__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a> property is set to <strong>StoredProcedure</strong>, the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property should be set to the name of the stored procedure. The command executes this stored procedure when you call <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a>.</p>
+<p>Use <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a> to retrieve large values and binary data. Otherwise, an <a class="xref" href="System.OutOfMemoryException.html#System_OutOfMemoryException">OutOfMemoryException</a> might occur and the connection will be closed.</p>
+<p>The multiple active result set (MARS) feature allows for multiple actions using the same connection.</p>
+<p>If you use <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> or <span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteReader</span> to access XML data, SQL Server will return any XML results greater than 2,033 characters in length in multiple rows of 2,033 characters each. To avoid this behavior, use <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a> or <see cref="Overload:System.Data.SqlClient.SqlCommand.BeginExecuteXmlReader"></see> to read FOR XML queries. For more information, see article Q310378, &quot;PRB: XML Data Is Truncated When You Use SqlDataReader,&quot; in the Microsoft Knowledge Base at <a href="http://support.microsoft.com">http://support.microsoft.com</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SqlDataReader ExecuteReader(CommandBehavior behavior)</code></pre>
@@ -1074,7 +1366,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1110,6 +1404,9 @@
               <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>. Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;SqlDataReader&gt; ExecuteReaderAsync()</code></pre>
@@ -1141,7 +1438,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1151,12 +1450,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync">ExecuteReaderAsync()</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync">ExecuteReaderAsync()</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1182,6 +1485,9 @@
               <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader_System_Data_CommandBehavior_">ExecuteReader(CommandBehavior)</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>, and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>. Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;SqlDataReader&gt; ExecuteReaderAsync(CommandBehavior behavior)</code></pre>
@@ -1199,7 +1505,7 @@
                   <tr>
                     <td><a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior">CommandBehavior</a></td>
                     <td><em>behavior</em></td>
-                    <td><p>Options for statement execution and data retrieval.  When is set to Default, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> reads the entire row before returning a complete Task.</p>
+                    <td><p>Options for statement execution and data retrieval.  When is set to <strong>Default</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> reads the entire row before returning a complete Task.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1231,7 +1537,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1241,12 +1549,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_">ExecuteReaderAsync(CommandBehavior)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_">ExecuteReaderAsync(CommandBehavior)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1269,9 +1581,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L314">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlCommand.ExecuteReaderAsync(System.Data.CommandBehavior,System.Threading.CancellationToken)">ExecuteReaderAsync(CommandBehavior, Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader_System_Data_CommandBehavior_">ExecuteReader(CommandBehavior)</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>, and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader_System_Data_CommandBehavior_">ExecuteReader(CommandBehavior)</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a>, and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a></p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;SqlDataReader&gt; ExecuteReaderAsync(CommandBehavior behavior, Threading.CancellationToken cancellationToken)</code></pre>
@@ -1289,11 +1605,11 @@
                   <tr>
                     <td><a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior">CommandBehavior</a></td>
                     <td><em>behavior</em></td>
-                    <td><p>Options for statement execution and data retrieval.  When is set to Default, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> reads the entire row before returning a complete Task.</p>
+                    <td><p>Options for statement execution and data retrieval.  When is set to <strong>Default</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> reads the entire row before returning a complete Task.</p>
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -1327,7 +1643,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1337,12 +1655,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_System_Threading_CancellationToken_">ExecuteReaderAsync(CommandBehavior, Threading.CancellationToken)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_System_Threading_CancellationToken_">ExecuteReaderAsync(CommandBehavior, Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1365,9 +1687,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L315">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlCommand.ExecuteReaderAsync(System.Threading.CancellationToken)">ExecuteReaderAsync(Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>.The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>.</p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;SqlDataReader&gt; ExecuteReaderAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -1383,7 +1709,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -1417,7 +1743,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
@@ -1427,12 +1755,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_System_Threading_CancellationToken_">ExecuteReaderAsync(CommandBehavior, Threading.CancellationToken)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReaderAsync_System_Data_CommandBehavior_System_Threading_CancellationToken_">ExecuteReaderAsync(CommandBehavior, Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1458,6 +1790,12 @@
               <div class="markdown level1 summary"><p>Executes the query, and returns the first column of the first row in the result set returned by the query. Additional columns or rows are ignored.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteScalar_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalar">ExecuteScalar()</a> method to retrieve a single value (for example, an aggregate value) from a database. This requires less code than using the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> method, and then performing the operations that you need to generate the single value using the data returned by a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>.</p></p>
+<p><p>A typical <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalar">ExecuteScalar()</a> query can be formatted as in the following C# example: </p></p>
+<pre><code> cmd.CommandText = "SELECT COUNT(*) FROM dbo.region";
+Int32 count = (Int32) cmd.ExecuteScalar();</code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override object ExecuteScalar()</code></pre>
@@ -1473,7 +1811,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>The first column of the first row in the result set, or a null reference (Nothing in Visual Basic) if the result set is empty. Returns a maximum of 2033 characters.</p>
+                    <td><p>The first column of the first row in the result set, or a null reference (<strong>Nothing</strong> in Visual Basic) if the result set is empty. Returns a maximum of 2033 characters.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1489,12 +1827,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1522,9 +1863,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L317">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlCommand.ExecuteScalarAsync(System.Threading.CancellationToken)">ExecuteScalarAsync(Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalar">ExecuteScalar()</a>, which executes the query asynchronously and returns the first column of the first row in the result set returned by the query. Additional columns or rows are ignored.The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalar">ExecuteScalar()</a>, which executes the query asynchronously and returns the first column of the first row in the result set returned by the query. Additional columns or rows are ignored.</p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;object&gt; ExecuteScalarAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -1540,7 +1885,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -1574,17 +1919,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_">ExecuteScalarAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_">ExecuteScalarAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1610,6 +1961,14 @@
               <div class="markdown level1 summary"><p>Sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteXmlReader_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> property ordinarily specifies a Transact-SQL statement with a valid FOR XML clause. However, <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> can also specify a statement that returns <strong>ntext</strong> or <strong>nvarchar</strong> data that contains valid XML, or the contents of a column defined with the <strong>xml</strong> data type. </p>
+<p>A typical <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a> query can be formatted as in the following Microsoft Visual C# example: </p>
+<pre><code>SqlCommand command = new SqlCommand("SELECT * FROM dbo.Customers FOR XML AUTO, XMLDATA", SqlConn);</code></pre>
+<p>This method can also be used to retrieve a single-row, single-column result set that contains XML data. In this case, if more than one row is returned, the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a> method attaches the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to the value on the first row, and discards the rest of the result set.</p>
+<p>The multiple active result set (MARS) feature allows for multiple actions using the same connection.</p>
+<p>If you use <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> or <span class="xref">System.Data.SqlClient.SqlCommand.BeginExecuteReader</span> to access XML data, SQL Server will return any XML results greater than 2,033 characters in length in multiple rows of 2,033 characters each. To avoid this behavior, use <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a> or <see cref="Overload:System.Data.SqlClient.SqlCommand.BeginExecuteXmlReader"></see> to read FOR XML queries. For more information, see article Q310378, &quot;PRB: XML Data Is Truncated When You Use SqlDataReader,&quot; in the Microsoft Knowledge Base at <a href="http://support.microsoft.com">http://support.microsoft.com</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Xml.XmlReader ExecuteXmlReader()</code></pre>
@@ -1641,12 +2000,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>An exception occurred while executing the command against a locked row. This exception is not generated when you are using Microsoft .NET Framework version 1.0.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1674,9 +2036,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/src/System/Data/SqlClient/SqlCommand.cs/#L1735">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlCommand_ExecuteXmlReaderAsync" data-uid="System.Data.SqlClient.SqlCommand.ExecuteXmlReaderAsync">ExecuteXmlReaderAsync()</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object.Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object.</p>
+<p>Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteXmlReaderAsync_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;Xml.XmlReader&gt; ExecuteXmlReaderAsync()</code></pre>
@@ -1708,17 +2074,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_">ExecuteScalarAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_">ExecuteScalarAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1741,9 +2113,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L320">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlCommand_ExecuteXmlReaderAsync_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlCommand.ExecuteXmlReaderAsync(System.Threading.CancellationToken)">ExecuteXmlReaderAsync(Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object.The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteXmlReader">ExecuteXmlReader()</a>, which sends the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandText">CommandText</a> to the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Connection">Connection</a> and builds an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object.</p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_ExecuteXmlReaderAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Threading.Tasks.Task&lt;Xml.XmlReader&gt; ExecuteXmlReaderAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -1759,7 +2135,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -1793,17 +2169,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
+                    <td><p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Binary or VarBinary was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Char, NChar, NVarChar, VarChar, or  Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>A <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_SqlDbType">SqlDbType</a> other than Xml was used when <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Value">Value</a> was set to <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_">ExecuteScalarAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteScalarAsync_System_Threading_CancellationToken_">ExecuteScalarAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> closed or dropped during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a></td>
-                    <td><p>SQL Server returned an error while executing the command text.A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
+                    <td><p>SQL Server returned an error while executing the command text.</p>
+<p>A timeout occurred during a streaming operation. For more information about streaming, see SqlClient Streaming Support.</p>
 </td>
                   </tr>
                   <tr>
@@ -1829,6 +2211,14 @@
               <div class="markdown level1 summary"><p>Creates a prepared version of the command on an instance of SQL Server.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlCommand_Prepare_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandType">CommandType</a> is set to <strong>StoredProcedure</strong>, the call to <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Prepare">Prepare()</a> should succeed, although it may cause a no-op.</p>
+<p>Before you call <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Prepare">Prepare()</a>, specify the data type of each parameter in the statement to be prepared. For each parameter that has a variable length data type, you must set the <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Size">Size</a> property to the maximum size needed. <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Prepare">Prepare()</a> returns an error if these conditions are not met.</p>
+<p>If the database context is changed by executing the Transact-SQL <strong>USE <database></database></strong> statement, or by calling the <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection_ChangeDatabase_System_String_">ChangeDatabase(String)</a> method, then <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Prepare">Prepare()</a> must be called a second time.</p>
+<p>If you call an <strong>Execute</strong> method after calling <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Prepare">Prepare()</a>, any parameter value that is larger than the value specified by the <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Size">Size</a> property is automatically truncated to the original specified size of the parameter, and no truncation errors are returned.</p>
+<p>Output parameters (whether prepared or not) must have a user-specified data type. If you specify a variable length data type, you must also specify the maximum <a class="xref" href="System.Data.SqlClient.SqlParameter.html#System_Data_SqlClient_SqlParameter_Size">Size</a>.</p>
+<p>Prior to Visual Studio 2010, <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_Prepare">Prepare()</a> threw an exception.  Beginning in Visual Studio 2010, this method does not throw an exception.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Prepare()</code></pre>

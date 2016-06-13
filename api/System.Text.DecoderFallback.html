@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_DecoderFallback.md&amp;value=---%0Auid%3A%20System.Text.DecoderFallback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/DecoderFallback.cs/#L14" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L31" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Text_DecoderFallback" data-uid="System.Text.DecoderFallback">Class DecoderFallback
               </h1>
               <div class="markdown level0 summary"><p>Provides a failure-handling mechanism, called a fallback, for an encoded input byte sequence that cannot be converted to an output character. </p>
@@ -87,6 +87,27 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class DecoderFallback : object</code></pre>
               </div>
+              <h5 id="System_Text_DecoderFallback_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>An encoding maps a Unicode character to an encoded sequence of bytes. A particular encoding is represented by a type that is derived from the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Encoding</a> class. Specifically, a character is encoded to a byte sequence by calling the encoding type&#39;s <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetBytes_System_String_">GetBytes(String)</a> method, and the byte sequence is decoded to a character array or a string by calling the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetChars_System_Byte___">GetChars(Byte[])</a> or <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetString_System_Byte___">GetString(Byte[])</a> method. </p>
+<p>A decoding operation can fail if the input byte sequence cannot be mapped by the encoding. For example, an <a class="xref" href="System.Text.ASCIIEncoding.html#System_Text_ASCIIEncoding">ASCIIEncoding</a> object cannot decode a byte sequence if that sequence represents a character that has a code point value that is outside the range U+0000 to U+007F. </p>
+<p>When a decoding conversion cannot be performed, the .NET Framework provides a failure-handling mechanism called a fallback. Your application can use predefined .NET Framework decoder fallbacks, or it can create a custom decoder fallback derived from the <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> and <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> classes. </p>
+<p>
+<a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> and <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> are the base classes for all decoding fallback handlers in the .NET Framework. They support the following three kinds of fallback handling mechanisms:</p>
+<ul><li>
+<p>Best-fit fallback, which maps valid Unicode characters that cannot be decoded to an approximate equivalent. For example, a best-fit fallback handler for the <a class="xref" href="System.Text.ASCIIEncoding.html#System_Text_ASCIIEncoding">ASCIIEncoding</a> class might map Æ (U+00C6) to AE (U+0041 + U+0045). A best-fit fallback handler might also be implemented to transliterate one alphabet (such as Cyrillic) to another (such as Latin or Roman). The .NET Framework does not provide any public best-fit fallback implementations.</p>
+</li><li>
+<p>Replacement fallback, which replaces each character that cannot be decoded with a predefined string. The .NET Framework provides a predefined replacement fallback handler. The <a class="xref" href="System.Text.DecoderReplacementFallback.html#System_Text_DecoderReplacementFallback">DecoderReplacementFallback</a> class replaces each byte sequence that cannot be decoded with a question mark character (&quot;?&quot;, or U+003F) or a REPLACEMENT CHARACTER (U+FFFD). You can customize the replacement string by specifying a substitute in the call to the <span class="xref">System.Text.DecoderReplacementFallback.</span> constructor. After the substitute string is emitted, the decoding operation continues converting the remainder of the input.</p>
+</li><li>
+<p>Exception fallback, which throws an exception when a byte sequence cannot be decoded. The .NET Framework provides a predefined exception fallback handler. The <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a> class throws a <a class="xref" href="System.Text.DecoderFallbackException.html#System_Text_DecoderFallbackException">DecoderFallbackException</a> when an invalid byte sequence is encountered, and the decoding operation terminates.</p>
+</li></ul>
+<p>If you choose to implement a custom solution, you must override the following abstract members of the <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> class:</p>
+<ul><li>
+<p>The <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback_CreateFallbackBuffer">CreateFallbackBuffer()</a> method, which returns a class instance derived from <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a>. Depending on the type of fallback handler that you are developing, the <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> implementation is responsible for performing the mapping or replacement, or for throwing the exception.</p>
+</li><li>
+<p>The <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback_MaxCharCount">MaxCharCount</a> property, which returns the maximum number of characters that the fallback implementation can return. For an exception fallback handler, its value should be zero.</p>
+</li></ul>
+<p>For more information about encoding, decoding, and fallback strategies, see Character Encoding in the .NET Framework.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -111,7 +132,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_DecoderFallback_ExceptionFallback.md&amp;value=---%0Auid%3A%20System.Text.DecoderFallback.ExceptionFallback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/DecoderFallback.cs/#L53">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L34">View Source</a>
               </span>
               <h4 id="System_Text_DecoderFallback_ExceptionFallback" data-uid="System.Text.DecoderFallback.ExceptionFallback">ExceptionFallback</h4>
               <div class="markdown level1 summary"><p>Gets an object that throws an exception when an input byte sequence cannot be decoded.</p>
@@ -142,12 +163,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_DecoderFallback_MaxCharCount.md&amp;value=---%0Auid%3A%20System.Text.DecoderFallback.MaxCharCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/DecoderFallback.cs/#L76">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L35">View Source</a>
               </span>
               <h4 id="System_Text_DecoderFallback_MaxCharCount" data-uid="System.Text.DecoderFallback.MaxCharCount">MaxCharCount</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, gets the maximum number of characters the current <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> object can return.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_DecoderFallback_MaxCharCount_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For an exception fallback handler, this property should return zero.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract int MaxCharCount { get; }</code></pre>
@@ -173,7 +197,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_DecoderFallback_ReplacementFallback.md&amp;value=---%0Auid%3A%20System.Text.DecoderFallback.ReplacementFallback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/DecoderFallback.cs/#L39">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L36">View Source</a>
               </span>
               <h4 id="System_Text_DecoderFallback_ReplacementFallback" data-uid="System.Text.DecoderFallback.ReplacementFallback">ReplacementFallback</h4>
               <div class="markdown level1 summary"><p>Gets an object that outputs a substitute string in place of an input byte sequence that cannot be decoded.</p>
@@ -206,12 +230,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_DecoderFallback_CreateFallbackBuffer.md&amp;value=---%0Auid%3A%20System.Text.DecoderFallback.CreateFallbackBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/DecoderFallback.cs/#L72">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L37">View Source</a>
               </span>
               <h4 id="System_Text_DecoderFallback_CreateFallbackBuffer" data-uid="System.Text.DecoderFallback.CreateFallbackBuffer">CreateFallbackBuffer()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, initializes a new instance of the <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> class. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_DecoderFallback_CreateFallbackBuffer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method returns an object derived from <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> that is responsible for performing the fallback operation. For example, of the predefined <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> implementations in the .NET Framework, the <a class="xref" href="System.Text.DecoderReplacementFallback.html#System_Text_DecoderReplacementFallback_CreateFallbackBuffer">CreateFallbackBuffer()</a> method returns a <span class="xref">System.Text.DecoderReplacementFallbackBuffer</span> object, and the <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback_CreateFallbackBuffer">CreateFallbackBuffer()</a> method returns a <span class="xref">System.Text.DecoderExceptionFallbackBuffer</span> object.</p>
+<p>The<a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback_CreateFallbackBuffer">CreateFallbackBuffer()</a> method is called by a decoder when it encounters the first byte that it is unable to decode. The <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> object returned by this method provides the fallback implementation and is responsible for returning the string that replaces the byte or bytes that could not be decoded. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract DecoderFallbackBuffer CreateFallbackBuffer()</code></pre>

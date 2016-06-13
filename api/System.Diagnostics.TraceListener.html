@@ -73,7 +73,7 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/TraceListener.cs/#L17" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Diagnostics_TraceListener" data-uid="System.Diagnostics.TraceListener">Class TraceListener
               </h1>
-              <div class="markdown level0 summary"><p>Provides the abstract base class for the listeners who monitor trace and debug output.</p>
+              <div class="markdown level0 summary"><p>Provides the <strong>abstract</strong> base class for the listeners who monitor trace and debug output.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +87,27 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class TraceListener : IDisposable</code></pre>
               </div>
+              <h5 id="System_Diagnostics_TraceListener_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>For examples of how to implement a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a>, see the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>, <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> and the <span class="xref">System.Diagnostics.EventLogTraceListener</span> classes.</p>
+<p>You must enable tracing or debugging to use a trace listener. The following syntax is compiler specific. If you use compilers other than C# or Visual Basic, refer to the documentation for your compiler.</p>
+<ul><li>
+<p>To enable debugging in C#, add the <strong>/d:DEBUG</strong> flag to the compiler command line when you compile your code, or you can add <strong>#define DEBUG</strong> to the top of your file. In Visual Basic, add the <strong>/d:DEBUG=True</strong> flag to the compiler command line.</p>
+</li><li>
+<p>To enable tracing in C#, add the <strong>/d:TRACE</strong> flag to the compiler command line when you compile your code, or add <strong>#define TRACE</strong> to the top of your file. In Visual Basic, add the <strong>/d:TRACE=True</strong> flag to the compiler command line.</p>
+</li></ul>
+<p>To add a trace listener, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its type and set its parameter, remove a listener, or clear all the listeners previously set by the application. The configuration file should be formatted similar to the following example. </p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="4">
+<listeners>
+<add name="myListener" type="System.Diagnostics.TextWriterTraceListener" initializedata="TextWriterOutput.log"></add>
+<remove name="Default"></remove>
+</listeners>
+</trace>
+</system.diagnostics>
+</configuration></code></pre>
+<p>For more information on using configuration files for tracing, see <system.diagnostics> Element.<p>
+</system.diagnostics></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +121,24 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The following table shows initial property values for an instance of <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Default Value </p></p>
+<table><tbody><tr><td>
+<p>Name </p>
+</td><td>
+<p>The empty string (&quot;&quot;). </p>
+</td></tr><tr><td>
+<p>Indent </p>
+</td><td>
+<p>Zero. </p>
+</td></tr><tr><td>
+<p>IndentSize </p>
+</td><td>
+<p>Four spaces. </p>
+</td></tr></tbody></table>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected TraceListener()</code></pre>
@@ -150,6 +189,9 @@
               <div class="markdown level1 summary"><p>Gets and sets the trace filter for the trace listener.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_Filter_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A trace filter can be added to a trace listener to provide a layer of screening beyond that provided to the trace source by switches. For example, the <a class="xref" href="System.Diagnostics.EventTypeFilter.html#System_Diagnostics_EventTypeFilter">EventTypeFilter</a> can be added to a trace listener to control the event types that are output by the listener.  Listeners that are called because the switch criteria are met can query their filter, if present, to determine if a trace is to be sent to output.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TraceFilter Filter { get; set; }</code></pre>
@@ -181,6 +223,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the indent level.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_IndentLevel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IndentLevel">IndentLevel</a> property represents the number of times that the indent specified by the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IndentSize">IndentSize</a> property is applied. This property is stored on per-thread/per-request basis.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int IndentLevel { get; set; }</code></pre>
@@ -212,6 +257,9 @@
               <div class="markdown level1 summary"><p>Gets or sets the number of spaces in an indent.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_IndentSize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The property is stored on per-thread/per-request basis.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int IndentSize { get; set; }</code></pre>
@@ -259,6 +307,9 @@
               <div class="markdown level1 summary"><p>Gets a value indicating whether the trace listener is thread safe. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_IsThreadSafe_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The value of <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> is used to determine whether to use a global lock when writing to the listener. If the value of <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> is <strong>false</strong>, the global lock is used regardless of the value of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a>. The global lock is not used only if the value of <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> is <strong>true</strong> and the value of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a> is <strong>false</strong>. The default behavior is to use the global lock whenever writing to the listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool IsThreadSafe { get; }</code></pre>
@@ -274,7 +325,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the trace listener is thread safe; otherwise, false. The default is false.</p>
+                    <td><p>
+<strong>true</strong> if the trace listener is thread safe; otherwise, <strong>false</strong>. The default is <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -290,6 +342,9 @@
               <div class="markdown level1 summary"><p>Gets or sets a name for this <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The name can be used to organize and access listeners in a <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual string Name { get; set; }</code></pre>
@@ -321,6 +376,9 @@
               <div class="markdown level1 summary"><p>Gets or sets a value indicating whether to indent the output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_NeedIndent_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Note   The <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteIndent">WriteIndent()</a> method, called by the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> and <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> classes, sets the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> property value to <strong>false</strong> to prevent later, unnecessary indents. You must set the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> property to <strong>true</strong> each time you wish to indent trace output. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected bool NeedIndent { get; set; }</code></pre>
@@ -336,7 +394,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the output should be indented; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the output should be indented; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -352,6 +411,17 @@
               <div class="markdown level1 summary"><p>Gets or sets the trace output options.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_TraceOutputOptions_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property determines the optional content of trace output. The property can be set in the configuration file or programmatically during execution to include additional data specifically for a section of code. For example, you can set the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property for the console trace listener to <span class="xref">System.Diagnostics.TraceOptions.Callstack</span> to add call stack information to the trace output. </p></p>
+<p><p>The <a class="xref" href="System.Diagnostics.TraceOptions.html#System_Diagnostics_TraceOptions">TraceOptions</a> enumeration is not used by the following classes and methods:</p></p>
+<ul><li>
+<p>The <span class="xref">System.Diagnostics.EventLogTraceListener</span> class, because it can cause a large volume of data to be written to the log. </p>
+</li><li>
+<p>The <strong>Write</strong> and <strong>WriteLine</strong> methods of the <span class="xref">System.Diagnostics.ConsoleTraceListener</span>, <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>, and <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> classes.</p>
+</li><li>
+<p>The <see cref="Overload:System.Diagnostics.TraceListener.Write"></see> and <see cref="Overload:System.Diagnostics.TraceListener.WriteLine"></see> methods of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class when they are not overridden in a derived class.</p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public TraceOptions TraceOutputOptions { get; set; }</code></pre>
@@ -401,6 +471,9 @@
               <div class="markdown level1 summary"><p>Releases all resources used by the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Calling <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Dispose">Dispose()</a> allows the resources used by the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to be reallocated for other purposes. For more information about <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Dispose">Dispose()</a>, see Cleaning Up Unmanaged Resources.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
@@ -416,6 +489,10 @@
               <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> and optionally releases the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the public <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Dispose">Dispose()</a> method and the <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> method. <strong>Dispose</strong> invokes the protected <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Dispose">Dispose()</a> method with the <em>disposing</em> parameter set to <strong>true</strong>. <a class="xref" href="System.Object.html#System_Object_Finalize">Finalize()</a> invokes <strong>Dispose</strong> with <em>disposing</em> set to <strong>false</strong>.</p>
+<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> references. This method invokes the <strong>Dispose</strong> method of each referenced object.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
@@ -433,7 +510,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>disposing</em></td>
-                    <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources. </p>
+                    <td><p>
+<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>
 </td>
                   </tr>
                 </tbody>
@@ -449,6 +527,9 @@
               <div class="markdown level1 summary"><p>Emits an error message to the listener you create when you implement the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_Fail_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior is to display the specified message in a message box when the application is running in a user-interface mode, and to the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances in a <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> collection. By default, the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> collection has an instance of a <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to or removing one from the collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void Fail(string message)</code></pre>
@@ -482,6 +563,9 @@
               <div class="markdown level1 summary"><p>Emits an error message and a detailed error message to the listener you create when you implement the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_Fail_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior is to display the message and detailed message in a message box when the application is running in a user-interface mode, and to the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances in a <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> collection. By default, the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> collection has an instance of a <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to or removing one from the collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void Fail(string message, string detailMessage)</code></pre>
@@ -536,6 +620,10 @@
               <div class="markdown level1 summary"><p>Writes trace information, a data object and event information to the listener specific output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_TraceData_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is not intended to be called directly by application code but by members of the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, and <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> classes to write trace data to output.</p>
+<p>The default implementation writes the <em>eventCache</em>, <em>source</em>, <em>eventType</em> and <em>id</em> parameters in the header and footer of the trace. The <em>data</em> parameter is written as the body of the trace message. The <strong>ToString</strong> method of the data object is used to convert the object to a <a class="xref" href="System.String.html#System_String">String</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void TraceData(TraceEventCache eventCache, string source, TraceEventType eventType, int id, object data)</code></pre>
@@ -593,6 +681,10 @@
               <div class="markdown level1 summary"><p>Writes trace information, an array of data objects and event information to the listener specific output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_TraceData_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is not intended to be called directly by application code but by members of the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, and <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> classes to write trace data to output.</p>
+<p>The default implementation writes the values of the <em>source</em>, <em>eventType</em> and <em>id</em> parameters as a header. The data objects are converted to strings using the <strong>ToString</strong> method of each object. The <em>eventCache</em> data is written as a footer, the nature of the output data being dependent on the value of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void TraceData(TraceEventCache eventCache, string source, TraceEventType eventType, int id, params object[] data)</code></pre>
@@ -650,6 +742,10 @@
               <div class="markdown level1 summary"><p>Writes trace and event information to the listener specific output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_TraceEvent_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is not intended to be called directly by application code but by members of the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, and <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> classes to write trace data to output.</p>
+<p>The default implementation writes the values of the <em>source</em>, <em>eventType</em> and <em>id</em> parameters as a header. The <em>eventCache</em> data is written as a footer, the nature of the output data being dependent on the value of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id)</code></pre>
@@ -701,6 +797,10 @@
               <div class="markdown level1 summary"><p>Writes trace information, a message, and event information to the listener specific output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_TraceEvent_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is not intended to be called directly by application code but by members of the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, and <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> classes to write trace data to output.</p>
+<p>The default implementation writes the values of the <em>source</em>, <em>eventType</em> and <em>id</em> parameters as a header, followed by the <em>message</em> data. The <em>eventCache</em> data is written as a footer, the nature of the output data being dependent on the value of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string message)</code></pre>
@@ -758,6 +858,10 @@
               <div class="markdown level1 summary"><p>Writes trace information, a formatted array of objects and event information to the listener specific output.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_TraceEvent_System_Diagnostics_TraceEventCache_System_String_System_Diagnostics_TraceEventType_System_Int32_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is not intended to be called directly by application code but by members of the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a>, <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, and <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> classes to write trace data to output.</p>
+<p>The default implementation writes the values of the <em>source</em>, <em>eventType</em> and <em>id</em> parameters as a header. The <em>args</em> object array is converted to a string using the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method, passing the <em>format</em> string and <em>args</em> array to format the string as the message portion of the trace. The <em>eventCache</em> data is written as a footer, the nature of the output data being dependent on the value of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_TraceOutputOptions">TraceOutputOptions</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)</code></pre>
@@ -805,7 +909,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>An object array containing zero or more objects to format.</p>
+                    <td><p>An <strong>object</strong> array containing zero or more objects to format.</p>
 </td>
                   </tr>
                 </tbody>
@@ -962,9 +1066,12 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/TraceListener.cs/#L240">View Source</a>
               </span>
               <h4 id="System_Diagnostics_TraceListener_WriteIndent" data-uid="System.Diagnostics.TraceListener.WriteIndent">WriteIndent()</h4>
-              <div class="markdown level1 summary"><p>Writes the indent to the listener you create when you implement this class, and resets the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> property to false.</p>
+              <div class="markdown level1 summary"><p>Writes the indent to the listener you create when you implement this class, and resets the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> property to <strong>false</strong>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_WriteIndent_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method writes the indent and resets the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> property to <strong>false</strong>. Call this method if <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_NeedIndent">NeedIndent</a> is <strong>true</strong> when you are overriding the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> and <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> methods. By default, this method uses blank spaces for indentation. The size of the indent is determined by the values of the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IndentSize">IndentSize</a> and <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IndentLevel">IndentLevel</a> properties. The <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IndentLevel">IndentLevel</a> property represents the number of times the indent of the size specified by the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IndentSize">IndentSize</a> property is applied. This method is called by the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> and <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> classes.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual void WriteIndent()</code></pre>
@@ -980,6 +1087,9 @@
               <div class="markdown level1 summary"><p>Writes the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the listener you create when you implement the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class, followed by a line terminator.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_WriteLine_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The typical line terminator you might implement is a carriage return followed by a line feed (\r\n).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void WriteLine(object o)</code></pre>
@@ -1013,6 +1123,9 @@
               <div class="markdown level1 summary"><p>Writes a category name and the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the listener you create when you implement the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class, followed by a line terminator.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_WriteLine_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The typical line terminator you might implement is a carriage return followed by a line feed (\r\n).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void WriteLine(object o, string category)</code></pre>
@@ -1052,6 +1165,9 @@
               <div class="markdown level1 summary"><p>When overridden in a derived class, writes a message to the listener you create in the derived class, followed by a line terminator.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_WriteLine_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The typical line terminator you might implement is a carriage return followed by a line feed (\r\n).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract void WriteLine(string message)</code></pre>
@@ -1085,6 +1201,9 @@
               <div class="markdown level1 summary"><p>Writes a category name and a message to the listener you create when you implement the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> class, followed by a line terminator.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_TraceListener_WriteLine_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The typical line terminator you might implement is a carriage return followed by a line feed (\r\n).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void WriteLine(string message, string category)</code></pre>

@@ -87,6 +87,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class AttributeCollection : Collections.ICollection, Collections.IEnumerable</code></pre>
               </div>
+              <h5 id="System_ComponentModel_AttributeCollection_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> class is read-only; it does not implement methods to add or remove attributes. You must inherit from this class to implement these methods.</p>
+<p>Use the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Count">Count</a> property to find the number of attributes that exist in the collection.</p>
+<p>You can also use the methods of this class to query the collection about its contents. Call the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Contains_System_Attribute_">Contains(Attribute)</a> method to verify that a specified attribute or attribute array exists in the collection. Call the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Matches_System_Attribute_">Matches(Attribute)</a> method to verify that a specified attribute or array of attributes exists in the collection, and that the values of the specified attributes are the same as the values in the collection.</p>
+<p>While most attributes have default values, default values are not required. If an attribute has no default value, <strong>null</strong> is returned from the indexed property that takes a type. When defining your own attributes, you can declare a default value by either providing a constructor that takes no arguments, or defining a public static field of your attribute type named &quot;Default&quot;.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -148,7 +154,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>attributes</em> is null.</p>
+                    <td><p>
+<em>attributes</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -214,6 +221,9 @@
               <div class="markdown level1 summary"><p>Gets the number of attributes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Count_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can use the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Count">Count</a> property to set the limits of a loop that iterates through a collection of objects. If the collection is zero-based, be sure to use <code>Count - 1</code> as the upper boundary of the loop.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Count { get; }</code></pre>
@@ -245,6 +255,9 @@
               <div class="markdown level1 summary"><p>Gets the attribute with the specified index number.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Item_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The index number is zero-based. Therefore, you must subtract 1 from the numerical position of a particular <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> to access that <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a>. For example, to get the third <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a>, you need to specify <code>myColl[2]</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Attribute this[int index] { get; }</code></pre>
@@ -294,6 +307,9 @@
               <div class="markdown level1 summary"><p>Gets the attribute with the specified type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Item_System_Type__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the attribute does not exist in the collection, this property returns the default value for the attribute type.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Attribute this[Type attributeType] { get; }</code></pre>
@@ -345,6 +361,11 @@
               <div class="markdown level1 summary"><p>Determines whether this collection of attributes has the specified attribute.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Contains_System_Attribute__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This collection has the specified attribute if the specified type of attribute exists in the collection, and if the value of the specified attribute is the same as the value of the instance of the attribute in the collection.</p>
+<p>The difference between the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Matches_System_Attribute_">Matches(Attribute)</a> and <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Contains_System_Attribute_">Contains(Attribute)</a> methods is that <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Matches_System_Attribute_">Matches(Attribute)</a> calls the <span class="xref">System.Attribute.Match(System.Object)</span> method on an attribute, and <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Contains_System_Attribute_">Contains(Attribute)</a> calls the <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a> method.</p>
+<p>For most attributes, these methods do the same thing. For attributes that may have multiple flags, however, <span class="xref">System.Attribute.Match(System.Object)</span> is typically implemented so that it returns <strong>true</strong> if any of the flags are satisfied. For example, consider a data binding attribute with the Boolean flags &quot;SupportsSql&quot;, &quot;SupportsOleDb&quot;, and &quot;SupportsXml&quot;. This attribute may be present on a property that supports all three data-binding approaches. It will often be the case that a programmer needs to know only if a particular approach is available, not all three. Therefore, a programmer could use <span class="xref">System.Attribute.Match(System.Object)</span> with an instance of the attribute containing only the flags the programmer needs.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Contains(Attribute attribute)</code></pre>
@@ -378,7 +399,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the collection contains the attribute or is the default attribute for the type of attribute; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the collection contains the attribute or is the default attribute for the type of attribute; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -394,6 +416,9 @@
               <div class="markdown level1 summary"><p>Determines whether this attribute collection contains all the specified attributes in the attribute array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Contains_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This collection has the specified array of attributes if all the specified attribute types exist in the collection and if each attribute in the specified array is the same as an attribute in the collection.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Contains(Attribute[] attributes)</code></pre>
@@ -427,7 +452,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the collection contains all the attributes; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the collection contains all the attributes; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -482,6 +508,9 @@
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a> from an existing <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection">AttributeCollection</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_FromExisting_System_ComponentModel_AttributeCollection_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <em>newAttributes</em> parameter is provided, its <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> entries are merged with those of the <em>existing</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static AttributeCollection FromExisting(AttributeCollection existing, params Attribute[] newAttributes)</code></pre>
@@ -505,7 +534,7 @@
                   <tr>
                     <td><a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a>[]</td>
                     <td><em>newAttributes</em></td>
-                    <td><p>An array of type <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> that provides the attributes for this collection. Can be null.</p>
+                    <td><p>An array of type <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> that provides the attributes for this collection. Can be <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -537,7 +566,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>existing</em> is null.</p>
+                    <td><p>
+<em>existing</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -633,6 +663,11 @@
               <div class="markdown level1 summary"><p>Determines whether a specified attribute is the same as an attribute in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Matches_System_Attribute__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An attribute can provide support for matching.</p>
+<p>The difference between the <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Matches_System_Attribute_">Matches(Attribute)</a> and <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Contains_System_Attribute_">Contains(Attribute)</a> methods is that <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Matches_System_Attribute_">Matches(Attribute)</a> calls the <span class="xref">System.Attribute.Match(System.Object)</span> method on an attribute, and <a class="xref" href="System.ComponentModel.AttributeCollection.html#System_ComponentModel_AttributeCollection_Contains_System_Attribute_">Contains(Attribute)</a> calls the <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a> method.</p>
+<p>For most attributes, these methods do the same thing. For attributes that may have multiple flags, however, <span class="xref">System.Attribute.Match(System.Object)</span> is typically implemented so that it returns <strong>true</strong> if any of the flags are satisfied. For example, consider a data binding attribute with the Boolean flags &quot;SupportsSql&quot;, &quot;SupportsOleDb&quot;, and &quot;SupportsXml&quot;. This attribute may be present on a property that supports all three data binding approaches. It will often be the case that a programmer needs to know only if a particular approach is available, not all three. Therefore, a programmer could use <span class="xref">System.Attribute.Match(System.Object)</span> with an instance of the attribute containing only the flags the programmer needs.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Matches(Attribute attribute)</code></pre>
@@ -666,7 +701,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the attribute is contained within the collection and has the same value as the attribute in the collection; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the attribute is contained within the collection and has the same value as the attribute in the collection; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -682,6 +718,9 @@
               <div class="markdown level1 summary"><p>Determines whether the attributes in the specified array are the same as the attributes in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_ComponentModel_AttributeCollection_Matches_System_Attribute____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An attribute can provide support for matching.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool Matches(Attribute[] attributes)</code></pre>
@@ -715,7 +754,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if all the attributes in the array are contained in the collection and have the same values as the attributes in the collection; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if all the attributes in the array are contained in the collection and have the same values as the attributes in the collection; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>

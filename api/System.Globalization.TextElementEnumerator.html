@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Globalization_TextElementEnumerator.md&amp;value=---%0Auid%3A%20System.Globalization.TextElementEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Globalization/TextElementEnumerator.cs/#L24" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Globalization/ref/System.Globalization.cs/#L268" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Globalization_TextElementEnumerator" data-uid="System.Globalization.TextElementEnumerator">Class TextElementEnumerator
               </h1>
               <div class="markdown level0 summary"><p>Enumerates the text elements of a string. </p>
@@ -87,6 +87,30 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class TextElementEnumerator : Collections.IEnumerator</code></pre>
               </div>
+              <h5 id="System_Globalization_TextElementEnumerator_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p><p>The .NET Framework defines a text element as a unit of text that is displayed as a single character, that is, a grapheme. A text element can be any of the following: </p></p>
+<ul><li>
+<p>A base character, which is represented as a single <a class="xref" href="System.Char.html#System_Char">Char</a> value. For example, LATIN CAPITAL LETTER A (U+0041) and LATIN SMALL LETTER AE (U+00E6) are base characters. </p>
+</li><li>
+<p>A combining character sequence, which consists of a base character and one or more combining characters. For example, example, LATIN CAPITAL LETTER A (U+0041) followed by COMBINING MACRON (U+0304) is a combining character sequence. </p>
+</li><li>
+<p>Surrogate pairs, which the <see href="http://go.microsoft.com/fwlink/?linkid=37123">Unicode Standard</see> defines as a coded character representation for a single abstract character that consists of a sequence of two code units: a high surrogate, and a low surrogate. Surrogate pairs are used to represent characters outside of the Unicode Basic Multilingual Plane as UTF-8 encoded characters. For example, GOTHIC LETTER SAUIL (U+10343) is represented in UTF-8 encoding as a high surrogate whose value is 0xD800 and a low surrogate whose value is 0xDF43. A surrogate pair can represent a base character or a combining character. </p>
+<p>
+</li></ul>
+<p>The <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> class allows you to work with the text elements in a string rather than with single <a class="xref" href="System.Char.html#System_Char">Char</a> objects. </p>
+<p>You instantiate a <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> object that represents a particular string by passing the string to the <a class="xref" href="System.Globalization.StringInfo.html#System_Globalization_StringInfo_GetTextElementEnumerator_System_String_">GetTextElementEnumerator(String)</a> method. This returns an enumerator that is positioned before the first text element in the string. Calling the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a> method also brings the enumerator back to this position. Because this represents an invalid state, you must call <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> to advance the enumerator to the first text element of the string before reading the value of the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> property to return the current text element.</p>
+<p>When working with a <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> object, you are responsible for positioning the enumerator. The <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> property returns the same text element until you call either <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> or <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a>. The enumerator is in an invalid state if it is positioned before the first text element or after the last text element in the string. When the enumerator is in an invalid state, attempting to retrieve the value of the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> property throws an exception. You can determine whether the enumerator is in an invalid state by testing whether the return value of the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> property is <strong>false</strong>. </p>
+<p>The <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> object represents a snapshot of the current state of a string variable or string literal at the moment that the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> object is instantiated. Note that: </p>
+<ul><li>
+<p>Text element enumerators can only be used to read data in a string. They cannot modify the underlying string. </p>
+</li><li>
+<p>An enumerator does not have exclusive access to the string that it represents. A string variable can be modified after the enumerator is created. </p>
+</li><li>
+<p>A <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> object enumerates the text elements present in the string at the time that the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> object was instantiated. It does not reflect any subsequent changes to the string variable if that variable is modified afterward. </p>
+</li><li>
+<p>Because the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> class does not override <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>, two <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator">TextElementEnumerator</a> objects that represent the same string will be considered unequal. </p>
+</li></ul>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +118,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Globalization_TextElementEnumerator_Current.md&amp;value=---%0Auid%3A%20System.Globalization.TextElementEnumerator.Current%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Globalization/TextElementEnumerator.cs/#L107">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Globalization/ref/System.Globalization.cs/#L271">View Source</a>
               </span>
               <h4 id="System_Globalization_TextElementEnumerator_Current" data-uid="System.Globalization.TextElementEnumerator.Current">Current</h4>
               <div class="markdown level1 summary"><p>Gets the current text element in the string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Globalization_TextElementEnumerator_Current_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After an enumerator is created or after a <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a> is called, <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> must be called to advance the enumerator to the first text element of the string before reading the value of <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a>. Otherwise, <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> is undefined.</p>
+<p>
+<a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> also throws an exception if the last call to <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> returned <strong>false</strong>, which indicates the end of the string.</p>
+<p>
+<a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> does not move the position of the enumerator, and consecutive calls to <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> return the same object until either <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> or <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a> is called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object Current { get; }</code></pre>
@@ -141,7 +172,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Globalization_TextElementEnumerator_ElementIndex.md&amp;value=---%0Auid%3A%20System.Globalization.TextElementEnumerator.ElementIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Globalization/TextElementEnumerator.cs/#L133">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Globalization/ref/System.Globalization.cs/#L272">View Source</a>
               </span>
               <h4 id="System_Globalization_TextElementEnumerator_ElementIndex" data-uid="System.Globalization.TextElementEnumerator.ElementIndex">ElementIndex</h4>
               <div class="markdown level1 summary"><p>Gets the index of the text element that the enumerator is currently positioned over.</p>
@@ -190,12 +221,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Globalization_TextElementEnumerator_GetTextElement.md&amp;value=---%0Auid%3A%20System.Globalization.TextElementEnumerator.GetTextElement%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Globalization/TextElementEnumerator.cs/#L117">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Globalization/ref/System.Globalization.cs/#L273">View Source</a>
               </span>
               <h4 id="System_Globalization_TextElementEnumerator_GetTextElement" data-uid="System.Globalization.TextElementEnumerator.GetTextElement">GetTextElement()</h4>
               <div class="markdown level1 summary"><p>Gets the current text element in the string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Globalization_TextElementEnumerator_GetTextElement_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method returns the same text element as the <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string GetTextElement()</code></pre>
@@ -237,12 +271,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Globalization_TextElementEnumerator_MoveNext.md&amp;value=---%0Auid%3A%20System.Globalization.TextElementEnumerator.MoveNext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Globalization/TextElementEnumerator.cs/#L90">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Globalization/ref/System.Globalization.cs/#L274">View Source</a>
               </span>
               <h4 id="System_Globalization_TextElementEnumerator_MoveNext" data-uid="System.Globalization.TextElementEnumerator.MoveNext">MoveNext()</h4>
               <div class="markdown level1 summary"><p>Advances the enumerator to the next text element of the string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Globalization_TextElementEnumerator_MoveNext_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>After an enumerator is created or after a <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a> is called, the enumerator is positioned before the first text element of the string, and the first call to <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> moves the enumerator over the first text element of the string.</p>
+<p>If the string is modified after this enumerator was created, <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> throws an exception.</p>
+<p>After the end of the string is passed, subsequent calls to <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> return <strong>false</strong> until <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a> is called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool MoveNext()</code></pre>
@@ -258,7 +297,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the enumerator was successfully advanced to the next text element; false if the enumerator has passed the end of the string.</p>
+                    <td><p>
+<strong>true</strong> if the enumerator was successfully advanced to the next text element; <strong>false</strong> if the enumerator has passed the end of the string.</p>
 </td>
                   </tr>
                 </tbody>
@@ -268,12 +308,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Globalization_TextElementEnumerator_Reset.md&amp;value=---%0Auid%3A%20System.Globalization.TextElementEnumerator.Reset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Globalization/TextElementEnumerator.cs/#L146">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Globalization/ref/System.Globalization.cs/#L275">View Source</a>
               </span>
               <h4 id="System_Globalization_TextElementEnumerator_Reset" data-uid="System.Globalization.TextElementEnumerator.Reset">Reset()</h4>
               <div class="markdown level1 summary"><p>Sets the enumerator to its initial position, which is before the first text element in the string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Globalization_TextElementEnumerator_Reset_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a> method moves the enumerator to the beginning of the string, before the first text element. After calling <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Reset">Reset()</a>, you must call <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_MoveNext">MoveNext()</a> to advance the enumerator to the first text element of the string before calling <a class="xref" href="System.Globalization.TextElementEnumerator.html#System_Globalization_TextElementEnumerator_Current">Current</a> to read the value of the first text element.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Reset()</code></pre>

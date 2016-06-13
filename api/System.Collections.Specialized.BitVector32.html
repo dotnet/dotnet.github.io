@@ -82,6 +82,13 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public struct BitVector32</code></pre>
               </div>
+              <h5 id="System_Collections_Specialized_BitVector32_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>
+<a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> is more efficient than <a class="xref" href="System.Collections.BitArray.html#System_Collections_BitArray">BitArray</a> for Boolean values and small integers that are used internally. A <a class="xref" href="System.Collections.BitArray.html#System_Collections_BitArray">BitArray</a> can grow indefinitely as needed, but it has the memory and performance overhead that a class instance requires. In contrast, a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> uses only 32 bits.</p>
+<p>A <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> structure can be set up to contain either sections for small integers or bit flags for Booleans, but not both. A <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> is a window into the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> and is composed of the smallest number of consecutive bits that can contain the maximum value specified in <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_CreateSection_System_Int16_">CreateSection(Int16)</a>. For example, a section with a maximum value of 1 is composed of only one bit, whereas a section with a maximum value of 5 is composed of three bits. You can create a <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> with a maximum value of 1 to serve as a Boolean, thereby allowing you to store integers and Booleans in the same <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>Some members can be used for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections, while other members can be used for one that is set up as bit flags. For example, the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Collections_Specialized_BitVector32_Section_">Item[BitVector32.Section]</a> property is the indexer for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections, and the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> property is the indexer for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as bit flags. <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_CreateMask">CreateMask()</a> creates a series of masks that can be used to access individual bits in a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as bit flags.</p>
+<p>Using a mask on a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections might cause unexpected results.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,6 +102,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> structure containing the data represented in an existing <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> structure.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32__ctor_System_Collections_Specialized_BitVector32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BitVector32(BitVector32 value)</code></pre>
@@ -128,6 +138,9 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> structure containing the data represented in an integer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32__ctor_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This constructor is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public BitVector32(int data)</code></pre>
@@ -163,6 +176,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> as an integer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_Data_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To access the value of the individual sections or bit flags, use the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> property.</p>
+<p>Retrieving the value of this property is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Data { get; }</code></pre>
@@ -194,6 +211,12 @@
               <div class="markdown level1 summary"><p>Gets or sets the value stored in the specified <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_Item_System_Collections_Specialized_BitVector32_Section__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> [Section] property is the indexer for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections, and the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> [int] property is the indexer for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as bit flags.</p>
+<p>A <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> is a window into the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> and is composed of the smallest number of consecutive bits that can contain the maximum value specified in <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_CreateSection_System_Int16_">CreateSection(Int16)</a>. For example, a section with a maximum value of 1 is composed of only one bit, whereas a section with a maximum value of 5 is composed of three bits. You can create a <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> with a maximum value of 1 to serve as a Boolean, thereby allowing you to store integers and Booleans in the same <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>The C# language uses the  keyword to define the indexers instead of implementing the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Collections_Specialized_BitVector32_Section_">Item[BitVector32.Section]</a> property. Visual Basic implements <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Collections_Specialized_BitVector32_Section_">Item[BitVector32.Section]</a> as a default property, which provides the same indexing functionality.</p>
+<p>Retrieving the value of this property is an O(1) operation; setting the property is also an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int this[BitVector32.Section section] { get; set; }</code></pre>
@@ -243,6 +266,12 @@
               <div class="markdown level1 summary"><p>Gets or sets the state of the bit flag indicated by the specified mask.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_Item_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> [Section] property is the indexer for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections, and the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> [int] property is the indexer for a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as bit flags.</p>
+<p>Using this property on a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections might cause unexpected results.</p>
+<p>The C# language uses the  keyword to define the indexers instead of implementing the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> property. Visual Basic implements <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Item_System_Int32_">Item[Int32]</a> as a default property, which provides the same indexing functionality.</p>
+<p>Retrieving the value of this property is an O(1) operation; setting the property is also an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool this[int bit] { get; set; }</code></pre>
@@ -276,7 +305,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified bit flag is on (1); otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the specified bit flag is on (1); otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -294,6 +324,13 @@
               <div class="markdown level1 summary"><p>Creates the first mask in a series of masks that can be used to retrieve individual bits in a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as bit flags.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_CreateMask_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use <code>CreateMask()</code> to create the first mask in a series and <code>CreateMask(int)</code> for all subsequent masks.</p>
+<p>Multiple masks can be created to refer to the same bit flag.</p>
+<p>The resulting mask isolates only one bit flag in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>. You can combine masks using the bitwise OR operation to create a mask that isolates multiple bit flags in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>Using a mask on a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections might cause unexpected results.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static int CreateMask()</code></pre>
@@ -325,6 +362,13 @@
               <div class="markdown level1 summary"><p>Creates an additional mask following the specified mask in a series of masks that can be used to retrieve individual bits in a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as bit flags.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_CreateMask_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use <code>CreateMask()</code> to create the first mask in a series and <code>CreateMask(int)</code> for all subsequent masks.</p>
+<p>Multiple masks can be created to refer to the same bit flag.</p>
+<p>The resulting mask isolates only one bit flag in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>. You can combine masks using the bitwise OR operation to create a mask that isolates multiple bit flags in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>Using a mask on a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> that is set up as sections might cause unexpected results.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static int CreateMask(int previous)</code></pre>
@@ -374,7 +418,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p><em>previous</em> indicates the last bit flag in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>. </p>
+                    <td><p>
+<em>previous</em> indicates the last bit flag in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -390,6 +435,11 @@
               <div class="markdown level1 summary"><p>Creates the first <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> in a series of sections that contain small integers.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_CreateSection_System_Int16__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> is a window into the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> and is composed of the smallest number of consecutive bits that can contain the maximum value specified in <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_CreateSection_System_Int16_">CreateSection(Int16)</a>. For example, a section with a maximum value of 1 is composed of only one bit, whereas a section with a maximum value of 5 is composed of three bits. You can create a <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> with a maximum value of 1 to serve as a Boolean, thereby allowing you to store integers and Booleans in the same <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>If sections already exist in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>, those sections are still accessible; however, overlapping sections might cause unexpected results.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static BitVector32.Section CreateSection(short maxValue)</code></pre>
@@ -439,7 +489,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>maxValue</em> is less than 1. </p>
+                    <td><p>
+<em>maxValue</em> is less than 1. </p>
 </td>
                   </tr>
                 </tbody>
@@ -455,6 +506,11 @@
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> following the specified <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> in a series of sections that contain small integers.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_CreateSection_System_Int16_System_Collections_Specialized_BitVector32_Section__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> is a window into the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> and is composed of the smallest number of consecutive bits that can contain the maximum value specified in <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_CreateSection_System_Int16_">CreateSection(Int16)</a>. For example, a section with a maximum value of 1 is composed of only one bit, whereas a section with a maximum value of 5 is composed of three bits. You can create a <a class="xref" href="System.Collections.Specialized.BitVector32.Section.html#System_Collections_Specialized_BitVector32_Section">BitVector32.Section</a> with a maximum value of 1 to serve as a Boolean, thereby allowing you to store integers and Booleans in the same <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>If sections already exist after <em>previous</em> in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>, those sections are still accessible; however, overlapping sections might cause unexpected results.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static BitVector32.Section CreateSection(short maxValue, BitVector32.Section previous)</code></pre>
@@ -510,12 +566,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>maxValue</em> is less than 1. </p>
+                    <td><p>
+<em>maxValue</em> is less than 1. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p><em>previous</em> includes the final bit in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.-or- <em>maxValue</em> is greater than the highest value that can be represented by the number of bits after <em>previous</em>. </p>
+                    <td><p>
+<em>previous</em> includes the final bit in the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
+<p>-or- </p>
+<p>
+<em>maxValue</em> is greater than the highest value that can be represented by the number of bits after <em>previous</em>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -531,6 +592,10 @@
               <div class="markdown level1 summary"><p>Determines whether the specified object is equal to the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_Equals_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The object <em>o</em> is considered equal to the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> if the type of <em>o</em> is compatible with the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> type and if the value of <em>o</em> is equal to the value of <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Data">Data</a>.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool Equals(object o)</code></pre>
@@ -564,7 +629,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified object is equal to the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if the specified object is equal to the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -580,6 +646,10 @@
               <div class="markdown level1 summary"><p>Serves as a hash function for the <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_GetHashCode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The hash code of a <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> is based on the value of <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Data">Data</a>. Two instances of <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a> with the same value for <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32_Data">Data</a> will also generate the same hash code.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
@@ -611,6 +681,10 @@
               <div class="markdown level1 summary"><p>Returns a string that represents the current <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method overrides <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>.</p>
+<p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
@@ -642,6 +716,9 @@
               <div class="markdown level1 summary"><p>Returns a string that represents the specified <a class="xref" href="System.Collections.Specialized.BitVector32.html#System_Collections_Specialized_BitVector32">BitVector32</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Collections_Specialized_BitVector32_ToString_System_Collections_Specialized_BitVector32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is an O(1) operation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string ToString(BitVector32 value)</code></pre>

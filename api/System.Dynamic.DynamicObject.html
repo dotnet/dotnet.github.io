@@ -87,6 +87,25 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class DynamicObject : object, IDynamicMetaObjectProvider</code></pre>
               </div>
+              <h5 id="System_Dynamic_DynamicObject_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <strong>DynamicObject</strong> class enables you to define which operations can be performed on dynamic objects and how to perform those operations. For example, you can define what happens when you try to get or set an object property, call a method, or perform standard mathematical operations such as addition and multiplication.</p>
+<p>This class can be useful if you want to create a more convenient protocol for a library. For example, if users of your library have to use syntax like <code>Scriptobj.SetProperty("Count", 1)</code>, you can provide the ability to use much simpler syntax, like <code>scriptobj.Count = 1</code>.</p>
+<p>You cannot directly create an instance of the <strong>DynamicObject</strong> class. To implement the dynamic behavior, you may want to inherit from the <strong>DynamicObject</strong> class and override necessary methods. For example, if you need only operations for setting and getting properties, you can override just the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> and <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryGetMember_System_Dynamic_GetMemberBinder_System_Object__">TryGetMember(GetMemberBinder, out Object)</a> methods.</p>
+<p>In C#, to enable dynamic behavior for instances of classes derived from the <strong>DynamicObject</strong> class, you must use the <strong>dynamic</strong> keyword. For more information, see Using Type dynamic (C# Programming Guide).</p>
+<p>In Visual Basic, dynamic operations are supported by late binding. For more information, see Early and Late Binding (Visual Basic).</p>
+<p>The following code example demonstrates how to create an instance of a class that is derived from the <strong>DynamicObject</strong> class.</p>
+<pre><code class="c#">public class SampleDynamicObject : DynamicObject {}
+//...
+dynamic sampleObject = new SampleDynamicObject ();</code></pre>
+<pre><code class="vb#">Public Class SampleDynamicObject 
+Inherits DynamicObject
+&#39;...
+Dim sampleObject As Object = New SampleDynamicObject()</code></pre>
+<p>You can also add your own members to classes derived from the <strong>DynamicObject</strong> class. If your class defines properties and also overrides the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> method, the dynamic language runtime (DLR) first uses the language binder to look for a static definition of a property in the class. If there is no such property, the DLR calls the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> method.</p>
+<p>The <strong>DynamicObject</strong> class implements the DLR interface <a class="xref" href="System.Dynamic.IDynamicMetaObjectProvider.html#System_Dynamic_IDynamicMetaObjectProvider">IDynamicMetaObjectProvider</a>, which enables you to share instances of the <strong>DynamicObject</strong> class between languages that support the DLR interoperability model. For example, you can create an instance of the <strong>DynamicObject</strong> class in C# and then pass it to an IronPython function. For more information, see Dynamic Language Runtime Overview and documentation on the <see href="http://go.microsoft.com/fwlink/?LinkId=141028">CodePlex</see> Web site.</p>
+<p>If you have a simple scenario in which you need an object that can only add and remove members at run time but that does not need to define specific operations and does not have static members, use the <a class="xref" href="System.Dynamic.ExpandoObject.html#System_Dynamic_ExpandoObject">ExpandoObject</a> class.</p>
+<p>If you have a more advanced scenario in which you need to define how dynamic objects participate in the interoperability protocol, or you need to manage DLR fast dynamic dispatch caching, create your own implementation of the <a class="xref" href="System.Dynamic.IDynamicMetaObjectProvider.html#System_Dynamic_IDynamicMetaObjectProvider">IDynamicMetaObjectProvider</a> interface.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +119,11 @@
               <div class="markdown level1 summary"><p>Enables derived types to initialize a new instance of the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You cannot directly create an instance of the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class. To implement dynamic behavior, you have to inherit from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class and override necessary methods.</p>
+<p>In C#, to enable dynamic behavior for instances of the classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, you must use the <strong>dynamic</strong> keyword. For more information, see Using Type dynamic (C# Programming Guide).</p>
+<p>In Visual Basic, dynamic operations are supported by late binding. For more information, see Early and Late Binding (Visual Basic).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected DynamicObject()</code></pre>
@@ -117,6 +141,9 @@
               <div class="markdown level1 summary"><p>Returns the enumeration of all dynamic member names. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_GetDynamicMemberNames_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method exists for debugging purposes only.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.Generic.IEnumerable&lt;string&gt; GetDynamicMemberNames()</code></pre>
@@ -197,6 +224,19 @@
               <div class="markdown level1 summary"><p>Provides implementation for binary operations. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations such as addition and multiplication.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryBinaryOperation_System_Dynamic_BinaryOperationBinder_System_Object_System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how binary operations should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>This method is called when you have binary operations such as addition or multiplication. For example, if the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryBinaryOperation_System_Dynamic_BinaryOperationBinder_System_Object_System_Object__">TryBinaryOperation(BinaryOperationBinder, Object, out Object)</a> method is overridden, it is automatically invoked for statements like <code>sum = first + second</code> or <code>multiply = first*second</code>, where <code>first</code> is derived from the <strong>DynamicObject</strong> class.</p>
+<p>You can get information about the type of the binary operation by using the <code>Operation</code> property of the <em>binder</em> parameter. </p>
+<p>If your dynamic object is used only in C# and Visual Basic, the <code>binder.Operation</code> property can have one of the following values from the <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a> enumeration. However, in other languages such as IronPython or IronRuby, you can have other values. For more information about <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a>, see documentation on the <see href="http://go.microsoft.com/fwlink/?LinkId=141028">CodePlex</see> Web site.</p>
+<p>Value</p>
+<p>Description</p>
+<p>C#</p>
+<p>Visual Basic</p>
+<p>To implement <strong>OrElse</strong> (<code>a || b</code>) and <strong>AndAlso</strong> (<code>a && b</code>) operations for dynamic objects in C#, you may want to implement both the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryUnaryOperation_System_Dynamic_UnaryOperationBinder_System_Object__">TryUnaryOperation(UnaryOperationBinder, out Object)</a> method and the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryBinaryOperation_System_Dynamic_BinaryOperationBinder_System_Object_System_Object__">TryBinaryOperation(BinaryOperationBinder, Object, out Object)</a> method. </p>
+<p>The <strong>OrElse</strong> operation consists of the unary <strong>IsTrue</strong> operation and the binary <strong>Or</strong> operation. The <strong>Or</strong> operation is performed only if the result of the <strong>IsTrue</strong> operation is <strong>false</strong>.</p>
+<p>The <strong>AndAlso</strong> operation consists of the unary <strong>IsFalse</strong> operation and the binary <strong>And</strong> operation. The <strong>And</strong> operation is performed only if the result of the <strong>IsFalse</strong> operation is <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryBinaryOperation(BinaryOperationBinder binder, object arg, out object result)</code></pre>
@@ -214,13 +254,13 @@
                   <tr>
                     <td><a class="xref" href="System.Dynamic.BinaryOperationBinder.html#System_Dynamic_BinaryOperationBinder">BinaryOperationBinder</a></td>
                     <td><em>binder</em></td>
-                    <td><p>Provides information about the binary operation. The binder.Operation property returns an <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a> object. For example, for the sum = first + second statement, where first and second are derived from the DynamicObject class, binder.Operation returns ExpressionType.Add.</p>
+                    <td><p>Provides information about the binary operation. The <code>binder.Operation</code> property returns an <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a> object. For example, for the <code>sum = first + second</code> statement, where <code>first</code> and <code>second</code> are derived from the <strong>DynamicObject</strong> class, <code>binder.Operation</code> returns <code>ExpressionType.Add</code>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>arg</em></td>
-                    <td><p>The right operand for the binary operation. For example, for the sum = first + second statement, where first and second are derived from the DynamicObject class, <em>arg</em> is equal to second.</p>
+                    <td><p>The right operand for the binary operation. For example, for the <code>sum = first + second</code> statement, where <code>first</code> and <code>second</code> are derived from the <strong>DynamicObject</strong> class, <em>arg</em> is equal to <code>second</code>.</p>
 </td>
                   </tr>
                   <tr>
@@ -242,7 +282,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -258,6 +299,19 @@
               <div class="markdown level1 summary"><p>Provides implementation for type conversion operations. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations that convert an object from one type to another.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryConvert_System_Dynamic_ConvertBinder_System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how a type conversion should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p></p>
+<p><p>In C#, if this method is overridden, it is automatically invoked when you have an explicit or implicit conversion, as shown in the code example below.</p></p>
+<p><p>In Visual Basic, only explicit conversion is supported. If you override this method, you call it by using the <span class="xref">Microsoft.VisualBasic.Conversion.CTypeDynamic``1(System.Object)</span> or <span class="xref">Microsoft.VisualBasic.Conversion.CTypeDynamic(System.Object,System.Type)</span> functions.</p></p>
+<pre><code class="c#">// Explicit conversion.
+String sampleExplicit = (String)sampleObject;
+// Implicit conversion.
+String sampleImplicit = sampleObject;</code></pre>
+<pre><code class="vb#">// Explicit conversion - first variant.
+Dim testExplicit1 = CTypeDynamic(Of String)(sampleObject)
+// Explicit conversion - second variant.
+Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))</code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryConvert(ConvertBinder binder, out object result)</code></pre>
@@ -275,7 +329,7 @@
                   <tr>
                     <td><a class="xref" href="System.Dynamic.ConvertBinder.html#System_Dynamic_ConvertBinder">ConvertBinder</a></td>
                     <td><em>binder</em></td>
-                    <td><p>Provides information about the conversion operation. The binder.Type property provides the type to which the object must be converted. For example, for the statement (String)sampleObject in C# (CType(sampleObject, Type) in Visual Basic), where sampleObject is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, binder.Type returns the <a class="xref" href="System.String.html#System_String">String</a> type. The binder.Explicit property provides information about the kind of conversion that occurs. It returns true for explicit conversion and false for implicit conversion.</p>
+                    <td><p>Provides information about the conversion operation. The <code>binder.Type</code> property provides the type to which the object must be converted. For example, for the statement <code>(String)sampleObject</code> in C# (<code>CType(sampleObject, Type)</code> in Visual Basic), where <code>sampleObject</code> is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <code>binder.Type</code> returns the <a class="xref" href="System.String.html#System_String">String</a> type. The <code>binder.Explicit</code> property provides information about the kind of conversion that occurs. It returns <strong>true</strong> for explicit conversion and <strong>false</strong> for implicit conversion.</p>
 </td>
                   </tr>
                   <tr>
@@ -297,7 +351,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -313,6 +368,10 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that initialize a new instance of a dynamic object. This method is not intended for use in C# or Visual Basic.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryCreateInstance_System_Dynamic_CreateInstanceBinder_System_Object___System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how a new instance of the dynamic object should be initialized. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>C# and Visual Basic compilers never emit code to use this method because they do not support first-class types. This method is intended for languages that support the initialization of dynamic objects by using syntax like <code>dynamic new</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryCreateInstance(CreateInstanceBinder binder, object[] args, out object result)</code></pre>
@@ -336,7 +395,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>The arguments that are passed to the object during initialization. For example, for the new SampleType(100) operation, where SampleType is the type derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>args[0]</em> is equal to 100.</p>
+                    <td><p>The arguments that are passed to the object during initialization. For example, for the <code>new SampleType(100)</code> operation, where <code>SampleType</code> is the type derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>args[0]</em> is equal to 100.</p>
 </td>
                   </tr>
                   <tr>
@@ -358,7 +417,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -374,6 +434,10 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that delete an object by index. This method is not intended for use in C# or Visual Basic.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryDeleteIndex_System_Dynamic_DeleteIndexBinder_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how a value that has a specified index should be deleted. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>C# and Visual Basic compilers never emit code to use this method because they do not support this kind of operation. This method is intended for languages that support syntax for deleting objects by index, such as <code>del sampleObject[1,2]</code> in Python.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryDeleteIndex(DeleteIndexBinder binder, object[] indexes)</code></pre>
@@ -413,7 +477,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -429,6 +494,10 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that delete an object member. This method is not intended for use in C# or Visual Basic.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryDeleteMember_System_Dynamic_DeleteMemberBinder__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how an object member should be deleted. When this method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>C# and Visual Basic compilers never emit code to use this method because they do not support this kind of operation. This method is intended for languages that support syntax for deleting members, such as <code>del sampleObject.SampleMember</code> in Python.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryDeleteMember(DeleteMemberBinder binder)</code></pre>
@@ -462,7 +531,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -478,6 +548,10 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that get a value by index. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for indexing operations.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryGetIndex_System_Dynamic_GetIndexBinder_System_Object___System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how getting a value by index should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
+<p>If this method is overridden, it is automatically invoked when you have an operation like <code>sampleObject[3]</code> in C# or <code>sampleObject(3)</code> in Visual Basic, where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)</code></pre>
@@ -501,7 +575,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>indexes</em></td>
-                    <td><p>The indexes that are used in the operation. For example, for the sampleObject[3] operation in C# (sampleObject(3) in Visual Basic), where sampleObject is derived from the DynamicObject class, <em>indexes[0]</em> is equal to 3.</p>
+                    <td><p>The indexes that are used in the operation. For example, for the <code>sampleObject[3]</code> operation in C# (<code>sampleObject(3)</code> in Visual Basic), where <code>sampleObject</code> is derived from the <strong>DynamicObject</strong> class, <em>indexes[0]</em> is equal to 3.</p>
 </td>
                   </tr>
                   <tr>
@@ -523,7 +597,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -539,6 +614,11 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that get member values. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations such as getting a value for a property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryGetMember_System_Dynamic_GetMemberBinder_System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how operations that get member values should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
+<p>This method is called when you have statements like <code>Console.WriteLine(sampleObject.SampleProperty)</code>, where <code>sampleObject</code> is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class.</p>
+<p>You can also add your own members to classes derived from the <strong>DynamicObject</strong> class. If your class defines properties and also overrides the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> method, the dynamic language runtime (DLR) first uses the language binder to look for a static definition of a property in the class. If there is no such property, the DLR calls the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryGetMember(GetMemberBinder binder, out object result)</code></pre>
@@ -556,7 +636,7 @@
                   <tr>
                     <td><a class="xref" href="System.Dynamic.GetMemberBinder.html#System_Dynamic_GetMemberBinder">GetMemberBinder</a></td>
                     <td><em>binder</em></td>
-                    <td><p>Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the Console.WriteLine(sampleObject.SampleProperty) statement, where sampleObject is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, binder.Name returns &quot;SampleProperty&quot;. The binder.IgnoreCase property specifies whether the member name is case-sensitive.</p>
+                    <td><p>Provides information about the object that called the dynamic operation. The <code>binder.Name</code> property provides the name of the member on which the dynamic operation is performed. For example, for the <code>Console.WriteLine(sampleObject.SampleProperty)</code> statement, where <code>sampleObject</code> is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <code>binder.Name</code> returns &quot;SampleProperty&quot;. The <code>binder.IgnoreCase</code> property specifies whether the member name is case-sensitive.</p>
 </td>
                   </tr>
                   <tr>
@@ -578,7 +658,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -594,6 +675,11 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that invoke an object. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations such as invoking an object or a delegate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryInvoke_System_Dynamic_InvokeBinder_System_Object___System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how operations that invoke an object should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)</p>
+<p>If this method is overridden, it is automatically invoked when you have an operation like <code>sampleObject(100)</code>, where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class.</p>
+<p>The operation for invoking an object is supported in C# but not in Visual Basic. The Visual Basic compiler never emits code to use this method, and the Visual Basic language does not support syntax like <code>sampleObject(100)</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryInvoke(InvokeBinder binder, object[] args, out object result)</code></pre>
@@ -617,7 +703,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>The arguments that are passed to the object during the invoke operation. For example, for the sampleObject(100) operation, where sampleObject is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>args[0]</em> is equal to 100.</p>
+                    <td><p>The arguments that are passed to the object during the invoke operation. For example, for the <code>sampleObject(100)</code> operation, where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>args[0]</em> is equal to 100.</p>
 </td>
                   </tr>
                   <tr>
@@ -639,7 +725,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.</p>
 </td>
                   </tr>
                 </tbody>
@@ -655,6 +742,12 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that invoke a member. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations such as calling a method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryInvokeMember_System_Dynamic_InvokeMemberBinder_System_Object___System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how operations that invoke an object member should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>If this method is overridden, it is automatically invoked when you perform an operation like <code>sampleObject.SampleMethod(100)</code>, where <code>sampleObject</code> is derived from the <strong>DynamicObject</strong> class.</p>
+<p>You can also add your own methods to classes that are derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class. For example, if you override the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryInvokeMember_System_Dynamic_InvokeMemberBinder_System_Object___System_Object__">TryInvokeMember(InvokeMemberBinder, Object[], out Object)</a> method, the dynamic dispatch system first attempts to determine whether the specified method exists in the class. If it does not find the method, it uses the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryInvokeMember_System_Dynamic_InvokeMemberBinder_System_Object___System_Object__">TryInvokeMember(InvokeMemberBinder, Object[], out Object)</a> implementation.</p>
+<p>This method does not support <strong>ref</strong> and <strong>out</strong> parameters. All parameters in the <em>args</em> array are passed by value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)</code></pre>
@@ -672,13 +765,13 @@
                   <tr>
                     <td><a class="xref" href="System.Dynamic.InvokeMemberBinder.html#System_Dynamic_InvokeMemberBinder">InvokeMemberBinder</a></td>
                     <td><em>binder</em></td>
-                    <td><p>Provides information about the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the statement sampleObject.SampleMethod(100), where sampleObject is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, binder.Name returns &quot;SampleMethod&quot;. The binder.IgnoreCase property specifies whether the member name is case-sensitive.</p>
+                    <td><p>Provides information about the dynamic operation. The <code>binder.Name</code> property provides the name of the member on which the dynamic operation is performed. For example, for the statement <code>sampleObject.SampleMethod(100)</code>, where <code>sampleObject</code> is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <code>binder.Name</code> returns &quot;SampleMethod&quot;. The <code>binder.IgnoreCase</code> property specifies whether the member name is case-sensitive.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>The arguments that are passed to the object member during the invoke operation. For example, for the statement sampleObject.SampleMethod(100), where sampleObject is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>args[0]</em> is equal to 100.</p>
+                    <td><p>The arguments that are passed to the object member during the invoke operation. For example, for the statement <code>sampleObject.SampleMethod(100)</code>, where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>args[0]</em> is equal to 100.</p>
 </td>
                   </tr>
                   <tr>
@@ -700,7 +793,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -716,6 +810,10 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that set a value by index. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations that access objects by a specified index.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TrySetIndex_System_Dynamic_SetIndexBinder_System_Object___System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how operations that access an object by index should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>If this method is overridden, it is automatically invoked when you have an operation like <code>sampleObject[3] = 10</code> in C# or <code>sampleObject(3) = 10</code> in Visual Basic, where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value)</code></pre>
@@ -739,13 +837,13 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>indexes</em></td>
-                    <td><p>The indexes that are used in the operation. For example, for the sampleObject[3] = 10 operation in C# (sampleObject(3) = 10 in Visual Basic), where sampleObject is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>indexes[0]</em> is equal to 3.</p>
+                    <td><p>The indexes that are used in the operation. For example, for the <code>sampleObject[3] = 10</code> operation in C# (<code>sampleObject(3) = 10</code> in Visual Basic), where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>indexes[0]</em> is equal to 3.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>value</em></td>
-                    <td><p>The value to set to the object that has the specified index. For example, for the sampleObject[3] = 10 operation in C# (sampleObject(3) = 10 in Visual Basic), where sampleObject is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>value</em> is equal to 10.</p>
+                    <td><p>The value to set to the object that has the specified index. For example, for the <code>sampleObject[3] = 10</code> operation in C# (<code>sampleObject(3) = 10</code> in Visual Basic), where <code>sampleObject</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <em>value</em> is equal to 10.</p>
 </td>
                   </tr>
                 </tbody>
@@ -761,7 +859,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.</p>
 </td>
                   </tr>
                 </tbody>
@@ -777,6 +876,11 @@
               <div class="markdown level1 summary"><p>Provides the implementation for operations that set member values. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations such as setting a value for a property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how operations that set a value to a member should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>This method is called when you have statements like <code>sampleObject.SampleProperty = "Test"</code>, where <code>sampleObject</code> is an instance of the class that is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class.</p>
+<p>You can also add your own members to classes derived from the <strong>DynamicObject</strong> class. If your class defines properties and also overrides the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> method, the dynamic language runtime (DLR) first uses the language binder to look for a static definition of a property in the class. If there is no such property, the DLR calls the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TrySetMember_System_Dynamic_SetMemberBinder_System_Object_">TrySetMember(SetMemberBinder, Object)</a> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TrySetMember(SetMemberBinder binder, object value)</code></pre>
@@ -794,13 +898,13 @@
                   <tr>
                     <td><a class="xref" href="System.Dynamic.SetMemberBinder.html#System_Dynamic_SetMemberBinder">SetMemberBinder</a></td>
                     <td><em>binder</em></td>
-                    <td><p>Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member to which the value is being assigned. For example, for the statement sampleObject.SampleProperty = &quot;Test&quot;, where sampleObject is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, binder.Name returns &quot;SampleProperty&quot;. The binder.IgnoreCase property specifies whether the member name is case-sensitive.</p>
+                    <td><p>Provides information about the object that called the dynamic operation. The <code>binder.Name</code> property provides the name of the member to which the value is being assigned. For example, for the statement <code>sampleObject.SampleProperty = "Test"</code>, where <code>sampleObject</code> is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, <code>binder.Name</code> returns &quot;SampleProperty&quot;. The <code>binder.IgnoreCase</code> property specifies whether the member name is case-sensitive.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>value</em></td>
-                    <td><p>The value to set to the member. For example, for sampleObject.SampleProperty = &quot;Test&quot;, where sampleObject is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, the <em>value</em> is &quot;Test&quot;.</p>
+                    <td><p>The value to set to the member. For example, for <code>sampleObject.SampleProperty = "Test"</code>, where <code>sampleObject</code> is an instance of the class derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class, the <em>value</em> is &quot;Test&quot;.</p>
 </td>
                   </tr>
                 </tbody>
@@ -816,7 +920,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>
@@ -832,6 +937,19 @@
               <div class="markdown level1 summary"><p>Provides implementation for unary operations. Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify dynamic behavior for operations such as negation, increment, or decrement.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Dynamic_DynamicObject_TryUnaryOperation_System_Dynamic_UnaryOperationBinder_System_Object___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Classes derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class can override this method to specify how unary operations should be performed for a dynamic object. When the method is not overridden, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+<p>This method is called when you have unary operations such as negation, increment, or decrement. For example, if the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryUnaryOperation_System_Dynamic_UnaryOperationBinder_System_Object__">TryUnaryOperation(UnaryOperationBinder, out Object)</a> method is overridden, this method is automatically invoked for statements like <code>negativeNumber = -number</code>, where <code>number</code> is derived from the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject">DynamicObject</a> class.</p>
+<p>You can get information about the type of the unary operation by using the <code>Operation</code> property of the <em>binder</em> parameter. </p>
+<p>If your dynamic object is used only in C# and Visual Basic, the <code>binder.Operation</code> property can have one of the following values from the <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a> enumeration. However, in other languages such as IronPython or IronRuby, you can have other values. For more information about <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a>, see documentation on the <see href="http://go.microsoft.com/fwlink/?LinkId=141028">CodePlex</see> Web site.</p>
+<p>Value</p>
+<p>Description</p>
+<p>C#</p>
+<p>Visual Basic</p>
+<p>To implement <strong>OrElse</strong> (<code>a || b</code>) and <strong>AndAlso</strong> (<code>a && b</code>) operations for dynamic objects in C#, you may want to implement both the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryUnaryOperation_System_Dynamic_UnaryOperationBinder_System_Object__">TryUnaryOperation(UnaryOperationBinder, out Object)</a> method and the <a class="xref" href="System.Dynamic.DynamicObject.html#System_Dynamic_DynamicObject_TryBinaryOperation_System_Dynamic_BinaryOperationBinder_System_Object_System_Object__">TryBinaryOperation(BinaryOperationBinder, Object, out Object)</a> method. </p>
+<p>The <strong>OrElse</strong> operation consists of the unary <strong>IsTrue</strong> operation and the binary <strong>Or</strong> operation. The <strong>Or</strong> operation is performed only if the result of the <strong>IsTrue</strong> operation is <strong>false</strong>.</p>
+<p>The <strong>AndAlso</strong> operation consists of the unary <strong>IsFalse</strong> operation and the binary <strong>And</strong> operation. The <strong>And</strong> operation is performed only if the result of the <strong>IsFalse</strong> operation is <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool TryUnaryOperation(UnaryOperationBinder binder, out object result)</code></pre>
@@ -849,7 +967,7 @@
                   <tr>
                     <td><a class="xref" href="System.Dynamic.UnaryOperationBinder.html#System_Dynamic_UnaryOperationBinder">UnaryOperationBinder</a></td>
                     <td><em>binder</em></td>
-                    <td><p>Provides information about the unary operation. The binder.Operation property returns an <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a> object. For example, for the negativeNumber = -number statement, where number is derived from the DynamicObject class, binder.Operation returns &quot;Negate&quot;.</p>
+                    <td><p>Provides information about the unary operation. The <code>binder.Operation</code> property returns an <a class="xref" href="System.Linq.Expressions.ExpressionType.html#System_Linq_Expressions_ExpressionType">ExpressionType</a> object. For example, for the <code>negativeNumber = -number</code> statement, where <code>number</code> is derived from the <strong>DynamicObject</strong> class, <code>binder.Operation</code> returns &quot;Negate&quot;.</p>
 </td>
                   </tr>
                   <tr>
@@ -871,7 +989,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
+                    <td><p>
+<strong>true</strong> if the operation is successful; otherwise, <strong>false</strong>. If this method returns <strong>false</strong>, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)</p>
 </td>
                   </tr>
                 </tbody>

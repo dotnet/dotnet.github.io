@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComVisibleAttribute.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComVisibleAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L138" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3024" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_ComVisibleAttribute" data-uid="System.Runtime.InteropServices.ComVisibleAttribute">Class ComVisibleAttribute
               </h1>
               <div class="markdown level0 summary"><p>Controls accessibility of an individual managed type or member, or of all types within an assembly, to COM.</p>
@@ -89,6 +89,13 @@
                 <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Delegate | AttributeTargets.Enum | AttributeTargets.Field | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Struct, Inherited = false)]
 public sealed class ComVisibleAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_Runtime_InteropServices_ComVisibleAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>You can apply this attribute to assemblies, interfaces, classes, structures, delegates, enumerations, fields, methods, or properties.</p>
+<p>The default is <strong>true</strong>, which indicates that the managed type is visible to COM. This attribute is not needed to make public managed assemblies and types visible; they are visible to COM by default. Only <strong>public</strong> types can be made visible. The attribute cannot be used to make an otherwise <strong>internal</strong> or <strong>protected</strong> type visible to COM or to make members of a nonvisible type visible.</p>
+<p>Setting the attribute to <strong>false</strong> on the assembly hides all <strong>public</strong> types within the assembly. You can selectively make types within the assembly visible by setting the individual types to <strong>true</strong>. Setting the attribute to <strong>false</strong> on a specific type hides that type and its members. However, you cannot make members of a type visible if the type is invisible. Setting the attribute to <strong>false</strong> on a type prevents that type from being exported to a type library; classes are not registered; interfaces are never responsive to unmanaged <strong>QueryInterface</strong> calls.</p>
+<p>Unless you explicitly set a class and its members to <strong>false</strong>, inherited classes can expose to COM base class members that are invisible in the original class. For example, if you set ClassA to <strong>false</strong> and do not apply the attribute to its members, the class and its members are invisible to COM. However, if you derive ClassB from ClassA and export ClassB to COM, ClassA members become visible base class members of ClassB.</p>
+<p>For a detailed description of the export process, see Assembly to Type Library Conversion Summary.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -96,12 +103,15 @@ public sealed class ComVisibleAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComVisibleAttribute__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComVisibleAttribute.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L143">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3027">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ComVisibleAttribute__ctor_System_Boolean_" data-uid="System.Runtime.InteropServices.ComVisibleAttribute.#ctor(System.Boolean)">ComVisibleAttribute(Boolean)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the ComVisibleAttribute class.</p>
+              <div class="markdown level1 summary"><p>Initializes a new instance of the <strong>ComVisibleAttribute</strong> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_InteropServices_ComVisibleAttribute__ctor_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To make types visible to COM, set the attribute to <strong>true</strong>. To hide types from COM, set the attribute to <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ComVisibleAttribute(bool visibility)</code></pre>
@@ -119,7 +129,8 @@ public sealed class ComVisibleAttribute : Attribute</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>visibility</em></td>
-                    <td><p>true to indicate that the type is visible to COM; otherwise, false. The default is true. </p>
+                    <td><p>
+<strong>true</strong> to indicate that the type is visible to COM; otherwise, <strong>false</strong>. The default is <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -131,7 +142,7 @@ public sealed class ComVisibleAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ComVisibleAttribute_Value.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ComVisibleAttribute.Value%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L147">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3028">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ComVisibleAttribute_Value" data-uid="System.Runtime.InteropServices.ComVisibleAttribute.Value">Value</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the COM type is visible.</p>
@@ -152,7 +163,8 @@ public sealed class ComVisibleAttribute : Attribute</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the type is visible; otherwise, false. The default value is true.</p>
+                    <td><p>
+<strong>true</strong> if the type is visible; otherwise, <strong>false</strong>. The default value is <strong>true</strong>.</p>
 </td>
                   </tr>
                 </tbody>

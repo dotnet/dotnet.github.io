@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L22" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L229" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_PropertyInfo" data-uid="System.Reflection.PropertyInfo">Class PropertyInfo
               </h1>
               <div class="markdown level0 summary"><p>Discovers the attributes of a property and provides access to property metadata.</p>
@@ -88,6 +88,18 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class PropertyInfo : MemberInfo</code></pre>
               </div>
+              <h5 id="System_Reflection_PropertyInfo_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Properties are logically the same as fields. A property is a named aspect of an object&#39;s state whose value is typically accessible through <strong>get</strong> and <strong>set</strong> accessors. Properties may be read-only, in which case a set routine is not supported.</p>
+<p>To determine whether a property is <strong>static</strong>, you must obtain the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> for the <strong>get</strong> or <strong>set</strong> accessor, by calling the <see cref="Overload:System.Reflection.PropertyInfo.GetGetMethod"></see> or the <see cref="Overload:System.Reflection.PropertyInfo.GetSetMethod"></see> method, and examine its <a class="xref" href="System.Reflection.MethodBase.html#System_Reflection_MethodBase_IsStatic">IsStatic</a> property.</p>
+<p>Several methods in this class assume that the <strong>get</strong> accessor and <strong>set</strong> accessor methods of a property have certain formats. The signatures of the <strong>get</strong> and <strong>set</strong> methods must match the following convention: </p>
+<ul><li>
+<p>The return type of the <strong>get</strong> method and the last argument of the <strong>set</strong> method must be identical. This is the type of the property.</p>
+</li><li>
+<p>The <strong>get</strong> and <strong>set</strong> methods must have the same number, type, and order of indices.</p>
+</li></ul>
+<p>If this format is not followed, the behavior of the <strong>GetValue</strong> and <strong>SetValue</strong> methods is undefined.</p>
+<p>Calling <span class="xref">System.Reflection.ICustomAttributeProvider.GetCustomAttributes(System.Type,System.Boolean)</span> on <strong>PropertyInfo</strong> when the <em>inherit</em> parameter of <strong>GetCustomAttributes</strong> is <strong>true</strong> does not walk the type hierarchy. Use <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> to inherit custom attributes.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,12 +107,25 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_Attributes.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.Attributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L92">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L232">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_Attributes" data-uid="System.Reflection.PropertyInfo.Attributes">Attributes</h4>
               <div class="markdown level1 summary"><p>Gets the attributes for this property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_Attributes_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_Attributes">Attributes</a> property returns the attributes associated with the property represented by this <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object.  The attributes are primarily modifiers applied by a compiler when creating a property; they indicate whether a property is the default property, a <strong>SpecialName</strong> property, and so on. Note that, for almost all properties found in types in the .NET Framework class library, the value of the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_Attributes">Attributes</a> property is <a class="xref" href="System.Reflection.PropertyAttributes.html#System_Reflection_PropertyAttributes_None">None</a>.</p>
+<p>In most cases, you probably want to retrieve the custom attributes associated with a property. To do this, retrieve the value of the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_CustomAttributes">CustomAttributes</a> property, or call one of the overloads of the <span class="xref">System.Reflection.MemberInfo.GetCustomAttributes(System.Boolean)</span> method. </p>
+<p>To get the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_Attributes">Attributes</a> property: </p>
+<ol><li>
+<p>Get a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the type to which the property belongs.</p>
+</li><li>
+<p>Get the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object by calling an overload of the <span class="xref">System.Type.GetProperty(System.String)</span> method. </p>
+</li><li>
+<p>Retrieve the property&#39;s attributes from the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_Attributes">Attributes</a> property.</p>
+</li></ol>
+<p>You can define the attributes of a property for a type created dynamically using reflection emit by calling an overload of the <a class="xref" href="System.Reflection.Emit.TypeBuilder.html#System_Reflection_Emit_TypeBuilder_DefineProperty_System_String_System_Reflection_PropertyAttributes_System_Type_System_Type___">DefineProperty(String, PropertyAttributes, Type, Type[])</a> method and supplying a value for the <em>attributes</em> argument.  </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract PropertyAttributes Attributes { get; }</code></pre>
@@ -116,7 +141,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.PropertyAttributes.html#System_Reflection_PropertyAttributes">PropertyAttributes</a></td>
-                    <td><p>Attributes of this property.</p>
+                    <td><p>The attributes of this property.</p>
 </td>
                   </tr>
                 </tbody>
@@ -126,12 +151,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_CanRead.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.CanRead%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L94">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L233">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_CanRead" data-uid="System.Reflection.PropertyInfo.CanRead">CanRead</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the property can be read.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_CanRead_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the property does not have a <strong>get</strong> accessor, it cannot be read.</p>
+<p>To get the <strong>CanRead</strong> property, first get the class <strong>Type</strong>. From the <strong>Type</strong>, get the <strong>PropertyInfo</strong>. From the <strong>PropertyInfo</strong>, get the <strong>CanRead</strong> value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool CanRead { get; }</code></pre>
@@ -147,7 +176,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this property can be read; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this property can be read; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -157,12 +187,24 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_CanWrite.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.CanWrite%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L96">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L234">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_CanWrite" data-uid="System.Reflection.PropertyInfo.CanWrite">CanWrite</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the property can be written to.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_CanWrite_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>
+<p><a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_CanWrite">CanWrite</a> returns <strong>true</strong> if the property has a <strong>set</strong> accessor, even if the accessor is <strong>private</strong>, <strong>internal</strong> (or <strong>Friend</strong> in Visual Basic), or <strong>protected</strong>.   If the property does not have a <strong>set</strong> accessor, the method returns <strong>false</strong>. </p></p>
+<p><p>To get the value of the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_CanWrite">CanWrite</a> property: </p></p>
+<ol><li>
+<p>Get the <a class="xref" href="System.Type.html#System_Type">Type</a> object of the type that includes the property.</p>
+</li><li>
+<p>Call the <span class="xref">System.Type.GetProperty(System.String)</span> to get the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object that represents the property.</p>
+</li><li>
+<p>Retrieve the value of the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_CanWrite">CanWrite</a> property.</p>
+</li></ol>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract bool CanWrite { get; }</code></pre>
@@ -178,7 +220,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this property can be written to; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this property can be written to; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -188,10 +231,10 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_GetMethod.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.GetMethod%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L136">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L235">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_GetMethod" data-uid="System.Reflection.PropertyInfo.GetMethod">GetMethod</h4>
-              <div class="markdown level1 summary"><p>Gets the get accessor for this property.</p>
+              <div class="markdown level1 summary"><p>Gets the <strong>get</strong> accessor for this property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -209,7 +252,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">Reflection.MethodInfo</a></td>
-                    <td><p>The get accessor for this property.</p>
+                    <td><p>The <strong>get</strong> accessor for this property.</p>
 </td>
                   </tr>
                 </tbody>
@@ -219,12 +262,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_IsSpecialName.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.IsSpecialName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L156">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L236">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_IsSpecialName" data-uid="System.Reflection.PropertyInfo.IsSpecialName">IsSpecialName</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the property is the special name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_IsSpecialName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <strong>SpecialName</strong> bit is set to flag members that are treated in a special way by some compilers (such as property accessors and operator overloading methods).</p>
+<p>To get the <strong>IsSpecialName</strong> property, first get the class <strong>Type</strong>. From the <strong>Type</strong>, get the <strong>PropertyInfo</strong>. From the <strong>PropertyInfo</strong>, get the <strong>IsSpecialName</strong> value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsSpecialName { get; }</code></pre>
@@ -240,7 +287,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if this property is the special name; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if this property is the special name; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -250,12 +298,22 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_PropertyType.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.PropertyType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L80">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L237">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_PropertyType" data-uid="System.Reflection.PropertyInfo.PropertyType">PropertyType</h4>
               <div class="markdown level1 summary"><p>Gets the type of this property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_PropertyType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>To determine the type of a particular property, do the following: </p></p>
+<ol><li>
+<p>Get a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the type (the class or structure) that contains the property. If you are working with an object (an instance of a type), you can call its <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a> method. Otherwise, you can use the C#  operator or the Visual Basic  operator, as the example illustrates. </p>
+</li><li>
+<p>Get a <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object that represents the property in which you&#39;re interested. You can do this by getting an array of all properties from the <span class="xref">System.Type.GetProperties</span> method and then iterating the elements in the array, or you can retrieve the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object that represents the property directly by calling the <span class="xref">System.Type.GetProperty(System.String)</span> method and specifying the property name. </p>
+</li><li>
+<p>Retrieve the value of the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_PropertyType">PropertyType</a> property from the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object. </p>
+</li></ol>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract Type PropertyType { get; }</code></pre>
@@ -281,12 +339,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_SetMethod.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.SetMethod%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L144">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L238">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_SetMethod" data-uid="System.Reflection.PropertyInfo.SetMethod">SetMethod</h4>
-              <div class="markdown level1 summary"><p>Gets the set accessor for this property.</p>
+              <div class="markdown level1 summary"><p>Gets the <strong>set</strong> accessor for this property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_SetMethod_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Retrieving the value of the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_SetMethod">SetMethod</a> property is equivalent to calling the <span class="xref">System.Reflection.PropertyInfo.GetSetMethod(System.Boolean)</span> method with a value of <strong>true</strong> for the <em>nonPublic</em> argument. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual MethodInfo SetMethod { get; }</code></pre>
@@ -302,7 +363,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">Reflection.MethodInfo</a></td>
-                    <td><p>The set accessor for this property, or null if the property is read-only.</p>
+                    <td><p>The <strong>set</strong> accessor for this property, or <strong>null</strong> if the property is read-only.</p>
 </td>
                   </tr>
                 </tbody>
@@ -314,7 +375,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L55">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L239">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_Equals_System_Object_" data-uid="System.Reflection.PropertyInfo.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Returns a value that indicates whether this instance is equal to a specified object.</p>
@@ -337,7 +398,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>An object to compare with this instance, or null.</p>
+                    <td><p>An object to compare with this instance, or <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -353,7 +414,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>obj</em> equals the type and value of this instance; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>obj</em> equals the type and value of this instance; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -363,12 +425,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_GetConstantValue.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.GetConstantValue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L70">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L240">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_GetConstantValue" data-uid="System.Reflection.PropertyInfo.GetConstantValue">GetConstantValue()</h4>
               <div class="markdown level1 summary"><p>Returns a literal value associated with the property by a compiler. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_GetConstantValue_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is provided for designers of managed compilers and code analyzers.</p>
+<p>Do not use this method in the reflection-only context, because it might cause code to execute. Use the <span class="xref">System.Reflection.PropertyInfo.GetRawConstantValue</span> method instead.</p>
+<p>In unmanaged metadata, the Constant table is used to store constant values for fields, parameters, and properties. Constant information does not directly influence runtime behavior. Compilers inspect this information, at compile time, when importing metadata. If used, the value of a constant is embedded in the Microsoft intermediate language (MSIL) stream the compiler emits. There are no MSIL instructions that can be used to access the Constant table at run time.</p>
+<p>For more information on constant values and the Constant table, see the ECMA Partition II documentation. The documentation is available online; see <see href="http://go.microsoft.com/fwlink/?LinkID=99212">ECMA C# and Common Language Infrastructure Standards</see> on MSDN and <see href="http://go.microsoft.com/fwlink/?LinkID=65552">Standard ECMA-335 - Common Language Infrastructure (CLI)</see> on the Ecma International Web site.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object GetConstantValue()</code></pre>
@@ -384,7 +452,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>An <a class="xref" href="System.Object.html#System_Object">Object</a> that contains the literal value associated with the property. If the literal value is a class type with an element value of zero, the return value is null.</p>
+                    <td><p>An <a class="xref" href="System.Object.html#System_Object">Object</a> that contains the literal value associated with the property. If the literal value is a class type with an element value of zero, the return value is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -415,7 +483,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_GetHashCode.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L60">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L241">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_GetHashCode" data-uid="System.Reflection.PropertyInfo.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
@@ -446,12 +514,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_GetIndexParameters.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.GetIndexParameters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L90">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L242">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_GetIndexParameters" data-uid="System.Reflection.PropertyInfo.GetIndexParameters">GetIndexParameters()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, returns an array of all the index parameters for the property.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_GetIndexParameters_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Extract any required parameter information from the returned array.</p>
+<p>To use the <strong>GetIndexParameters</strong> method, first get the class <strong>Type</strong>. From the <strong>Type</strong>, get the <strong>PropertyInfo</strong>. From the <strong>PropertyInfo</strong>, use the <strong>GetIndexParameters</strong> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract ParameterInfo[] GetIndexParameters()</code></pre>
@@ -467,7 +539,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.ParameterInfo.html#System_Reflection_ParameterInfo">ParameterInfo</a>[]</td>
-                    <td><p>An array of type ParameterInfo containing the parameters for the indexes. If the property is not indexed, the array has 0 (zero) elements.</p>
+                    <td><p>An array of type <strong>ParameterInfo</strong> containing the parameters for the indexes. If the property is not indexed, the array has 0 (zero) elements.</p>
 </td>
                   </tr>
                 </tbody>
@@ -477,12 +549,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_GetValue_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.GetValue(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L98">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L243">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_GetValue_System_Object_" data-uid="System.Reflection.PropertyInfo.GetValue(System.Object)">GetValue(Object)</h4>
               <div class="markdown level1 summary"><p>Returns the property value of a specified object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_GetValue_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You call the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_GetValue_System_Object_">GetValue(Object)</a> overload to retrieve the value of a non-indexed property; if you try to retrieve the value of an indexed property, the method throws a <a class="xref" href="System.Reflection.TargetParameterCountException.html#System_Reflection_TargetParameterCountException">TargetParameterCountException</a> exception. You can determine whether a property is indexed or not by calling the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_GetIndexParameters">GetIndexParameters()</a> method. If the length of the returned <a class="xref" href="System.Reflection.ParameterInfo.html#System_Reflection_ParameterInfo">ParameterInfo</a> array is zero, the property is not indexed. </p>
+<p>This is a convenience method that provides an implementation for the abstract <span class="xref">System.Reflection.PropertyInfo.GetValue(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)</span> method with the <a class="xref" href="System.Reflection.BindingFlags.html#System_Reflection_BindingFlags">BindingFlags</a> parameter set to <a class="xref" href="System.Reflection.BindingFlags.html#System_Reflection_BindingFlags_Default">Default</a>, the <span class="xref">System.Reflection.Binder</span> set to <strong>null</strong>, the object array of index values set to <strong>null</strong>, and the <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a> set to <strong>null</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object GetValue(object obj)</code></pre>
@@ -526,12 +602,24 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_GetValue_System_Object_System_Object___.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.GetValue(System.Object%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L105">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L244">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_GetValue_System_Object_System_Object___" data-uid="System.Reflection.PropertyInfo.GetValue(System.Object,System.Object[])">GetValue(Object, Object[])</h4>
               <div class="markdown level1 summary"><p>Returns the property value of a specified object with optional index values for indexed properties.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_GetValue_System_Object_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To determine whether a property is indexed, use the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_GetIndexParameters">GetIndexParameters()</a> method. If the resulting array has 0 (zero) elements, the property is not indexed.</p>
+<p>This is a convenience method that provides an implementation for the abstract <strong>GetValue</strong> method with a <strong>BindingFlags</strong> parameter of <strong>Default</strong>, the <strong>Binder</strong> set to <strong>null</strong>, and the <strong>CultureInfo</strong> set to <strong>null</strong>.</p>
+<p>Because static properties belong to the type, not individual objects, get static properties by passing <strong>null</strong> as the object argument. For example, use the following code to get the static <strong>CurrentCulture</strong> property of <strong>CultureInfo</strong> : </p>
+<pre><code>PropertyInfo CurCultProp = 
+(typeof(CultureInfo)).GetProperty("CurrentCulture"); 
+Console.WriteLine("CurrCult: " +
+CurCultProp.GetValue(null,null));</code></pre>
+<p>To use the <strong>GetValue</strong> method, first get the class <strong>Type</strong>. From the <strong>Type</strong>, get the <strong>PropertyInfo</strong>. From the <strong>PropertyInfo</strong>, use the <strong>GetValue</strong> method.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this method can be used to access non-public members if the caller has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See Security Considerations for Reflection.) </p>
+<p>To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object GetValue(object obj, object[] index)</code></pre>
@@ -555,7 +643,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>index</em></td>
-                    <td><p>Optional index values for indexed properties. The indexes of indexed properties are zero-based. This value should be null for non-indexed properties. </p>
+                    <td><p>Optional index values for indexed properties. The indexes of indexed properties are zero-based. This value should be <strong>null</strong> for non-indexed properties. </p>
 </td>
                   </tr>
                 </tbody>
@@ -587,12 +675,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>index</em> array does not contain the type of arguments needed.-or- The property&#39;s get accessor is not found. </p>
+                    <td><p>The <em>index</em> array does not contain the type of arguments needed.</p>
+<p>-or- </p>
+<p>The property&#39;s <strong>get</strong> accessor is not found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Reflection.TargetException.html#System_Reflection_TargetException">TargetException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch <a class="xref" href="System.Exception.html#System_Exception">Exception</a> instead.The object does not match the target type, or a property is an instance property but <em>obj</em> is null. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch <a class="xref" href="System.Exception.html#System_Exception">Exception</a> instead.</p>
+<p>The object does not match the target type, or a property is an instance property but <em>obj</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -602,7 +693,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MethodAccessException.html#System_MethodAccessException">MethodAccessException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.There was an illegal attempt to access a private or protected method inside a class. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.</p>
+<p>There was an illegal attempt to access a private or protected method inside a class. </p>
 </td>
                   </tr>
                   <tr>
@@ -617,12 +709,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.SetValue(System.Object%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L114">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L245">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_" data-uid="System.Reflection.PropertyInfo.SetValue(System.Object,System.Object)">SetValue(Object, Object)</h4>
               <div class="markdown level1 summary"><p>Sets the property value of a specified object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_SetValue_System_Object_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_">SetValue(Object, Object)</a> overload sets the value of a non-indexed property. To determine whether a property is indexed, call the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_GetIndexParameters">GetIndexParameters()</a> method. If the resulting array has 0 (zero) elements, the property is not indexed. To set the value of an indexed property, call the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_System_Object___">SetValue(Object, Object, Object[])</a> overload.  </p>
+<p>If the property type of this <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object is a value type and <em>value</em> is <strong>null</strong>, the property will be set to the default value for that type. </p>
+<p>This is a convenience method that calls the runtime implementation of the abstract <span class="xref">System.Reflection.PropertyInfo.SetValue(System.Object,System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)</span> method, specifying <a class="xref" href="System.Reflection.BindingFlags.html#System_Reflection_BindingFlags_Default">Default</a> for the <em>BindingFlags</em> parameter, <strong>null</strong> for <em>Binder</em>, <strong>null</strong> for <em>Object[]</em>, and <strong>null</strong> for <em>CultureInfo</em>.</p>
+<p>To use the <see cref="Overload:System.Reflection.PropertyInfo.SetValue"></see> method, first get a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the class. From the <a class="xref" href="System.Type.html#System_Type">Type</a>, get the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object. From the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object, call the <see cref="Overload:System.Reflection.PropertyInfo.SetValue"></see> method.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this method can be used to access non-public members if the caller has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See Security Considerations for Reflection.) </p>
+<p>To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void SetValue(object obj, object value)</code></pre>
@@ -662,17 +762,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The property&#39;s set accessor is not found. -or-<em>value</em> cannot be converted to the type of <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_PropertyType">PropertyType</a>. </p>
+                    <td><p>The property&#39;s <strong>set</strong> accessor is not found. </p>
+<p>-or-</p>
+<p>
+<em>value</em> cannot be converted to the type of <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_PropertyType">PropertyType</a>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Reflection.TargetException.html#System_Reflection_TargetException">TargetException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch <a class="xref" href="System.Exception.html#System_Exception">Exception</a> instead.The type of <em>obj</em> does not match the target type, or a property is an instance property but <em>obj</em> is null. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch <a class="xref" href="System.Exception.html#System_Exception">Exception</a> instead.</p>
+<p>The type of <em>obj</em> does not match the target type, or a property is an instance property but <em>obj</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MethodAccessException.html#System_MethodAccessException">MethodAccessException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead. There was an illegal attempt to access a private or protected method inside a class. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.</p>
+<p>There was an illegal attempt to access a private or protected method inside a class. </p>
 </td>
                   </tr>
                   <tr>
@@ -687,12 +792,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_System_Object___.md&amp;value=---%0Auid%3A%20System.Reflection.PropertyInfo.SetValue(System.Object%2CSystem.Object%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/PropertyInfo.cs/#L121">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L246">View Source</a>
               </span>
               <h4 id="System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_System_Object___" data-uid="System.Reflection.PropertyInfo.SetValue(System.Object,System.Object,System.Object[])">SetValue(Object, Object, Object[])</h4>
               <div class="markdown level1 summary"><p>Sets the property value of a specified object with optional index values for index properties.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_PropertyInfo_SetValue_System_Object_System_Object_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If this <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a> object is a value type and <em>value</em> is <strong>null</strong>, then the property will be set to the default value for that type.</p>
+<p>To determine whether a property is indexed, use the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_GetIndexParameters">GetIndexParameters()</a> method. If the resulting array has 0 (zero) elements, the property is not indexed.</p>
+<p>This is a convenience method that calls the runtime implementation of the abstract <span class="xref">System.Reflection.PropertyInfo.SetValue(System.Object,System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)</span> method, specifying <a class="xref" href="System.Reflection.BindingFlags.html#System_Reflection_BindingFlags_Default">Default</a> for the <em>BindingFlags</em> parameter, <strong>null</strong> for <em>Binder</em>, and <strong>null</strong> for <em>CultureInfo</em>.</p>
+<p>To use the <see cref="Overload:System.Reflection.PropertyInfo.SetValue"></see> method, first get a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the class. From the <a class="xref" href="System.Type.html#System_Type">Type</a>, get the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a>. From the <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo">PropertyInfo</a>, use the <see cref="Overload:System.Reflection.PropertyInfo.SetValue"></see> method.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this method can be used to access non-public members if the caller has been granted <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess</span> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See Security Considerations for Reflection.) </p>
+<p>To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void SetValue(object obj, object value, object[] index)</code></pre>
@@ -722,7 +835,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>index</em></td>
-                    <td><p>Optional index values for indexed properties. This value should be null for non-indexed properties. </p>
+                    <td><p>Optional index values for indexed properties. This value should be <strong>null</strong> for non-indexed properties. </p>
 </td>
                   </tr>
                 </tbody>
@@ -738,12 +851,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>index</em> array does not contain the type of arguments needed.-or- The property&#39;s set accessor is not found. -or-<em>value</em> cannot be converted to the type of <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_PropertyType">PropertyType</a>.</p>
+                    <td><p>The <em>index</em> array does not contain the type of arguments needed.</p>
+<p>-or- </p>
+<p>The property&#39;s <strong>set</strong> accessor is not found. </p>
+<p>-or-</p>
+<p>
+<em>value</em> cannot be converted to the type of <a class="xref" href="System.Reflection.PropertyInfo.html#System_Reflection_PropertyInfo_PropertyType">PropertyType</a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Reflection.TargetException.html#System_Reflection_TargetException">TargetException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch <a class="xref" href="System.Exception.html#System_Exception">Exception</a> instead.The object does not match the target type, or a property is an instance property but <em>obj</em> is null. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch <a class="xref" href="System.Exception.html#System_Exception">Exception</a> instead.</p>
+<p>The object does not match the target type, or a property is an instance property but <em>obj</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -753,7 +872,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MethodAccessException.html#System_MethodAccessException">MethodAccessException</a></td>
-                    <td><p>In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.There was an illegal attempt to access a private or protected method inside a class. </p>
+                    <td><p>In the <see href="http://go.microsoft.com/fwlink/?LinkID=247912">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a>, instead.</p>
+<p>There was an illegal attempt to access a private or protected method inside a class. </p>
 </td>
                   </tr>
                   <tr>

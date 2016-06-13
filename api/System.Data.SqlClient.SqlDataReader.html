@@ -87,6 +87,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class SqlDataReader : Common.DbDataReader, IDisposable</code></pre>
               </div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To create a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>, you must call the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_ExecuteReader">ExecuteReader()</a> method of the <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand">SqlCommand</a> object, instead of directly using a constructor.</p>
+<p>While the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is being used, the associated <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> is busy serving the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>, and no other operations can be performed on the <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> other than closing it. This is the case until the <span class="xref">System.Data.SqlClient.SqlDataReader.Close</span> method of the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is called. For example, you cannot retrieve output parameters until after you call <span class="xref">System.Data.SqlClient.SqlDataReader.Close</span>.</p>
+<p>Changes made to a result set by another process or thread while data is being read may be visible to the user of the <strong>SqlDataReader</strong>. However, the precise behavior is timing dependent.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsClosed">IsClosed</a> and <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_RecordsAffected">RecordsAffected</a> are the only properties that you can call after the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed. Although the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_RecordsAffected">RecordsAffected</a> property may be accessed while the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> exists, always call <span class="xref">System.Data.SqlClient.SqlDataReader.Close</span> before returning the value of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_RecordsAffected">RecordsAffected</a> to guarantee an accurate return value.</p>
+<p>When using sequential access (<a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a>), an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> will be raised if the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> position is advanced and another read operation is attempted on the previous column.</p>
+<p>For optimal performance, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> avoids creating unnecessary objects or making unnecessary copies of data. Therefore, multiple calls to methods such as <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetValue_System_Int32_">GetValue(Int32)</a> return a reference to the same object. Use caution if you are modifying the underlying value of the objects returned by methods such as <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetValue_System_Int32_">GetValue(Int32)</a>.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -131,6 +140,9 @@
               <div class="markdown level1 summary"><p>Gets a value that indicates the depth of nesting for the current row.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_Depth_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The outermost table has a depth of zero. The .NET Framework Data Provider for SQL Server does not support nesting and always returns zero.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int Depth { get; }</code></pre>
@@ -162,6 +174,9 @@
               <div class="markdown level1 summary"><p>Gets the number of columns in the current row.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_FieldCount_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Executing a query that, by its nature, does not return rows (such as a DELETE query), sets <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_FieldCount">FieldCount</a> to 0. However. this should not be confused with a query that returns 0 rows (such as SELECT * FROM table WHERE 1 = 2) in which case <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_FieldCount">FieldCount</a> returns the number of columns in the table, including hidden fields. Use <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_VisibleFieldCount">VisibleFieldCount</a> to exclude hidden fields.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int FieldCount { get; }</code></pre>
@@ -224,7 +239,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> contains one or more rows; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> contains one or more rows; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -240,6 +256,9 @@
               <div class="markdown level1 summary"><p>Retrieves a Boolean value that indicates whether the specified <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> instance has been closed. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_IsClosed_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>It is not possible to read from a <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> instance that is closed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsClosed { get; }</code></pre>
@@ -255,7 +274,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> instance is closed; otherwise false. </p>
+                    <td><p>
+<strong>true</strong> if the specified <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> instance is closed; otherwise <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -336,6 +356,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column in its native format given the column name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_Item_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A case-sensitive lookup is performed first. If it fails, a second case-insensitive search is made (a case-insensitive comparison is done using the database collation). Unexpected results can occur when comparisons are affected by culture-specific casing rules. For example, in Turkish, the following example yields the wrong results because the file system in Turkish does not use linguistic casing rules for the letter &#39;i&#39; in &quot;file&quot;.</p>
+<p>This method is kana-width insensitive.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override object this[string name] { get; }</code></pre>
@@ -401,6 +425,12 @@
               <div class="markdown level1 summary"><p>Gets the number of rows changed, inserted, or deleted by execution of the Transact-SQL statement.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_RecordsAffected_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_RecordsAffected">RecordsAffected</a> property is not set until all rows are read and you close the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>.</p>
+<p>The value of this property is cumulative. For example, if two records are inserted in batch mode, the value of <strong>RecordsAffected</strong> will be two.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsClosed">IsClosed</a> and <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_RecordsAffected">RecordsAffected</a> are the only properties that you can call after the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int RecordsAffected { get; }</code></pre>
@@ -432,6 +462,9 @@
               <div class="markdown level1 summary"><p>Gets the number of fields in the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> that are not hidden. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_VisibleFieldCount_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This value is used to determine how many fields in the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> are visible. For example, a SELECT on a partial primary key returns the remaining parts of the key as hidden fields. The hidden fields are always appended behind the visible fields.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int VisibleFieldCount { get; }</code></pre>
@@ -465,6 +498,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a Boolean.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetBoolean_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a Boolean, or an exception is generated.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool GetBoolean(int i)</code></pre>
@@ -530,6 +567,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a byte.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetByte_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a byte.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override byte GetByte(int i)</code></pre>
@@ -595,6 +636,12 @@
               <div class="markdown level1 summary"><p>Reads a stream of bytes from the specified column offset into the buffer an array starting at the given buffer offset.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetBytes_System_Int32_System_Int64_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetBytes_System_Int32_System_Int64_System_Byte___System_Int32_System_Int32_">GetBytes(Int32, Int64, Byte[], Int32, Int32)</a> returns the number of available bytes in the field. Most of the time this is the exact length of the field. However, the number returned may be less than the true length of the field if <strong>GetBytes</strong> has already been used to obtain bytes from the field. This may be the case, for example, if the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is reading a large data structure into a buffer. For more information, see the <strong>SequentialAccess</strong> setting for <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior">CommandBehavior</a>.</p>
+<p>If you pass a buffer that is <strong>null</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetBytes_System_Int32_System_Int64_System_Byte___System_Int32_System_Int32_">GetBytes(Int32, Int64, Byte[], Int32, Int32)</a> returns the length of the entire field in bytes, not the remaining size based on the buffer offset parameter.</p>
+<p>No conversions are performed; therefore, the data retrieved must already be a byte array.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long GetBytes(int i, long dataIndex, byte[] buffer, int bufferIndex, int length)</code></pre>
@@ -668,6 +715,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a single character.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetChar_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Not supported for <a class="xref" href="System.Data.SqlClient.html#System_Data_SqlClient">System.Data.SqlClient</a>. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override char GetChar(int i)</code></pre>
@@ -733,6 +783,13 @@
               <div class="markdown level1 summary"><p>Reads a stream of characters from the specified column offset into the buffer as an array starting at the given buffer offset.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetChars_System_Int32_System_Int64_System_Char___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetChars_System_Int32_System_Int64_System_Char___System_Int32_System_Int32_">GetChars(Int32, Int64, Char[], Int32, Int32)</a> returns the number of available characters in the field. Frequently this is the exact length of the field. However, the number returned may be less than the true length of the field if <strong>GetChars</strong> has already been used to obtain characters from the field. This may be the case, for example, if the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is reading a large data structure into a buffer. For more information, see the <strong>SequentialAccess</strong> setting for <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior">CommandBehavior</a>.</p>
+<p>The actual number of characters read can be less than the requested length, if the end of the field is reached. If you pass a buffer that is <strong>null</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetChars_System_Int32_System_Int64_System_Char___System_Int32_System_Int32_">GetChars(Int32, Int64, Char[], Int32, Int32)</a> returns the length of the entire field in characters, not the remaining size based on the buffer offset parameter.</p>
+<p>No conversions are performed; therefore. the data retrieved must already be a character array.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetChars_System_Int32_System_Int64_System_Char___System_Int32_System_Int32_">GetChars(Int32, Int64, Char[], Int32, Int32)</a> method returns 0 when <em>dataIndex</em> is negative.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long GetChars(int i, long dataIndex, char[] buffer, int bufferIndex, int length)</code></pre>
@@ -806,6 +863,11 @@
               <div class="markdown level1 summary"><p>Gets a string representing the data type of the specified column.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetDataTypeName_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Returns the name of the back-end data type.</p>
+<p>
+<strong>numeric</strong> is a synonym in SQL Server for the <strong>decimal</strong> data type. <strong>GetDataTypeName</strong> will return &quot;decimal&quot; for a column defined as either decimal or numeric.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string GetDataTypeName(int i)</code></pre>
@@ -855,6 +917,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.DateTime.html#System_DateTime">DateTime</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetDateTime_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a <a class="xref" href="System.DateTime.html#System_DateTime">DateTime</a> object.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override DateTime GetDateTime(int i)</code></pre>
@@ -920,6 +986,10 @@
               <div class="markdown level1 summary"><p>Retrieves the value of the specified column as a <a class="xref" href="System.DateTimeOffset.html#System_DateTimeOffset">DateTimeOffset</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetDateTimeOffset_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a <a class="xref" href="System.DateTimeOffset.html#System_DateTimeOffset">DateTimeOffset</a> object.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual DateTimeOffset GetDateTimeOffset(int i)</code></pre>
@@ -985,6 +1055,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Decimal.html#System_Decimal">Decimal</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetDecimal_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a <a class="xref" href="System.Decimal.html#System_Decimal">Decimal</a> object.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override decimal GetDecimal(int i)</code></pre>
@@ -1050,6 +1124,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a double-precision floating point number.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetDouble_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed. Therefore, the data retrieved must already be a double-precision floating point number.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override double GetDouble(int i)</code></pre>
@@ -1115,6 +1193,9 @@
               <div class="markdown level1 summary"><p>Returns an <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator">IEnumerator</a> that iterates through the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetEnumerator_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Although you can use this method to retrieve an explicit enumerator, in languages that support a <strong>foreach</strong> construct, it is simpler to use the looping construct directly in order to iterate through the rows in the data reader.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Collections.IEnumerator GetEnumerator()</code></pre>
@@ -1179,7 +1260,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
-                    <td><p>The <a class="xref" href="System.Type.html#System_Type">Type</a> that is the data type of the object. If the type does not exist on the client, in the case of a User-Defined Type (UDT) returned from the database, GetFieldType returns null.</p>
+                    <td><p>The <a class="xref" href="System.Type.html#System_Type">Type</a> that is the data type of the object. If the type does not exist on the client, in the case of a User-Defined Type (UDT) returned from the database, <strong>GetFieldType</strong> returns null.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1195,6 +1276,11 @@
               <div class="markdown level1 summary"><p>Synchronously gets the value of the specified column as a type. <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetFieldValueAsync__1_System_Int32_System_Threading_CancellationToken_">GetFieldValueAsync<t>(Int32, Threading.CancellationToken)</t></a> is the asynchronous version of this method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetFieldValue__1_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<em>T</em> can be one of the following types:</p>
+<p>For more information, see SqlClient Streaming Support.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override T GetFieldValue&lt;T&gt;(int i)</code></pre>
@@ -1244,7 +1330,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The connection drops or is closed during the data retrieval.The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).Tried to read a previously-read column in sequential mode.There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
+                    <td><p>The connection drops or is closed during the data retrieval.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.</p>
+<p>There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).</p>
+<p>Tried to read a previously-read column in sequential mode.</p>
+<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
 </td>
                   </tr>
                   <tr>
@@ -1254,12 +1344,13 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlTypes.SqlNullValueException.html#System_Data_SqlTypes_SqlNullValueException">SqlNullValueException</a></td>
-                    <td><p>The value of the column was null (<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> == true), retrieving a non-SQL type.</p>
+                    <td><p>The value of the column was null (<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> == <strong>true</strong>), retrieving a non-SQL type.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p><em>T</em> doesn’t match the type returned by SQL Server or cannot be cast.</p>
+                    <td><p>
+<em>T</em> doesn’t match the type returned by SQL Server or cannot be cast.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1275,6 +1366,11 @@
               <div class="markdown level1 summary"><p>Asynchronously gets the value of the specified column as a type. <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetFieldValue__1_System_Int32_">GetFieldValue<t>(Int32)</t></a> is the synchronous version of this method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetFieldValueAsync__1_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<em>T</em> can be one of the following types:</p>
+<p>For more information, see SqlClient Streaming Support.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;T&gt; GetFieldValueAsync&lt;T&gt;(int i, Threading.CancellationToken cancellationToken)</code></pre>
@@ -1296,9 +1392,9 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
-                    <td><p>The cancellation instruction, which propagates a notification that operations should be canceled. This does not guarantee the cancellation. A setting of CancellationToken.None makes this method equivalent to <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a>. The returned task must be marked as cancelled.</p>
+                    <td><p>The cancellation instruction, which propagates a notification that operations should be canceled. This does not guarantee the cancellation. A setting of <strong>CancellationToken.None</strong> makes this method equivalent to <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a>. The returned task must be marked as cancelled.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1330,7 +1426,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The connection drops or is closed during the data retrieval.The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).Tried to read a previously-read column in sequential mode.There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.Context Connection=true is specified in the connection string.</p>
+                    <td><p>The connection drops or is closed during the data retrieval.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.</p>
+<p>There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).</p>
+<p>Tried to read a previously-read column in sequential mode.</p>
+<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
@@ -1340,12 +1442,13 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Data.SqlTypes.SqlNullValueException.html#System_Data_SqlTypes_SqlNullValueException">SqlNullValueException</a></td>
-                    <td><p>The value of the column was null (<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> == true), retrieving a non-SQL type.</p>
+                    <td><p>The value of the column was null (<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> == <strong>true</strong>), retrieving a non-SQL type.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p><em>T</em> doesn’t match the type returned by SQL Server or cannot be cast.</p>
+                    <td><p>
+<em>T</em> doesn’t match the type returned by SQL Server or cannot be cast.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1361,6 +1464,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a single-precision floating point number.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetFloat_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed. Therefore, the data retrieved must already be a single-precision floating point number.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override float GetFloat(int i)</code></pre>
@@ -1426,6 +1533,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a globally unique identifier (GUID).</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetGuid_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a GUID.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Guid GetGuid(int i)</code></pre>
@@ -1491,6 +1602,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a 16-bit signed integer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetInt16_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a 16-bit signed integer.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override short GetInt16(int i)</code></pre>
@@ -1556,6 +1671,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a 32-bit signed integer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetInt32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a 32-bit signed integer.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int GetInt32(int i)</code></pre>
@@ -1621,6 +1740,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a 64-bit signed integer.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetInt64_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a 64-bit signed integer.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long GetInt64(int i)</code></pre>
@@ -1735,6 +1858,13 @@
               <div class="markdown level1 summary"><p>Gets the column ordinal, given the name of the column.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetOrdinal_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<strong>GetOrdinal</strong> performs a case-sensitive lookup first. If it fails, a second, case-insensitive search occurs (a case-insensitive comparison is done using the database collation). Unexpected results can occur when comparisons are affected by culture-specific casing rules. For example, in Turkish, the following example yields the wrong results because the file system in Turkish does not use linguistic casing rules for the letter &#39;i&#39; in &quot;file&quot;. The method throws an <strong>IndexOutOfRange</strong> exception if the zero-based column ordinal is not found.</p>
+<p>
+<strong>GetOrdinal</strong> is kana-width insensitive.</p>
+<p>Because ordinal-based lookups are more efficient than named lookups, it is inefficient to call <strong>GetOrdinal</strong> within a loop. Save time by calling <strong>GetOrdinal</strong> once and assigning the results to an integer variable for use within the loop.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int GetOrdinal(string name)</code></pre>
@@ -1797,7 +1927,7 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/src/System/Data/SqlClient/SqlDataReader.cs/#L981">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlDataReader_GetProviderSpecificFieldType_System_Int32_" data-uid="System.Data.SqlClient.SqlDataReader.GetProviderSpecificFieldType(System.Int32)">GetProviderSpecificFieldType(Int32)</h4>
-              <div class="markdown level1 summary"><p>Gets an Object that is a representation of the underlying provider-specific field type.</p>
+              <div class="markdown level1 summary"><p>Gets an <strong>Object</strong> that is a representation of the underlying provider-specific field type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -1846,7 +1976,7 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/src/System/Data/SqlClient/SqlDataReader.cs/#L1060">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlDataReader_GetProviderSpecificValue_System_Int32_" data-uid="System.Data.SqlClient.SqlDataReader.GetProviderSpecificValue(System.Int32)">GetProviderSpecificValue(Int32)</h4>
-              <div class="markdown level1 summary"><p>Gets an Object that is a representation of the underlying provider specific value.</p>
+              <div class="markdown level1 summary"><p>Gets an <strong>Object</strong> that is a representation of the underlying provider specific value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -1947,6 +2077,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlBinary.html#System_Data_SqlTypes_SqlBinary">SqlBinary</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlBinary_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore the data retrieved must already be a binary structure or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlBinary GetSqlBinary(int i)</code></pre>
@@ -1996,6 +2129,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlBoolean.html#System_Data_SqlTypes_SqlBoolean">SqlBoolean</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlBoolean_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a Boolean or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlBoolean GetSqlBoolean(int i)</code></pre>
@@ -2045,6 +2181,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlByte.html#System_Data_SqlTypes_SqlByte">SqlByte</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlByte_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore the data retrieved must already be a byte, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlByte GetSqlByte(int i)</code></pre>
@@ -2192,6 +2331,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlDateTime.html#System_Data_SqlTypes_SqlDateTime">SqlDateTime</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlDateTime_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a date/time value, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlDateTime GetSqlDateTime(int i)</code></pre>
@@ -2241,6 +2383,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlDecimal.html#System_Data_SqlTypes_SqlDecimal">SqlDecimal</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlDecimal_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a decimal value, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlDecimal GetSqlDecimal(int i)</code></pre>
@@ -2290,6 +2435,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlDouble.html#System_Data_SqlTypes_SqlDouble">SqlDouble</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlDouble_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a double-precision floating-point number, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlDouble GetSqlDouble(int i)</code></pre>
@@ -2339,6 +2487,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlGuid.html#System_Data_SqlTypes_SqlGuid">SqlGuid</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlGuid_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a GUID, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlGuid GetSqlGuid(int i)</code></pre>
@@ -2388,6 +2539,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlInt16.html#System_Data_SqlTypes_SqlInt16">SqlInt16</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlInt16_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a 16-bit signed integer, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlInt16 GetSqlInt16(int i)</code></pre>
@@ -2437,6 +2591,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlInt32.html#System_Data_SqlTypes_SqlInt32">SqlInt32</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlInt32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore the data retrieved must already be a 32-bit signed integer, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlInt32 GetSqlInt32(int i)</code></pre>
@@ -2486,6 +2643,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlInt64.html#System_Data_SqlTypes_SqlInt64">SqlInt64</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlInt64_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a 64-bit signed integer, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlInt64 GetSqlInt64(int i)</code></pre>
@@ -2535,6 +2695,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlMoney.html#System_Data_SqlTypes_SqlMoney">SqlMoney</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlMoney_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a decimal value, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlMoney GetSqlMoney(int i)</code></pre>
@@ -2584,6 +2747,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlSingle.html#System_Data_SqlTypes_SqlSingle">SqlSingle</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlSingle_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a single precision floating point number, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlSingle GetSqlSingle(int i)</code></pre>
@@ -2633,6 +2799,9 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a <a class="xref" href="System.Data.SqlTypes.SqlString.html#System_Data_SqlTypes_SqlString">SqlString</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlString_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a string, or an exception is generated.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlString GetSqlString(int i)</code></pre>
@@ -2682,6 +2851,10 @@
               <div class="markdown level1 summary"><p>Returns the data value in the specified column as a SQL Server type. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlValue_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetSqlValue_System_Int32_">GetSqlValue(Int32)</a> returns data using the native SQL Server types. To retrieve data using the .NET Framework types, see <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetValue_System_Int32_">GetValue(Int32)</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual object GetSqlValue(int i)</code></pre>
@@ -2731,6 +2904,9 @@
               <div class="markdown level1 summary"><p>Fills an array of <a class="xref" href="System.Object.html#System_Object">Object</a> that contains the values for all the columns in the record, expressed as SQL Server types.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlValues_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Returns the values for all the columns in the record in a single call, using the SQL type system instead of the CLR type system. The length of the <a class="xref" href="System.Object.html#System_Object">Object</a> array does not need to match the number of columns in the record. You can pass an <a class="xref" href="System.Object.html#System_Object">Object</a> array that contains fewer than the number of columns contained in the record. Only the amount of data the <a class="xref" href="System.Object.html#System_Object">Object</a> array holds is copied to the array, starting at the column with ordinal 0. You can also pass an <a class="xref" href="System.Object.html#System_Object">Object</a> array whose length is more than the number of columns contained in the resulting row. Any remaining columns are untouched.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int GetSqlValues(object[] values)</code></pre>
@@ -2780,7 +2956,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>values</em> is null. </p>
+                    <td><p>
+<em>values</em> is null. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2796,6 +2973,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as an XML value.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetSqlXml_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be an XML value.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SqlXml GetSqlXml(int i)</code></pre>
@@ -2871,6 +3052,37 @@
               <div class="markdown level1 summary"><p>Retrieves binary, image, varbinary, UDT, and variant data types as a <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetStream_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.IO.Stream.html#System_IO_Stream_ReadTimeout">ReadTimeout</a> defaults to the value of <a class="xref" href="System.Data.SqlClient.SqlCommand.html#System_Data_SqlClient_SqlCommand_CommandTimeout">CommandTimeout</a>; but you can modify <a class="xref" href="System.IO.Stream.html#System_IO_Stream_ReadTimeout">ReadTimeout</a> via <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetStream_System_Int32_">GetStream(Int32)</a>.</p>
+<p>Null values will be returned as an empty (zero bytes) <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetBytes_System_Int32_System_Int64_System_Byte___System_Int32_System_Int32_">GetBytes(Int32, Int64, Byte[], Int32, Int32)</a> will raise an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> exception when used on an object returned by <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetStream_System_Int32_">GetStream(Int32)</a> when <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a> is in effect.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a> exceptions raised from <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> are thrown as <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a> exceptions; check the inner exception for the <a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a>.</p>
+<p>The following <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> members are not available for objects returned by <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetStream_System_Int32_">GetStream(Int32)</a>:</p>
+<ul><li>
+<p>BeginWrite</p>
+</li><li>
+<p>EndWrite</p>
+</li><li>
+<p>Length</p>
+</li><li>
+<p>Position</p>
+</li><li>
+<p>Seek</p>
+</li><li>
+<p>SetLength</p>
+</li><li>
+<p>Write</p>
+</li><li>
+<p>WriteByte</p>
+</li><li>
+<p>WriteTimeout</p>
+</li></ul>
+<p>When the connection property <strong>ContextConnection=true</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetStream_System_Int32_">GetStream(Int32)</a> only supports synchronous data retrieval for both sequential (<a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a>) and non-sequential (<a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_Default">Default</a>) access.</p>
+<p>For more information, see SqlClient Streaming Support.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override IO.Stream GetStream(int i)</code></pre>
@@ -2920,7 +3132,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The connection drops or is closed during the data retrieval.The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).Tried to read a previously-read column in sequential mode.There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
+                    <td><p>The connection drops or is closed during the data retrieval.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.</p>
+<p>There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).</p>
+<p>Tried to read a previously-read column in sequential mode.</p>
+<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
 </td>
                   </tr>
                   <tr>
@@ -2930,7 +3146,16 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>The returned type was not one of the types below:binaryimagevarbinaryudt</p>
+                    <td><p><p>The returned type was not one of the types below:</p></p>
+<ul><li>
+<p>binary</p>
+</li><li>
+<p>image</p>
+</li><li>
+<p>varbinary</p>
+</li><li>
+<p>udt</p>
+</li></ul>
 </td>
                   </tr>
                 </tbody>
@@ -2946,6 +3171,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column as a string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetString_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a string.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string GetString(int i)</code></pre>
@@ -3011,6 +3240,15 @@
               <div class="markdown level1 summary"><p>Retrieves Char, NChar, NText, NVarChar, text, varChar, and Variant data types as a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetTextReader_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a> exceptions raised from <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a> are thrown as <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a> exceptions; check the inner exception for the <a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a>.</p>
+<p>Null values will be returned as an empty (zero bytes) <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetChars_System_Int32_System_Int64_System_Char___System_Int32_System_Int32_">GetChars(Int32, Int64, Char[], Int32, Int32)</a> will raise an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> exception when used on an object returned by <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetTextReader_System_Int32_">GetTextReader(Int32)</a> when <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a> is in effect.</p>
+<p>When the connection property <strong>ContextConnection=true</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetTextReader_System_Int32_">GetTextReader(Int32)</a> only supports synchronous data retrieval for both sequential (<a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a>) and non-sequential (<a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_Default">Default</a>) access.</p>
+<p>For more information, see SqlClient Streaming Support.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override IO.TextReader GetTextReader(int i)</code></pre>
@@ -3060,7 +3298,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The connection drops or is closed during the data retrieval.The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).Tried to read a previously-read column in sequential mode.There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
+                    <td><p>The connection drops or is closed during the data retrieval.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.</p>
+<p>There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).</p>
+<p>Tried to read a previously-read column in sequential mode.</p>
+<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
 </td>
                   </tr>
                   <tr>
@@ -3070,7 +3312,20 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.InvalidCastException.html#System_InvalidCastException">InvalidCastException</a></td>
-                    <td><p>The returned type was not one of the types below:charncharntextnvarchartextvarchar</p>
+                    <td><p><p>The returned type was not one of the types below:</p></p>
+<ul><li>
+<p>char</p>
+</li><li>
+<p>nchar</p>
+</li><li>
+<p>ntext</p>
+</li><li>
+<p>nvarchar</p>
+</li><li>
+<p>text</p>
+</li><li>
+<p>varchar</p>
+</li></ul>
 </td>
                   </tr>
                 </tbody>
@@ -3086,6 +3341,10 @@
               <div class="markdown level1 summary"><p>Retrieves the value of the specified column as a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetTimeSpan_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>No conversions are performed; therefore, the data retrieved must already be a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> object.</p>
+<p>Call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a> to check for null values before calling this method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual TimeSpan GetTimeSpan(int i)</code></pre>
@@ -3151,6 +3410,10 @@
               <div class="markdown level1 summary"><p>Gets the value of the specified column in its native format.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetValue_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetValue_System_Int32_">GetValue(Int32)</a> returns data using the .NET Framework types.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override object GetValue(int i)</code></pre>
@@ -3200,6 +3463,11 @@
               <div class="markdown level1 summary"><p>Populates an array of objects with the column values of the current row.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetValues_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For most applications, this method provides an efficient means for retrieving all columns, instead of retrieving each column individually.</p>
+<p>You can pass an <a class="xref" href="System.Object.html#System_Object">Object</a> array that contains fewer than the number of columns contained in the resulting row. Only the amount of data the <a class="xref" href="System.Object.html#System_Object">Object</a> array holds is copied to the array. You can also pass an <a class="xref" href="System.Object.html#System_Object">Object</a> array whose length is more than the number of columns contained in the resulting row.</p>
+<p>This method returns <a class="xref" href="System.DBNull.html#System_DBNull">DBNull</a> for null database columns.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int GetValues(object[] values)</code></pre>
@@ -3249,6 +3517,14 @@
               <div class="markdown level1 summary"><p>Retrieves data of type XML as an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_GetXmlReader_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> object returned by <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetXmlReader_System_Int32_">GetXmlReader(Int32)</a> does not support asynchronous operations. If you require asynchronous operations on an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>, cast the XML column to an NVARCHAR(MAX) on the server and use <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetTextReader_System_Int32_">GetTextReader(Int32)</a> with <see cref="Overload:System.Xml.XmlReader.Create"></see>.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a> exceptions raised from <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> are thrown as <a class="xref" href="System.Xml.XmlException.html#System_Xml_XmlException">XmlException</a> exceptions; check the inner exception for the <a class="xref" href="System.Data.SqlClient.SqlException.html#System_Data_SqlClient_SqlException">SqlException</a>.</p>
+<p>
+<a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetChars_System_Int32_System_Int64_System_Char___System_Int32_System_Int32_">GetChars(Int32, Int64, Char[], Int32, Int32)</a> will raise an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> exception when used on an object returned by <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetXmlReader_System_Int32_">GetXmlReader(Int32)</a> when <a class="xref" href="System.Data.CommandBehavior.html#System_Data_CommandBehavior_SequentialAccess">SequentialAccess</a> is in effect.</p>
+<p>For more information, see SqlClient Streaming Support.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Xml.XmlReader GetXmlReader(int i)</code></pre>
@@ -3298,7 +3574,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The connection drops or is closed during the data retrieval.The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).Trying to read a previously read column in sequential mode.There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
+                    <td><p>The connection drops or is closed during the data retrieval.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.</p>
+<p>There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).</p>
+<p>Trying to read a previously read column in sequential mode.</p>
+<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
 </td>
                   </tr>
                   <tr>
@@ -3324,6 +3604,9 @@
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the column contains non-existent or missing values.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Call this method to check for null column values before calling the typed get methods (for example, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetByte_System_Int32_">GetByte(Int32)</a>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_GetChar_System_Int32_">GetChar(Int32)</a>, and so on) to avoid raising an error.</p>SqlDataReader_IsDbNull#1</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsDBNull(int i)</code></pre>
@@ -3357,7 +3640,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the specified column value is equivalent to <a class="xref" href="System.DBNull.html#System_DBNull">DBNull</a>; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if the specified column value is equivalent to <a class="xref" href="System.DBNull.html#System_DBNull">DBNull</a>; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3370,9 +3654,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L457">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlDataReader_IsDBNullAsync_System_Int32_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlDataReader.IsDBNullAsync(System.Int32,System.Threading.CancellationToken)">IsDBNullAsync(Int32, Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a>, which gets a value that indicates whether the column contains non-existent or missing values.The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a>, which gets a value that indicates whether the column contains non-existent or missing values.</p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_IsDBNullAsync_System_Int32_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see SqlClient Streaming Support.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;bool&gt; IsDBNullAsync(int i, Threading.CancellationToken cancellationToken)</code></pre>
@@ -3394,9 +3682,9 @@
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
-                    <td><p>The cancellation instruction, which propagates a notification that operations should be canceled. This does not guarantee the cancellation. A setting of CancellationToken.None makes this method equivalent to <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a>. The returned task must be marked as cancelled.</p>
+                    <td><p>The cancellation instruction, which propagates a notification that operations should be canceled. This does not guarantee the cancellation. A setting of <strong>CancellationToken.None</strong> makes this method equivalent to <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_IsDBNull_System_Int32_">IsDBNull(Int32)</a>. The returned task must be marked as cancelled.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3411,8 +3699,9 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
-                    <td><p>true if the specified column value is equivalent to DBNull otherwise false.</p>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><p>
+<strong>true</strong> if the specified column value is equivalent to <strong>DBNull</strong> otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3428,7 +3717,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The connection drops or is closed during the data retrieval.The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).Trying to read a previously read column in sequential mode.There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.Context Connection=true is specified in the connection string.</p>
+                    <td><p>The connection drops or is closed during the data retrieval.</p>
+<p>The <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is closed during the data retrieval.</p>
+<p>There is no data ready to be read (for example, the first <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> hasn&#39;t been called, or returned false).</p>
+<p>Trying to read a previously read column in sequential mode.</p>
+<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
@@ -3449,6 +3744,10 @@
               <div class="markdown level1 summary"><p>Advances the data reader to the next result, when reading the results of batch Transact-SQL statements.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_NextResult_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Used to process multiple results, which can be generated by executing batch Transact-SQL statements.</p>
+<p>By default, the data reader is positioned on the first result.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool NextResult()</code></pre>
@@ -3464,7 +3763,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if there are more result sets; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if there are more result sets; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3477,9 +3777,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L459">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlDataReader_NextResultAsync_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlDataReader.NextResultAsync(System.Threading.CancellationToken)">NextResultAsync(Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_NextResult">NextResult()</a>, which advances the data reader to the next result, when reading the results of batch Transact-SQL statements.The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_NextResult">NextResult()</a>, which advances the data reader to the next result, when reading the results of batch Transact-SQL statements.</p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_NextResultAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;bool&gt; NextResultAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -3495,7 +3799,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -3512,7 +3816,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
                     <td><p>A task representing the asynchronous operation.</p>
 </td>
                   </tr>
@@ -3529,7 +3833,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_NextResultAsync_System_Threading_CancellationToken_">NextResultAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_NextResultAsync_System_Threading_CancellationToken_">NextResultAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>
@@ -3550,6 +3856,10 @@
               <div class="markdown level1 summary"><p>Advances the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> to the next record.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_Read_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default position of the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> is before the first record. Therefore, you must call <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a> to begin accessing any data.</p>
+<p>Only one <strong>SqlDataReader</strong> per associated <a class="xref" href="System.Data.SqlClient.SqlConnection.html#System_Data_SqlClient_SqlConnection">SqlConnection</a> may be open at a time, and any attempt to open another will fail until the first one is closed. Similarly, while the <strong>SqlDataReader</strong> is being used, the associated <strong>SqlConnection</strong> is busy serving it until you call <span class="xref">System.Data.SqlClient.SqlDataReader.Close</span>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool Read()</code></pre>
@@ -3565,7 +3875,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if there are more rows; otherwise false.</p>
+                    <td><p>
+<strong>true</strong> if there are more rows; otherwise <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3594,9 +3905,14 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Data.SqlClient/ref/System.Data.SqlClient.cs/#L461">View Source</a>
               </span>
               <h4 id="System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_" data-uid="System.Data.SqlClient.SqlDataReader.ReadAsync(System.Threading.CancellationToken)">ReadAsync(Threading.CancellationToken)</h4>
-              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a>, which advances the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> to the next record.The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object.</p>
+              <div class="markdown level1 summary"><p>An asynchronous version of <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_Read">Read()</a>, which advances the <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader">SqlDataReader</a> to the next record.</p>
+<p>The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <em>behavior</em> parameter of <see cref="Overload:System.Data.SqlClient.SqlCommand.ExecuteReaderAsync"></see> is set to <strong>Default</strong>, <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> reads the entire row before returning the Task.</p>
+<p>For more information, including code samples, about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override Threading.Tasks.Task&lt;bool&gt; ReadAsync(Threading.CancellationToken cancellationToken)</code></pre>
@@ -3612,7 +3928,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
                     <td><em>cancellationToken</em></td>
                     <td><p>The cancellation instruction.</p>
 </td>
@@ -3629,7 +3945,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Threading.Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task%601.html#System_Threading_Tasks_Task_1">Tasks.Task</a>&lt;<a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a>&gt;</td>
                     <td><p>A task representing the asynchronous operation.</p>
 </td>
                   </tr>
@@ -3646,7 +3962,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.Context Connection=true is specified in the connection string.</p>
+                    <td><p>Calling <a class="xref" href="System.Data.SqlClient.SqlDataReader.html#System_Data_SqlClient_SqlDataReader_ReadAsync_System_Threading_CancellationToken_">ReadAsync(Threading.CancellationToken)</a> more than once for the same instance before task completion.</p>
+<p>
+<strong>Context Connection=true</strong> is specified in the connection string.</p>
 </td>
                   </tr>
                   <tr>

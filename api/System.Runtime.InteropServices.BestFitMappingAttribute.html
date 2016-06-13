@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_BestFitMappingAttribute.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.BestFitMappingAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1081" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L49" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_BestFitMappingAttribute" data-uid="System.Runtime.InteropServices.BestFitMappingAttribute">Class BestFitMappingAttribute
               </h1>
               <div class="markdown level0 summary"><p>Controls whether Unicode characters are converted to the closest matching ANSI characters.</p>
@@ -87,6 +87,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class BestFitMappingAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_Runtime_InteropServices_BestFitMappingAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>You can apply this attribute to an assembly, interface, class, or structure.</p>
+<p>By default, the common language runtime converts to ANSI characters any managed Unicode characters passed to an unmanaged method executing on Windows 98 or Windows Me. Best-fit mapping enables the interop marshaler to select a close-matching character when no exact match exists. For example, the marshaler converts the Unicode copyright character to &#39;c&#39; for unmanaged methods that accept ANSI characters.</p>
+<p>Some characters lack a best-fit representation; these characters are called unmappable. Unmappable characters are usually converted to the default &#39;?&#39; ANSI character. Certain Unicode characters are converted to dangerous characters, such as the backslash &#39;\&#39; character, which can inadvertently change a path.</p>
+<p>
+<a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute">BestFitMappingAttribute</a> provides two parameters to control aspects of best-fit mapping. You use the first parameter to toggle best-fit mapping on and off. The default value is <strong>true</strong>, which enables best-fit mapping on the assembly, interface, and class levels. An attribute applied to an interface or class overrides an assembly-level attribute. You can likewise enable or disable best-fit mapping for platform invoke calls by using the <a class="xref" href="System.Runtime.InteropServices.DllImportAttribute.html#System_Runtime_InteropServices_DllImportAttribute_BestFitMapping">BestFitMapping</a> field. A value set by the platform invoke field overrides all levels of <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute">BestFitMappingAttribute</a>.</p>
+<p>You can use the second parameter to control throwing an exception on unmappable characters. The default value for the <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar">ThrowOnUnmappableChar</a> field is <strong>false</strong>, which disables throwing an exception each time the runtime encounters a Unicode character that has to be converted to the &#39;?&#39; ANSI character. Even if best-fit mapping is <strong>true</strong>, unmappable characters generate an exception when the <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar">ThrowOnUnmappableChar</a> field is <strong>true</strong>. To tighten security, you can toggle the first parameter to <strong>false</strong> and the second parameter to <strong>true</strong>. This combination of parameter settings turns best-fit mapping off, but enables the exception-throwing mechanism as a safety precaution.</p>
+<p>You cannot change the default values provided by <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute">BestFitMappingAttribute</a> when passing a managed array whose elements are ANSI Chars or LPSTRs to an unmanaged safe array. Best-fit mapping is always enabled and no exception can be thrown. Be aware that this combination can compromise your security model.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +103,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_BestFitMappingAttribute__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.BestFitMappingAttribute.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1087">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L53">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_BestFitMappingAttribute__ctor_System_Boolean_" data-uid="System.Runtime.InteropServices.BestFitMappingAttribute.#ctor(System.Boolean)">BestFitMappingAttribute(Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute">BestFitMappingAttribute</a> class set to the value of the <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute_BestFitMapping">BestFitMapping</a> property.</p>
@@ -117,7 +126,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>BestFitMapping</em></td>
-                    <td><p>true to indicate that best-fit mapping is enabled; otherwise, false. The default is true. </p>
+                    <td><p>
+<strong>true</strong> to indicate that best-fit mapping is enabled; otherwise, <strong>false</strong>. The default is <strong>true</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -129,12 +139,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1093">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L52">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar" data-uid="System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar">ThrowOnUnmappableChar</h4>
               <div class="markdown level1 summary"><p>Enables or disables the throwing of an exception on an unmappable Unicode character that is converted to an ANSI &#39;?&#39; character.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <strong>false</strong>, the <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar">ThrowOnUnmappableChar</a> field is disabled; otherwise, an exception is thrown each time the interop marshaler encounters an unmappable character. The default <strong>false</strong>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool ThrowOnUnmappableChar</code></pre>
@@ -146,12 +159,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_BestFitMappingAttribute_BestFitMapping.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.BestFitMappingAttribute.BestFitMapping%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs/#L1092">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L54">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_BestFitMappingAttribute_BestFitMapping" data-uid="System.Runtime.InteropServices.BestFitMappingAttribute.BestFitMapping">BestFitMapping</h4>
               <div class="markdown level1 summary"><p>Gets the best-fit mapping behavior when converting Unicode characters to ANSI characters.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_InteropServices_BestFitMappingAttribute_BestFitMapping_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If best-fit mapping is <strong>false</strong> and <a class="xref" href="System.Runtime.InteropServices.BestFitMappingAttribute.html#System_Runtime_InteropServices_BestFitMappingAttribute_ThrowOnUnmappableChar">ThrowOnUnmappableChar</a> is <strong>true</strong>, all Unicode characters that require conversion to ANSI format will generate an exception when passed to unmanaged code. Some characters are unmappable, even when best-fit mapping is <strong>true</strong>. Some characters lack a best-fit representation; these characters are called unmappable. Unmappable characters are usually converted to the default &#39;?&#39; ANSI character.</p>
+<p>Certain Unicode characters are converted to dangerous characters, such as the backslash &#39;\&#39; character, which can inadvertently change a path.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool BestFitMapping { get; }</code></pre>
@@ -167,7 +184,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if best-fit mapping is enabled; otherwise, false. The default is true.</p>
+                    <td><p>
+<strong>true</strong> if best-fit mapping is enabled; otherwise, <strong>false</strong>. The default is <strong>true</strong>.</p>
 </td>
                   </tr>
                 </tbody>

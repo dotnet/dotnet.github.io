@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_CustomAttributeData.md&amp;value=---%0Auid%3A%20System.Reflection.CustomAttributeData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/CustomAttribute.cs/#L24" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L69" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_CustomAttributeData" data-uid="System.Reflection.CustomAttributeData">Class CustomAttributeData
               </h1>
               <div class="markdown level0 summary"><p>Provides access to custom attribute data for assemblies, modules, types, members and parameters that are loaded into the reflection-only context.</p>
@@ -87,6 +87,21 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class CustomAttributeData : object</code></pre>
               </div>
+              <h5 id="System_Reflection_CustomAttributeData_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>Code that is being examined in the reflection-only context cannot be executed, so it is not always possible to examine custom attributes by creating instances of them and then examining their properties, using methods like <see cref="Overload:System.Attribute.GetCustomAttributes"></see>, <see cref="Overload:System.Reflection.MemberInfo.GetCustomAttributes"></see>, and so on. If the code for the attribute type itself is loaded into the reflection-only context, it cannot be executed. </p>
+<p>The <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> class allows examination of custom attributes in the reflection-only context by providing an abstraction for attributes. The members of this class can be used to obtain the positional arguments and named arguments of the attribute. Use the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData_ConstructorArguments">ConstructorArguments</a> property to get a list of <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument">CustomAttributeTypedArgument</a> structures that represent the positional arguments, and use the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData_NamedArguments">NamedArguments</a> property to get a list of <a class="xref" href="System.Reflection.CustomAttributeNamedArgument.html#System_Reflection_CustomAttributeNamedArgument">CustomAttributeNamedArgument</a> structures that represent the named arguments. </p>
+<p>The <a class="xref" href="System.Reflection.CustomAttributeNamedArgument.html#System_Reflection_CustomAttributeNamedArgument">CustomAttributeNamedArgument</a> structure only provides information about the attribute property used to get and set the argument value. To obtain the type and value of the argument, use the <a class="xref" href="System.Reflection.CustomAttributeNamedArgument.html#System_Reflection_CustomAttributeNamedArgument_TypedValue">TypedValue</a> property to obtain a <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument">CustomAttributeTypedArgument</a> structure.</p>
+<p>When you have a <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument">CustomAttributeTypedArgument</a> structure for an argument, whether named or positional, use the <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument_ArgumentType">ArgumentType</a> property to get the type and the <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument_Value">Value</a> property to get the value. </p>
+<p>For an array argument, the <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument_Value">Value</a> property returns a generic <a class="xref" href="System.Collections.ObjectModel.ReadOnlyCollection%601.html#System_Collections_ObjectModel_ReadOnlyCollection_1">ReadOnlyCollection<t></t></a> of <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument">CustomAttributeTypedArgument</a> objects. Each <a class="xref" href="System.Reflection.CustomAttributeTypedArgument.html#System_Reflection_CustomAttributeTypedArgument">CustomAttributeTypedArgument</a> object in the collection represents the corresponding element of the array. </p>
+<p>
+<a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> can be used in the execution context as well as in the reflection-only context. For example, you might want to avoid loading the assembly that contains the code for a custom attribute. Using the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> class is different from using methods like <see cref="Overload:System.Attribute.GetCustomAttributes"></see>:</p>
+<ul><li>
+<p>The properties and methods of <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> only provide you with the values that were specified for the attribute instance, not the semantics of the constructor. For example, a string argument of an attribute might be converted internally to some other representation, and returned in a canonical form; or a property might have side effects when the actual attribute code is executed.</p>
+</li><li>
+<p>The properties and methods of <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> do not allow you to retrieve the custom attributes inherited from base classes. </p>
+</li></ul>
+<p>To create instances of the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> class, use the <strong>static</strong> (<strong>Shared</strong> in Visual Basic) <see cref="Overload:System.Reflection.CustomAttributeData.GetCustomAttributes"></see> factory methods.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +109,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_CustomAttributeData_AttributeType.md&amp;value=---%0Auid%3A%20System.Reflection.CustomAttributeData.AttributeType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/CustomAttribute.cs/#L523">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L72">View Source</a>
               </span>
               <h4 id="System_Reflection_CustomAttributeData_AttributeType" data-uid="System.Reflection.CustomAttributeData.AttributeType">AttributeType</h4>
               <div class="markdown level1 summary"><p>Gets the type of the attribute.</p>
@@ -125,12 +140,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_CustomAttributeData_ConstructorArguments.md&amp;value=---%0Auid%3A%20System.Reflection.CustomAttributeData.ConstructorArguments%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/CustomAttribute.cs/#L528">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L73">View Source</a>
               </span>
               <h4 id="System_Reflection_CustomAttributeData_ConstructorArguments" data-uid="System.Reflection.CustomAttributeData.ConstructorArguments">ConstructorArguments</h4>
               <div class="markdown level1 summary"><p>Gets the list of positional arguments specified for the attribute instance represented by the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_CustomAttributeData_ConstructorArguments_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method gets the positional arguments that were specified for the custom attribute instance without executing any of the custom attribute code. Thus, it can be used in the reflection-only context.</p>
+<p>Use the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData_NamedArguments">NamedArguments</a> method to get the named arguments specified for the attribute instance.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.Generic.IList&lt;CustomAttributeTypedArgument&gt; ConstructorArguments { get; }</code></pre>
@@ -156,12 +175,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_CustomAttributeData_NamedArguments.md&amp;value=---%0Auid%3A%20System.Reflection.CustomAttributeData.NamedArguments%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/CustomAttribute.cs/#L551">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L74">View Source</a>
               </span>
               <h4 id="System_Reflection_CustomAttributeData_NamedArguments" data-uid="System.Reflection.CustomAttributeData.NamedArguments">NamedArguments</h4>
               <div class="markdown level1 summary"><p>Gets the list of named arguments specified for the attribute instance represented by the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_CustomAttributeData_NamedArguments_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method gets the named arguments that were specified for the custom attribute instance without executing any of the custom attribute code. Thus, it can be used in the Reflection-only context. </p>
+<p>The list that is returned contains only the named arguments that were specified for the attribute instance.</p>
+<p>Use the <a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData_ConstructorArguments">ConstructorArguments</a> method to get the positional arguments that were specified for the attribute instance. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Collections.Generic.IList&lt;CustomAttributeNamedArgument&gt; NamedArguments { get; }</code></pre>

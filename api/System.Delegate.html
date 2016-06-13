@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate.md&amp;value=---%0Auid%3A%20System.Delegate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L17" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L723" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Delegate" data-uid="System.Delegate">Class Delegate
               </h1>
               <div class="markdown level0 summary"><p>Represents a delegate, which is a data structure that refers to a static method or to a class instance and an instance method of that class.</p>
@@ -87,6 +87,35 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class Delegate</code></pre>
               </div>
+              <h5 id="System_Delegate_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a> class is the base class for delegate types. However, only the system and compilers can derive explicitly from the <a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a> class or from the <a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a> class. It is also not permissible to derive a new type from a delegate type. The <a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a> class is not considered a delegate type; it is a class used to derive delegate types.</p>
+<p>Most languages implement a <strong>delegate</strong> keyword, and compilers for those languages are able to derive from the <a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a> class; therefore, users should use the <strong>delegate</strong> keyword provided by the language.</p>
+<p>The common language runtime provides an <strong>Invoke</strong> method for each delegate type, with the same signature as the delegate. You do not have to call this method explicitly from C#, Visual Basic, or Visual C++, because the compilers call it automatically. The <strong>Invoke</strong> method is useful in reflection when you want to find the signature of the delegate type.</p>
+<p>The common language runtime provides each delegate type with <strong>BeginInvoke</strong> and <strong>EndInvoke</strong> methods, to enable asynchronous invocation of the delegate. For more information about these methods, see Calling Synchronous Methods Asynchronously.</p>
+<p>The declaration of a delegate type establishes a contract that specifies the signature of one or more methods. A delegate is an instance of a delegate type that has references to: </p>
+<ul><li>
+<p>An instance method of a type and a target object assignable to that type. </p>
+</li><li>
+<p>An instance method of a type, with the hidden <em>this</em> parameter exposed in the formal parameter list. The delegate is said to be an open instance delegate.</p>
+</li><li>
+<p>A static method.</p>
+</li><li>
+<p>A static method and a target object assignable to the first parameter of the method. The delegate is said to be closed over its first argument.</p>
+</li></ul>
+<p>For more information on delegate binding, see the <span class="xref">System.Delegate.CreateDelegate(System.Type,System.Object,System.Reflection.MethodInfo,System.Boolean)</span> method overload. </p>
+<p>In the .NET Framework versions 1.0 and 1.1, a delegate can represent a method only if the signature of the method exactly matches the signature specified by the delegate type. Thus, only the first and third bullets in the preceding list are supported, and the first bullet requires an exact type match.</p>
+<p>When a delegate represents an instance method closed over its first argument (the most common case), the delegate stores a reference to the method&#39;s entry point and a reference to an object, called the target, which is of a type assignable to the type that defined the method. When a delegate represents an open instance method, it stores a reference to the method&#39;s entry point. The delegate signature must include the hidden <em>this</em> parameter in its formal parameter list; in this case, the delegate does not have a reference to a target object, and a target object must be supplied when the delegate is invoked. </p>
+<p>When a delegate represents a static method, the delegate stores a reference to the method&#39;s entry point. When a delegate represents a static method closed over its first argument, the delegate stores a reference to the method&#39;s entry point and a reference to a target object assignable to the type of the method&#39;s first argument. When the delegate is invoked, the first argument of the static method receives the target object.</p>
+<p>The invocation list of a delegate is an ordered set of delegates in which each element of the list invokes exactly one of the methods represented by the delegate. An invocation list can contain duplicate methods. During an invocation, methods are invoked in the order in which they appear in the invocation list. A delegate attempts to invoke every method in its invocation list; duplicates are invoked once for each time they appear in the invocation list. Delegates are immutable; once created, the invocation list of a delegate does not change.</p>
+<p>Delegates are referred to as multicast, or combinable, because a delegate can invoke one or more methods and can be used in combining operations. </p>
+<p>Combining operations, such as <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate_System_Delegate_">Combine(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a>, do not alter existing delegates. Instead, such an operation returns a new delegate that contains the results of the operation, an unchanged delegate, or <strong>null</strong>. A combining operation returns <strong>null</strong> when the result of the operation is a delegate that does not reference at least one method. A combining operation returns an unchanged delegate when the requested operation has no effect.</p>
+<p>Managed languages use the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate_System_Delegate_">Combine(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> methods to implement delegate operations. Examples include the <strong>AddHandler</strong> and <strong>RemoveHandler</strong> statements in Visual Basic and the += and -= operators on delegate types in C#. </p>
+<p>Starting with the .NET Framework 4, generic delegate types can have variant type parameters. Contravariant type parameters can be used as parameter types of the delegate, and a covariant type parameter can be used as the return type. This feature allows generic delegate types that are constructed from the same generic type definition to be assignment-compatible if their type arguments are reference types with an inheritance relationship, as explained in Covariance and Contravariance in Generics.</p>
+<p>Generic delegates that are assignment-compatible because of variance are not necessarily combinable. To be combinable, the types must match exactly. For example, suppose that a class named <code>Derived</code> is derived from a class named <code>Base</code>. A delegate of type <code>Action<base></code> (<code>Action(Of Base)</code> in Visual Basic) can be assigned to a variable of type <code>Action<derived></derived></code>, but the two delegates cannot be combined because the types do not match exactly.</p>
+<p>If an invoked method throws an exception, the method stops executing, the exception is passed back to the caller of the delegate, and remaining methods in the invocation list are not invoked. Catching the exception in the caller does not alter this behavior.</p>
+<p>When the signature of the methods invoked by a delegate includes a return value, the delegate returns the return value of the last element in the invocation list. When the signature includes a parameter that is passed by reference, the final value of the parameter is the result of every method in the invocation list executing sequentially and updating the parameter&#39;s value.</p>
+<p>The closest equivalent of a delegate in C or C++ is a function pointer. A delegate can represent a static method or an instance method. When the delegate represents an instance method, the delegate stores not only a reference to the method&#39;s entry point, but also a reference to the class instance. Unlike function pointers, delegates are object oriented and type safe.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +123,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_Target.md&amp;value=---%0Auid%3A%20System.Delegate.Target%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L286">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L726">View Source</a>
               </span>
               <h4 id="System_Delegate_Target" data-uid="System.Delegate.Target">Target</h4>
               <div class="markdown level1 summary"><p>Gets the class instance on which the current delegate invokes the instance method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_Target_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An instance method is a method that is associated with an instance of a class; a static method is a method that is associated with the class itself.</p>
+<p>If the delegate invokes one or more instance methods, this property returns the target of the last instance method in the invocation list.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object Target { get; }</code></pre>
@@ -115,7 +148,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>The object on which the current delegate invokes the instance method, if the delegate represents an instance method; null if the delegate represents a static method.</p>
+                    <td><p>The object on which the current delegate invokes the instance method, if the delegate represents an instance method; <strong>null</strong> if the delegate represents a static method.</p>
 </td>
                   </tr>
                 </tbody>
@@ -127,12 +160,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_Combine_System_Delegate_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Delegate.Combine(System.Delegate%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L193">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L727">View Source</a>
               </span>
               <h4 id="System_Delegate_Combine_System_Delegate_System_Delegate_" data-uid="System.Delegate.Combine(System.Delegate,System.Delegate)">Combine(Delegate, Delegate)</h4>
               <div class="markdown level1 summary"><p>Concatenates the invocation lists of two delegates.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_Combine_System_Delegate_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The invocation list can contain duplicate entries; that is, entries that refer to the same method on the same object.</p>
+<p>Generic delegates that are assignment-compatible because of variance are not necessarily combinable. To be combinable, the types must match exactly. For example, suppose that a class named <code>Derived</code> is derived from a class named <code>Base</code>. A delegate of type <code>Action<base></code> (<code>Action(Of Base)</code> in Visual Basic) can be assigned to a variable of type <code>Action<derived></derived></code>, as explained in Covariance and Contravariance in Generics, but the two delegates cannot be combined because the types do not match exactly.</p>
+<p>
+<a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate_System_Delegate_">Combine(Delegate, Delegate)</a> is useful for creating event handlers that call multiple methods each time an event occurs.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Delegate Combine(Delegate a, Delegate b)</code></pre>
@@ -172,7 +211,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></td>
-                    <td><p>A new delegate with an invocation list that concatenates the invocation lists of <em>a</em> and <em>b</em> in that order. Returns <em>a</em> if <em>b</em> is null, returns <em>b</em> if <em>a</em> is a null reference, and returns a null reference if both <em>a</em> and <em>b</em> are null references.</p>
+                    <td><p>A new delegate with an invocation list that concatenates the invocation lists of <em>a</em> and <em>b</em> in that order. Returns <em>a</em> if <em>b</em> is <strong>null</strong>, returns <em>b</em> if <em>a</em> is a null reference, and returns a null reference if both <em>a</em> and <em>b</em> are null references.</p>
 </td>
                   </tr>
                 </tbody>
@@ -188,7 +227,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>Both <em>a</em> and <em>b</em> are not null, and <em>a</em> and <em>b</em> are not instances of the same delegate type. </p>
+                    <td><p>Both <em>a</em> and <em>b</em> are not <strong>null</strong>, and <em>a</em> and <em>b</em> are not instances of the same delegate type. </p>
 </td>
                   </tr>
                 </tbody>
@@ -198,12 +237,19 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_Combine_System_Delegate___.md&amp;value=---%0Auid%3A%20System.Delegate.Combine(System.Delegate%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L201">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L728">View Source</a>
               </span>
               <h4 id="System_Delegate_Combine_System_Delegate___" data-uid="System.Delegate.Combine(System.Delegate[])">Combine(Delegate[])</h4>
               <div class="markdown level1 summary"><p>Concatenates the invocation lists of an array of delegates.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_Combine_System_Delegate____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <em>delegates</em> array contains entries that are <strong>null</strong>, those entries are ignored.</p>
+<p>The invocation list can contain duplicate entries; that is, entries that refer to the same method on the same object.</p>
+<p>Generic delegates that are assignment-compatible because of variance are not necessarily combinable. To be combinable, the types must match exactly. For example, suppose that a class named <code>Derived</code> is derived from a class named <code>Base</code>. A delegate of type <code>Action<base></code> (<code>Action(Of Base)</code> in Visual Basic) can be assigned to a variable of type <code>Action<derived></derived></code>, as explained in Covariance and Contravariance in Generics, but the two delegates cannot be combined because the types do not match exactly.</p>
+<p>
+<a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate_System_Delegate_">Combine(Delegate, Delegate)</a> is useful for creating event handlers that call multiple methods each time an event occurs.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Delegate Combine(params Delegate[] delegates)</code></pre>
@@ -237,7 +283,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></td>
-                    <td><p>A new delegate with an invocation list that concatenates the invocation lists of the delegates in the <em>delegates</em> array. Returns null if <em>delegates</em> is null, if <em>delegates</em> contains zero elements, or if every entry in <em>delegates</em> is null.</p>
+                    <td><p>A new delegate with an invocation list that concatenates the invocation lists of the delegates in the <em>delegates</em> array. Returns <strong>null</strong> if <em>delegates</em> is <strong>null</strong>, if <em>delegates</em> contains zero elements, or if every entry in <em>delegates</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -263,12 +309,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_DynamicInvoke_System_Object___.md&amp;value=---%0Auid%3A%20System.Delegate.DynamicInvoke(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L105">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L729">View Source</a>
               </span>
               <h4 id="System_Delegate_DynamicInvoke_System_Object___" data-uid="System.Delegate.DynamicInvoke(System.Object[])">DynamicInvoke(Object[])</h4>
               <div class="markdown level1 summary"><p>Dynamically invokes (late-bound) the method represented by the current delegate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_DynamicInvoke_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method calls the <span class="xref">System.Delegate.DynamicInvokeImpl(System.Object[])</span> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public object DynamicInvoke(params object[] args)</code></pre>
@@ -286,7 +335,10 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a>[]</td>
                     <td><em>args</em></td>
-                    <td><p>An array of objects that are the arguments to pass to the method represented by the current delegate.-or- null, if the method represented by the current delegate does not require arguments. </p>
+                    <td><p>An array of objects that are the arguments to pass to the method represented by the current delegate.</p>
+<p>-or- </p>
+<p>
+<strong>null</strong>, if the method represented by the current delegate does not require arguments. </p>
 </td>
                   </tr>
                 </tbody>
@@ -318,7 +370,9 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a></td>
-                    <td><p>The caller does not have access to the method represented by the delegate (for example, if the method is private).-or- The number, order, or type of parameters listed in <em>args</em> is invalid. </p>
+                    <td><p>The caller does not have access to the method represented by the delegate (for example, if the method is private).</p>
+<p>-or- </p>
+<p>The number, order, or type of parameters listed in <em>args</em> is invalid. </p>
 </td>
                   </tr>
                   <tr>
@@ -328,7 +382,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Reflection.TargetInvocationException.html#System_Reflection_TargetInvocationException">TargetInvocationException</a></td>
-                    <td><p>The method represented by the delegate is an instance method and the target object is null.-or- One of the encapsulated methods throws an exception. </p>
+                    <td><p>The method represented by the delegate is an instance method and the target object is <strong>null</strong>.</p>
+<p>-or- </p>
+<p>One of the encapsulated methods throws an exception. </p>
 </td>
                   </tr>
                 </tbody>
@@ -338,12 +394,25 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Delegate.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L126">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L730">View Source</a>
               </span>
               <h4 id="System_Delegate_Equals_System_Object_" data-uid="System.Delegate.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Determines whether the specified object and the current delegate are of the same type and share the same targets, methods, and invocation list.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_Equals_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the two delegates are not of the same type, they are not considered equal.</p>
+<p>In the .NET Framework version 1.0 and 1.1, two delegates were considered equal if their targets, methods, and invocation list were equal, even if the delegates were of different types.</p>
+<p>The methods and targets are compared for equality as follows: </p>
+<ul><li>
+<p>If the two methods being compared are both static and are the same method on the same class, the methods are considered equal and the targets are also considered equal.</p>
+</li><li>
+<p>If the two methods being compared are instance methods and are the same method on the same object, the methods are considered equal and the targets are also considered equal.</p>
+</li><li>
+<p>Otherwise, the methods are not considered to be equal and the targets are also not considered to be equal.</p>
+</li></ul>
+<p>Two invocation lists are considered identical only if they have the same order and the corresponding elements from the two lists represent the same method and target.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
@@ -377,7 +446,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>obj</em> and the current delegate have the same targets, methods, and invocation list; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>obj</em> and the current delegate have the same targets, methods, and invocation list; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -403,12 +473,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_GetHashCode.md&amp;value=---%0Auid%3A%20System.Delegate.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L178">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L731">View Source</a>
               </span>
               <h4 id="System_Delegate_GetHashCode" data-uid="System.Delegate.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns a hash code for the delegate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_GetHashCode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The return value of this method must not be persisted for two reasons. First, the hash function of a class might be altered to generate a better distribution, rendering any values from the old hash function useless. Second, the default implementation of this class does not guarantee that the same value will be returned by different instances.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
@@ -434,12 +507,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_GetInvocationList.md&amp;value=---%0Auid%3A%20System.Delegate.GetInvocationList%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L214">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L732">View Source</a>
               </span>
               <h4 id="System_Delegate_GetInvocationList" data-uid="System.Delegate.GetInvocationList">GetInvocationList()</h4>
               <div class="markdown level1 summary"><p>Returns the invocation list of the delegate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_GetInvocationList_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Each delegate in the array represents exactly one method.</p>
+<p>The order of the delegates in the array is the same order in which the current delegate invokes the methods that those delegates represent.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Delegate[] GetInvocationList()</code></pre>
@@ -465,12 +542,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_Remove_System_Delegate_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Delegate.Remove(System.Delegate%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L295">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L735">View Source</a>
               </span>
               <h4 id="System_Delegate_Remove_System_Delegate_System_Delegate_" data-uid="System.Delegate.Remove(System.Delegate,System.Delegate)">Remove(Delegate, Delegate)</h4>
               <div class="markdown level1 summary"><p>Removes the last occurrence of the invocation list of a delegate from the invocation list of another delegate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_Remove_System_Delegate_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the invocation list of <em>value</em> matches a contiguous set of elements in the invocation list of <em>source</em>, then the invocation list of <em>value</em> is said to occur within the invocation list of <em>source</em>. If the invocation list of <em>value</em> occurs more than once in the invocation list of <em>source</em>, the last occurrence is removed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Delegate Remove(Delegate source, Delegate value)</code></pre>
@@ -510,7 +590,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></td>
-                    <td><p>A new delegate with an invocation list formed by taking the invocation list of <em>source</em> and removing the last occurrence of the invocation list of <em>value</em>, if the invocation list of <em>value</em> is found within the invocation list of <em>source</em>. Returns <em>source</em> if <em>value</em> is null or if the invocation list of <em>value</em> is not found within the invocation list of <em>source</em>. Returns a null reference if the invocation list of <em>value</em> is equal to the invocation list of <em>source</em> or if <em>source</em> is a null reference.</p>
+                    <td><p>A new delegate with an invocation list formed by taking the invocation list of <em>source</em> and removing the last occurrence of the invocation list of <em>value</em>, if the invocation list of <em>value</em> is found within the invocation list of <em>source</em>. Returns <em>source</em> if <em>value</em> is <strong>null</strong> or if the invocation list of <em>value</em> is not found within the invocation list of <em>source</em>. Returns a null reference if the invocation list of <em>value</em> is equal to the invocation list of <em>source</em> or if <em>source</em> is a null reference.</p>
 </td>
                   </tr>
                 </tbody>
@@ -541,12 +621,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_RemoveAll_System_Delegate_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Delegate.RemoveAll(System.Delegate%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L310">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L736">View Source</a>
               </span>
               <h4 id="System_Delegate_RemoveAll_System_Delegate_System_Delegate_" data-uid="System.Delegate.RemoveAll(System.Delegate,System.Delegate)">RemoveAll(Delegate, Delegate)</h4>
               <div class="markdown level1 summary"><p>Removes all occurrences of the invocation list of a delegate from the invocation list of another delegate.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_RemoveAll_System_Delegate_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the invocation list of <em>value</em> matches a contiguous set of elements in the invocation list of <em>source</em>, then the invocation list of <em>value</em> is said to occur within the invocation list of <em>source</em>. If the invocation list of <em>value</em> occurs more than once in the invocation list of <em>source</em>, all occurrences are removed.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Delegate RemoveAll(Delegate source, Delegate value)</code></pre>
@@ -586,7 +669,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></td>
-                    <td><p>A new delegate with an invocation list formed by taking the invocation list of <em>source</em> and removing all occurrences of the invocation list of <em>value</em>, if the invocation list of <em>value</em> is found within the invocation list of <em>source</em>. Returns <em>source</em> if <em>value</em> is null or if the invocation list of <em>value</em> is not found within the invocation list of <em>source</em>. Returns a null reference if the invocation list of <em>value</em> is equal to the invocation list of <em>source</em>, if <em>source</em> contains only a series of invocation lists that are equal to the invocation list of <em>value</em>, or if <em>source</em> is a null reference.</p>
+                    <td><p>A new delegate with an invocation list formed by taking the invocation list of <em>source</em> and removing all occurrences of the invocation list of <em>value</em>, if the invocation list of <em>value</em> is found within the invocation list of <em>source</em>. Returns <em>source</em> if <em>value</em> is <strong>null</strong> or if the invocation list of <em>value</em> is not found within the invocation list of <em>source</em>. Returns a null reference if the invocation list of <em>value</em> is equal to the invocation list of <em>source</em>, if <em>source</em> contains only a series of invocation lists that are equal to the invocation list of <em>value</em>, or if <em>source</em> is a null reference.</p>
 </td>
                   </tr>
                 </tbody>
@@ -619,12 +702,26 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_op_Equality_System_Delegate_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Delegate.op_Equality(System.Delegate%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L538">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L733">View Source</a>
               </span>
               <h4 id="System_Delegate_op_Equality_System_Delegate_System_Delegate_" data-uid="System.Delegate.op_Equality(System.Delegate,System.Delegate)">Equality(Delegate, Delegate)</h4>
               <div class="markdown level1 summary"><p>Determines whether the specified delegates are equal.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_op_Equality_System_Delegate_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Two delegates of the same type with the same targets, methods, and invocation lists are considered equal.</p>
+<p>If the two delegates are not of the same type, they are not considered equal.</p>
+<p>In the .NET Framework version 1.0 and 1.1, two delegates were considered equal if their targets, methods, and invocation list were equal, even if the delegates were of different types.</p>
+<p>The methods and targets are compared for equality as follows: </p>
+<ul><li>
+<p>If the two methods being compared are both static and are the same method on the same class, the methods are considered equal and the targets are also considered equal.</p>
+</li><li>
+<p>If the two methods being compared are instance methods and are the same method on the same object, the methods are considered equal and the targets are also considered equal.</p>
+</li><li>
+<p>Otherwise, the methods are not considered to be equal and the targets are also not considered to be equal.</p>
+</li></ul>
+<p>Two invocation lists are considered identical if they have the same order and the corresponding elements from the two lists represent the same method and target.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool operator ==(Delegate d1, Delegate d2)</code></pre>
@@ -664,7 +761,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>d1</em> is equal to <em>d2</em>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>d1</em> is equal to <em>d2</em>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -674,12 +772,26 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Delegate_op_Inequality_System_Delegate_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Delegate.op_Inequality(System.Delegate%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs/#L546">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L734">View Source</a>
               </span>
               <h4 id="System_Delegate_op_Inequality_System_Delegate_System_Delegate_" data-uid="System.Delegate.op_Inequality(System.Delegate,System.Delegate)">Inequality(Delegate, Delegate)</h4>
               <div class="markdown level1 summary"><p>Determines whether the specified delegates are not equal.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Delegate_op_Inequality_System_Delegate_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Two delegates are considered not equal if they are of different types, or have different methods, different targets, or different invocation lists.</p>
+<p>If the two delegates are not of the same type, they are not considered equal.</p>
+<p>In the .NET Framework version 1.0 and 1.1, two delegates are considered equal if their targets, methods, and invocation list were equal, even if the delegates were of different types.</p>
+<p>The methods and targets are compared for equality as follows: </p>
+<ul><li>
+<p>If the two methods being compared are both static and are the same method on the same class, the methods are considered equal and the targets are also considered equal.</p>
+</li><li>
+<p>If the two methods being compared are instance methods and are the same method on the same object, the methods are considered equal and the targets are also considered equal.</p>
+</li><li>
+<p>Otherwise, the methods are not considered to be equal and the targets are also not considered to be equal.</p>
+</li></ul>
+<p>Two invocation lists are not equal if they have different sizes, if they are ordered differently, or if at least one element from one list represents a method or target that is different from that represented by its corresponding element in the other list.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool operator !=(Delegate d1, Delegate d2)</code></pre>
@@ -719,7 +831,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>d1</em> is not equal to <em>d2</em>; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>d1</em> is not equal to <em>d2</em>; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>

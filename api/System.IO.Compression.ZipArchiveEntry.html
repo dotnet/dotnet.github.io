@@ -87,6 +87,56 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class ZipArchiveEntry : object</code></pre>
               </div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>A zip archive contains an entry for each compressed file. The <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry">ZipArchiveEntry</a> class enables you to examine the properties of an entry, and open or delete the entry. When you open an entry, you can modify the compressed file by writing to the stream for that compressed file. </p>
+<p>The methods for manipulating zip archives and their file entries are spread across three classes: <a class="xref" href="System.IO.Compression.ZipFile.html#System_IO_Compression_ZipFile">ZipFile</a>, <a class="xref" href="System.IO.Compression.ZipArchive.html#System_IO_Compression_ZipArchive">ZipArchive</a> and <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry">ZipArchiveEntry</a>.</p>
+<p>To…</p>
+<p>Use…</p>
+<table><tbody><tr><td>
+<p>Create a zip archive from a directory</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipFile.html#System_IO_Compression_ZipFile_CreateFromDirectory_System_String_System_String_">CreateFromDirectory(String, String)</a>
+</p>
+</td></tr><tr><td>
+<p>Extract the contents of a zip archive to a directory</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipFile.html#System_IO_Compression_ZipFile_ExtractToDirectory_System_String_System_String_">ExtractToDirectory(String, String)</a>
+</p>
+</td></tr><tr><td>
+<p>Add new files to an existing zip archive</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipArchive.html#System_IO_Compression_ZipArchive_CreateEntry_System_String_">CreateEntry(String)</a>
+</p>
+</td></tr><tr><td>
+<p>Retrieve an file in a zip archive</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipArchive.html#System_IO_Compression_ZipArchive_GetEntry_System_String_">GetEntry(String)</a>
+</p>
+</td></tr><tr><td>
+<p>Retrieve all of the files in a zip archive</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipArchive.html#System_IO_Compression_ZipArchive_Entries">Entries</a>
+</p>
+</td></tr><tr><td>
+<p>To open a stream to an individual file contained in a zip archive</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_Open">Open()</a>
+</p>
+</td></tr><tr><td>
+<p>Delete a file from a zip archive</p>
+</td><td>
+<p>
+<a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_Delete">Delete()</a>
+</p>
+</td></tr></tbody></table>
+<p>If you reference the <strong>System.IO.Compression.FileSystem</strong> assembly in your project, you can access two extension methods for the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry">ZipArchiveEntry</a> class. Those methods are <a class="xref" href="System.IO.Compression.ZipFileExtensions.html#System_IO_Compression_ZipFileExtensions_ExtractToFile_System_IO_Compression_ZipArchiveEntry_System_String_">ExtractToFile(ZipArchiveEntry, String)</a> and <a class="xref" href="System.IO.Compression.ZipFileExtensions.html#System_IO_Compression_ZipFileExtensions_ExtractToFile_System_IO_Compression_ZipArchiveEntry_System_String_System_Boolean_">ExtractToFile(ZipArchiveEntry, String, Boolean)</a>, and they enable you to decompress the contents of the entry to a file. The <strong>System.IO.Compression.FileSystem</strong> assembly is not available in Windows 8. In Windows 8.x Store apps, you can decompress the contents of an archive by using <a class="xref" href="System.IO.Compression.DeflateStream.html#System_IO_Compression_DeflateStream">DeflateStream</a> or <a class="xref" href="System.IO.Compression.GZipStream.html#System_IO_Compression_GZipStream">GZipStream</a>, or you can use the Windows Runtime types <see href="http://go.microsoft.com/fwlink/p/?LinkId=246357">Compressor</see> and <see href="http://go.microsoft.com/fwlink/?LinkId=246358">Decompressor</see> to compress and decompress files.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -115,7 +165,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IO.Compression.ZipArchive.html#System_IO_Compression_ZipArchive">ZipArchive</a></td>
-                    <td><p>The zip archive that the entry belongs to, or null if the entry has been deleted.</p>
+                    <td><p>The zip archive that the entry belongs to, or <strong>null</strong> if the entry has been deleted.</p>
 </td>
                   </tr>
                 </tbody>
@@ -131,6 +181,9 @@
               <div class="markdown level1 summary"><p>Gets the compressed size of the entry in the zip archive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_CompressedLength_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property cannot be retrieved when the mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Create">Create</a>, or the mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Update">Update</a> and the entry has been opened.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long CompressedLength { get; }</code></pre>
@@ -178,6 +231,10 @@
               <div class="markdown level1 summary"><p>Gets the relative path of the entry in the zip archive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_FullName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property contains the relative path, including the subdirectory hierarchy, of an entry in a zip archive. (In contrast, the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_Name">Name</a> property contains only the name of the entry and does not include the subdirectory hierarchy.) For example, if you create two entries in a zip archive by using the <a class="xref" href="System.IO.Compression.ZipFileExtensions.html#System_IO_Compression_ZipFileExtensions_CreateEntryFromFile_System_IO_Compression_ZipArchive_System_String_System_String_">CreateEntryFromFile(ZipArchive, String, String)</a> method and provide <code>NewEntry.txt</code> as the name for the first entry and <code>AddedFolder\\NewEntry.txt</code> for the second entry, both entries will have <strong>NewEntry.txt</strong> in the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_Name">Name</a> property. The first entry will also have <strong>NewEntry.txt</strong> in the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property, but the second entry will have <strong>AddedFolder\NewEntry.txt</strong> in the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property. </p>
+<p>You can specify any string as the path of an entry, including strings that specify invalid and absolute paths. Therefore, the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property might contain a value that is not correctly formatted. An invalid or absolute path might result in an exception when you extract the contents of the zip archive.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string FullName { get; }</code></pre>
@@ -209,6 +266,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the last time the entry in the zip archive was changed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_LastWriteTime_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you create a new entry from an existing file by calling the <a class="xref" href="System.IO.Compression.ZipFileExtensions.html#System_IO_Compression_ZipFileExtensions_CreateEntryFromFile_System_IO_Compression_ZipArchive_System_String_System_String_">CreateEntryFromFile(ZipArchive, String, String)</a> method, the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_LastWriteTime">LastWriteTime</a> property for the entry is automatically set to the last time the file was modified. When you create a new entry programmatically by calling the <a class="xref" href="System.IO.Compression.ZipArchive.html#System_IO_Compression_ZipArchive_CreateEntry_System_String_">CreateEntry(String)</a> method, the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_LastWriteTime">LastWriteTime</a> property for the entry is automatically set to the time of execution. If you modify the entry, you must explicitly set the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_LastWriteTime">LastWriteTime</a> property if you want the value to reflect the time of the latest change.</p>
+<p>When you set this property, the <a class="xref" href="System.DateTimeOffset.html#System_DateTimeOffset">DateTimeOffset</a> value is converted to a timestamp format that is specific to zip archives. This format supports a resolution of two seconds. The earliest permitted value is 1980 January 1 0:00:00 (midnight). The latest permitted value is 2107 December 31 23:59:58 (one second before midnight). If the value for the last write time is not valid, the property returns a default value of 1980 January 1 0:00:00 (midnight).</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DateTimeOffset LastWriteTime { get; set; }</code></pre>
@@ -245,7 +306,9 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The archive mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Create">Create</a>.- or -The archive mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Update">Update</a> and the entry has been opened.</p>
+                    <td><p>The archive mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Create">Create</a>.</p>
+<p>- or -</p>
+<p>The archive mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Update">Update</a> and the entry has been opened.</p>
 </td>
                   </tr>
                   <tr>
@@ -266,6 +329,9 @@
               <div class="markdown level1 summary"><p>Gets the uncompressed size of the entry in the zip archive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_Length_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property cannot be retrieved when the mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Create">Create</a>, or the mode is set to <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Update">Update</a> and the entry has been opened.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long Length { get; }</code></pre>
@@ -313,6 +379,10 @@
               <div class="markdown level1 summary"><p>Gets the file name of the entry in the zip archive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<p>The <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_Name">Name</a> property contains the portion of the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property that follows the final directory separator character (), and does not include the subdirectory hierarchy. For example, if you create two entries in a zip archive by using the <a class="xref" href="System.IO.Compression.ZipFileExtensions.html#System_IO_Compression_ZipFileExtensions_CreateEntryFromFile_System_IO_Compression_ZipArchive_System_String_System_String_">CreateEntryFromFile(ZipArchive, String, String)</a> method and provide <strong>NewEntry.txt</strong> as the name for the first entry and <strong>AddedFolder\NewEntry.txt</strong> for the second entry, both entries will have <strong>NewEntry.txt</strong> in the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_Name">Name</a> property. The first entry will also have <strong>NewEntry.txt</strong> in the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property, but the second entry will have <strong>AddedFolder\NewEntry.txt</strong> in the <a class="xref" href="System.IO.Compression.ZipArchiveEntry.html#System_IO_Compression_ZipArchiveEntry_FullName">FullName</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
@@ -387,6 +457,9 @@
               <div class="markdown level1 summary"><p>Opens the entry from the zip archive.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_Compression_ZipArchiveEntry_Open_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You use this method to access the stream for an entry in a zip archive. After retrieving the stream, you can read from or write to the stream. When you write to the stream, the modifications you make to the entry will appear in the zip archive.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public Stream Open()</code></pre>
@@ -418,12 +491,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The entry is already currently open for writing.-or-The entry has been deleted from the archive.-or-The archive for this entry was opened with the <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Create">Create</a> mode, and this entry has already been written to. </p>
+                    <td><p>The entry is already currently open for writing.</p>
+<p>-or-</p>
+<p>The entry has been deleted from the archive.</p>
+<p>-or-</p>
+<p>The archive for this entry was opened with the <a class="xref" href="System.IO.Compression.ZipArchiveMode.html#System_IO_Compression_ZipArchiveMode_Create">Create</a> mode, and this entry has already been written to. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.InvalidDataException.html#System_IO_InvalidDataException">InvalidDataException</a></td>
-                    <td><p>The entry is either missing from the archive or is corrupt and cannot be read. -or-The entry has been compressed by using a compression method that is not supported.</p>
+                    <td><p>The entry is either missing from the archive or is corrupt and cannot be read. </p>
+<p>-or-</p>
+<p>The entry has been compressed by using a compression method that is not supported.</p>
 </td>
                   </tr>
                   <tr>

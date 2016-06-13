@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder.md&amp;value=---%0Auid%3A%20System.Text.Decoder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L22" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L11" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Text_Decoder" data-uid="System.Text.Decoder">Class Decoder
               </h1>
               <div class="markdown level0 summary"><p>Converts a sequence of encoded bytes into a set of characters.</p>
@@ -87,6 +87,11 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class Decoder : object</code></pre>
               </div>
+              <h5 id="System_Text_Decoder_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To obtain an instance of an implementation of the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> class, the application should use the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetDecoder">GetDecoder()</a> method of an <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Encoding</a> implementation. </p>
+<p>The <span class="xref">System.Text.Decoder.GetCharCount(System.Byte*,System.Int32,System.Boolean)</span> method determines how many characters result in decoding a sequence of bytes, and the <span class="xref">System.Text.Decoder.GetChars(System.Byte*,System.Int32,System.Char*,System.Int32,System.Boolean)</span> method performs the actual decoding. There are several versions of both of these methods available in the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> class. For more information, see <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetChars_System_Byte___">GetChars(Byte[])</a>. A <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object maintains state information between successive calls to <strong>GetChars</strong> or <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a> methods so it can correctly decode byte sequences that span blocks. The <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> also preserves trailing bytes at the end of data blocks and uses the trailing bytes in the next decoding operation. Therefore, <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetDecoder">GetDecoder()</a> and <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetEncoder">GetEncoder()</a> are useful for network transmission and file operations because those operations often deal with blocks of data instead of a complete data stream.</p>
+<p>When the application is done with a stream of data, it should make sure that the state information is flushed by setting the <em>flush</em> parameter to <strong>true</strong> in the appropriate method call. If an exception occurs or if the application switches streams, it should call <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Reset">Reset()</a> to clear the internal state of the <strong>Decoder</strong> object.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,12 +99,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder__ctor.md&amp;value=---%0Auid%3A%20System.Text.Decoder.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L36">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L13">View Source</a>
               </span>
               <h4 id="System_Text_Decoder__ctor" data-uid="System.Text.Decoder.#ctor">Decoder()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To obtain an instance of an implementation of this class, the application should use the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetDecoder">GetDecoder()</a> method of a <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding">Encoding</a> implementation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected Decoder()</code></pre>
@@ -111,12 +119,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_Fallback.md&amp;value=---%0Auid%3A%20System.Text.Decoder.Fallback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L41">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L14">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_Fallback" data-uid="System.Text.Decoder.Fallback">Fallback</h4>
               <div class="markdown level1 summary"><p>Gets or sets a <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> object for the current <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_Fallback_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> object represents an error handler that is invoked when an encoded byte sequence cannot be converted to a character. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DecoderFallback Fallback { get; set; }</code></pre>
@@ -148,7 +159,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The value in a set operation is null (Nothing).</p>
+                    <td><p>The value in a set operation is <strong>null </strong>(<strong>Nothing</strong>).</p>
 </td>
                   </tr>
                   <tr>
@@ -163,12 +174,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_FallbackBuffer.md&amp;value=---%0Auid%3A%20System.Text.Decoder.FallbackBuffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L67">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L15">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_FallbackBuffer" data-uid="System.Text.Decoder.FallbackBuffer">FallbackBuffer</h4>
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> object associated with the current <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_FallbackBuffer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Text.DecoderFallbackBuffer.html#System_Text_DecoderFallbackBuffer">DecoderFallbackBuffer</a> object represents data used by the <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> object. The <a class="xref" href="System.Text.DecoderFallback.html#System_Text_DecoderFallback">DecoderFallback</a> object represents an error handler that is invoked when an encoded byte sequence cannot be converted to a character. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public DecoderFallbackBuffer FallbackBuffer { get; }</code></pre>
@@ -196,12 +210,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__.md&amp;value=---%0Auid%3A%20System.Text.Decoder.Convert(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%2CSystem.Char%5B%5D%2CSystem.Int32%2CSystem.Int32%2CSystem.Boolean%2CSystem.Int32%40%2CSystem.Int32%40%2CSystem.Boolean%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L252">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L16">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__" data-uid="System.Text.Decoder.Convert(System.Byte[],System.Int32,System.Int32,System.Char[],System.Int32,System.Int32,System.Boolean,System.Int32@,System.Int32@,System.Boolean@)">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</h4>
               <div class="markdown level1 summary"><p>Converts an array of encoded bytes to UTF-16 encoded characters and stores the result in a character array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Remember that the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object saves state between calls to <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a>. When the application is done with a stream of data, it should set the <em>flush</em> parameter to <strong>true</strong> to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer. Any remaining processed data that is part of a logical unit, such as the high surrogate of a surrogate pair, is converted according to the current fallback settings.</p>
+<p>The <strong>Convert</strong> method is designed to be used in a loop to decode an arbitrary amount of input, such as data read from a file or stream. It stores the output of the decoding operation in a fixed-size buffer. <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean_">GetChars(Byte[], Int32, Int32, Char[], Int32, Boolean)</a> will throw an exception if the output buffer isn&#39;t large enough, but <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a> will fill as much space as possible and return the bytes read and chars written. Also see the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_">GetChars(Byte[], Int32, Int32, Char[], Int32)</a> topic for more comments.</p>
+<p>The <em>completed</em> output parameter indicates whether all the data in the input buffer was converted and stored in the output buffer. This parameter is set to <strong>false</strong> if the number of bytes specified by the <em>byteCount</em> parameter cannot be converted without exceeding the number of characters specified by the <em>charCount</em> parameter. In that situation, the application should use the contents of the output buffer or provide a new output buffer, increment the <em>bytes</em> parameter by the number of bytes specified by the <em>bytesUsed</em> parameter, then call the <strong>Convert</strong> method again to process the remaining input.</p>
+<p>The <em>completed</em> parameter can also be set to <strong>false</strong>, even though the <em>bytesUsed</em> and <em>byteCount</em> parameters are equal. This situation occurs if there is still data in the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object that has not been stored in the <em>bytes</em> buffer.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void Convert(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex, int charCount, bool flush, out int bytesUsed, out int charsUsed, out bool completed)</code></pre>
@@ -255,7 +275,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>flush</em></td>
-                    <td><p>true to indicate that no further data is to be converted; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> to indicate that no further data is to be converted; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                   <tr>
@@ -273,7 +294,7 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>completed</em></td>
-                    <td><p>When this method returns, contains true if all the characters specified by <em>byteCount</em> were converted; otherwise, false. This parameter is passed uninitialized.</p>
+                    <td><p>When this method returns, contains <strong>true</strong> if all the characters specified by <em>byteCount</em> were converted; otherwise, <strong>false</strong>. This parameter is passed uninitialized.</p>
 </td>
                   </tr>
                 </tbody>
@@ -289,12 +310,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>chars</em> or <em>bytes</em> is null (Nothing).</p>
+                    <td><p>
+<em>chars</em> or <em>bytes</em> is <strong>null </strong>(<strong>Nothing</strong>).</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>charIndex</em>, <em>charCount</em>, <em>byteIndex</em>, or <em>byteCount</em> is less than zero.-or-The length of <em>chars</em> - <em>charIndex</em> is less than <em>charCount</em>.-or-The length of <em>bytes</em> - <em>byteIndex</em> is less than <em>byteCount</em>.</p>
+                    <td><p>
+<em>charIndex</em>, <em>charCount</em>, <em>byteIndex</em>, or <em>byteCount</em> is less than zero.</p>
+<p>-or-</p>
+<p>The length of <em>chars</em> - <em>charIndex</em> is less than <em>charCount</em>.</p>
+<p>-or-</p>
+<p>The length of <em>bytes</em> - <em>byteIndex</em> is less than <em>byteCount</em>.</p>
 </td>
                   </tr>
                   <tr>
@@ -304,7 +331,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Text.DecoderFallbackException.html#System_Text_DecoderFallbackException">DecoderFallbackException</a></td>
-                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)-and-<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
+                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)</p>
+<p>-and-</p>
+<p>
+<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -314,12 +344,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.Text.Decoder.GetCharCount(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L117">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L17">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_" data-uid="System.Text.Decoder.GetCharCount(System.Byte[],System.Int32,System.Int32)">GetCharCount(Byte[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, calculates the number of characters produced by decoding a sequence of bytes from the specified byte array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not affect the state of the decoder.</p>
+<p>To calculate the exact array size that <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_">GetChars(Byte[], Int32, Int32, Char[], Int32)</a> requires to store the resulting characters, the application should use <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_">GetCharCount(Byte[], Int32, Int32)</a>. </p>
+<p>If <strong>GetChars</strong> is called with <em>flush</em> set to <strong>false</strong>, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call <strong>GetCharCount</strong> on a block of data immediately before calling <strong>GetChars</strong> on the same block, so that any trailing bytes from the previous block are included in the calculation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract int GetCharCount(byte[] bytes, int index, int count)</code></pre>
@@ -381,17 +416,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>bytes</em> is null (Nothing). </p>
+                    <td><p>
+<em>bytes</em> is <strong>null </strong>(<strong>Nothing</strong>). </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> or <em>count</em> is less than zero.-or- <em>index</em> and <em>count</em> do not denote a valid range in <em>bytes</em>. </p>
+                    <td><p>
+<em>index</em> or <em>count</em> is less than zero.</p>
+<p>-or- </p>
+<p>
+<em>index</em> and <em>count</em> do not denote a valid range in <em>bytes</em>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Text.DecoderFallbackException.html#System_Text_DecoderFallbackException">DecoderFallbackException</a></td>
-                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)-and-<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
+                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)</p>
+<p>-and-</p>
+<p>
+<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -401,12 +444,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Text.Decoder.GetCharCount(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L119">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L18">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_System_Boolean_" data-uid="System.Text.Decoder.GetCharCount(System.Byte[],System.Int32,System.Int32,System.Boolean)">GetCharCount(Byte[], Int32, Int32, Boolean)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, calculates the number of characters produced by decoding a sequence of bytes from the specified byte array. A parameter indicates whether to clear the internal state of the decoder after the calculation.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not affect the state of the decoder.</p>
+<p>To calculate the exact array size that <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean_">GetChars(Byte[], Int32, Int32, Char[], Int32, Boolean)</a> requires to store the resulting characters, the application should use <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_System_Boolean_">GetCharCount(Byte[], Int32, Int32, Boolean)</a>. </p>
+<p>If <strong>GetChars</strong> is called with <em>flush</em> set to <strong>false</strong>, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call <strong>GetCharCount</strong> on a block of data immediately before calling <strong>GetChars</strong> on the same block, so that any trailing bytes from the previous block are included in the calculation.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int GetCharCount(byte[] bytes, int index, int count, bool flush)</code></pre>
@@ -442,7 +490,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>flush</em></td>
-                    <td><p>true to simulate clearing the internal state of the encoder after the calculation; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to simulate clearing the internal state of the encoder after the calculation; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -474,17 +523,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>bytes</em> is null (Nothing). </p>
+                    <td><p>
+<em>bytes</em> is <strong>null </strong>(<strong>Nothing</strong>). </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>index</em> or <em>count</em> is less than zero.-or- <em>index</em> and <em>count</em> do not denote a valid range in <em>bytes</em>. </p>
+                    <td><p>
+<em>index</em> or <em>count</em> is less than zero.</p>
+<p>-or- </p>
+<p>
+<em>index</em> and <em>count</em> do not denote a valid range in <em>bytes</em>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Text.DecoderFallbackException.html#System_Text_DecoderFallbackException">DecoderFallbackException</a></td>
-                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)-and-<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
+                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)</p>
+<p>-and-</p>
+<p>
+<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -494,12 +551,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_.md&amp;value=---%0Auid%3A%20System.Text.Decoder.GetChars(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%2CSystem.Char%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L167">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L19">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_" data-uid="System.Text.Decoder.GetChars(System.Byte[],System.Int32,System.Int32,System.Char[],System.Int32)">GetChars(Byte[], Int32, Int32, Char[], Int32)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, decodes a sequence of bytes from the specified byte array and any bytes in the internal buffer into the specified character array.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Remember that the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object saves state between calls to <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_">GetChars(Byte[], Int32, Int32, Char[], Int32)</a>. When the application is done with a stream of data, it should set the <em>flush</em> parameter to <strong>true</strong> to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer.</p>
+<p>To calculate the exact array size that <strong>GetChars</strong> requires to store the resulting characters, the application should use <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_">GetCharCount(Byte[], Int32, Int32)</a>. </p>
+<p>If <strong>GetChars</strong> is called with <em>flush</em> set to <strong>false</strong>, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call <strong>GetCharCount</strong> on a block of data immediately before calling <strong>GetChars</strong> on the same block, so that any trailing bytes from the previous block are included in the calculation.</p>
+<p>If your application is to convert many segments of an input stream, consider using the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a> method. <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_">GetChars(Byte[], Int32, Int32, Char[], Int32)</a> will throw an exception if the output buffer isn&#39;t large enough, but <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a> will fill as much space as possible and return the bytes read and chars written. Also see the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_">GetChars(Byte[], Int32, Int32, Char[], Int32)</a> topic for more comments.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)</code></pre>
@@ -573,22 +636,37 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>bytes</em> is null (Nothing).-or- <em>chars</em> is null (Nothing). </p>
+                    <td><p>
+<em>bytes</em> is <strong>null </strong>(<strong>Nothing</strong>).</p>
+<p>-or- </p>
+<p>
+<em>chars</em> is <strong>null </strong>(<strong>Nothing</strong>). </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>byteIndex</em> or <em>byteCount</em> or <em>charIndex</em> is less than zero.-or- <em>byteindex</em> and <em>byteCount</em> do not denote a valid range in <em>bytes</em>.-or- <em>charIndex</em> is not a valid index in <em>chars</em>. </p>
+                    <td><p>
+<em>byteIndex</em> or <em>byteCount</em> or <em>charIndex</em> is less than zero.</p>
+<p>-or- </p>
+<p>
+<em>byteindex</em> and <em>byteCount</em> do not denote a valid range in <em>bytes</em>.</p>
+<p>-or- </p>
+<p>
+<em>charIndex</em> is not a valid index in <em>chars</em>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>chars</em> does not have enough capacity from <em>charIndex</em> to the end of the array to accommodate the resulting characters. </p>
+                    <td><p>
+<em>chars</em> does not have enough capacity from <em>charIndex</em> to the end of the array to accommodate the resulting characters. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Text.DecoderFallbackException.html#System_Text_DecoderFallbackException">DecoderFallbackException</a></td>
-                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)-and-<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
+                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)</p>
+<p>-and-</p>
+<p>
+<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -598,12 +676,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Text.Decoder.GetChars(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%2CSystem.Char%5B%5D%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L170">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L20">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean_" data-uid="System.Text.Decoder.GetChars(System.Byte[],System.Int32,System.Int32,System.Char[],System.Int32,System.Boolean)">GetChars(Byte[], Int32, Int32, Char[], Int32, Boolean)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, decodes a sequence of bytes from the specified byte array and any bytes in the internal buffer into the specified character array. A parameter indicates whether to clear the internal state of the decoder after the conversion.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Remember that the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object saves state between calls to <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean_">GetChars(Byte[], Int32, Int32, Char[], Int32, Boolean)</a>. When the application is done with a stream of data, it should set the <em>flush</em> parameter to <strong>true</strong> to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer.</p>
+<p>To calculate the exact array size that <strong>GetChars</strong> requires to store the resulting characters, the application should use <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetCharCount_System_Byte___System_Int32_System_Int32_System_Boolean_">GetCharCount(Byte[], Int32, Int32, Boolean)</a>. </p>
+<p>If <strong>GetChars</strong> is called with <em>flush</em> set to <strong>false</strong>, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call <strong>GetCharCount</strong> on a block of data immediately before calling <strong>GetChars</strong> on the same block, so that any trailing bytes from the previous block are included in the calculation.</p>
+<p>If your application is to convert many segments of an input stream, consider using the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a> method. <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Boolean_">GetChars(Byte[], Int32, Int32, Char[], Int32, Boolean)</a> will throw an exception if the output buffer isn&#39;t large enough, but <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a> will fill as much space as possible and return the bytes read and chars written. Also see the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetChars_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_">GetChars(Byte[], Int32, Int32, Char[], Int32)</a> topic for more comments.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex, bool flush)</code></pre>
@@ -651,7 +735,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>flush</em></td>
-                    <td><p>true to clear the internal state of the decoder after the conversion; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> to clear the internal state of the decoder after the conversion; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -683,22 +768,37 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>bytes</em> is null (Nothing).-or- <em>chars</em> is null (Nothing). </p>
+                    <td><p>
+<em>bytes</em> is <strong>null </strong>(<strong>Nothing</strong>).</p>
+<p>-or- </p>
+<p>
+<em>chars</em> is <strong>null </strong>(<strong>Nothing</strong>). </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>byteIndex</em> or <em>byteCount</em> or <em>charIndex</em> is less than zero.-or- <em>byteindex</em> and <em>byteCount</em> do not denote a valid range in <em>bytes</em>.-or- <em>charIndex</em> is not a valid index in <em>chars</em>. </p>
+                    <td><p>
+<em>byteIndex</em> or <em>byteCount</em> or <em>charIndex</em> is less than zero.</p>
+<p>-or- </p>
+<p>
+<em>byteindex</em> and <em>byteCount</em> do not denote a valid range in <em>bytes</em>.</p>
+<p>-or- </p>
+<p>
+<em>charIndex</em> is not a valid index in <em>chars</em>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>chars</em> does not have enough capacity from <em>charIndex</em> to the end of the array to accommodate the resulting characters. </p>
+                    <td><p>
+<em>chars</em> does not have enough capacity from <em>charIndex</em> to the end of the array to accommodate the resulting characters. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Text.DecoderFallbackException.html#System_Text_DecoderFallbackException">DecoderFallbackException</a></td>
-                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)-and-<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
+                    <td><p>A fallback occurred (see Character Encoding in the .NET Framework for fuller explanation)</p>
+<p>-and-</p>
+<p>
+<a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Fallback">Fallback</a> is set to <a class="xref" href="System.Text.DecoderExceptionFallback.html#System_Text_DecoderExceptionFallback">DecoderExceptionFallback</a>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -708,12 +808,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Text_Decoder_Reset.md&amp;value=---%0Auid%3A%20System.Text.Decoder.Reset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Decoder.cs/#L101">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Text.Encoding/ref/System.Text.Encoding.cs/#L21">View Source</a>
               </span>
               <h4 id="System_Text_Decoder_Reset" data-uid="System.Text.Decoder.Reset">Reset()</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, sets the decoder back to its initial state.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Text_Decoder_Reset_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method clears the internal state of the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder">Decoder</a> object. The method clears any state information preserved from a previous call to <span class="xref">System.Text.Decoder.GetChars(System.Byte*,System.Int32,System.Char*,System.Int32,System.Boolean)</span> or <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Convert_System_Byte___System_Int32_System_Int32_System_Char___System_Int32_System_Int32_System_Boolean_System_Int32__System_Int32__System_Boolean__">Convert(Byte[], Int32, Int32, Char[], Int32, Int32, Boolean, out Int32, out Int32, out Boolean)</a>, including trailing bytes at the end of the previous data block.</p>
+<p>Your application should call the <a class="xref" href="System.Text.Decoder.html#System_Text_Decoder_Reset">Reset()</a> method if it wants to reuse the same decoder even after an exception is thrown by <span class="xref">System.Text.Decoder.GetChars(System.Byte*,System.Int32,System.Char*,System.Int32,System.Boolean)</span>, <span class="xref">System.Text.Decoder.Convert(System.Byte*,System.Int32,System.Char*,System.Int32,System.Boolean,System.Int32@,System.Int32@,System.Boolean@)</span>, or <span class="xref">System.Text.Decoder.GetCharCount(System.Byte*,System.Int32,System.Boolean)</span>, or if the decoder switches streams and begins to decode another stream.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual void Reset()</code></pre>

@@ -73,7 +73,8 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.IO.FileSystem/src/System/IO/File.cs/#L22" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IO_File" data-uid="System.IO.File">Class File
               </h1>
-              <div class="markdown level0 summary"><p>Provides static methods for the creation, copying, deletion, moving, and opening of a single file, and aids in the creation of <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> objects.To browse the .NET Framework source code for this type, see the Reference Source.</p>
+              <div class="markdown level0 summary"><p>Provides static methods for the creation, copying, deletion, moving, and opening of a single file, and aids in the creation of <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> objects.</p>
+<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/io/file.cs#1c7421e464f67b7e">Reference Source</see>.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -87,6 +88,48 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class File : object</code></pre>
               </div>
+              <h5 id="System_IO_File_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/io/file.cs#1c7421e464f67b7e">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
+<p>Use the <a class="xref" href="System.IO.File.html#System_IO_File">File</a> class for typical operations such as copying, moving, renaming, creating, opening, deleting, and appending to a single file at a time. You can also use the <a class="xref" href="System.IO.File.html#System_IO_File">File</a> class to get and set file attributes or <a class="xref" href="System.DateTime.html#System_DateTime">DateTime</a> information related to the creation, access, and writing of a file. If you want to perform operations on multiple files, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetFiles_System_String_">GetFiles(String)</a> or <a class="xref" href="System.IO.DirectoryInfo.html#System_IO_DirectoryInfo_GetFiles">GetFiles()</a>.</p>
+<p>Many of the <a class="xref" href="System.IO.File.html#System_IO_File">File</a> methods return other I/O types when you create or open files. You can use these other types to further manipulate a file. For more information, see specific <a class="xref" href="System.IO.File.html#System_IO_File">File</a> members such as <a class="xref" href="System.IO.File.html#System_IO_File_OpenText_System_String_">OpenText(String)</a>, <a class="xref" href="System.IO.File.html#System_IO_File_CreateText_System_String_">CreateText(String)</a>, or <a class="xref" href="System.IO.File.html#System_IO_File_Create_System_String_">Create(String)</a>.</p>
+<p>Because all <a class="xref" href="System.IO.File.html#System_IO_File">File</a> methods are static, it might be more efficient to use a <a class="xref" href="System.IO.File.html#System_IO_File">File</a> method rather than a corresponding <a class="xref" href="System.IO.FileInfo.html#System_IO_FileInfo">FileInfo</a> instance method if you want to perform only one action. All <a class="xref" href="System.IO.File.html#System_IO_File">File</a> methods require the path to the file that you are manipulating.</p>
+<p>The static methods of the <a class="xref" href="System.IO.File.html#System_IO_File">File</a> class perform security checks on all methods. If you are going to reuse an object several times, consider using the corresponding instance method of <a class="xref" href="System.IO.FileInfo.html#System_IO_FileInfo">FileInfo</a> instead, because the security check will not always be necessary.</p>
+<p>By default, full read/write access to new files is granted to all users.</p>
+<p>The following table describes the enumerations that are used to customize the behavior of various <a class="xref" href="System.IO.File.html#System_IO_File">File</a> methods.</p>
+<p>Enumeration </p>
+<p>Description </p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.IO.FileAccess.html#System_IO_FileAccess">FileAccess</a>
+</p>
+</td><td>
+<p>Specifies read and write access to a file. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.IO.FileShare.html#System_IO_FileShare">FileShare</a>
+</p>
+</td><td>
+<p>Specifies the level of access permitted for a file that is already in use. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.IO.FileMode.html#System_IO_FileMode">FileMode</a>
+</p>
+</td><td>
+<p>Specifies whether the contents of an existing file are preserved or overwritten, and whether requests to create an existing file cause an exception. </p>
+</td></tr></tbody></table>
+<p>In members that accept a path as an input string, that path must be well-formed or an exception is raised. For example, if a path is fully qualified but begins with a space, the path is not trimmed in methods of the class. Therefore, the path is malformed and an exception is raised. Similarly, a path or a combination of paths cannot be fully qualified twice. For example, &quot;c:\temp c:\windows&quot; also raises an exception in most cases. Ensure that your paths are well-formed when using methods that accept a path string.</p>
+<p>In members that accept a path, the path can refer to a file or just a directory. The specified path can also refer to a relative path or a Universal Naming Convention (UNC) path for a server and share name. For example, all the following are acceptable paths: </p>
+<ul><li>
+<p>&quot;c:\MyDir\MyFile.txt&quot; in C#, or &quot;c:\MyDir\MyFile.txt&quot; in Visual Basic.</p>
+</li><li>
+<p>&quot;c:\MyDir&quot; in C#, or &quot;c:\MyDir&quot; in Visual Basic.</p>
+</li><li>
+<p>&quot;MyDir\MySubdir&quot; in C#, or &quot;MyDir\MySubDir&quot; in Visual Basic.</p>
+</li><li>
+<p>&quot;\\MyServer\MyShare&quot; in C#, or &quot;\MyServer\MyShare&quot; in Visual Basic.</p>
+</li></ul>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -100,6 +143,9 @@
               <div class="markdown level1 summary"><p>Appends lines to a file, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_AppendAllLines_System_String_System_Collections_Generic_IEnumerable_System_String___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The method creates the file if it doesn’t exist, but it doesn&#39;t create new directories. Therefore, the value of the <em>path</em> parameter must contain existing directories.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AppendAllLines(string path, Collections.Generic.IEnumerable&lt;string&gt; contents)</code></pre>
@@ -139,17 +185,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>Either<em> path </em>or <em>contents</em> is null.</p>
+                    <td><p>Either<em> path </em>or <em>contents</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> is invalid (for example, the directory doesn’t exist or it is on an unmapped drive).</p>
+                    <td><p>
+<em>path</em> is invalid (for example, the directory doesn’t exist or it is on an unmapped drive).</p>
 </td>
                   </tr>
                   <tr>
@@ -164,12 +212,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p><em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
+                    <td><p>
+<em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format.</p>
+                    <td><p>
+<em>path</em> is in an invalid format.</p>
 </td>
                   </tr>
                   <tr>
@@ -179,7 +229,13 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specifies a file that is read-only.-or-This operation is not supported on the current platform.-or-<em>path</em> is a directory.</p>
+                    <td><p>
+<em>path</em> specifies a file that is read-only.</p>
+<p>-or-</p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or-</p>
+<p>
+<em>path</em> is a directory.</p>
 </td>
                   </tr>
                 </tbody>
@@ -195,6 +251,15 @@
               <div class="markdown level1 summary"><p>Appends lines to a file by using a specified encoding, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_AppendAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The method creates the file if it doesn’t exist, but it doesn&#39;t create new directories. Therefore, the value of the <em>path</em> parameter must contain existing directories.</p></p>
+<p><p>You can use this method to create a file that contains the following:</p></p>
+<ul><li>
+<p>The results of a LINQ to Objects query on the lines of a file, as obtained by using the <see cref="Overload:System.IO.File.ReadLines"></see> method.</p>
+</li><li>
+<p>The contents of a collection that implements an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> of strings. </p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AppendAllLines(string path, Collections.Generic.IEnumerable&lt;string&gt; contents, Text.Encoding encoding)</code></pre>
@@ -240,17 +305,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>Either<em> path</em>, <em>contents</em>, or <em>encoding</em> is null.</p>
+                    <td><p>Either<em> path</em>, <em>contents</em>, or <em>encoding</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> is invalid (for example, the directory doesn’t exist or it is on an unmapped drive).</p>
+                    <td><p>
+<em>path</em> is invalid (for example, the directory doesn’t exist or it is on an unmapped drive).</p>
 </td>
                   </tr>
                   <tr>
@@ -265,12 +332,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p><em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
+                    <td><p>
+<em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format.</p>
+                    <td><p>
+<em>path</em> is in an invalid format.</p>
 </td>
                   </tr>
                   <tr>
@@ -280,7 +349,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specifies a file that is read-only.-or-This operation is not supported on the current platform.-or-<em>path</em> is a directory.-or-The caller does not have the required permission.</p>
+                    <td><p>
+<em>path</em> specifies a file that is read-only.</p>
+<p>-or-</p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or-</p>
+<p>
+<em>path</em> is a directory.</p>
+<p>-or-</p>
+<p>The caller does not have the required permission.</p>
 </td>
                   </tr>
                 </tbody>
@@ -296,6 +373,10 @@
               <div class="markdown level1 summary"><p>Opens a file, appends the specified string to the file, and then closes the file. If the file does not exist, this method creates a file, writes the specified string to the file, then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_AppendAllText_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Given a string and a file path, this method opens the specified file, appends the string to the end of the file, and then closes the file. The file handle is guaranteed to be closed by this method, even if exceptions are raised.</p>
+<p>The method creates the file if it doesn’t exist, but it doesn&#39;t create new directories. Therefore, the value of the <em>path</em> parameter must contain existing directories.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AppendAllText(string path, string contents)</code></pre>
@@ -335,12 +416,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -360,12 +443,21 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -386,6 +478,10 @@
               <div class="markdown level1 summary"><p>Appends the specified string to the file, creating the file if it does not already exist.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_AppendAllText_System_String_System_String_System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Given a string and a file path, this method opens the specified file, appends the string to the end of the file using the specified encoding, and then closes the file. The file handle is guaranteed to be closed by this method, even if exceptions are raised.</p>
+<p>The method creates the file if it doesn’t exist, but it doesn&#39;t create new directories. Therefore, the value of the <em>path</em> parameter must contain existing directories.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void AppendAllText(string path, string contents, Text.Encoding encoding)</code></pre>
@@ -431,12 +527,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -456,12 +554,21 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -482,6 +589,12 @@
               <div class="markdown level1 summary"><p>Creates a <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter">StreamWriter</a> that appends UTF-8 encoded text to an existing file, or to a new file if the specified file does not exist.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_AppendText_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">System.IO.StreamWriter.</span> constructor overload. If the file specified by <em>path</em> does not exist, it is created. If the file does exist, write operations to the <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter">StreamWriter</a> append text to the file. Additional threads are permitted to read the file while it is open.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>The <em>path</em> parameter is not case-sensitive.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static StreamWriter AppendText(string path)</code></pre>
@@ -536,12 +649,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -556,7 +671,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -572,6 +688,11 @@
               <div class="markdown level1 summary"><p>Copies an existing file to a new file. Overwriting a file of the same name is not allowed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Copy_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <a class="xref" href="System.IO.File.html#System_IO_File_Copy_System_String_System_String_System_Boolean_">Copy(String, String, Boolean)</a>  method overload with the <em>overwrite</em> parameter set to <strong>false</strong>.</p>
+<p>The <em>sourceFileName</em> and <em>destFileName</em> parameters can specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see the <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a> method. This method does not support wildcard characters in the parameters.</p>
+<p>The attributes of the original file are retained in the copied file.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Copy(string sourceFileName, string destFileName)</code></pre>
@@ -616,12 +737,17 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.-or- <em>sourceFileName</em> or <em>destFileName</em> specifies a directory. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.</p>
+<p>-or- </p>
+<p>
+<em>sourceFileName</em> or <em>destFileName</em> specifies a directory. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is null. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -636,17 +762,22 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.FileNotFoundException.html#System_IO_FileNotFoundException">FileNotFoundException</a></td>
-                    <td><p><em>sourceFileName</em> was not found. </p>
+                    <td><p>
+<em>sourceFileName</em> was not found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p><em>destFileName</em> exists.-or- An I/O error has occurred. </p>
+                    <td><p>
+<em>destFileName</em> exists.</p>
+<p>-or- </p>
+<p>An I/O error has occurred. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is in an invalid format. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -662,6 +793,11 @@
               <div class="markdown level1 summary"><p>Copies an existing file to a new file. Overwriting a file of the same name is allowed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Copy_System_String_System_String_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>sourceFileName</em> and <em>destFileName</em> parameters can specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. This method does not support wildcard characters in the parameters.</p>
+<p>The attributes of the original file are retained in the copied file.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Copy(string sourceFileName, string destFileName, bool overwrite)</code></pre>
@@ -691,7 +827,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>overwrite</em></td>
-                    <td><p>true if the destination file can be overwritten; otherwise, false. </p>
+                    <td><p>
+<strong>true</strong> if the destination file can be overwritten; otherwise, <strong>false</strong>. </p>
 </td>
                   </tr>
                 </tbody>
@@ -707,17 +844,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission. -or-<em>destFileName</em> is read-only.</p>
+                    <td><p>The caller does not have the required permission. </p>
+<p>-or-</p>
+<p>
+<em>destFileName</em> is read-only.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.-or- <em>sourceFileName</em> or <em>destFileName</em> specifies a directory. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.</p>
+<p>-or- </p>
+<p>
+<em>sourceFileName</em> or <em>destFileName</em> specifies a directory. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is null. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -732,17 +877,22 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.FileNotFoundException.html#System_IO_FileNotFoundException">FileNotFoundException</a></td>
-                    <td><p><em>sourceFileName</em> was not found. </p>
+                    <td><p>
+<em>sourceFileName</em> was not found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p><em>destFileName</em> exists and <em>overwrite</em> is false.-or- An I/O error has occurred. </p>
+                    <td><p>
+<em>destFileName</em> exists and <em>overwrite</em> is <strong>false</strong>.</p>
+<p>-or- </p>
+<p>An I/O error has occurred. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is in an invalid format. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -758,6 +908,14 @@
               <div class="markdown level1 summary"><p>Creates or overwrites a file in the specified path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Create_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> object created by this method has a default <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare">FileShare</a> value of <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare_None">None</a>; no other process or code can access the created file until the original file handle is closed.</p>
+<p>This method is equivalent to the <a class="xref" href="System.IO.File.html#System_IO_File_Create_System_String_System_Int32_">Create(String, Int32)</a> method overload using the default buffer size.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>If the specified file does not exist, it is created; if it does exist and it is not read-only, the contents are overwritten.</p>
+<p>By default, full read/write access to new files is granted to all users. The file is opened with read/write access and must be closed before it can be opened by another application.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream Create(string path)</code></pre>
@@ -807,17 +965,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- <em>path</em> specified a file that is read-only. </p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a file that is read-only. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -837,7 +1000,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -853,6 +1017,13 @@
               <div class="markdown level1 summary"><p>Creates or overwrites the specified file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Create_System_String_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> object created by this method has a default <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare">FileShare</a> value of <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare_None">None</a>; no other process or code can access the created file until the original file handle is closed.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>This method is equivalent to the <span class="xref">System.IO.FileStream.</span> constructor overload. If the specified file does not exist, it is created; if it does exist and it is not read-only, the contents are overwritten.</p>
+<p>By default, full read/write access to new files is granted to all users. The file is opened with read/write access and must be closed before it can be opened by another application.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream Create(string path, int bufferSize)</code></pre>
@@ -908,17 +1079,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- <em>path</em> specified a file that is read-only. </p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a file that is read-only. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -938,7 +1114,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -954,6 +1131,12 @@
               <div class="markdown level1 summary"><p>Creates or overwrites the specified file, specifying a buffer size and a <a class="xref" href="System.IO.FileOptions.html#System_IO_FileOptions">FileOptions</a> value that describes how to create or overwrite the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Create_System_String_System_Int32_System_IO_FileOptions__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>This method is equivalent to the <span class="xref">System.IO.FileStream.</span> constructor overload. If the specified file does not exist, it is created; if it does exist and it is not read-only, the contents are overwritten.</p>
+<p>By default, full read/write access to new files is granted to all users. The file is opened with read/write access and must be closed before it can be opened by another application.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream Create(string path, int bufferSize, FileOptions options)</code></pre>
@@ -1015,17 +1198,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- <em>path</em> specified a file that is read-only. -or-<a class="xref" href="System.IO.FileOptions.html#System_IO_FileOptions_Encrypted">Encrypted</a> is specified for <em>options</em> and file encryption is not supported on the current platform.</p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a file that is read-only. </p>
+<p>-or-</p>
+<p>
+<a class="xref" href="System.IO.FileOptions.html#System_IO_FileOptions_Encrypted">Encrypted</a> is specified for <em>options</em> and file encryption is not supported on the current platform.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1045,17 +1236,24 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- <em>path</em> specified a file that is read-only. </p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a file that is read-only. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- <em>path</em> specified a file that is read-only. </p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a file that is read-only. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1071,6 +1269,11 @@
               <div class="markdown level1 summary"><p>Creates or opens a file for writing UTF-8 encoded text.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_CreateText_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">System.IO.StreamWriter.</span> constructor overload with the <em>append</em> parameter set to <strong>false</strong>. If the file specified by <em>path</em> does not exist, it is created. If the file does exist, its contents are overwritten. Additional threads are permitted to read the file while it is open.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static StreamWriter CreateText(string path)</code></pre>
@@ -1125,12 +1328,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1145,7 +1350,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1161,6 +1367,11 @@
               <div class="markdown level1 summary"><p>Deletes the specified file. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Delete_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Specify a file name with any relative or absolute path information for the <em>path</em> parameter. Wildcard characters cannot be included. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>If the file to be deleted does not exist, no exception is thrown.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Delete(string path)</code></pre>
@@ -1194,12 +1405,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1209,12 +1422,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The specified file is in use. -or-There is an open handle on the file, and the operating system is Windows XP or earlier. This open handle can result from enumerating directories and files. For more information, see How to: Enumerate Directories and Files.</p>
+                    <td><p>The specified file is in use. </p>
+<p>-or-</p>
+<p>There is an open handle on the file, and the operating system is Windows XP or earlier. This open handle can result from enumerating directories and files. For more information, see How to: Enumerate Directories and Files.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -1224,7 +1440,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- The file is an executable file that is in use.-or- <em>path</em> is a directory.-or- <em>path</em> specified a read-only file. </p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>The file is an executable file that is in use.</p>
+<p>-or- </p>
+<p>
+<em>path</em> is a directory.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a read-only file. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1240,6 +1464,14 @@
               <div class="markdown level1 summary"><p>Determines whether the specified file exists.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Exists_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.File.html#System_IO_File_Exists_System_String_">Exists(String)</a> method should not be used for path validation, this method merely checks if the file specified in <em>path</em> exists. Passing an invalid path to <a class="xref" href="System.IO.File.html#System_IO_File_Exists_System_String_">Exists(String)</a> returns <strong>false</strong>. To check whether the path contains any invalid characters, you can call the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method to retrieve the characters that are invalid for the file system. You can also create a regular expression to test the whether the path is valid for your environment. For examples of acceptable paths, see <a class="xref" href="System.IO.File.html#System_IO_File">File</a>.</p>
+<p>To check if a directory exists, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_Exists_System_String_">Exists(String)</a>.</p>
+<p>Be aware that another process can potentially do something with the file in between the time you call the <a class="xref" href="System.IO.File.html#System_IO_File_Exists_System_String_">Exists(String)</a> method and perform another operation on the file, such as <a class="xref" href="System.IO.File.html#System_IO_File_Delete_System_String_">Delete(String)</a>. </p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>If <em>path</em> describes a directory, this method returns <strong>false</strong>. Trailing spaces are removed from the <em>path</em> parameter before determining if the file exists.</p>
+<p>The <a class="xref" href="System.IO.File.html#System_IO_File_Exists_System_String_">Exists(String)</a> method returns <strong>false</strong> if any error occurs while trying to determine if the specified file exists. This can occur in situations that raise exceptions such as passing a file name with invalid characters or too many characters, a failing or missing disk, or if the caller does not have permission to read the file.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool Exists(string path)</code></pre>
@@ -1273,7 +1505,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if the caller has the required permissions and <em>path</em> contains the name of an existing file; otherwise, false. This method also returns false if <em>path</em> is null, an invalid path, or a zero-length string. If the caller does not have sufficient permissions to read the specified file, no exception is thrown and the method returns false regardless of the existence of <em>path</em>.</p>
+                    <td><p>
+<strong>true</strong> if the caller has the required permissions and <em>path</em> contains the name of an existing file; otherwise, <strong>false</strong>. This method also returns <strong>false</strong> if <em>path</em> is <strong>null</strong>, an invalid path, or a zero-length string. If the caller does not have sufficient permissions to read the specified file, no exception is thrown and the method returns <strong>false</strong> regardless of the existence of <em>path</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1289,6 +1522,10 @@
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.IO.FileAttributes.html#System_IO_FileAttributes">FileAttributes</a> of the file on the path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetAttributes_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileAttributes GetAttributes(string path)</code></pre>
@@ -1338,7 +1575,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is empty, contains only white spaces, or contains invalid characters. </p>
+                    <td><p>
+<em>path</em> is empty, contains only white spaces, or contains invalid characters. </p>
 </td>
                   </tr>
                   <tr>
@@ -1348,17 +1586,20 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.FileNotFoundException.html#System_IO_FileNotFoundException">FileNotFoundException</a></td>
-                    <td><p><em>path</em> represents a file and is invalid, such as being on an unmapped drive, or the file cannot be found. </p>
+                    <td><p>
+<em>path</em> represents a file and is invalid, such as being on an unmapped drive, or the file cannot be found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> represents a directory and is invalid, such as being on an unmapped drive, or the directory cannot be found.</p>
+                    <td><p>
+<em>path</em> represents a directory and is invalid, such as being on an unmapped drive, or the directory cannot be found.</p>
 </td>
                   </tr>
                   <tr>
@@ -1384,6 +1625,13 @@
               <div class="markdown level1 summary"><p>Returns the creation date and time of the specified file or directory.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetCreationTime_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may return an inaccurate value, because it uses native functions whose values may not be continuously updated by the operating system.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>If the file described in the <em>path</em> parameter does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC), adjusted to local time.</p>
+<p>NTFS-formatted drives may cache information about a file, such as file creation time, for a short period of time. As a result, it may be necessary to explicitly set the creation time of a file if you are overwriting or replacing an existing file.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static DateTime GetCreationTime(string path)</code></pre>
@@ -1438,12 +1686,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1453,7 +1703,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1469,6 +1720,12 @@
               <div class="markdown level1 summary"><p>Returns the creation date and time, in coordinated universal time (UTC), of the specified file or directory.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetCreationTimeUtc_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may return an inaccurate value, because it uses native functions whose values may not be continuously updated by the operating system.</p>
+<p>If the file described in the <em>path</em> parameter does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC).</p>
+<p>NTFS-formatted drives may cache information about a file, such as file creation time, for a short period of time. As a result, it may be necessary to explicitly set the creation time of a file if you are overwriting or replacing an existing file.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static DateTime GetCreationTimeUtc(string path)</code></pre>
@@ -1523,12 +1780,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1538,7 +1797,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1554,6 +1814,12 @@
               <div class="markdown level1 summary"><p>Returns the date and time the specified file or directory was last accessed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetLastAccessTime_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may return an inaccurate value, because it uses native functions whose values may not be continuously updated by the operating system.</p>
+<p>If the file described in the <em>path</em> parameter does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC), adjusted to local time.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static DateTime GetLastAccessTime(string path)</code></pre>
@@ -1608,12 +1874,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1623,7 +1891,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1639,6 +1908,12 @@
               <div class="markdown level1 summary"><p>Returns the date and time, in coordinated universal time (UTC), that the specified file or directory was last accessed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetLastAccessTimeUtc_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may return an inaccurate value, because it uses native functions whose values may not be continuously updated by the operating system.</p>
+<p>If the file described in the <em>path</em> parameter does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC).</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static DateTime GetLastAccessTimeUtc(string path)</code></pre>
@@ -1693,12 +1968,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1708,7 +1985,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1724,6 +2002,12 @@
               <div class="markdown level1 summary"><p>Returns the date and time the specified file or directory was last written to.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetLastWriteTime_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may return an inaccurate value, because it uses native functions whose values may not be continuously updated by the operating system. Each operating system manages the last write time according to its own rules. To improve performance, an operating system might not set the last write time value to the exact time of the last write operation, but might set it to a close approximation instead.</p>
+<p>If the file described in the <em>path</em> parameter does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC), adjusted to local time.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static DateTime GetLastWriteTime(string path)</code></pre>
@@ -1778,12 +2062,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1793,7 +2079,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1809,6 +2096,12 @@
               <div class="markdown level1 summary"><p>Returns the date and time, in coordinated universal time (UTC), that the specified file or directory was last written to.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_GetLastWriteTimeUtc_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method may return an inaccurate value, because it uses native functions whose values may not be continuously updated by the operating system. Each operating system manages the last write time according to its own rules. To improve performance, an operating system might not set the last write time value to the exact time of the last write operation, but might set it to a close approximation instead. </p>
+<p>If the file described in the <em>path</em> parameter does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC).</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static DateTime GetLastWriteTimeUtc(string path)</code></pre>
@@ -1863,12 +2156,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1878,7 +2173,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1894,6 +2190,12 @@
               <div class="markdown level1 summary"><p>Moves a specified file to a new location, providing the option to specify a new file name.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Move_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method works across disk volumes, and it does not throw an exception if the source and destination are the same. Note that if you attempt to replace a file by moving a file of the same name into that directory, you get an <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a>. You cannot use the Move method to overwrite an existing file.</p>
+<p>The <em>sourceFileName</em> and <em>destFileName</em> arguments can include relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>If you try to move a file across disk volumes and that file is in use, the file is copied to the destination, but it is not deleted from the source.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Move(string sourceFileName, string destFileName)</code></pre>
@@ -1933,17 +2235,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The destination file already exists.-or-<em>sourceFileName</em> was not found. </p>
+                    <td><p>The destination file already exists.</p>
+<p>-or-</p>
+<p>
+<em>sourceFileName</em> was not found. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is null. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is a zero-length string, contains only white space, or contains invalid characters as defined in <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is a zero-length string, contains only white space, or contains invalid characters as defined in <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
@@ -1963,7 +2270,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>sourceFileName</em> or <em>destFileName</em> is in an invalid format. </p>
+                    <td><p>
+<em>sourceFileName</em> or <em>destFileName</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -1979,6 +2287,10 @@
               <div class="markdown level1 summary"><p>Opens a <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> on the specified path with read/write access.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Open_System_String_System_IO_FileMode__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream Open(string path, FileMode mode)</code></pre>
@@ -2034,12 +2346,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2059,12 +2373,24 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. -or-<em>mode</em> is <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Create">Create</a> and the specified file is a hidden file.</p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
+<p>-or-</p>
+<p>
+<em>mode</em> is <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Create">Create</a> and the specified file is a hidden file.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>mode</em> specified an invalid value. </p>
+                    <td><p>
+<em>mode</em> specified an invalid value. </p>
 </td>
                   </tr>
                   <tr>
@@ -2074,7 +2400,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2090,6 +2417,9 @@
               <div class="markdown level1 summary"><p>Opens a <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> on the specified path, with the specified mode and access.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Open_System_String_System_IO_FileMode_System_IO_FileAccess__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream Open(string path, FileMode mode, FileAccess access)</code></pre>
@@ -2151,12 +2481,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.-or- <em>access</em> specified Read and <em>mode</em> specified Create, CreateNew, Truncate, or Append. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.</p>
+<p>-or- </p>
+<p>
+<em>access</em> specified <strong>Read</strong> and <em>mode</em> specified <strong>Create</strong>, <strong>CreateNew</strong>, <strong>Truncate</strong>, or <strong>Append</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2176,12 +2511,22 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only and <em>access</em> is not Read.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. -or-<em>mode</em> is <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Create">Create</a> and the specified file is a hidden file.</p>
+                    <td><p>
+<em>path</em> specified a file that is read-only and <em>access</em> is not <strong>Read</strong>.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
+<p>-or-</p>
+<p>
+<em>mode</em> is <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Create">Create</a> and the specified file is a hidden file.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>mode</em> or <em>access</em> specified an invalid value. </p>
+                    <td><p>
+<em>mode</em> or <em>access</em> specified an invalid value. </p>
 </td>
                   </tr>
                   <tr>
@@ -2191,7 +2536,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2207,6 +2553,10 @@
               <div class="markdown level1 summary"><p>Opens a <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> on the specified path, having the specified mode with read, write, or read/write access and the specified sharing option.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_Open_System_String_System_IO_FileMode_System_IO_FileAccess_System_IO_FileShare__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream Open(string path, FileMode mode, FileAccess access, FileShare share)</code></pre>
@@ -2274,12 +2624,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.-or- <em>access</em> specified Read and <em>mode</em> specified Create, CreateNew, Truncate, or Append. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>.</p>
+<p>-or- </p>
+<p>
+<em>access</em> specified <strong>Read</strong> and <em>mode</em> specified <strong>Create</strong>, <strong>CreateNew</strong>, <strong>Truncate</strong>, or <strong>Append</strong>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2299,12 +2654,22 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only and <em>access</em> is not Read.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. -or-<em>mode</em> is <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Create">Create</a> and the specified file is a hidden file.</p>
+                    <td><p>
+<em>path</em> specified a file that is read-only and <em>access</em> is not <strong>Read</strong>.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
+<p>-or-</p>
+<p>
+<em>mode</em> is <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Create">Create</a> and the specified file is a hidden file.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>mode</em>, <em>access</em>, or <em>share</em> specified an invalid value. </p>
+                    <td><p>
+<em>mode</em>, <em>access</em>, or <em>share</em> specified an invalid value. </p>
 </td>
                   </tr>
                   <tr>
@@ -2314,7 +2679,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2330,6 +2696,11 @@
               <div class="markdown level1 summary"><p>Opens an existing file for reading.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_OpenRead_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">System.IO.FileStream.</span> constructor overload with a <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode">FileMode</a> value of <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_Open">Open</a>, a <a class="xref" href="System.IO.FileAccess.html#System_IO_FileAccess">FileAccess</a> value of <a class="xref" href="System.IO.FileAccess.html#System_IO_FileAccess_Read">Read</a> and a <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare">FileShare</a> value of <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare_Read">Read</a>.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream OpenRead(string path)</code></pre>
@@ -2379,12 +2750,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2399,7 +2772,10 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
@@ -2409,7 +2785,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -2430,6 +2807,11 @@
               <div class="markdown level1 summary"><p>Opens an existing UTF-8 encoded text file for reading.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_OpenText_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">System.IO.StreamReader.</span> constructor overload.</p>
+<p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static StreamReader OpenText(string path)</code></pre>
@@ -2484,12 +2866,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2509,7 +2893,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2525,6 +2910,12 @@
               <div class="markdown level1 summary"><p>Opens an existing file or creates a new file for writing.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_OpenWrite_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">System.IO.FileStream.</span> constructor overload with file mode set to <a class="xref" href="System.IO.FileMode.html#System_IO_FileMode_OpenOrCreate">OpenOrCreate</a>, the access set to <a class="xref" href="System.IO.FileAccess.html#System_IO_FileAccess_Write">Write</a>, and the share mode set to <a class="xref" href="System.IO.FileShare.html#System_IO_FileShare_None">None</a>.</p>
+<p>The <a class="xref" href="System.IO.File.html#System_IO_File_OpenWrite_System_String_">OpenWrite(String)</a> method opens a file if one already exists for the file path, or creates a new file if one does not exist. For an existing file, it does not append the new text to the existing text. Instead, it overwrites the existing characters with the new characters. If you overwrite a longer string (such as “This is a test of the OpenWrite method”) with a shorter string (such as “Second run”), the file will contain a mix of the strings (“Second runtest of the OpenWrite method”).</p>
+<p>The <em>path</em> parameter may specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, use the <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a> method.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static FileStream OpenWrite(string path)</code></pre>
@@ -2574,17 +2965,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>The caller does not have the required permission.-or- <em>path</em> specified a read-only file or directory. </p>
+                    <td><p>The caller does not have the required permission.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a read-only file or directory. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2599,7 +2995,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -2615,6 +3012,9 @@
               <div class="markdown level1 summary"><p>Opens a binary file, reads the contents of the file into a byte array, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadAllBytes_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Given a file path, this method opens the file, reads the contents of the file into a byte array, and then closes the file.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static byte[] ReadAllBytes(string path)</code></pre>
@@ -2664,12 +3064,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2689,7 +3091,12 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
@@ -2699,7 +3106,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -2720,6 +3128,10 @@
               <div class="markdown level1 summary"><p>Opens a text file, reads all lines of the file, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadAllLines_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method opens a file, reads each line of the file, then adds each line as an element of a string array. It then closes the file. A line is defined as a sequence of characters followed by a carriage return (&#39;\r&#39;), a line feed (&#39;\n&#39;), or a carriage return immediately followed by a line feed. The resulting string does not contain the terminating carriage return and/or line feed.</p>
+<p>This method attempts to automatically detect the encoding of a file based on the presence of byte order marks. Encoding formats UTF-8 and UTF-32 (both big-endian and little-endian) can be detected.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string[] ReadAllLines(string path)</code></pre>
@@ -2769,12 +3181,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2794,7 +3208,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
@@ -2804,7 +3226,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -2825,6 +3248,10 @@
               <div class="markdown level1 summary"><p>Opens a file, reads all lines of the file with the specified encoding, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadAllLines_System_String_System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method opens a file, reads each line of the file, and then adds each line as an element of a string array. It then closes the file. A line is defined as a sequence of characters followed by a carriage return (&#39;\r&#39;), a line feed (&#39;\n&#39;), or a carriage return immediately followed by a line feed. The resulting string does not contain the terminating carriage return and/or line feed.</p>
+<p>This method attempts to automatically detect the encoding of a file based on the presence of byte order marks. Encoding formats UTF-8 and UTF-32 (both big-endian and little-endian) can be detected.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string[] ReadAllLines(string path, Text.Encoding encoding)</code></pre>
@@ -2880,12 +3307,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -2905,7 +3334,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
@@ -2915,7 +3352,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -2936,6 +3374,12 @@
               <div class="markdown level1 summary"><p>Opens a text file, reads all lines of the file, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadAllText_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method opens a file, reads each line of the file, and then adds each line as an element of a string. It then closes the file. A line is defined as a sequence of characters followed by a carriage return (&#39;\r&#39;), a line feed (&#39;\n&#39;), or a carriage return immediately followed by a line feed. The resulting string does not contain the terminating carriage return and/or line feed.</p>
+<p>This method attempts to automatically detect the encoding of a file based on the presence of byte order marks. Encoding formats UTF-8 and UTF-32 (both big-endian and little-endian) can be detected.</p>
+<p>Use the <a class="xref" href="System.IO.File.html#System_IO_File_ReadAllText_System_String_System_Text_Encoding_">ReadAllText(String, Text.Encoding)</a> method overload when reading files that might contain imported text, because unrecognized characters may not be read correctly.  </p>
+<p>The file handle is guaranteed to be closed by this method, even if exceptions are raised.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string ReadAllText(string path)</code></pre>
@@ -2985,12 +3429,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3010,7 +3456,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
@@ -3020,7 +3474,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -3041,6 +3496,12 @@
               <div class="markdown level1 summary"><p>Opens a file, reads all lines of the file with the specified encoding, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadAllText_System_String_System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method opens a file, reads each line of the file, and then adds each line as an element of a string. It then closes the file. A line is defined as a sequence of characters followed by a carriage return (&#39;\r&#39;), a line feed (&#39;\n&#39;), or a carriage return immediately followed by a line feed. The resulting string does not contain the terminating carriage return and/or line feed.</p>
+<p>This method attempts to automatically detect the encoding of a file based on the presence of byte order marks. Encoding formats UTF-8 and UTF-32 (both big-endian and little-endian) can be detected.</p>
+<p>The file handle is guaranteed to be closed by this method, even if exceptions are raised.</p>
+<p>To use the encoding settings as configured for your operating system, specify the <span class="xref">System.Text.Encoding.Default</span> property for the <em>encoding</em> parameter.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static string ReadAllText(string path, Text.Encoding encoding)</code></pre>
@@ -3096,12 +3557,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3121,7 +3584,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
@@ -3131,7 +3602,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -3152,6 +3624,18 @@
               <div class="markdown level1 summary"><p>Reads the lines of a file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadLines_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_">ReadLines(String)</a> and <a class="xref" href="System.IO.File.html#System_IO_File_ReadAllLines_System_String_">ReadAllLines(String)</a> methods differ as follows: When you use <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_">ReadLines(String)</a>, you can start enumerating the collection of strings before the whole collection is returned; when you use <a class="xref" href="System.IO.File.html#System_IO_File_ReadAllLines_System_String_">ReadAllLines(String)</a>, you must wait for the whole array of strings be returned before you can access the array. Therefore, when you are working with very large files, <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_">ReadLines(String)</a> can be more efficient. </p>
+<p>You can use the <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_">ReadLines(String)</a> method to do the following:</p>
+<ul><li>
+<p>Perform LINQ to Objects queries on a file to obtain a filtered set of its lines.</p>
+</li><li>
+<p>Write the returned collection of lines to a file with the <a class="xref" href="System.IO.File.html#System_IO_File_WriteAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__">WriteAllLines(String, Collections.Generic.IEnumerable<string>)</string></a> method, or append them to an existing file with the <a class="xref" href="System.IO.File.html#System_IO_File_AppendAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__">AppendAllLines(String, Collections.Generic.IEnumerable<string>)</string></a> method.</p>
+</li><li>
+<p>Create an immediately populated instance of a collection that takes an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> collection of strings for its constructor, such as a <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> or a <a class="xref" href="System.Collections.Generic.Queue%601.html#System_Collections_Generic_Queue_1">Queue<t></t></a>.</p>
+</li></ul>
+<p>This method uses <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_UTF8">UTF8</a> for the encoding value.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Collections.Generic.IEnumerable&lt;string&gt; ReadLines(string path)</code></pre>
@@ -3201,17 +3685,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null.</p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> is invalid (for example, it is on an unmapped drive).</p>
+                    <td><p>
+<em>path</em> is invalid (for example, it is on an unmapped drive).</p>
 </td>
                   </tr>
                   <tr>
@@ -3226,7 +3713,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p><em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
+                    <td><p>
+<em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
@@ -3236,7 +3724,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specifies a file that is read-only.-or-This operation is not supported on the current platform.-or-<em>path</em> is a directory.-or-The caller does not have the required permission.</p>
+                    <td><p>
+<em>path</em> specifies a file that is read-only.</p>
+<p>-or-</p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or-</p>
+<p>
+<em>path</em> is a directory.</p>
+<p>-or-</p>
+<p>The caller does not have the required permission.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3252,6 +3748,19 @@
               <div class="markdown level1 summary"><p>Read the lines of a file that has a specified encoding.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_ReadLines_System_String_System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this method to specify an encoding to use read the file.</p>
+<p>The <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_System_Text_Encoding_">ReadLines(String, Text.Encoding)</a> and <a class="xref" href="System.IO.File.html#System_IO_File_ReadAllLines_System_String_System_Text_Encoding_">ReadAllLines(String, Text.Encoding)</a> methods differ as follows: When you use <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_System_Text_Encoding_">ReadLines(String, Text.Encoding)</a>, you can start enumerating the collection of strings before the whole collection is returned. When you use <a class="xref" href="System.IO.File.html#System_IO_File_ReadAllLines_System_String_System_Text_Encoding_">ReadAllLines(String, Text.Encoding)</a>, you must wait for the whole array of strings be returned before you can access the array. Therefore, when you are working with very large files, <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_System_Text_Encoding_">ReadLines(String, Text.Encoding)</a> can be more efficient. </p>
+<p>You can use the <a class="xref" href="System.IO.File.html#System_IO_File_ReadLines_System_String_System_Text_Encoding_">ReadLines(String, Text.Encoding)</a>  method to do the following:</p>
+<ul><li>
+<p>Perform LINQ to Objects queries on a file to obtain a filtered set of its lines.</p>
+</li><li>
+<p>Write the returned collection of lines to a file with the <a class="xref" href="System.IO.File.html#System_IO_File_WriteAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__System_Text_Encoding_">WriteAllLines(String, Collections.Generic.IEnumerable<string>, Text.Encoding)</string></a> method, or append them to an existing file with the <a class="xref" href="System.IO.File.html#System_IO_File_AppendAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__System_Text_Encoding_">AppendAllLines(String, Collections.Generic.IEnumerable<string>, Text.Encoding)</string></a> method.</p>
+</li><li>
+<p>Create an immediately populated instance of a collection that takes an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> collection of strings for its constructor, such as a <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> or a <a class="xref" href="System.Collections.Generic.Queue%601.html#System_Collections_Generic_Queue_1">Queue<t></t></a>.</p>
+</li></ul>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static Collections.Generic.IEnumerable&lt;string&gt; ReadLines(string path, Text.Encoding encoding)</code></pre>
@@ -3307,17 +3816,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null.</p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> is invalid (for example, it is on an unmapped drive).</p>
+                    <td><p>
+<em>path</em> is invalid (for example, it is on an unmapped drive).</p>
 </td>
                   </tr>
                   <tr>
@@ -3332,7 +3844,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p><em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
+                    <td><p>
+<em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
@@ -3342,7 +3855,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specifies a file that is read-only.-or-This operation is not supported on the current platform.-or-<em>path</em> is a directory.-or-The caller does not have the required permission.</p>
+                    <td><p>
+<em>path</em> specifies a file that is read-only.</p>
+<p>-or-</p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or-</p>
+<p>
+<em>path</em> is a directory.</p>
+<p>-or-</p>
+<p>The caller does not have the required permission.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3358,6 +3879,12 @@
               <div class="markdown level1 summary"><p>Sets the specified <a class="xref" href="System.IO.FileAttributes.html#System_IO_FileAttributes">FileAttributes</a> of the file on the specified path.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetAttributes_System_String_System_IO_FileAttributes__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>Certain file attributes, such as <a class="xref" href="System.IO.FileAttributes.html#System_IO_FileAttributes_Hidden">Hidden</a> and <a class="xref" href="System.IO.FileAttributes.html#System_IO_FileAttributes_ReadOnly">ReadOnly</a>, can be combined. Other attributes, such as <a class="xref" href="System.IO.FileAttributes.html#System_IO_FileAttributes_Normal">Normal</a>, must be used alone.  </p>
+<p>It is not possible to change the compression status of a <a class="xref" href="System.IO.File.html#System_IO_File">File</a> object using the <a class="xref" href="System.IO.File.html#System_IO_File_SetAttributes_System_String_System_IO_FileAttributes_">SetAttributes(String, FileAttributes)</a> method.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetAttributes(string path, FileAttributes fileAttributes)</code></pre>
@@ -3397,7 +3924,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is empty, contains only white spaces, contains invalid characters, or the file attribute is invalid. </p>
+                    <td><p>
+<em>path</em> is empty, contains only white spaces, contains invalid characters, or the file attribute is invalid. </p>
 </td>
                   </tr>
                   <tr>
@@ -3407,7 +3935,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -3422,7 +3951,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission.</p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3438,6 +3975,11 @@
               <div class="markdown level1 summary"><p>Sets the date and time the file was created.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetCreationTime_System_String_System_DateTime__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>NTFS-formatted drives may cache file meta-info, such as file creation time, for a short period of time. As a result, it may be necessary to explicitly set the creation time of a file if you are overwriting or replacing an existing file.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetCreationTime(string path, DateTime creationTime)</code></pre>
@@ -3482,12 +4024,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3502,7 +4046,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>creationTime</em> specifies a value outside the range of dates, times, or both permitted for this operation. </p>
+                    <td><p>
+<em>creationTime</em> specifies a value outside the range of dates, times, or both permitted for this operation. </p>
 </td>
                   </tr>
                   <tr>
@@ -3512,7 +4057,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -3528,6 +4074,11 @@
               <div class="markdown level1 summary"><p>Sets the date and time, in coordinated universal time (UTC), that the file was created.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetCreationTimeUtc_System_String_System_DateTime__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>NTFS-formatted drives may cache file meta-info, such as file creation time, for a short period of time. As a result, it may be necessary to explicitly set the creation time of a file if you are overwriting or replacing an existing file.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetCreationTimeUtc(string path, DateTime creationTimeUtc)</code></pre>
@@ -3572,12 +4123,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3592,7 +4145,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>creationTime</em> specifies a value outside the range of dates, times, or both permitted for this operation. </p>
+                    <td><p>
+<em>creationTime</em> specifies a value outside the range of dates, times, or both permitted for this operation. </p>
 </td>
                   </tr>
                   <tr>
@@ -3602,7 +4156,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                 </tbody>
@@ -3618,6 +4173,10 @@
               <div class="markdown level1 summary"><p>Sets the date and time the specified file was last accessed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetLastAccessTime_System_String_System_DateTime__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetLastAccessTime(string path, DateTime lastAccessTime)</code></pre>
@@ -3657,12 +4216,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3682,12 +4243,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>lastAccessTime</em> specifies a value outside the range of dates or times permitted for this operation.</p>
+                    <td><p>
+<em>lastAccessTime</em> specifies a value outside the range of dates or times permitted for this operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3703,6 +4266,10 @@
               <div class="markdown level1 summary"><p>Sets the date and time, in coordinated universal time (UTC), that the specified file was last accessed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetLastAccessTimeUtc_System_String_System_DateTime__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetLastAccessTimeUtc(string path, DateTime lastAccessTimeUtc)</code></pre>
@@ -3742,12 +4309,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3767,12 +4336,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>lastAccessTimeUtc</em> specifies a value outside the range of dates or times permitted for this operation.</p>
+                    <td><p>
+<em>lastAccessTimeUtc</em> specifies a value outside the range of dates or times permitted for this operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3788,6 +4359,10 @@
               <div class="markdown level1 summary"><p>Sets the date and time that the specified file was last written to.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetLastWriteTime_System_String_System_DateTime__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetLastWriteTime(string path, DateTime lastWriteTime)</code></pre>
@@ -3827,12 +4402,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3852,12 +4429,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>lastWriteTime</em> specifies a value outside the range of dates or times permitted for this operation.</p>
+                    <td><p>
+<em>lastWriteTime</em> specifies a value outside the range of dates or times permitted for this operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3873,6 +4452,10 @@
               <div class="markdown level1 summary"><p>Sets the date and time, in coordinated universal time (UTC), that the specified file was last written to.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_SetLastWriteTimeUtc_System_String_System_DateTime__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>path</em> parameter is permitted to specify relative or absolute path information. Relative path information is interpreted as relative to the current working directory. To obtain the current working directory, see <a class="xref" href="System.IO.Directory.html#System_IO_Directory_GetCurrentDirectory">GetCurrentDirectory()</a>.</p>
+<p>For a list of common I/O tasks, see Common I/O Tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void SetLastWriteTimeUtc(string path, DateTime lastWriteTimeUtc)</code></pre>
@@ -3912,12 +4495,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -3937,12 +4522,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p><em>lastWriteTimeUtc</em> specifies a value outside the range of dates or times permitted for this operation.</p>
+                    <td><p>
+<em>lastWriteTimeUtc</em> specifies a value outside the range of dates or times permitted for this operation.</p>
 </td>
                   </tr>
                 </tbody>
@@ -3958,6 +4545,9 @@
               <div class="markdown level1 summary"><p>Creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is overwritten.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_WriteAllBytes_System_String_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Given a byte array and a file path, this method opens the specified file, writes the contents of the byte array to the file, and then closes the file.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void WriteAllBytes(string path, byte[] bytes)</code></pre>
@@ -3997,12 +4587,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null or the byte array is empty. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong> or the byte array is empty. </p>
 </td>
                   </tr>
                   <tr>
@@ -4022,12 +4614,21 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -4048,6 +4649,11 @@
               <div class="markdown level1 summary"><p>Creates a new file, writes a collection of strings to the file, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_WriteAllLines_System_String_System_Collections_Generic_IEnumerable_System_String___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior of the <a class="xref" href="System.IO.File.html#System_IO_File_WriteAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__">WriteAllLines(String, Collections.Generic.IEnumerable<string>)</string></a> method is to write out data by using UTF-8 encoding without a byte order mark (BOM). If it is necessary to include a UTF-8 identifier, such as a byte order mark, at the beginning of a file, use the <a class="xref" href="System.IO.File.html#System_IO_File_WriteAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__System_Text_Encoding_">WriteAllLines(String, Collections.Generic.IEnumerable<string>, Text.Encoding)</string></a> method overload with <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_UTF8">UTF8</a> encoding.</p>
+<p>If the target file already exists, it is overwritten.</p>
+<p>You can use this method to create the contents for a collection class that takes an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> in its constructor, such as a <span class="xref">System.Collections.Generic.List`1.</span>, <span class="xref">System.Collections.Generic.HashSet`1.</span>, or a <span class="xref">System.Collections.Generic.SortedSet`1.</span> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void WriteAllLines(string path, Collections.Generic.IEnumerable&lt;string&gt; contents)</code></pre>
@@ -4087,17 +4693,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>Either<em> path </em>or <em>contents</em> is null.</p>
+                    <td><p>Either<em> path </em>or <em>contents</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> is invalid (for example, it is on an unmapped drive).</p>
+                    <td><p>
+<em>path</em> is invalid (for example, it is on an unmapped drive).</p>
 </td>
                   </tr>
                   <tr>
@@ -4107,12 +4715,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p><em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
+                    <td><p>
+<em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format.</p>
+                    <td><p>
+<em>path</em> is in an invalid format.</p>
 </td>
                   </tr>
                   <tr>
@@ -4122,7 +4732,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specifies a file that is read-only.-or-This operation is not supported on the current platform.-or-<em>path</em> is a directory.-or-The caller does not have the required permission.</p>
+                    <td><p>
+<em>path</em> specifies a file that is read-only.</p>
+<p>-or-</p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or-</p>
+<p>
+<em>path</em> is a directory.</p>
+<p>-or-</p>
+<p>The caller does not have the required permission.</p>
 </td>
                   </tr>
                 </tbody>
@@ -4138,6 +4756,15 @@
               <div class="markdown level1 summary"><p>Creates a new file by using the specified encoding, writes a collection of strings to the file, and then closes the file.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_WriteAllLines_System_String_System_Collections_Generic_IEnumerable_System_String__System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If the target file already exists, it is overwritten.</p></p>
+<p><p>You can use this method to create a file that contains the following:</p></p>
+<ul><li>
+<p>The results of a LINQ to Objects query on the lines of a file, as obtained by using the <see cref="Overload:System.IO.File.ReadLines"></see> method.</p>
+</li><li>
+<p>The contents of a collection that implements an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> of strings.</p>
+</li></ul>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void WriteAllLines(string path, Collections.Generic.IEnumerable&lt;string&gt; contents, Text.Encoding encoding)</code></pre>
@@ -4183,17 +4810,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters defined by the <a class="xref" href="System.IO.Path.html#System_IO_Path_GetInvalidPathChars">GetInvalidPathChars()</a> method.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>Either<em> path</em>,<em> contents</em>, or <em>encoding</em> is null.</p>
+                    <td><p>Either<em> path</em>,<em> contents</em>, or <em>encoding</em> is <strong>null</strong>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.DirectoryNotFoundException.html#System_IO_DirectoryNotFoundException">DirectoryNotFoundException</a></td>
-                    <td><p><em>path</em> is invalid (for example, it is on an unmapped drive).</p>
+                    <td><p>
+<em>path</em> is invalid (for example, it is on an unmapped drive).</p>
 </td>
                   </tr>
                   <tr>
@@ -4203,12 +4832,14 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.PathTooLongException.html#System_IO_PathTooLongException">PathTooLongException</a></td>
-                    <td><p><em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
+                    <td><p>
+<em>path</em> exceeds the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters and file names must be less than 260 characters.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format.</p>
+                    <td><p>
+<em>path</em> is in an invalid format.</p>
 </td>
                   </tr>
                   <tr>
@@ -4218,7 +4849,15 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specifies a file that is read-only.-or-This operation is not supported on the current platform.-or-<em>path</em> is a directory.-or-The caller does not have the required permission.</p>
+                    <td><p>
+<em>path</em> specifies a file that is read-only.</p>
+<p>-or-</p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or-</p>
+<p>
+<em>path</em> is a directory.</p>
+<p>-or-</p>
+<p>The caller does not have the required permission.</p>
 </td>
                   </tr>
                 </tbody>
@@ -4234,6 +4873,10 @@
               <div class="markdown level1 summary"><p>Creates a new file, writes the specified string to the file, and then closes the file. If the target file already exists, it is overwritten.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_WriteAllText_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method uses UTF-8 encoding without a Byte-Order Mark (BOM), so using the <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_GetPreamble">GetPreamble()</a> method will return an empty byte array. If it is necessary to include a UTF-8 identifier, such as a byte order mark, at the beginning of a file, use the <a class="xref" href="System.IO.File.html#System_IO_File_WriteAllText_System_String_System_String_System_Text_Encoding_">WriteAllText(String, String, Text.Encoding)</a> method overload with <a class="xref" href="System.Text.Encoding.html#System_Text_Encoding_UTF8">UTF8</a> encoding.</p>
+<p>Given a string and a file path, this method opens the specified file, writes the string to the file, and then closes the file.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void WriteAllText(string path, string contents)</code></pre>
@@ -4273,12 +4916,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null or <em>contents</em> is empty.  </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong> or <em>contents</em> is empty.  </p>
 </td>
                   </tr>
                   <tr>
@@ -4298,12 +4943,21 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>
@@ -4324,6 +4978,9 @@
               <div class="markdown level1 summary"><p>Creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is overwritten.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_IO_File_WriteAllText_System_String_System_String_System_Text_Encoding__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Given a string and a file path, this method opens the specified file, writes the string to the file using the specified encoding, and then closes the file. The file handle is guaranteed to be closed by this method, even if exceptions are raised.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void WriteAllText(string path, string contents, Text.Encoding encoding)</code></pre>
@@ -4369,12 +5026,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
+                    <td><p>
+<em>path</em> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <span class="xref">System.IO.Path.InvalidPathChars</span>. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>path</em> is null or <em>contents</em> is empty. </p>
+                    <td><p>
+<em>path</em> is <strong>null</strong> or <em>contents</em> is empty. </p>
 </td>
                   </tr>
                   <tr>
@@ -4394,12 +5053,21 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p><em>path</em> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <em>path</em> specified a directory.-or- The caller does not have the required permission. </p>
+                    <td><p>
+<em>path</em> specified a file that is read-only.</p>
+<p>-or- </p>
+<p>This operation is not supported on the current platform.</p>
+<p>-or- </p>
+<p>
+<em>path</em> specified a directory.</p>
+<p>-or- </p>
+<p>The caller does not have the required permission. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p><em>path</em> is in an invalid format. </p>
+                    <td><p>
+<em>path</em> is in an invalid format. </p>
 </td>
                   </tr>
                   <tr>

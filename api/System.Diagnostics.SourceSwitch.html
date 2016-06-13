@@ -88,6 +88,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class SourceSwitch : Switch</code></pre>
               </div>
+              <h5 id="System_Diagnostics_SourceSwitch_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource_Switch">Switch</a> property of the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class is a <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> object. The <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> class provides a <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_Level">Level</a> property to test the event level of the switch. The <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_Level">Level</a> property gets or sets the switch&#39;s <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> value.</p>
+<p>You can set the event level of a <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> through the application configuration file and then use the configured <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> level in your application. Alternatively, you can create a <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> in your code and set the level directly, to instrument a specific section of code.</p>
+<p>To configure a <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a>, edit the configuration file that corresponds to the name of your application. Within this file, you can set a switch&#39;s value or clear all the switches previously set by the application. The configuration file should be formatted as shown in the following example. </p>
+<pre><code><switches>
+<add name="SourceSwitch" value="Verbose"></add>
+</switches></code></pre>
+<p>The switch is used to check whether a trace should be propagated or ignored. Each <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> trace method calls the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method before calling the listeners. If the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method returns <strong>false</strong>, the trace is ignored and the trace method exits. If the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType_">ShouldTrace(TraceEventType)</a> method returns <strong>true</strong>, the trace is passed to the listeners.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,6 +110,17 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> class, specifying the name of the source.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_SourceSwitch__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>name</em> parameter is used to set the value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_DisplayName">DisplayName</a> property.</p></p>
+<p><p>To set the level of your <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a>, edit the configuration file that corresponds to the name of your application. Within this file, you can add a switch and set its value, remove a switch, or clear all the switches previously set by the application. To add a source switch, the configuration file should be formatted as shown in the following example. </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="SourceSwitch" value="Verbose"></add>
+</switches>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SourceSwitch(string name)</code></pre>
@@ -134,6 +154,18 @@
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a> class, specifying the display name and the default value for the source switch.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_SourceSwitch__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>displayName</em> parameter is used to set the value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_DisplayName">DisplayName</a> property; the <em>defaultSwitchValue</em> parameter is saved as a field and used to initialize the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_Value">Value</a> property on first reference. </p></p>
+<p><p>If the switch is defined in a configuration file and the <strong>value</strong> attribute is specified, the configuration file value takes precedence and the <em>defaultSwitchValue</em> is ignored.</p></p>
+<p><p>To set the level of your <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch">SourceSwitch</a>, edit the configuration file that corresponds to the name of your application. Within this file, you can add a switch and set its value, remove a switch, or clear all the switches previously set by the application. To add a source switch, the configuration file should be formatted as shown in the following example. </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="SourceSwitch" value="Verbose"></add>
+</switches>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SourceSwitch(string displayName, string defaultSwitchValue)</code></pre>
@@ -175,6 +207,10 @@
               <div class="markdown level1 summary"><p>Gets or sets the level of the switch.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_SourceSwitch_Level_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property gets its value from the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_SwitchSetting">SwitchSetting</a> property. Setting this property also modifies the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_SwitchSetting">SwitchSetting</a> property. </p>
+<p>For extensibility, the <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_Level">Level</a> property can be set to any integer, rather than being limited to a <a class="xref" href="System.Diagnostics.SourceLevels.html#System_Diagnostics_SourceLevels">SourceLevels</a> enumeration value. </p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SourceLevels Level { get; set; }</code></pre>
@@ -208,6 +244,9 @@
               <div class="markdown level1 summary"><p>Invoked when the value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_Value">Value</a> property changes.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_SourceSwitch_OnValueChanged_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.SourceSwitch.html#System_Diagnostics_SourceSwitch_OnValueChanged">OnValueChanged()</a> method converts the new value of the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_Value">Value</a> property to the integer representation of the matching field in the <a class="xref" href="System.Diagnostics.SourceLevels.html#System_Diagnostics_SourceLevels">SourceLevels</a> enumeration, and then uses this integer to set the <a class="xref" href="System.Diagnostics.Switch.html#System_Diagnostics_Switch_SwitchSetting">SwitchSetting</a> property.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected override void OnValueChanged()</code></pre>
@@ -239,6 +278,10 @@
               <div class="markdown level1 summary"><p>Determines if trace listeners should be called, based on the trace event type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_SourceSwitch_ShouldTrace_System_Diagnostics_TraceEventType__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the <strong>Trace</strong> methods in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class to determine whether listeners should be called to write a trace.</p>
+<p>Application code should not call this method; it is intended to be called only by methods in the <a class="xref" href="System.Diagnostics.TraceSource.html#System_Diagnostics_TraceSource">TraceSource</a> class.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool ShouldTrace(TraceEventType eventType)</code></pre>
@@ -272,7 +315,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>True if the trace listeners should be called; otherwise, false.</p>
+                    <td><p>
+<strong>True</strong> if the trace listeners should be called; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>

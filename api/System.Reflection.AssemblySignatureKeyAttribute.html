@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblySignatureKeyAttribute.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblySignatureKeyAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L364" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2761" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_AssemblySignatureKeyAttribute" data-uid="System.Reflection.AssemblySignatureKeyAttribute">Class AssemblySignatureKeyAttribute
               </h1>
               <div class="markdown level0 summary"><p>Provides migration from an older, simpler strong name key to a larger key with a stronger hashing algorithm.</p>
@@ -89,6 +89,12 @@
                 <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Assembly, Inherited = false, AllowMultiple = false)]
 public sealed class AssemblySignatureKeyAttribute : Attribute</code></pre>
               </div>
+              <h5 id="System_Reflection_AssemblySignatureKeyAttribute_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>The new larger key is the signature key. In versions before the .NET Framework 4.5, the signature key was identical to the identity key. Starting with the .NET Framework 4.5, the <a class="xref" href="System.Reflection.AssemblySignatureKeyAttribute.html#System_Reflection_AssemblySignatureKeyAttribute">AssemblySignatureKeyAttribute</a> attribute allows the assembly metadata to continue to have the old public key token and binary large object (BLOB) so that existing assembly references continue to work. It also ensures that the mapping comes from an owner of the identity key.</p>
+<p>The presence of the attribute does not necessarily mean that strong name validation takes place. In common full-trust scenarios, the attribute is never considered, because strong name signatures are never validated. However, when the strong name signature does have to be validated, both the strong name signature and the countersignature must be validated. The assembly’s identity key does not have to be identical to the signature key (the key used to do the actual signing and validation). The identity key can be mapped to a different (more robust) signing key. This lets you set the identity of an assembly, and update the signing keys and algorithms to more secure versions.</p>
+<p>The countersignature addresses security concerns when a malicious assembly claims some other identity. For example, a malicious System.Core.dll assembly could contain the Microsoft public key in its metadata, and use the attribute to tell strong name validation to use the attacker’s signature key if no countersignature is present. Thus, it could masquerade as a strong name-validated Microsoft assembly.</p>
+<p>For information about how to sign assemblies for use with this new attribute, see Enhanced Strong Naming.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -96,12 +102,16 @@ public sealed class AssemblySignatureKeyAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblySignatureKeyAttribute__ctor_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblySignatureKeyAttribute.%23ctor(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L370">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2764">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblySignatureKeyAttribute__ctor_System_String_System_String_" data-uid="System.Reflection.AssemblySignatureKeyAttribute.#ctor(System.String,System.String)">AssemblySignatureKeyAttribute(String, String)</h4>
               <div class="markdown level1 summary"><p>Creates a new instance of the <a class="xref" href="System.Reflection.AssemblySignatureKeyAttribute.html#System_Reflection_AssemblySignatureKeyAttribute">AssemblySignatureKeyAttribute</a> class by using the specified public key and countersignature.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_AssemblySignatureKeyAttribute__ctor_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use Sn.exe to generate the parameters for this constructor.</p></p>
+<pre><code>sn -a IdentityPubKey.snk IdentityKey.snk SignaturePubKey.snk</code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AssemblySignatureKeyAttribute(string publicKey, string countersignature)</code></pre>
@@ -137,12 +147,15 @@ public sealed class AssemblySignatureKeyAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblySignatureKeyAttribute_Countersignature.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblySignatureKeyAttribute.Countersignature%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L381">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2765">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblySignatureKeyAttribute_Countersignature" data-uid="System.Reflection.AssemblySignatureKeyAttribute.Countersignature">Countersignature</h4>
               <div class="markdown level1 summary"><p>Gets the countersignature for the strong name for this assembly.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_AssemblySignatureKeyAttribute_Countersignature_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The countersignature represents the public key that is signed by the identity key.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string Countersignature { get; }</code></pre>
@@ -168,7 +181,7 @@ public sealed class AssemblySignatureKeyAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblySignatureKeyAttribute_PublicKey.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblySignatureKeyAttribute.PublicKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L376">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2766">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblySignatureKeyAttribute_PublicKey" data-uid="System.Reflection.AssemblySignatureKeyAttribute.PublicKey">PublicKey</h4>
               <div class="markdown level1 summary"><p>Gets the public key for the strong name used to sign the assembly.</p>

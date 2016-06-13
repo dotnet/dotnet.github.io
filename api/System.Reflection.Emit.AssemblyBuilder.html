@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L171" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.Manual.cs/#L104" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_Emit_AssemblyBuilder" data-uid="System.Reflection.Emit.AssemblyBuilder">Class AssemblyBuilder
               </h1>
               <div class="markdown level0 summary"><p>Defines and represents a dynamic assembly.</p>
@@ -87,6 +87,13 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class AssemblyBuilder : Assembly, Assembly</code></pre>
               </div>
+              <h5 id="System_Reflection_Emit_AssemblyBuilder_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>A dynamic assembly is an assembly that is created using the Reflection Emit APIs. The dynamic modules in the assembly are saved when the dynamic assembly is saved using the <span class="xref">System.Reflection.Emit.AssemblyBuilder.Save(System.String)</span> method. To generate an executable, the <span class="xref">System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo)</span> method must be called to identify the method that is the entry point to the assembly. Assemblies are saved as DLLs by default, unless the <span class="xref">System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo)</span> method requests the generation of a console application or a Windows-based application.</p>
+<p>If a dynamic assembly contains more than one dynamic module, the assembly&#39;s manifest file name should match the module&#39;s name that is specified as the first argument to the <a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder_DefineDynamicModule_System_String_">DefineDynamicModule(String)</a> method.</p>
+<p>Some methods on the base <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly">Assembly</a> class, such as <strong>GetModules</strong> and <strong>GetLoadedModules</strong>, will not work correctly when called from <a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder">AssemblyBuilder</a> objects. You can load the defined dynamic assembly and call the methods on the loaded assembly. For example, to ensure that resource modules are included in the returned module list, call <strong>GetModules</strong> on the loaded <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly">Assembly</a> object.</p>
+<p>The signing of a dynamic assembly using <span class="xref">System.Reflection.AssemblyName.KeyPair</span> is not effective until the assembly is saved to disk. So, strong names will not work with transient dynamic assemblies.</p>
+<p>To get an <a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder">AssemblyBuilder</a> object, use the <see cref="Overload:System.AppDomain.DefineDynamicAssembly"></see> method.</p>
+</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -123,12 +130,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_FullName.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.FullName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1260">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L14">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_FullName" data-uid="System.Reflection.Emit.AssemblyBuilder.FullName">FullName</h4>
               <div class="markdown level1 summary"><p>Gets the display name of the current dynamic assembly. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_AssemblyBuilder_FullName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>See <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> for a description of the format of the display name of an assembly.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override string FullName { get; }</code></pre>
@@ -154,12 +164,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_IsDynamic.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.IsDynamic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1367">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L15">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_IsDynamic" data-uid="System.Reflection.Emit.AssemblyBuilder.IsDynamic">IsDynamic</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates that the current assembly is a dynamic assembly.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_AssemblyBuilder_IsDynamic_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An <a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder">AssemblyBuilder</a> object always represents a dynamic assembly.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsDynamic { get; }</code></pre>
@@ -175,7 +188,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>Always true.</p>
+                    <td><p>Always <strong>true</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -185,7 +198,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_ManifestModule.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.ManifestModule%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1300">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L16">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_ManifestModule" data-uid="System.Reflection.Emit.AssemblyBuilder.ManifestModule">ManifestModule</h4>
               <div class="markdown level1 summary"><p>Gets the module in the current <a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder">AssemblyBuilder</a> that contains the assembly manifest.</p>
@@ -247,7 +260,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_DefineDynamicAssembly_System_Reflection_AssemblyName_System_Reflection_Emit_AssemblyBuilderAccess_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName%2CSystem.Reflection.Emit.AssemblyBuilderAccess)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L490">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L17">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_DefineDynamicAssembly_System_Reflection_AssemblyName_System_Reflection_Emit_AssemblyBuilderAccess_" data-uid="System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)">DefineDynamicAssembly(AssemblyName, AssemblyBuilderAccess)</h4>
               <div class="markdown level1 summary"><p>Defines a dynamic assembly that has the specified name and access rights.</p>
@@ -302,7 +315,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_DefineDynamicAssembly_System_Reflection_AssemblyName_System_Reflection_Emit_AssemblyBuilderAccess_System_Collections_Generic_IEnumerable_System_Reflection_Emit_CustomAttributeBuilder__.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName%2CSystem.Reflection.Emit.AssemblyBuilderAccess%2CSystem.Collections.Generic.IEnumerable%7BSystem.Reflection.Emit.CustomAttributeBuilder%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L503">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L18">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_DefineDynamicAssembly_System_Reflection_AssemblyName_System_Reflection_Emit_AssemblyBuilderAccess_System_Collections_Generic_IEnumerable_System_Reflection_Emit_CustomAttributeBuilder__" data-uid="System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess,System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder})">DefineDynamicAssembly(AssemblyName, AssemblyBuilderAccess, Collections.Generic.IEnumerable&lt;CustomAttributeBuilder&gt;)</h4>
               <div class="markdown level1 summary"><p>Defines a new assembly that has the specified name, access rights, and attributes.</p>
@@ -363,12 +376,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_DefineDynamicModule_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L584">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L19">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_DefineDynamicModule_System_String_" data-uid="System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String)">DefineDynamicModule(String)</h4>
               <div class="markdown level1 summary"><p>Defines a named transient dynamic module in this assembly.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_AssemblyBuilder_DefineDynamicModule_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>It is an error to define multiple dynamic modules with the same name in an assembly.</p>
+<p>The defined dynamic module is transient. The dynamic module is not saved, even if the parent dynamic assembly was created with <span class="xref">System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave</span>.</p>
+<p>To suppress optimizations when debugging dynamic modules, apply the <a class="xref" href="System.Diagnostics.DebuggableAttribute.html#System_Diagnostics_DebuggableAttribute">DebuggableAttribute</a> attribute to the dynamic assembly before calling <see cref="Overload:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule"></see>. Create an instance of <a class="xref" href="System.Diagnostics.DebuggableAttribute.html#System_Diagnostics_DebuggableAttribute">DebuggableAttribute</a> with the <a class="xref" href="System.Diagnostics.DebuggableAttribute.DebuggingModes.html#System_Diagnostics_DebuggableAttribute_DebuggingModes_DisableOptimizations">DisableOptimizations</a> flag and apply it using the <see cref="Overload:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute"></see> method. The attribute must be applied to the dynamic assembly. It has no effect if applied to the module.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public ModuleBuilder DefineDynamicModule(string name)</code></pre>
@@ -418,12 +437,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>name</em> begins with white space.-or- The length of <em>name</em> is zero.-or- The length of <em>name</em> is greater than or equal to 260. </p>
+                    <td><p>
+<em>name</em> begins with white space.</p>
+<p>-or- </p>
+<p>The length of <em>name</em> is zero.</p>
+<p>-or- </p>
+<p>The length of <em>name</em> is greater than or equal to 260. </p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. </p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -433,7 +458,9 @@
                   </tr>
                   <tr>
                     <td><span class="xref">System.ExecutionEngineException</span></td>
-                    <td><p>The assembly for default symbol writer cannot be loaded.-or- The type that implements the default symbol writer interface cannot be found. </p>
+                    <td><p>The assembly for default symbol writer cannot be loaded.</p>
+<p>-or- </p>
+<p>The type that implements the default symbol writer interface cannot be found. </p>
 </td>
                   </tr>
                 </tbody>
@@ -443,7 +470,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1138">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L20">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_Equals_System_Object_" data-uid="System.Reflection.Emit.AssemblyBuilder.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Returns a value that indicates whether this instance is equal to the specified object.</p>
@@ -466,7 +493,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>An object to compare with this instance, or null.</p>
+                    <td><p>An object to compare with this instance, or <strong>null</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -482,7 +509,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>true if <em>obj</em> equals the type and value of this instance; otherwise, false.</p>
+                    <td><p>
+<strong>true</strong> if <em>obj</em> equals the type and value of this instance; otherwise, <strong>false</strong>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -492,7 +520,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_GetDynamicModule_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.GetDynamicModule(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1516">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L21">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_GetDynamicModule_System_String_" data-uid="System.Reflection.Emit.AssemblyBuilder.GetDynamicModule(System.String)">GetDynamicModule(String)</h4>
               <div class="markdown level1 summary"><p>Returns the dynamic module with the specified name.</p>
@@ -547,7 +575,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>name</em> is null. </p>
+                    <td><p>
+<em>name</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -567,7 +596,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_GetHashCode.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1143">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L22">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_GetHashCode" data-uid="System.Reflection.Emit.AssemblyBuilder.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
@@ -598,7 +627,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_GetManifestResourceInfo_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.GetManifestResourceInfo(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1201">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L23">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_GetManifestResourceInfo_System_String_" data-uid="System.Reflection.Emit.AssemblyBuilder.GetManifestResourceInfo(System.String)">GetManifestResourceInfo(String)</h4>
               <div class="markdown level1 summary"><p>Returns information about how the given resource has been persisted.</p>
@@ -637,7 +666,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.ManifestResourceInfo.html#System_Reflection_ManifestResourceInfo">ManifestResourceInfo</a></td>
-                    <td><p><a class="xref" href="System.Reflection.ManifestResourceInfo.html#System_Reflection_ManifestResourceInfo">ManifestResourceInfo</a> populated with information about the resource&#39;s topology, or null if the resource is not found.</p>
+                    <td><p>
+<a class="xref" href="System.Reflection.ManifestResourceInfo.html#System_Reflection_ManifestResourceInfo">ManifestResourceInfo</a> populated with information about the resource&#39;s topology, or <strong>null</strong> if the resource is not found.</p>
 </td>
                   </tr>
                 </tbody>
@@ -668,7 +698,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_GetManifestResourceNames.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.GetManifestResourceNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1170">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L24">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_GetManifestResourceNames" data-uid="System.Reflection.Emit.AssemblyBuilder.GetManifestResourceNames">GetManifestResourceNames()</h4>
               <div class="markdown level1 summary"><p>Loads the specified manifest resource from this assembly.</p>
@@ -689,7 +719,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a>[]</td>
-                    <td><p>An array of type String containing the names of all the resources.</p>
+                    <td><p>An array of type <strong>String</strong> containing the names of all the resources.</p>
 </td>
                   </tr>
                 </tbody>
@@ -720,7 +750,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_GetManifestResourceStream_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1196">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L25">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_GetManifestResourceStream_System_String_" data-uid="System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.String)">GetManifestResourceStream(String)</h4>
               <div class="markdown level1 summary"><p>Loads the specified manifest resource from this assembly.</p>
@@ -790,12 +820,20 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_ConstructorInfo_System_Byte___.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.ConstructorInfo%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1610">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L26">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_ConstructorInfo_System_Byte___" data-uid="System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.ConstructorInfo,System.Byte[])">SetCustomAttribute(ConstructorInfo, Byte[])</h4>
               <div class="markdown level1 summary"><p>Set a custom attribute on this assembly using a specified custom attribute blob.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_ConstructorInfo_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>See the metadata specification in the ECMA Partition II documentation for details on how to format <em>binaryAttribute</em>. The documentation is available online; see <see href="http://go.microsoft.com/fwlink/?LinkID=99212">ECMA C# and Common Language Infrastructure Standards</see> on MSDN and <see href="http://go.microsoft.com/fwlink/?LinkID=65552">Standard ECMA-335 - Common Language Infrastructure (CLI)</see> on the Ecma International Web site.</p>
+<p>
+<strong>RuntimeConstructorInfo</strong> is a special type generated by the system. It derives from the <a class="xref" href="System.Reflection.ConstructorInfo.html#System_Reflection_ConstructorInfo">ConstructorInfo</a> class, and any <a class="xref" href="System.Reflection.ConstructorInfo.html#System_Reflection_ConstructorInfo">ConstructorInfo</a> object you obtain through reflection is actually an instance of <strong>RuntimeConstructorInfo</strong>. </p>
+<p>
+<a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_ConstructorInfo_System_Byte___">SetCustomAttribute(ConstructorInfo, Byte[])</a> cannot be used to set declarative security attributes. Use one of the overloads of <span class="xref">System.AppDomain.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)</span> that takes required, optional, and refused permissions.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void SetCustomAttribute(ConstructorInfo con, byte[] binaryAttribute)</code></pre>
@@ -835,7 +873,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>con</em> or <em>binaryAttribute</em> is null. </p>
+                    <td><p>
+<em>con</em> or <em>binaryAttribute</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>
@@ -845,7 +884,8 @@
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p><em>con</em> is not a RuntimeConstructorInfo object. </p>
+                    <td><p>
+<em>con</em> is not a <strong>RuntimeConstructorInfo</strong> object. </p>
 </td>
                   </tr>
                 </tbody>
@@ -855,12 +895,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_Emit_CustomAttributeBuilder_.md&amp;value=---%0Auid%3A%20System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Emit/AssemblyBuilder.cs/#L1651">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Emit/ref/System.Reflection.Emit.cs/#L27">View Source</a>
               </span>
               <h4 id="System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_Emit_CustomAttributeBuilder_" data-uid="System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)">SetCustomAttribute(CustomAttributeBuilder)</h4>
               <div class="markdown level1 summary"><p>Set a custom attribute on this assembly using a custom attribute builder.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_Emit_CustomAttributeBuilder__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Reflection.Emit.AssemblyBuilder.html#System_Reflection_Emit_AssemblyBuilder_SetCustomAttribute_System_Reflection_ConstructorInfo_System_Byte___">SetCustomAttribute(ConstructorInfo, Byte[])</a> cannot be used to set declarative security attributes. Use one of the overloads of <span class="xref">System.AppDomain.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)</span> that takes required, optional, and refused permissions.</p>
+<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <span class="xref">System.Security.Permissions.ReflectionPermission</span> with the <span class="xref">System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit</span> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void SetCustomAttribute(CustomAttributeBuilder customBuilder)</code></pre>
@@ -894,7 +939,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p><em>con</em> is null. </p>
+                    <td><p>
+<em>con</em> is <strong>null</strong>. </p>
 </td>
                   </tr>
                   <tr>

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AutoResetEvent.md&amp;value=---%0Auid%3A%20System.Threading.AutoResetEvent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AutoResetEvent.cs/#L20" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L36" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_AutoResetEvent" data-uid="System.Threading.AutoResetEvent">Class AutoResetEvent
               </h1>
               <div class="markdown level0 summary"><p>Notifies a waiting thread that an event has occurred. This class cannot be inherited.</p>
@@ -88,6 +88,21 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class AutoResetEvent : EventWaitHandle</code></pre>
               </div>
+              <h5 id="System_Threading_AutoResetEvent_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>
+<strong>AutoResetEvent</strong> allows threads to communicate with each other by signaling. Typically, you use this class when threads need exclusive access to a resource.</p>
+<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic. </p>
+<p>A thread waits for a signal by calling <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> on the <strong>AutoResetEvent</strong>. If the <strong>AutoResetEvent</strong> is in the non-signaled state, the thread blocks, waiting for the thread that currently controls the resource to signal that the resource is available by calling <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a>.</p>
+<p>Calling <strong>Set</strong> signals <strong>AutoResetEvent</strong> to release a waiting thread. <strong>AutoResetEvent</strong> remains signaled until a single waiting thread is released, and then automatically returns to the non-signaled state. If no threads are waiting, the state remains signaled indefinitely.</p>
+<p>If a thread calls <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> while the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> is in the signaled state, the thread does not block. The <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> releases the thread immediately and returns to the non-signaled state.</p>
+<p>There is no guarantee that every call to the <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a> method will release a thread. If two calls are too close together, so that the second call occurs before a thread has been released, only one thread is released. It is as if the second call did not happen. Also, if <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a> is called when there are no threads waiting and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> is already signaled, the call has no effect. </p>
+<p>You can control the initial state of an <strong>AutoResetEvent</strong> by passing a Boolean value to the constructor: <strong>true</strong> if the initial state is signaled and <strong>false</strong> otherwise.</p>
+<p>
+<strong>AutoResetEvent</strong> can also be used with the <strong>static</strong><span class="xref">System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> and <span class="xref">System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> methods.</p>
+<p>For more information about thread synchronization mechanisms, see AutoResetEvent in the conceptual documentation.</p>
+<p>Beginning with the .NET Framework version 2.0, <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> derives from the new <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> class. An <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> is functionally equivalent to an <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> created with <a class="xref" href="System.Threading.EventResetMode.html#System_Threading_EventResetMode_AutoReset">AutoReset</a>. </p>
+<p>Unlike the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class, the <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> class provides access to named system synchronization events.</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -95,7 +110,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_AutoResetEvent__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.AutoResetEvent.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/AutoResetEvent.cs/#L24">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L38">View Source</a>
               </span>
               <h4 id="System_Threading_AutoResetEvent__ctor_System_Boolean_" data-uid="System.Threading.AutoResetEvent.#ctor(System.Boolean)">AutoResetEvent(Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class with a Boolean value indicating whether to set the initial state to signaled.</p>
@@ -118,7 +133,8 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>initialState</em></td>
-                    <td><p>true to set the initial state to signaled; false to set the initial state to non-signaled. </p>
+                    <td><p>
+<strong>true</strong> to set the initial state to signaled; <strong>false</strong> to set the initial state to non-signaled. </p>
 </td>
                   </tr>
                 </tbody>

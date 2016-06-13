@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L42" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L525" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_Tasks_TaskScheduler" data-uid="System.Threading.Tasks.TaskScheduler">Class TaskScheduler
               </h1>
               <div class="markdown level0 summary"><p>Represents an object that handles the low-level work of queuing tasks onto threads.</p>
@@ -87,6 +87,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract class TaskScheduler : object</code></pre>
               </div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_remarks"><strong>Remarks</strong></h5>
+              <div class="markdown level0 remarks"><p>An instance of the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> class represents a task scheduler. A task scheduler ensures that the work of a task is eventually executed. </p>
+<p> The default task scheduler is based on the .NET Framework 4 thread pool, which provides work-stealing for load-balancing, thread injection/retirement for maximum throughput, and overall good performance. It should be sufficient for most scenarios. </p>
+<p>The <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> class also serves as the extension point for all customizable scheduling logic.  This includes mechanisms such as how to schedule a task for execution, and how scheduled tasks should be exposed to debuggers. If you require special functionality, you can create a custom scheduler and enable it for specific tasks or queries.</p>
+<p>In this topic:The default task scheduler and the thread pool            The global queue vs. local queues      Work stealing      Long-running tasks      Task inliningSpecifying a synchronization context</p>
+</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +100,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler__ctor.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L303">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L527">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler__ctor" data-uid="System.Threading.Tasks.TaskScheduler.#ctor">TaskScheduler()</h4>
               <div class="markdown level1 summary"><p>Initializes the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a>.</p>
@@ -111,12 +117,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_Current.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.Current%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L345">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L528">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_Current" data-uid="System.Threading.Tasks.TaskScheduler.Current">Current</h4>
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> associated with the currently executing task.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_Current_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When not called from within a task, <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Current">Current</a> will return the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_Default">Default</a> scheduler.</p>
+<p>For more information, see Task Schedulers.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TaskScheduler Current { get; }</code></pre>
@@ -142,12 +152,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_Default.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.Default%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L330">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L529">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_Default" data-uid="System.Threading.Tasks.TaskScheduler.Default">Default</h4>
               <div class="markdown level1 summary"><p>Gets the default <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> instance that is provided by the .NET Framework.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_Default_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see Task Schedulers.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TaskScheduler Default { get; }</code></pre>
@@ -173,12 +186,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_Id.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L398">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L530">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_Id" data-uid="System.Threading.Tasks.TaskScheduler.Id">Id</h4>
               <div class="markdown level1 summary"><p>Gets the unique ID for this <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_Id_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see Task Schedulers.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public int Id { get; }</code></pre>
@@ -204,12 +220,15 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_MaximumConcurrencyLevel.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.MaximumConcurrencyLevel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L167">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L531">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_MaximumConcurrencyLevel" data-uid="System.Threading.Tasks.TaskScheduler.MaximumConcurrencyLevel">MaximumConcurrencyLevel</h4>
               <div class="markdown level1 summary"><p>Indicates the maximum concurrency level this <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> is able to support.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_MaximumConcurrencyLevel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see Task Schedulers.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int MaximumConcurrencyLevel { get; }</code></pre>
@@ -237,12 +256,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_FromCurrentSynchronizationContext.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L390">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L533">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_FromCurrentSynchronizationContext" data-uid="System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext">FromCurrentSynchronizationContext()</h4>
               <div class="markdown level1 summary"><p>Creates a <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> associated with the current <a class="xref" href="System.Threading.SynchronizationContext.html#System_Threading_SynchronizationContext">SynchronizationContext</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_FromCurrentSynchronizationContext_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>All <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> instances queued to the returned scheduler will be executed through a call to the <a class="xref" href="System.Threading.SynchronizationContext.html#System_Threading_SynchronizationContext_Post_System_Threading_SendOrPostCallback_System_Object_">Post(SendOrPostCallback, Object)</a> method on that context.</p>
+<p>For more information, see Task Schedulers.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TaskScheduler FromCurrentSynchronizationContext()</code></pre>
@@ -284,12 +307,35 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_GetScheduledTasks.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.GetScheduledTasks%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L160">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L534">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_GetScheduledTasks" data-uid="System.Threading.Tasks.TaskScheduler.GetScheduledTasks">GetScheduledTasks()</h4>
               <div class="markdown level1 summary"><p>For debugger support only, generates an enumerable of <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> instances currently queued to the scheduler waiting to be executed.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_GetScheduledTasks_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A class derived from <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> implements this method in order to support integration with debuggers. This method will only be invoked by the .NET Framework when the debugger requests access to the data. The enumerable returned will be traversed by debugging utilities to access the tasks currently queued to this scheduler, enabling the debugger to provide a representation of this information in the user interface.</p>
+<p>It is important to note that, when this method is called, all other threads in the process will be frozen. Therefore, it&#39;s important to avoid synchronization with other threads that may lead to blocking. If synchronization is necessary, and you are unable to acquire the lock in this method, then you should throw an exception so that the debugger does not hang. The following example shows one possible approach in C#:</p>
+<pre><code>protected override IEnumerable<task> GetScheduledTasks()
+{
+bool lockTaken = false;
+try
+{
+Monitor.TryEnter(_syncObj, ref lockTaken);
+if (lockTaken)
+{
+    return _tasks.ToArray();
+}
+else throw new NotSupportedException();
+}
+finally
+{
+if (lockTaken) Monitor.Exit(_syncObj);
+}}</task></code></pre>
+<p>Additionally, this method and the enumerable returned must not modify any globally visible state.</p>
+<p>The returned enumerable should never be null. If there are currently no queued tasks, an empty enumerable should be returned instead.</p>
+<p>Developers who are implementing custom debuggers shouldn&#39;t call this method directly, but should use the internal wrapper method <strong>GetScheduledTasksForDebugger</strong> instead: <code>internal Task[] GetScheduledTasksForDebugger()</code>. This wrapper method returns an array of tasks instead of an enumerable. To retrieve a list of active schedulers, use the internal method <code>internal static TaskScheduler[] GetTaskSchedulersForDebugger()</code>. This static method returns an array of all active <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> instances. You can then use <code>GetScheduledTasksForDebugger</code> on each scheduler instance to retrieve its list of scheduled tasks.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected abstract Collections.Generic.IEnumerable&lt;Task&gt; GetScheduledTasks()</code></pre>
@@ -331,12 +377,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_QueueTask_System_Threading_Tasks_Task_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.QueueTask(System.Threading.Tasks.Task)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L73">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L536">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_QueueTask_System_Threading_Tasks_Task_" data-uid="System.Threading.Tasks.TaskScheduler.QueueTask(System.Threading.Tasks.Task)">QueueTask(Task)</h4>
               <div class="markdown level1 summary"><p>Queues a <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> to the scheduler. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_QueueTask_System_Threading_Tasks_Task__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> A class derived from <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> implements this method to accept tasks being scheduled on the scheduler.</p>
+<p> A typical implementation would store the task in an internal data structure, which would be serviced by threads that would execute those tasks at some time in the future.</p>
+<p>  This method is only meant to be called by the .NET Framework and should not be called directly by the derived class. This is necessary for maintaining the consistency of the system.</p>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected abstract void QueueTask(Task task)</code></pre>
@@ -352,7 +404,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><em>task</em></td>
                     <td><p>The <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> to be queued.</p>
 </td>
@@ -380,12 +432,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_TryDequeue_System_Threading_Tasks_Task_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.TryDequeue(System.Threading.Tasks.Task)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L240">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L538">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_TryDequeue_System_Threading_Tasks_Task_" data-uid="System.Threading.Tasks.TaskScheduler.TryDequeue(System.Threading.Tasks.Task)">TryDequeue(Task)</h4>
               <div class="markdown level1 summary"><p>Attempts to dequeue a <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> that was previously queued to this scheduler.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_TryDequeue_System_Threading_Tasks_Task__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For more information, see Task Schedulers.</p>
+<p>This method may execute in a finally block; therefore it should return as quickly as possible so that any resources such as <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> objects can be disposed of in a timely manner.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected virtual bool TryDequeue(Task task)</code></pre>
@@ -401,7 +457,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><em>task</em></td>
                     <td><p>The <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> to be dequeued.</p>
 </td>
@@ -445,12 +501,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_TryExecuteTask_System_Threading_Tasks_Task_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.TryExecuteTask(System.Threading.Tasks.Task)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L447">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L540">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_TryExecuteTask_System_Threading_Tasks_Task_" data-uid="System.Threading.Tasks.TaskScheduler.TryExecuteTask(System.Threading.Tasks.Task)">TryExecuteTask(Task)</h4>
               <div class="markdown level1 summary"><p>Attempts to execute the provided <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> on this scheduler.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_TryExecuteTask_System_Threading_Tasks_Task__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> Scheduler implementations are provided with <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> instances to be executed through either the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_QueueTask_System_Threading_Tasks_Task_">QueueTask(Task)</a> method or the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_TryExecuteTaskInline_System_Threading_Tasks_Task_System_Boolean_">TryExecuteTaskInline(Task, Boolean)</a> method. When the scheduler deems it appropriate to run the provided task, <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_TryExecuteTask_System_Threading_Tasks_Task_">TryExecuteTask(Task)</a> should be used to do so. TryExecuteTask handles all aspects of executing a task, including action invocation, exception handling, state management, and lifecycle control.</p>
+<p>
+<a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_TryExecuteTask_System_Threading_Tasks_Task_">TryExecuteTask(Task)</a> must only be used for tasks provided to this scheduler by the .NET Framework infrastructure. It should not be used to execute arbitrary tasks obtained through custom mechanisms.</p>
+<p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected bool TryExecuteTask(Task task)</code></pre>
@@ -466,7 +528,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><em>task</em></td>
                     <td><p>A <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> object to be executed.</p>
 </td>
@@ -510,12 +572,18 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_TryExecuteTaskInline_System_Threading_Tasks_Task_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline(System.Threading.Tasks.Task%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L116">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L542">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_TryExecuteTaskInline_System_Threading_Tasks_Task_System_Boolean_" data-uid="System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline(System.Threading.Tasks.Task,System.Boolean)">TryExecuteTaskInline(Task, Boolean)</h4>
               <div class="markdown level1 summary"><p>Determines whether the provided <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> can be executed synchronously in this call, and if it can, executes it.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_TryExecuteTaskInline_System_Threading_Tasks_Task_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A class derived from <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler">TaskScheduler</a> implements this function to support inline execution of a task on a thread that initiates a wait on that task object. Inline execution is optional, and the request may be rejected by returning false. However, the more tasks that can be inlined, the better the scheduler will scale. In fact, a scheduler that inlines too little may be prone to deadlocks. A proper implementation should ensure that a request executing under the policies guaranteed by the scheduler can successfully inline. For example, if a scheduler uses a dedicated thread to execute tasks, any inlining requests from that thread should succeed.</p>
+<p>If a scheduler decides to perform the inline execution, it should do so by calling to the base TaskScheduler&#39;s <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_TryExecuteTask_System_Threading_Tasks_Task_">TryExecuteTask(Task)</a> method with the provided task object, propagating the return value. It may also be appropriate for the scheduler to remove an inlined task from its internal data structures if it decides to honor the inlining request. Note, however, that under some circumstances a scheduler may be asked to inline a task that was not previously provided to it with the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_QueueTask_System_Threading_Tasks_Task_">QueueTask(Task)</a> method.</p>
+<p>The derived scheduler is responsible for making sure that the calling thread is suitable for executing the given task as far as its own scheduling and execution policies are concerned.</p>
+<p>For more information, see Task Schedulers.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected abstract bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)</code></pre>
@@ -531,7 +599,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></td>
+                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
                     <td><em>task</em></td>
                     <td><p>The <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> to be executed.</p>
 </td>
@@ -588,12 +656,21 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Tasks_TaskScheduler_UnobservedTaskException.md&amp;value=---%0Auid%3A%20System.Threading.Tasks.TaskScheduler.UnobservedTaskException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Tasks/TaskScheduler.cs/#L476">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L532">View Source</a>
               </span>
               <h4 id="System_Threading_Tasks_TaskScheduler_UnobservedTaskException" data-uid="System.Threading.Tasks.TaskScheduler.UnobservedTaskException">UnobservedTaskException</h4>
               <div class="markdown level1 summary"><p>Occurs when a faulted task&#39;s unobserved exception is about to trigger exception escalation policy, which, by default, would terminate the process.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Threading_Tasks_TaskScheduler_UnobservedTaskException_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This application domain-wide event provides a mechanism to prevent exception escalation policy (which, by default, terminates the process) from triggering. </p></p>
+<p><p>To make it easier for developers to write asynchronous code based on tasks, the .NET Framework 4.5 changes the default exception behavior for unobserved exceptions. Although unobserved exceptions still raise the <a class="xref" href="System.Threading.Tasks.TaskScheduler.html#System_Threading_Tasks_TaskScheduler_UnobservedTaskException">UnobservedTaskException</a> exception, the process does not terminate by default. Instead, the exception is handled by the runtime after the event is raised, regardless of whether an event handler observes the exception. This behavior can be configured. Starting with the .NET Framework 4.5, you can use the  configuration element to revert to the behavior of the .NET Framework 4 and terminate the process:</p></p>
+<pre><code class="xml"><configuration> 
+<runtime> 
+<throwunobservedtaskexceptions enabled="true"></throwunobservedtaskexceptions> 
+</runtime> 
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static event EventHandler&lt;UnobservedTaskExceptionEventArgs&gt; UnobservedTaskException</code></pre>
