@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>&#128295; .NET Core Versioning | CoreCLR site </title>
+    <title>.NET Core Versioning | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="&#128295; .NET Core Versioning | CoreCLR site ">
+    <meta name="title" content=".NET Core Versioning | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -67,19 +67,113 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/core-concepts/versioning.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="-net-core-versioning">🔧 .NET Core Versioning</h1>
+              <h1 id="-net-core-versioning">.NET Core Versioning</h1>
               
-<blockquote><p><strong>Note</strong></p>
-<p>This topic hasn’t been written yet! </p>
-<p>We welcome your input to help shape the scope and approach. You can
-track the status and provide input on this
-<a href="https://github.com/dotnet/core-docs/issues/468">issue</a> at GitHub.</p>
-<p>If you would like to review early drafts and outlines of this
-topic, please leave a note with your contact information in the issue.</p>
-<p>Learn more about how you can contribute on
-<a href="https://github.com/dotnet/core-docs/blob/master/CONTRIBUTING.md">GitHub</a>.</p>
-</blockquote>
-
+<p>.NET Core is a platform of <a href="packages.html">NuGet packages</a>, of frameworks and distributed as a unit. Each of these platform layers can be versioned separately for product agility and to accurately describe product changes. While there is significant versioning flexibility, there is a desire to version the platform as a unit to make the product easier to understand.</p>
+<p>The product is somewhat unique, being described and delivered via a package manager (NuGet) as packages. While you typically acquire .NET Core as a standalone SDK, the SDK is largely a convenience experience over NuGet packages and therefore not distinct from packages. As a result, versioning is first and foremost in terms of packages and other versioning experiences follow from there.</p>
+<h1 id="semantic-versioning">Semantic Versioning</h1>
+<p>.NET Core uses <a href="http://semver.org/">Semantic Versioning (SemVer)</a>, adopting the use of major.minor.patch versioning, using the various parts of the version number to describe the degree and kind of change.</p>
+<p>The following versioning template is generally applied to .NET Core. There are cases where it has been adapted to fit with existing versioning. These cases are described later in this document. For example, frameworks are only intended to represent platform and API capabilities, which aligns with major/minor versioning.</p>
+<h2 id="versioning-form">Versioning Form</h2>
+<p>MAJOR.MINOR.PATCH[-PRERELEASE.BUILDNUMBER]</p>
+<h2 id="decision-tree">Decision Tree</h2>
+<p>MAJOR when:</p>
+<ul>
+<li>drop support for a platform</li>
+<li>adopt a newer MAJOR version of an existing dependency </li>
+<li>disable a compatibility quirk off by default</li>
+</ul>
+<p>MINOR when:</p>
+<ul>
+<li>add public API surface area </li>
+<li>add new behavior</li>
+<li>adopt a newer MINOR version of an existing dependency</li>
+<li>introduce a new dependency </li>
+</ul>
+<p>PATCH when:</p>
+<ul>
+<li>make bug fixes</li>
+<li>add support for a newer platform</li>
+<li>adopt a newer PATCH version of an existing dependency</li>
+<li>any other change (not otherwise captured)</li>
+</ul>
+<p>When determining what to increment when there are multiple changes, choose the highest kind of change.</p>
+<h1 id="versioning-scheme">Versioning Scheme</h1>
+<p>.NET Core can be defined as and will version in the following way:</p>
+<ul>
+<li>A runtime and framework implementation, distributed as packages. Each package is versioned independently, particularly for patch versioning.</li>
+<li>A set of metapackages that reference fine-grained packages as a versioned unit. Metapackages are versioned separately from packages.</li>
+<li>A set of frameworks (for example, <code>netstandard</code>) that represent a progressively larger API set, described in a set of versioned snapshots.</li>
+</ul>
+<h2 id="packages">Packages</h2>
+<p>Library packages evolve and version independently. Packages that overlap with .NET Framework System.* assemblies typically use 4.x versions, aligning with the .NET Framework 4.x versioning (a historical choice). Packages that do not overlap with the .NET Framework libraries (for example, <a href="https://www.nuget.org/packages/System.Reflection.Metadata">System.Reflection.Metadata</a>) typically start at 1.0 and increment from there.</p>
+<p>The packages described by <a href="https://www.nuget.org/packages/NETStandard.Library">NETStandard.Library</a> are treated specially due to being at the base of the platform.</p>
+<ul>
+<li>NETStandard.Library packages will typically version as a set, since they have implementation-level dependencies between them.</li>
+<li>APIs will only be added to NETStandard.Library packages as part of major or minor .NET Core releases, since doing so would require adding a new <code>netstandard</code> version. This is in addition to SemVer requirements.</li>
+</ul>
+<h2 id="metapackages">Metapackages</h2>
+<p>Versioning for .NET Core metapackages is based on the framework that they map to. The metapackages adopt the highest version number of the framework (for example, netstandard1.5) it maps to in its package closure. </p>
+<p>The patch version for the metapackage is used to represent updates to the metapackage to reference updated packages. Patch versions will never include an updated framework version. As a result, the metapackages are not strictly SemVer compliant because their versioning scheme doesn&#39;t represent the degree of change in the underlying packages, but primarily the API level. </p>
+<p>There are two primary metapackages for .NET Core.</p>
+<p><strong>NETStandard.Library</strong></p>
+<ul>
+<li>v1.6 as of .NET Core 1.0 (these versions won&#39;t typically or intentionally match).</li>
+<li>Maps to the <code>netstandard</code> framework. </li>
+<li>Describes the packages that are considered required for modern app development and that .NET platforms must implement to be considered a <a href="../concepts/dotnet-standard-library.html">.NET Standard</a> platform.</li>
+</ul>
+<p><strong>Microsoft.NETCore.App</strong></p>
+<ul>
+<li>v1.0 as of .NET Core 1.0 (these versions will match).</li>
+<li>Maps to the <code>netcoreapp</code> framework.</li>
+<li>Describes the packages in the .NET Core distribution.</li>
+</ul>
+<p>Note: <a href="https://www.nuget.org/packages/Microsoft.NETCore.Portable.Compatibility"><code>Microsoft.NETCore.Portable.Compatibility</code></a> is another .NET Core metapackage. It doesn&#39;t map to a particular framework, so versions like a package.</p>
+<h2 id="frameworks">Frameworks</h2>
+<p>Framework versions are updated when new APIs are added. They have no concept of patch version, since they represent API shape and not implementation concerns. Major and minor versioning will follow the SemVer rules specified earlier.</p>
+<p>The <code>netcoreapp</code> framework is tied to the .NET Core distribution. It will follow the version numbers used by .NET Core. For example, when .NET Core 2.0 is released, it will target <code>netcoreapp2.0</code>. The <code>netstandard</code> framework will not match the versioning scheme of any .NET runtime, given that it is equally applicable to all of them.</p>
+<h1 id="versioning-in-practice">Versioning in Practice</h1>
+<p>There are commits and PRs on .NET Core repos on GitHub on a daily basis, resulting in new builds of many libraries. It is not practical to create new public versions of .NET Core for every change. Instead, changes will be aggregated over some loosely-defined period of time (for example, weeks or months) before making a new public stable .NET Core version.</p>
+<p>A new version of .NET Core could mean several things:</p>
+<ul>
+<li>New versions of packages and metapackages.</li>
+<li>New versions of various frameworks, assuming the addition of new APIs.</li>
+<li>New version of the .NET Core distribution.</li>
+</ul>
+<h2 id="shipping-a-patch-release">Shipping a patch release</h2>
+<p>After shipping a .NET Core v1.0.0 stable version, patch-level changes (no new APIs) are made to .NET Core libraries to fix bugs and improve performance and reliability. The various metapackages are updated to reference the updated .NET Core library packages. The metapackages are versioned as patch updates (x.y.z). Frameworks are not updated. A new .NET Core distribution is released with a matching version number to the <code>Microsoft.NETCore.App</code> metapackage.</p>
+<p>You can see patch updates demonstrated in the project.json examples below.</p>
+<pre><code>{
+  &quot;dependencies&quot;: {
+    &quot;Microsoft.NETCore.App&quot;: &quot;1.0.1&quot;
+  },
+  &quot;frameworks&quot;: {
+    &quot;netcoreapp1.0&quot;: {}
+  }
+}
+</code></pre><h2 id="shipping-a-minor-release">Shipping a minor release</h2>
+<p>After shipping a .NET Core v1.0.0 stable version, new APIs are added to .NET Core libraries to enable new scenarios. The various metapackages are updated to reference the updated .NET Core library packages. The metapackages are versioned as patch updates (x.y) to match the higher framework version. The various frameworks are updated to describe the new APIs. A new .NET Core distribution is released with a matching version number to the <code>Microsoft.NETCore.App</code> metapackage.</p>
+<p>You can see minor updates demonstrated in the project.json examples below.</p>
+<pre><code>{
+  &quot;dependencies&quot;: {
+    &quot;Microsoft.NETCore.App&quot;: &quot;1.1.0&quot;
+  },
+  &quot;frameworks&quot;: {
+    &quot;netcoreapp1.1&quot;: {}
+  }
+}
+</code></pre><h2 id="shipping-a-major-release">Shipping a major release</h2>
+<p>Given a .NET Core v1.y.z stable version, new APIs are added to .NET Core libraries to enable major new scenarios. Perhaps, support is dropped for a platform. The various metapackages are updated to reference the updated .NET Core library packages. The <code>Microsoft.NETCore.App</code> metapackage and the <code>netcore</code> framework are versioned as a major update (x.). The <code>NETStandard.Library</code> metapackage is likely  versioned as a minor update (x.y) since it applies to multiple .NET implementations. A new .NET Core distribution would be released with a matching version number to the <code>Microsoft.NETCore.App</code> metapackage.</p>
+<p>You can see major updates demonstrated in the project.json metapackage reference in the example below.</p>
+<pre><code>{
+  &quot;dependencies&quot;: {
+    &quot;Microsoft.NETCore.App&quot;: &quot;2.0.0&quot;
+  },
+  &quot;frameworks&quot;: {
+    &quot;netcoreapp2.0&quot;: {}
+  }
+}
+</code></pre>
             </article>
           </div>
           
