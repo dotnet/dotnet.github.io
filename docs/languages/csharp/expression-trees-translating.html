@@ -100,9 +100,10 @@ node whose children are the original constant, and the constant
     if (original.NodeType == ExpressionType.Constant)
     {
         return Expression.Multiply(original, Expression.Constant(10));
-    } else if (original.NodeType == ExpressionType.Add)
+    }
+    else if (original.NodeType == ExpressionType.Add)
     {
-        var binaryExpression = original as BinaryExpression;
+        var binaryExpression = (BinaryExpression)original;
         return Expression.Add(
             ReplaceNodes(binaryExpression.Left),
             ReplaceNodes(binaryExpression.Right));
@@ -158,8 +159,8 @@ Func&lt;Expression, int&gt; aggregate = null;
 // Major simplification: Assume every binary expression is an addition.
 aggregate = (exp) =&gt;
     exp.NodeType == ExpressionType.Constant ?
-    (int)(exp as ConstantExpression).Value :
-    aggregate((exp as BinaryExpression).Left) + aggregate((exp as BinaryExpression).Right);
+    (int)((ConstantExpression)exp).Value :
+    aggregate(((BinaryExpression)exp).Left) + aggregate(((BinaryExpression)exp).Right);
 
 var theSum = aggregate(sum);
 Console.WriteLine(theSum);
@@ -179,13 +180,13 @@ Aggregate method that includes quite a bit of tracing information:</p>
 {
     if (exp.NodeType == ExpressionType.Constant)
     {
-        var constantExp = exp as ConstantExpression;
+        var constantExp = (ConstantExpression)exp;
         Console.Error.WriteLine($&quot;Found Constant: {constantExp.Value}&quot;);
         return (int)constantExp.Value;
     }
     else if (exp.NodeType == ExpressionType.Add)
     {
-        var addExp = exp as BinaryExpression;
+        var addExp = (BinaryExpression)exp;
         Console.Error.WriteLine(&quot;Found Addition Expression&quot;);
         Console.Error.WriteLine(&quot;Computing Left node&quot;);
         var leftOperand = Aggregate(addExp.Left);

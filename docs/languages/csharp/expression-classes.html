@@ -73,7 +73,7 @@
 <h1 id="framework-types-supporting-expression-trees">Framework Types Supporting Expression Trees</h1>
 <p>There is a large list of classes in the .NET Core framework that work with Expression Trees.
 You can see the full
-list <a href="https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression.aspx">here</a>.
+list <a href="https://dotnet.github.io/api/System.Linq.Expressions.html">here</a>.
 Rather than run through the full list, let&#39;s understand how the framework classes have been designed.</p>
 <p>In language design, an expression is a body of code that evaluates and returns a value. Expressions
 may be very simple: the constant expression <code>1</code> returns the constant value of 1. They may be more
@@ -100,17 +100,12 @@ the specific expression type:</p>
 
 if (addFive.NodeType == ExpressionType.Lambda)
 {
-    var lambdaExp = addFive as LambdaExpression;
+    var lambdaExp = (LambdaExpression)addFive;
 
-    var arg = lambdaExp.Parameters.First();
+    var parameter = lambdaExp.Parameters.First();
 
-    if (arg.NodeType == ExpressionType.Parameter)
-    {
-        var parameter = arg as ParameterExpression;
-
-        Console.WriteLine(parameter.Name);
-        Console.WriteLine(parameter.Type.ToString());
-    }
+    Console.WriteLine(parameter.Name);
+    Console.WriteLine(parameter.Type);
 }
 </code></pre>
 <h2 id="creating-expression-trees">Creating Expression Trees</h2>

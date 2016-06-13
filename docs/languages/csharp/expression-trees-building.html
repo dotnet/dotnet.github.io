@@ -72,7 +72,7 @@
 <p>By <a href="https://github.com/BillWagner">Bill Wagner</a></p>
 <h1 id="building-expression-trees">Building Expression Trees</h1>
 <p>All the expression trees you&#39;ve seen so far have been created
-by the C# compiler. All you had to do was create a <code>LambdaExpression</code>
+by the C# compiler. All you had to do was create a lambda expression
 that was assigned to a variable typed as an <code>Expression&lt;Func&lt;T&gt;&gt;</code> or
 some similar type. That&#39;s not the only way to create an expression
 tree. For many scenarios you may find that you need to build an
@@ -134,17 +134,10 @@ var ySquared = Expression.Multiply(yParameter, yParameter);
 var sum = Expression.Add(xSquared, ySquared);
 </code></pre>
 <p>Next, you need to create a method call expression for the call to
-<code>Math.Sqrt</code>.  This requires creating an expression that calls
-<code>Math.Sqrt</code>, and then updating that expression so that the
-arguments represent the sum of <code>xSquared</code> and <code>ySquared</code>:</p>
-<pre><code class="lang-cs">Expression&lt;Func&lt;double, double&gt;&gt; sqrt = (x) =&gt; Math.Sqrt(x);
-var methodCall = sqrt.Body as MethodCallExpression;
-var distance = methodCall.Update(default(Expression), new List&lt;Expression&gt; { sum });
+<code>Math.Sqrt</code>.</p>
+<pre><code class="lang-cs">var sqrtMethod = typeof(Math).GetMethod(&quot;Sqrt&quot;, new[] { typeof(double) });
+var distance = Expression.Call(sqrtMethod, sum);
 </code></pre>
-<blockquote><p>Those familiar with the Reflection APIs may wonder why I didn&#39;t use
-the Reflection APIs to retrieve the <code>MethodInfo</code> object for the <code>Math.Sqrt</code>
-method. The answer is simple: that method is not available on .NET Core. </p>
-</blockquote>
 <p>And  then finally, you put the method call into a lambda expression,
 and make sure to define the arguments to the lambda expression:</p>
 <pre><code class="lang-cs">var distanceLambda = Expression.Lambda(
@@ -160,9 +153,7 @@ you can use them in your expression tree wherever you need.</p>
 <p>Second, you need to use a subset of the Reflection APIs to create a <code>MethodInfo</code> object
 so that you can create an expression tree to access that method. You must limit
 yourself to the subset of the Reflection APIs that are available on the .NET Core platform. Again,
-these techniques will extend to other expression trees. You&#39;ll have to create a
-delegate that calls the method you want, and retrieve the <code>MethodInfo</code> object
-from that expression.</p>
+these techniques will extend to other expression trees.</p>
 <h2 id="building-code-in-depth">Building Code In Depth</h2>
 <p>You aren&#39;t limited in what you can build using these APIs. However, the more
 complicated expression tree that you want to build, the more difficult
@@ -201,15 +192,15 @@ var block = Expression.Block(
 );
 
 // Creating a method body.
-BlockExpression body= Expression.Block(
+BlockExpression body = Expression.Block(
     new[] { result },
-        initializeResult,
-        Expression.Loop(
-            Expression.IfThenElse(
-                Expression.GreaterThan(nArgument, Expression.Constant(1)),
-                block,
-                Expression.Break(label, result)
-            ),
+    initializeResult,
+    Expression.Loop(
+        Expression.IfThenElse(
+            Expression.GreaterThan(nArgument, Expression.Constant(1)),
+            block,
+            Expression.Break(label, result)
+        ),
         label
     )
 );
@@ -219,7 +210,8 @@ more complicated, and it&#39;s riddled with labels and break statements and othe
 we&#39;d like to avoid in our everyday coding tasks. </p>
 <p>For this section, I&#39;ve also updated the visitor code to visit every node in this expression
 tree and write out information about the nodes that are created in this sample. You can see
-the code in the samples section. You can experiment for yourself: build it and run the samples.</p>
+the code in <a href="https://github.com/dotnet/core-docs/tree/master/samples/csharp-language/expression-trees">the samples section</a>.
+You can experiment for yourself: build it and run the samples.</p>
 <h2 id="examining-the-apis">Examining the APIs</h2>
 <p>The expression tree APIs are some of the more difficult to navigate in
 .NET Core, but that&#39;s fine. Their purpose is a rather complex undertaking: writing code that generates
