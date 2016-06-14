@@ -73,8 +73,7 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L33" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Diagnostics_PerformanceCounter" data-uid="System.Diagnostics.PerformanceCounter">Class PerformanceCounter
               </h1>
-              <div class="markdown level0 summary"><p>Represents a Windows NT performance counter component.</p>
-</div>
+              <div class="markdown level0 summary"></div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
                 <h5>Inheritance</h5>
@@ -87,22 +86,6 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public sealed class PerformanceCounter : object</code></pre>
               </div>
-              <h5 id="System_Diagnostics_PerformanceCounter_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> component can be used for both reading existing predefined or custom counters and publishing (writing) performance data to custom counters.</p>
-<p>There are numerous predefined counters listed in the Windows Performance Monitor&#39;s <see href="http://go.microsoft.com/fwlink/p/?LinkId=257854">Add Counters dialog box</see>. To learn about the .NET Framework performance counters, see Performance Counters in the .NET Framework.</p>
-<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p>
-<p>In versions 1.0 and 1.1 of the .NET Framework, this class requires immediate callers to be fully trusted. Starting with the .NET Framework version 2.0, this class requires <span class="xref">System.Diagnostics.PerformanceCounterPermission</span> for specific actions. It is strongly recommended that <span class="xref">System.Diagnostics.PerformanceCounterPermission</span> not be granted to semi-trusted code.  The ability to read and write performance counters allows code to perform actions such as enumerating executing processes and obtaining information about them. </p>
-<p>In addition, passing a <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> object to less-trusted code can create a security issue. Never pass performance counter objects, such as a <span class="xref">System.Diagnostics.PerformanceCounterCategory</span> or <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a>, to less trusted code.</p>
-<p>To read from a performance counter, create an instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class, set the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and, optionally, the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> or <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> properties, and then call the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_NextValue">NextValue()</a> method to take a performance counter reading.</p>
-<p>To publish performance counter data, create one or more custom counters using the <span class="xref">System.Diagnostics.PerformanceCounterCategory.Create(System.String,System.String,System.Diagnostics.CounterCreationDataCollection)</span> method, create an instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class, set the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a> and, optionally, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> or <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> properties, and then call the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64_">IncrementBy(Int64)</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_Increment">Increment()</a>, or <span class="xref">System.Diagnostics.PerformanceCounter.Decrement</span> methods, or set the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property to change the value of your custom counter.</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_Increment">Increment()</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64_">IncrementBy(Int64)</a>, and <span class="xref">System.Diagnostics.PerformanceCounter.Decrement</span> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>
-<p>The counter is the mechanism by which performance data is collected. The registry stores the names of all the counters, each of which is related to a specific area of system functionality. Examples include a processor&#39;s busy time, memory usage, or the number of bytes received over a network connection.</p>
-<p>Each counter is uniquely identified through its name and its location. In the same way that a file path includes a drive, a directory, one or more subdirectories, and a file name, counter information consists of four elements: the computer, the category, the category instance, and the counter name.</p>
-<p>The counter information must include the category, or performance object, that the counter measures data for. A computer&#39;s categories include physical components, such as processors, disks, and memory. There are also system categories, such as processes and threads. Each category is related to a functional element within the computer and has a set of standard counters assigned to it. These objects are listed in the Performance object drop-down list of the Add Counters dialog box within the Windows 2000 System Monitor, and you must include them in the counter path. Performance data is grouped by the category to which is it related.</p>
-<p>In certain cases, several copies of the same category can exist. For example, several processes and threads run simultaneously, and some computers contain more than one processor. The category copies are called category instances, and each instance has a set of standard counters assigned to it. If a category can have more than one instance, an instance specification must be included in the counter information.</p>
-<p>To obtain performance data for counters that required an initial or previous value for performing the necessary calculation, call the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_NextValue">NextValue()</a> method twice and use the information returned as your application requires.</p>
-<p>Performance counter categories installed with the .NET Framework 2.0 use separate shared memory, with each performance counter category having its own memory. You can specify the size of separate shared memory by creating a DWORD named FileMappingSize in the registry key HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services&lt;category name&gt;\Performance. The FileMappingSize value is set to the shared memory size of the category. The default size is 131072 decimal. If the FileMappingSize value is not present, the <strong>fileMappingSize</strong> attribute value for the <strong>performanceCounters</strong> element specified in the Machine.config file is used, causing additional overhead for configuration file processing. You can realize a performance improvement for application startup by setting the file mapping size in the registry. For more information about the file mapping size, see <performancecounters> Element.<p>
-</performancecounters></div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -113,34 +96,12 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L37">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter__ctor" data-uid="System.Diagnostics.PerformanceCounter.#ctor">PerformanceCounter()</h4>
-              <div class="markdown level1 summary"><p>Initializes a new, read-only instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class, without associating the instance with any system or custom performance counter.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter__ctor_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This overload of the constructor sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> properties to empty strings (&quot;&quot;), and sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> property to the local computer, (&quot;.&quot;).</p>
-<p>This constructor does not initialize the performance counter, so it does not associate the instance with an existing counter on the local computer. To point to a specific performance counter, set the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and, optionally, the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> properties before reading any other properties or attempting to read from a counter. To write to a performance counter, set the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_ReadOnly">ReadOnly</a> property to <strong>false</strong>.</p>
-<p>The <span class="xref">System.Security.Permissions.HostProtectionAttribute</span> attribute applied to this member has the following <span class="xref">System.Security.Permissions.HostProtectionAttribute.Resources</span> property value: <span class="xref">System.Security.Permissions.HostProtectionResource.Synchronization</span> | <span class="xref">System.Security.Permissions.HostProtectionResource.SharedState</span>. The <span class="xref">System.Security.Permissions.HostProtectionAttribute</span> does not affect desktop applications (which are typically started by double-clicking an icon, typing a command, or entering a URL in a browser). For more information, see the <span class="xref">System.Security.Permissions.HostProtectionAttribute</span> class or SQL Server Programming and Host Protection Attributes.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounter()</code></pre>
               </div>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.PerformanceCounter.%23ctor(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -149,18 +110,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L38">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_" data-uid="System.Diagnostics.PerformanceCounter.#ctor(System.String,System.String)">PerformanceCounter(String, String)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new, read-only instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class and associates it with the specified system or custom performance counter on the local computer. This constructor requires that the category have a single instance.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The parameter strings are not case-sensitive.</p>
-<p>Use this overload to access a counter on the local computer that belongs to a category containing a single performance counter category instance. If you attempt to use this constructor to point this <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance to a category that contains multiple instances, the constructor throws an exception. This overload can access any read-only or read/write counter, but does so in a read-only mode. A <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance created using this overload cannot write to the counter, even if the counter itself is read/write.</p>
-<p>This overload of the constructor sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a> properties to the values you pass in, sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> property to the local computer, &quot;.&quot;, and sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> property to an empty string (&quot;&quot;).</p>
-<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a> properties must point to an existing performance counter on the local computer.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounter(string categoryName, string counterName)</code></pre>
@@ -178,62 +129,12 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>categoryName</em></td>
-                    <td><p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>counterName</em></td>
-                    <td><p>The name of the performance counter. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>
-<em>categoryName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>
-<em>counterName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>The category specified does not exist. </p>
-<p>-or-</p>
-<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>
-<p>-or-</p>
-<p>
-<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -245,19 +146,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L39">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_Boolean_" data-uid="System.Diagnostics.PerformanceCounter.#ctor(System.String,System.String,System.Boolean)">PerformanceCounter(String, String, Boolean)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new, read-only or read/write instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class and associates it with the specified system or custom performance counter on the local computer. This constructor requires that the category contain a single instance.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The parameter strings are not case-sensitive.</p>
-<p>Use this overload to access a read-only or read/write counter on the local computer that belongs to a category containing a single performance counter category instance. If you attempt to use this constructor to point this <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance to a category that contains multiple instances, the constructor throws an exception.</p>
-<p>This overload of the constructor sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_ReadOnly">ReadOnly</a> properties to the values you pass in, sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> property to the local computer, &quot;.&quot;, and sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> property to an empty string (&quot;&quot;).</p>
-<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a> properties must point to an existing performance counter on the local computer. If the performance counter instance that you point to is not valid, calling the constructor throws an exception.</p>
-<p>You can use this overload to connect to a system counter, but you cannot write to a system counter. Therefore, setting <em>readOnly</em> to <strong>false</strong> when connecting to a system counter causes the constructor to throw an exception.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounter(string categoryName, string counterName, bool readOnly)</code></pre>
@@ -275,69 +165,17 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>categoryName</em></td>
-                    <td><p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>counterName</em></td>
-                    <td><p>The name of the performance counter. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>readOnly</em></td>
-                    <td><p>
-<strong>true</strong> to access the counter in read-only mode (although the counter itself could be read/write); <strong>false</strong> to access the counter in read/write mode. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <em>categoryName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>The <em>counterName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>The category specified does not exist. (if <em>readOnly</em> is <strong>true</strong>). </p>
-<p>-or- </p>
-<p>The category specified is not a .NET Framework custom category (if <em>readOnly</em> is <strong>false</strong>). </p>
-<p>-or-</p>
-<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>
-<p>-or-</p>
-<p>
-<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -349,20 +187,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L40">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_String_" data-uid="System.Diagnostics.PerformanceCounter.#ctor(System.String,System.String,System.String)">PerformanceCounter(String, String, String)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new, read-only instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class and associates it with the specified system or custom performance counter and category instance on the local computer.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The parameter strings are not case-sensitive.</p>
-<p>This overload of the constructor sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> properties to the values you pass in, and sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> property to the local computer, &quot;.&quot;.</p>
-<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> properties must point to an existing performance counter on the local computer. If the performance counter instance you point to is not valid, calling the constructor throws an exception.</p>
-<p>This overload can access any read-only or read/write counter, but does so in a read-only mode. A <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance created using this overload cannot write to the counter, even if the counter itself is read/write.</p>
-<p>To create a performance category instance, specify an <em>instanceName</em> on the <span class="xref">System.Diagnostics.PerformanceCounter.</span> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-<p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounter(string categoryName, string counterName, string instanceName)</code></pre>
@@ -380,71 +206,17 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>categoryName</em></td>
-                    <td><p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>counterName</em></td>
-                    <td><p>The name of the performance counter. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>instanceName</em></td>
-                    <td><p>The name of the performance counter category instance, or an empty string (&quot;&quot;), if the category contains a single instance. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>
-<em>categoryName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>
-<em>counterName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>The category specified is not valid. </p>
-<p>-or-</p>
-<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>
-<p>-or-</p>
-<p>
-<em>instanceName</em> is longer than 127 characters.</p>
-<p>-or-</p>
-<p>
-<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -456,20 +228,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L41">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_String_System_Boolean_" data-uid="System.Diagnostics.PerformanceCounter.#ctor(System.String,System.String,System.String,System.Boolean)">PerformanceCounter(String, String, String, Boolean)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new, read-only or read/write instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class and associates it with the specified system or custom performance counter and category instance on the local computer.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_String_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The parameter strings are not case-sensitive.</p>
-<p>Use this overload to access a performance counter in either read-only or read/write mode.</p>
-<p>This overload of the constructor sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> properties to the values you pass in, it and sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> property to the local computer, &quot;.&quot;.</p>
-<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> properties must point to an existing performance counter on the local computer. If the performance counter instance that you point to is not valid, calling the constructor throws an exception.</p>
-<p>You can use this overload to connect to a system counter, but you cannot write to a system counter. Therefore, setting <em>readOnly</em> to <strong>false</strong> when connecting to a system counter causes the constructor to throw an exception.</p>
-<p>To create a performance category instance, specify an <em>instanceName</em> on the <span class="xref">System.Diagnostics.PerformanceCounter.</span> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounter(string categoryName, string counterName, string instanceName, bool readOnly)</code></pre>
@@ -487,82 +247,22 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>categoryName</em></td>
-                    <td><p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>counterName</em></td>
-                    <td><p>The name of the performance counter. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>instanceName</em></td>
-                    <td><p>The name of the performance counter category instance, or an empty string (&quot;&quot;), if the category contains a single instance. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>readOnly</em></td>
-                    <td><p>
-<strong>true</strong> to access a counter in read-only mode; <strong>false</strong> to access a counter in read/write mode. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>
-<em>categoryName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>
-<em>counterName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>The read/write permission setting requested is invalid for this counter.</p>
-<p>-or- </p>
-<p>The category specified does not exist (if <em>readOnly</em> is <strong>true</strong>). </p>
-<p>-or- </p>
-<p>The category specified is not a .NET Framework custom category (if <em>readOnly</em> is <strong>false</strong>). </p>
-<p>-or-</p>
-<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>
-<p>-or-</p>
-<p>
-<em>instanceName</em> is longer than 127 characters.</p>
-<p>-or-</p>
-<p>
-<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -574,21 +274,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L42">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_String_System_String_" data-uid="System.Diagnostics.PerformanceCounter.#ctor(System.String,System.String,System.String,System.String)">PerformanceCounter(String, String, String, String)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new, read-only instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class and associates it with the specified system or custom performance counter and category instance, on the specified computer.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter__ctor_System_String_System_String_System_String_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The parameter strings are not case-sensitive.</p>
-<p>This overload of the constructor sets the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a>, and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> properties to the values you pass in.</p>
-<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the specified computer. The values that you pass in for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> properties must point to an existing performance counter. If the performance counter instance you point to is not valid, calling the constructor throws an exception. This overload can access any read-only or read/write counter, but does so in a read-only mode. A <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance created using this overload cannot write to the counter, even if the counter itself is read/write.</p>
-<p>You cannot write to remote performance counters. There is no overload that allows you to specify a read/write instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class that connects to a remote computer.</p>
-<p>To create a performance category instance, specify an <em>instanceName</em> on the <span class="xref">System.Diagnostics.PerformanceCounter.</span> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-<p>In Windows Vista, when the remote computer is a member of a workgroup, you may need to disable UAC so that the local user account is not filtered and can be elevated to an administrator account. For security reasons, disabling UAC should be a last resort. For information on disabling UAC, see <see href="http://go.microsoft.com/fwlink/?LinkId=91617">User Account Control and WMI</see>. </p>
-<p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounter(string categoryName, string counterName, string instanceName, string machineName)</code></pre>
@@ -606,84 +293,22 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>categoryName</em></td>
-                    <td><p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>counterName</em></td>
-                    <td><p>The name of the performance counter. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>instanceName</em></td>
-                    <td><p>The name of the performance counter category instance, or an empty string (&quot;&quot;), if the category contains a single instance. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>machineName</em></td>
-                    <td><p>The computer on which the performance counter and its associated category exist. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>
-<em>categoryName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>
-<em>counterName</em> is an empty string (&quot;&quot;).</p>
-<p>-or- </p>
-<p>The read/write permission setting requested is invalid for this counter.</p>
-<p>-or- </p>
-<p>The counter does not exist on the specified computer. </p>
-<p>-or-</p>
-<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>
-<p>-or-</p>
-<p>
-<em>instanceName</em> is longer than 127 characters.</p>
-<p>-or-</p>
-<p>
-<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <em>machineName</em> parameter is not valid. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -697,8 +322,7 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L36">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_DefaultFileMappingSize" data-uid="System.Diagnostics.PerformanceCounter.DefaultFileMappingSize">DefaultFileMappingSize</h4>
-              <div class="markdown level1 summary"><p>Specifies the size, in bytes, of the global memory shared by performance counters. The default size is 524,288 bytes.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -714,15 +338,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L43">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_CategoryName" data-uid="System.Diagnostics.PerformanceCounter.CategoryName">CategoryName</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the name of the performance counter category for this performance counter.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_CategoryName_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a> is displayed in the <strong>Performance Object</strong> field of Performance Counter Manager MMC snap in&#39;s <strong>Add Counter</strong> dialog box.</p>
-<p>A performance counter monitors the behavior of a category, or performance object, on a computer. Categories include physical components (such as processors, disks, and memory) and system objects (such as processes and threads). System counters that are related to the same performance object are grouped into a category that indicates their common focus. When you create an instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> class, you first indicate the category with which the component will interact, and then you choose a counter from that category.</p>
-<p>For example, one Windows counter category is the Memory category. System counters within this category track memory data such as the number of bytes available and the number of bytes cached. If you wanted to work with the bytes cached in your application, you would create an instance of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> component, connect it to the Memory category, and then pick the appropriate counter (in this case, Cached Bytes) from that category.</p>
-<p>Although your system makes many more counter categories available, the categories that you will probably interact with most frequently are the Cache, Memory, Objects, PhysicalDisk, Process, Processor, Server, System, and Thread categories.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string CategoryName { get; set; }</code></pre>
@@ -738,29 +355,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The name of the performance counter category (performance object) with which this performance counter is associated.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CategoryName">CategoryName</a> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -772,17 +367,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L45">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_CounterHelp" data-uid="System.Diagnostics.PerformanceCounter.CounterHelp">CounterHelp</h4>
-              <div class="markdown level1 summary"><p>Gets the description for this performance counter.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_CounterHelp_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The Add Counters dialog box of the Performance Counter Manager MMC snap in displays the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterHelp">CounterHelp</a> text when a user selects a counter from the counters list and clicks the Explain button.</p>
-<p>When you create a new counter, use the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterHelp">CounterHelp</a> text to describe what the counter monitors do so the user can determine whether to add the counter to the System Monitor&#39;s display.</p>
-<p>If the value for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string CounterHelp { get; }</code></pre>
@@ -798,36 +384,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>A description of the item or quantity that this performance counter measures.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance is not associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -839,12 +396,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L46">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_CounterName" data-uid="System.Diagnostics.PerformanceCounter.CounterName">CounterName</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the name of the performance counter that is associated with this <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_CounterName_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You can get a list of available pre-existing counters from the Windows Performance Manager’s <see href="http://go.microsoft.com/fwlink/p/?LinkId=257854">Add Counters dialog box</see>. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string CounterName { get; set; }</code></pre>
@@ -860,29 +413,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The name of the counter, which generally describes the quantity being counted. This name is displayed in the list of counters of the Performance Counter Manager MMC snap in&#39;s Add Counters dialog box.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterName">CounterName</a> is <strong>null</strong>. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -894,20 +425,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L48">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_CounterType" data-uid="System.Diagnostics.PerformanceCounter.CounterType">CounterType</h4>
-              <div class="markdown level1 summary"><p>Gets the counter type of the associated performance counter.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_CounterType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.PerformanceCounterType.html#System_Diagnostics_PerformanceCounterType">PerformanceCounterType</a> enumeration contains the types of performance counters that you can interact with. Some of the counter types represent calculated values, such as the average of the counter measurements the system has taken. Other types represent raw, or uncalculated, values. The following table shows the counter types that you will interact with most frequently.</p>
-<p>Counter&#39;s Responsibility </p>
-<p>PerformanceCounterType Value </p>
-<p>Example </p>
-<p>When you create a counter whose type requires the use of a corresponding base counter, you must declare the counter and the base in the <span class="xref">System.Diagnostics.CounterCreationDataCollection</span> you pass into the <span class="xref">System.Diagnostics.PerformanceCounterCategory.Create(System.String,System.String,System.Diagnostics.CounterCreationDataCollection)</span> method.</p>
-<p>If the value for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounterType CounterType { get; }</code></pre>
@@ -923,36 +442,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Diagnostics.PerformanceCounterType.html#System_Diagnostics_PerformanceCounterType">PerformanceCounterType</a></td>
-                    <td><p>A <a class="xref" href="System.Diagnostics.PerformanceCounterType.html#System_Diagnostics_PerformanceCounterType">PerformanceCounterType</a> that describes both how the counter interacts with a monitoring application and the nature of the values it contains (for example, calculated or uncalculated).</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The instance is not correctly associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -964,13 +454,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L49">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_InstanceLifetime" data-uid="System.Diagnostics.PerformanceCounter.InstanceLifetime">InstanceLifetime</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the lifetime of a process.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_InstanceLifetime_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the performance counter category is created with the .NET Framework version 1.0 or 1.1, it uses global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-<p>If the value of the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_CounterType">CounterType</a> property is <span class="xref">System.Diagnostics.PerformanceCounterCategoryType.SingleInstance</span>, the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> value for the performance counter must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public PerformanceCounterInstanceLifetime InstanceLifetime { get; set; }</code></pre>
@@ -986,30 +471,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime">PerformanceCounterInstanceLifetime</a></td>
-                    <td><p>One of the <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime">PerformanceCounterInstanceLifetime</a> values. The default is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p>The value set is not a member of the <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime">PerformanceCounterInstanceLifetime</a> enumeration. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>
-<a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> is set after the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> has been initialized.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1021,42 +483,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L51">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_InstanceName" data-uid="System.Diagnostics.PerformanceCounter.InstanceName">InstanceName</h4>
-              <div class="markdown level1 summary"><p>Gets or sets an instance name for this performance counter.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_InstanceName_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Instance names must be shorter than 128 characters in length.</p>
-<p>In some situations, categories are subdivided into instances, which track data about multiple occurrences of the object that a category relates to. Instances apply to the category as whole, rather than to individual counters. Every counter within a category has each instance defined for the category. For example, the Process category contains instances named Idle and System. Every counter within the Process category thus contains data for each instance, showing information about either idle processes or system processes.</p>
-<p>Many categories do not contain multiple instances, so you can leave this property empty to indicate that no instance is associated with the category.</p>
-<p>If this <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance points to a noncustom category, you can choose from only the existing category instances. You can create new category instances only in custom categories, which allow you to define as many counters and category instances as you need.</p>
-<p>To create a performance category instance, specify an <em>instanceName</em> on the <span class="xref">System.Diagnostics.PerformanceCounter.</span> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance. </p>
-<p> Do not use the characters &quot;(&quot;, &quot;)&quot;, &quot;#&quot;, &quot;\&quot;, or &quot;/&quot; in the instance name. If any of these characters are used, the Performance Console (see Runtime Profiling) may not correctly display the instance values.</p>
-<p>If the instance name is automatically generated and might contain the characters &quot;(&quot;, &quot;)&quot;, &quot;#&quot;, &quot;\&quot;, or &quot;/&quot;, use the character mapping in the following table.</p>
-<p>Character</p>
-<p>Mapped character</p>
-<table><tbody><tr><td>
-<p>(</p>
-</td><td>
-<p>[</p>
-</td></tr><tr><td>
-<p>)</p>
-</td><td>
-<p>]</p>
-</td></tr><tr><td>
-<p>#</p>
-</td><td>
-<p><em><p>
-</em></td></tr><tr><td>
-<p>&lt;/p&gt;
-</td><td>
-<p>
-</td></tr><tr><td>
-<p>/</p>
-</td><td>
-<p>_</p>
-</td></tr></tbody></table>
-<p>The <span class="xref">System.AppDomain.FriendlyName</span> property of the <span class="xref">System.AppDomain</span> object obtained from the <span class="xref">System.AppDomain.CurrentDomain</span> property is a common source of instance names that can contain invalid characters.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string InstanceName { get; set; }</code></pre>
@@ -1072,8 +500,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The name of the performance counter category instance, or an empty string (&quot;&quot;), if the counter is a single-instance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1085,13 +512,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L53">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_MachineName" data-uid="System.Diagnostics.PerformanceCounter.MachineName">MachineName</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the computer name for this performance counter </p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_MachineName_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You can write values only to counters that reside on the local computer. However, you can read counter values from any computer in the enterprise for which you have access privileges.</p>
-<p>When you set the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> property to point to a remote computer, the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance attempts to open the counter on that computer. If the counter does not exist, setting this property throws an exception.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public string MachineName { get; set; }</code></pre>
@@ -1107,29 +529,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The server on which the performance counter and its associated category reside.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_MachineName">MachineName</a> format is invalid. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1141,19 +541,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L55">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_RawValue" data-uid="System.Diagnostics.PerformanceCounter.RawValue">RawValue</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the raw, or uncalculated, value of this counter.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_RawValue_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the counter type is a 32-bit size and you attempt to set this property to a value that is too large to fit, the property truncates the value to 32 bits. When reading custom counters on the local computer, using the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property rather than a calculated value can produce significantly better performance in scenarios where the raw value is sufficient.</p>
-<p>If the counter that you are reading is read-only, getting the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property samples the counter at the time that the property is called. This action is equivalent to making an initial call to the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_NextSample">NextSample()</a> method. If you subsequently call <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_NextSample">NextSample()</a>, you can perform calculations on the values that both calls returned.</p>
-<p>Because system counters are read-only, you can get but not set their raw values.</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_Increment">Increment()</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64_">IncrementBy(Int64)</a>, and <span class="xref">System.Diagnostics.PerformanceCounter.Decrement</span> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>
-<p>If the value for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long RawValue { get; set; }</code></pre>
@@ -1169,43 +558,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>The raw value of the counter.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>You are trying to set the counter&#39;s raw value, but the counter is read-only.</p>
-<p>-or- </p>
-<p>The instance is not correctly associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1217,12 +570,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L56">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_ReadOnly" data-uid="System.Diagnostics.PerformanceCounter.ReadOnly">ReadOnly</h4>
-              <div class="markdown level1 summary"><p>Gets or sets a value indicating whether this <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance is in read-only mode.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_ReadOnly_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>For a system counter, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_ReadOnly">ReadOnly</a> should always <strong>true</strong>. You cannot write to a system counter.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool ReadOnly { get; set; }</code></pre>
@@ -1238,9 +587,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong>, if the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance is in read-only mode (even if the counter itself is a custom .NET Framework counter); <strong>false</strong> if it is in read/write mode. The default is the value set by the constructor.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1254,12 +601,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L58">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_BeginInit" data-uid="System.Diagnostics.PerformanceCounter.BeginInit">BeginInit()</h4>
-              <div class="markdown level1 summary"><p>Begins the initialization of a <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance used on a form or by another component. The initialization occurs at runtime.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_BeginInit_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The Visual Studio 2005 design environment uses this method to start the initialization of a component that is used on a form or by another component. The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_EndInit">EndInit()</a> method ends the initialization. Using the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_BeginInit">BeginInit()</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_EndInit">EndInit()</a> methods prevents the component from being used before it is fully initialized.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void BeginInit()</code></pre>
@@ -1272,12 +615,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L59">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_Close" data-uid="System.Diagnostics.PerformanceCounter.Close">Close()</h4>
-              <div class="markdown level1 summary"><p>Closes the performance counter and frees all the resources allocated by this performance counter instance.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_Close_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When you associate this <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance with a performance counter that resides on the server, the system initializes the instance and allocates memory to contain counter sample information. The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_Close">Close()</a> method frees the resources allocated by the object.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Close()</code></pre>
@@ -1290,12 +629,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L60">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_EndInit" data-uid="System.Diagnostics.PerformanceCounter.EndInit">EndInit()</h4>
-              <div class="markdown level1 summary"><p>Ends the initialization of a <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> instance that is used on a form or by another component. The initialization occurs at runtime.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_EndInit_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The Visual Studio 2005 design environment uses this method to end the initialization of a component that is used on a form or by another component. The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_BeginInit">BeginInit()</a> method starts the initialization. Using the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_BeginInit">BeginInit()</a> and <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_EndInit">EndInit()</a> methods prevents the component from being used before it is fully initialized.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void EndInit()</code></pre>
@@ -1308,15 +643,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L61">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_Increment" data-uid="System.Diagnostics.PerformanceCounter.Increment">Increment()</h4>
-              <div class="markdown level1 summary"><p>Increments the associated performance counter by one through an efficient atomic operation.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_Increment_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You can write only to custom counters. All system counters are read-only.</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_Increment">Increment()</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64_">IncrementBy(Int64)</a>, and <span class="xref">System.Diagnostics.PerformanceCounter.Decrement</span> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>
-<p>If the value for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-<p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long Increment()</code></pre>
@@ -1332,38 +660,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>The incremented counter value.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The counter is read-only, so the application cannot increment it.</p>
-<p>-or- </p>
-<p>The instance is not correctly associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1375,14 +672,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L62">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64_" data-uid="System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)">IncrementBy(Int64)</h4>
-              <div class="markdown level1 summary"><p>Increments or decrements the value of the associated performance counter by a specified amount through an efficient atomic operation.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You can write only to custom counters. All system counters are read-only.</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_Increment">Increment()</a>, <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_IncrementBy_System_Int64_">IncrementBy(Int64)</a>, and <span class="xref">System.Diagnostics.PerformanceCounter.Decrement</span> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RawValue">RawValue</a> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>
-<p>If the value forthe <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public long IncrementBy(long value)</code></pre>
@@ -1400,8 +691,7 @@
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
                     <td><em>value</em></td>
-                    <td><p>The value to increment by. (A negative value decrements the counter.) </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1416,38 +706,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>The new counter value.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The counter is read-only, so the application cannot increment it.</p>
-<p>-or- </p>
-<p>The instance is not correctly associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1459,16 +718,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L63">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_NextSample" data-uid="System.Diagnostics.PerformanceCounter.NextSample">NextSample()</h4>
-              <div class="markdown level1 summary"><p>Obtains a counter sample, and returns the raw, or uncalculated, value for it.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_NextSample_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method is generally used for counters that contain uncalculated values.</p>
-<p>If the value for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>
-<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>
-<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public CounterSample NextSample()</code></pre>
@@ -1484,41 +735,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Diagnostics.CounterSample.html#System_Diagnostics_CounterSample">CounterSample</a></td>
-                    <td><p>A <a class="xref" href="System.Diagnostics.CounterSample.html#System_Diagnostics_CounterSample">CounterSample</a> that represents the next raw value that the system obtains for this counter.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The instance is not correctly associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1530,13 +747,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L64">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_NextValue" data-uid="System.Diagnostics.PerformanceCounter.NextValue">NextValue()</h4>
-              <div class="markdown level1 summary"><p>Obtains a counter sample and returns the calculated value for it.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_NextValue_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the calculated value of a counter depends on two counter reads, the first read operation returns 0.0. Resetting the performance counter properties to specify a different counter is equivalent to creating a new performance counter, and the first read operation using the new properties returns 0.0. The recommended delay time between calls to the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_NextValue">NextValue()</a> method is one second, to allow the counter to perform the next incremental read.</p>
-<p>To read performance counters, you must have administrative privileges. In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public float NextValue()</code></pre>
@@ -1552,39 +764,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Single.html#System_Single">Single</a></td>
-                    <td><p>The next calculated value that the system obtains for this counter.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The instance is not correctly associated with a performance counter. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.UnauthorizedAccessException.html#System_UnauthorizedAccessException">UnauthorizedAccessException</a></td>
-                    <td><p>Code that is executing without administrative privileges attempted to read a performance counter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1596,49 +776,12 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.PerformanceCounter/ref/System.Diagnostics.PerformanceCounter.cs/#L65">View Source</a>
               </span>
               <h4 id="System_Diagnostics_PerformanceCounter_RemoveInstance" data-uid="System.Diagnostics.PerformanceCounter.RemoveInstance">RemoveInstance()</h4>
-              <div class="markdown level1 summary"><p>Deletes the category instance specified by the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter">PerformanceCounter</a> object <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceName">InstanceName</a> property.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Diagnostics_PerformanceCounter_RemoveInstance_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You can remove an instance only for a custom counter. All system counters are read-only, so attempting to remove one of them throws an exception.</p>
-<p>To avoid a possible race condition when the performance counter shared memory is released, it is recommended that the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_RemoveInstance">RemoveInstance()</a> method be called from the <span class="xref">System.AppDomain.DomainUnload</span> event handler.</p>
-<p>To create a performance category instance, specify an <em>instanceName</em> on the <span class="xref">System.Diagnostics.PerformanceCounter.</span> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>
-<p>If the value for the <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> must be <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Global">Global</a>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void RemoveInstance()</code></pre>
               </div>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>This counter is read-only, so any instance that is associated with the category cannot be removed.</p>
-<p>-or- </p>
-<p>The instance is not correctly associated with a performance counter. </p>
-<p>-or-</p>
-<p>The <a class="xref" href="System.Diagnostics.PerformanceCounter.html#System_Diagnostics_PerformanceCounter_InstanceLifetime">InstanceLifetime</a> property is set to <a class="xref" href="System.Diagnostics.PerformanceCounterInstanceLifetime.html#System_Diagnostics_PerformanceCounterInstanceLifetime_Process">Process</a>  when using global shared memory.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ComponentModel.Win32Exception.html#System_ComponentModel_Win32Exception">Win32Exception</a></td>
-                    <td><p>An error occurred when accessing a system API. </p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
             </article>
           </div>
           

@@ -73,8 +73,7 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XmlSerializer/ref/System.Xml.XmlSerializer.cs/#L164" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Xml_Serialization_XmlNamespaceDeclarationsAttribute" data-uid="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute">Class XmlNamespaceDeclarationsAttribute
               </h1>
-              <div class="markdown level0 summary"><p>Specifies that the target property, parameter, return value, or class member contains prefixes associated with namespaces that are used within an XML document.</p>
-</div>
+              <div class="markdown level0 summary"></div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
                 <h5>Inheritance</h5>
@@ -87,102 +86,6 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class XmlNamespaceDeclarationsAttribute : Attribute</code></pre>
               </div>
-              <h5 id="System_Xml_Serialization_XmlNamespaceDeclarationsAttribute_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a> attribute can only be applied once in a class to a field or property that returns an <a class="xref" href="System.Xml.Serialization.XmlSerializerNamespaces.html#System_Xml_Serialization_XmlSerializerNamespaces">XmlSerializerNamespaces</a> object.</p></p>
-<p><p>The <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a> allows you to store the prefixes, and the associated namespaces, used in an XML document. For example, one common usage of the attribute is to store XPath data, as it is defined by the World Wide Web Consortium (www.w3.org) document named &quot;XML Language (XPath) Version 1.0&quot;. In brief, an XPath is a string that contains many namespace prefixes and local names, along with some other syntax.</p></p>
-<p><p>The XPath language allows for the association of a prefix with a path, and using the prefix within the XML document. For example, the following XML document named &quot;select&quot; contains a prefix (&quot;cal&quot;) associated with a specific URI (<a href="http://www.cohowinery.com/calendar/">http://www.cohowinery.com/calendar/</a>). The element contains an attribute named &quot;path&quot; that contains the XPath.</p></p>
-<pre><code> <select xmlns:cal="http://www.cohowinery.com/calendar/" path="cal:appointments/@startTime"></select></code></pre>
-<p>The schema for this might be: </p>
-<pre><code> <element name="select">
-<complextype>
-<simplecontent>
-  <attribute name="path"></attribute>
-</simplecontent>
-</complextype>
-</element></code></pre>
-<p>Without the <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a>, the association between the prefix and the namespace is lost.</p>
-<p>To retain the association between the prefix and the namespace URI, add a member that returns an <a class="xref" href="System.Xml.Serialization.XmlSerializerNamespaces.html#System_Xml_Serialization_XmlSerializerNamespaces">XmlSerializerNamespaces</a> object and apply the <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a> attribute to the member, as shown in the following C# and Visual Basic code: </p>
-<pre><code> // C#
-public class Select {
-[XmlAttribute] public string path;
-[XmlNamespaceDeclarations] public XmlSerializerNamespaces xmlns;
-}
-' Visual Basic
-Public Class Select
-<xmlattribute> Public path As String
-<xmlnamespacedeclarations> Public xmlns As XmlSerializerNamespaces
-End Class</xmlnamespacedeclarations></xmlattribute></code></pre>
-<p>When serialized, the schema for the generated XML document contains the XML Schema definition (XSD) element named <code>appinfo</code>. The element further contains a metadata element named <code>keepNamespaceDeclarations</code>, set to the name of the member that contains the namespace declarations. The following XML fragment shows the schema: </p>
-<pre><code> <xs:element name="select">
-<xs:complextype>
-<xs:annotation> 
-  <xs:appinfo>
-   <keepnamespacedeclarations>xmlns</keepnamespacedeclarations>
-  </xs:appinfo> 
-</xs:annotation> 
-<xs:simplecontent>
-  <xs:attribute name="path"></xs:attribute>
-</xs:simplecontent>
-</xs:complextype>
-</xs:element></code></pre>
-<p>On deserialization, the <code>xmlns</code> field contains an <a class="xref" href="System.Xml.Serialization.XmlSerializerNamespaces.html#System_Xml_Serialization_XmlSerializerNamespaces">XmlSerializerNamespaces</a> object that contains all namespace prefix definitions.</p>
-<p>On serialization, the user can add prefix-namespace pairs to the <a class="xref" href="System.Xml.Serialization.XmlSerializerNamespaces.html#System_Xml_Serialization_XmlSerializerNamespaces">XmlSerializerNamespaces</a> object using the <a class="xref" href="System.Xml.Serialization.XmlSerializerNamespaces.html#System_Xml_Serialization_XmlSerializerNamespaces_Add_System_String_System_String_">Add(String, String)</a> method. This is shown in the following C# and Visual Basic code: </p>
-<pre><code> // C#
-using System;
-using System.IO;
-using System.Xml.Serialization;
-[XmlRoot("select")]
-public class Select {
-[XmlAttribute]
-public string xpath;
-[XmlNamespaceDeclarations]
-public XmlSerializerNamespaces xmlns;
-}
-public class Test {
-public static void Main(string[] args) {
-Select mySelect = new Select();
-mySelect.xpath = "myNS:ref/@common:y";
-mySelect.xmlns = new XmlSerializerNamespaces();
-mySelect.xmlns.Add("MyNS", "myNS.tempuri.org");
-mySelect.xmlns.Add("common", "common.tempuri.org");
-XmlSerializer ser = new XmlSerializer(typeof(Select));
-ser.Serialize(Console.Out, mySelect);
-}
-}
-// Output:
-// <?xml version="1.0" encoding="IBM437"?>
-// <select xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="common.tempuri.org" xmlns:myns="myNS.tempuri.org" xpath="myNS:ref/@common:y"></select>
-' Visual Basic
-Imports System
-Imports System.IO
-Imports System.Xml.Serialization
-<xmlroot("select")> _
-Public Class SelectPath
-<xmlattribute> _
-Public xpath As String 
-<xmlnamespacedeclarations> _
-public xmlns As XmlSerializerNamespaces 
-End Class
-Public Class Test 
-Public Shared Sub Main() 
-Dim mySelect As SelectPath = New SelectPath()
-mySelect.xpath = "myNS:ref/@common:y"
-mySelect.xmlns = New XmlSerializerNamespaces()
-mySelect.xmlns.Add("MyNS", "myNS.tempuri.org")
-mySelect.xmlns.Add("common", "common.tempuri.org")
-Dim ser As XmlSerializer = New XmlSerializer(mySelect.GetType)
-ser.Serialize(Console.Out, mySelect)
-End Sub
-End Class
-'Output:
-' <?xml version="1.0" encoding="IBM437"?>
-' <select xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '="" xmlns:common="common.tempuri.org" xmlns:myns="myNS.tempuri.org" xpath="myNS:ref/@common:y"></select></xmlnamespacedeclarations></xmlattribute></xmlroot("select")></code></pre>
-<p>Also note that the member to which the attribute is applied contains only the prefix-namespace pairs that belong to the XML element defined by the class. For example, in the following XML document, only the prefix pair "cal" is captured, but not the "x" prefix. To get that data, add a member with the <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a> to the class that represents the <code>root</code> element.</p>
-<pre><code> <?xml version="1.0"?>
-<x:root xmlns:x="http://www.cohowinery.com/x/">
-<x:select xmlns:cal="http://www.cohowinery.com/calendar/" path="cal:appointments/@cal:startTime"></x:select>
-</x:root></code></pre>
-</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -193,12 +96,8 @@ End Class
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XmlSerializer/ref/System.Xml.XmlSerializer.cs/#L167">View Source</a>
               </span>
               <h4 id="System_Xml_Serialization_XmlNamespaceDeclarationsAttribute__ctor" data-uid="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.#ctor">XmlNamespaceDeclarationsAttribute()</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a> class.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Serialization_XmlNamespaceDeclarationsAttribute__ctor_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.Serialization.XmlNamespaceDeclarationsAttribute.html#System_Xml_Serialization_XmlNamespaceDeclarationsAttribute">XmlNamespaceDeclarationsAttribute</a> can only be applied to a target that returns an <a class="xref" href="System.Xml.Serialization.XmlSerializerNamespaces.html#System_Xml_Serialization_XmlSerializerNamespaces">XmlSerializerNamespaces</a> object.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XmlNamespaceDeclarationsAttribute()</code></pre>

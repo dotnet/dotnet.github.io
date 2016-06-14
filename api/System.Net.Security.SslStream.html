@@ -73,8 +73,7 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L36" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Net_Security_SslStream" data-uid="System.Net.Security.SslStream">Class SslStream
               </h1>
-              <div class="markdown level0 summary"><p>Provides a stream used for client-server communication that uses the Secure Socket Layer (SSL) security protocol to authenticate the server and optionally the client.</p>
-</div>
+              <div class="markdown level0 summary"></div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
                 <h5>Inheritance</h5>
@@ -88,45 +87,6 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class SslStream : AuthenticatedStream</code></pre>
               </div>
-              <h5 id="System_Net_Security_SslStream_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>SSL protocols help to provide confidentiality and integrity checking for messages transmitted using an <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>. An SSL connection, such as that provided by <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>, should be used when communicating sensitive information between a client and a server. Using an <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> helps to prevent anyone from reading and tampering with information while it is in transit on the network. </p>
-<p>An <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance transmits data using a stream that you supply when creating the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>. When you supply this underlying stream, you have the option to specify whether closing the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> also closes the underlying stream. Typically, the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class is used with the <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient">TcpClient</a> and <a class="xref" href="System.Net.Sockets.TcpListener.html#System_Net_Sockets_TcpListener">TcpListener</a> classes. The <a class="xref" href="System.Net.Sockets.TcpClient.html#System_Net_Sockets_TcpClient_GetStream">GetStream()</a> method provides a <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a> suitable for use with the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class.</p>
-<p>After creating an <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>, the server and optionally, the client must be authenticated. The server must provide an X509 certificate that establishes proof of its identity and can request that the client also do so. Authentication must be performed before transmitting information using an <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>. Clients initiate authentication using the synchronous <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsClient"></see> methods, which block until the authentication completes, or the asynchronous <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient"></see> methods, which do not block waiting for the authentication to complete. Servers initiate authentication using the synchronous <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer"></see> or asynchronous <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer"></see> methods. Both client and server must initiate the authentication. </p>
-<p>The authentication is handled by the Security Support Provider (SSPI) channel provider. The client is given an opportunity to control validation of the server&#39;s certificate by specifying a <a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a> delegate when creating an <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>. The server can also control validation by supplying a <a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a> delegate. The method referenced by the delegate includes the remote party&#39;s certificate and any errors SSPI encountered while validating the certificate. Note that if the server specifies a delegate, the delegate&#39;s method is invoked regardless of whether the server requested client authentication. If the server did not request client authentication, the server&#39;s delegate method receives a null certificate and an empty array of certificate errors. </p>
-<p>If the server requires client authentication, the client must specify one or more certificates for authentication. If the client has more than one certificate, the client can provide a <a class="xref" href="System.Net.Security.LocalCertificateSelectionCallback.html#System_Net_Security_LocalCertificateSelectionCallback">LocalCertificateSelectionCallback</a> delegate to select the correct certificate for the server. The client&#39;s certificates must be located in the current user&#39;s &quot;My&quot; certificate store. Client authentication via certificates is not supported for the <a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols_Ssl2">Ssl2</a> (SSL version 2) protocol.</p>
-<p>If the authentication fails, you receive a <a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a>, and the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>
-<p>When the authentication process, also known as the SSL handshake, succeeds, the identity of the server (and optionally, the client) is established and the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> can be used by the client and server to exchange messages. Before sending or receiving information, the client and server should check the security services and levels provided by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> to determine whether the protocol, algorithms, and strengths selected meet their requirements for integrity and confidentiality. If the current settings are not sufficient, the stream should be closed. You can check the security services provided by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> using the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsEncrypted">IsEncrypted</a> and <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsSigned">IsSigned</a> properties. The following table shows the elements that report the cryptographic settings used for authentication, encryption and data signing.</p>
-<p>Element </p>
-<p>Members </p>
-<table><tbody><tr><td>
-<p>The security protocol used to authenticate the server and, optionally, the client. </p>
-</td><td>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_SslProtocol">SslProtocol</a> property and the associated <a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a> enumeration. </p>
-</td></tr><tr><td>
-<p>The key exchange algorithm. </p>
-</td><td>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_KeyExchangeAlgorithm">KeyExchangeAlgorithm</a> property and the associated <a class="xref" href="System.Security.Authentication.ExchangeAlgorithmType.html#System_Security_Authentication_ExchangeAlgorithmType">ExchangeAlgorithmType</a>  enumeration. </p>
-</td></tr><tr><td>
-<p>The message integrity algorithm. </p>
-</td><td>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_HashAlgorithm">HashAlgorithm</a> property and the associated <a class="xref" href="System.Security.Authentication.HashAlgorithmType.html#System_Security_Authentication_HashAlgorithmType">HashAlgorithmType</a> enumeration. </p>
-</td></tr><tr><td>
-<p>The message confidentiality algorithm. </p>
-</td><td>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_CipherAlgorithm">CipherAlgorithm</a> property and the associated <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType">CipherAlgorithmType</a>  enumeration. </p>
-</td></tr><tr><td>
-<p>The strengths of the selected algorithms. </p>
-</td><td>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_KeyExchangeStrength">KeyExchangeStrength</a>, <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_HashStrength">HashStrength</a>, and <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_CipherStrength">CipherStrength</a> properties. </p>
-</td></tr></tbody></table>
-<p>After a successful authentication, you can send data using the synchronous <see cref="Overload:System.Net.Security.SslStream.Write"></see> or asynchronous <span class="xref">System.Net.Security.SslStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)</span> methods. You can receive data using the synchronous <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_Read_System_Byte___System_Int32_System_Int32_">Read(Byte[], Int32, Int32)</a> or asynchronous <span class="xref">System.Net.Security.SslStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)</span> methods. </p>
-<p>If you specified to the <see cref="Overload:System.Net.Security.SslStream.#ctor"></see> that the underlying stream should be left open, you are responsible for closing that stream when you are done using it.</p>
-<p>If the application that creates the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> object runs with the credentials of a Normal user, the application will not be able to access certificates installed in the local machine store unless permission has been explicitly given to the user to do so.</p>
-<p>
-<a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> assumes that a timeout along with any other <a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a> when one is thrown from the inner stream will be treated as fatal by its caller. Reusing a <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance after a timeout will return garbage. An application should <span class="xref">System.IO.Stream.Close</span> the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> and throw an exception in these cases.</p>
-<p>The .NET Framework 4.6 includes a new security feature that blocks insecure cipher and hashing algorithms for connections. Applications using TLS/SSL through APIs such as HttpClient, HttpWebRequest, FTPClient, SmtpClient, SslStream, etc. and targeting .NET Framework 4.6 get the more-secure behavior by default.</p>
-<p>Developers may want to opt out of this behavior in order to maintain interoperability with their existing SSL3 services OR TLS w/ RC4 services. <see href="https://support.microsoft.com/kb/3069494">This article</see> explains how to modify your code so that the new behavior is disabled.</p>
-</div>
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -137,13 +97,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L73">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream__ctor_System_IO_Stream_" data-uid="System.Net.Security.SslStream.#ctor(System.IO.Stream)">SslStream(IO.Stream)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class using the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream__ctor_System_IO_Stream__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If a value is not specified in the configuration file for encryptionpolicy, the <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a> defaults to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_RequireEncryption">RequireEncryption</a> for the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance that is constructed.</p>
-<p>The use of the Null cipher is required when the encryption policy is set to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_NoEncryption">NoEncryption</a>.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SslStream(IO.Stream innerStream)</code></pre>
@@ -161,37 +116,7 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Stream.html#System_IO_Stream">IO.Stream</a></td>
                     <td><em>innerStream</em></td>
-                    <td><p>A <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>innerStream</em> is not readable.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is not writable.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>innerStream</em> is <strong>null</strong>.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is equal to <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Null"></a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -203,14 +128,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L74">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_" data-uid="System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean)">SslStream(IO.Stream, Boolean)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class using the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> and stream closure behavior.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When you specify <strong>true</strong> for the <em>leaveStreamOpen</em> parameter, closing the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> has no effect on the <em>innerStream</em> stream; you must explicitly close <em>innerStream</em> when you no longer need it.</p>
-<p>If a value is not specified in the configuration file for encryptionpolicy, the <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a> defaults to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_RequireEncryption">RequireEncryption</a> for the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance that is constructed.</p>
-<p>The use of the Null cipher is required when the encryption policy is set to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_NoEncryption">NoEncryption</a>.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen)</code></pre>
@@ -228,43 +147,12 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Stream.html#System_IO_Stream">IO.Stream</a></td>
                     <td><em>innerStream</em></td>
-                    <td><p>A <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>leaveInnerStreamOpen</em></td>
-                    <td><p>A Boolean value that indicates the closure behavior of the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>innerStream</em> is not readable.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is not writable.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>innerStream</em> is <strong>null</strong>.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is equal to <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Null"></a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -276,18 +164,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L75">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_System_Net_Security_RemoteCertificateValidationCallback_" data-uid="System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback)">SslStream(IO.Stream, Boolean, RemoteCertificateValidationCallback)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class using the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, stream closure behavior and certificate validation delegate.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_System_Net_Security_RemoteCertificateValidationCallback__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When you specify <strong>true</strong> for the <em>leaveStreamOpen</em> parameter, closing the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> has no effect on the <em>innerStream</em> stream; you must explicitly close <em>innerStream</em> when you no longer need it.</p>
-<p>The <em>userCertificateValidationCallback</em> delegate&#39;s <em>certificateErrors</em> argument contains any Windows error codes returned by the channel Security Support Provider Interface (SSPI). The return value of the method invoked by the <em>userCertificateValidationCallback</em> delegate determines whether authentication succeeds.</p>
-<p>The security protocol and cryptographic algorithms are already selected when the <em>userCertificateValidationCallback</em> delegate&#39;s method is invoked. You can use the method to determine whether the selected cryptographic algorithms and strengths are sufficient for your application. If not, the method should return <strong>false</strong> to prevent the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> from being created.</p>
-<p>If a value is not specified in the configuration file for encryptionpolicy, the <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a> defaults to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_RequireEncryption">RequireEncryption</a> for the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance that is constructed.</p>
-<p>The use of the Null cipher is required when the encryption policy is set to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_NoEncryption">NoEncryption</a>.</p>
-<p>The Framework caches SSL sessions as they are created and attempts to reuse a cached session for a new request, if possible. When attempting to reuse an SSL session, the Framework uses the first element of <span class="xref">System.Net.HttpWebRequest.ClientCertificates</span> (if there is one), or tries to reuse an anonymous sessions if <span class="xref">System.Net.HttpWebRequest.ClientCertificates</span> is empty.</p>
-<p>Client certificates are not supported in the SSL version 2 protocol.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback)</code></pre>
@@ -305,49 +183,17 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Stream.html#System_IO_Stream">IO.Stream</a></td>
                     <td><em>innerStream</em></td>
-                    <td><p>A <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>leaveInnerStreamOpen</em></td>
-                    <td><p>A Boolean value that indicates the closure behavior of the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a></td>
                     <td><em>userCertificateValidationCallback</em></td>
-                    <td><p>A <a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a> delegate responsible for validating the certificate supplied by the remote party.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>innerStream</em> is not readable.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is not writable.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>innerStream</em> is <strong>null</strong>.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is equal to <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Null"></a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -359,18 +205,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L76">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_System_Net_Security_RemoteCertificateValidationCallback_System_Net_Security_LocalCertificateSelectionCallback_" data-uid="System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback)">SslStream(IO.Stream, Boolean, RemoteCertificateValidationCallback, LocalCertificateSelectionCallback)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class using the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, stream closure behavior, certificate validation delegate and certificate selection delegate.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_System_Net_Security_RemoteCertificateValidationCallback_System_Net_Security_LocalCertificateSelectionCallback__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When you specify <strong>true</strong> for the <em>leaveStreamOpen</em> parameter, closing the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> has no effect on the <em>innerStream</em> stream; you must explicitly close <em>innerStream</em> when you no longer need it.</p>
-<p>The <em>userCertificateValidationCallback</em> delegate&#39;s <em>certificateErrors</em> argument contains any Windows error codes returned by the channel Security Support Provider Interface (SSPI). The return value of the method invoked by the <em>userCertificateValidationCallback</em> delegate determines whether authentication succeeds.</p>
-<p>The security protocol and cryptographic algorithms are already selected when the <em>userCertificateValidationCallback</em> delegate&#39;s method is invoked. You can use the method to determine whether the selected cryptographic algorithms and strengths are sufficient for your application. If not, the method should return <strong>false</strong> to prevent the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> from being created.</p>
-<p>The <em>userCertificateSelectionCallback</em> delegate is useful when your application has multiple certificates and must dynamically choose a certificate. Certificates in the &quot;MY&quot; store are passed to the method invoked by the delegate. </p>
-<p>If a value is not specified in the configuration file for encryptionpolicy, the <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a> defaults to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_RequireEncryption">RequireEncryption</a> for the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance that is constructed.</p>
-<p>The use of the Null cipher is required when the encryption policy is set to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_NoEncryption">NoEncryption</a>.</p>
-<p>The Framework caches SSL sessions as they are created and attempts to reuse a cached session for a new request, if possible. When attempting to reuse an SSL session, the Framework uses the first element of P:System.Net.HttpWebRequest.ClientCertificates (if there is one), or tries to reuse an anonymous sessions if P:System.Net.HttpWebRequest.ClientCertificates is empty.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback, LocalCertificateSelectionCallback userCertificateSelectionCallback)</code></pre>
@@ -388,55 +224,22 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Stream.html#System_IO_Stream">IO.Stream</a></td>
                     <td><em>innerStream</em></td>
-                    <td><p>A <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>leaveInnerStreamOpen</em></td>
-                    <td><p>A Boolean value that indicates the closure behavior of the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a></td>
                     <td><em>userCertificateValidationCallback</em></td>
-                    <td><p>A <a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a> delegate responsible for validating the certificate supplied by the remote party.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Security.LocalCertificateSelectionCallback.html#System_Net_Security_LocalCertificateSelectionCallback">LocalCertificateSelectionCallback</a></td>
                     <td><em>userCertificateSelectionCallback</em></td>
-                    <td><p>A <a class="xref" href="System.Net.Security.LocalCertificateSelectionCallback.html#System_Net_Security_LocalCertificateSelectionCallback">LocalCertificateSelectionCallback</a> delegate responsible for selecting the certificate used for authentication.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>innerStream</em> is not readable.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is not writable.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>innerStream</em> is <strong>null</strong>.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is equal to <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Null"></a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -448,12 +251,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L77">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_System_Net_Security_RemoteCertificateValidationCallback_System_Net_Security_LocalCertificateSelectionCallback_System_Net_Security_EncryptionPolicy_" data-uid="System.Net.Security.SslStream.#ctor(System.IO.Stream,System.Boolean,System.Net.Security.RemoteCertificateValidationCallback,System.Net.Security.LocalCertificateSelectionCallback,System.Net.Security.EncryptionPolicy)">SslStream(IO.Stream, Boolean, RemoteCertificateValidationCallback, LocalCertificateSelectionCallback, EncryptionPolicy)</h4>
-              <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class using the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a></p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream__ctor_System_IO_Stream_System_Boolean_System_Net_Security_RemoteCertificateValidationCallback_System_Net_Security_LocalCertificateSelectionCallback_System_Net_Security_EncryptionPolicy__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The use of the Null cipher is required when the <em>encryptionPolicy</em> parameter is set to <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_NoEncryption">NoEncryption</a>.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback, LocalCertificateSelectionCallback userCertificateSelectionCallback, EncryptionPolicy encryptionPolicy)</code></pre>
@@ -471,64 +270,27 @@
                   <tr>
                     <td><a class="xref" href="System.IO.Stream.html#System_IO_Stream">IO.Stream</a></td>
                     <td><em>innerStream</em></td>
-                    <td><p>A <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>leaveInnerStreamOpen</em></td>
-                    <td><p>A Boolean value that indicates the closure behavior of the <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a> object used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a></td>
                     <td><em>userCertificateValidationCallback</em></td>
-                    <td><p>A <a class="xref" href="System.Net.Security.RemoteCertificateValidationCallback.html#System_Net_Security_RemoteCertificateValidationCallback">RemoteCertificateValidationCallback</a> delegate responsible for validating the certificate supplied by the remote party.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Security.LocalCertificateSelectionCallback.html#System_Net_Security_LocalCertificateSelectionCallback">LocalCertificateSelectionCallback</a></td>
                     <td><em>userCertificateSelectionCallback</em></td>
-                    <td><p>A <a class="xref" href="System.Net.Security.LocalCertificateSelectionCallback.html#System_Net_Security_LocalCertificateSelectionCallback">LocalCertificateSelectionCallback</a> delegate responsible for selecting the certificate used for authentication.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a></td>
                     <td><em>encryptionPolicy</em></td>
-                    <td><p>The <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a> to use.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>innerStream</em> is not readable.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is not writable.</p>
-<p>-or-</p>
-<p>
-<em>encryptionPolicy</em> is not valid.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>innerStream</em> is <strong>null</strong>.</p>
-<p>-or-</p>
-<p>
-<em>innerStream</em> is equal to <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Null"></a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -542,13 +304,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L335">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CanRead" data-uid="System.Net.Security.SslStream.CanRead">CanRead</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the underlying stream is readable.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CanRead_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If successful authentication has occurred, this property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_CanRead">CanRead</a> on the underlying stream.</p>
-<p>The underlying stream is specified when you create an instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanRead { get; }</code></pre>
@@ -564,9 +321,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if authentication has occurred and the underlying stream is readable; otherwise <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -578,13 +333,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L327">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CanSeek" data-uid="System.Net.Security.SslStream.CanSeek">CanSeek</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the underlying stream is seekable.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CanSeek_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Do not attempt to set the position of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> object or its underlying stream.</p>
-<p>The underlying stream is specified when you create an instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanSeek { get; }</code></pre>
@@ -600,8 +350,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>This property always returns <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -613,13 +362,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L343">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CanTimeout" data-uid="System.Net.Security.SslStream.CanTimeout">CanTimeout</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the underlying stream supports time-outs.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CanTimeout_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_CanTimeout">CanTimeout</a> on the underlying stream.</p>
-<p>The underlying stream is specified when you create an instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanTimeout { get; }</code></pre>
@@ -635,9 +379,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the underlying stream supports time-outs; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -649,13 +391,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L351">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CanWrite" data-uid="System.Net.Security.SslStream.CanWrite">CanWrite</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the underlying stream is writable.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CanWrite_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If successful authentication has occurred, this property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_CanWrite">CanWrite</a> on the underlying stream.</p>
-<p>The underlying stream is specified when you create an instance of the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool CanWrite { get; }</code></pre>
@@ -671,9 +408,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if authentication has occurred and the underlying stream is writable; otherwise <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -685,12 +420,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L242">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CheckCertRevocationStatus" data-uid="System.Net.Security.SslStream.CheckCertRevocationStatus">CheckCertRevocationStatus</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the certificate revocation list is checked during the certificate validation process.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CheckCertRevocationStatus_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The certificate revocation list contains certificates that have been revoked by the issuer. Checking the list negatively impacts performance but improves application security.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual bool CheckCertRevocationStatus { get; }</code></pre>
@@ -706,9 +437,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the certificate revocation list is checked; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -720,13 +449,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L276">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CipherAlgorithm" data-uid="System.Net.Security.SslStream.CipherAlgorithm">CipherAlgorithm</h4>
-              <div class="markdown level1 summary"><p>Gets a value that identifies the bulk encryption algorithm used by this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CipherAlgorithm_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>A value of <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType_Null"></a> is required for the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_CipherAlgorithm">CipherAlgorithm</a> property when the <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy_NoEncryption">NoEncryption</a> enumeration value is used to construct a <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance. </p>
-<p>Windows Server 2003 and Windows XP do not support the <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType_Null"></a> value. So even if the <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType_Null"></a> value is used to construct the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> instance, the <a class="xref" href="System.Net.Security.EncryptionPolicy.html#System_Net_Security_EncryptionPolicy">EncryptionPolicy</a> property will be <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType_None">None</a>. The <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType_Null"></a> value is only returned on Windows Vista and later.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual CipherAlgorithmType CipherAlgorithm { get; }</code></pre>
@@ -741,25 +465,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType">CipherAlgorithmType</a></td>
-                    <td><p>A <a class="xref" href="System.Security.Authentication.CipherAlgorithmType.html#System_Security_Authentication_CipherAlgorithmType">CipherAlgorithmType</a> value.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_CipherAlgorithm">CipherAlgorithm</a> property was accessed before the completion of the authentication process or the authentication process failed.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -771,30 +478,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L284">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_CipherStrength" data-uid="System.Net.Security.SslStream.CipherStrength">CipherStrength</h4>
-              <div class="markdown level1 summary"><p>Gets a value that identifies the strength of the cipher algorithm used by this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_CipherStrength_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p><p>The value of this property is zero until the authentication occurs.</p></p>
-<p><p>This property returns one of the following values: </p></p>
-<ul><li>
-<p>0 </p>
-</li><li>
-<p>40 </p>
-</li><li>
-<p>56 </p>
-</li><li>
-<p>80 </p>
-</li><li>
-<p>128 </p>
-</li><li>
-<p>168 </p>
-</li><li>
-<p>192 </p>
-</li><li>
-<p>256 </p>
-</li></ul>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int CipherStrength { get; }</code></pre>
@@ -810,8 +495,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>An <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that specifies the strength of the algorithm, in bits.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -823,12 +507,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L292">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_HashAlgorithm" data-uid="System.Net.Security.SslStream.HashAlgorithm">HashAlgorithm</h4>
-              <div class="markdown level1 summary"><p>Gets the algorithm used for generating message authentication codes (MACs).</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_HashAlgorithm_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Message authentication algorithms generate message hashes and signatures used to detect tampering and forgery.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual HashAlgorithmType HashAlgorithm { get; }</code></pre>
@@ -843,25 +523,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Authentication.HashAlgorithmType.html#System_Security_Authentication_HashAlgorithmType">HashAlgorithmType</a></td>
-                    <td><p>A <a class="xref" href="System.Security.Authentication.HashAlgorithmType.html#System_Security_Authentication_HashAlgorithmType">HashAlgorithmType</a> value.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_HashAlgorithm">HashAlgorithm</a> property was accessed before the completion of the authentication process or the authentication process failed.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -873,12 +536,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L300">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_HashStrength" data-uid="System.Net.Security.SslStream.HashStrength">HashStrength</h4>
-              <div class="markdown level1 summary"><p>Gets a value that identifies the strength of the hash algorithm used by this instance.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_HashStrength_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The value of this property is zero until the authentication occurs.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int HashStrength { get; }</code></pre>
@@ -894,8 +553,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>An <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that specifies the strength of the <a class="xref" href="System.Security.Authentication.HashAlgorithmType.html#System_Security_Authentication_HashAlgorithmType">HashAlgorithmType</a> algorithm, in bits. Valid values are 128 or 160.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -907,12 +565,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L194">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_IsAuthenticated" data-uid="System.Net.Security.SslStream.IsAuthenticated">IsAuthenticated</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether authentication was successful.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_IsAuthenticated_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Clients authenticate by calling the <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsClient"></see> or <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient"></see> methods. Servers authenticate by calling the <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer"></see> or <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer"></see> methods.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsAuthenticated { get; }</code></pre>
@@ -928,9 +582,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if successful authentication occurred; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -942,12 +594,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L210">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_IsEncrypted" data-uid="System.Net.Security.SslStream.IsEncrypted">IsEncrypted</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> uses data encryption.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_IsEncrypted_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Encryption helps to protect the privacy of the data, namely it helps to ensure that while data is in transit, it cannot be deciphered by third parties. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsEncrypted { get; }</code></pre>
@@ -963,9 +611,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if data is encrypted before being transmitted over the network and decrypted when it reaches the remote endpoint; otherwise <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -977,12 +623,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L202">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_IsMutuallyAuthenticated" data-uid="System.Net.Security.SslStream.IsMutuallyAuthenticated">IsMutuallyAuthenticated</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether both server and client have been authenticated.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_IsMutuallyAuthenticated_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Mutual authentication is specified by the server when the server wants the client to provide a certificate for authentication. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsMutuallyAuthenticated { get; }</code></pre>
@@ -998,9 +640,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the server has been authenticated; otherwise <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1012,13 +652,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L226">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_IsServer" data-uid="System.Net.Security.SslStream.IsServer">IsServer</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the local side of the connection used by this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> was authenticated as the server.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_IsServer_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If authentication failed or did not occur, this property returns <strong>false</strong>.</p>
-<p>To authenticate as the server, call the <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer"></see> or <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer"></see> methods.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsServer { get; }</code></pre>
@@ -1034,9 +669,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the local endpoint was successfully authenticated as the server side of the authenticated connection; otherwise <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1048,12 +681,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L218">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_IsSigned" data-uid="System.Net.Security.SslStream.IsSigned">IsSigned</h4>
-              <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that indicates whether the data sent using this stream is signed.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_IsSigned_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Data signing helps to protect the integrity of the data, namely it helps the recipient determine whether the data has been tampered with while in transit. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override bool IsSigned { get; }</code></pre>
@@ -1069,9 +698,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the data is signed before being transmitted; otherwise <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1083,13 +710,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L308">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_KeyExchangeAlgorithm" data-uid="System.Net.Security.SslStream.KeyExchangeAlgorithm">KeyExchangeAlgorithm</h4>
-              <div class="markdown level1 summary"><p>Gets the key exchange algorithm used by this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_KeyExchangeAlgorithm_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The value of this property is <a class="xref" href="System.Security.Authentication.ExchangeAlgorithmType.html#System_Security_Authentication_ExchangeAlgorithmType_None">None</a> until the authentication occurs.</p>
-<p>The key exchange algorithm protects information used to generate shared keys.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual ExchangeAlgorithmType KeyExchangeAlgorithm { get; }</code></pre>
@@ -1104,9 +726,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Authentication.ExchangeAlgorithmType.html#System_Security_Authentication_ExchangeAlgorithmType">ExchangeAlgorithmType</a></td>
-                    <td><p>An <a class="xref" href="System.Security.Authentication.ExchangeAlgorithmType.html#System_Security_Authentication_ExchangeAlgorithmType">ExchangeAlgorithmType</a> value.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1118,22 +739,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L316">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_KeyExchangeStrength" data-uid="System.Net.Security.SslStream.KeyExchangeStrength">KeyExchangeStrength</h4>
-              <div class="markdown level1 summary"><p>Gets a value that identifies the strength of the key exchange algorithm used by this instance.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_KeyExchangeStrength_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p><p>The value of this property is zero until the authentication occurs.</p></p>
-<p><p>In common scenarios, the value of this property is one of the following: </p></p>
-<ul><li>
-<p>512 </p>
-</li><li>
-<p>768 </p>
-</li><li>
-<p>1024 </p>
-</li><li>
-<p>2048 </p>
-</li></ul>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual int KeyExchangeStrength { get; }</code></pre>
@@ -1149,8 +756,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>An <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that specifies the strength of the <a class="xref" href="System.Security.Authentication.ExchangeAlgorithmType.html#System_Security_Authentication_ExchangeAlgorithmType">ExchangeAlgorithmType</a> algorithm, in bits.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1162,12 +768,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L383">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Length" data-uid="System.Net.Security.SslStream.Length">Length</h4>
-              <div class="markdown level1 summary"><p>Gets the length of the underlying stream.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Length_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Length">Length</a> on the underlying stream. If the underlying stream is not seekable, this method typically throws an exception. The run-time type of the underlying stream determines the run-time type of the exception that is thrown.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Length { get; }</code></pre>
@@ -1183,25 +785,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>A <a class="xref" href="System.Int64.html#System_Int64">Int64</a>.</p>
-<p>The length of the underlying stream.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>Getting the value of this property is not supported when the underlying stream is a <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1213,12 +797,11 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L250">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_LocalCertificate" data-uid="System.Net.Security.SslStream.LocalCertificate">LocalCertificate</h4>
-              <div class="markdown level1 summary"><p>Gets the certificate used to authenticate the local endpoint.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual Cryptography.X509Certificates.X509Certificate LocalCertificate { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual X509Certificate LocalCertificate { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1230,25 +813,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Cryptography.X509Certificates.X509Certificate.html#System_Security_Cryptography_X509Certificates_X509Certificate">X509Certificate</a></td>
-                    <td><p>An X509Certificate object that represents the certificate supplied for authentication or <strong>null</strong> if no certificate was supplied.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication failed or has not occurred.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1260,12 +826,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L391">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Position" data-uid="System.Net.Security.SslStream.Position">Position</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the current position in the underlying stream.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Position_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Position">Position</a> on the underlying stream. If the underlying stream is not seekable, this method typically throws an exception. The run-time type of the underlying stream determines the run-time type of the exception that is thrown.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Position { get; set; }</code></pre>
@@ -1281,27 +843,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>A <a class="xref" href="System.Int64.html#System_Int64">Int64</a>.</p>
-<p>The current position in the underlying stream.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>Setting this property is not supported.</p>
-<p>-or-</p>
-<p>Getting the value of this property is not supported when the underlying stream is a <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1313,13 +855,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L359">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_ReadTimeout" data-uid="System.Net.Security.SslStream.ReadTimeout">ReadTimeout</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the amount of time a read operation blocks waiting for data.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_ReadTimeout_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_ReadTimeout">ReadTimeout</a> on the underlying stream. When you set this property, the <a class="xref" href="System.IO.Stream.html#System_IO_Stream_ReadTimeout">ReadTimeout</a> value on the underlying stream is set to the specified value.</p>
-<p>If the underlying stream is a <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>, <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_ReadTimeout">ReadTimeout</a> is in milliseconds and is set to <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> by default so that read operations do not timeout.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int ReadTimeout { get; set; }</code></pre>
@@ -1335,8 +872,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> that specifies the amount of time that elapses before a synchronous read operation fails.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1348,12 +884,11 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L258">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_RemoteCertificate" data-uid="System.Net.Security.SslStream.RemoteCertificate">RemoteCertificate</h4>
-              <div class="markdown level1 summary"><p>Gets the certificate used to authenticate the remote endpoint.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual Cryptography.X509Certificates.X509Certificate RemoteCertificate { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual X509Certificate RemoteCertificate { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1365,25 +900,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Cryptography.X509Certificates.X509Certificate.html#System_Security_Cryptography_X509Certificates_X509Certificate">X509Certificate</a></td>
-                    <td><p>An X509Certificate object that represents the certificate supplied for authentication or <strong>null</strong> if no certificate was supplied.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication failed or has not occurred.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1395,12 +913,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L234">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_SslProtocol" data-uid="System.Net.Security.SslStream.SslProtocol">SslProtocol</h4>
-              <div class="markdown level1 summary"><p>Gets a value that indicates the security protocol used to authenticate this connection.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_SslProtocol_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The supported security protocols are specified when the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> is created. If no security protocol was passed to the constructor, the instance is created using <span class="xref">System.Security.Authentication.SslProtocols.Default</span>. The actual protocol used for authentication is selected based on the protocols supported by the client and server.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual SslProtocols SslProtocol { get; }</code></pre>
@@ -1415,9 +929,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a></td>
-                    <td><p>The <a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a> value that represents the protocol used for authentication.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1429,8 +942,7 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L155">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_TransportContext" data-uid="System.Net.Security.SslStream.TransportContext">TransportContext</h4>
-              <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Net.TransportContext.html#System_Net_TransportContext">TransportContext</a> used for authentication using extended protection.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -1446,9 +958,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Net.TransportContext.html#System_Net_TransportContext">TransportContext</a></td>
-                    <td><p>The <a class="xref" href="System.Net.TransportContext.html#System_Net_TransportContext">TransportContext</a> object that contains the channel binding token (CBT) used for extended protection.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1460,13 +971,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L371">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_WriteTimeout" data-uid="System.Net.Security.SslStream.WriteTimeout">WriteTimeout</h4>
-              <div class="markdown level1 summary"><p>Gets or sets the amount of time a write operation blocks waiting for data.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_WriteTimeout_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property returns the value returned by invoking <a class="xref" href="System.IO.Stream.html#System_IO_Stream_WriteTimeout">WriteTimeout</a> on the underlying stream. For set operations, the specified value sets the <a class="xref" href="System.IO.Stream.html#System_IO_Stream_WriteTimeout">WriteTimeout</a> value on the underlying stream.</p>
-<p>If the underlying stream is a <a class="xref" href="System.Net.Sockets.NetworkStream.html#System_Net_Sockets_NetworkStream">NetworkStream</a>, <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_WriteTimeout">WriteTimeout</a> is in milliseconds and is set to <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> by default so that write operations do not timeout.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int WriteTimeout { get; set; }</code></pre>
@@ -1482,8 +988,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> that specifies the amount of time that elapses before a synchronous write operation fails. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1497,17 +1002,11 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L169">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_AuthenticateAsClientAsync_System_String_" data-uid="System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String)">AuthenticateAsClientAsync(String)</h4>
-              <div class="markdown level1 summary"><p>Called by clients to authenticate the server and optionally the client in a client-server connection as an asynchronous operation.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_AuthenticateAsClientAsync_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method authenticates using <span class="xref">System.Security.Authentication.SslProtocols.Default</span>. No client certificates are used in the authentication. The certificate revocation list is not checked during authentication. The value specified for <em>targetHost</em> must match the name on the server&#39;s certificate. </p>
-<p>When authentication succeeds, you must check the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsEncrypted">IsEncrypted</a> and <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsSigned">IsSigned</a> properties to determine what security services are used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>. Check the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsMutuallyAuthenticated">IsMutuallyAuthenticated</a> property to determine whether mutual authentication occurred.</p>
-<p>If the authentication fails, you receive a <a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a>, and this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual Threading.Tasks.Task AuthenticateAsClientAsync(string targetHost)</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Task AuthenticateAsClientAsync(string targetHost)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1522,8 +1021,7 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>targetHost</em></td>
-                    <td><p>The name of the server that shares this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1537,46 +1035,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
-<p>The task object representing the asynchronous operation.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>targetHost</em> is <strong>null</strong>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a></td>
-                    <td><p>The authentication failed and left this object in an unusable state.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication has already occurred.</p>
-<p>-or-</p>
-<p>Server authentication using this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> was tried previously.</p>
-<p>-or- </p>
-<p>Authentication is already in progress.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>This object has been closed.</p>
-</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1588,14 +1048,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L103">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_AuthenticateAsClientAsync_System_String_System_Security_Cryptography_X509Certificates_X509CertificateCollection_System_Security_Authentication_SslProtocols_System_Boolean_" data-uid="System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String,System.Security.Cryptography.X509Certificates.X509CertificateCollection,System.Security.Authentication.SslProtocols,System.Boolean)">AuthenticateAsClientAsync(String, Cryptography.X509Certificates.X509CertificateCollection, SslProtocols, Boolean)</h4>
-              <div class="markdown level1 summary"><p>Called by clients to authenticate the server and optionally the client in a client-server connection as an asynchronous operation. The authentication process uses the specified certificate collection and SSL protocol.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_AuthenticateAsClientAsync_System_String_System_Security_Cryptography_X509Certificates_X509CertificateCollection_System_Security_Authentication_SslProtocols_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When authentication succeeds, you must check the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsEncrypted">IsEncrypted</a> and <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsSigned">IsSigned</a> properties to determine what security services are used by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>. Check the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream_IsMutuallyAuthenticated">IsMutuallyAuthenticated</a> property to determine whether mutual authentication occurred.</p>
-<p>If the authentication fails, you receive a <a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a>, and this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector.</p>
-<p>Client certificates are not supported in the SSL version 2 protocol.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Threading.Tasks.Task AuthenticateAsClientAsync(string targetHost, Cryptography.X509Certificates.X509CertificateCollection clientCertificates, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)</code></pre>
@@ -1613,26 +1067,22 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>targetHost</em></td>
-                    <td><p>The name of the server that will share this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a>.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.Cryptography.X509Certificates.X509CertificateCollection.html#System_Security_Cryptography_X509Certificates_X509CertificateCollection">Security.Cryptography.X509Certificates.X509CertificateCollection</a></td>
                     <td><em>clientCertificates</em></td>
-                    <td><p>The <a class="xref" href="System.Security.Cryptography.X509Certificates.X509CertificateCollection.html#System_Security_Cryptography_X509Certificates_X509CertificateCollection">X509CertificateCollection</a> that contains client certificates.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a></td>
                     <td><em>enabledSslProtocols</em></td>
-                    <td><p>The <a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a> value that represents the protocol used for authentication.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>checkCertificateRevocation</em></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that specifies whether the certificate revocation list is checked during authentication.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1647,9 +1097,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
-<p>The task object representing the asynchronous operation.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1661,13 +1109,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L104">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_AuthenticateAsServerAsync_System_Security_Cryptography_X509Certificates_X509Certificate_" data-uid="System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate)">AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate)</h4>
-              <div class="markdown level1 summary"><p>Called by servers to authenticate the server and optionally the client in a client-server connection using the specified certificate as an asynchronous operation.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_AuthenticateAsServerAsync_System_Security_Cryptography_X509Certificates_X509Certificate__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method authenticates using <span class="xref">System.Security.Authentication.SslProtocols.Default</span>. The certificate revocation list is not checked during authentication. The client is not required to provide a certificate for authentication.</p>
-<p>If the authentication fails, you receive a <a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a>, and this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Threading.Tasks.Task AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate serverCertificate)</code></pre>
@@ -1685,8 +1128,7 @@
                   <tr>
                     <td><a class="xref" href="System.Security.Cryptography.X509Certificates.X509Certificate.html#System_Security_Cryptography_X509Certificates_X509Certificate">X509Certificate</a></td>
                     <td><em>serverCertificate</em></td>
-                    <td><p>The certificate used to authenticate the server.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1701,50 +1143,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
-<p>The task object representing the asynchronous operation.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>serverCertificate</em> is <strong>null</strong>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a></td>
-                    <td><p>The authentication failed and left this object in an unusable state.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication has already occurred.</p>
-<p>-or-</p>
-<p>Client authentication using this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> was tried previously.</p>
-<p>-or- </p>
-<p>Authentication is already in progress.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>This object has been closed.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.PlatformNotSupportedException.html#System_PlatformNotSupportedException">PlatformNotSupportedException</a></td>
-                    <td><p>The <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServerAsync"></see> method is not supported on Windows 95, Windows 98, or Windows Millennium.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1756,12 +1155,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L105">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_AuthenticateAsServerAsync_System_Security_Cryptography_X509Certificates_X509Certificate_System_Boolean_System_Security_Authentication_SslProtocols_System_Boolean_" data-uid="System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate,System.Boolean,System.Security.Authentication.SslProtocols,System.Boolean)">AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate, Boolean, SslProtocols, Boolean)</h4>
-              <div class="markdown level1 summary"><p>Called by servers to authenticate the server and optionally the client in a client-server connection using the specified certificates, requirements and security protocol as an asynchronous operation.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_AuthenticateAsServerAsync_System_Security_Cryptography_X509Certificates_X509Certificate_System_Boolean_System_Security_Authentication_SslProtocols_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the authentication fails, you receive a <a class="xref" href="System.Security.Authentication.AuthenticationException.html#System_Security_Authentication_AuthenticationException">AuthenticationException</a>, and this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public virtual Threading.Tasks.Task AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate serverCertificate, bool clientCertificateRequired, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)</code></pre>
@@ -1779,26 +1174,22 @@
                   <tr>
                     <td><a class="xref" href="System.Security.Cryptography.X509Certificates.X509Certificate.html#System_Security_Cryptography_X509Certificates_X509Certificate">X509Certificate</a></td>
                     <td><em>serverCertificate</em></td>
-                    <td><p>The X509Certificate used to authenticate the server.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>clientCertificateRequired</em></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that specifies whether the client is asked for a certificate for authentication. Note that this is only a request -- if no certificate is provided, the server still accepts the connection request.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a></td>
                     <td><em>enabledSslProtocols</em></td>
-                    <td><p>The <a class="xref" href="System.Security.Authentication.SslProtocols.html#System_Security_Authentication_SslProtocols">SslProtocols</a>  value that represents the protocol used for authentication.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>checkCertificateRevocation</em></td>
-                    <td><p>A <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value that specifies whether the certificate revocation list is checked during authentication.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1813,9 +1204,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Threading.Tasks.Task</a></td>
-                    <td><p>Returns <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a></p>
-<p>The task object representing the asynchronous operation.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1827,12 +1216,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L413">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Flush" data-uid="System.Net.Security.SslStream.Flush">Flush()</h4>
-              <div class="markdown level1 summary"><p>Causes any buffered data to be written to the underlying device.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Flush_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method invokes <a class="xref" href="System.IO.Stream.html#System_IO_Stream_Flush">Flush()</a> on the underlying stream.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Flush()</code></pre>
@@ -1845,14 +1230,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L435">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Read_System_Byte___System_Int32_System_Int32_" data-uid="System.Net.Security.SslStream.Read(System.Byte[],System.Int32,System.Int32)">Read(Byte[], Int32, Int32)</h4>
-              <div class="markdown level1 summary"><p>Reads data from this stream and stores it in the specified array.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Read_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The method reads a maximum of <em>count</em> bytes from the stream and stores them in <em>buffer</em> beginning at <em>offset</em>. You cannot perform multiple simultaneous read operations.</p>
-<p>You cannot call this method until you have successfully authenticated. To authenticate call one of the <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsClient"></see>, or <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient"></see>, <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer"></see>, <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer"></see> methods.</p>
-<p>To perform this operation asynchronously, use the <span class="xref">System.Net.Security.SslStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)</span> method. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override int Read(byte[] buffer, int offset, int count)</code></pre>
@@ -1870,20 +1249,17 @@
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
                     <td><em>buffer</em></td>
-                    <td><p>A <a class="xref" href="System.Byte.html#System_Byte">Byte</a> array that receives the bytes read from this stream.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>offset</em></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> that contains the zero-based location in <em>buffer</em> at which to begin storing the data read from this stream.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>count</em></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> that contains the maximum number of bytes to read from this stream.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1898,61 +1274,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value that specifies the number of bytes read. When there is no more data to be read, returns 0.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>buffer</em> is <strong>null</strong>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>offset</em>
-<em>&lt;</em>
-<em>0</em>.</p>
-<p>
-<em>-or-</em>
-</p>
-<p>
-<em>offset</em> &gt; the length of <em>buffer</em>.</p>
-<p>-or-</p>
-<p>
-<em>offset</em> + count &gt; the length of <em>buffer</em>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The read operation failed. Check the inner exception, if present to determine the cause of the failure.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>There is already a read operation in progress.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>This object has been closed.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication has not occurred.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1964,12 +1286,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/ref/System.Net.Security.cs/#L108">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Seek_System_Int64_System_IO_SeekOrigin_" data-uid="System.Net.Security.SslStream.Seek(System.Int64,System.IO.SeekOrigin)">Seek(Int64, IO.SeekOrigin)</h4>
-              <div class="markdown level1 summary"><p>Throws a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a>.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Seek_System_Int64_System_IO_SeekOrigin__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Do not call this method. It is inherited, but is not supported by the <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override long Seek(long offset, IO.SeekOrigin origin)</code></pre>
@@ -1987,14 +1305,12 @@
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
                     <td><em>offset</em></td>
-                    <td><p>This value is ignored.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IO.SeekOrigin.html#System_IO_SeekOrigin">SeekOrigin</a></td>
                     <td><em>origin</em></td>
-                    <td><p>This value is ignored.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -2009,24 +1325,7 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>Always throws a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a>.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>Seeking is not supported by <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> objects.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -2038,12 +1337,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L403">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_SetLength_System_Int64_" data-uid="System.Net.Security.SslStream.SetLength(System.Int64)">SetLength(Int64)</h4>
-              <div class="markdown level1 summary"><p>Sets the length of the underlying stream.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_SetLength_System_Int64__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method invokes <a class="xref" href="System.IO.Stream.html#System_IO_Stream_SetLength_System_Int64_">SetLength(Int64)</a> on the underlying stream specified when this <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> was created.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void SetLength(long value)</code></pre>
@@ -2061,8 +1356,7 @@
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
                     <td><em>value</em></td>
-                    <td><p>An <a class="xref" href="System.Int64.html#System_Int64">Int64</a> value that specifies the length of the stream.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -2074,14 +1368,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L440">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Write_System_Byte___" data-uid="System.Net.Security.SslStream.Write(System.Byte[])">Write(Byte[])</h4>
-              <div class="markdown level1 summary"><p>Writes the specified data to this stream.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Write_System_Byte____remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method blocks while the operation completes. To prevent blocking while the operation completes, use the <span class="xref">System.Net.Security.SslStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)</span> method.</p>
-<p>You cannot call this method until you have successfully authenticated. To authenticate call one of the <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsClient"></see>, or <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient"></see>, <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer"></see>, <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer"></see> methods.</p>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class does not support multiple simultaneous write operations.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Write(byte[] buffer)</code></pre>
@@ -2099,45 +1387,7 @@
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
                     <td><em>buffer</em></td>
-                    <td><p>A <a class="xref" href="System.Byte.html#System_Byte">Byte</a> array that supplies the bytes written to the stream.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>buffer</em> is <strong>null</strong>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The write operation failed.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>There is already a write operation in progress.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>This object has been closed.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication has not occurred.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -2149,14 +1399,8 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs/#L445">View Source</a>
               </span>
               <h4 id="System_Net_Security_SslStream_Write_System_Byte___System_Int32_System_Int32_" data-uid="System.Net.Security.SslStream.Write(System.Byte[],System.Int32,System.Int32)">Write(Byte[], Int32, Int32)</h4>
-              <div class="markdown level1 summary"><p>Write the specified number of <a class="xref" href="System.Byte.html#System_Byte">Byte</a>s to the underlying stream using the specified buffer and offset.</p>
-</div>
+              <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Net_Security_SslStream_Write_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method blocks while the operation completes. To prevent blocking while the operation completes the operation completes, use the <span class="xref">System.Net.Security.SslStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)</span> method.</p>
-<p>You cannot call this method until you have successfully authenticated. To authenticate call one of the <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsClient"></see>, or <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient"></see>, <see cref="Overload:System.Net.Security.SslStream.AuthenticateAsServer"></see>, <see cref="Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer"></see> methods.</p>
-<p>The <a class="xref" href="System.Net.Security.SslStream.html#System_Net_Security_SslStream">SslStream</a> class does not support multiple simultaneous write operations.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void Write(byte[] buffer, int offset, int count)</code></pre>
@@ -2174,73 +1418,17 @@
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
                     <td><em>buffer</em></td>
-                    <td><p>A <a class="xref" href="System.Byte.html#System_Byte">Byte</a> array that supplies the bytes written to the stream.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>offset</em></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> that contains the zero-based location in <em>buffer</em> at which to begin reading bytes to be written to the stream.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>count</em></td>
-                    <td><p>A <a class="xref" href="System.Int32.html#System_Int32">Int32</a> that contains the number of bytes to read from <em>buffer</em>.</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="exceptions">Exceptions</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Condition</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentNullException.html#System_ArgumentNullException">ArgumentNullException</a></td>
-                    <td><p>
-<em>buffer</em> is <strong>null</strong>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a></td>
-                    <td><p>
-<em>offset</em>
-<em>&lt;</em>
-<em>0</em>.</p>
-<p>
-<em>-or-</em>
-</p>
-<p>
-<em>offset</em> &gt; the length of <em>buffer</em>.</p>
-<p>-or-</p>
-<p>
-<em>offset</em> + count &gt; the length of <em>buffer</em>.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.IO.IOException.html#System_IO_IOException">IOException</a></td>
-                    <td><p>The write operation failed.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a></td>
-                    <td><p>There is already a write operation in progress.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.ObjectDisposedException.html#System_ObjectDisposedException">ObjectDisposedException</a></td>
-                    <td><p>This object has been closed.</p>
-</td>
-                  </tr>
-                  <tr>
-                    <td><a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a></td>
-                    <td><p>Authentication has not occurred.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
