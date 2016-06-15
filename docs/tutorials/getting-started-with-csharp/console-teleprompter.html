@@ -87,10 +87,7 @@ by pressing the ‘&lt;’ or ‘&gt;’ keys.</p>
 installation instructions on the <a href="http://dotnet.github.io/getting-started/">Getting Started</a>
 page. You can run this
 application on Windows, Ubuntu Linux, OS X or in a Docker container. 
-You’ll need to install your favorite code editor. This tutorial uses
-<a href="https://code.visualstudio.com/">Visual Studio Code</a> which is an open
-source, cross platform editor. However, you can use whatever tools you are
-comfortable with.</p>
+You’ll need to install your favorite code editor. </p>
 <h1 id="create-the-application">Create the Application</h1>
 <p>The first step is to create a new application. Open a command prompt and
 create a new directory for your application. Make that the current
@@ -188,11 +185,7 @@ foreach (var line in lines)
 }
 </code></pre>
 <p>Run the program (using &quot;dotnet run&quot; and you can see every line printed out
-to the console.  As a learning exercise, run the program in the debugger,
-and set breakpoints on the <code>Console.WriteLine()</code> and <code>yield return</code>
-statements. As you see each breakpoint being hit, you’ll see how the
-sequence of text is being generated as it is being displayed in the
-console.</p>
+to the console.  </p>
 <h1 id="adding-delays-and-formatting-output">Adding Delays and Formatting output</h1>
 <p>What you have is being displayed far too fast to read aloud. Now you need
 to add the delays in the output. As you start, you’ll be building some of
@@ -244,7 +237,7 @@ issues because the source text file has several lines that have more than
 scrolling by. That’s easy to fix. You’ll just keep track of the length of
 each line, and generate a new line whenever the line length reaches a
 certain threshold. Declare a local variable after the declaration of
-<code>word</code> that holds the line length:</p>
+<code>words</code> that holds the line length:</p>
 <pre><code class="lang-cs">var lineLength = 0;
 </code></pre>
 <p>Then, add the following code after the <code>yield return word;</code> statement
@@ -286,10 +279,12 @@ uses the <code>await</code> keyword. In order to do that, you need to add the <c
 modifier to the method signature. This method returns a <code>Task</code>. Notice that
 there are no return statements that return a Task object. Instead, that
 <code>Task</code> object is created by code the compiler generates when you use the
-<code>await</code> operator. You can imagine that this method pauses when it reaches
-an <code>await</code>, and resumes when the awaited task completes. The method
-returns when execution must pause for an awaited <code>Task</code>. Calling code can
-monitor the returned task to determine when it has completed.</p>
+<code>await</code> operator. You can imagine that this method returns when it reaches
+an <code>await</code>. The returned Task indicates that the work has not completed.
+The method resumes when the awaited task completes. When it has executed
+to completion, the returned <code>Task</code> indicates that it is complete.
+Calling code can
+monitor that returned task to determine when it has completed.</p>
 <p>You can call this new method in your Main program:</p>
 <pre><code class="lang-cs">ShowTeleprompter().Wait();
 </code></pre>
@@ -332,24 +327,27 @@ tasks.</p>
 <p>It’s time to create a class that can handle the shared data between these
 two tasks. This class contains two public properties: the delay, and a
 flag to indicate that the file has been completely read:</p>
-<pre><code class="lang-cs">internal class TelePrompterConfig
+<pre><code class="lang-cs">namespace TeleprompterConsole
 {
-    private object lockHandle = new object();
-    public int DelayInMilliseconds { get; private set; } = 200;
-
-    public void UpdateDelay(int increment) // negative to speed up
+    internal class TelePrompterConfig
     {
-        var newDelay = Min(DelayInMilliseconds + increment, 1000);
-        newDelay = Max(newDelay, 20);
-        lock (lockHandle)
+        private object lockHandle = new object();
+        public int DelayInMilliseconds { get; private set; } = 200;
+
+        public void UpdateDelay(int increment) // negative to speed up
         {
-            DelayInMilliseconds = newDelay;
+            var newDelay = Min(DelayInMilliseconds + increment, 1000);
+            newDelay = Max(newDelay, 20);
+            lock (lockHandle)
+            {
+                DelayInMilliseconds = newDelay;
+            }
         }
     }
 }
 </code></pre>
 <p>Put that class in a new file, and enclose that class in the
-<code>TeleprompterConsole</code> namespace. You’ll also need to add a <code>static using</code>
+<code>TeleprompterConsole</code> namespace as shown above. You’ll also need to add a <code>static using</code>
 statement so that you can reference the <code>Min</code> and <code>Max</code> method without the
 enclosing class or namespace names. A static using statement imports the
 methods from one class. This is in contrast with the using statements used
@@ -380,7 +378,7 @@ that finishes as soon as any of the tasks in its argument list completes.</p>
 use the config object for the delay:</p>
 <pre><code class="lang-cs">private static async Task ShowTeleprompter(TelePrompterConfig config)
 {
-    var words = ReadFrom(&quot;Sample.txt&quot;);
+    var words = ReadFrom(&quot;SampleQuotes.txt&quot;);
     foreach (var line in words)
     {
         Console.Write(line);
@@ -406,6 +404,18 @@ private static async Task GetInput(TelePrompterConfig config)
         } while (!config.Done);
     };
     await Task.Run(work);
+}
+</code></pre>
+<p>This new version of <code>ShowTeleprompter</code> calls a new method in the
+<code>TeleprompterConfig</code> class. To finish, you&#39;ll need to add the
+<code>SetDone</code> method, and the <code>Done</code> property to the <code>TelePrompterConfig</code> class:</p>
+<pre><code class="lang-cs">public bool Done =&gt; done;
+
+private bool done;
+
+public void SetDone()
+{
+    done = true;    
 }
 </code></pre>
 <h1 id="conclusion">Conclusion</h1>
