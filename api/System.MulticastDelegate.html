@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MulticastDelegate.md&amp;value=---%0Auid%3A%20System.MulticastDelegate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1262" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MulticastDelegate.cs/#L14" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_MulticastDelegate" data-uid="System.MulticastDelegate">Class MulticastDelegate
               </h1>
               <div class="markdown level0 summary"><p>Represents a multicast delegate; that is, a delegate that can have more than one element in its invocation list.</p>
@@ -82,18 +82,63 @@
                   <div class="level1"><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></div>
                   <div class="level2"><span class="xref">MulticastDelegate</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Delegate.html#System_Delegate_Target">Target</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate_System_Delegate_">Combine(Delegate, Delegate)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Delegate.html#System_Delegate_DynamicInvoke_System_Object___">DynamicInvoke(Object[])</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Delegate.html#System_Delegate_RemoveAll_System_Delegate_System_Delegate_">RemoveAll(Delegate, Delegate)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_MulticastDelegate_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract class MulticastDelegate : Delegate</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ComVisible(true)]
+public abstract class MulticastDelegate : Delegate, ICloneable, ISerializable</code></pre>
               </div>
-              <h5 id="System_MulticastDelegate_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>
-<a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a> is a special class. Compilers and other tools can derive from this class, but you cannot derive from it explicitly. The same is true of the <a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a> class.</p>
-<p>In addition to the methods that delegate types inherit from <a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a>, the common language runtime provides two special methods: <strong>BeginInvoke</strong> and <strong>EndInvoke</strong>. For more information about these methods, see Calling Synchronous Methods Asynchronously.</p>
-<p>A <a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a> has a linked list of delegates, called an invocation list, consisting of one or more elements. When a multicast delegate is invoked, the delegates in the invocation list are called synchronously in the order in which they appear. If an error occurs during execution of the list then an exception is thrown.</p>
-</div>
+              <h5 id="System_MulticastDelegate_examples"><strong>Examples</strong></h5>
+              
+<p>The following example defines a class, <code>StringContainer</code>, which includes a collection of strings. One of its members is the <code>CheckAndDisplayDelegate</code> delegate, which is used to display strings stored in a <code>StringContainer</code> object that satisfy particular criteria. The delegate takes a single string as a parameter and returns <code>void</code> (or, in Visual Basic, it's a <strong>Sub</strong> procedure). It also includes a method, <code>DisplayAllQualified</code>, that has a single parameter, a <code>CheckAndDisplayDelegate</code> delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains. </p>
+<p>The example also defines a utility class, <code>StringExtensions</code>, that has two methods:</p>
+<ul><li>
+<p>
+<code>ConStart</code>, which displays strings that begin with a consonant. </p>
+</li><li>
+<p>
+<code>VowelStart</code>, which displays strings that begin with a vowel. </p>
+</li></ul>
+<p>Note that both methods include a single string parameter and return <strong>void</strong>. In other words, both methods can be assigned to the  <code>CheckAndDisplayDelegate</code> delegate. </p>
+<p>The <code>Test.Main</code> method is the application entry point. It instantiates a <code>StringContainer</code> object, populates it with strings, and creates two <code>CheckAndDisplayDelegate</code> delegates, <code>conStart</code> and <code>vowelStart</code>, that invoke a single method. It then calls the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a> method to create the <code>multipleDelegates</code> delegate, which initially contains the <code>ConStart</code> and  <code>VowelStart</code> delegates. Note that when the <code>multipleDelegates</code> delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>, <code>multipleDelegates</code> contains two <code>conStart</code> delegates. When it is invoked, each string in the <code>StringContainer</code> object is displayed twice. </p>Multicast Delegate Introduction#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,7 +146,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MulticastDelegate_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.MulticastDelegate.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1265">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MulticastDelegate.cs/#L103">View Source</a>
               </span>
               <h4 id="System_MulticastDelegate_Equals_System_Object_" data-uid="System.MulticastDelegate.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Determines whether this multicast delegate and the specified object are equal.</p>
@@ -113,7 +158,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override sealed bool Equals(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public override sealed bool Equals(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -128,8 +174,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object to compare with this instance. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -144,12 +189,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>obj</em> and this instance have the same invocation lists; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Delegate.html#System_Delegate_Equals_System_Object_">Equals(Object)</a></div>
+              <h5 id="System_MulticastDelegate_Equals_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Two delegates are equal if they are not <strong>null</strong> and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</p>
+<p>Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</p>
+</div>
+              <h5 id="System_MulticastDelegate_Equals_System_Object__examples">Examples</h5>
+              
+<p>The following example defines a class, <code>StringContainer</code>, which includes a collection of strings. One of its members is the <code>CheckAndDisplayDelegate</code> delegate, which is used to display strings stored in a <code>StringContainer</code> object that satisfy particular criteria. The delegate takes a single string as a parameter and returns <code>void</code> (or, in Visual Basic, it's a <strong>Sub</strong> procedure). It also includes a method, <code>DisplayAllQualified</code>, that has a single parameter, a <code>CheckAndDisplayDelegate</code> delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains. </p>
+<p>The example also defines a utility class, <code>StringExtensions</code>, that has two methods:</p>
+<ul><li>
+<p>
+<code>ConStart</code>, which displays strings that begin with a consonant. </p>
+</li><li>
+<p>
+<code>VowelStart</code>, which displays strings that begin with a vowel. </p>
+</li></ul>
+<p>Note that both methods include a single string parameter and return <strong>void</strong>. In other words, both methods can be assigned to the  <code>CheckAndDisplayDelegate</code> delegate. </p>
+<p>The <code>Test.Main</code> method is the application entry point. It instantiates a <code>StringContainer</code> object, populates it with strings, and creates two <code>CheckAndDisplayDelegate</code> delegates, <code>conStart</code> and <code>vowelStart</code>, that invoke a single method. It then calls the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a> method to create the <code>multipleDelegates</code> delegate, which initially contains the <code>ConStart</code> and  <code>VowelStart</code> delegates. Note that when the <code>multipleDelegates</code> delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>, <code>multipleDelegates</code> contains two <code>conStart</code> delegates. When it is invoked, each string in the <code>StringContainer</code> object is displayed twice. </p>Multicast Delegate Introduction#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -171,7 +233,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MulticastDelegate_GetHashCode.md&amp;value=---%0Auid%3A%20System.MulticastDelegate.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1266">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MulticastDelegate.cs/#L500">View Source</a>
               </span>
               <h4 id="System_MulticastDelegate_GetHashCode" data-uid="System.MulticastDelegate.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
@@ -179,7 +241,8 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override sealed int GetHashCode()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public override sealed int GetHashCode()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -192,11 +255,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A 32-bit signed integer hash code.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Delegate.html#System_Delegate_GetHashCode">GetHashCode()</a></div>
+              <h5 id="System_MulticastDelegate_GetHashCode_examples">Examples</h5>
+              
+<p>The following example defines a class, <code>StringContainer</code>, which includes a collection of strings. One of its members is the <code>CheckAndDisplayDelegate</code> delegate, which is used to display strings stored in a <code>StringContainer</code> object that satisfy particular criteria. The delegate takes a single string as a parameter and returns <code>void</code> (or, in Visual Basic, it's a <strong>Sub</strong> procedure). It also includes a method, <code>DisplayAllQualified</code>, that has a single parameter, a <code>CheckAndDisplayDelegate</code> delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains. </p>
+<p>The example also defines a utility class, <code>StringExtensions</code>, that has two methods:</p>
+<ul><li>
+<p>
+<code>ConStart</code>, which displays strings that begin with a consonant. </p>
+</li><li>
+<p>
+<code>VowelStart</code>, which displays strings that begin with a vowel. </p>
+</li></ul>
+<p>Note that both methods include a single string parameter and return <strong>void</strong>. In other words, both methods can be assigned to the  <code>CheckAndDisplayDelegate</code> delegate. </p>
+<p>The <code>Test.Main</code> method is the application entry point. It instantiates a <code>StringContainer</code> object, populates it with strings, and creates two <code>CheckAndDisplayDelegate</code> delegates, <code>conStart</code> and <code>vowelStart</code>, that invoke a single method. It then calls the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a> method to create the <code>multipleDelegates</code> delegate, which initially contains the <code>ConStart</code> and  <code>VowelStart</code> delegates. Note that when the <code>multipleDelegates</code> delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>, <code>multipleDelegates</code> contains two <code>conStart</code> delegates. When it is invoked, each string in the <code>StringContainer</code> object is displayed twice. </p>Multicast Delegate Introduction#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -218,7 +295,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MulticastDelegate_GetInvocationList.md&amp;value=---%0Auid%3A%20System.MulticastDelegate.GetInvocationList%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1267">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MulticastDelegate.cs/#L459">View Source</a>
               </span>
               <h4 id="System_MulticastDelegate_GetInvocationList" data-uid="System.MulticastDelegate.GetInvocationList">GetInvocationList()</h4>
               <div class="markdown level1 summary"><p>Returns the invocation list of this multicast delegate, in invocation order.</p>
@@ -229,7 +306,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override sealed Delegate[] GetInvocationList()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public override sealed Delegate[] GetInvocationList()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -242,11 +320,28 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a>[]</td>
-                    <td><p>An array of delegates whose invocation lists collectively match the invocation list of this instance.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Delegate.html#System_Delegate_GetInvocationList">GetInvocationList()</a></div>
+              <h5 id="System_MulticastDelegate_GetInvocationList_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The array contains a set of delegates, each with an invocation list of one entry. Invoking these delegates sequentially, in the order they appear in the array, produces the same results as invoking the current instance.</p>
+</div>
+              <h5 id="System_MulticastDelegate_GetInvocationList_examples">Examples</h5>
+              
+<p>The following example defines a class, <code>StringContainer</code>, which includes a collection of strings. One of its members is the <code>CheckAndDisplayDelegate</code> delegate, which is used to display strings stored in a <code>StringContainer</code> object that satisfy particular criteria. The delegate takes a single string as a parameter and returns <code>void</code> (or, in Visual Basic, it's a <strong>Sub</strong> procedure). It also includes a method, <code>DisplayAllQualified</code>, that has a single parameter, a <code>CheckAndDisplayDelegate</code> delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains. </p>
+<p>The example also defines a utility class, <code>StringExtensions</code>, that has two methods:</p>
+<ul><li>
+<p>
+<code>ConStart</code>, which displays strings that begin with a consonant. </p>
+</li><li>
+<p>
+<code>VowelStart</code>, which displays strings that begin with a vowel. </p>
+</li></ul>
+<p>Note that both methods include a single string parameter and return <strong>void</strong>. In other words, both methods can be assigned to the  <code>CheckAndDisplayDelegate</code> delegate. </p>
+<p>The <code>Test.Main</code> method is the application entry point. It instantiates a <code>StringContainer</code> object, populates it with strings, and creates two <code>CheckAndDisplayDelegate</code> delegates, <code>conStart</code> and <code>vowelStart</code>, that invoke a single method. It then calls the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a> method to create the <code>multipleDelegates</code> delegate, which initially contains the <code>ConStart</code> and  <code>VowelStart</code> delegates. Note that when the <code>multipleDelegates</code> delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>, <code>multipleDelegates</code> contains two <code>conStart</code> delegates. When it is invoked, each string in the <code>StringContainer</code> object is displayed twice. </p>Multicast Delegate Introduction#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -270,7 +365,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MulticastDelegate_op_Equality_System_MulticastDelegate_System_MulticastDelegate_.md&amp;value=---%0Auid%3A%20System.MulticastDelegate.op_Equality(System.MulticastDelegate%2CSystem.MulticastDelegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1268">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MulticastDelegate.cs/#L484">View Source</a>
               </span>
               <h4 id="System_MulticastDelegate_op_Equality_System_MulticastDelegate_System_MulticastDelegate_" data-uid="System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)">Equality(MulticastDelegate, MulticastDelegate)</h4>
               <div class="markdown level1 summary"><p>Determines whether two <a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a> objects are equal.</p>
@@ -297,14 +392,12 @@
                   <tr>
                     <td><a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a></td>
                     <td><em>d1</em></td>
-                    <td><p>The left operand. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a></td>
                     <td><em>d2</em></td>
-                    <td><p>The right operand. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -319,12 +412,27 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>d1</em> and <em>d2</em> have the same invocation lists; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_MulticastDelegate_op_Equality_System_MulticastDelegate_System_MulticastDelegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Two delegates are equal if they are not <strong>null</strong> and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</p>
+<p>Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</p>
+</div>
+              <h5 id="System_MulticastDelegate_op_Equality_System_MulticastDelegate_System_MulticastDelegate__examples">Examples</h5>
+              
+<p>The following example defines a class, <code>StringContainer</code>, which includes a collection of strings. One of its members is the <code>CheckAndDisplayDelegate</code> delegate, which is used to display strings stored in a <code>StringContainer</code> object that satisfy particular criteria. The delegate takes a single string as a parameter and returns <code>void</code> (or, in Visual Basic, it's a <strong>Sub</strong> procedure). It also includes a method, <code>DisplayAllQualified</code>, that has a single parameter, a <code>CheckAndDisplayDelegate</code> delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains. </p>
+<p>The example also defines a utility class, <code>StringExtensions</code>, that has two methods:</p>
+<ul><li>
+<p>
+<code>ConStart</code>, which displays strings that begin with a consonant. </p>
+</li><li>
+<p>
+<code>VowelStart</code>, which displays strings that begin with a vowel. </p>
+</li></ul>
+<p>Note that both methods include a single string parameter and return <strong>void</strong>. In other words, both methods can be assigned to the  <code>CheckAndDisplayDelegate</code> delegate. </p>
+<p>The <code>Test.Main</code> method is the application entry point. It instantiates a <code>StringContainer</code> object, populates it with strings, and creates two <code>CheckAndDisplayDelegate</code> delegates, <code>conStart</code> and <code>vowelStart</code>, that invoke a single method. It then calls the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a> method to create the <code>multipleDelegates</code> delegate, which initially contains the <code>ConStart</code> and  <code>VowelStart</code> delegates. Note that when the <code>multipleDelegates</code> delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>, <code>multipleDelegates</code> contains two <code>conStart</code> delegates. When it is invoked, each string in the <code>StringContainer</code> object is displayed twice. </p>Multicast Delegate Introduction#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -346,7 +454,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MulticastDelegate_op_Inequality_System_MulticastDelegate_System_MulticastDelegate_.md&amp;value=---%0Auid%3A%20System.MulticastDelegate.op_Inequality(System.MulticastDelegate%2CSystem.MulticastDelegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1269">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MulticastDelegate.cs/#L492">View Source</a>
               </span>
               <h4 id="System_MulticastDelegate_op_Inequality_System_MulticastDelegate_System_MulticastDelegate_" data-uid="System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)">Inequality(MulticastDelegate, MulticastDelegate)</h4>
               <div class="markdown level1 summary"><p>Determines whether two <a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a> objects are not equal.</p>
@@ -373,14 +481,12 @@
                   <tr>
                     <td><a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a></td>
                     <td><em>d1</em></td>
-                    <td><p>The left operand. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.MulticastDelegate.html#System_MulticastDelegate">MulticastDelegate</a></td>
                     <td><em>d2</em></td>
-                    <td><p>The right operand. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -395,12 +501,27 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>d1</em> and <em>d2</em> do not have the same invocation lists; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_MulticastDelegate_op_Inequality_System_MulticastDelegate_System_MulticastDelegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Two delegates are equal if they are not <strong>null</strong> and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</p>
+<p>Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</p>
+</div>
+              <h5 id="System_MulticastDelegate_op_Inequality_System_MulticastDelegate_System_MulticastDelegate__examples">Examples</h5>
+              
+<p>The following example defines a class, <code>StringContainer</code>, which includes a collection of strings. One of its members is the <code>CheckAndDisplayDelegate</code> delegate, which is used to display strings stored in a <code>StringContainer</code> object that satisfy particular criteria. The delegate takes a single string as a parameter and returns <code>void</code> (or, in Visual Basic, it's a <strong>Sub</strong> procedure). It also includes a method, <code>DisplayAllQualified</code>, that has a single parameter, a <code>CheckAndDisplayDelegate</code> delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains. </p>
+<p>The example also defines a utility class, <code>StringExtensions</code>, that has two methods:</p>
+<ul><li>
+<p>
+<code>ConStart</code>, which displays strings that begin with a consonant. </p>
+</li><li>
+<p>
+<code>VowelStart</code>, which displays strings that begin with a vowel. </p>
+</li></ul>
+<p>Note that both methods include a single string parameter and return <strong>void</strong>. In other words, both methods can be assigned to the  <code>CheckAndDisplayDelegate</code> delegate. </p>
+<p>The <code>Test.Main</code> method is the application entry point. It instantiates a <code>StringContainer</code> object, populates it with strings, and creates two <code>CheckAndDisplayDelegate</code> delegates, <code>conStart</code> and <code>vowelStart</code>, that invoke a single method. It then calls the <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a> method to create the <code>multipleDelegates</code> delegate, which initially contains the <code>ConStart</code> and  <code>VowelStart</code> delegates. Note that when the <code>multipleDelegates</code> delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <a class="xref" href="System.Delegate.html#System_Delegate_Remove_System_Delegate_System_Delegate_">Remove(Delegate, Delegate)</a> and <a class="xref" href="System.Delegate.html#System_Delegate_Combine_System_Delegate___">Combine(Delegate[])</a>, <code>multipleDelegates</code> contains two <code>conStart</code> delegates. When it is invoked, each string in the <code>StringContainer</code> object is displayed twice. </p>Multicast Delegate Introduction#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

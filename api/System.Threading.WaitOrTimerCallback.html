@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitOrTimerCallback.md&amp;value=---%0Auid%3A%20System.Threading.WaitOrTimerCallback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L29" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1134" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_WaitOrTimerCallback" data-uid="System.Threading.WaitOrTimerCallback">Delegate WaitOrTimerCallback
               </h1>
               <div class="markdown level0 summary"><p>Represents a method to be called when a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> is signaled or times out.</p>
@@ -80,17 +80,38 @@
               <h6><strong>Assembly</strong>:System.Threading.ThreadPool.dll</h6>
               <h5 id="System_Threading_WaitOrTimerCallback_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public delegate void WaitOrTimerCallback(object state, bool timedOut);</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(true)]
+public delegate void WaitOrTimerCallback(object state, bool timedOut);</code></pre>
               </div>
-              <h5 id="System_Threading_WaitOrTimerCallback_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>
-<a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> represents a callback method that you want to execute when a registered wait handle times out or is signaled. Create the delegate by passing your callback method to the <a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> constructor. Your method must have the signature shown here.</p>
-<p>Create the registered wait handle by passing the <a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> delegate and a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</a>. Your callback method executes each time the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> times out or is signaled.</p>
-<p>[Visual Basic]</p>
-<p>Visual Basic users can omit the <a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> constructor, and simply use the <strong>AddressOf</strong> operator when passing the callback method to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</a>. Visual Basic automatically calls the correct delegate constructor.</p>
-<p>If you want to pass information to your callback method, create an object that contains the necessary information and pass it to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</a> when you create the registered wait handle. Each time your callback method executes, the <em>state</em> parameter contains this object.</p>
-<p>For more information about using callback methods to synchronize thread pool threads, see The Managed Thread Pool.</p>
-</div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
+                    <td><em>state</em></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
+                    <td><em>timedOut</em></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_Threading_WaitOrTimerCallback_examples"><strong>Examples</strong></h5>
+              
+<p>The following example shows how to use the <a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> delegate to represent a callback method that is executed when a wait handle is signaled.</p>
+<p>The example also shows how to use the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</a> method to execute a specified callback method when a specified wait handle is signaled. In this example, the callback method is <code>WaitProc</code> and the wait handle is an <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a>.</p>
+<p>The example defines a <code>TaskInfo</code> class to hold the information that is passed to the callback when it executes. The example creates a <code>TaskInfo</code> object and assigns it some string data. The <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a> that is returned by the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</a> method is assigned to the <code>Handle</code> field of the <code>TaskInfo</code> object, so that the callback method has access to the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a>. </p>
+<p>In addition to the <code>TaskInfo</code> object, the call to the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_RegisterWaitForSingleObject_System_Threading_WaitHandle_System_Threading_WaitOrTimerCallback_System_Object_System_UInt32_System_Boolean_">RegisterWaitForSingleObject(WaitHandle, WaitOrTimerCallback, Object, UInt32, Boolean)</a> method specifies the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> the task waits on, a <a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> delegate that represents the <code>WaitProc</code> callback method, a one-second timeout interval, and multiple callbacks. </p>
+<p>When the main thread signals the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> by calling its <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a> method, the <a class="xref" href="System.Threading.WaitOrTimerCallback.html#System_Threading_WaitOrTimerCallback">WaitOrTimerCallback</a> delegate is invoked. The <code>WaitProc</code> method tests <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a> to determine whether a timeout occurred. If the callback was invoked because the wait handle was signaled, the <code>WaitProc</code> method unregisters the <a class="xref" href="System.Threading.RegisteredWaitHandle.html#System_Threading_RegisteredWaitHandle">RegisteredWaitHandle</a>, stopping further callbacks. In the case of a timeout, the task continues waiting. The <code>WaitProc</code> method ends by printing a message to the console.</p>System.Threading.ThreadPool RegisterWaitForSingleObject0#1
             </article>
           </div>
           

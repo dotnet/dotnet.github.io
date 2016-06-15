@@ -70,22 +70,40 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L151" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L41" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_CancellationToken" data-uid="System.Threading.CancellationToken">Struct CancellationToken
               </h1>
               <div class="markdown level0 summary"><p>Propagates notification that operations should be canceled.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.ValueType.html#System_ValueType_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Threading</h6>
               <h6><strong>Assembly</strong>:System.Threading.Tasks.dll</h6>
               <h5 id="System_Threading_CancellationToken_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public struct CancellationToken</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(false)]
+[HostProtection(Synchronization = true, ExternalThreading = true)]
+[DebuggerDisplay(&quot;IsCancellationRequested = {IsCancellationRequested}&quot;)]
+public struct CancellationToken</code></pre>
               </div>
-              <h5 id="System_Threading_CancellationToken_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>A <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> enables cooperative cancellation between threads, thread pool work items, or <a class="xref" href="System.Threading.Tasks.Task.html#System_Threading_Tasks_Task">Task</a> objects. You create a cancellation token by instantiating a <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> object, which manages cancellation tokens retrieved from its <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource_Token">Token</a> property. You then  pass the cancellation token to any number of threads, tasks, or operations that should receive notice of cancellation. The token cannot be used to initiate cancellation. When the owning object calls <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource_Cancel">Cancel()</a>, the <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> property on every copy of the cancellation token is set to <strong>true</strong>. The objects that receive the notification can respond in whatever manner is appropriate.</p>
-<p>For more information and code examples see Cancellation in Managed Threads.</p>
-</div>
+              <h5 id="System_Threading_CancellationToken_examples"><strong>Examples</strong></h5>
+              
+<p>The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments. A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed. </p>
+<p>To handle the possible cancellation of the operation, the example instantiates a <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> object that generates a cancellation token which is passed to a <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory">TaskFactory</a> object. The <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory">TaskFactory</a> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument. The <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_ContinueWhenAll__2_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0______1__System_Threading_CancellationToken_">ContinueWhenAll<tantecedentresult, tresult="">(Task<tantecedentresult>[], Func<><tantecedentresult>[], TResult>, CancellationToken)</tantecedentresult></tantecedentresult></tantecedentresult,></a> method is called to ensure that the mean is computed only after all readings have been gathered successfully. If a task has not because it has been cancelled, the call to the <a class="xref" href="System.Threading.Tasks.TaskFactory.html#System_Threading_Tasks_TaskFactory_ContinueWhenAll__2_System_Threading_Tasks_Task___0____System_Func_System_Threading_Tasks_Task___0______1__System_Threading_CancellationToken_">ContinueWhenAll<tantecedentresult, tresult="">(Task<tantecedentresult>[], Func<><tantecedentresult>[], TResult>, CancellationToken)</tantecedentresult></tantecedentresult></tantecedentresult,></a> method throws an exception. </p>System.Threading.CancellationTokenSource.Class#1
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -93,7 +111,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L154">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L156">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken__ctor_System_Boolean_" data-uid="System.Threading.CancellationToken.#ctor(System.Boolean)">CancellationToken(Boolean)</h4>
               <div class="markdown level1 summary"><p>Initializes the <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>.</p>
@@ -125,6 +143,11 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken__ctor_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Tokens created with this constructor will remain in the canceled state specified by the <em>canceled</em> parameter. If <em>canceled</em> is <strong>false</strong>, both <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_CanBeCanceled">CanBeCanceled</a> and <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> will be <strong>false</strong>.</p>
+<p> If <em>canceled</em> is <strong>true</strong>, both <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_CanBeCanceled">CanBeCanceled</a> and <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> will be <strong>true</strong>.</p>
+</div>
+              
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -132,7 +155,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_CanBeCanceled.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.CanBeCanceled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L155">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L100">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_CanBeCanceled" data-uid="System.Threading.CancellationToken.CanBeCanceled">CanBeCanceled</h4>
               <div class="markdown level1 summary"><p>Gets whether this token is capable of being in the canceled state. </p>
@@ -157,18 +180,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if this token is capable of being in the canceled state; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_CanBeCanceled_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_CanBeCanceled">CanBeCanceled</a> returns <strong>false</strong>, it is guaranteed that the token will never transition into a canceled state, meaning that <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> will never return <strong>true</strong>. A cancellation token that cannot be canceled is returned by the static <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_None">None</a> property.</p>
+<p>You can optionally use this property to determine whether a cancellation token can be canceled before examing the value of the <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> property to determine whether it has been canceled.</p>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_IsCancellationRequested.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.IsCancellationRequested%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L156">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L84">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_IsCancellationRequested" data-uid="System.Threading.CancellationToken.IsCancellationRequested">IsCancellationRequested</h4>
               <div class="markdown level1 summary"><p>Gets whether cancellation has been requested for this token.</p>
@@ -193,18 +219,24 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if cancellation has been requested for this token; otherwise, <strong>false</strong>.</p>
+                    <td><p>Whether cancellation has been requested for this token.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_IsCancellationRequested_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> This property indicates whether cancellation has been requested for this token, either through the token initially being constructed in a canceled state, or through calling <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource_Cancel">Cancel()</a> on the token&#39;s associated <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a>.</p>
+<p>  If this property is <strong>true</strong>, it only guarantees that cancellation has been requested. It does not guarantee that every registered handler has finished executing, nor that cancellation requests have finished propagating to all registered handlers. Additional synchronization may be required, particularly in situations where related objects are being canceled concurrently.</p>
+</div>
+              <h5 id="System_Threading_CancellationToken_IsCancellationRequested_examples">Examples</h5>
+              
+<p>The following is a simple example that executes a server process until the <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> property returns <strong>true</strong>. </p>System.Threading.Tasks.CancellationToken.IsCancellationRequested#12<p>The example instantiates a <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> object, which controls access to the cancellation token. It then defines two thread procedures. The first is defined as a lambda expression that pools the keyboard and, when the "C" key is pressed, calls <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource_Cancel">Cancel()</a> to set the cancellation token to the cancelled state. The second is a parameterized method, <code>ServerClass.StaticMethod</code>, that executes a loop until the <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> property is <strong>true</strong>. </p><p>The main thread then starts the two threads and blocks until the thread that executes the <code>ServerClass.StaticMethod</code> method terminates. </p>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_None.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.None%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L157">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L60">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_None" data-uid="System.Threading.CancellationToken.None">None</h4>
               <div class="markdown level1 summary"><p>Returns an empty <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> value.</p>
@@ -228,18 +260,22 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
-                    <td><p>An empty cancellation token. </p>
-</td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_None_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The cancellation token returned by this property cannot be canceled; that is, its <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_CanBeCanceled">CanBeCanceled</a> property is <strong>false</strong>. </p>
+<p>You can also use the C#  default(CancellationToken) statement to create an empty cancellation token. </p>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_WaitHandle.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.WaitHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L158">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L118">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_WaitHandle" data-uid="System.Threading.CancellationToken.WaitHandle">WaitHandle</h4>
               <div class="markdown level1 summary"><p>Gets a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> that is signaled when the token is canceled.</p>
@@ -263,11 +299,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a></td>
-                    <td><p>A <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> that is signaled when the token is canceled.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_WaitHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Accessing this property causes a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> to be instantiated. It is preferable to only use this property when necessary, and to then dispose the associated <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> instance at the earliest opportunity (disposing the source will dispose of this allocated handle). The handle should not be closed or disposed directly.</p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -291,7 +330,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L159">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L399">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_Equals_System_Object_" data-uid="System.Threading.CancellationToken.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Determines whether the current <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> instance is equal to the specified <a class="xref" href="System.Object.html#System_Object">Object</a>.</p>
@@ -330,12 +369,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>other</em> is a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> and if the two instances are equal; otherwise, <strong>false</strong>. Two tokens are equal if they are associated with the same <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> or if they were both constructed from public <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> constructors and their <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> values are equal.</p>
+                    <td><p>True if <em>other</em> is a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>
+and if the two instances are equal; otherwise, false. Two tokens are equal if they are associated
+with the same <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> or if they were both constructed 
+from public CancellationToken constructors and their <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> values are equal.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_Equals_System_Object_">Equals(Object)</a></div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -357,7 +401,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_Equals_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.Equals(System.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L160">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L363">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_Equals_System_Threading_CancellationToken_" data-uid="System.Threading.CancellationToken.Equals(System.Threading.CancellationToken)">Equals(CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Determines whether the current <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> instance is equal to the specified token.</p>
@@ -378,9 +422,10 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
                     <td><em>other</em></td>
-                    <td><p>The other <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> to which to compare this instance.</p>
+                    <td><p>The other <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> to which to compare this
+instance.</p>
 </td>
                   </tr>
                 </tbody>
@@ -396,18 +441,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the instances are equal; otherwise, <strong>false</strong>. Two tokens are equal if they are associated with the same <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> or if they were both constructed from public <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> constructors and their <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> values are equal.</p>
+                    <td><p>True if the instances are equal; otherwise, false. Two tokens are equal if they are associated
+with the same <a class="xref" href="System.Threading.CancellationTokenSource.html#System_Threading_CancellationTokenSource">CancellationTokenSource</a> or if they were both constructed 
+from public CancellationToken constructors and their <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken_IsCancellationRequested">IsCancellationRequested</a> values are equal.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_GetHashCode.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L161">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L413">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_GetHashCode" data-uid="System.Threading.CancellationToken.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Serves as a hash function for a <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a>.</p>
@@ -433,12 +480,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_GetHashCode">GetHashCode()</a></div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_Register_System_Action_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.Register(System.Action)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L164">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L192">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_Register_System_Action_" data-uid="System.Threading.CancellationToken.Register(System.Action)">Register(Action)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate that will be called when this <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> is canceled.</p>
@@ -482,11 +532,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a></td>
-                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can be used to deregister the callback.</p>
+                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can 
+be used to deregister the callback.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_Register_System_Action__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate generates will be propagated out of this method call.</p>
+<p>  The current <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a>, if one exists, will be captured along with the delegate and will be used when executing it.</p>
+<p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -514,7 +571,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_Register_System_Action_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.Register(System.Action%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L165">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L227">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_Register_System_Action_System_Boolean_" data-uid="System.Threading.CancellationToken.Register(System.Action,System.Boolean)">Register(Action, Boolean)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate that will be called when this <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> is canceled.</p>
@@ -548,7 +605,9 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>useSynchronizationContext</em></td>
-                    <td><p>A value that indicates whether to capture the current <a class="xref" href="System.Threading.SynchronizationContext.html#System_Threading_SynchronizationContext">SynchronizationContext</a> and use it when invoking the <em>callback</em>.</p>
+                    <td><p>A Boolean value that indicates whether to capture
+the current <a class="xref" href="System.Threading.SynchronizationContext.html#System_Threading_SynchronizationContext">SynchronizationContext</a> and use it
+when invoking the <em>callback</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -564,11 +623,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a></td>
-                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can be used to deregister the callback.</p>
+                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can 
+be used to deregister the callback.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_Register_System_Action_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate generates will be propogated out of this method call.</p>
+<p>If <em>useSynchronizationContext</em> is <strong>true</strong>, the current <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a>, if one exists, will be captured along with the delegate and will be used when executing it.</p>
+<p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -596,7 +662,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_Register_System_Action_System_Object__System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.Register(System.Action%7BSystem.Object%7D%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L166">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L260">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_Register_System_Action_System_Object__System_Object_" data-uid="System.Threading.CancellationToken.Register(System.Action{System.Object},System.Object)">Register(Action&lt;Object&gt;, Object)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate that will be called when this <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> is canceled.</p>
@@ -630,7 +696,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>state</em></td>
-                    <td><p>The state to pass to the <em>callback</em> when the delegate is invoked. This may be null.</p>
+                    <td><p>The state to pass to the <em>callback</em> when the delegate is invoked.  This may be null.</p>
 </td>
                   </tr>
                 </tbody>
@@ -646,11 +712,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a></td>
-                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can be used to deregister the callback.</p>
+                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can 
+be used to deregister the callback.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_Register_System_Action_System_Object__System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate generates will be propogated out of this method call.</p>
+<p>  The current <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a>, if one exists, will be captured along with the delegate and will be used when executing it.</p>
+<p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -678,7 +751,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_Register_System_Action_System_Object__System_Object_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.Register(System.Action%7BSystem.Object%7D%2CSystem.Object%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L167">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L298">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_Register_System_Action_System_Object__System_Object_System_Boolean_" data-uid="System.Threading.CancellationToken.Register(System.Action{System.Object},System.Object,System.Boolean)">Register(Action&lt;Object&gt;, Object, Boolean)</h4>
               <div class="markdown level1 summary"><p>Registers a delegate that will be called when this <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> is canceled.</p>
@@ -712,13 +785,15 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>state</em></td>
-                    <td><p>The state to pass to the <em>callback</em> when the delegate is invoked. This may be null.</p>
+                    <td><p>The state to pass to the <em>callback</em> when the delegate is invoked.  This may be null.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>useSynchronizationContext</em></td>
-                    <td><p>A Boolean value that indicates whether to capture the current <a class="xref" href="System.Threading.SynchronizationContext.html#System_Threading_SynchronizationContext">SynchronizationContext</a> and use it when invoking the <em>callback</em>.</p>
+                    <td><p>A Boolean value that indicates whether to capture
+the current <a class="xref" href="System.Threading.SynchronizationContext.html#System_Threading_SynchronizationContext">SynchronizationContext</a> and use it
+when invoking the <em>callback</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -734,11 +809,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a></td>
-                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can be used to deregister the callback.</p>
+                    <td><p>The <a class="xref" href="System.Threading.CancellationTokenRegistration.html#System_Threading_CancellationTokenRegistration">CancellationTokenRegistration</a> instance that can 
+be used to deregister the callback.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_CancellationToken_Register_System_Action_System_Object__System_Object_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p> If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate generates will be propogated out of this method call.</p>
+<p>  The current <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a>, if one exists, will be captured along with the delegate and will be used when executing it.</p>
+<p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -766,7 +848,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_ThrowIfCancellationRequested.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.ThrowIfCancellationRequested%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L168">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L464">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_ThrowIfCancellationRequested" data-uid="System.Threading.CancellationToken.ThrowIfCancellationRequested">ThrowIfCancellationRequested()</h4>
               <div class="markdown level1 summary"><p>Throws a <a class="xref" href="System.OperationCanceledException.html#System_OperationCanceledException">OperationCanceledException</a> if this token has had cancellation requested.</p>
@@ -785,6 +867,16 @@ End If</code></pre>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void ThrowIfCancellationRequested()</code></pre>
               </div>
+              <h5 id="System_Threading_CancellationToken_ThrowIfCancellationRequested_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This method provides functionality equivalent to:</p></p>
+<p><p>C#</p></p>
+<pre><code>    if (token.IsCancellationRequested) 
+throw new OperationCanceledException(token);</code></pre>
+<pre><code class="vb#">    If token.IsCancellationRequested Then
+Throw New OperationCanceledException(token)
+End If</code></pre>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -813,7 +905,7 @@ End If</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_op_Equality_System_Threading_CancellationToken_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.op_Equality(System.Threading.CancellationToken%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L162">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L432">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_op_Equality_System_Threading_CancellationToken_System_Threading_CancellationToken_" data-uid="System.Threading.CancellationToken.op_Equality(System.Threading.CancellationToken,System.Threading.CancellationToken)">Equality(CancellationToken, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Determines whether two <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> instances are equal.</p>
@@ -834,13 +926,13 @@ End If</code></pre>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
                     <td><em>left</em></td>
                     <td><p>The first instance.</p>
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
                     <td><em>right</em></td>
                     <td><p>The second instance.</p>
 </td>
@@ -858,12 +950,12 @@ End If</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the instances are equal; otherwise, <strong>false</strong>. </p>
+                    <td><p>True if the instances are equal; otherwise, false.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -885,7 +977,7 @@ End If</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_CancellationToken_op_Inequality_System_Threading_CancellationToken_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20System.Threading.CancellationToken.op_Inequality(System.Threading.CancellationToken%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Tasks/ref/System.Threading.Tasks.cs/#L163">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/CancellationToken.cs/#L445">View Source</a>
               </span>
               <h4 id="System_Threading_CancellationToken_op_Inequality_System_Threading_CancellationToken_System_Threading_CancellationToken_" data-uid="System.Threading.CancellationToken.op_Inequality(System.Threading.CancellationToken,System.Threading.CancellationToken)">Inequality(CancellationToken, CancellationToken)</h4>
               <div class="markdown level1 summary"><p>Determines whether two <a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a> instances are not equal.</p>
@@ -906,13 +998,13 @@ End If</code></pre>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
                     <td><em>left</em></td>
                     <td><p>The first instance.</p>
 </td>
                   </tr>
                   <tr>
-                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">Threading.CancellationToken</a></td>
+                    <td><a class="xref" href="System.Threading.CancellationToken.html#System_Threading_CancellationToken">CancellationToken</a></td>
                     <td><em>right</em></td>
                     <td><p>The second instance.</p>
 </td>
@@ -930,12 +1022,12 @@ End If</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the instances are not equal; otherwise, <strong>false</strong>. </p>
+                    <td><p>True if the instances are not equal; otherwise, false.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

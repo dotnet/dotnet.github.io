@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Security_AllowPartiallyTrustedCallersAttribute.md&amp;value=---%0Auid%3A%20System.Security.AllowPartiallyTrustedCallersAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3069" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Attributes.cs/#L40" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Security_AllowPartiallyTrustedCallersAttribute" data-uid="System.Security.AllowPartiallyTrustedCallersAttribute">Class AllowPartiallyTrustedCallersAttribute
               </h1>
               <div class="markdown level0 summary"><p>Allows an assembly to be called by partially trusted code. Without this declaration, only fully trusted callers are able to use the assembly. This class cannot be inherited.</p>
@@ -82,22 +82,41 @@
                   <div class="level1"><a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a></div>
                   <div class="level2"><span class="xref">AllowPartiallyTrustedCallersAttribute</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Attribute.html#System_Attribute_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Attribute.html#System_Attribute_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Security</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_Security_AllowPartiallyTrustedCallersAttribute_syntax">Syntax</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
-public sealed class AllowPartiallyTrustedCallersAttribute : Attribute</code></pre>
+[ComVisible(true)]
+public sealed class AllowPartiallyTrustedCallersAttribute : Attribute, _Attribute</code></pre>
               </div>
-              <h5 id="System_Security_AllowPartiallyTrustedCallersAttribute_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p> The .NET Framework 4 introduces new security rules that affect the behavior of the <a class="xref" href="System.Security.AllowPartiallyTrustedCallersAttribute.html#System_Security_AllowPartiallyTrustedCallersAttribute">AllowPartiallyTrustedCallersAttribute</a> attribute (see Security-Transparent Code, Level 2). In the .NET Framework 4, all code defaults to security-transparent, that is, partially trusted. However, you can annotate individual types and members to assign them other transparency attributes. For this and other security changes, see Security Changes in the .NET Framework.</p>
-<p>.NET Framework version 2.0 () assemblies must be strong-named to effectively use the <a class="xref" href="System.Security.AllowPartiallyTrustedCallersAttribute.html#System_Security_AllowPartiallyTrustedCallersAttribute">AllowPartiallyTrustedCallersAttribute</a> (APTCA) attribute. .NET Framework 4 () assemblies do not have to be strong-named for the APTCA attribute to be effective, and they can contain transparent, security-critical and security-safe-critical code. For more information about applying attributes at the assembly level, see Applying Attributes.</p>
-<p>By default, if a strong-named,  assembly does not explicitly apply this attribute at the assembly level, it can be called only by other assemblies that are granted full trust. This restriction is enforced by placing a <span class="xref">System.Security.Permissions.SecurityAction.LinkDemand</span> for <strong>FullTrust</strong> on every public or protected method on every publicly accessible class in the assembly. Assemblies that are intended to be called by partially trusted code can declare their intent through the use of <a class="xref" href="System.Security.AllowPartiallyTrustedCallersAttribute.html#System_Security_AllowPartiallyTrustedCallersAttribute">AllowPartiallyTrustedCallersAttribute</a>. An example of the declaration in C# is <code>[assembly:AllowPartiallyTrustedCallers]</code>; an example in Visual Basic is <code><assembly:allowpartiallytrustedcallers></assembly:allowpartiallytrustedcallers></code>.</p>
-<p>The presence of this assembly-level attribute prevents the default behavior of placing <strong>FullTrust</strong><span class="xref">System.Security.Permissions.SecurityAction.LinkDemand</span> security checks, and makes the assembly callable from any other (partially or fully trusted) assembly.</p>
-<p>When the APTCA attribute is present, all other security checks function as intended, including any class-level or method-level declarative security attributes that are present. This attribute blocks only the implicit, fully trusted caller demand.</p>
-<p>This is not a declarative security attribute, but a regular attribute (it derives from <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a>, not from <span class="xref">System.Security.Permissions.SecurityAttribute</span>).</p>
-<p>For more information, see Using Libraries from Partially Trusted Code.</p>
-</div>
+              <h5 id="System_Security_AllowPartiallyTrustedCallersAttribute_examples"><strong>Examples</strong></h5>
+              
+<p>The following example shows how to use the <a class="xref" href="System.Security.AllowPartiallyTrustedCallersAttribute.html#System_Security_AllowPartiallyTrustedCallersAttribute">AllowPartiallyTrustedCallersAttribute</a> class.</p>System.Security.AllowPartiallyTrustedCallersAttribute#1
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -105,7 +124,7 @@ public sealed class AllowPartiallyTrustedCallersAttribute : Attribute</code></pr
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Security_AllowPartiallyTrustedCallersAttribute__ctor.md&amp;value=---%0Auid%3A%20System.Security.AllowPartiallyTrustedCallersAttribute.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3072">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Attributes.cs/#L45">View Source</a>
               </span>
               <h4 id="System_Security_AllowPartiallyTrustedCallersAttribute__ctor" data-uid="System.Security.AllowPartiallyTrustedCallersAttribute.#ctor">AllowPartiallyTrustedCallersAttribute()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Security.AllowPartiallyTrustedCallersAttribute.html#System_Security_AllowPartiallyTrustedCallersAttribute">AllowPartiallyTrustedCallersAttribute</a> class. </p>
@@ -118,6 +137,13 @@ public sealed class AllowPartiallyTrustedCallersAttribute : Attribute</code></pr
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AllowPartiallyTrustedCallersAttribute()</code></pre>
               </div>
+              <h5 id="System_Security_AllowPartiallyTrustedCallersAttribute__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This attribute should be applied only at the assembly level.</p>
+</div>
+              <h5 id="System_Security_AllowPartiallyTrustedCallersAttribute__ctor_examples">Examples</h5>
+              
+<p>For an example of how to use this constructor, see the code example provided for the <a class="xref" href="System.Security.AllowPartiallyTrustedCallersAttribute.html#System_Security_AllowPartiallyTrustedCallersAttribute">AllowPartiallyTrustedCallersAttribute</a> class.</p>
+
             </article>
           </div>
           

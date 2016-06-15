@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L148" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L16" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_MemberInfo" data-uid="System.Reflection.MemberInfo">Class MemberInfo
               </h1>
               <div class="markdown level0 summary"><p>Obtains information about the attributes of a member and provides access to member metadata.</p>
@@ -81,16 +81,38 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">MemberInfo</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Reflection</h6>
               <h6><strong>Assembly</strong>:System.Reflection.dll</h6>
               <h5 id="System_Reflection_MemberInfo_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract class MemberInfo : object</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ClassInterface(ClassInterfaceType.None)]
+[ComDefaultInterface(typeof (_MemberInfo))]
+[PermissionSet(SecurityAction.InheritanceDemand, Name = &quot;FullTrust&quot;)]
+[ComVisible(true)]
+public abstract class MemberInfo : ICustomAttributeProvider, _MemberInfo</code></pre>
               </div>
-              <h5 id="System_Reflection_MemberInfo_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a> class is the abstract base class for classes used to obtain information about all members of a class (constructors, events, fields, methods, and properties).</p>
-<p>This class introduces the basic functionality that all members provide.</p>
-</div>
+              <h5 id="System_Reflection_MemberInfo_examples"><strong>Examples</strong></h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -98,7 +120,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo_CustomAttributes.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo.CustomAttributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L151">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L42">View Source</a>
               </span>
               <h4 id="System_Reflection_MemberInfo_CustomAttributes" data-uid="System.Reflection.MemberInfo.CustomAttributes">CustomAttributes</h4>
               <div class="markdown level1 summary"><p>Gets a collection that contains this member&#39;s custom attributes.</p>
@@ -106,7 +128,7 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual Collections.Generic.IEnumerable&lt;CustomAttributeData&gt; CustomAttributes { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual IEnumerable&lt;CustomAttributeData&gt; CustomAttributes { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -118,18 +140,20 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;<a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a>&gt;</td>
-                    <td><p>A collection that contains this member&#39;s custom attributes.</p>
-</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable</a>&lt;<a class="xref" href="System.Reflection.CustomAttributeData.html#System_Reflection_CustomAttributeData">CustomAttributeData</a>&gt;</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_MemberInfo_CustomAttributes_examples">Examples</h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo_DeclaringType.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo.DeclaringType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L152">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L38">View Source</a>
               </span>
               <h4 id="System_Reflection_MemberInfo_DeclaringType" data-uid="System.Reflection.MemberInfo.DeclaringType">DeclaringType</h4>
               <div class="markdown level1 summary"><p>Gets the class that declares this member.</p>
@@ -140,7 +164,7 @@
 <ul><li>
 <p>If the <strong>Type</strong> object from which this <strong>MemberInfo</strong> object was obtained did not declare this member, the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property will represent one of its base types.</p>
 </li><li>
-<p>If the <strong>MemberInfo</strong> object is a global member (that is, if it was obtained from the <span class="xref">System.Reflection.Module.GetMethods</span> method, which returns global methods on a module), the returned <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> will be <strong>null</strong>.</p>
+<p>If the <strong>MemberInfo</strong> object is a global member (that is, if it was obtained from the <span class="xref">GetMethods()</span> method, which returns global methods on a module), the returned <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> will be <strong>null</strong>.</p>
 </li></ul>
 </div>
               <h5 class="decalaration">Declaration</h5>
@@ -158,24 +182,34 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
-                    <td><p>The <strong>Type</strong> object for the class that declares this member.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_MemberInfo_DeclaringType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property retrieves a reference to the <a class="xref" href="System.Type.html#System_Type">Type</a> object for the type that declares this member. A member of a type is either declared by the type or inherited from a base type, so the <strong>Type</strong> object returned by the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property might not be the same as the <strong>Type</strong> object used to obtain the current <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a> object.</p></p>
+<ul><li>
+<p>If the <strong>Type</strong> object from which this <strong>MemberInfo</strong> object was obtained did not declare this member, the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property will represent one of its base types.</p>
+</li><li>
+<p>If the <strong>MemberInfo</strong> object is a global member (that is, if it was obtained from the <span class="xref">GetMethods()</span> method, which returns global methods on a module), the returned <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> will be <strong>null</strong>.</p>
+</li></ul>
+</div>
+              <h5 id="System_Reflection_MemberInfo_DeclaringType_examples">Examples</h5>
+              
+<p>The following example defines an interface, <code>IValue</code>, with a single member, <code>GetValue</code>. It also defines four classes: <code>A</code>, a base class that implements the<code> IValue</code> interface; <code>B</code>, which inherits from <code>A</code> and hides its implementation of <code>GetValue</code> from the base class implementation; <code>C</code>, which simply inherits from <code>A</code>; and <code>D</code>, which inherits from <code>A</code> and overrides its <code>GetValue</code> method.  The example then retrieves a <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a> object for each member of the type (including members inherited from <a class="xref" href="System.Object.html#System_Object">Object</a>) and displays the value of its <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property.  </p>Classic MemberInfo.DeclaringType Example#2<p>Note that the declaring type of <code>A.GetValue</code> is <code>A</code>, that <code>B</code> includes two <code>GetValue</code> methods, one declared by <code>A</code> and one by <code>B</code>, and that the declaring type of <code>D.GetValue</code> is <code>D</code>.</p><p><strong>DeclaringType</strong> returns only the member names and the names of their declaring types. To return the member names with their prototypes, call <strong>MemberInfo.ToString</strong>.</p>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo_Module.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo.Module%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L153">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L62">View Source</a>
               </span>
               <h4 id="System_Reflection_MemberInfo_Module" data-uid="System.Reflection.MemberInfo.Module">Module</h4>
               <div class="markdown level1 summary"><p>Gets the module in which the type that declares the member represented by the current <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a> is defined.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Reflection_MemberInfo_Module_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property is provided as a convenience. It is equivalent to using the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property to get the type in which the method is declared, and then calling the <span class="xref">System.Type.Module</span> property of the resulting <a class="xref" href="System.Type.html#System_Type">Type</a> object.</p>
+              <div class="markdown level1 remarks"><p>This property is provided as a convenience. It is equivalent to using the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property to get the type in which the method is declared, and then calling the <span class="xref">Module</span> property of the resulting <a class="xref" href="System.Type.html#System_Type">Type</a> object.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -192,11 +226,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.Module.html#System_Reflection_Module">Module</a></td>
-                    <td><p>The <a class="xref" href="System.Reflection.Module.html#System_Reflection_Module">Module</a> in which the type that declares the member represented by the current <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a> is defined.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_MemberInfo_Module_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is provided as a convenience. It is equivalent to using the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a> property to get the type in which the method is declared, and then calling the <span class="xref">Module</span> property of the resulting <a class="xref" href="System.Type.html#System_Type">Type</a> object.</p>
+</div>
+              <h5 id="System_Reflection_MemberInfo_Module_examples">Examples</h5>
+              
+<p>The following code example declares a class that inherits <a class="xref" href="System.Object.html#System_Object">Object</a> and overrides <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>. The example obtains <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> objects for the class's <strong>ToString</strong> method and for the inherited <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a> method, and displays the names of the modules in which the two methods are declared.</p>System.Reflection.MemberInfo.Module#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -218,7 +257,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo_Name.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L154">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L36">View Source</a>
               </span>
               <h4 id="System_Reflection_MemberInfo_Name" data-uid="System.Reflection.MemberInfo.Name">Name</h4>
               <div class="markdown level1 summary"><p>Gets the name of the current member.</p>
@@ -243,11 +282,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>A <a class="xref" href="System.String.html#System_String">String</a> containing the name of this member.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_MemberInfo_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Only the simple name of the member is returned, not the fully qualified name.</p>
+<p>To get the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_Name">Name</a> property, get the class <a class="xref" href="System.Type.html#System_Type">Type</a>. From the <strong>Type</strong>, get the <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a> array. From a <strong>MemberInfo</strong> element of the array, obtain the <strong>Name</strong> property.</p>
+</div>
+              <h5 id="System_Reflection_MemberInfo_Name_examples">Examples</h5>
+              
+<p>This example lists the <strong>Name</strong> and <strong>DeclaringType</strong> property of each member of the specified class.</p>Classic MemberInfo.Name Example#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -255,7 +300,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L155">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L112">View Source</a>
               </span>
               <h4 id="System_Reflection_MemberInfo_Equals_System_Object_" data-uid="System.Reflection.MemberInfo.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Returns a value that indicates whether this instance is equal to a specified object.</p>
@@ -278,8 +323,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>An object to compare with this instance, or <strong>null</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -294,18 +338,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>obj</em> equals the type and value of this instance; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a></div>
+              <h5 id="System_Reflection_MemberInfo_Equals_System_Object__examples">Examples</h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_MemberInfo_GetHashCode.md&amp;value=---%0Auid%3A%20System.Reflection.MemberInfo.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L156">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs/#L117">View Source</a>
               </span>
               <h4 id="System_Reflection_MemberInfo_GetHashCode" data-uid="System.Reflection.MemberInfo.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
@@ -326,11 +373,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A 32-bit signed integer hash code.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a></div>
+              <h5 id="System_Reflection_MemberInfo_GetHashCode_examples">Examples</h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
             </article>
           </div>
           

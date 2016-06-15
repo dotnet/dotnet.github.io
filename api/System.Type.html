@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type.md&amp;value=---%0Auid%3A%20System.Type%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.Manual.cs/#L40" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L31" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Type" data-uid="System.Type">Class Type
               </h1>
               <div class="markdown level0 summary"><p>Represents type declarations: class types, interface types, array types, value types, enumeration types, type parameters, generic type definitions, and open or closed constructed generic types.</p>
@@ -82,25 +82,36 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">Type</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_Type_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract class Type</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ClassInterface(ClassInterfaceType.None)]
+[ComDefaultInterface(typeof (_Type))]
+[ComVisible(true)]
+public abstract class Type : MemberInfo, ICustomAttributeProvider, _MemberInfo, _Type, IReflect</code></pre>
               </div>
-              <h5 id="System_Type_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>To view the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#mscorlib/system/type.cs#3d00eeab9feb80f3">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href="http://referencesource.microsoft.com/">instructions</see>.</p>
-<p>
-<strong>Type</strong> is the root of the <a class="xref" href="System.Reflection.html#System_Reflection">System.Reflection</a> functionality and is the primary way to access metadata. Use the members of <a class="xref" href="System.Type.html#System_Type">Type</a> to get information about a type declaration, about the members of a type (such as the constructors, methods, fields, properties, and events of a class), as well as the module and the assembly in which the class is deployed.</p>
-<p>No permissions are required for code to use reflection to get information about types and their members, regardless of their access levels. No permissions are required for code to use reflection to access public members, or other members whose access levels would make them visible during normal compilation. However, in order for your code to use reflection to access members that would normally be inaccessible, such as private or internal methods, or protected fields of a type your class does not inherit, your code must have <span class="xref">System.Security.Permissions.ReflectionPermission</span>. See Security Considerations for Reflection.</p>
-<p>
-<strong>Type</strong> is an abstract base class that allows multiple implementations. The system will always provide the derived class <strong>RuntimeType</strong>. In reflection, all classes beginning with the word Runtime are created only once per object in the system and support comparison operations.</p>
-<p>In multithreading scenarios, do not lock <a class="xref" href="System.Type.html#System_Type">Type</a> objects in order to synchronize access to <strong>static</strong> data. Other code, over which you have no control, might also lock your class type. This might result in a deadlock. Instead, synchronize access to static data by locking a private <strong>static</strong> object.</p>
-<p>A derived class can access protected members of the calling code&#39;s base classes. Also, access is allowed to assembly members of the calling code&#39;s assembly. As a rule, if you are allowed access in early-bound code, then you are also allowed access in late-bound code.</p>
-<p>Interfaces that extend other interfaces do not inherit the methods defined in the extended interfaces.</p>
-<p>In this section:</p>
-<p>What types does a Type object represent?Retrieving a Type objectComparing type objects for equality</p>
-</div>
+              <h5 id="System_Type_examples"><strong>Examples</strong></h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <h3 id="fields">Fields
               </h3>
               <span class="small pull-right mobile-hide">
@@ -108,7 +119,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_Delimiter.md&amp;value=---%0Auid%3A%20System.Type.Delimiter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1887">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L47">View Source</a>
               </span>
               <h4 id="System_Type_Delimiter" data-uid="System.Type.Delimiter">Delimiter</h4>
               <div class="markdown level1 summary"><p>Separates names in the namespace of the <a class="xref" href="System.Type.html#System_Type">Type</a>. This field is read-only.</p>
@@ -118,12 +129,17 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly char Delimiter</code></pre>
               </div>
+              <h5 id="System_Type_Delimiter_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_EmptyTypes.md&amp;value=---%0Auid%3A%20System.Type.EmptyTypes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1885">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L50">View Source</a>
               </span>
               <h4 id="System_Type_EmptyTypes" data-uid="System.Type.EmptyTypes">EmptyTypes</h4>
               <div class="markdown level1 summary"><p>Represents an empty array of type <a class="xref" href="System.Type.html#System_Type">Type</a>. This field is read-only.</p>
@@ -133,12 +149,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly Type[] EmptyTypes</code></pre>
               </div>
+              <h5 id="System_Type_EmptyTypes_examples">Examples</h5>
+              
+<p>The following code example shows the <strong>EmptyTypes</strong> field used in one of the <strong>GetConstructor</strong> methods to get a constructor that takes no parameters.</p>Classic Type.EmptyTypes Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_Missing.md&amp;value=---%0Auid%3A%20System.Type.Missing%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1886">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L45">View Source</a>
               </span>
               <h4 id="System_Type_Missing" data-uid="System.Type.Missing">Missing</h4>
               <div class="markdown level1 summary"><p>Represents a missing value in the <a class="xref" href="System.Type.html#System_Type">Type</a> information. This field is read-only.</p>
@@ -151,6 +170,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly object Missing</code></pre>
               </div>
+              <h5 id="System_Type_Missing_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use the <strong>Missing</strong> field for invocation through reflection to obtain the default value of a parameter. If the <strong>Missing</strong> field is passed in for a parameter value and there is no default value for that parameter, an <a class="xref" href="System.ArgumentException.html#System_ArgumentException">ArgumentException</a> is thrown.</p>
+</div>
+              <h5 id="System_Type_Missing_examples">Examples</h5>
+              
+<p>The following code example shows the use of the <strong>Missing</strong> field to invoke a method with its default arguments.</p>Classic Type.Missing Example#1<p>This code produces the following output: </p><p>a = 10 b = 55.3 c = 12 </p><p>a = 10 b = 1.3 c = 1 </p><p>a = 10 b = 1.2 c = 1 </p>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -158,7 +183,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_AssemblyQualifiedName.md&amp;value=---%0Auid%3A%20System.Type.AssemblyQualifiedName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1889">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L368">View Source</a>
               </span>
               <h4 id="System_Type_AssemblyQualifiedName" data-uid="System.Type.AssemblyQualifiedName">AssemblyQualifiedName</h4>
               <div class="markdown level1 summary"><p>Gets the assembly-qualified name of the type, which includes the name of the assembly from which this <a class="xref" href="System.Type.html#System_Type">Type</a> object was loaded.</p>
@@ -200,7 +225,7 @@
 <p>If the namespace contained a plus sign, for example TopNamespace.Sub+Namespace, then the plus sign (+) would be preceded by an escape character () to prevent it from being interpreted as a nesting separator. Reflection would emit this string as follows: </p>
 <pre><code>TopNamespace.Sub\+Namespace.ContainingClass+NestedClass, MyAssembly, Version=1.3.0.0, Culture=neutral, PublicKeyToken=b17a5c561934e089 </code></pre>
 <p>A &quot;++&quot; becomes &quot;++&quot;, and a &quot;\&quot; becomes &quot;\&quot;.</p>
-<p>This qualified name can be persisted and later used to load the <a class="xref" href="System.Type.html#System_Type">Type</a>. To search for and load a <a class="xref" href="System.Type.html#System_Type">Type</a>, use <span class="xref">System.Type.GetType</span> either with the type name only or with the assembly qualified type name. <span class="xref">System.Type.GetType</span> with the type name only will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in the caller&#39;s assembly and then in the System assembly. <span class="xref">System.Type.GetType</span> with the assembly qualified type name will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in any assembly.</p>
+<p>This qualified name can be persisted and later used to load the <a class="xref" href="System.Type.html#System_Type">Type</a>. To search for and load a <a class="xref" href="System.Type.html#System_Type">Type</a>, use <span class="xref">GetType()</span> either with the type name only or with the assembly qualified type name. <span class="xref">GetType()</span> with the type name only will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in the caller&#39;s assembly and then in the System assembly. <span class="xref">GetType()</span> with the assembly qualified type name will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in any assembly.</p>
 <p>Type names may include trailing characters that denote additional information about the type, such as whether the type is a reference type, a pointer type or an array type. To retrieve the type name without these trailing characters, use <code>t.GetElementType().ToString()</code>, where <em>t</em> is the type.</p>
 <p>Spaces are relevant in all type name components except the assembly name. In the assembly name, spaces before the &#39;,&#39; separator are relevant, but spaces after the &#39;,&#39; separator are ignored.</p>
 <p>Generic arguments of generic types are themselves qualified by assembly name. For example, in the assembly-qualified type name for <code>MyGenericClass<int></int></code> (<code>MyGenericClass(Of Integer)</code> in Visual Basic), <strong>int</strong> is expanded to the assembly-qualified type name for <a class="xref" href="System.Int32.html#System_Int32">Int32</a>.</p>
@@ -221,17 +246,63 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The assembly-qualified name of the <a class="xref" href="System.Type.html#System_Type">Type</a>, which includes the name of the assembly from which the <a class="xref" href="System.Type.html#System_Type">Type</a> was loaded, or <strong>null</strong> if the current instance represents a generic type parameter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_AssemblyQualifiedName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The assembly-qualified name of a type consists of the type name, including its namespace, followed by a comma, followed by the display name of the assembly. The display name of an assembly is obtained using the <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_FullName">FullName</a> property. </p>
+<p>In the .NET Framework version 2.0, processor architecture is added to assembly identity, and can be specified as part of assembly name strings. For example, &quot;ProcessorArchitecture=msil&quot;. However, it is not included in the string returned by the <a class="xref" href="System.Type.html#System_Type_AssemblyQualifiedName">AssemblyQualifiedName</a> property, for compatibility reasons. See <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_ProcessorArchitecture">ProcessorArchitecture</a>.</p>
+<p>All compilers that support the common language runtime emit the simple name of a nested class, and reflection constructs a mangled name when queried, in accordance with the following conventions.</p>
+<p>Delimiter </p>
+<p>Meaning </p>
+<table><tbody><tr><td>
+<p>Backslash () </p>
+</td><td>
+<p>Escape character. </p>
+</td></tr><tr><td>
+<p>Comma (,) </p>
+</td><td>
+<p>Precedes the Assembly name. </p>
+</td></tr><tr><td>
+<p>Plus sign (+) </p>
+</td><td>
+<p>Precedes a nested class. </p>
+</td></tr><tr><td>
+<p>Period (.) </p>
+</td><td>
+<p>Denotes namespace identifiers. </p>
+</td></tr><tr><td>
+<p>Brackets ([]) </p>
+</td><td>
+<p>After a type name, denotes an array of that type.</p>
+<p>-or-</p>
+<p>For a generic type, encloses the generic type argument list.</p>
+<p>-or-</p>
+<p>Within a type argument list, encloses an assembly-qualified type. </p>
+</td></tr></tbody></table>
+<p>For example, the assembly-qualified name for a class might look like this: </p>
+<pre><code>TopNamespace.SubNameSpace.ContainingClass+NestedClass, MyAssembly, Version=1.3.0.0, Culture=neutral, PublicKeyToken=b17a5c561934e089</code></pre>
+<p>If the namespace contained a plus sign, for example TopNamespace.Sub+Namespace, then the plus sign (+) would be preceded by an escape character () to prevent it from being interpreted as a nesting separator. Reflection would emit this string as follows: </p>
+<pre><code>TopNamespace.Sub\+Namespace.ContainingClass+NestedClass, MyAssembly, Version=1.3.0.0, Culture=neutral, PublicKeyToken=b17a5c561934e089 </code></pre>
+<p>A &quot;++&quot; becomes &quot;++&quot;, and a &quot;\&quot; becomes &quot;\&quot;.</p>
+<p>This qualified name can be persisted and later used to load the <a class="xref" href="System.Type.html#System_Type">Type</a>. To search for and load a <a class="xref" href="System.Type.html#System_Type">Type</a>, use <span class="xref">GetType()</span> either with the type name only or with the assembly qualified type name. <span class="xref">GetType()</span> with the type name only will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in the caller&#39;s assembly and then in the System assembly. <span class="xref">GetType()</span> with the assembly qualified type name will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in any assembly.</p>
+<p>Type names may include trailing characters that denote additional information about the type, such as whether the type is a reference type, a pointer type or an array type. To retrieve the type name without these trailing characters, use <code>t.GetElementType().ToString()</code>, where <em>t</em> is the type.</p>
+<p>Spaces are relevant in all type name components except the assembly name. In the assembly name, spaces before the &#39;,&#39; separator are relevant, but spaces after the &#39;,&#39; separator are ignored.</p>
+<p>Generic arguments of generic types are themselves qualified by assembly name. For example, in the assembly-qualified type name for <code>MyGenericClass<int></int></code> (<code>MyGenericClass(Of Integer)</code> in Visual Basic), <strong>int</strong> is expanded to the assembly-qualified type name for <a class="xref" href="System.Int32.html#System_Int32">Int32</a>.</p>
+<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a generic parameter, this property returns <strong>null</strong>.</p>
+</div>
+              <h5 id="System_Type_AssemblyQualifiedName_examples">Examples</h5>
+              
+<p>The following example displays the assembly name associated with the class and the fully qualified name of the type.</p>type_assembly#1
+              
+<p>The following example compares the strings returned by the <a class="xref" href="System.Type.html#System_Type_ToString">ToString()</a> method and the <strong>Name</strong>, <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a>, and <a class="xref" href="System.Type.html#System_Type_AssemblyQualifiedName">AssemblyQualifiedName</a> properties. </p>System.Type.ToString#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_DeclaringType.md&amp;value=---%0Auid%3A%20System.Type.DeclaringType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.Manual.cs/#L43">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L66">View Source</a>
               </span>
               <h4 id="System_Type_DeclaringType" data-uid="System.Type.DeclaringType">DeclaringType</h4>
               <div class="markdown level1 summary"><p>Gets the type that declares the current nested type or generic type parameter.</p>
@@ -239,11 +310,11 @@
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Type_DeclaringType_remarks">Remarks</h5>
               <div class="markdown level1 remarks"><p><p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type, this property returns the generic type definition.</p></p>
-<p><p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic method, this property returns the type that contains the generic method definition. If the type is generic, the generic type definition is returned. That is, the following code returns the generic type definition of the <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> generic class, which contains the <span class="xref">System.Collections.Generic.List`1.ConvertAll``1(System.Converter{`0,``0})</span> generic method:</p>System.Type.DeclaringType#1<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a type parameter in the definition of a generic type or generic method, the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> and <span class="xref">System.Type.DeclaringMethod</span> properties identify the generic type definition or generic method definition where the generic type parameter was originally defined:</p><ul><li><p>If the <span class="xref">System.Type.DeclaringMethod</span> property returns a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a>, that <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> represents a generic method definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic method definition.</p></li><li><p>If the <span class="xref">System.Type.DeclaringMethod</span> property returns <strong>null</strong>, then the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property always returns a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing a generic type definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic type definition.</p></li><li><p>Getting the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property on a type whose <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property is <strong>false</strong> throws an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p></li></ul></p>
+<p><p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic method, this property returns the type that contains the generic method definition. If the type is generic, the generic type definition is returned. That is, the following code returns the generic type definition of the <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> generic class, which contains the <span class="xref">System.Collections.Generic.List`1.ConvertAll``1(System.Converter{`0,``0})</span> generic method:</p>System.Type.DeclaringType#1<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a type parameter in the definition of a generic type or generic method, the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> and <span class="xref">DeclaringMethod</span> properties identify the generic type definition or generic method definition where the generic type parameter was originally defined:</p><ul><li><p>If the <span class="xref">DeclaringMethod</span> property returns a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a>, that <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> represents a generic method definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic method definition.</p></li><li><p>If the <span class="xref">DeclaringMethod</span> property returns <strong>null</strong>, then the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property always returns a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing a generic type definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic type definition.</p></li><li><p>Getting the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property on a type whose <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property is <strong>false</strong> throws an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p></li></ul></p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type DeclaringType { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public override Type DeclaringType { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -256,17 +327,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
-                    <td><p>A <a class="xref" href="System.Type.html#System_Type">Type</a> object representing the enclosing type, if the current type is a nested type; or the generic type definition, if the current type is a type parameter of a generic type; or the type that declares the generic method, if the current type is a type parameter of a generic method; otherwise, <strong>null</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_DeclaringType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type, this property returns the generic type definition.</p></p>
+<p><p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic method, this property returns the type that contains the generic method definition. If the type is generic, the generic type definition is returned. That is, the following code returns the generic type definition of the <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> generic class, which contains the <span class="xref">System.Collections.Generic.List`1.ConvertAll``1(System.Converter{`0,``0})</span> generic method:</p>System.Type.DeclaringType#1<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a type parameter in the definition of a generic type or generic method, the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> and <span class="xref">DeclaringMethod</span> properties identify the generic type definition or generic method definition where the generic type parameter was originally defined:</p><ul><li><p>If the <span class="xref">DeclaringMethod</span> property returns a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a>, that <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> represents a generic method definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic method definition.</p></li><li><p>If the <span class="xref">DeclaringMethod</span> property returns <strong>null</strong>, then the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property always returns a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing a generic type definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic type definition.</p></li><li><p>Getting the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property on a type whose <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property is <strong>false</strong> throws an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p></li></ul></p>
+</div>
+              <h5 id="System_Type_DeclaringType_examples">Examples</h5>
+              
+<p>This example displays the declaring type of a method in a derived class.</p>Classic Type.DeclaringType Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_FullName.md&amp;value=---%0Auid%3A%20System.Type.FullName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1890">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L356">View Source</a>
               </span>
               <h4 id="System_Type_FullName" data-uid="System.Type.FullName">FullName</h4>
               <div class="markdown level1 summary"><p>Gets the fully qualified name of the type, including its namespace but not its assembly. </p>
@@ -274,7 +351,7 @@
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Type_FullName_remarks">Remarks</h5>
               <div class="markdown level1 remarks"><p>For example, the fully qualified name of the <a class="xref" href="System.String.html#System_String">String</a> type is <code>System.String</code>. Contrast this with the assembly-qualified name returned by the <a class="xref" href="System.Type.html#System_Type_AssemblyQualifiedName">AssemblyQualifiedName</a> property, which consists of the full name plus the full assembly name. </p>
-<p>If the current type represents a closed generic type, the type arguments in the string returned by the <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a>property are qualified by their full assembly name, even though the string representation of the generic type itself is not qualified by its full assembly name. The following example illustrates the difference in the FullName property for a type that represents generic type definition and one that represents a closed generic type. </p>System.Type.FullName#2<p>This property returns <strong>null</strong> if:</p><ul><li><p>The current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type.  </p><p>The following example retrieves the type parameter of the <a class="xref" href="System.Nullable%601.html#System_Nullable_1">Nullable<t></t></a> type and attempts to display its <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property.</p>System.Type.FullName#3</li><li><p>The current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents an array type, a pointer  type, or a <strong>byref</strong> type that is based on a generic type parameter. </p><p>The following example defines a generic type, <code>Generictype1<t></t></code>, with three methods: <code>Display(T[])</code>, which is passed an array of type T; <code>HandleT(T)</code>, which is passed a T object; and <code>ChangeValue(ref T)</code>, which is passed a T object by reference. Because C# and Visual Basic do not allow us to define T as a pointer in the <code>HandleT</code> method, we have to call the <a class="xref" href="System.Type.html#System_Type_MakePointerType">MakePointerType()</a> method on the <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the method&#39;s parameter type to create a pointer to a generic type. The output from the example shows that in all three cases, the <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property is <strong>null</strong>.   </p>System.Type.FullName#4</li><li><p>The current type contains generic type parameters that have not been replaced by specific types (that is, the <span class="xref">System.Type.ContainsGenericParameters</span> property returns <strong>true</strong>), but the type is not a generic type definition (that is, the <span class="xref">System.Type.IsGenericTypeDefinition</span> property returns <strong>false</strong></p><p>In the following example, <code>Derived<t></t></code> inherits from <code>Base<t></t></code>. The <span class="xref">System.Type.BaseType</span> property obtains the  <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the base type of <code>Derived<t></t></code>, and its <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property returns <strong>null</strong>. </p>System.Type.FullName#5<p> To get a <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> that is not <strong>null</strong>, you can use the <a class="xref" href="System.Type.html#System_Type_GetGenericTypeDefinition">GetGenericTypeDefinition()</a> method to get the generic type definition, as the example illustrates.</p></li></ul><p>This property is read-only.</p></div>
+<p>If the current type represents a closed generic type, the type arguments in the string returned by the <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a>property are qualified by their full assembly name, even though the string representation of the generic type itself is not qualified by its full assembly name. The following example illustrates the difference in the FullName property for a type that represents generic type definition and one that represents a closed generic type. </p>System.Type.FullName#2<p>This property returns <strong>null</strong> if:</p><ul><li><p>The current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type.  </p><p>The following example retrieves the type parameter of the <a class="xref" href="System.Nullable%601.html#System_Nullable_1">Nullable<t></t></a> type and attempts to display its <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property.</p>System.Type.FullName#3</li><li><p>The current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents an array type, a pointer  type, or a <strong>byref</strong> type that is based on a generic type parameter. </p><p>The following example defines a generic type, <code>Generictype1<t></t></code>, with three methods: <code>Display(T[])</code>, which is passed an array of type T; <code>HandleT(T)</code>, which is passed a T object; and <code>ChangeValue(ref T)</code>, which is passed a T object by reference. Because C# and Visual Basic do not allow us to define T as a pointer in the <code>HandleT</code> method, we have to call the <a class="xref" href="System.Type.html#System_Type_MakePointerType">MakePointerType()</a> method on the <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the method&#39;s parameter type to create a pointer to a generic type. The output from the example shows that in all three cases, the <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property is <strong>null</strong>.   </p>System.Type.FullName#4</li><li><p>The current type contains generic type parameters that have not been replaced by specific types (that is, the <span class="xref">ContainsGenericParameters</span> property returns <strong>true</strong>), but the type is not a generic type definition (that is, the <span class="xref">IsGenericTypeDefinition</span> property returns <strong>false</strong></p><p>In the following example, <code>Derived<t></t></code> inherits from <code>Base<t></t></code>. The <span class="xref">BaseType</span> property obtains the  <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the base type of <code>Derived<t></t></code>, and its <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property returns <strong>null</strong>. </p>System.Type.FullName#5<p> To get a <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> that is not <strong>null</strong>, you can use the <a class="xref" href="System.Type.html#System_Type_GetGenericTypeDefinition">GetGenericTypeDefinition()</a> method to get the generic type definition, as the example illustrates.</p></li></ul><p>This property is read-only.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public abstract string FullName { get; }</code></pre>
@@ -290,33 +367,40 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The fully qualified name of the type, including its namespace but not its assembly; or <strong>null</strong> if the current instance represents a generic type parameter, an array type, pointer type, or <strong>byref</strong> type based on a type parameter, or a generic type that is not a generic type definition but contains unresolved type parameters.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_FullName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For example, the fully qualified name of the <a class="xref" href="System.String.html#System_String">String</a> type is <code>System.String</code>. Contrast this with the assembly-qualified name returned by the <a class="xref" href="System.Type.html#System_Type_AssemblyQualifiedName">AssemblyQualifiedName</a> property, which consists of the full name plus the full assembly name. </p>
+<p>If the current type represents a closed generic type, the type arguments in the string returned by the <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a>property are qualified by their full assembly name, even though the string representation of the generic type itself is not qualified by its full assembly name. The following example illustrates the difference in the FullName property for a type that represents generic type definition and one that represents a closed generic type. </p>System.Type.FullName#2<p>This property returns <strong>null</strong> if:</p><ul><li><p>The current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type.  </p><p>The following example retrieves the type parameter of the <a class="xref" href="System.Nullable%601.html#System_Nullable_1">Nullable<t></t></a> type and attempts to display its <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property.</p>System.Type.FullName#3</li><li><p>The current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents an array type, a pointer  type, or a <strong>byref</strong> type that is based on a generic type parameter. </p><p>The following example defines a generic type, <code>Generictype1<t></t></code>, with three methods: <code>Display(T[])</code>, which is passed an array of type T; <code>HandleT(T)</code>, which is passed a T object; and <code>ChangeValue(ref T)</code>, which is passed a T object by reference. Because C# and Visual Basic do not allow us to define T as a pointer in the <code>HandleT</code> method, we have to call the <a class="xref" href="System.Type.html#System_Type_MakePointerType">MakePointerType()</a> method on the <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the method&#39;s parameter type to create a pointer to a generic type. The output from the example shows that in all three cases, the <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property is <strong>null</strong>.   </p>System.Type.FullName#4</li><li><p>The current type contains generic type parameters that have not been replaced by specific types (that is, the <span class="xref">ContainsGenericParameters</span> property returns <strong>true</strong>), but the type is not a generic type definition (that is, the <span class="xref">IsGenericTypeDefinition</span> property returns <strong>false</strong></p><p>In the following example, <code>Derived<t></t></code> inherits from <code>Base<t></t></code>. The <span class="xref">BaseType</span> property obtains the  <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents the base type of <code>Derived<t></t></code>, and its <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> property returns <strong>null</strong>. </p>System.Type.FullName#5<p> To get a <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a> that is not <strong>null</strong>, you can use the <a class="xref" href="System.Type.html#System_Type_GetGenericTypeDefinition">GetGenericTypeDefinition()</a> method to get the generic type definition, as the example illustrates.</p></li></ul><p>This property is read-only.</p></div>
+              <h5 id="System_Type_FullName_examples">Examples</h5>
+              
+<p>The following example displays the full name of the specified type.</p>TestFullName#1
+              
+<p>The following example compares the strings returned by the <a class="xref" href="System.Type.html#System_Type_ToString">ToString()</a> method and the <strong>Name</strong>, <a class="xref" href="System.Type.html#System_Type_FullName">FullName</a>, and <a class="xref" href="System.Type.html#System_Type_AssemblyQualifiedName">AssemblyQualifiedName</a> properties. </p>System.Type.ToString#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GenericParameterPosition.md&amp;value=---%0Auid%3A%20System.Type.GenericParameterPosition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1891">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1172">View Source</a>
               </span>
               <h4 id="System_Type_GenericParameterPosition" data-uid="System.Type.GenericParameterPosition">GenericParameterPosition</h4>
               <div class="markdown level1 summary"><p>Gets the position of the type parameter in the type parameter list of the generic type or method that declared the parameter, when the <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type or a generic method.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Type_GenericParameterPosition_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property returns the position of a type parameter in the parameter list of the generic type definition or generic method definition where the type parameter was originally defined. The <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> and <span class="xref">System.Type.DeclaringMethod</span> properties identify the generic type or method definition:</p>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property returns the position of a type parameter in the parameter list of the generic type definition or generic method definition where the type parameter was originally defined. The <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> and <span class="xref">DeclaringMethod</span> properties identify the generic type or method definition:</p>
 <ul><li>
-<p>If the <span class="xref">System.Type.DeclaringMethod</span> property returns a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a>, that <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> represents a generic method definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic method definition.</p>
+<p>If the <span class="xref">DeclaringMethod</span> property returns a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a>, that <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> represents a generic method definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic method definition.</p>
 </li><li>
-<p>If the <span class="xref">System.Type.DeclaringMethod</span> property returns <strong>null</strong>, then the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property always returns a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing a generic type definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic type definition.</p>
+<p>If the <span class="xref">DeclaringMethod</span> property returns <strong>null</strong>, then the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property always returns a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing a generic type definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic type definition.</p>
 </li></ul>
-<p>To provide the correct context for the value of the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property, it is necessary to identify the generic type or method a type parameter belongs to. For example, consider the return value of the generic method <code>GetSomething</code> in the following code: </p>System.Type.GenericParameterPosition#1<p>The type returned by <code>GetSomething</code> depends on the type arguments supplied to class <code>A</code> and to <code>GetSomething</code> itself. You can obtain a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> for <code>GetSomething</code>, and from that you can obtain the return type. When you examine the type parameters of the return type, <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> returns 0 for both. The position of <code>V</code> is 0 because <code>V</code> is the first type parameter in the type parameter list for class <code>A</code>. The position of <code>X</code> is 0 because <code>X</code> is the first type parameter in the type parameter list for <code>GetSomething</code>.</p><p>Calling the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property causes an exception if the current <a class="xref" href="System.Type.html#System_Type">Type</a> does not represent a type parameter. When you examine the type arguments of an open constructed type, use the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property to tell which are type parameters and which are types. The <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>true</strong> for a type parameter; you can then use the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> method to obtain its position and use the <span class="xref">System.Type.DeclaringMethod</span> and <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> properties to determine the generic method or type definition that defines it.</p></div>
+<p>To provide the correct context for the value of the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property, it is necessary to identify the generic type or method a type parameter belongs to. For example, consider the return value of the generic method <code>GetSomething</code> in the following code: </p>System.Type.GenericParameterPosition#1<p>The type returned by <code>GetSomething</code> depends on the type arguments supplied to class <code>A</code> and to <code>GetSomething</code> itself. You can obtain a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> for <code>GetSomething</code>, and from that you can obtain the return type. When you examine the type parameters of the return type, <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> returns 0 for both. The position of <code>V</code> is 0 because <code>V</code> is the first type parameter in the type parameter list for class <code>A</code>. The position of <code>X</code> is 0 because <code>X</code> is the first type parameter in the type parameter list for <code>GetSomething</code>.</p><p>Calling the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property causes an exception if the current <a class="xref" href="System.Type.html#System_Type">Type</a> does not represent a type parameter. When you examine the type arguments of an open constructed type, use the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property to tell which are type parameters and which are types. The <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>true</strong> for a type parameter; you can then use the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> method to obtain its position and use the <span class="xref">DeclaringMethod</span> and <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> properties to determine the generic method or type definition that defines it.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract int GenericParameterPosition { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual int GenericParameterPosition { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -329,11 +413,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The position of a type parameter in the type parameter list of the generic type or method that defines the parameter. Position numbers begin at 0.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GenericParameterPosition_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property returns the position of a type parameter in the parameter list of the generic type definition or generic method definition where the type parameter was originally defined. The <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> and <span class="xref">DeclaringMethod</span> properties identify the generic type or method definition:</p>
+<ul><li>
+<p>If the <span class="xref">DeclaringMethod</span> property returns a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a>, that <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> represents a generic method definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic method definition.</p>
+</li><li>
+<p>If the <span class="xref">DeclaringMethod</span> property returns <strong>null</strong>, then the <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> property always returns a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing a generic type definition, and the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of that generic type definition.</p>
+</li></ul>
+<p>To provide the correct context for the value of the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property, it is necessary to identify the generic type or method a type parameter belongs to. For example, consider the return value of the generic method <code>GetSomething</code> in the following code: </p>System.Type.GenericParameterPosition#1<p>The type returned by <code>GetSomething</code> depends on the type arguments supplied to class <code>A</code> and to <code>GetSomething</code> itself. You can obtain a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> for <code>GetSomething</code>, and from that you can obtain the return type. When you examine the type parameters of the return type, <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> returns 0 for both. The position of <code>V</code> is 0 because <code>V</code> is the first type parameter in the type parameter list for class <code>A</code>. The position of <code>X</code> is 0 because <code>X</code> is the first type parameter in the type parameter list for <code>GetSomething</code>.</p><p>Calling the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property causes an exception if the current <a class="xref" href="System.Type.html#System_Type">Type</a> does not represent a type parameter. When you examine the type arguments of an open constructed type, use the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property to tell which are type parameters and which are types. The <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>true</strong> for a type parameter; you can then use the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> method to obtain its position and use the <span class="xref">DeclaringMethod</span> and <a class="xref" href="System.Type.html#System_Type_DeclaringType">DeclaringType</a> properties to determine the generic method or type definition that defines it.</p></div>
+              <h5 id="System_Type_GenericParameterPosition_examples">Examples</h5>
+              
+<p>The following example defines a generic class with two type parameters and defines a second generic class that derives from the first class. The derived class's base class has two type arguments: the first is <a class="xref" href="System.Int32.html#System_Int32">Int32</a>, and the second is a type parameter of the derived type. The example displays information about these generic classes, including the positions reported by the <a class="xref" href="System.Type.html#System_Type_GenericParameterPosition">GenericParameterPosition</a> property.</p>System.Type.HasUnboundGenericParameters#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -355,7 +449,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GenericTypeArguments.md&amp;value=---%0Auid%3A%20System.Type.GenericTypeArguments%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1892">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1337">View Source</a>
               </span>
               <h4 id="System_Type_GenericTypeArguments" data-uid="System.Type.GenericTypeArguments">GenericTypeArguments</h4>
               <div class="markdown level1 summary"><p>Gets an array of the generic type arguments for this type.</p>
@@ -368,7 +462,7 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type[] GenericTypeArguments { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type[] GenericTypeArguments { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -381,17 +475,26 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a>[]</td>
-                    <td><p>An array of the generic type arguments for this type.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GenericTypeArguments_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property gets only the generic type arguments; that is, the types that have been specified for the generic type parameters of the current type. If the current type is a generic type definition, this property returns an empty array. </p>
+<p>If a generic type is used in a generic method or in another generic type, some of its generic type arguments might be generic type parameters of the enclosing method or type. </p>
+<p>To get the generic type parameters of a type that represents a generic type definition, use the <a class="xref" href="System.Reflection.TypeInfo.html#System_Reflection_TypeInfo_GenericTypeParameters">GenericTypeParameters</a> property. To get a <a class="xref" href="System.Reflection.TypeInfo.html#System_Reflection_TypeInfo">TypeInfo</a> object for the current <a class="xref" href="System.Type.html#System_Type">Type</a> object, use the <a class="xref" href="System.Reflection.IntrospectionExtensions.html#System_Reflection_IntrospectionExtensions_GetTypeInfo_System_Type_">GetTypeInfo(Type)</a> extension method. </p>
+</div>
+              <h5 id="System_Type_GenericTypeArguments_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_HasElementType.md&amp;value=---%0Auid%3A%20System.Type.HasElementType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1893">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1241">View Source</a>
               </span>
               <h4 id="System_Type_HasElementType" data-uid="System.Type.HasElementType">HasElementType</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the current <a class="xref" href="System.Type.html#System_Type">Type</a> encompasses or refers to another type; that is, whether the current <a class="xref" href="System.Type.html#System_Type">Type</a> is an array, a pointer, or is passed by reference.</p>
@@ -416,18 +519,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <a class="xref" href="System.Type.html#System_Type">Type</a> is an array, a pointer, or is passed by reference; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_HasElementType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>For example, Type.GetType(&quot;Int32[]&quot;).HasElementType returns <strong>true</strong>, but Type.GetType(&quot;Int32&quot;).HasElementType returns <strong>false</strong>. HasElementType also returns <strong>true</strong> for &quot;Int32*&quot; and &quot;Int32&amp;&quot;.</p>
+<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a generic type, or a type parameter in the definition of a generic type or generic method, this property always returns <strong>false</strong>.</p>
+</div>
+              <h5 id="System_Type_HasElementType_examples">Examples</h5>
+              
+<p>The following example returns <strong>true</strong> or <strong>false</strong> depending on whether or not the object is an array, a reference type, or a pointer.</p>Type_HasElementType#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_IsArray.md&amp;value=---%0Auid%3A%20System.Type.IsArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1894">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1140">View Source</a>
               </span>
               <h4 id="System_Type_IsArray" data-uid="System.Type.IsArray">IsArray</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates whether the type is an array.</p>
@@ -443,7 +551,7 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual bool IsArray { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public bool IsArray { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -456,18 +564,27 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current type is an array; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_IsArray_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_IsArray">IsArray</a> property returns <strong>false</strong> for the <a class="xref" href="System.Array.html#System_Array">Array</a> class. It also returns <strong>false</strong> if the current instance is a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents a collection type or an interface designed to work with collections, such as <a class="xref" href="System.Collections.IEnumerable.html#System_Collections_IEnumerable">IEnumerable</a> or <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a>. </p>
+<p>To check for an array, use code such as: </p>
+<pre><code class="c#">typeof(Array).IsAssignableFrom(type)</code></pre>
+<pre><code class="vb">GetType(Array).IsAssignableFrom(type)</code></pre>
+<p>If the current type represents a generic type, or a type parameter in the definition of a generic type or generic method, this property always returns <strong>false</strong>.</p>
+<p>This property is read-only.</p>
+</div>
+              <h5 id="System_Type_IsArray_examples">Examples</h5>
+              
+<p>The following example demonstrates using the<a class="xref" href="System.Type.html#System_Type_IsArray">IsArray</a> property.</p>System.Type.IsArray#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_IsByRef.md&amp;value=---%0Auid%3A%20System.Type.IsByRef%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1895">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1212">View Source</a>
               </span>
               <h4 id="System_Type_IsByRef" data-uid="System.Type.IsByRef">IsByRef</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the <a class="xref" href="System.Type.html#System_Type">Type</a> is passed by reference.</p>
@@ -478,7 +595,7 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual bool IsByRef { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public bool IsByRef { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -491,18 +608,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <a class="xref" href="System.Type.html#System_Type">Type</a> is passed by reference; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_IsByRef_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To get to the actual type, dereference the type that was passed by reference, and then call <a class="xref" href="System.Type.html#System_Type_GetElementType">GetElementType()</a> on that type.</p>
+</div>
+              <h5 id="System_Type_IsByRef_examples">Examples</h5>
+              
+<p>The following example demonstrates a use of the <strong>IsByRef</strong> property to check whether a specified type is passed by reference. The example defines the class <strong>MyTypeDelegator</strong>, which overrides the <strong>HasElementTypeImpl</strong> method. The main class checks for the <strong>HasElementType</strong> property and displays the element type.</p>Type_HasElementTypeImpl#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_IsConstructedGenericType.md&amp;value=---%0Auid%3A%20System.Type.IsConstructedGenericType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1896">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1160">View Source</a>
               </span>
               <h4 id="System_Type_IsConstructedGenericType" data-uid="System.Type.IsConstructedGenericType">IsConstructedGenericType</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates whether this object represents a constructed generic type. You can create instances of a constructed generic type. </p>
@@ -514,7 +635,7 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract bool IsConstructedGenericType { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual bool IsConstructedGenericType { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -527,18 +648,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if this object represents a constructed generic type; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_IsConstructedGenericType_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A constructed generic type has had explicit types supplied for all of its generic type parameters. It is also referred to as a closed generic type. </p>
+<p>When this property is <strong>true</strong>, you can create instances of the current type; when it is <strong>false</strong>, you can&#39;t. </p>
+</div>
+              <h5 id="System_Type_IsConstructedGenericType_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_IsGenericParameter.md&amp;value=---%0Auid%3A%20System.Type.IsGenericParameter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1897">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1166">View Source</a>
               </span>
               <h4 id="System_Type_IsGenericParameter" data-uid="System.Type.IsGenericParameter">IsGenericParameter</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a type parameter in the definition of a generic type or method.</p>
@@ -546,19 +674,19 @@
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Type_IsGenericParameter_remarks">Remarks</h5>
               <div class="markdown level1 remarks"><p>
-<a class="xref" href="System.Type.html#System_Type">Type</a> objects that represent generic type parameters can be obtained by calling the <span class="xref">System.Type.GetGenericArguments</span> method of a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents a generic type definition, or the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo_GetGenericArguments">GetGenericArguments()</a> method of a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> object that represents a generic method definition.</p>
+<a class="xref" href="System.Type.html#System_Type">Type</a> objects that represent generic type parameters can be obtained by calling the <span class="xref">GetGenericArguments()</span> method of a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents a generic type definition, or the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo_GetGenericArguments">GetGenericArguments()</a> method of a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> object that represents a generic method definition.</p>
 <ul><li>
 <p>For a generic type or method definition, the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>true</strong> for every element of the resulting array.</p>
 </li><li>
-<p>For a closed constructed type or method, the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>false</strong> for every element of the array returned by the <span class="xref">System.Type.GetGenericArguments</span> method.</p>
+<p>For a closed constructed type or method, the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>false</strong> for every element of the array returned by the <span class="xref">GetGenericArguments()</span> method.</p>
 </li><li>
-<p>For an open constructed type or method, some elements of the array might be specific types and others might be type parameters. <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> returns <strong>false</strong> for the types and <strong>true</strong> for the type parameters. The code example for the <span class="xref">System.Type.ContainsGenericParameters</span> property demonstrates a generic class with a mixture of types and type parameters.</p>
+<p>For an open constructed type or method, some elements of the array might be specific types and others might be type parameters. <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> returns <strong>false</strong> for the types and <strong>true</strong> for the type parameters. The code example for the <span class="xref">ContainsGenericParameters</span> property demonstrates a generic class with a mixture of types and type parameters.</p>
 </li></ul>
-<p>For a list of the invariant conditions for terms used in generic reflection, see the <span class="xref">System.Type.IsGenericType</span> property remarks. </p>
+<p>For a list of the invariant conditions for terms used in generic reflection, see the <span class="xref">IsGenericType</span> property remarks. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract bool IsGenericParameter { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual bool IsGenericParameter { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -571,25 +699,38 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type parameter of a generic type definition or generic method definition; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_IsGenericParameter_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Type.html#System_Type">Type</a> objects that represent generic type parameters can be obtained by calling the <span class="xref">GetGenericArguments()</span> method of a <a class="xref" href="System.Type.html#System_Type">Type</a> object that represents a generic type definition, or the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo_GetGenericArguments">GetGenericArguments()</a> method of a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> object that represents a generic method definition.</p>
+<ul><li>
+<p>For a generic type or method definition, the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>true</strong> for every element of the resulting array.</p>
+</li><li>
+<p>For a closed constructed type or method, the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property returns <strong>false</strong> for every element of the array returned by the <span class="xref">GetGenericArguments()</span> method.</p>
+</li><li>
+<p>For an open constructed type or method, some elements of the array might be specific types and others might be type parameters. <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> returns <strong>false</strong> for the types and <strong>true</strong> for the type parameters. The code example for the <span class="xref">ContainsGenericParameters</span> property demonstrates a generic class with a mixture of types and type parameters.</p>
+</li></ul>
+<p>For a list of the invariant conditions for terms used in generic reflection, see the <span class="xref">IsGenericType</span> property remarks. </p>
+</div>
+              <h5 id="System_Type_IsGenericParameter_examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Type.html#System_Type_IsGenericParameter">IsGenericParameter</a> property to test for generic type parameters in a generic type.</p>System.Type.IsGenericParameter#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_IsNested.md&amp;value=---%0Auid%3A%20System.Type.IsNested%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1898">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L938">View Source</a>
               </span>
               <h4 id="System_Type_IsNested" data-uid="System.Type.IsNested">IsNested</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a type whose definition is nested inside the definition of another type.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Type_IsNested_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_IsNested">IsNested</a> property returns <strong>true</strong> for all nested types, regardless of visibility. To test for nesting and visibility at the same time, use the related properties <span class="xref">System.Type.IsNestedAssembly</span>, <span class="xref">System.Type.IsNestedFamily</span>, <span class="xref">System.Type.IsNestedFamANDAssem</span>, <span class="xref">System.Type.IsNestedFamORAssem</span>, <span class="xref">System.Type.IsNestedPrivate</span>, or <span class="xref">System.Type.IsNestedPublic</span>.</p>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_IsNested">IsNested</a> property returns <strong>true</strong> for all nested types, regardless of visibility. To test for nesting and visibility at the same time, use the related properties <span class="xref">IsNestedAssembly</span>, <span class="xref">IsNestedFamily</span>, <span class="xref">IsNestedFamANDAssem</span>, <span class="xref">IsNestedFamORAssem</span>, <span class="xref">IsNestedPrivate</span>, or <span class="xref">IsNestedPublic</span>.</p>
 <p>The <a class="xref" href="System.Reflection.TypeAttributes.html#System_Reflection_TypeAttributes_VisibilityMask">VisibilityMask</a> enumeration member selects the visibility attributes for a type.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
@@ -607,18 +748,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <a class="xref" href="System.Type.html#System_Type">Type</a> is nested inside another type; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_IsNested_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Type.html#System_Type_IsNested">IsNested</a> property returns <strong>true</strong> for all nested types, regardless of visibility. To test for nesting and visibility at the same time, use the related properties <span class="xref">IsNestedAssembly</span>, <span class="xref">IsNestedFamily</span>, <span class="xref">IsNestedFamANDAssem</span>, <span class="xref">IsNestedFamORAssem</span>, <span class="xref">IsNestedPrivate</span>, or <span class="xref">IsNestedPublic</span>.</p>
+<p>The <a class="xref" href="System.Reflection.TypeAttributes.html#System_Reflection_TypeAttributes_VisibilityMask">VisibilityMask</a> enumeration member selects the visibility attributes for a type.</p>
+</div>
+              <h5 id="System_Type_IsNested_examples">Examples</h5>
+              
+<p>The following example creates an outer class with a number of nested classes that have various types of visibility. It then retrieves the value of a number of visibility-related <a class="xref" href="System.Type.html#System_Type">Type</a> properties for the parent type and each of its nested types. </p>System.Type.IsNestedFamAndAssem#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_IsPointer.md&amp;value=---%0Auid%3A%20System.Type.IsPointer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1899">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1216">View Source</a>
               </span>
               <h4 id="System_Type_IsPointer" data-uid="System.Type.IsPointer">IsPointer</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the <a class="xref" href="System.Type.html#System_Type">Type</a> is a pointer.</p>
@@ -630,7 +776,7 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual bool IsPointer { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public bool IsPointer { get; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -643,12 +789,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <a class="xref" href="System.Type.html#System_Type">Type</a> is a pointer; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_IsPointer_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a generic type, or a type parameter in the definition of a generic type or generic method, this property always returns <strong>false</strong>.</p>
+<p>This property is read-only.</p>
+</div>
+              <h5 id="System_Type_IsPointer_examples">Examples</h5>
+              
+<p>The following example shows a use of the <strong>IsPointer</strong> property.</p>Type_HasElementTypeImpl#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_Name.md&amp;value=---%0Auid%3A%20System.Type.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -678,12 +829,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_Name_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_Namespace.md&amp;value=---%0Auid%3A%20System.Type.Namespace%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1900">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L362">View Source</a>
               </span>
               <h4 id="System_Type_Namespace" data-uid="System.Type.Namespace">Namespace</h4>
               <div class="markdown level1 summary"><p>Gets the namespace of the <a class="xref" href="System.Type.html#System_Type">Type</a>.</p>
@@ -709,17 +865,24 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The namespace of the <a class="xref" href="System.Type.html#System_Type">Type</a>; <strong>null</strong> if the current instance has no namespace or represents a generic parameter.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_Namespace_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>A namespace is a logical design-time naming convenience, used mainly to define scope in an application and organize classes and other types in a single hierarchical structure. From the viewpoint of the runtime, there are no namespaces.</p>
+<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a constructed generic type, this property returns the namespace that contains the generic type definition. Similarly, if the current <a class="xref" href="System.Type.html#System_Type">Type</a> represents a generic parameter <em>T</em>, this property returns the namespace that contains the generic type definition that defines <em>T</em>.</p>
+<p>If the current <a class="xref" href="System.Type.html#System_Type">Type</a> object represents a generic parameter, this property returns <strong>null</strong>.</p>
+</div>
+              <h5 id="System_Type_Namespace_examples">Examples</h5>
+              
+<p>This following example demonstrates a use of the <strong>Namespace</strong> and <span class="xref">Module</span> properties and the <a class="xref" href="System.Type.html#System_Type_ToString">ToString()</a> method of <a class="xref" href="System.Type.html#System_Type">Type</a>.</p>Type_ToString#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_TypeHandle.md&amp;value=---%0Auid%3A%20System.Type.TypeHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1901">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L324">View Source</a>
               </span>
               <h4 id="System_Type_TypeHandle" data-uid="System.Type.TypeHandle">TypeHandle</h4>
               <div class="markdown level1 summary"><p>Gets the handle for the current <a class="xref" href="System.Type.html#System_Type">Type</a>.</p>
@@ -744,11 +907,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.RuntimeTypeHandle.html#System_RuntimeTypeHandle">RuntimeTypeHandle</a></td>
-                    <td><p>The handle for the current <a class="xref" href="System.Type.html#System_Type">Type</a>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_TypeHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<strong>TypeHandle</strong> encapsulates a pointer to an internal data structure that represents the type. This handle is unique during the process lifetime. The handle is valid only in the application domain in which it was obtained.</p>
+</div>
+              <h5 id="System_Type_TypeHandle_examples">Examples</h5>
+              
+<p>The following example returns the handle of the corresponding type and passes the handle to a method that gets the type from the handle and displays it.</p>Type_TypeHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -772,7 +941,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Type.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1902">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1762">View Source</a>
               </span>
               <h4 id="System_Type_Equals_System_Object_" data-uid="System.Type.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"></div>
@@ -813,12 +982,19 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a></div>
+              <h5 id="System_Type_Equals_System_Object__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_Equals_System_Type_.md&amp;value=---%0Auid%3A%20System.Type.Equals(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1903">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1772">View Source</a>
               </span>
               <h4 id="System_Type_Equals_System_Type_" data-uid="System.Type.Equals(System.Type)">Equals(Type)</h4>
               <div class="markdown level1 summary"></div>
@@ -859,19 +1035,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_Equals_System_Type__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetArrayRank.md&amp;value=---%0Auid%3A%20System.Type.GetArrayRank%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1904">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L374">View Source</a>
               </span>
               <h4 id="System_Type_GetArrayRank" data-uid="System.Type.GetArrayRank">GetArrayRank()</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract int GetArrayRank()</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual int GetArrayRank()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -888,12 +1069,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetArrayRank_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetElementType.md&amp;value=---%0Auid%3A%20System.Type.GetElementType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1905">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1328">View Source</a>
               </span>
               <h4 id="System_Type_GetElementType" data-uid="System.Type.GetElementType">GetElementType()</h4>
               <div class="markdown level1 summary"></div>
@@ -917,19 +1103,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetElementType_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetGenericTypeDefinition.md&amp;value=---%0Auid%3A%20System.Type.GetGenericTypeDefinition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1906">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1349">View Source</a>
               </span>
               <h4 id="System_Type_GetGenericTypeDefinition" data-uid="System.Type.GetGenericTypeDefinition">GetGenericTypeDefinition()</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type GetGenericTypeDefinition()</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type GetGenericTypeDefinition()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -946,12 +1137,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetGenericTypeDefinition_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetHashCode.md&amp;value=---%0Auid%3A%20System.Type.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1907">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1797">View Source</a>
               </span>
               <h4 id="System_Type_GetHashCode" data-uid="System.Type.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"></div>
@@ -975,19 +1171,27 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a></div>
+              <h5 id="System_Type_GetHashCode_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetType_System_String_.md&amp;value=---%0Auid%3A%20System.Type.GetType(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1908">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L96">View Source</a>
               </span>
               <h4 id="System_Type_GetType_System_String_" data-uid="System.Type.GetType(System.String)">GetType(String)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static Type GetType(string typeName)</code></pre>
+                <pre><code class="lang-csharp hljs">[MethodImpl(MethodImplOptions.NoInlining)]
+public static Type GetType(string typeName)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1021,19 +1225,25 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetType_System_String__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetType_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Type.GetType(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1909">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L90">View Source</a>
               </span>
               <h4 id="System_Type_GetType_System_String_System_Boolean_" data-uid="System.Type.GetType(System.String,System.Boolean)">GetType(String, Boolean)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static Type GetType(string typeName, bool throwOnError)</code></pre>
+                <pre><code class="lang-csharp hljs">[MethodImpl(MethodImplOptions.NoInlining)]
+public static Type GetType(string typeName, bool throwOnError)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1072,19 +1282,25 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetType_System_String_System_Boolean__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetType_System_String_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Type.GetType(System.String%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1910">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L84">View Source</a>
               </span>
               <h4 id="System_Type_GetType_System_String_System_Boolean_System_Boolean_" data-uid="System.Type.GetType(System.String,System.Boolean,System.Boolean)">GetType(String, Boolean, Boolean)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static Type GetType(string typeName, bool throwOnError, bool ignoreCase)</code></pre>
+                <pre><code class="lang-csharp hljs">[MethodImpl(MethodImplOptions.NoInlining)]
+public static Type GetType(string typeName, bool throwOnError, bool ignoreCase)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1128,12 +1344,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetType_System_String_System_Boolean_System_Boolean__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetTypeCode_System_Type_.md&amp;value=---%0Auid%3A%20System.Type.GetTypeCode(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1911">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L228">View Source</a>
               </span>
               <h4 id="System_Type_GetTypeCode_System_Type_" data-uid="System.Type.GetTypeCode(System.Type)">GetTypeCode(Type)</h4>
               <div class="markdown level1 summary"></div>
@@ -1174,19 +1395,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetTypeCode_System_Type__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_GetTypeFromHandle_System_RuntimeTypeHandle_.md&amp;value=---%0Auid%3A%20System.Type.GetTypeFromHandle(System.RuntimeTypeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
-              <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1912">View Source</a>
-              </span>
+              
               <h4 id="System_Type_GetTypeFromHandle_System_RuntimeTypeHandle_" data-uid="System.Type.GetTypeFromHandle(System.RuntimeTypeHandle)">GetTypeFromHandle(RuntimeTypeHandle)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static Type GetTypeFromHandle(RuntimeTypeHandle handle)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[MethodImpl(MethodImplOptions.InternalCall)]
+public static Type GetTypeFromHandle(RuntimeTypeHandle handle)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1220,19 +1446,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_GetTypeFromHandle_System_RuntimeTypeHandle__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_MakeArrayType.md&amp;value=---%0Auid%3A%20System.Type.MakeArrayType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1913">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L147">View Source</a>
               </span>
               <h4 id="System_Type_MakeArrayType" data-uid="System.Type.MakeArrayType">MakeArrayType()</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type MakeArrayType()</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type MakeArrayType()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1249,19 +1480,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_MakeArrayType_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_MakeArrayType_System_Int32_.md&amp;value=---%0Auid%3A%20System.Type.MakeArrayType(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1914">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L148">View Source</a>
               </span>
               <h4 id="System_Type_MakeArrayType_System_Int32_" data-uid="System.Type.MakeArrayType(System.Int32)">MakeArrayType(Int32)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type MakeArrayType(int rank)</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type MakeArrayType(int rank)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1295,19 +1531,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_MakeArrayType_System_Int32__examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_MakeByRefType.md&amp;value=---%0Auid%3A%20System.Type.MakeByRefType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1915">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L146">View Source</a>
               </span>
               <h4 id="System_Type_MakeByRefType" data-uid="System.Type.MakeByRefType">MakeByRefType()</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type MakeByRefType()</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type MakeByRefType()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1324,19 +1565,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_MakeByRefType_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_MakeGenericType_System_Type___.md&amp;value=---%0Auid%3A%20System.Type.MakeGenericType(System.Type%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1916">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1305">View Source</a>
               </span>
               <h4 id="System_Type_MakeGenericType_System_Type___" data-uid="System.Type.MakeGenericType(System.Type[])">MakeGenericType(Type[])</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type MakeGenericType(params Type[] typeArguments)</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type MakeGenericType(params Type[] typeArguments)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1370,19 +1616,24 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_MakeGenericType_System_Type____examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_MakePointerType.md&amp;value=---%0Auid%3A%20System.Type.MakePointerType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1917">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L144">View Source</a>
               </span>
               <h4 id="System_Type_MakePointerType" data-uid="System.Type.MakePointerType">MakePointerType()</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract Type MakePointerType()</code></pre>
+                <pre><code class="lang-csharp hljs">public virtual Type MakePointerType()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1399,12 +1650,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Type_MakePointerType_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Type_ToString.md&amp;value=---%0Auid%3A%20System.Type.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1918">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs/#L1740">View Source</a>
               </span>
               <h4 id="System_Type_ToString" data-uid="System.Type.ToString">ToString()</h4>
               <div class="markdown level1 summary"></div>
@@ -1428,6 +1684,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a></div>
+              <h5 id="System_Type_ToString_examples">Examples</h5>
+              <p>The following  example shows a few representative features of <a class="xref" href="System.Type.html#System_Type">Type</a>. The C# <strong>typeof</strong> operator (<strong>GetType</strong> operator in Visual Basic, <strong>typeid</strong> operator in Visual C++) is used to get a <a class="xref" href="System.Type.html#System_Type">Type</a> object representing <a class="xref" href="System.String.html#System_String">String</a>. From this <a class="xref" href="System.Type.html#System_Type">Type</a> object, the <see cref="Overload:System.Type.GetMethod"></see> method is used to get a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> representing the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> overload that takes a starting location and a length. </p>
+<p>To identify the overload signature, the code example creates a temporary array containing two <a class="xref" href="System.Type.html#System_Type">Type</a> objects representing <strong>int</strong> (<strong>Integer</strong> in Visual Basic). </p>
+<p>To be precise, the array contains two references to the instance of <a class="xref" href="System.Type.html#System_Type">Type</a> that represents <strong>int</strong> in the current application domain. For any type, there is only one instance of <a class="xref" href="System.Type.html#System_Type">Type</a> per application domain.</p>
+<p>The code example uses the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> to invoke the <a class="xref" href="System.String.html#System_String_Substring_System_Int32_System_Int32_">Substring(Int32, Int32)</a> method on the string "Hello, World!", and displays the result. </p>System.Type#1
             </article>
           </div>
           

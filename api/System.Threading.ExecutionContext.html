@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ExecutionContext.md&amp;value=---%0Auid%3A%20System.Threading.ExecutionContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L111" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ExecutionContext.cs/#L66" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_ExecutionContext" data-uid="System.Threading.ExecutionContext">Class ExecutionContext
               </h1>
               <div class="markdown level0 summary"><p>Manages the execution context for the current thread. This class cannot be inherited.</p>
@@ -81,19 +81,37 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">ExecutionContext</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Threading</h6>
               <h6><strong>Assembly</strong>:System.Threading.dll</h6>
               <h5 id="System_Threading_ExecutionContext_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public sealed class ExecutionContext : object</code></pre>
+                <pre><code class="lang-csharp hljs">public sealed class ExecutionContext : IDisposable</code></pre>
               </div>
-              <h5 id="System_Threading_ExecutionContext_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> class provides a single container for all information relevant to a logical thread of execution. This includes security context, call context, and synchronization context.</p>
-<p>The <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> class provides the functionality for user code to capture and transfer this context across user-defined asynchronous points. The common language runtime ensures that the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> is consistently transferred across runtime-defined asynchronous points within the managed process. </p>
-<p>An execution context is the managed equivalent of a COM apartment. Within an application domain, the entire execution context must be transferred whenever a thread is transferred. This situation occurs during transfers made by the <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Start">Start()</a> method, most thread pool operations, and Windows Forms thread marshaling through the Windows message pump. It does not occur in unsafe thread pool operations (such as the <span class="xref">System.Threading.ThreadPool.UnsafeQueueUserWorkItem(System.Threading.WaitCallback,System.Object)</span> method), which do not transfer the compressed stack. Wherever the compressed stack flows, the managed principal, synchronization, locale, and user context also flow. The <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> class provides the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext_Capture">Capture()</a> and <span class="xref">System.Threading.ExecutionContext.CreateCopy</span> methods to get the execution context and the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext_Run_System_Threading_ExecutionContext_System_Threading_ContextCallback_System_Object_">Run(ExecutionContext, ContextCallback, Object)</a> method to set the execution context for the current thread.</p>
-<p>An <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> that is associated with a thread cannot be set on another thread. Attempting to do so will result in an exception being thrown. To propagate the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> from one thread to another, make a copy of the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a>.</p>
-<p>Internally, the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> stores all data that is associated with the <span class="xref">System.Runtime.Remoting.Messaging.LogicalCallContext</span>. This allows the <span class="xref">System.Runtime.Remoting.Messaging.LogicalCallContext</span> data to be propagated when the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> is copied and transferred.</p>
-</div>
+              
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,7 +119,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ExecutionContext_Capture.md&amp;value=---%0Auid%3A%20System.Threading.ExecutionContext.Capture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L114">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ExecutionContext.cs/#L85">View Source</a>
               </span>
               <h4 id="System_Threading_ExecutionContext_Capture" data-uid="System.Threading.ExecutionContext.Capture">Capture()</h4>
               <div class="markdown level1 summary"><p>Captures the execution context from the current thread.</p>
@@ -112,7 +130,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static ExecutionContext Capture()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static ExecutionContext Capture()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -125,17 +144,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a></td>
-                    <td><p>An <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> object representing the execution context for the current thread.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_ExecutionContext_Capture_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The captured execution context can be used as the <em>executionContext</em> parameter for the <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext_Run_System_Threading_ExecutionContext_System_Threading_ContextCallback_System_Object_">Run(ExecutionContext, ContextCallback, Object)</a> method.</p>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ExecutionContext_Run_System_Threading_ExecutionContext_System_Threading_ContextCallback_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext%2CSystem.Threading.ContextCallback%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L115">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ExecutionContext.cs/#L91">View Source</a>
               </span>
               <h4 id="System_Threading_ExecutionContext_Run_System_Threading_ExecutionContext_System_Threading_ContextCallback_System_Object_" data-uid="System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext,System.Threading.ContextCallback,System.Object)">Run(ExecutionContext, ContextCallback, Object)</h4>
               <div class="markdown level1 summary"><p>Runs a method in a specified execution context on the current thread.</p>
@@ -146,7 +168,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Run(ExecutionContext executionContext, ContextCallback callback, object state)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+[HandleProcessCorruptedStateExceptions]
+public static void Run(ExecutionContext executionContext, ContextCallback callback, object state)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -161,23 +185,24 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a></td>
                     <td><em>executionContext</em></td>
-                    <td><p>The <a class="xref" href="System.Threading.ExecutionContext.html#System_Threading_ExecutionContext">ExecutionContext</a> to set.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Threading.ContextCallback.html#System_Threading_ContextCallback">ContextCallback</a></td>
                     <td><em>callback</em></td>
-                    <td><p>A <a class="xref" href="System.Threading.ContextCallback.html#System_Threading_ContextCallback">ContextCallback</a> delegate that represents the method to be run in the provided execution context.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>state</em></td>
-                    <td><p>The object to pass to the callback method.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_ExecutionContext_Run_System_Threading_ExecutionContext_System_Threading_ContextCallback_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The execution context is returned to its previous state when the method completes.</p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

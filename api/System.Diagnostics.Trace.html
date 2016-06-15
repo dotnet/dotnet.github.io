@@ -73,19 +73,47 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L14" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Diagnostics_Trace" data-uid="System.Diagnostics.Trace">Class Trace
               </h1>
-              <div class="markdown level0 summary"></div>
+              <div class="markdown level0 summary"><p>Provides a set of methods and properties that help you trace the execution of your code. This class cannot be inherited.</p>
+</div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
                 <h5>Inheritance</h5>
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">Trace</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Diagnostics</h6>
               <h6><strong>Assembly</strong>:System.Diagnostics.TraceSource.dll</h6>
               <h5 id="System_Diagnostics_Trace_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public sealed class Trace : object</code></pre>
+                <pre><code class="lang-csharp hljs">public sealed class Trace</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Trace_examples"><strong>Examples</strong></h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -96,8 +124,19 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L38">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_AutoFlush" data-uid="System.Diagnostics.Trace.AutoFlush">AutoFlush</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Gets or sets whether <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> should be called on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> after every write.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_AutoFlush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The default is <strong>false</strong>.</p></p>
+<p><p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> or <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Close">Close()</a>. Setting <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p></p>
+<p><p>To set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> for <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, you can also edit the configuration file that corresponds to the name of your application. The configuration file should be formatted like the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="3"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool AutoFlush { get; set; }</code></pre>
@@ -117,6 +156,19 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_AutoFlush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The default is <strong>false</strong>.</p></p>
+<p><p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> or <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Close">Close()</a>. Setting <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p></p>
+<p><p>To set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> for <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, you can also edit the configuration file that corresponds to the name of your application. The configuration file should be formatted like the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="3"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
+              <h5 id="System_Diagnostics_Trace_AutoFlush_examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_IndentLevel.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.IndentLevel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -125,8 +177,12 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L65">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_IndentLevel" data-uid="System.Diagnostics.Trace.IndentLevel">IndentLevel</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Gets or sets the indent level.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_IndentLevel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentLevel">IndentLevel</a> property represents the number of times the indent of size <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> is applied. This property is stored on per-thread/per-request basis.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static int IndentLevel { get; set; }</code></pre>
@@ -146,6 +202,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_IndentLevel_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentLevel">IndentLevel</a> property represents the number of times the indent of size <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> is applied. This property is stored on per-thread/per-request basis.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_IndentLevel_examples">Examples</h5>
+              
+<p>The following example increments and decrements the indent level and emits tracing messages.</p>Classic Trace.IndentLevel Example#1<p>This example produces the following output: </p><pre><code>List of errors:
+Error 1: File not found
+Error 2: Directory not found
+End of list of errors   </code></pre>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_IndentSize.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.IndentSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -154,8 +219,19 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L78">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_IndentSize" data-uid="System.Diagnostics.Trace.IndentSize">IndentSize</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Gets or sets the number of spaces in an indent.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_IndentSize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>A <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> interprets this number as spaces. An <span class="xref">System.Diagnostics.EventLogTraceListener</span> ignores this value.</p></p>
+<p><p>This property is stored on per-thread/per-request basis.</p></p>
+<p><p>To set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> for <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, you can also edit the configuration file that corresponds to the name of your application. The configuration file should be formatted like the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="3"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static int IndentSize { get; set; }</code></pre>
@@ -175,6 +251,19 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_IndentSize_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>A <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> interprets this number as spaces. An <span class="xref">System.Diagnostics.EventLogTraceListener</span> ignores this value.</p></p>
+<p><p>This property is stored on per-thread/per-request basis.</p></p>
+<p><p>To set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentSize">IndentSize</a> for <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, you can also edit the configuration file that corresponds to the name of your application. The configuration file should be formatted like the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace autoflush="false" indentsize="3"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
+              <h5 id="System_Diagnostics_Trace_IndentSize_examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Listeners.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Listeners%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -183,8 +272,13 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L25">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Listeners" data-uid="System.Diagnostics.Trace.Listeners">Listeners</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Gets the collection of listeners that is monitoring the trace output.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Listeners_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The listeners produce formatted output from the trace output. By default, the collection contains an instance of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> class. If you want to remove the default listener, call the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Remove_System_String_">Remove(String)</a> method, and pass it the instance of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. To redirect output to the console window, add an instance of the <span class="xref">System.Diagnostics.ConsoleTraceListener</span> class.</p>
+<p>The <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection is shared by both the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a> and the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> classes; adding a trace listener to either class adds the listener to both.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static TraceListenerCollection Listeners { get; }</code></pre>
@@ -204,6 +298,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Listeners_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The listeners produce formatted output from the trace output. By default, the collection contains an instance of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> class. If you want to remove the default listener, call the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Remove_System_String_">Remove(String)</a> method, and pass it the instance of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. To redirect output to the console window, add an instance of the <span class="xref">System.Diagnostics.ConsoleTraceListener</span> class.</p>
+<p>The <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection is shared by both the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug">Debug</a> and the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> classes; adding a trace listener to either class adds the listener to both.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Listeners_examples">Examples</h5>
+              
+<p>The following example creates a <span class="xref">System.Diagnostics.ConsoleTraceListener</span> that outputs to the console screen. The code then adds the new listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>.</p>Classic Trace.Listeners Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_UseGlobalLock.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.UseGlobalLock%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -212,8 +313,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L50">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_UseGlobalLock" data-uid="System.Diagnostics.Trace.UseGlobalLock">UseGlobalLock</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Gets or sets a value indicating whether the global lock should be used.  </p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_UseGlobalLock_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The global lock is always used if the trace listener is not thread safe, regardless of the value of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a>. The <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> property is used to determine if the listener is thread safe. The global lock is not used only if the value of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a> is <strong>false</strong> and the value of <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> is <strong>true</strong>. The default behavior is to use the global lock.</p></p>
+<p><p>To set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a> for <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, you can also edit the configuration file that corresponds to the name of your application. The configuration file should be formatted like the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace usegloballock="false"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static bool UseGlobalLock { get; set; }</code></pre>
@@ -233,6 +344,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_UseGlobalLock_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The global lock is always used if the trace listener is not thread safe, regardless of the value of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a>. The <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> property is used to determine if the listener is thread safe. The global lock is not used only if the value of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a> is <strong>false</strong> and the value of <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_IsThreadSafe">IsThreadSafe</a> is <strong>true</strong>. The default behavior is to use the global lock.</p></p>
+<p><p>To set the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_UseGlobalLock">UseGlobalLock</a> for <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, you can also edit the configuration file that corresponds to the name of your application. The configuration file should be formatted like the following example: </p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<trace usegloballock="false"></trace>
+</system.diagnostics>
+</configuration></code></pre>
+</div>
+              <h5 id="System_Diagnostics_Trace_UseGlobalLock_examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -243,11 +366,29 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L110">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Assert_System_Boolean_" data-uid="System.Diagnostics.Trace.Assert(System.Boolean)">Assert(Boolean)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Checks for a condition; if the condition is <strong>false</strong>, displays a message box that shows the call stack.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <see cref="Overload:System.Diagnostics.Trace.Assert"></see> method if you want to do assertions in release builds. The <see cref="Overload:System.Diagnostics.Debug.Assert"></see> method works only in debug builds. For more information, see Assertions in Managed Code.</p></p>
+<p><p>Typically, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> method is used to identify logic errors during program development. <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> evaluates the condition. If the result is <strong>false</strong>, it sends a failure message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p></p>
+<p><p>When the application runs in user-interface mode, it displays a message box that shows the call stack with file and line numbers. The message box contains three buttons: Abort, Retry, and Ignore. Clicking the Abort button terminates the application. Clicking Retry sends you to the code in the debugger if your application is running in a debugger, or offers to open a debugger if it is not. Clicking Ignore continues with the next instruction in the code. </p></p>
+<p><p>The display of the message box depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You can change the behavior of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> in the configuration file that corresponds to the name of your application. In this file, you can enable and disable the assert message box or set the <span class="xref">System.Diagnostics.DefaultTraceListener.LogFileName</span> property. The configuration file should be formatted as follows:</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="4"></add>
+</switches>
+<trace autoflush="false" indentsize="4"></trace>
+<assert assertuienabled="true" logfilename=".\TraceLog.txt"></assert>
+</system.diagnostics>
+</configuration></code></pre>
+</trace></listeners></remove></trace></listeners></clear></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assert(bool condition)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Assert(bool condition)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -266,6 +407,25 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <see cref="Overload:System.Diagnostics.Trace.Assert"></see> method if you want to do assertions in release builds. The <see cref="Overload:System.Diagnostics.Debug.Assert"></see> method works only in debug builds. For more information, see Assertions in Managed Code.</p></p>
+<p><p>Typically, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> method is used to identify logic errors during program development. <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> evaluates the condition. If the result is <strong>false</strong>, it sends a failure message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p></p>
+<p><p>When the application runs in user-interface mode, it displays a message box that shows the call stack with file and line numbers. The message box contains three buttons: Abort, Retry, and Ignore. Clicking the Abort button terminates the application. Clicking Retry sends you to the code in the debugger if your application is running in a debugger, or offers to open a debugger if it is not. Clicking Ignore continues with the next instruction in the code. </p></p>
+<p><p>The display of the message box depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You can change the behavior of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> in the configuration file that corresponds to the name of your application. In this file, you can enable and disable the assert message box or set the <span class="xref">System.Diagnostics.DefaultTraceListener.LogFileName</span> property. The configuration file should be formatted as follows:</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="4"></add>
+</switches>
+<trace autoflush="false" indentsize="4"></trace>
+<assert assertuienabled="true" logfilename=".\TraceLog.txt"></assert>
+</system.diagnostics>
+</configuration></code></pre>
+</trace></listeners></remove></trace></listeners></clear></div>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean__examples">Examples</h5>
+              
+<p>The following example creates an index for an array. Then some action is performed that sets the value of the index. Next the code calls <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> to verify the index value is valid. If it is not valid, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> outputs the call stack.</p>Classic Trace.Assert Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Assert_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Assert(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -274,11 +434,29 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L120">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String_" data-uid="System.Diagnostics.Trace.Assert(System.Boolean,System.String)">Assert(Boolean, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Checks for a condition; if the condition is <strong>false</strong>, outputs a specified message and displays a message box that shows the call stack.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <see cref="Overload:System.Diagnostics.Trace.Assert"></see> method if you want to do assertions in release builds. The <see cref="Overload:System.Diagnostics.Debug.Assert"></see> method works only in debug builds. For more information, see Assertions in Managed Code.</p></p>
+<p><p>Typically, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_">Assert(Boolean, String)</a> method is used to identify logic errors during program development. <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_">Assert(Boolean, String)</a> evaluates the condition. If the result is <strong>false</strong>, it sends the specified diagnostic message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p></p>
+<p><p>When the application runs in user-interface mode, it displays a message box that shows the call stack with file and line numbers. The message box contains three buttons: Abort, Retry, and Ignore. Clicking the Abort button terminates the application. Clicking Retry sends you to the code in the debugger if your application is running in a debugger, or offers to open a debugger if it is not. Clicking Ignore continues with the next instruction in the code.</p></p>
+<p><p>The display of the message box depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You can change the behavior of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> in the configuration file that corresponds to the name of your application. In this file, you can enable and disable the assert message box or set the <span class="xref">System.Diagnostics.DefaultTraceListener.LogFileName</span> property. The configuration file should be formatted as follows:</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="4"></add>
+</switches>
+<trace autoflush="false" indentsize="4"></trace>
+<assert assertuienabled="true" logfilename=".\TraceLog.txt"></assert>
+</system.diagnostics>
+</configuration></code></pre>
+</trace></listeners></remove></trace></listeners></clear></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assert(bool condition, string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Assert(bool condition, string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -302,6 +480,25 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <see cref="Overload:System.Diagnostics.Trace.Assert"></see> method if you want to do assertions in release builds. The <see cref="Overload:System.Diagnostics.Debug.Assert"></see> method works only in debug builds. For more information, see Assertions in Managed Code.</p></p>
+<p><p>Typically, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_">Assert(Boolean, String)</a> method is used to identify logic errors during program development. <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_">Assert(Boolean, String)</a> evaluates the condition. If the result is <strong>false</strong>, it sends the specified diagnostic message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p></p>
+<p><p>When the application runs in user-interface mode, it displays a message box that shows the call stack with file and line numbers. The message box contains three buttons: Abort, Retry, and Ignore. Clicking the Abort button terminates the application. Clicking Retry sends you to the code in the debugger if your application is running in a debugger, or offers to open a debugger if it is not. Clicking Ignore continues with the next instruction in the code.</p></p>
+<p><p>The display of the message box depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You can change the behavior of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> in the configuration file that corresponds to the name of your application. In this file, you can enable and disable the assert message box or set the <span class="xref">System.Diagnostics.DefaultTraceListener.LogFileName</span> property. The configuration file should be formatted as follows:</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="4"></add>
+</switches>
+<trace autoflush="false" indentsize="4"></trace>
+<assert assertuienabled="true" logfilename=".\TraceLog.txt"></assert>
+</system.diagnostics>
+</configuration></code></pre>
+</trace></listeners></remove></trace></listeners></clear></div>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String__examples">Examples</h5>
+              
+<p>The following example checks to see that the <code>type</code> parameter is valid. If the <code>type</code> passed in is <strong>null</strong>, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> outputs a message.</p>Classic Trace.Assert1 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Assert(System.Boolean%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -310,11 +507,29 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L130">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String_" data-uid="System.Diagnostics.Trace.Assert(System.Boolean,System.String,System.String)">Assert(Boolean, String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Checks for a condition; if the condition is <strong>false</strong>, outputs two specified messages and displays a message box that shows the call stack.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <see cref="Overload:System.Diagnostics.Trace.Assert"></see> method if you want to do assertions in release builds. The <see cref="Overload:System.Diagnostics.Debug.Assert"></see> method works only in debug builds. For more information, see Assertions in Managed Code.</p></p>
+<p><p>Typically, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String_">Assert(Boolean, String, String)</a> method is used to identify logic errors during program development. <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String_">Assert(Boolean, String, String)</a> evaluates the condition. If the result is <strong>false</strong>, it sends the specified diagnostic message and detailed message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p></p>
+<p><p>When the application runs in user-interface mode, it displays a message box that shows the call stack with file and line numbers. The message box contains three buttons: Abort, Retry, and Ignore. Clicking the Abort button terminates the application. Clicking Retry sends you to the code in the debugger if your application is running in a debugger, or offers to open a debugger if it is not. Clicking Ignore continues with the next instruction in the code.</p></p>
+<p><p>The display of the message box depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You can change the behavior of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> in the configuration file that corresponds to the name of your application. In this file, you can enable and disable the assert message box or set the <span class="xref">System.Diagnostics.DefaultTraceListener.LogFileName</span> property. The configuration file should be formatted as follows:</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="4"></add>
+</switches>
+<trace autoflush="false" indentsize="4"></trace>
+<assert assertuienabled="true" logfilename=".\TraceLog.txt"></assert>
+</system.diagnostics>
+</configuration></code></pre>
+</trace></listeners></remove></trace></listeners></clear></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assert(bool condition, string message, string detailMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Assert(bool condition, string message, string detailMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -343,6 +558,25 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>Use the <see cref="Overload:System.Diagnostics.Trace.Assert"></see> method if you want to do assertions in release builds. The <see cref="Overload:System.Diagnostics.Debug.Assert"></see> method works only in debug builds. For more information, see Assertions in Managed Code.</p></p>
+<p><p>Typically, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String_">Assert(Boolean, String, String)</a> method is used to identify logic errors during program development. <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String_">Assert(Boolean, String, String)</a> evaluates the condition. If the result is <strong>false</strong>, it sends the specified diagnostic message and detailed message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p></p>
+<p><p>When the application runs in user-interface mode, it displays a message box that shows the call stack with file and line numbers. The message box contains three buttons: Abort, Retry, and Ignore. Clicking the Abort button terminates the application. Clicking Retry sends you to the code in the debugger if your application is running in a debugger, or offers to open a debugger if it is not. Clicking Ignore continues with the next instruction in the code.</p></p>
+<p><p>The display of the message box depends on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p><p>You can change the behavior of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> in the configuration file that corresponds to the name of your application. In this file, you can enable and disable the assert message box or set the <span class="xref">System.Diagnostics.DefaultTraceListener.LogFileName</span> property. The configuration file should be formatted as follows:</p></p>
+<pre><code><configuration>
+<system.diagnostics>
+<switches>
+<add name="mySwitch" value="4"></add>
+</switches>
+<trace autoflush="false" indentsize="4"></trace>
+<assert assertuienabled="true" logfilename=".\TraceLog.txt"></assert>
+</system.diagnostics>
+</configuration></code></pre>
+</trace></listeners></remove></trace></listeners></clear></div>
+              <h5 id="System_Diagnostics_Trace_Assert_System_Boolean_System_String_System_String__examples">Examples</h5>
+              
+<p>The following example checks to see that the <code>type</code> parameter is valid. If the <code>type</code> passed in is <strong>null</strong>, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Assert_System_Boolean_">Assert(Boolean)</a> outputs a message.</p>Classic Trace.Assert2 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Close.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Close%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -351,12 +585,25 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L99">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Close" data-uid="System.Diagnostics.Trace.Close">Close()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Flushes the output buffer, and then closes the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Close_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this method when the output is going to a file, such as to the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a>.</p>
+<p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> or <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Close">Close()</a>. Setting <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Close()</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Close()</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Trace_Close_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this method when the output is going to a file, such as to the <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a>.</p>
+<p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> or <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Close">Close()</a>. Setting <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Close_examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> named <code>myTextListener</code>. <code>myTextListener</code> uses a <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter">StreamWriter</a> called <code>myOutputWriter</code> to write to a file named <code>TestFile.txt</code>. The example creates the file, stream and text writer, writes one line of text to the file, and then flushes and closes the output.</p>Classic Trace.Flush Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Fail_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Fail(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -365,11 +612,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L139">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Fail_System_String_" data-uid="System.Diagnostics.Trace.Fail(System.String)">Fail(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Emits the specified error message.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Fail_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior for the default trace listener is to output the <em>message</em> parameter to a message box when the application runs in user-interface mode, and to the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p>
+<p>The display of the message box is dependent on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p>You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or by removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</trace></listeners></remove></trace></listeners></clear></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Fail(string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Fail(string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -388,6 +642,14 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Fail_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior for the default trace listener is to output the <em>message</em> parameter to a message box when the application runs in user-interface mode, and to the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p>
+<p>The display of the message box is dependent on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p>You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or by removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</trace></listeners></remove></trace></listeners></clear></div>
+              <h5 id="System_Diagnostics_Trace_Fail_System_String__examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Fail_System_String_">Fail(String)</a> method to print a message during exception handling.</p>Classic Trace.Fail Example#1<p>You can also use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Fail_System_String_">Fail(String)</a> method in a switch statement.</p>Classic Trace.Fail Example#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Fail_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Fail(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -396,11 +658,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L148">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Fail_System_String_System_String_" data-uid="System.Diagnostics.Trace.Fail(System.String,System.String)">Fail(String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Emits an error message, and a detailed error message.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Fail_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior is for the default trace listener to output the <em>message</em> parameter and the <em>detailedMessage</em> parameter to a message box when the application runs in user-interface mode, and to the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p>
+<p>The display of the message box is dependent on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p>You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or by removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</trace></listeners></remove></trace></listeners></clear></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Fail(string message, string detailMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Fail(string message, string detailMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -424,6 +693,14 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Fail_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default behavior is for the default trace listener to output the <em>message</em> parameter and the <em>detailedMessage</em> parameter to a message box when the application runs in user-interface mode, and to the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> instances in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection. </p>
+<p>The display of the message box is dependent on the presence of the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>. If the <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> is not in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, the message box is not displayed. The <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a> can be removed by the <clear> Element for <listeners> for <trace>, the <remove> Element for <listeners> for <trace>, or by calling the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection_Clear">Clear()</a> method on the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).<p>
+<p>You can customize this behavior by adding a <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener">TraceListener</a> to, or by removing one from, the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</trace></listeners></remove></trace></listeners></clear></div>
+              <h5 id="System_Diagnostics_Trace_Fail_System_String_System_String__examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Fail_System_String_">Fail(String)</a> method to print a message during exception handling.</p>Classic Trace.Fail1 Example#1<p>You can also use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Fail_System_String_">Fail(String)</a> method in a switch statement.</p>Classic Trace.Fail1 Example#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Flush.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Flush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -432,12 +709,23 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L89">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Flush" data-uid="System.Diagnostics.Trace.Flush">Flush()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Flushes the output buffer, and causes buffered data to be written to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Flush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> or <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Close">Close()</a>. Setting <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Flush()</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Flush()</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Trace_Flush_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Flushing the stream will not flush its underlying encoder unless you explicitly call <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Flush">Flush()</a> or <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Close">Close()</a>. Setting <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_AutoFlush">AutoFlush</a> to <strong>true</strong> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Flush_examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TextWriterTraceListener.html#System_Diagnostics_TextWriterTraceListener">TextWriterTraceListener</a> named <code>myTextListener</code>. <code>myTextListener</code> uses a <a class="xref" href="System.IO.StreamWriter.html#System_IO_StreamWriter">StreamWriter</a> called <code>myOutputWriter</code> to write to a file named <code>TestFile.txt</code>. The example creates the file, stream and text writer, writes one line of text to the file, and then flushes and closes the output.</p>Classic Trace.Flush Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Indent.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Indent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -446,12 +734,20 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L374">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Indent" data-uid="System.Diagnostics.Trace.Indent">Indent()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Increases the current <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentLevel">IndentLevel</a> by one.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Indent()</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Indent()</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Trace_Indent_examples">Examples</h5>
+              
+<p>The following example increments and decrements the indent level and emits tracing messages.</p>Classic Trace.IndentLevel Example#1<p>This example produces the following output: </p><pre><code>List of errors:
+Error 1: File not found
+Error 2: Directory not found
+End of list of errors</code></pre>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Refresh.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Refresh%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -460,12 +756,22 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L154">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Refresh" data-uid="System.Diagnostics.Trace.Refresh">Refresh()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Refreshes the trace configuration data.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Refresh_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Trace configuration data is captured when the application is started. If the configuration data is changed after the application is started, call the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Refresh">Refresh()</a> method to update the trace configuration data.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Refresh()</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Trace_Refresh_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Trace configuration data is captured when the application is started. If the configuration data is changed after the application is started, call the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Refresh">Refresh()</a> method to update the trace configuration data.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Refresh_examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_TraceError_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.TraceError(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -474,11 +780,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L185">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_TraceError_System_String_" data-uid="System.Diagnostics.Trace.TraceError(System.String)">TraceError(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes an error message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection using the specified message.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_TraceError_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceError_System_String_">TraceError(String)</a> calls the <strong>TraceEvent</strong> method for each trace listener, with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Error">Error</a>, passing the informative message as the message string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void TraceError(string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void TraceError(string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -497,6 +809,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_TraceError_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceError_System_String_">TraceError(String)</a> calls the <strong>TraceEvent</strong> method for each trace listener, with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Error">Error</a>, passing the informative message as the message string.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_TraceError_System_String__examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_TraceError_System_String_System_Object___.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.TraceError(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -505,11 +824,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L191">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_TraceError_System_String_System_Object___" data-uid="System.Diagnostics.Trace.TraceError(System.String,System.Object[])">TraceError(String, Object[])</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes an error message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection using the specified array of objects and formatting information.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_TraceError_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceError_System_String_System_Object___">TraceError(String, Object[])</a> calls the <strong>TraceEvent</strong> methods in the trace listeners with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Error">Error</a>, passing the message content as an object array with formatting information. See the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method for more information about the <em>format</em> and <em>args</em> parameters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void TraceError(string format, params object[] args)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void TraceError(string format, params object[] args)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -533,6 +858,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_TraceError_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceError_System_String_System_Object___">TraceError(String, Object[])</a> calls the <strong>TraceEvent</strong> methods in the trace listeners with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Error">Error</a>, passing the message content as an object array with formatting information. See the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method for more information about the <em>format</em> and <em>args</em> parameters.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_TraceError_System_String_System_Object____examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_TraceInformation_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.TraceInformation(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -541,11 +873,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L161">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_TraceInformation_System_String_" data-uid="System.Diagnostics.Trace.TraceInformation(System.String)">TraceInformation(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes an informational message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection using the specified message.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_TraceInformation_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceInformation_System_String_">TraceInformation(String)</a> calls the <strong>TraceEvent</strong> method for each trace listener, with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Information">Information</a>, passing the informative message as the message string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void TraceInformation(string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void TraceInformation(string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -564,6 +902,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_TraceInformation_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceInformation_System_String_">TraceInformation(String)</a> calls the <strong>TraceEvent</strong> method for each trace listener, with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Information">Information</a>, passing the informative message as the message string.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_TraceInformation_System_String__examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_TraceInformation_System_String_System_Object___.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.TraceInformation(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -572,11 +917,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L167">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_TraceInformation_System_String_System_Object___" data-uid="System.Diagnostics.Trace.TraceInformation(System.String,System.Object[])">TraceInformation(String, Object[])</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes an informational message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection using the specified array of objects and formatting information.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_TraceInformation_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceInformation_System_String_System_Object___">TraceInformation(String, Object[])</a> calls the <strong>TraceEvent</strong> methods in the trace listeners with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Information">Information</a>, passing the message content as an object array with formatting information. See the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method for more information about the <em>format</em> and <em>args</em> parameters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void TraceInformation(string format, params object[] args)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void TraceInformation(string format, params object[] args)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -600,6 +951,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_TraceInformation_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceInformation_System_String_System_Object___">TraceInformation(String, Object[])</a> calls the <strong>TraceEvent</strong> methods in the trace listeners with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Information">Information</a>, passing the message content as an object array with formatting information. See the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method for more information about the <em>format</em> and <em>args</em> parameters.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_TraceInformation_System_String_System_Object____examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_TraceWarning_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.TraceWarning(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -608,11 +966,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L173">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_TraceWarning_System_String_" data-uid="System.Diagnostics.Trace.TraceWarning(System.String)">TraceWarning(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a warning message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection using the specified message.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_TraceWarning_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceWarning_System_String_">TraceWarning(String)</a> calls the <strong>TraceEvent</strong> method for each trace listener with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Warning">Warning</a>, passing the informative message as the message string.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void TraceWarning(string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void TraceWarning(string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -631,6 +995,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_TraceWarning_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceWarning_System_String_">TraceWarning(String)</a> calls the <strong>TraceEvent</strong> method for each trace listener with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Warning">Warning</a>, passing the informative message as the message string.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_TraceWarning_System_String__examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_TraceWarning_System_String_System_Object___.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.TraceWarning(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -639,11 +1010,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L179">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_TraceWarning_System_String_System_Object___" data-uid="System.Diagnostics.Trace.TraceWarning(System.String,System.Object[])">TraceWarning(String, Object[])</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a warning message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection using the specified array of objects and formatting information.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_TraceWarning_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceWarning_System_String_System_Object___">TraceWarning(String, Object[])</a> calls the <strong>TraceEvent</strong> methods in the trace listeners with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Warning">Warning</a>, passing the message content as an object array with formatting information. See the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method for more information about the <em>format</em> and <em>args</em> parameters.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void TraceWarning(string format, params object[] args)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void TraceWarning(string format, params object[] args)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -667,6 +1044,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_TraceWarning_System_String_System_Object____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_TraceWarning_System_String_System_Object___">TraceWarning(String, Object[])</a> calls the <strong>TraceEvent</strong> methods in the trace listeners with the trace event type <a class="xref" href="System.Diagnostics.TraceEventType.html#System_Diagnostics_TraceEventType_Warning">Warning</a>, passing the message content as an object array with formatting information. See the <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a> method for more information about the <em>format</em> and <em>args</em> parameters.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_TraceWarning_System_String_System_Object____examples">Examples</h5>
+              
+<p>The following example uses <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> to indicate the beginning and the end of a program's execution. The example also uses the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Indent">Indent()</a> and <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Unindent">Unindent()</a> methods to distinguish the tracing output. For a more complete example of the use of <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a>, see How to: Add Trace Statements to Application Code.</p>Classic Trace Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Unindent.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Unindent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -675,12 +1059,20 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L383">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Unindent" data-uid="System.Diagnostics.Trace.Unindent">Unindent()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Decreases the current <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_IndentLevel">IndentLevel</a> by one.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Unindent()</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Unindent()</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Trace_Unindent_examples">Examples</h5>
+              
+<p>The following example increments and decrements the indent level and emits tracing messages.</p>Classic Trace.IndentLevel Example#1<p>This example produces the following output: </p><pre><code>List of errors:
+Error 1: File not found
+Error 2: Directory not found
+End of list of errors   </code></pre>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Write_System_Object_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Write(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -689,11 +1081,19 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L211">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Write_System_Object_" data-uid="System.Diagnostics.Trace.Write(System.Object)">Write(Object)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Write_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Write(object value)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Write(object value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -712,6 +1112,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Write_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Write_System_Object__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first name of the <em>value</em> parameter to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs a message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.Write1 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Write_System_Object_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Write(System.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -720,11 +1131,20 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L231">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Write_System_Object_System_String_" data-uid="System.Diagnostics.Trace.Write(System.Object,System.String)">Write(Object, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Write_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Write(object value, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Write(object value, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -748,6 +1168,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Write_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Write_System_Object_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Verbose</strong>, the example outputs the name of the <code>myObject</code> and the <code>category</code> to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Error</strong> or higher, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.Write3 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Write_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Write(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -756,11 +1188,19 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L201">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Write_System_String_" data-uid="System.Diagnostics.Trace.Write(System.String)">Write(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Write_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Write(string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Write(string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -779,6 +1219,17 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Write_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Write_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message on the same line as the first message. A line terminator follows the second message.</p>Classic Trace.Write Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_Write_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.Write(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -787,11 +1238,20 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L221">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_Write_System_String_System_String_" data-uid="System.Diagnostics.Trace.Write(System.String,System.String)">Write(String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and a message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_Write_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Write(string message, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void Write(string message, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -815,6 +1275,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_Write_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+<p> ASP.NET supplies tracing functionality tailored for Web pages. To write trace messages in ASP.NET pages, use the <span class="xref">System.Web.UI.Page.Trace</span> property. </p>
+<p>By default, in code associated with an ASP.NET Web page, the statement <code>Trace.Write("...")</code> is a call to the <see cref="Overload:System.Web.TraceContext.Write"></see> method of the <span class="xref">System.Web.UI.Page.Trace</span> property. To use the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace">Trace</a> class in Web pages, you must include the namespace, for example, <code>System.Diagnostics.Trace.Write("...")</code>.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_Write_System_String_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Verbose</strong>, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Error</strong> or higher, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.Write2 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteIf(System.Boolean%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -823,11 +1295,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L296">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_" data-uid="System.Diagnostics.Trace.WriteIf(System.Boolean,System.Object)">WriteIf(Boolean, Object)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteIf(bool condition, object value)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteIf(bool condition, object value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -851,6 +1329,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first name of the value parameter to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs a message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteIf1 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteIf(System.Boolean%2CSystem.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -859,11 +1346,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L317">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_System_String_" data-uid="System.Diagnostics.Trace.WriteIf(System.Boolean,System.Object,System.String)">WriteIf(Boolean, Object, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteIf(bool condition, object value, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteIf(bool condition, object value, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -892,6 +1386,16 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_Object_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Verbose</strong>, the example outputs the name of the <code>myObject</code> and the <code>category</code> to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Error</strong> or higher, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteIf3 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteIf(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -900,11 +1404,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L285">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_" data-uid="System.Diagnostics.Trace.WriteIf(System.Boolean,System.String)">WriteIf(Boolean, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteIf(bool condition, string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteIf(bool condition, string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -928,6 +1438,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteIf Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteIf(System.Boolean%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -936,11 +1455,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L306">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_System_String_" data-uid="System.Diagnostics.Trace.WriteIf(System.Boolean,System.String,System.String)">WriteIf(Boolean, String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteIf(bool condition, string message, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteIf(bool condition, string message, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -969,6 +1495,16 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_Write_System_String_">Write(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteIf_System_Boolean_System_String_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Verbose</strong>, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Error</strong> or higher, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteIf2 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLine_System_Object_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLine(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -977,11 +1513,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L252">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLine_System_Object_" data-uid="System.Diagnostics.Trace.WriteLine(System.Object)">WriteLine(Object)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLine(object value)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLine(object value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1000,6 +1542,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_Object__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the name of the object on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteLine1 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLine_System_Object_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLine(System.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1008,11 +1559,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L275">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLine_System_Object_System_String_" data-uid="System.Diagnostics.Trace.WriteLine(System.Object,System.String)">WriteLine(Object, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLine(object value, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLine(object value, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1036,6 +1594,16 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_Object_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteLine3 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLine_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLine(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1044,11 +1612,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L242">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLine_System_String_" data-uid="System.Diagnostics.Trace.WriteLine(System.String)">WriteLine(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLine(string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLine(string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1067,6 +1641,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.Write Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLine_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLine(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1075,11 +1658,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L264">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLine_System_String_System_String_" data-uid="System.Diagnostics.Trace.WriteLine(System.String,System.String)">WriteLine(String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLine(string message, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLine(string message, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1103,6 +1693,16 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLine_System_String_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message and the <code>category</code> on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteLine2 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLineIf(System.Boolean%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1111,11 +1711,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L342">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_" data-uid="System.Diagnostics.Trace.WriteLineIf(System.Boolean,System.Object)">WriteLineIf(Boolean, Object)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLineIf(bool condition, object value)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLineIf(bool condition, object value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1139,6 +1745,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the name of the object on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteLineIf1 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLineIf(System.Boolean%2CSystem.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1147,11 +1762,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L365">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_System_String_" data-uid="System.Diagnostics.Trace.WriteLineIf(System.Boolean,System.Object,System.String)">WriteLineIf(Boolean, Object, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and the value of the object&#39;s <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a> method to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLineIf(bool condition, object value, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLineIf(bool condition, object value, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1180,6 +1802,16 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_Object_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteLineIf3 Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLineIf(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1188,11 +1820,17 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L329">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_" data-uid="System.Diagnostics.Trace.WriteLineIf(System.Boolean,System.String)">WriteLineIf(Boolean, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLineIf(bool condition, string message)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLineIf(bool condition, string message)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1216,6 +1854,15 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteIf Example#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Trace.WriteLineIf(System.Boolean%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1224,11 +1871,18 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.TraceSource/src/System/Diagnostics/Trace.cs/#L353">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_System_String_" data-uid="System.Diagnostics.Trace.WriteLineIf(System.Boolean,System.String,System.String)">WriteLineIf(Boolean, String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Writes a category name and message to the trace listeners in the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection if a condition is <strong>true</strong>.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void WriteLineIf(bool condition, string message, string category)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;TRACE&quot;)]
+public static void WriteLineIf(bool condition, string message, string category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1257,6 +1911,16 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>By default, the output is written to an instance of <a class="xref" href="System.Diagnostics.DefaultTraceListener.html#System_Diagnostics_DefaultTraceListener">DefaultTraceListener</a>.</p>
+<p>The <em>category</em> parameter can be used to group output messages.</p>
+<p>This method calls the <a class="xref" href="System.Diagnostics.TraceListener.html#System_Diagnostics_TraceListener_WriteLine_System_String_">WriteLine(String)</a> method of the trace listener.</p>
+</div>
+              <h5 id="System_Diagnostics_Trace_WriteLineIf_System_Boolean_System_String_System_String__examples">Examples</h5>
+              
+<p>The following example creates a <a class="xref" href="System.Diagnostics.TraceSwitch.html#System_Diagnostics_TraceSwitch">TraceSwitch</a> named <code>generalSwitch</code>. This switch is set outside the code sample.</p>
+<p>If the switch is set to the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a><strong>Error</strong> or higher, the example outputs the first error message to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a>. For information on adding a listener to the <a class="xref" href="System.Diagnostics.Trace.html#System_Diagnostics_Trace_Listeners">Listeners</a> collection, see the <a class="xref" href="System.Diagnostics.TraceListenerCollection.html#System_Diagnostics_TraceListenerCollection">TraceListenerCollection</a> class.</p>
+<p>Then, if the <a class="xref" href="System.Diagnostics.TraceLevel.html#System_Diagnostics_TraceLevel">TraceLevel</a> is set to <strong>Verbose</strong>, the example outputs the second error message and the <code>category</code> on the same line as the first message. The second message is followed by a line terminator.</p>Classic Trace.WriteLineIf2 Example#1
             </article>
           </div>
           

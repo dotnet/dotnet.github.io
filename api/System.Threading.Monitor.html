@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor.md&amp;value=---%0Auid%3A%20System.Threading.Monitor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L184" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L29" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_Monitor" data-uid="System.Threading.Monitor">Class Monitor
               </h1>
               <div class="markdown level0 summary"><p>Provides a mechanism that synchronizes access to objects.</p>
@@ -81,27 +81,48 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">Monitor</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Threading</h6>
               <h6><strong>Assembly</strong>:System.Threading.dll</h6>
               <h5 id="System_Threading_Monitor_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public class Monitor : object</code></pre>
+                <pre><code class="lang-csharp hljs">[HostProtection(Synchronization = true, ExternalThreading = true)]
+[ComVisible(true)]
+public class Monitor</code></pre>
               </div>
-              <h5 id="System_Threading_Monitor_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>
-The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class allows you to synchronize access to a region of code by taking and releasing a lock on a particular object by calling the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a>, <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_">TryEnter(Object)</a>, and <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> methods. Object locks provide the ability to restrict access to a block of code, commonly called a critical section. While a thread owns the lock for an object, no other thread can acquire that lock. You can also use the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to ensure that no other thread is allowed to access a section of application code being executed by the lock owner, unless the other thread is executing the code using a different locked object.</p>
-<p>In this article:</p>
-<p>The Monitor class: An overviewThe lock objectThe critical sectionPulse, PulseAll, and WaitMonitors and wait handles</p>
-</div>
+              <h5 id="System_Threading_Monitor_examples"><strong>Examples</strong></h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Enter_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Enter(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
-              <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L186">View Source</a>
-              </span>
+              
               <h4 id="System_Threading_Monitor_Enter_System_Object_" data-uid="System.Threading.Monitor.Enter(System.Object)">Enter(Object)</h4>
               <div class="markdown level1 summary"><p>Acquires an exclusive lock on the specified object.</p>
 </div>
@@ -115,7 +136,9 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Enter(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[MethodImpl(MethodImplOptions.InternalCall)]
+public static void Enter(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -130,11 +153,20 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the monitor lock. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Enter_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use <strong>Enter</strong> to acquire the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> on the object passed as the parameter. If another thread has executed an <strong>Enter</strong> on the object but has not yet executed the corresponding <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a>, the current thread will block until the other thread releases the object. It is legal for the same thread to invoke <strong>Enter</strong> more than once without it blocking; however, an equal number of <strong>Exit</strong> calls must be invoked before other threads waiting on the object will unblock.</p>
+<p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. When you pass a value type variable to <strong>Enter</strong>, it is boxed as an object. If you pass the same variable to <strong>Enter</strong> again, it is boxed as a separate object, and the thread does not block. In this case, the code that <strong>Monitor</strong> is supposedly protecting is not protected. Furthermore, when you pass the variable to <strong>Exit</strong>, still another separate object is created. Because the object passed to <strong>Exit</strong> is different from the object passed to <strong>Enter</strong>, <strong>Monitor</strong> throws <a class="xref" href="System.Threading.SynchronizationLockException.html#System_Threading_SynchronizationLockException">SynchronizationLockException</a>. For more information, see the conceptual topic Monitors.</p>
+<p>
+<span class="xref">System.Threading.Thread.Interrupt</span> can interrupt threads that are waiting to enter a <strong>Monitor</strong> on an object. A <span class="xref">System.Threading.ThreadInterruptedException</span> will be thrown.</p>
+<p>Use a C# <strong>try</strong>…<strong>finally</strong> block (<strong>Try</strong>…<strong>Finally</strong> in Visual Basic) to ensure that you release the monitor, or use the C# <strong>lock</strong> statement (<strong>SyncLock</strong> statement in Visual Basic), which wraps the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> and <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> methods in a <strong>try</strong>…<strong>finally</strong> block.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Enter_System_Object__examples">Examples</h5>
+              
+<p>The following example demonstrates how to use the <strong>Enter</strong> method.</p>MonitorExmpl2#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -156,7 +188,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Enter_System_Object_System_Boolean__.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Enter(System.Object%2CSystem.Boolean%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L187">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L51">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_Enter_System_Object_System_Boolean__" data-uid="System.Threading.Monitor.Enter(System.Object,System.Boolean@)">Enter(Object, ref Boolean)</h4>
               <div class="markdown level1 summary"><p>Acquires an exclusive lock on the specified object, and atomically sets a value that indicates whether the lock was taken.</p>
@@ -186,18 +218,25 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to wait. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>lockTaken</em></td>
-                    <td><p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock. </p>
-<p>Note   If no exception occurs, the output of this method is always <strong>true</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Enter_System_Object_System_Boolean___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use <strong>Enter</strong> to acquire the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> on the object passed as the <em>obj</em> parameter. If another thread has executed an <strong>Enter</strong> on the object but has not yet executed the corresponding <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a>, the current thread will block until the other thread releases the object. It is legal for the same thread to invoke <strong>Enter</strong> more than once without it blocking; however, an equal number of <strong>Exit</strong> calls must be invoked before other threads waiting on the object will unblock.</p>
+<p>If the lock was not taken because an exception was thrown, the variable specified for the <em>lockTaken</em> parameter is <strong>false</strong> after this method ends. This allows the program to determine, in all cases, whether it is necessary to release the lock. If this method returns without throwing an exception, the variable specified for the <em>lockTaken</em> parameter is always <strong>true</strong>, and there is no need to test it.</p>
+<p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. When you pass a value type variable to <strong>Enter</strong>, it is boxed as an object. If you pass the same variable to <strong>Enter</strong> again, it is boxed as a separate object, and the thread does not block. In this case, the code that <strong>Monitor</strong> is supposedly protecting is not protected. Furthermore, when you pass the variable to <strong>Exit</strong>, another separate object is created. Because the object passed to <strong>Exit</strong> is different from the object passed to <strong>Enter</strong>, <strong>Monitor</strong> throws <a class="xref" href="System.Threading.SynchronizationLockException.html#System_Threading_SynchronizationLockException">SynchronizationLockException</a>. For more information, see the conceptual topic Monitors.</p>
+<p>
+<span class="xref">System.Threading.Thread.Interrupt</span> can interrupt threads that are waiting to enter a <strong>Monitor</strong> on an object. A <span class="xref">System.Threading.ThreadInterruptedException</span> will be thrown.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Enter_System_Object_System_Boolean___examples">Examples</h5>
+              
+<p>The following code shows the basic pattern for using the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_System_Boolean__">Enter(Object, ref Boolean)</a> method overload. This overload always sets the value of the variable that is passed to the <strong>ref</strong> parameter (<strong>ByRef</strong> in Visual Basic) <em>lockTaken</em>, even if the method throws an exception, so the value of the variable is a reliable way to test whether the lock has to be released.</p>System.Threading.Monitor.Enter#2
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -223,9 +262,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Exit_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Exit(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
-              <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L188">View Source</a>
-              </span>
+              
               <h4 id="System_Threading_Monitor_Exit_System_Object_" data-uid="System.Threading.Monitor.Exit(System.Object)">Exit(Object)</h4>
               <div class="markdown level1 summary"><p>Releases an exclusive lock on the specified object.</p>
 </div>
@@ -236,7 +273,10 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Exit(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[MethodImpl(MethodImplOptions.InternalCall)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+public static void Exit(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -251,11 +291,17 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to release the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Exit_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The calling thread must own the lock on the <em>obj</em> parameter. If the calling thread owns the lock on the specified object, and has made an equal number of <strong>Exit</strong> and <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> calls for the object, then the lock is released. If the calling thread has not invoked <strong>Exit</strong> as many times as <strong>Enter</strong>, the lock is not released.</p>
+<p>If the lock is released and other threads are in the ready queue for the object, one of the threads acquires the lock. If other threads are in the waiting queue waiting to acquire the lock, they are not automatically moved to the ready queue when the owner of the lock calls <strong>Exit</strong>. To move one or more waiting threads into the ready queue, call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a> before invoking <strong>Exit</strong>.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Exit_System_Object__examples">Examples</h5>
+              
+<p>The following example demonstrates how to use the <strong>Exit</strong> method.</p>MonitorExmpl2#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -282,7 +328,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_IsEntered_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.IsEntered(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L189">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L161">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_IsEntered_System_Object_" data-uid="System.Threading.Monitor.IsEntered(System.Object)">IsEntered(Object)</h4>
               <div class="markdown level1 summary"><p>Determines whether the current thread holds the lock on the specified object. </p>
@@ -294,7 +340,8 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool IsEntered(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static bool IsEntered(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -309,8 +356,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object to test. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -325,12 +371,17 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current thread holds the lock on <em>obj</em>; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_IsEntered_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method works only for locks that are acquired by using the methods of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class, or by using the C# <strong>lock</strong> statement or the Visual Basic <strong>SyncLock</strong> statement, which are implemented with <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a>. </p>
+<p>Use this method with diagnostic tools, such as the <a class="xref" href="System.Diagnostics.Debug.html#System_Diagnostics_Debug_Assert_System_Boolean_">Assert(Boolean)</a> method and the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract">Contract</a> class, to debug locking issues that involve the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a>class. </p>
+</div>
+              <h5 id="System_Threading_Monitor_IsEntered_System_Object__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -353,7 +404,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Pulse_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Pulse(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L190">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L226">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_Pulse_System_Object_" data-uid="System.Threading.Monitor.Pulse(System.Object)">Pulse(Object)</h4>
               <div class="markdown level1 summary"><p>Notifies a thread in the waiting queue of a change in the locked object&#39;s state.</p>
@@ -369,7 +420,8 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Pulse(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static void Pulse(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -384,11 +436,21 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object a thread is waiting for. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Pulse_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Only the current owner of the lock can signal a waiting object using <strong>Pulse</strong>.</p>
+<p>The thread that currently owns the lock on the specified object invokes this method to signal the next thread in line for the lock. Upon receiving the pulse, the waiting thread is moved to the ready queue. When the thread that invoked <strong>Pulse</strong> releases the lock, the next thread in the ready queue (which is not necessarily the thread that was pulsed) acquires the lock.</p>
+<p>The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class does not maintain state indicating that the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> method has been called. Thus, if you call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> when no threads are waiting, the next thread that calls <see cref="Overload:System.Threading.Monitor.Wait"></see> blocks as if <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> had never been called. If two threads are using <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> and <see cref="Overload:System.Threading.Monitor.Wait"></see> to interact, this could result in a deadlock. Contrast this with the behavior of the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class: If you signal an <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> by calling its <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle_Set">Set()</a> method, and there are no threads waiting, the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> remains in a signaled state until a thread calls <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see>, <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see>, or <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see>. The <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> releases that thread and returns to the unsignaled state.</p>
+<p>Note that a synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object&#39;s state. </p>
+<p>The <strong>Pulse</strong>, <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, and <span class="xref">System.Threading.Monitor.Wait(System.Object,System.Int32,System.Boolean)</span> methods must be invoked from within a synchronized block of code. </p>
+<p>To signal multiple threads, use the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a> method.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Pulse_System_Object__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -415,7 +477,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_PulseAll_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.PulseAll(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L191">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L244">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_PulseAll_System_Object_" data-uid="System.Threading.Monitor.PulseAll(System.Object)">PulseAll(Object)</h4>
               <div class="markdown level1 summary"><p>Notifies all waiting threads of a change in the object&#39;s state.</p>
@@ -430,7 +492,8 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void PulseAll(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static void PulseAll(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -445,11 +508,20 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object that sends the pulse. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_PulseAll_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The thread that currently owns the lock on the specified object invokes this method to signal all threads waiting to acquire the lock on the object. After the signal is sent, the waiting threads are moved to the ready queue. When the thread that invoked <strong>PulseAll</strong> releases the lock, the next thread in the ready queue acquires the lock.</p>
+<p>Note that a synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object&#39;s state. </p>
+<p>The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a>, <strong>PulseAll</strong>, and <span class="xref">System.Threading.Monitor.Wait(System.Object,System.Int32,System.Boolean)</span> methods must be invoked from within a synchronized block of code.</p>
+<p>The remarks for the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> method explain what happens if <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> is called when no threads are waiting.</p>
+<p>To signal a single thread, use the <strong>Pulse</strong> method.</p>
+</div>
+              <h5 id="System_Threading_Monitor_PulseAll_System_Object__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -476,7 +548,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_TryEnter_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.TryEnter(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L192">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L92">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_TryEnter_System_Object_" data-uid="System.Threading.Monitor.TryEnter(System.Object)">TryEnter(Object)</h4>
               <div class="markdown level1 summary"><p>Attempts to acquire an exclusive lock on the specified object.</p>
@@ -505,8 +577,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -521,12 +592,19 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current thread acquires the lock; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If successful, this method acquires an exclusive lock on the <em>obj</em> parameter. This method returns immediately, whether or not the lock is available.</p></p>
+<p><p>This method is similar to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a>, but it will never block the current thread. If the thread cannot enter without blocking, the method returns <strong>false,</strong>.</p></p>
+<p><p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. For details, see the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> article.</p></p>
+<p><p>To ensure that the thread does not enter the critical section, you should examine the method&#39;s return value and  execute code in the critical section only if its return value is <strong>true</strong>. The following code fragment shows the pattern used to call this method. Note that you should call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> in a <strong>finally</strong> block to ensure that the calling thread releases its lock on the critical section if an exception occurs. </p>System.Threading.Monitor.TryEnter#1</p>
+</div>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object__examples">Examples</h5>
+              
+<p>The following code example demonstrates how to use the <strong>TryEnter</strong> method.</p>MonitorExmpl2#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -548,7 +626,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_TryEnter_System_Object_System_Boolean__.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.TryEnter(System.Object%2CSystem.Boolean%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L193">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L101">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_TryEnter_System_Object_System_Boolean__" data-uid="System.Threading.Monitor.TryEnter(System.Object,System.Boolean@)">TryEnter(Object, ref Boolean)</h4>
               <div class="markdown level1 summary"><p>Attempts to acquire an exclusive lock on the specified object, and atomically sets a value that indicates whether the lock was taken.</p>
@@ -578,17 +656,25 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>lockTaken</em></td>
-                    <td><p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_Boolean___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If successful, this method acquires an exclusive lock on the <em>obj</em> parameter. This method returns immediately, whether or not the lock is available.</p></p>
+<p><p>If the lock was not taken because an exception was thrown, the variable specified for the <em>lockTaken</em> parameter is <strong>false</strong> after this method ends. This allows the program to determine, in all cases, whether it is necessary to release the lock.</p></p>
+<p><p>This method is similar to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_System_Boolean__">Enter(Object, ref Boolean)</a>, but it will never block the current thread. If the thread cannot enter without blocking, the <em>lockTaken</em> argument is set to <strong>false</strong> when the method returns. </p></p>
+<p><p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. For more information, see the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> article.</p></p>
+<p><p>To ensure that the thread does not enter the critical section, you should examine the value of <em>lockTaken</em> and  execute code in the critical section only if its value is <strong>true</strong>. The following code fragment shows the pattern used to call this method. Note that you should call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> in a <strong>finally</strong> block to ensure that the calling thread releases its lock on the critical section if an exception occurs. </p>System.Threading.Monitor.TryEnter#2</p>
+</div>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_Boolean___examples">Examples</h5>
+              
+<p>The following code shows the basic pattern for using the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_System_Boolean__">TryEnter(Object, ref Boolean)</a> method overload. This overload always sets the value of the variable that is passed to the <strong>ref</strong> parameter (<strong>ByRef</strong> in Visual Basic) <em>lockTaken</em>, even if the method throws an exception, so the value of the variable is a reliable way to test whether the lock has to be released.</p>System.Threading.Monitor.Enter#3
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -615,7 +701,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_TryEnter_System_Object_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.TryEnter(System.Object%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L194">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L119">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_TryEnter_System_Object_System_Int32_" data-uid="System.Threading.Monitor.TryEnter(System.Object,System.Int32)">TryEnter(Object, Int32)</h4>
               <div class="markdown level1 summary"><p>Attempts, for the specified number of milliseconds, to acquire an exclusive lock on the specified object.</p>
@@ -643,14 +729,12 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>millisecondsTimeout</em></td>
-                    <td><p>The number of milliseconds to wait for the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -665,12 +749,18 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current thread acquires the lock; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If the <em>millisecondsTimeout</em> parameter equals <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a>. If <em>millisecondsTimeout</em> equals 0, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_">TryEnter(Object)</a>.</p></p>
+<p><p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. For details, see the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> article.</p></p>
+<p><p>To ensure that the thread does not enter the critical section, you should examine the method&#39;s return value and  execute code in the critical section only if its return value is <strong>true</strong>. The following code fragment shows the pattern used to call this method. Note that you should call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> in a <strong>finally</strong> block to ensure that the calling thread releases its lock on the critical section if an exception occurs. </p>System.Threading.Monitor.TryEnter#3</p>
+</div>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_Int32__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -698,7 +788,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_TryEnter_System_Object_System_Int32_System_Boolean__.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.TryEnter(System.Object%2CSystem.Int32%2CSystem.Boolean%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L195">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L141">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_TryEnter_System_Object_System_Int32_System_Boolean__" data-uid="System.Threading.Monitor.TryEnter(System.Object,System.Int32,System.Boolean@)">TryEnter(Object, Int32, ref Boolean)</h4>
               <div class="markdown level1 summary"><p>Attempts, for the specified number of milliseconds, to acquire an exclusive lock on the specified object, and atomically sets a value that indicates whether the lock was taken.</p>
@@ -727,23 +817,29 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>millisecondsTimeout</em></td>
-                    <td><p>The number of milliseconds to wait for the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>lockTaken</em></td>
-                    <td><p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_Int32_System_Boolean___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If the <em>millisecondsTimeout</em> parameter equals <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a>. If <em>millisecondsTimeout</em> equals 0, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_">TryEnter(Object)</a>.</p></p>
+<p><p>If the lock was not taken because an exception was thrown, the variable specified for the <em>lockTaken</em> parameter is <strong>false</strong> after this method ends. This allows the program to determine, in all cases, whether it is necessary to release the lock.</p></p>
+<p><p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. For more information, see the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class topic. </p></p>
+<p><p>To ensure that the thread does not enter the critical section, you should examine the value of <em>lockTaken</em> and  execute code in the critical section only if its value is <strong>true</strong>. The following code fragment shows the pattern used to call this method. Note that you should call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> in a <strong>finally</strong> block to ensure that the calling thread releases its lock on the critical section if an exception occurs. </p>System.Threading.Monitor.TryEnter#4</p>
+</div>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_Int32_System_Boolean___examples">Examples</h5>
+              
+<p>The following code shows the basic pattern for using the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_System_Boolean__">TryEnter(Object, ref Boolean)</a> method overload. This overload always sets the value of the variable that is passed to the <strong>ref</strong> parameter (<strong>ByRef</strong> in Visual Basic) <em>lockTaken</em>, even if the method throws an exception, so the value of the variable is a reliable way to test whether the lock has to be released.</p>System.Threading.Monitor.Enter#4
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -776,7 +872,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.TryEnter(System.Object%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L196">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L134">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan_" data-uid="System.Threading.Monitor.TryEnter(System.Object,System.TimeSpan)">TryEnter(Object, TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Attempts, for the specified amount of time, to acquire an exclusive lock on the specified object.</p>
@@ -804,14 +900,12 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a></td>
                     <td><em>timeout</em></td>
-                    <td><p>A <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> representing the amount of time to wait for the lock. A value of –1 millisecond specifies an infinite wait.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -826,12 +920,18 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current thread acquires the lock; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If the value of the <em>timeout</em> parameter converted to milliseconds equals –1, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a>. If the value of <em>timeout</em> equals 0, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_">TryEnter(Object)</a>.</p></p>
+<p><p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. For details, see the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class topic. </p></p>
+<p><p>To ensure that the thread does not enter the critical section, you should examine the method&#39;s return value and  execute code in the critical section only if its return value is <strong>true</strong>. The following code fragment shows the pattern used to call this method. Note that you should call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> in a <strong>finally</strong> block to ensure that the calling thread releases its lock on the critical section if an exception occurs. </p>System.Threading.Monitor.TryEnter#5</p>
+</div>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -858,7 +958,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan_System_Boolean__.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.TryEnter(System.Object%2CSystem.TimeSpan%2CSystem.Boolean%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L197">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L149">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan_System_Boolean__" data-uid="System.Threading.Monitor.TryEnter(System.Object,System.TimeSpan,System.Boolean@)">TryEnter(Object, TimeSpan, ref Boolean)</h4>
               <div class="markdown level1 summary"><p>Attempts, for the specified amount of time, to acquire an exclusive lock on the specified object, and atomically sets a value that indicates whether the lock was taken.</p>
@@ -887,23 +987,27 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to acquire the lock. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a></td>
                     <td><em>timeout</em></td>
-                    <td><p>The amount of time to wait for the lock. A value of –1 millisecond specifies an infinite wait.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>lockTaken</em></td>
-                    <td><p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_TryEnter_System_Object_System_TimeSpan_System_Boolean___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>If the value of the <em>timeout</em> parameter converted to milliseconds equals –1, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a>. If the value of <em>timeout</em> equals 0, this method is equivalent to <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_TryEnter_System_Object_">TryEnter(Object)</a>.</p></p>
+<p><p>If the lock was not taken because an exception was thrown, the variable specified for the <em>lockTaken</em> parameter is <strong>false</strong> after this method ends. This allows the program to determine, in all cases, whether it is necessary to release the lock.</p></p>
+<p><p>Use <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> to lock objects (that is, reference types), not value types. For more information, see the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class topic.</p></p>
+<p><p>To ensure that the thread does not enter the critical section, you should examine the value of <em>lockTaken</em> and  execute code in the critical section only if its value is <strong>true</strong>. The following code fragment shows the pattern used to call this method. Note that you should call <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> in a <strong>finally</strong> block to ensure that the calling thread releases its lock on the critical section if an exception occurs. </p>System.Threading.Monitor.TryEnter#6</p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -935,7 +1039,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Wait_System_Object_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Wait(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L198">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L212">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_Wait_System_Object_" data-uid="System.Threading.Monitor.Wait(System.Object)">Wait(Object)</h4>
               <div class="markdown level1 summary"><p>Releases the lock on an object and blocks the current thread until it reacquires the lock.</p>
@@ -967,8 +1071,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to wait. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -983,12 +1086,22 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the call returned because the caller reacquired the lock for the specified object. This method does not return if the lock is not reacquired.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Wait_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The thread that currently owns the lock on the specified object invokes this method in order to release the object so that another thread can access it. The caller is blocked while waiting to reacquire the lock. This method is called when the caller needs to wait for a state change that will occur as a result of another thread&#39;s operations.</p>
+<p>When a thread calls <strong>Wait</strong>, it releases the lock on the object and enters the object&#39;s waiting queue. The next thread in the object&#39;s ready queue (if there is one) acquires the lock and has exclusive use of the object. All threads that call <strong>Wait</strong> remain in the waiting queue until they receive a signal from <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, sent by the owner of the lock. If <strong>Pulse</strong> is sent, only the thread at the head of the waiting queue is affected. If <strong>PulseAll</strong> is sent, all threads that are waiting for the object are affected. When the signal is received, one or more threads leave the waiting queue and enter the ready queue. A thread in the ready queue is permitted to reacquire the lock.</p>
+<p>This method returns when the calling thread reacquires the lock on the object. Note that this method blocks indefinitely if the holder of the lock does not call <strong>Pulse</strong> or <strong>PulseAll</strong>.</p>
+<p>The caller executes <strong>Wait</strong> once, regardless of the number of times <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> has been invoked for the specified object. Conceptually, the <strong>Wait</strong> method stores the number of times the caller invoked <strong>Enter</strong> on the object and invokes <strong>Exit</strong> as many times as necessary to fully release the locked object. The caller then blocks while waiting to reacquire the object. When the caller reacquires the lock, the system calls <strong>Enter</strong> as many times as necessary to restore the saved <strong>Enter</strong> count for the caller. Calling <strong>Wait</strong> releases the lock for the specified object only; if the caller is the owner of locks on other objects, these locks are not released.</p>
+<p>Note that a synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object&#39;s state. </p>
+<p>The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a>, <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, and <strong>Wait</strong> methods must be invoked from within a synchronized block of code.</p>
+<p>The remarks for the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> method explain what happens if <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> is called when no threads are waiting.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Wait_System_Object__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1020,7 +1133,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Wait_System_Object_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Wait(System.Object%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L199">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L202">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_Wait_System_Object_System_Int32_" data-uid="System.Threading.Monitor.Wait(System.Object,System.Int32)">Wait(Object, Int32)</h4>
               <div class="markdown level1 summary"><p>Releases the lock on an object and blocks the current thread until it reacquires the lock. If the specified time-out interval elapses, the thread enters the ready queue.</p>
@@ -1054,14 +1167,12 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to wait. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>millisecondsTimeout</em></td>
-                    <td><p>The number of milliseconds to wait before the thread enters the ready queue. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1076,12 +1187,24 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the lock was reacquired before the specified time elapsed; <strong>false</strong> if the lock was reacquired after the specified time elapsed. The method does not return until the lock is reacquired.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Wait_System_Object_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not return until it reacquires an exclusive lock on the <em>obj</em> parameter.</p>
+<p>The thread that currently owns the lock on the specified object invokes this method in order to release the object so that another thread can access it. The caller is blocked while waiting to reacquire the lock. This method is called when the caller needs to wait for a state change that will occur as a result of another thread&#39;s operations.</p>
+<p>The time-out ensures that the current thread does not block indefinitely if another thread releases the lock without first calling the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a> method. It also moves the thread to the ready queue, bypassing other threads ahead of it in the wait queue, so that it can reacquire the lock sooner. The thread can test the return value of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Wait_System_Object_System_Int32_">Wait(Object, Int32)</a> method to determine whether it reacquired the lock prior to the time-out. The thread can evaluate the conditions that caused it to enter the wait, and if necessary call the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Wait_System_Object_System_Int32_">Wait(Object, Int32)</a> method again.</p>
+<p>When a thread calls <strong>Wait</strong>, it releases the lock on the object and enters the object&#39;s waiting queue. The next thread in the object&#39;s ready queue (if there is one) acquires the lock and has exclusive use of the object. The thread that invoked <strong>Wait</strong> remains in the waiting queue until either a thread that holds the lock invokes <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, or it is the next in the queue and a thread that holds the lock invokes <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a>. However, if <em>millisecondsTimeout</em> elapses before another thread invokes this object&#39;s <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a> method, the original thread is moved to the ready queue in order to regain the lock. </p>
+<p>If <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> is specified for the <em>millisecondsTimeout</em> parameter, this method blocks indefinitely unless the holder of the lock calls <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>. If <em>millisecondsTimeout</em> equals 0, the thread that calls <strong>Wait</strong> releases the lock and then immediately enters the ready queue in order to regain the lock.</p>
+<p>The caller executes <strong>Wait</strong> once, regardless of the number of times <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> has been invoked for the specified object. Conceptually, the <strong>Wait</strong> method stores the number of times the caller invoked <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> on the object and invokes <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> as many times as necessary to fully release the locked object. The caller then blocks while waiting to reacquire the object. When the caller reacquires the lock, the system calls <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> as many times as necessary to restore the saved <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> count for the caller. Calling <strong>Wait</strong> releases the lock for the specified object only; if the caller is the owner of locks on other objects, these locks are not released.</p>
+<p>A synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object&#39;s state.</p>
+<p>The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a>, <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, and <strong>Wait</strong> methods must be invoked from within a synchronized block of code.</p>
+<p>The remarks for the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> method explain what happens if <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> is called when no threads are waiting.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Wait_System_Object_System_Int32__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1118,7 +1241,7 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_Monitor_Wait_System_Object_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.Monitor.Wait(System.Object%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading/ref/System.Threading.cs/#L200">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/Monitor.cs/#L207">View Source</a>
               </span>
               <h4 id="System_Threading_Monitor_Wait_System_Object_System_TimeSpan_" data-uid="System.Threading.Monitor.Wait(System.Object,System.TimeSpan)">Wait(Object, TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Releases the lock on an object and blocks the current thread until it reacquires the lock. If the specified time-out interval elapses, the thread enters the ready queue.</p>
@@ -1152,14 +1275,12 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>The object on which to wait. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a></td>
                     <td><em>timeout</em></td>
-                    <td><p>A <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> representing the amount of time to wait before the thread enters the ready queue. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1174,12 +1295,24 @@ The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the lock was reacquired before the specified time elapsed; <strong>false</strong> if the lock was reacquired after the specified time elapsed. The method does not return until the lock is reacquired.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_Monitor_Wait_System_Object_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method does not return until it reacquires an exclusive lock on the <em>obj</em> parameter.</p>
+<p>The thread that currently owns the lock on the specified object invokes this method in order to release the object so that another thread can access it. The caller is blocked while waiting to reacquire the lock. This method is called when the caller needs to wait for a state change that will occur as a result of another thread&#39;s operations.</p>
+<p>The time-out ensures that the current thread does not block indefinitely if another thread releases the lock without first calling the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a> method. It also moves the thread to the ready queue, bypassing other threads ahead of it in the wait queue, so that it can reacquire the lock sooner. The thread can test the return value of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Wait_System_Object_System_TimeSpan_">Wait(Object, TimeSpan)</a> method to determine whether it reacquired the lock prior to the time-out. The thread can evaluate the conditions that caused it to enter the wait, and if necessary call the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Wait_System_Object_System_TimeSpan_">Wait(Object, TimeSpan)</a> method again.</p>
+<p>When a thread calls <strong>Wait</strong>, it releases the lock on the object and enters the object&#39;s waiting queue. The next thread in the object&#39;s ready queue (if there is one) acquires the lock and has exclusive use of the object. The thread that invoked <strong>Wait</strong> remains in the waiting queue until either a thread that holds the lock invokes <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, or it is the next in the queue and a thread that holds the lock invokes <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a>. However, if <em>timeout</em> elapses before another thread invokes this object&#39;s <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a> method, the original thread is moved to the ready queue in order to regain the lock. </p>
+<p>If a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> representing –1 millisecond is specified for the <em>timeout</em> parameter, this method blocks indefinitely unless the holder of the lock calls <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> or <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>. If <em>timeout</em> is 0 milliseconds, the thread that calls <strong>Wait</strong> releases the lock and then immediately enters the ready queue in order to regain the lock.</p>
+<p>The caller executes <strong>Wait</strong> once, regardless of the number of times <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> has been invoked for the specified object. Conceptually, the <strong>Wait</strong> method stores the number of times the caller invoked <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> on the object and invokes <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Exit_System_Object_">Exit(Object)</a> as many times as necessary to fully release the locked object. The caller then blocks while waiting to reacquire the object. When the caller reacquires the lock, the system calls <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> as many times as necessary to restore the saved <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Enter_System_Object_">Enter(Object)</a> count for the caller. Calling <strong>Wait</strong> releases the lock for the specified object only; if the caller is the owner of locks on other objects, these locks are not released.</p>
+<p>A synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object&#39;s state.</p>
+<p>The <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a>, <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_PulseAll_System_Object_">PulseAll(Object)</a>, and <strong>Wait</strong> methods must be invoked from within a synchronized block of code.</p>
+<p>The remarks for the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> method explain what happens if <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor_Pulse_System_Object_">Pulse(Object)</a> is called when no threads are waiting.</p>
+</div>
+              <h5 id="System_Threading_Monitor_Wait_System_Object_System_TimeSpan__examples">Examples</h5>
+              <p>The following example uses the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class to synchronize access to a single instance of a random number generator represented by the <a class="xref" href="System.Random.html#System_Random">Random</a> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Add_System_Int64__System_Int64_">Add(ref Int64, Int64)</a> method is used for this purpose. </p>
+              <p>The following example demonstrates the combined use of the <a class="xref" href="System.Threading.Monitor.html#System_Threading_Monitor">Monitor</a> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked">Interlocked</a> class, and the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_ManagedThreadId">ManagedThreadId</a> property is even, the method calls <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Sleep_System_Int32_">Sleep(Int32)</a> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method for synchronized and unsynchronized access five times each. The <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. The <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread's decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method to decrement the <code>numOps</code> counter. Once again, the <a class="xref" href="System.Threading.Interlocked.html#System_Threading_Interlocked_Decrement_System_Int64__">Decrement(ref Int64)</a> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread's decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

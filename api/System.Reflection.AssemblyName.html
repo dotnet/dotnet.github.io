@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L43" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L28" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_AssemblyName" data-uid="System.Reflection.AssemblyName">Class AssemblyName
               </h1>
               <div class="markdown level0 summary"><p>Describes an assembly&#39;s unique identity in full.</p>
@@ -81,81 +81,40 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">AssemblyName</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Reflection</h6>
               <h6><strong>Assembly</strong>:System.Reflection.dll</h6>
               <h5 id="System_Reflection_AssemblyName_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public sealed class AssemblyName : object</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ClassInterface(ClassInterfaceType.None)]
+[ComDefaultInterface(typeof (_AssemblyName))]
+[ComVisible(true)]
+public sealed class AssemblyName : _AssemblyName, ICloneable, ISerializable, IDeserializationCallback</code></pre>
               </div>
-              <h5 id="System_Reflection_AssemblyName_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object contains information about an assembly, which you can use to bind to that assembly. An assembly&#39;s identity consists of the following:</p></p>
-<p><ul><li><p>
-<p><p>Simple name.</p>
-</li><li><p>
-<p><p>Version number.</p>
-</li><li><p>
-<p><p>Cryptographic key pair.</p>
-</li><li><p>
-<p><p>Supported culture.</p>
-</li></ul></p>
-<p><p>The simple name is typically the file name for the manifest file without its extension. The key pair includes a public and private key, used to create strong-name signatures for assemblies.</p></p>
-<p><p>All compilers that support the common language runtime will emit the simple name of a nested class, and reflection constructs a mangled name when queried, in accordance with the following conventions.</p></p>
-<p><p>Delimiter </p></p>
-<p><p>Meaning </p></p>
-<p><table><tbody><tr><td><p>
-<p><p>Backslash () </p>
-</td><td><p>
-<p><p>Escape character. </p>
-</td></tr><tr><td><p>
-<p><p>Comma (,) </p>
-</td><td><p>
-<p><p>Precedes the assembly name. </p>
-</td></tr><tr><td><p>
-<p><p>Plus sign (+) </p>
-</td><td><p>
-<p><p>Precedes a nested class. </p>
-</td></tr></tbody></table></p>
-<p><p>For example, the fully qualified name for a class might look like this: </p></p>
-<p><p>ContainingClass+NestedClass,MyAssembly </p></p>
-<p><p>
-<p><p>A &quot;++&quot; becomes &quot;++&quot;, and a &quot;\&quot; becomes &quot;\&quot;.</p></p>
-<p><p>This qualified name can be persisted and later used to load the <a class="xref" href="System.Type.html#System_Type">Type</a>. To search for and load a <a class="xref" href="System.Type.html#System_Type">Type</a>, use <span class="xref">System.Type.GetType</span> either with the type name only or with the assembly qualified type name. <span class="xref">System.Type.GetType</span> with the type name only will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in the caller&#39;s assembly and then in the System assembly. <span class="xref">System.Type.GetType</span> with the assembly qualified type name will look for the <a class="xref" href="System.Type.html#System_Type">Type</a> in any assembly.</p></p>
-<p><p>A fully specified <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> must have the name, culture, public key or public key token, major version, minor version, build number, and revision number parameters. The last four are packaged in the <a class="xref" href="System.Version.html#System_Version">Version</a> type. </p></p>
-<p><p>
-<p><p>To create a simple name, create an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object using the default constructor and set the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Name">Name</a>. The other properties are optional.</p></p>
-<p><p>To create a full strong name, create an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object using the default constructor and set the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Name">Name</a> and <span class="xref">System.Reflection.AssemblyName.KeyPair</span>. The other properties are optional. Use <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKey_System_Byte___">SetPublicKey(Byte[])</a> and <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___">SetPublicKeyToken(Byte[])</a> to set the public key and the strong name. The strong name signing always uses the <a class="xref" href="System.Security.Cryptography.SHA1.html#System_Security_Cryptography_SHA1">SHA1</a> hash algorithm.</p></p>
-<p><p>To ensure that the names are constructed correctly, use the following properties:</p></p>
-<p><ul><li><p>
-<p><p>
-<p><a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_FullName">FullName</a>
-</p>
-</li><li><p>
-<p><p>
-<p><a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_FullName">FullName</a>
-</p>
-</li><li><p>
-<p><p>
-<p><a class="xref" href="System.Type.html#System_Type_AssemblyQualifiedName">AssemblyQualifiedName</a>
-</p>
-</li></ul></p>
-<p><p>You can also get the name by using the /l option with the Gacutil.exe (Global Assembly Cache Tool)</p></p>
-<p><p>For a partially specified strong name, create an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object using the default constructor and set the name and public key. An assembly created using such an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> can be signed later using the Assembly Linker (Al.exe).</p></p>
-<p><p>It is possible to specify a public key and a <span class="xref">System.Reflection.AssemblyName.KeyPair</span> with inconsistent values. This can be useful in developer scenarios. In this case, the public key retrieved with <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKey">GetPublicKey()</a> specifies the correct public key, while the <span class="xref">System.Reflection.AssemblyName.KeyPair</span> specifies the public and private keys used during development. When the runtime detects a mismatch between the <span class="xref">System.Reflection.AssemblyName.KeyPair</span> and the public key, it looks up in the registry the correct key that matches the public key.</p></p>
-<p><p>The format of the display name of an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> is a comma-delimited Unicode string that begins with the name, as follows: </p></p>
-<p><p>
-<code>Name <,culture =="" cultureinfo=""> <,version =="" major.minor.build.revision=""> <, strongname=""> <,publickeytoken> '\0'</,publickeytoken></,></,version></,culture></code>
-</p></p>
-<p><p>
-<code>Name</code> is the textual name of the assembly. <code>CultureInfo</code> is the RFC1766-format-defined culture. <code>Major</code>, <code>Minor</code>, <code>Build</code>, and <code>Revision</code> are the major version, minor version, build number, and revision number of the assembly. <code>StrongName</code> is the hexadecimal-encoded low-order 64 bits of the hash value of the public key generated using the SHA-1 hashing algorithm and the public key specified by <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKey_System_Byte___">SetPublicKey(Byte[])</a>. <code>PublicKeyToken</code> is the hexadecimal-encoded public key specified by <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKey_System_Byte___">SetPublicKey(Byte[])</a>.</p></p>
-<p><p>Hexadecimal encoding is defined as the conversion of each byte of a binary object to two hexadecimal characters, progressing from least to most significant byte. Additional display values will be added as deemed necessary.</p></p>
-<p><p>If the full public key is known, then PublicKey may be substituted for StrongName.</p></p>
-<p><p>Also note that except for <code>Name</code>, which must come first, the lexical order of parameters is unimportant. However, any parameter (<code>Version</code>, <code>Culture</code>, <code>StrongName</code> or <code>PublicKey</code>) not specifically set is considered to be omitted, and the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> is then considered partial. When specifying partial information, Name parameters must be specified in the order described above.</p></p>
-<p><p>When supplying a display name, the convention <code>StrongName =null</code> or <code>PublicKey= null</code> indicates that binding and matching against a simply named assembly is required. Additionally, the convention <code>Culture= ""</code> (double quote representing an empty string) indicates matching against the default culture.</p></p>
-<p><p>The following example shows an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> for a simply named assembly with default culture.</p></p>
-<pre><code>ExampleAssembly, Culture=""</code></pre>
-<p>The following example shows a fully specified reference for a strongly named assembly with culture "en".</p>
-<pre><code>ExampleAssembly, Version=1.0.0.0, Culture=en, PublicKeyToken=a5d015c7d5a0b012</code></pre>
-</div>
+              <h5 id="System_Reflection_AssemblyName_examples"><strong>Examples</strong></h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -163,7 +122,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName__ctor.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L45">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L59">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName__ctor" data-uid="System.Reflection.AssemblyName.#ctor">AssemblyName()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> class.</p>
@@ -173,12 +132,15 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public AssemblyName()</code></pre>
               </div>
+              <h5 id="System_Reflection_AssemblyName__ctor_examples">Examples</h5>
+              
+<p>The following example creates a dynamic assembly named <code>MyAssembly.exe</code> and saves it to your hard disk. After running the example, you can use the Ildasm.exe (IL Disassembler) to examine the assembly metadata.</p>AssemblyName_Constructor#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L46">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L367">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName__ctor_System_String_" data-uid="System.Reflection.AssemblyName.#ctor(System.String)">AssemblyName(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> class with the specified display name.</p>
@@ -189,7 +151,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public AssemblyName(string assemblyName)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public AssemblyName(string assemblyName)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -204,11 +167,16 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>assemblyName</em></td>
-                    <td><p>The display name of the assembly, as returned by the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_FullName">FullName</a> property.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The supplied <em>assemblyName</em> is parsed, and the appropriate fields of the new <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> are initialized with values from the display name. This is the recommended way of parsing display names. Writing your own code to parse display names is not recommended. </p>
+</div>
+              <h5 id="System_Reflection_AssemblyName__ctor_System_String__examples">Examples</h5>
+              
+<p>The following example creates an instance of <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> from a display name. The individual elements of the display name are output to the console as properties of the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a>object.</p>AssemblyName_Constructor_2#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -245,7 +213,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_ContentType.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.ContentType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L47">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L147">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_ContentType" data-uid="System.Reflection.AssemblyName.ContentType">ContentType</h4>
               <div class="markdown level1 summary"><p>Gets or sets a value that indicates what type of content the assembly contains.</p>
@@ -253,7 +221,8 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public AssemblyContentType ContentType { get; set; }</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(false)]
+public AssemblyContentType ContentType { get; set; }</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -266,17 +235,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.AssemblyContentType.html#System_Reflection_AssemblyContentType">AssemblyContentType</a></td>
-                    <td><p>A value that indicates what type of content the assembly contains.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_ContentType_examples">Examples</h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_CultureName.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.CultureName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L48">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L96">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_CultureName" data-uid="System.Reflection.AssemblyName.CultureName">CultureName</h4>
               <div class="markdown level1 summary"><p>Gets or sets the name of the culture associated with the assembly.</p>
@@ -297,17 +268,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The culture name.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_CultureName_examples">Examples</h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_Flags.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.Flags%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L49">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L255">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_Flags" data-uid="System.Reflection.AssemblyName.Flags">Flags</h4>
               <div class="markdown level1 summary"><p>Gets or sets the attributes of the assembly.</p>
@@ -328,17 +301,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.AssemblyNameFlags.html#System_Reflection_AssemblyNameFlags">AssemblyNameFlags</a></td>
-                    <td><p>A value that represents the attributes of the assembly.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_Flags_examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Flags">Flags</a> property is used to specify that the assembly has a public key.</p>AssemblyName_KeyPair#4
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_FullName.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.FullName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L50">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L282">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_FullName" data-uid="System.Reflection.AssemblyName.FullName">FullName</h4>
               <div class="markdown level1 summary"><p>Gets the full name of the assembly, also known as the display name.</p>
@@ -352,7 +327,11 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public string FullName { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public string FullName
+{
+    [SecuritySafeCritical]
+    get;
+}</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -365,17 +344,25 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>A string that is the full name of the assembly, also known as the display name.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_FullName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The display name typically consists of the simple name, version number, supported culture, and public key. For example: </p>
+<pre><code>mylib, Version=1.2.1900.0, Culture=neutral, PublicKeyToken=a14f3033def15840</code></pre>
+<p>Writing your own code to parse display names is not recommended. Instead, pass the display name to the <span class="xref">System.Reflection.AssemblyName.</span> constructor, which parses it and populates the appropriate fields of the new <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a>. </p>
+<p>When an assembly is loaded, this value can also be obtained using the <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_FullName">FullName</a> property. </p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_FullName_examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the code example sets the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Name">Name</a>, <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a>, <span class="xref">System.Reflection.AssemblyName.CultureInfo</span>, and <span class="xref">System.Reflection.AssemblyName.KeyPair</span> properties, which together comprise an assembly's full name, or display name. The <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_FullName">FullName</a> property is then used to retrieve the display name.</p>AssemblyName_CodeBase#4
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_Name.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L51">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L69">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_Name" data-uid="System.Reflection.AssemblyName.Name">Name</h4>
               <div class="markdown level1 summary"><p>Gets or sets the simple name of the assembly. This is usually, but not necessarily, the file name of the manifest file of the assembly, minus its extension.</p>
@@ -400,17 +387,23 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The simple name of the assembly.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_Name_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The manifest file is the file that contains the assembly manifest.</p>
+<p>For example, the simple name of a single-file assembly named &quot;MyAssembly.dll&quot; is &quot;MyAssembly&quot;.</p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_Name_examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Name">Name</a> property is used to set the simple name of the dynamic assembly.</p>AssemblyName_Constructor#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_ProcessorArchitecture.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.ProcessorArchitecture%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L52">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L130">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_ProcessorArchitecture" data-uid="System.Reflection.AssemblyName.ProcessorArchitecture">ProcessorArchitecture</h4>
               <div class="markdown level1 summary"><p>Gets or sets a value that identifies the processor and bits-per-word of the platform targeted by an executable.</p>
@@ -434,17 +427,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.ProcessorArchitecture.html#System_Reflection_ProcessorArchitecture">ProcessorArchitecture</a></td>
-                    <td><p>One of the enumeration values that identifies the processor and bits-per-word of the platform targeted by an executable.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_ProcessorArchitecture_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Beginning with the .NET Framework 4, this property always returns <a class="xref" href="System.Reflection.ProcessorArchitecture.html#System_Reflection_ProcessorArchitecture_None">None</a> for reference assemblies.</p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_ProcessorArchitecture_examples">Examples</h5>
+              
+<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_Version.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.Version%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L53">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L75">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_Version" data-uid="System.Reflection.AssemblyName.Version">Version</h4>
               <div class="markdown level1 summary"><p>Gets or sets the major, minor, build, and revision numbers of the assembly.</p>
@@ -468,11 +466,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Version.html#System_Version">Version</a></td>
-                    <td><p>An object that represents the major, minor, build, and revision numbers of the assembly.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_Version_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>All components of the version must be integers greater than or equal to zero. Metadata restricts the major, minor, build, and revision components for an assembly to a maximum value of <a class="xref" href="System.UInt16.html#System_UInt16_MaxValue">MaxValue</a> - 1. If a component exceeds this value, no error is thrown; however, in a dynamic assembly, that component is zero.</p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_Version_examples">Examples</h5>
+              
+<p>This section contains two examples. The first example shows how to retrieve the version of the currently executing assembly. The second example shows how to use the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a> property to specify the assembly version when you emit a dynamic assembly.</p>
+<p>Example 1</p>
+<p>The following example retrieves and displays the version numbers of the currently executing assembly and the assembly that contains the <a class="xref" href="System.String.html#System_String">String</a> class.</p>AssemblyName.Version#1<p>Example 2</p><p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a> property is used to specify version information for the assembly.</p>AssemblyName_Constructor#3
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -480,7 +485,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_GetPublicKey.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.GetPublicKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L54">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L218">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_GetPublicKey" data-uid="System.Reflection.AssemblyName.GetPublicKey">GetPublicKey()</h4>
               <div class="markdown level1 summary"><p>Gets the public key of the assembly.</p>
@@ -501,11 +506,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
-                    <td><p>A byte array that contains the public key of the assembly.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_GetPublicKey_examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKey_System_Byte___">SetPublicKey(Byte[])</a> method is used to give the assembly a public key. The <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKey">GetPublicKey()</a> method is then used to retrieve the public key, which is displayed to the console.</p>AssemblyName_KeyPair#2
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -527,7 +534,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_GetPublicKeyToken.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.GetPublicKeyToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L55">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L235">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_GetPublicKeyToken" data-uid="System.Reflection.AssemblyName.GetPublicKeyToken">GetPublicKeyToken()</h4>
               <div class="markdown level1 summary"><p>Gets the public key token, which is the last 8 bytes of the SHA-1 hash of the public key under which the application or assembly is signed.</p>
@@ -535,7 +542,8 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public byte[] GetPublicKeyToken()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public byte[] GetPublicKeyToken()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -548,17 +556,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
-                    <td><p>A byte array that contains the public key token.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_GetPublicKeyToken_examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___">SetPublicKeyToken(Byte[])</a> method is used to set the assembly's public key token. The <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKeyToken">GetPublicKeyToken()</a> method is then used to retrieve the public key token, which is displayed to the console.</p>AssemblyName_KeyPair#3
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_SetPublicKey_System_Byte___.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.SetPublicKey(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L56">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L223">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_SetPublicKey_System_Byte___" data-uid="System.Reflection.AssemblyName.SetPublicKey(System.Byte[])">SetPublicKey(Byte[])</h4>
               <div class="markdown level1 summary"><p>Sets the public key identifying the assembly.</p>
@@ -584,17 +594,22 @@
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
                     <td><em>publicKey</em></td>
-                    <td><p>A byte array containing the public key of the assembly. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_SetPublicKey_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You must also use the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___">SetPublicKeyToken(Byte[])</a> method to provide a public key token. Otherwise, a <a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a> is thrown when the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKey">GetPublicKey()</a> method is called.</p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_SetPublicKey_System_Byte____examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKey_System_Byte___">SetPublicKey(Byte[])</a> method is used to give the assembly a public key. The <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKey">GetPublicKey()</a> method is then used to retrieve the public key, which is displayed to the console.</p>AssemblyName_SetPublicKey#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L57">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L243">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___" data-uid="System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])">SetPublicKeyToken(Byte[])</h4>
               <div class="markdown level1 summary"><p>Sets the public key token, which is the last 8 bytes of the SHA-1 hash of the public key under which the application or assembly is signed.</p>
@@ -620,17 +635,22 @@
                   <tr>
                     <td><a class="xref" href="System.Byte.html#System_Byte">Byte</a>[]</td>
                     <td><em>publicKeyToken</em></td>
-                    <td><p>A byte array containing the public key token of the assembly. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When you set the public key by calling the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKey_System_Byte___">SetPublicKey(Byte[])</a> method, you must also use the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___">SetPublicKeyToken(Byte[])</a> method to provide a public key token. Otherwise, a <a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a> is thrown when the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKey">GetPublicKey()</a> method is called.</p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte____examples">Examples</h5>
+              
+<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_SetPublicKeyToken_System_Byte___">SetPublicKeyToken(Byte[])</a> method is used to set the assembly's public key token. The <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_GetPublicKeyToken">GetPublicKeyToken()</a> method is then used to retrieve the public key token, which is displayed to the console.</p>AssemblyName_SetPublicKey#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyName_ToString.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyName.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L58">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyName.cs/#L291">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyName_ToString" data-uid="System.Reflection.AssemblyName.ToString">ToString()</h4>
               <div class="markdown level1 summary"><p>Returns the full name of the assembly, also known as the display name.</p>
@@ -654,11 +674,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The full name of the assembly, or the class name if the full name cannot be determined.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a></div>
+              <h5 id="System_Reflection_AssemblyName_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>See the description of <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> for the format of the returned string.</p>
+</div>
+              <h5 id="System_Reflection_AssemblyName_ToString_examples">Examples</h5>
+              
+<p>The following example gets an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object for a hypothetical <code>MyAssembly.exe</code> assembly, and then uses the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_ToString">ToString()</a> method to retrieve the full assembly name, or display name.</p>AssemblyName_GetAssemblyName#2
             </article>
           </div>
           

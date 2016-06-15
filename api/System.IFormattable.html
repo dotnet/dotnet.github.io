@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IFormattable.md&amp;value=---%0Auid%3A%20System.IFormattable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1002" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IFormattable.cs/#L10" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IFormattable" data-uid="System.IFormattable">Interface IFormattable
               </h1>
               <div class="markdown level0 summary"><p>Provides functionality to format the value of an object into a string representation.</p>
@@ -80,33 +80,12 @@
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_IFormattable_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public interface IFormattable</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(true)]
+public interface IFormattable</code></pre>
               </div>
-              <h5 id="System_IFormattable_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> interface converts an object to its string representation based on a format string and a format provider. </p>
-<p>A format string typically defines the general appearance of an object. For example, the .NET Framework supports the following:</p>
-<ul><li>
-<p>Standard format strings for formatting enumeration values (see Enumeration Format Strings).</p>
-</li><li>
-<p>Standard and custom format strings for formatting numeric values (see Standard Numeric Format Strings and Custom Numeric Format Strings).</p>
-</li><li>
-<p>Standard and custom format strings for formatting date and time values (see Standard Date and Time Format Strings and Custom Date and Time Format Strings).</p>
-</li><li>
-<p>Standard and custom format strings for formatting time intervals (see Standard TimeSpan Format Strings and Custom TimeSpan Format Strings).</p>
-</li></ul>
-<p>You can also define your own format strings to support formatting of your application-defined types.</p>
-<p>A format provider returns a formatting object that typically defines the symbols used in converting an object to its string representation. For example, when you convert a number to a currency value, a format provider defines the currency symbol that appears in the result string. The .NET Framework defines three format providers:</p>
-<ul><li>
-<p>The <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a> class, which returns either a <a class="xref" href="System.Globalization.NumberFormatInfo.html#System_Globalization_NumberFormatInfo">NumberFormatInfo</a> object for formatting numeric values, or a <a class="xref" href="System.Globalization.DateTimeFormatInfo.html#System_Globalization_DateTimeFormatInfo">DateTimeFormatInfo</a> object for formatting date and time values.</p>
-</li><li>
-<p>The <a class="xref" href="System.Globalization.NumberFormatInfo.html#System_Globalization_NumberFormatInfo">NumberFormatInfo</a> class, which returns an instance of itself for formatting numeric values.</p>
-</li><li>
-<p>The <a class="xref" href="System.Globalization.DateTimeFormatInfo.html#System_Globalization_DateTimeFormatInfo">DateTimeFormatInfo</a> class, which returns an instance of itself for formatting date and time values. </p>
-</li></ul>
-<p>In addition, you can define your own custom format providers to supply culture-specific, profession-specific, or industry-specific information used in formatting. For more information about implementing custom formatting by using a custom format provider, see <a class="xref" href="System.ICustomFormatter.html#System_ICustomFormatter">ICustomFormatter</a>.</p>
-<p>The <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> interface defines a single method, <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a>, that supplies formatting services for the implementing type. The <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> method can be called directly. In addition, it is called automatically by the <a class="xref" href="System.Convert.html#System_Convert_ToString_System_Object_">ToString(Object)</a> and <a class="xref" href="System.Convert.html#System_Convert_ToString_System_Object_System_IFormatProvider_">ToString(Object, IFormatProvider)</a> methods, and by methods that use the composite formatting feature in the .NET Framework. Such methods include <a class="xref" href="System.Console.html#System_Console_WriteLine_System_String_System_Object_">WriteLine(String, Object)</a>, <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a>, and <a class="xref" href="System.Text.StringBuilder.html#System_Text_StringBuilder_AppendFormat_System_String_System_Object_">AppendFormat(String, Object)</a>, among others. The <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> method is called for each format item in the method&#39;s format string. </p>
-<p>The <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> interface is implemented by the base data types.</p>
-</div>
+              <h5 id="System_IFormattable_examples"><strong>Examples</strong></h5>
+              
+<p>The following example defines a <code>Temperature</code> class that implements the <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> interface. The class supports four format specifiers: "G" and "C", which indicate that the temperature is to be displayed in Celsius; "F", which indicates that the temperature is to be displayed in Fahrenheit; and "K", which indicates that the temperature is to be displayed in Kelvin. In addition, the <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> implementation also can handle a format string that is <strong>null</strong> or empty. The other two <code>ToString</code> methods defined by the <code>Temperature</code> class simply wrap a call to the <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> implementation.</p>System.IFormattable#1<p>The following example then calls the <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> implementation either directly or by using a composite format string.</p>System.IFormattable#2
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -114,7 +93,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IFormattable_ToString_System_String_System_IFormatProvider_.md&amp;value=---%0Auid%3A%20System.IFormattable.ToString(System.String%2CSystem.IFormatProvider)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1004">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IFormattable.cs/#L13">View Source</a>
               </span>
               <h4 id="System_IFormattable_ToString_System_String_System_IFormatProvider_" data-uid="System.IFormattable.ToString(System.String,System.IFormatProvider)">ToString(String, IFormatProvider)</h4>
               <div class="markdown level1 summary"><p>Formats the value of the current instance using the specified format.</p>
@@ -163,18 +142,12 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>format</em></td>
-                    <td><p>The format to use.</p>
-<p>-or- </p>
-<p>A null reference (<strong>Nothing</strong> in Visual Basic) to use the default format defined for the type of the <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> implementation. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IFormatProvider.html#System_IFormatProvider">IFormatProvider</a></td>
                     <td><em>formatProvider</em></td>
-                    <td><p>The provider to use to format the value.</p>
-<p>-or- </p>
-<p>A null reference (<strong>Nothing</strong> in Visual Basic) to obtain the numeric format information from the current locale setting of the operating system. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -189,11 +162,39 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The value of the current instance in the specified format.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IFormattable_ToString_System_String_System_IFormatProvider__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> method converts a value to a string representation that can be expressed in multiple ways. Its precise format depends on specific symbols or a specified order defined by specific cultures, professions, or industries. You can call the method directly. It is also called automatically by the <a class="xref" href="System.Convert.html#System_Convert_ToString_System_Object_">ToString(Object)</a> and <a class="xref" href="System.Convert.html#System_Convert_ToString_System_Object_System_IFormatProvider_">ToString(Object, IFormatProvider)</a> methods, and by methods that use the composite formatting feature in the .NET Framework, such as <a class="xref" href="System.String.html#System_String_Format_System_String_System_Object___">Format(String, Object[])</a>, <a class="xref" href="System.Console.html#System_Console_WriteLine_System_String_System_Object___">WriteLine(String, Object[])</a>, and <a class="xref" href="System.Text.StringBuilder.html#System_Text_StringBuilder_AppendFormat_System_String_System_Object___">AppendFormat(String, Object[])</a>. (For more information, see Composite Formatting.)</p>
+<p>Composite formatting methods call the <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> method once for each format item in a format string. The parameters passed to the method depend on the specific formatting method that is called and on the content of the format item, as follows:</p>
+<ul><li>
+<p>If the format item does not include a format string (for example, if the format item is simply <strong>{0}</strong>), it is passed <strong>null</strong> as the value of the <a class="xref" href="System.String.html#System_String">String</a> parameter.</p>
+</li><li>
+<p>If the format item includes a format string (for example, <strong>{0:G}</strong>), that format string is passed as the value of the <a class="xref" href="System.String.html#System_String">String</a> parameter.</p>
+</li><li>
+<p>If the original method call does not include an <a class="xref" href="System.IFormatProvider.html#System_IFormatProvider">IFormatProvider</a> parameter, <a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo_CurrentCulture">CurrentCulture</a> is passed as the value of the <a class="xref" href="System.IFormatProvider.html#System_IFormatProvider">IFormatProvider</a> parameter.</p>
+</li><li>
+<p>If the original method call includes an <a class="xref" href="System.IFormatProvider.html#System_IFormatProvider">IFormatProvider</a> parameter, the provider that is supplied in the method call is passed as the value of the <a class="xref" href="System.IFormatProvider.html#System_IFormatProvider">IFormatProvider</a> parameter.</p>
+</li></ul>
+<p>An object&#39;s <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> implementation is called by composite formatting methods only if they are not passed an <a class="xref" href="System.ICustomFormatter.html#System_ICustomFormatter">ICustomFormatter</a> format provider, or if the <a class="xref" href="System.ICustomFormatter.html#System_ICustomFormatter_Format_System_String_System_Object_System_IFormatProvider_">Format(String, Object, IFormatProvider)</a> method of the custom format provider returns <strong>null</strong>.</p>
+<p>The .NET Framework includes three format providers, all of which implement the <a class="xref" href="System.IFormatProvider.html#System_IFormatProvider">IFormatProvider</a> interface:</p>
+<ul><li>
+<p>
+<a class="xref" href="System.Globalization.NumberFormatInfo.html#System_Globalization_NumberFormatInfo">NumberFormatInfo</a> supplies numeric formatting information, such as the characters to use for decimal and group separators, and the spelling and placement of currency symbols in monetary values.</p>
+</li><li>
+<p>
+<a class="xref" href="System.Globalization.DateTimeFormatInfo.html#System_Globalization_DateTimeFormatInfo">DateTimeFormatInfo</a> supplies date-related and time-related formatting information, such as the position of the month, the day, and the year in a date pattern.</p>
+</li><li>
+<p>
+<a class="xref" href="System.Globalization.CultureInfo.html#System_Globalization_CultureInfo">CultureInfo</a> contains the default formatting information in a specific culture, including the numeric format information, and date-related and time-related formatting information.</p>
+</li></ul>
+<p>In addition, you can define your own custom format provider.</p>
+</div>
+              <h5 id="System_IFormattable_ToString_System_String_System_IFormatProvider__examples">Examples</h5>
+              
+<p>The following example demonstrates a <code>Temperature</code> class that implements the <a class="xref" href="System.IFormattable.html#System_IFormattable_ToString_System_String_System_IFormatProvider_">ToString(String, IFormatProvider)</a> method. This code example is part of a larger example provided for the <a class="xref" href="System.IFormattable.html#System_IFormattable">IFormattable</a> class.</p>System.IFormattable#1
             </article>
           </div>
           

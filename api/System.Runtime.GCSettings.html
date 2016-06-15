@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_GCSettings.md&amp;value=---%0Auid%3A%20System.Runtime.GCSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2816" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/GcSettings.cs/#L33" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_GCSettings" data-uid="System.Runtime.GCSettings">Class GCSettings
               </h1>
               <div class="markdown level0 summary"><p>Specifies the garbage collection settings for the current process. </p>
@@ -81,15 +81,36 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">GCSettings</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Runtime</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_Runtime_GCSettings_syntax">Syntax</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class GCSettings</code></pre>
               </div>
-              <h5 id="System_Runtime_GCSettings_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>Use the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_IsServerGC">IsServerGC</a> property to determine whether server garbage collection is enabled for the current process.</p>
-</div>
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -97,7 +118,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_GCSettings_IsServerGC.md&amp;value=---%0Auid%3A%20System.Runtime.GCSettings.IsServerGC%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2818">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/GcSettings.cs/#L93">View Source</a>
               </span>
               <h4 id="System_Runtime_GCSettings_IsServerGC" data-uid="System.Runtime.GCSettings.IsServerGC">IsServerGC</h4>
               <div class="markdown level1 summary"><p>Gets a value that indicates whether server garbage collection is enabled.</p>
@@ -115,7 +136,11 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool IsServerGC { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public static bool IsServerGC
+{
+    [SecuritySafeCritical]
+    get;
+}</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -128,18 +153,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if server garbage collection is enabled; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_GCSettings_IsServerGC_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>For information about server garbage collection, see the &quot;Workstation and Server Garbage Collection&quot; section in Fundamentals of Garbage Collection. </p></p>
+<p><p>If server garbage collection is not enabled, workstation garbage collection is in effect (with or without concurrent collection). Server garbage collection is available only on multiprocessor computers.</p></p>
+<p><p>An unmanaged host can request server garbage collection, and the host request overrides configuration file settings. If the host does not specify the type of garbage collection, you can use a configuration file setting to specify server garbage collection. This setting is valid only in the application configuration file, not in the machine configuration file (see Configuring Apps by using Configuration Files). The following example shows the contents of a sample application configuration file that enables server garbage collection.</p></p>
+<pre><code><configuration>
+<runtime>
+<gcserver enabled="true"></gcserver>
+</runtime>
+</configuration></code></pre>
+</div>
+              <h5 id="System_Runtime_GCSettings_IsServerGC_examples">Examples</h5>
+              
+<p>The following example indicates whether the host computer is using server or workstation garbage collection. </p>Environment.IsServerGC#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_GCSettings_LargeObjectHeapCompactionMode.md&amp;value=---%0Auid%3A%20System.Runtime.GCSettings.LargeObjectHeapCompactionMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2819">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/GcSettings.cs/#L67">View Source</a>
               </span>
               <h4 id="System_Runtime_GCSettings_LargeObjectHeapCompactionMode" data-uid="System.Runtime.GCSettings.LargeObjectHeapCompactionMode">LargeObjectHeapCompactionMode</h4>
               <div class="markdown level1 summary"><p>[Supported in the .NET Framework 4.5.1 and later versions] </p>
@@ -156,8 +192,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static GCLargeObjectHeapCompactionMode LargeObjectHeapCompactionMode
 {
+    [SecuritySafeCritical]
+    [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
     get;
     [SecurityCritical]
+    [HostProtection(MayLeakOnAbort = true)]
+    [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
     set;
 }</code></pre>
               </div>
@@ -172,17 +212,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Runtime.GCLargeObjectHeapCompactionMode.html#System_Runtime_GCLargeObjectHeapCompactionMode">GCLargeObjectHeapCompactionMode</a></td>
-                    <td><p>One of the enumeration values that indicates whether a full blocking garbage collection compacts the LOH. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_GCSettings_LargeObjectHeapCompactionMode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The LOH is used for allocating memory for large objects (such as arrays) that require more than 85,000 bytes. Because of the performance impact of copying large blocks of memory, the garbage collector ordinarily sweeps the   LOH, which involves creating a list of the memory locations that were occupied by dead objects and that can be reused to satisfy future requests for allocation of memory for large objects. However, in apps that make extensive use of the LOH to store transient objects, memory fragmentation can also adversely impact performance. In this case, it is possible to use the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_LargeObjectHeapCompactionMode">LargeObjectHeapCompactionMode</a> property to compact rather than simply sweep the LOH during a garbage collection. </p></p>
+<p><p>The default value of the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_LargeObjectHeapCompactionMode">LargeObjectHeapCompactionMode</a> property is <a class="xref" href="System.Runtime.GCLargeObjectHeapCompactionMode.html#System_Runtime_GCLargeObjectHeapCompactionMode_Default">Default</a>, which indicates that the LOH is not compacted during garbage collections. If you assign the property a value of <a class="xref" href="System.Runtime.GCLargeObjectHeapCompactionMode.html#System_Runtime_GCLargeObjectHeapCompactionMode_CompactOnce">CompactOnce</a>, the LOH is compacted during the next full blocking garbage collection, and the property value is reset to <a class="xref" href="System.Runtime.GCLargeObjectHeapCompactionMode.html#System_Runtime_GCLargeObjectHeapCompactionMode_Default">Default</a>.  </p></p>
+<p><p>Background garbage collections are not blocking. This means that, if you set the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_LargeObjectHeapCompactionMode">LargeObjectHeapCompactionMode</a> property to <a class="xref" href="System.Runtime.GCLargeObjectHeapCompactionMode.html#System_Runtime_GCLargeObjectHeapCompactionMode_CompactOnce">CompactOnce</a>, any background generation 2 collections that occur subsequently do not compact the LOH. Only the first blocking generation 2 collection compacts the LOH. </p></p>
+<p><p>After the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_LargeObjectHeapCompactionMode">LargeObjectHeapCompactionMode</a> property is set to <a class="xref" href="System.Runtime.GCLargeObjectHeapCompactionMode.html#System_Runtime_GCLargeObjectHeapCompactionMode_CompactOnce">CompactOnce</a>, the next full blocking garbage collection (and compaction of the LOH) occurs at an indeterminate future time. You can compact the LOH immediately by using code like the following: </p>System.Runtime.GCSettings#1</p>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_GCSettings_LatencyMode.md&amp;value=---%0Auid%3A%20System.Runtime.GCSettings.LatencyMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2820">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/GcSettings.cs/#L41">View Source</a>
               </span>
               <h4 id="System_Runtime_GCSettings_LatencyMode" data-uid="System.Runtime.GCSettings.LatencyMode">LatencyMode</h4>
               <div class="markdown level1 summary"><p>Gets or sets the current latency mode for garbage collection.</p>
@@ -197,8 +242,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static GCLatencyMode LatencyMode
 {
+    [SecuritySafeCritical]
+    [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
     get;
     [SecurityCritical]
+    [HostProtection(MayLeakOnAbort = true)]
+    [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
     set;
 }</code></pre>
               </div>
@@ -213,11 +262,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Runtime.GCLatencyMode.html#System_Runtime_GCLatencyMode">GCLatencyMode</a></td>
-                    <td><p>One of the enumeration values that specifies the latency mode. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_GCSettings_LatencyMode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can reduce the level of intrusiveness of garbage collection in your application by setting the <a class="xref" href="System.Runtime.GCLatencyMode.html#System_Runtime_GCLatencyMode">GCLatencyMode</a> to <a class="xref" href="System.Runtime.GCLatencyMode.html#System_Runtime_GCLatencyMode_LowLatency">LowLatency</a> during critical operations. After such operations are completed, return to a higher latency mode so that more objects can be reclaimed to increase memory. </p>
+<p>Ordinarily, you set the value of the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_LatencyMode">LatencyMode</a> property to define the garbage collector&#39;s latency mode. However, you cannot set the no GC region latency mode by assigning the <span class="xref">System.Runtime.GCLatencyMode.NoGCRegion</span> enumeration value to the <a class="xref" href="System.Runtime.GCSettings.html#System_Runtime_GCSettings_LatencyMode">LatencyMode</a> property. Instead, you call the <see cref="Overload:System.GC.TryStartNoGCRegion"></see> method to begin the no GC region latency mode, and you call the <span class="xref">System.GC.EndNoGCRegion</span> to end it. </p>
+<p>See Latency Modes for a discussion of how the runtime configuration settings for garbage collection affect the default value of the <a class="xref" href="System.Runtime.GCLatencyMode.html#System_Runtime_GCLatencyMode">GCLatencyMode</a> enumeration. </p>
+</div>
+              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

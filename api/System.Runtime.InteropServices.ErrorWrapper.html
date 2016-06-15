@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ErrorWrapper.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ErrorWrapper%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L249" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs/#L19" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_ErrorWrapper" data-uid="System.Runtime.InteropServices.ErrorWrapper">Class ErrorWrapper
               </h1>
               <div class="markdown level0 summary"><p>Wraps objects the marshaler should marshal as a <strong>VT_ERROR</strong>.</p>
@@ -81,26 +81,56 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">ErrorWrapper</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Runtime.InteropServices</h6>
               <h6><strong>Assembly</strong>:System.Runtime.InteropServices.dll</h6>
               <h5 id="System_Runtime_InteropServices_ErrorWrapper_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public sealed class ErrorWrapper : object</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ComVisible(true)]
+public sealed class ErrorWrapper</code></pre>
               </div>
-              <h5 id="System_Runtime_InteropServices_ErrorWrapper_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>By default, <a class="xref" href="System.Object.html#System_Object">Object</a> type arguments are marshaled as a <strong>VARIANT</strong> type, where the object type determines the <strong>VARTYPE</strong> value of the <strong>VARIANT</strong>.</p>
-<p>The <a class="xref" href="System.Runtime.InteropServices.ErrorWrapper.html#System_Runtime_InteropServices_ErrorWrapper">ErrorWrapper</a> type must to be passed as an <a class="xref" href="System.Object.html#System_Object">Object</a> type to be marshaled as a <strong>VARIANT</strong> of type <strong>VT_ERROR</strong>, otherwise the <a class="xref" href="System.Runtime.InteropServices.ErrorWrapper.html#System_Runtime_InteropServices_ErrorWrapper">ErrorWrapper</a> type is marshaled as an integer.</p>
-<p>The following table illustrates marshaling in a managed call to a native function, using platform invoke.</p>
-<p>Managed signature parameter</p>
-<p>pArr value</p>
-<p>Marshaled as</p>
-<p>The following table illustrates marshaling data in a managed call to a native function, using COM runtime callable wrappers (RCW).</p>
-<p>Managed signature parameter</p>
-<p>pArr value</p>
-<p>Marshaled as</p>
-<p>Note that <a class="xref" href="System.Runtime.InteropServices.ErrorWrapper.html#System_Runtime_InteropServices_ErrorWrapper">ErrorWrapper</a> objects are not marshaled as type <strong>VT_ERROR</strong> after they are passed back from COM.  A single value is marshaled back from COM as type <strong>VT_I4</strong>, while arrays are marshaled back from COM as type <strong>VT_UI4</strong>.  </p>
-<p>For more information on <strong>VT_ERROR</strong>, please see the existing documentation for <strong>VARENUM::VT_ERROR</strong> in the MSDN library.</p>
-</div>
+              <h5 id="System_Runtime_InteropServices_ErrorWrapper_examples"><strong>Examples</strong></h5>
+              
+<p>The following code example first demonstrates a lone <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object marshaled back from COM as an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object. It then demonstrates an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> array marshaled back from COM as a <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> array.</p>
+<pre><code>// Scenario 1:
+// Pass a single value.
+Int32 x = 3;
+Object o = new ErrorWrapper(x);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is still an Int32 object.
+Int32 y = (Int32)o;
+Scenario 2:
+// Pass an array of values.
+Int32[] arr = new Int32[3];
+Object o = new ErrorWrapper(arr);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.
+UInt32[ ] arr2 = (UInt32[])o;</code></pre>
+
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -108,7 +138,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ErrorWrapper__ctor_System_Exception_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ErrorWrapper.%23ctor(System.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L253">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs/#L35">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ErrorWrapper__ctor_System_Exception_" data-uid="System.Runtime.InteropServices.ErrorWrapper.#ctor(System.Exception)">ErrorWrapper(Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.ErrorWrapper.html#System_Runtime_InteropServices_ErrorWrapper">ErrorWrapper</a> class with the HRESULT that corresponds to the exception supplied.</p>
@@ -116,7 +146,9 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public ErrorWrapper(Exception e)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+public ErrorWrapper(Exception e)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -131,17 +163,34 @@
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>e</em></td>
-                    <td><p>The exception to be converted to an error code. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_ErrorWrapper__ctor_System_Exception__examples">Examples</h5>
+              
+<p>The following code example first demonstrates a lone <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object marshaled back from COM as an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object. It then demonstrates an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> array marshaled back from COM as a <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> array.</p>
+<pre><code>// Scenario 1:
+// Pass a single value.
+Int32 x = 3;
+Object o = new ErrorWrapper(x);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is still an Int32 object.
+Int32 y = (Int32)o;
+Scenario 2:
+// Pass an array of values.
+Int32[] arr = new Int32[3];
+Object o = new ErrorWrapper(arr);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.
+UInt32[ ] arr2 = (UInt32[])o;</code></pre>
+
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ErrorWrapper__ctor_System_Int32_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ErrorWrapper.%23ctor(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L254">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs/#L23">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ErrorWrapper__ctor_System_Int32_" data-uid="System.Runtime.InteropServices.ErrorWrapper.#ctor(System.Int32)">ErrorWrapper(Int32)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.ErrorWrapper.html#System_Runtime_InteropServices_ErrorWrapper">ErrorWrapper</a> class with the HRESULT of the error.</p>
@@ -164,17 +213,34 @@
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>errorCode</em></td>
-                    <td><p>The HRESULT of the error. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_ErrorWrapper__ctor_System_Int32__examples">Examples</h5>
+              
+<p>The following code example first demonstrates a lone <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object marshaled back from COM as an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object. It then demonstrates an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> array marshaled back from COM as a <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> array.</p>
+<pre><code>// Scenario 1:
+// Pass a single value.
+Int32 x = 3;
+Object o = new ErrorWrapper(x);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is still an Int32 object.
+Int32 y = (Int32)o;
+Scenario 2:
+// Pass an array of values.
+Int32[] arr = new Int32[3];
+Object o = new ErrorWrapper(arr);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.
+UInt32[ ] arr2 = (UInt32[])o;</code></pre>
+
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ErrorWrapper__ctor_System_Object_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ErrorWrapper.%23ctor(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L255">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs/#L28">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ErrorWrapper__ctor_System_Object_" data-uid="System.Runtime.InteropServices.ErrorWrapper.#ctor(System.Object)">ErrorWrapper(Object)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Runtime.InteropServices.ErrorWrapper.html#System_Runtime_InteropServices_ErrorWrapper">ErrorWrapper</a> class with an object containing the HRESULT of the error.</p>
@@ -197,11 +263,28 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>errorCode</em></td>
-                    <td><p>The object containing the HRESULT of the error. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_ErrorWrapper__ctor_System_Object__examples">Examples</h5>
+              
+<p>The following code example first demonstrates a lone <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object marshaled back from COM as an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object. It then demonstrates an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> array marshaled back from COM as a <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> array.</p>
+<pre><code>// Scenario 1:
+// Pass a single value.
+Int32 x = 3;
+Object o = new ErrorWrapper(x);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is still an Int32 object.
+Int32 y = (Int32)o;
+Scenario 2:
+// Pass an array of values.
+Int32[] arr = new Int32[3];
+Object o = new ErrorWrapper(arr);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.
+UInt32[ ] arr2 = (UInt32[])o;</code></pre>
+
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -225,7 +308,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_ErrorWrapper_ErrorCode.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.ErrorWrapper.ErrorCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L256">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs/#L44">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_ErrorWrapper_ErrorCode" data-uid="System.Runtime.InteropServices.ErrorWrapper.ErrorCode">ErrorCode</h4>
               <div class="markdown level1 summary"><p>Gets the error code of the wrapper.</p>
@@ -246,11 +329,28 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The HRESULT of the error.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_ErrorWrapper_ErrorCode_examples">Examples</h5>
+              
+<p>The following code example first demonstrates a lone <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object marshaled back from COM as an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> object. It then demonstrates an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> array marshaled back from COM as a <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> array.</p>
+<pre><code>// Scenario 1:
+// Pass a single value.
+Int32 x = 3;
+Object o = new ErrorWrapper(x);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is still an Int32 object.
+Int32 y = (Int32)o;
+Scenario 2:
+// Pass an array of values.
+Int32[] arr = new Int32[3];
+Object o = new ErrorWrapper(arr);
+// Pass 'o' to COM.
+// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.
+UInt32[ ] arr2 = (UInt32[])o;</code></pre>
+
             </article>
           </div>
           

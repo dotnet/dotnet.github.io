@@ -70,23 +70,38 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L258" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L42" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_InteropServices_GCHandle" data-uid="System.Runtime.InteropServices.GCHandle">Struct GCHandle
               </h1>
               <div class="markdown level0 summary"><p>Provides a way to access a managed object from unmanaged memory.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.ValueType.html#System_ValueType_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Runtime.InteropServices</h6>
               <h6><strong>Assembly</strong>:System.Runtime.InteropServices.dll</h6>
               <h5 id="System_Runtime_InteropServices_GCHandle_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public struct GCHandle</code></pre>
+                <pre><code class="lang-csharp hljs">[StructLayout(LayoutKind.Sequential)]
+[ComVisible(true)]
+public struct GCHandle</code></pre>
               </div>
-              <h5 id="System_Runtime_InteropServices_GCHandle_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> structure is used with the <a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType">GCHandleType</a> enumeration to create a handle corresponding to any managed object. This handle can be one of four types: <strong>Weak</strong>, <strong>WeakTrackResurrection</strong>, <strong>Normal</strong>, or <strong>Pinned</strong>. When the handle has been allocated, you can use it to prevent the managed object from being collected by the garbage collector when an unmanaged client holds the only reference. Without such a handle, the object can be collected by the garbage collector before completing its work on behalf of the unmanaged client.</p>
-<p>You can also use <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> to create a pinned object that returns a memory address to prevent the garbage collector from moving the object in memory.</p>
-<p>When the handle goes out of scope you must explicitly release it by calling the <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle_Free">Free()</a> method; otherwise, memory leaks may occur. When you free a pinned handle, the associated object will be unpinned and will become eligible for garbage collection, if there are no other references to it.</p>
-</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_examples"><strong>Examples</strong></h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -94,7 +109,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_IsAllocated.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.IsAllocated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L261">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L179">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_IsAllocated" data-uid="System.Runtime.InteropServices.GCHandle.IsAllocated">IsAllocated</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the handle is allocated.</p>
@@ -118,18 +133,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the handle is allocated; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_IsAllocated_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Use this property when using <a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType_Weak">Weak</a> handles to determine if the <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> is still available. When the garbage collector collects the object, the <a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType_Weak">Weak</a> handle can still be resurrected in the finalizer. In that case, the handle is not allocated (it is lost when the garbage collector attempts to collect the object), even though the target object is valid.</p>
+</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_IsAllocated_examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_Target.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.Target%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L262">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L135">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_Target" data-uid="System.Runtime.InteropServices.GCHandle.Target">Target</h4>
               <div class="markdown level1 summary"><p>Gets or sets the object this handle represents.</p>
@@ -137,7 +156,13 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public object Target { get; set; }</code></pre>
+                <pre><code class="lang-csharp hljs">public object Target
+{
+    [SecurityCritical]
+    get;
+    [SecurityCritical]
+    set;
+}</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -150,11 +175,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
-                    <td><p>The object this handle represents.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Target_examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -178,7 +205,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_AddrOfPinnedObject.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.AddrOfPinnedObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L263">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L160">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_AddrOfPinnedObject" data-uid="System.Runtime.InteropServices.GCHandle.AddrOfPinnedObject">AddrOfPinnedObject()</h4>
               <div class="markdown level1 summary"><p>Retrieves the address of an object in a <a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType_Pinned">Pinned</a> handle.</p>
@@ -189,7 +216,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public IntPtr AddrOfPinnedObject()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+public IntPtr AddrOfPinnedObject()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -202,11 +230,16 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>The address of the pinned object as an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_AddrOfPinnedObject_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is used to get a stable pointer to the object. Pinning an object prevents the garbage collector from moving it around in memory, thereby reducing the efficiency of the garbage collector.</p>
+</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_AddrOfPinnedObject_examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -228,7 +261,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_Alloc_System_Object_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.Alloc(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L265">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L89">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_Alloc_System_Object_" data-uid="System.Runtime.InteropServices.GCHandle.Alloc(System.Object)">Alloc(Object)</h4>
               <div class="markdown level1 summary"><p>Allocates a <a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType_Normal">Normal</a> handle for the specified object.</p>
@@ -240,7 +273,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static GCHandle Alloc(object value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+public static GCHandle Alloc(object value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -255,8 +289,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>value</em></td>
-                    <td><p>The object that uses the <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a>. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -271,11 +304,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
-                    <td><p>A new <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> that protects the object from garbage collection. This <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> must be released with <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle_Free">Free()</a> when it is no longer needed.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Alloc_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType_Normal">Normal</a> handles are opaque, which means that you cannot resolve the address of the object it contains through the handle.</p>
+</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Alloc_System_Object__examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -297,7 +336,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_Alloc_System_Object_System_Runtime_InteropServices_GCHandleType_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.Alloc(System.Object%2CSystem.Runtime.InteropServices.GCHandleType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L267">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L95">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_Alloc_System_Object_System_Runtime_InteropServices_GCHandleType_" data-uid="System.Runtime.InteropServices.GCHandle.Alloc(System.Object,System.Runtime.InteropServices.GCHandleType)">Alloc(Object, GCHandleType)</h4>
               <div class="markdown level1 summary"><p>Allocates a handle of the specified type for the specified object.</p>
@@ -305,7 +344,8 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static GCHandle Alloc(object value, GCHandleType type)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+public static GCHandle Alloc(object value, GCHandleType type)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -320,14 +360,12 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>value</em></td>
-                    <td><p>The object that uses the <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a>. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType">GCHandleType</a></td>
                     <td><em>type</em></td>
-                    <td><p>One of the <a class="xref" href="System.Runtime.InteropServices.GCHandleType.html#System_Runtime_InteropServices_GCHandleType">GCHandleType</a> values, indicating the type of <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> to create. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -342,11 +380,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
-                    <td><p>A new <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> of the specified type. This <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> must be released with <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle_Free">Free()</a> when it is no longer needed.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Alloc_System_Object_System_Runtime_InteropServices_GCHandleType__examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -368,7 +408,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L269">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L245">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_Equals_System_Object_" data-uid="System.Runtime.InteropServices.GCHandle.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Determines whether the specified <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object is equal to the current <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object.</p>
@@ -394,8 +434,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>o</em></td>
-                    <td><p>The <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object to compare with the current <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -410,18 +449,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the specified <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object is equal to the current <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_Equals_System_Object_">Equals(Object)</a></div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Equals_System_Object__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Two <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> objects are equal if they point to the same memory handle.</p>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_Free.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.Free%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L270">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L103">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_Free" data-uid="System.Runtime.InteropServices.GCHandle.Free">Free()</h4>
               <div class="markdown level1 summary"><p>Releases a <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a>.</p>
@@ -432,8 +475,15 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public void Free()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+public void Free()</code></pre>
               </div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Free_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The caller must ensure that for a given handle, <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle_Free">Free()</a> is called only once.</p>
+</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_Free_examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -455,7 +505,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_FromIntPtr_System_IntPtr_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.FromIntPtr(System.IntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L272">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L195">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_FromIntPtr_System_IntPtr_" data-uid="System.Runtime.InteropServices.GCHandle.FromIntPtr(System.IntPtr)">FromIntPtr(IntPtr)</h4>
               <div class="markdown level1 summary"><p>Returns a new <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object created from a handle to a managed object.</p>
@@ -463,7 +513,8 @@
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static GCHandle FromIntPtr(IntPtr value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+public static GCHandle FromIntPtr(IntPtr value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -478,8 +529,7 @@
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value</em></td>
-                    <td><p>An <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> handle to a managed object to create a <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object from.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -494,11 +544,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
-                    <td><p>A new <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object that corresponds to the value parameter.  </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_FromIntPtr_System_IntPtr__examples">Examples</h5>
+              
+<p>The following code example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -520,7 +572,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_GetHashCode.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L274">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L240">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_GetHashCode" data-uid="System.Runtime.InteropServices.GCHandle.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns an identifier for the current <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object.</p>
@@ -544,17 +596,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>An identifier for the current <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_GetHashCode">GetHashCode()</a></div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_GetHashCode_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle_GetHashCode">GetHashCode()</a> method returns an integer representation of the internal memory handle encapsulated by the <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> structure. </p>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_ToIntPtr_System_Runtime_InteropServices_GCHandle_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.ToIntPtr(System.Runtime.InteropServices.GCHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L280">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L227">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_ToIntPtr_System_Runtime_InteropServices_GCHandle_" data-uid="System.Runtime.InteropServices.GCHandle.ToIntPtr(System.Runtime.InteropServices.GCHandle)">ToIntPtr(GCHandle)</h4>
               <div class="markdown level1 summary"><p>Returns the internal integer representation of a <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object.</p>
@@ -577,8 +634,7 @@
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
                     <td><em>value</em></td>
-                    <td><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object to retrieve an internal integer representation from.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -593,11 +649,13 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>An <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that represents a <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_ToIntPtr_System_Runtime_InteropServices_GCHandle__examples">Examples</h5>
+              
+<p>The following code example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <h3 id="operators">Operators
               </h3>
               <span class="small pull-right mobile-hide">
@@ -605,7 +663,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_op_Equality_System_Runtime_InteropServices_GCHandle_System_Runtime_InteropServices_GCHandle_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.op_Equality(System.Runtime.InteropServices.GCHandle%2CSystem.Runtime.InteropServices.GCHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L275">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L258">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_op_Equality_System_Runtime_InteropServices_GCHandle_System_Runtime_InteropServices_GCHandle_" data-uid="System.Runtime.InteropServices.GCHandle.op_Equality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)">Equality(GCHandle, GCHandle)</h4>
               <div class="markdown level1 summary"><p>Returns a value indicating whether two <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> objects are equal.</p>
@@ -628,14 +686,12 @@
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
                     <td><em>a</em></td>
-                    <td><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object to compare with the <em>b</em> parameter. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
                     <td><em>b</em></td>
-                    <td><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object to compare with the <em>a</em> parameter.  </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -650,18 +706,17 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <em>a</em> and <em>b</em> parameters are equal; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_op_Explicit_System_IntPtr__System_Runtime_InteropServices_GCHandle.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.op_Explicit(System.IntPtr)~System.Runtime.InteropServices.GCHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L276">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L189">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_op_Explicit_System_IntPtr__System_Runtime_InteropServices_GCHandle" data-uid="System.Runtime.InteropServices.GCHandle.op_Explicit(System.IntPtr)~System.Runtime.InteropServices.GCHandle">Explicit(IntPtr to GCHandle)</h4>
               <div class="markdown level1 summary"><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> is stored using an internal integer representation.</p>
@@ -672,7 +727,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static explicit operator GCHandle(IntPtr value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+public static explicit operator GCHandle(IntPtr value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -687,8 +743,7 @@
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value</em></td>
-                    <td><p>An <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> that indicates the handle for which the conversion is required. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -703,17 +758,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
-                    <td><p>The stored <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object using an internal integer representation.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_op_Explicit_System_IntPtr__System_Runtime_InteropServices_GCHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method allows you to retrieve a <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> from an integer value.</p>
+</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_op_Explicit_System_IntPtr__System_Runtime_InteropServices_GCHandle_examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_op_Explicit_System_Runtime_InteropServices_GCHandle__System_IntPtr.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.op_Explicit(System.Runtime.InteropServices.GCHandle)~System.IntPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L278">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L222">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_op_Explicit_System_Runtime_InteropServices_GCHandle__System_IntPtr" data-uid="System.Runtime.InteropServices.GCHandle.op_Explicit(System.Runtime.InteropServices.GCHandle)~System.IntPtr">Explicit(GCHandle to IntPtr)</h4>
               <div class="markdown level1 summary"><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> is stored using an internal integer representation.</p>
@@ -739,8 +799,7 @@
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
                     <td><em>value</em></td>
-                    <td><p>The <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> for which the integer is required. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -755,17 +814,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>The integer value.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Runtime_InteropServices_GCHandle_op_Explicit_System_Runtime_InteropServices_GCHandle__System_IntPtr_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be used to retrieve the integer value from a <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a>.</p>
+</div>
+              <h5 id="System_Runtime_InteropServices_GCHandle_op_Explicit_System_Runtime_InteropServices_GCHandle__System_IntPtr_examples">Examples</h5>
+              
+<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_InteropServices_GCHandle_op_Inequality_System_Runtime_InteropServices_GCHandle_System_Runtime_InteropServices_GCHandle_.md&amp;value=---%0Auid%3A%20System.Runtime.InteropServices.GCHandle.op_Inequality(System.Runtime.InteropServices.GCHandle%2CSystem.Runtime.InteropServices.GCHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs/#L279">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs/#L263">View Source</a>
               </span>
               <h4 id="System_Runtime_InteropServices_GCHandle_op_Inequality_System_Runtime_InteropServices_GCHandle_System_Runtime_InteropServices_GCHandle_" data-uid="System.Runtime.InteropServices.GCHandle.op_Inequality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)">Inequality(GCHandle, GCHandle)</h4>
               <div class="markdown level1 summary"><p>Returns a value indicating whether two <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> objects are not equal.</p>
@@ -788,14 +852,12 @@
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
                     <td><em>a</em></td>
-                    <td><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object to compare with the <em>b</em> parameter. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a></td>
                     <td><em>b</em></td>
-                    <td><p>A <a class="xref" href="System.Runtime.InteropServices.GCHandle.html#System_Runtime_InteropServices_GCHandle">GCHandle</a> object to compare with the <em>a</em> parameter.  </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -810,12 +872,11 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the <em>a</em> and <em>b</em> parameters are not equal; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              
             </article>
           </div>
           

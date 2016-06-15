@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L89" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L19" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_EventInfo" data-uid="System.Reflection.EventInfo">Class EventInfo
               </h1>
               <div class="markdown level0 summary"><p>Discovers the attributes of an event and provides access to event metadata.</p>
@@ -79,24 +79,53 @@
               <div class="inheritance">
                 <h5>Inheritance</h5>
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
-                  <div class="level1"><a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">Reflection.MemberInfo</a></div>
+                  <div class="level1"><a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo">MemberInfo</a></div>
                   <div class="level2"><span class="xref">EventInfo</span></div>
+              </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_CustomAttributes">CustomAttributes</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_DeclaringType">DeclaringType</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_Module">Module</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_Name">Name</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
               </div>
               <h6><strong>Namespace</strong>:System.Reflection</h6>
               <h6><strong>Assembly</strong>:System.Reflection.dll</h6>
               <h5 id="System_Reflection_EventInfo_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract class EventInfo : MemberInfo</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ClassInterface(ClassInterfaceType.None)]
+[ComDefaultInterface(typeof (_EventInfo))]
+[PermissionSet(SecurityAction.InheritanceDemand, Name = &quot;FullTrust&quot;)]
+[ComVisible(true)]
+public abstract class EventInfo : MemberInfo, ICustomAttributeProvider, _MemberInfo, _EventInfo</code></pre>
               </div>
-              <h5 id="System_Reflection_EventInfo_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>Use the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> class to inspect events and to hook up event handlers, as shown in the example code for the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate_">AddEventHandler(Object, Delegate)</a> method. </p>
-<p>
-<a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> is not intended to be used to raise events. An object raises events as dictated by its internal state. </p>
-<p>Events are used with delegates. An event listener instantiates an event-handler delegate that is invoked whenever the event is raised by an event source. In order to connect to the event source, the event listener adds this delegate to the invocation list on the source. When the event is raised, the invoke method of the event-handler delegate is called. Both multicast and single-cast event notifications are supported. The <strong>Add</strong> and <strong>Remove</strong> methods, as well as the event-handler delegate class associated with an event, must be marked in the metadata.</p>
-<p>Delegates are object-oriented function pointers. In C or C++, a function pointer is a reference to a method. In contrast to the C or C++ function pointer, a delegate contains two references: a reference to a method and a reference to an object that supports the method. Delegates can invoke a method without knowing the class type that declares or inherits the method. Delegates need only know the return type and parameter list of the method.</p>
-<p>The event model works equally well for single-cast and multicast delegates. When the delegate&#39;s invoke method is called, only a single object will have a method called on it. A multicast modifier can be applied to a delegate declaration, which allows multiple methods to be called when the invoke method of the delegate is called.</p>
-<p>Calling <span class="xref">System.Reflection.ICustomAttributeProvider.GetCustomAttributes(System.Type,System.Boolean)</span> on <strong>EventInfo</strong> when the <em>inherit</em> parameter of <strong>GetCustomAttributes</strong> is <strong>true</strong> does not walk the type hierarchy. Use <a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a> to inherit custom attributes.</p>
-</div>
+              <h5 id="System_Reflection_EventInfo_examples"><strong>Examples</strong></h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -104,14 +133,14 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_AddMethod.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.AddMethod%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L92">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L82">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_AddMethod" data-uid="System.Reflection.EventInfo.AddMethod">AddMethod</h4>
               <div class="markdown level1 summary"><p>Gets the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> object for the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate_">AddEventHandler(Object, Delegate)</a> method of the event, including non-public methods.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Reflection_EventInfo_AddMethod_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">System.Reflection.EventInfo.GetAddMethod(System.Boolean)</span> with a value of <strong>true</strong>.</p>
+              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">GetAddMethod(Boolean)</span> with a value of <strong>true</strong>.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -127,18 +156,23 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">Reflection.MethodInfo</a></td>
-                    <td><p>The <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> object for the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate_">AddEventHandler(Object, Delegate)</a> method.</p>
-</td>
+                    <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_AddMethod_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">GetAddMethod(Boolean)</span> with a value of <strong>true</strong>.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_AddMethod_examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_Attributes.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.Attributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L93">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L78">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_Attributes" data-uid="System.Reflection.EventInfo.Attributes">Attributes</h4>
               <div class="markdown level1 summary"><p>Gets the attributes for this event.</p>
@@ -162,17 +196,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Reflection.EventAttributes.html#System_Reflection_EventAttributes">EventAttributes</a></td>
-                    <td><p>The read-only attributes for this event.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_Attributes_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The attributes are returned in a 4-byte integer representing a bitmap of the attributes set for the event reflected by this instance.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_Attributes_examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_EventHandlerType.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.EventHandlerType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L94">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L157">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_EventHandlerType" data-uid="System.Reflection.EventInfo.EventHandlerType">EventHandlerType</h4>
               <div class="markdown level1 summary"><p>Gets the <strong>Type</strong> object of the underlying event-handler delegate associated with this event.</p>
@@ -193,11 +232,14 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Type.html#System_Type">Type</a></td>
-                    <td><p>A read-only <strong>Type</strong> object representing the delegate event handler.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_EventHandlerType_examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo_EventHandlerType">EventHandlerType</a> property to discover the delegate type of an event and to display its parameter types.</p>
+<p>The example defines a delegate named <code>MyDelegate</code> and an event named <code>ev</code> of type <code>MyDelegate</code>. The code in the <code>Main</code> method discovers the event signature by getting the delegate type of the event, getting the <code>Invoke</code> method of the delegate type, and then retrieving and displaying the parameters.</p>eventarg#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -219,7 +261,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_IsSpecialName.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.IsSpecialName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L95">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L177">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_IsSpecialName" data-uid="System.Reflection.EventInfo.IsSpecialName">IsSpecialName</h4>
               <div class="markdown level1 summary"><p>Gets a value indicating whether the <strong>EventInfo</strong> has a name with a special meaning.</p>
@@ -243,25 +285,29 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if this event has a special name; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_IsSpecialName_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property determines whether the event&#39;s name has a special meaning. Names that begin with or contain an underscore character (_), property accessors, and operator overloading methods are examples of names that might require special treatment by some compilers.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_IsSpecialName_examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_RaiseMethod.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.RaiseMethod%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L96">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L98">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_RaiseMethod" data-uid="System.Reflection.EventInfo.RaiseMethod">RaiseMethod</h4>
               <div class="markdown level1 summary"><p>Gets the method that is called when the event is raised, including non-public methods.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Reflection_EventInfo_RaiseMethod_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">System.Reflection.EventInfo.GetRaiseMethod(System.Boolean)</span> with a value of <strong>true</strong>.</p>
+              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">GetRaiseMethod(Boolean)</span> with a value of <strong>true</strong>.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -277,25 +323,30 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">Reflection.MethodInfo</a></td>
-                    <td><p>The method that is called when the event is raised.</p>
-</td>
+                    <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_RaiseMethod_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">GetRaiseMethod(Boolean)</span> with a value of <strong>true</strong>.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_RaiseMethod_examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_RemoveMethod.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.RemoveMethod%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L97">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L90">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_RemoveMethod" data-uid="System.Reflection.EventInfo.RemoveMethod">RemoveMethod</h4>
               <div class="markdown level1 summary"><p>Gets the <strong>MethodInfo</strong> object for removing a method of the event, including non-public methods.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Reflection_EventInfo_RemoveMethod_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">System.Reflection.EventInfo.GetRemoveMethod(System.Boolean)</span> with a value of <strong>true</strong>.</p>
+              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">GetRemoveMethod(Boolean)</span> with a value of <strong>true</strong>.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -311,12 +362,17 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">Reflection.MethodInfo</a></td>
-                    <td><p>The <strong>MethodInfo</strong> object for removing a method of the event.</p>
-</td>
+                    <td><a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_RemoveMethod_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This property is the equivalent of calling the <span class="xref">GetRemoveMethod(Boolean)</span> with a value of <strong>true</strong>.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_RemoveMethod_examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -324,7 +380,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.AddEventHandler(System.Object%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L98">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L114">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate_" data-uid="System.Reflection.EventInfo.AddEventHandler(System.Object,System.Delegate)">AddEventHandler(Object, Delegate)</h4>
               <div class="markdown level1 summary"><p>Adds an event handler to an event source.</p>
@@ -336,7 +392,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual void AddEventHandler(object target, Delegate handler)</code></pre>
+                <pre><code class="lang-csharp hljs">[DebuggerStepThrough]
+[DebuggerHidden]
+public virtual void AddEventHandler(object target, Delegate handler)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -351,17 +409,25 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>target</em></td>
-                    <td><p>The event source. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></td>
                     <td><em>handler</em></td>
-                    <td><p>Encapsulates a method or methods to be invoked when the event is raised by the target. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method attempts to add a delegate to synchronize the event on the target object.</p>
+<p>Each time the event is raised by the target parameter, the method or methods encapsulated by the handler will be invoked.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate__examples">Examples</h5>
+              
+<p>The following code example shows how to load an assembly, create an instance of a type from the assembly, create an event handler using a dynamic assembly, and hook up the dynamic event handler. All actions are performed using late binding.</p>
+<p>The code example loads System.dll and creates an instance of the <span class="xref">System.Timers.Timer</span> class. The example uses the <span class="xref">GetEvent(String)</span> method to get the <span class="xref">System.Timers.Timer.Elapsed</span> event, and the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo_EventHandlerType">EventHandlerType</a> property to get the delegate type for the event. </p>
+<p>The code example gets a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> for the <strong>Invoke</strong> method of the delegate type, and from the <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> obtains the signature of the delegate. The code example then creates a dynamic assembly with one module containing a single type named <code>Handler</code>, and gives the type a <strong>static</strong> method (<strong>Shared</strong> method in Visual Basic) named <code>DynamicHandler</code> that will be used to handle the event.</p>
+<p>After the dynamic type is created, the code example gets a <a class="xref" href="System.Reflection.MethodInfo.html#System_Reflection_MethodInfo">MethodInfo</a> for the finished method and uses it to create a delegate instance. This instance is passed to the <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo_AddEventHandler_System_Object_System_Delegate_">AddEventHandler(Object, Delegate)</a> method to hook up the event. The program then pauses to allow the event to be raised.</p>AddEventHandler#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -402,7 +468,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L99">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L52">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_Equals_System_Object_" data-uid="System.Reflection.EventInfo.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Returns a value that indicates whether this instance is equal to a specified object.</p>
@@ -425,8 +491,7 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>An object to compare with this instance, or <strong>null</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -441,18 +506,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>obj</em> equals the type and value of this instance; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_Equals_System_Object_">Equals(Object)</a></div>
+              <h5 id="System_Reflection_EventInfo_Equals_System_Object__examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_GetHashCode.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L100">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L57">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_GetHashCode" data-uid="System.Reflection.EventInfo.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
@@ -473,17 +541,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A 32-bit signed integer hash code.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Reflection.MemberInfo.html#System_Reflection_MemberInfo_GetHashCode">GetHashCode()</a></div>
+              <h5 id="System_Reflection_EventInfo_GetHashCode_examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_EventInfo_RemoveEventHandler_System_Object_System_Delegate_.md&amp;value=---%0Auid%3A%20System.Reflection.EventInfo.RemoveEventHandler(System.Object%2CSystem.Delegate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Reflection/ref/4.0/System.Reflection.cs/#L101">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/EventInfo.cs/#L134">View Source</a>
               </span>
               <h4 id="System_Reflection_EventInfo_RemoveEventHandler_System_Object_System_Delegate_" data-uid="System.Reflection.EventInfo.RemoveEventHandler(System.Object,System.Delegate)">RemoveEventHandler(Object, Delegate)</h4>
               <div class="markdown level1 summary"><p>Removes an event handler from an event source.</p>
@@ -495,7 +567,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public virtual void RemoveEventHandler(object target, Delegate handler)</code></pre>
+                <pre><code class="lang-csharp hljs">[DebuggerStepThrough]
+[DebuggerHidden]
+public virtual void RemoveEventHandler(object target, Delegate handler)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -510,17 +584,22 @@
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>target</em></td>
-                    <td><p>The event source. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Delegate.html#System_Delegate">Delegate</a></td>
                     <td><em>handler</em></td>
-                    <td><p>The delegate to be disassociated from the events raised by target. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_EventInfo_RemoveEventHandler_System_Object_System_Delegate__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method attempts to remove the delegate that may synchronize this event on the target object.</p>
+<p>When an event is raised by target, the method or methods encapsulated by <em>handler</em> will no longer be invoked.</p>
+</div>
+              <h5 id="System_Reflection_EventInfo_RemoveEventHandler_System_Object_System_Delegate__examples">Examples</h5>
+              
+<p>The following code gets an <a class="xref" href="System.Reflection.EventInfo.html#System_Reflection_EventInfo">EventInfo</a> object for the <span class="xref">System.Windows.Forms.Control.Click</span> event of the <span class="xref">System.Windows.Forms.Button</span> class. </p>type_getevent1#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_ParameterizedThreadStart.md&amp;value=---%0Auid%3A%20System.Threading.ParameterizedThreadStart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.Thread/ref/System.Threading.Thread.cs/#L10" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ParameterizedThreadStart.cs/#L22" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_ParameterizedThreadStart" data-uid="System.Threading.ParameterizedThreadStart">Delegate ParameterizedThreadStart
               </h1>
               <div class="markdown level0 summary"><p>Represents the method that executes on a <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread">Thread</a>.</p>
@@ -80,29 +80,30 @@
               <h6><strong>Assembly</strong>:System.Threading.Thread.dll</h6>
               <h5 id="System_Threading_ParameterizedThreadStart_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public delegate void ParameterizedThreadStart(object obj);</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(false)]
+public delegate void ParameterizedThreadStart(object obj);</code></pre>
               </div>
-              <h5 id="System_Threading_ParameterizedThreadStart_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p><p>When a managed thread is created, the method that executes on the thread is represented by: </p></p>
-<ul><li>
-<p>A <a class="xref" href="System.Threading.ThreadStart.html#System_Threading_ThreadStart">ThreadStart</a> delegate that is passed to the <span class="xref">System.Threading.Thread.</span> constructor.  Any method that has no parameters and that returns <strong>void</strong> in C# or is a <strong>Sub</strong> procedure in Visual Basic can represent the delegate.</p>
-</li><li>
-<p>A <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate that is passed to the <span class="xref">System.Threading.Thread.</span> constructor. Any method that has a single parameter of type <a class="xref" href="System.Object.html#System_Object">Object</a> and that returns void in C# or is a Sub procedure in Visual Basic can represent the delegate.</p>
-</li></ul>
-<p>The thread does not begin executing until the <see cref="Overload:System.Threading.Thread.Start"></see> method is called. The <a class="xref" href="System.Threading.ThreadStart.html#System_Threading_ThreadStart">ThreadStart</a> or <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate is invoked on the thread, and execution begins at the first line of the method represented by the delegate. In the case of the <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate, the object that is passed to the <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Start_System_Object_">Start(Object)</a> method is passed to the delegate.</p>
-<p>
-      Visual Basic and C# users can omit the <a class="xref" href="System.Threading.ThreadStart.html#System_Threading_ThreadStart">ThreadStart</a> or <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate constructor when creating a thread. In Visual Basic, use the <strong>AddressOf</strong> operator when passing your method to the <see cref="Overload:System.Threading.Thread.#ctor"></see> constructor; for example, <code>Dim t As New Thread(AddressOf ThreadProc)</code>. In C#, simply specify the name of the thread procedure. The compiler selects the correct delegate constructor.</p>
-<p>When you create a <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate for an instance method in C++, the first parameter of the constructor is the instance variable. For a static method, the first parameter of the constructor is zero. For a static method, the delegate constructor requires only one parameter: the address of the callback method, qualified by the class name.</p>
-<p>The <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate and the <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Start_System_Object_">Start(Object)</a> method overload make it easy to pass data to a thread procedure, but this technique is not type safe because any object can be passed to <a class="xref" href="System.Threading.Thread.html#System_Threading_Thread_Start_System_Object_">Start(Object)</a>. A more robust way to pass data to a thread procedure is to put both the thread procedure and the data fields into a worker object. For more information, see Creating Threads and Passing Data at Start Time.</p>
-<p>The <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate supports only a single parameter. You can pass multiple data items to the <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> by making that parameter one of the following: </p>
-<ul><li>
-<p>An array. </p>
-</li><li>
-<p>A collection type, if all of the data items are of the same type. </p>
-</li><li>
-<p>A tuple type, such as <a class="xref" href="System.Tuple%602.html#System_Tuple_2">Tuple<t1, t2=""></t1,></a> or <a class="xref" href="System.Tuple%604.html#System_Tuple_4">Tuple<t1, t2,="" t3,="" t4=""></t1,></a>. </p>
-</li></ul>
-</div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
+                    <td><em>obj</em></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_Threading_ParameterizedThreadStart_examples"><strong>Examples</strong></h5>
+              
+<p>The following code example uses a <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate with to execute a static method and an instance method. The first <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a>  delegate is represented by the static <code>DoWork</code> method and the second is represented by the instance <code>DoMoreWork</code> method. Both methods match the <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a>  delegate signature; that is, they have a single parameter of type <a class="xref" href="System.Object.html#System_Object">Object</a> and don't return a value. </p>
+<p>The Visual Basic and C# compilers infer the <a class="xref" href="System.Threading.ParameterizedThreadStart.html#System_Threading_ParameterizedThreadStart">ParameterizedThreadStart</a> delegate from the signatures of the <code>DoWork</code> and <code>DoMoreWork</code> methods, and call the correct constructor. Thus, there is no explicit constructor call in the code.</p>System.Threading.ParameterizedThreadStart#1
             </article>
           </div>
           

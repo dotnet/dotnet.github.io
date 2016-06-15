@@ -70,27 +70,51 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr.md&amp;value=---%0Auid%3A%20System.IntPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1129" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L25" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IntPtr" data-uid="System.IntPtr">Struct IntPtr
               </h1>
               <div class="markdown level0 summary"><p>A platform-specific type that is used to represent a pointer or a handle.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_IntPtr_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">[StructLayout(LayoutKind.Sequential)]
-public struct IntPtr</code></pre>
+                <pre><code class="lang-csharp hljs">[Serializable]
+[ComVisible(true)]
+public struct IntPtr : ISerializable</code></pre>
               </div>
-              <h5 id="System_IntPtr_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> type is designed to be an integer whose size is platform-specific. That is, an instance of this type is expected to be 32-bits on 32-bit hardware and operating systems, and 64-bits on 64-bit hardware and operating systems.</p>
-<p>The <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> type can be used by languages that support pointers, and as a common means of referring to data between languages that do and do not support pointers.</p>
-<p>
-<a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> objects can also be used to hold handles. For example, instances of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> are used extensively in the <a class="xref" href="System.IO.FileStream.html#System_IO_FileStream">FileStream</a> class to hold file handles.</p>
-<p>The <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> type is CLS-compliant, while the <a class="xref" href="System.UIntPtr.html#System_UIntPtr">UIntPtr</a> type is not. Only the <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> type is used in the common language runtime. The <a class="xref" href="System.UIntPtr.html#System_UIntPtr">UIntPtr</a> type is provided mostly to maintain architectural symmetry with the <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> type.</p>
-<p>This type implements the <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a> interface.</p>
-</div>
+              <h5 id="System_IntPtr_examples"><strong>Examples</strong></h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -98,7 +122,7 @@ public struct IntPtr</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr__ctor_System_Int32_.md&amp;value=---%0Auid%3A%20System.IntPtr.%23ctor(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1133">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L43">View Source</a>
               </span>
               <h4 id="System_IntPtr__ctor_System_Int32_" data-uid="System.IntPtr.#ctor(System.Int32)">IntPtr(Int32)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> using the specified 32-bit pointer or handle.</p>
@@ -106,7 +130,10 @@ public struct IntPtr</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public IntPtr(int value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public IntPtr(int value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -121,17 +148,35 @@ public struct IntPtr</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>value</em></td>
-                    <td><p>A pointer or handle contained in a 32-bit signed integer. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr__ctor_System_Int32__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr__ctor_System_Int64_.md&amp;value=---%0Auid%3A%20System.IntPtr.%23ctor(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1134">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L55">View Source</a>
               </span>
               <h4 id="System_IntPtr__ctor_System_Int64_" data-uid="System.IntPtr.#ctor(System.Int64)">IntPtr(Int64)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> using the specified 64-bit pointer.</p>
@@ -142,7 +187,10 @@ public struct IntPtr</code></pre>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public IntPtr(long value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public IntPtr(long value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -157,11 +205,32 @@ public struct IntPtr</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
                     <td><em>value</em></td>
-                    <td><p>A pointer or handle contained in a 64-bit signed integer. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr__ctor_System_Int64__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception is only thrown if the value of <em>value</em> requires more bits than the current platform supports.</p>
+</div>
+              <h5 id="System_IntPtr__ctor_System_Int64__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -183,7 +252,7 @@ public struct IntPtr</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr__ctor_System_Void__.md&amp;value=---%0Auid%3A%20System.IntPtr.%23ctor(System.Void*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1135">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L67">View Source</a>
               </span>
               <h4 id="System_IntPtr__ctor_System_Void__" data-uid="System.IntPtr.#ctor(System.Void*)">IntPtr(Void*)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> using the specified pointer to an unspecified type.</p>
@@ -191,8 +260,10 @@ public struct IntPtr</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
-[SecurityCritical]
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+[CLSCompliant(false)]
+[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
 public IntPtr(void *value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
@@ -208,11 +279,29 @@ public IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Void.html#System_Void">Void</a>*</td>
                     <td><em>value</em></td>
-                    <td><p>A pointer to an unspecified type. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr__ctor_System_Void___examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h3 id="fields">Fields
               </h3>
               <span class="small pull-right mobile-hide">
@@ -220,7 +309,7 @@ public IntPtr(void *value)</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_Zero.md&amp;value=---%0Auid%3A%20System.IntPtr.Zero%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1132">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L32">View Source</a>
               </span>
               <h4 id="System_IntPtr_Zero" data-uid="System.IntPtr.Zero">Zero</h4>
               <div class="markdown level1 summary"><p>A read-only field that represents a pointer or handle that has been initialized to zero.</p>
@@ -235,6 +324,30 @@ public IntPtr(void *value)</code></pre>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly IntPtr Zero</code></pre>
               </div>
+              <h5 id="System_IntPtr_Zero_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The value of this field is not equivalent to <strong>null</strong>. Use this field to efficiently determine whether an instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> has been set to a value other than zero.</p></p>
+<p><p>For example, assume the variable, ip, is an instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>. You can determine if it has been set by comparing it to the value returned by a constructor, for example: &quot; <code>if ip != new IntPtr(0)...</code> &quot;. However, invoking a constructor to get an unintialized pointer is inefficient. It is better to code either &quot; <code>if ip != IntPtr.Zero...</code> &quot;, or &quot; <code>if !IntPtr.Zero.Equals(ip)...</code> &quot;.</p></p>
+<p><p>When calling the Windows API from managed code, you can pass <a class="xref" href="System.IntPtr.html#System_IntPtr_Zero">Zero</a> instead of <code>null</code> if an argument is expected to be either a pointer or a <code>null</code>. For example, the following call to the Windows <strong>CreateFile</strong> function supplies <a class="xref" href="System.IntPtr.html#System_IntPtr_Zero">Zero</a> for the <em>pSecurityAttributes</em> and <em>hTemplateFile</em> argument values. </p>System.IntPtr.Zero#2<p>Although <a class="xref" href="System.IntPtr.html#System_IntPtr_Zero">Zero</a> is equivalent to <code>null</code> for Windows API functions with parameters or return values that can be either pointers or <code>null</code>, <a class="xref" href="System.IntPtr.html#System_IntPtr_Zero">Zero</a> is not equivalent to <strong>null</strong>. Passing <strong>null</strong> to the <strong>IntPtr.Zero.Equals</strong> method always returns <strong>false</strong>. </p><p>You can also test for a <code>null</code> return value from Windows API function calls that return either a pointer or a <code>null</code> by comparing the returned value with <a class="xref" href="System.IntPtr.html#System_IntPtr_Zero">Zero</a>. For example, the call to the <strong>GetWindow</strong> function in the following example tries to retrieve the handle of a non-existent window. If it were called from unmanaged code, the function would return <code>null</code>, but when it is called from managed code, it returns <a class="xref" href="System.IntPtr.html#System_IntPtr_Zero">Zero</a>. </p>System.IntPtr.Zero#1</p>
+</div>
+              <h5 id="System_IntPtr_Zero_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -242,7 +355,7 @@ public IntPtr(void *value)</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_Size.md&amp;value=---%0Auid%3A%20System.IntPtr.Size%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1138">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L272">View Source</a>
               </span>
               <h4 id="System_IntPtr_Size" data-uid="System.IntPtr.Size">Size</h4>
               <div class="markdown level1 summary"><p>Gets the size of this instance.</p>
@@ -250,7 +363,12 @@ public IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static int Size { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public static int Size
+{
+    [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+    [NonVersionable]
+    get;
+}</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -263,11 +381,29 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The size of a pointer or handle in this process, measured in bytes. The value of this property is 4 in a 32-bit process, and 8 in a 64-bit process. You can define the process type by setting the <strong>/platform</strong> switch when you compile your code with the C# and Visual Basic compilers.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_Size_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -275,7 +411,7 @@ public IntPtr(void *value)</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_Add_System_IntPtr_System_Int32_.md&amp;value=---%0Auid%3A%20System.IntPtr.Add(System.IntPtr%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1139">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L238">View Source</a>
               </span>
               <h4 id="System_IntPtr_Add_System_IntPtr_System_Int32_" data-uid="System.IntPtr.Add(System.IntPtr,System.Int32)">Add(IntPtr, Int32)</h4>
               <div class="markdown level1 summary"><p>Adds an offset to the value of a pointer.</p>
@@ -287,7 +423,9 @@ public IntPtr(void *value)</code></pre>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static IntPtr Add(IntPtr pointer, int offset)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public static IntPtr Add(IntPtr pointer, int offset)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -302,14 +440,12 @@ public IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>pointer</em></td>
-                    <td><p>The pointer to add the offset to.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>offset</em></td>
-                    <td><p>The offset to add.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -324,17 +460,23 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new pointer that reflects the addition of <em>offset</em> to <em>pointer</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_Add_System_IntPtr_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr_Add_System_IntPtr_System_Int32_">Add(IntPtr, Int32)</a> method does not throw an exception if the result is too large to represent as a pointer on the specified platform. Instead, the addition operation is performed in an unchecked context.</p>
+<p>Languages that do not support operator overloading or custom operators can use this method to add an offset to the value of a pointer.</p>
+</div>
+              <h5 id="System_IntPtr_Add_System_IntPtr_System_Int32__examples">Examples</h5>
+              
+<p>The following example instantiates an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of a ten-element array, and then calls the <a class="xref" href="System.IntPtr.html#System_IntPtr_Add_System_IntPtr_System_Int32_">Add(IntPtr, Int32)</a> method to iterate the elements in the array.</p>System.IntPtr.Add#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_Equals_System_Object_.md&amp;value=---%0Auid%3A%20System.IntPtr.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1140">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L102">View Source</a>
               </span>
               <h4 id="System_IntPtr_Equals_System_Object_" data-uid="System.IntPtr.Equals(System.Object)">Equals(Object)</h4>
               <div class="markdown level1 summary"><p>Returns a value indicating whether this instance is equal to a specified object.</p>
@@ -342,7 +484,8 @@ public IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public override bool Equals(object obj)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -357,8 +500,7 @@ public IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
                     <td><em>obj</em></td>
-                    <td><p>An object to compare with this instance or <strong>null</strong>. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -373,18 +515,37 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>obj</em> is an instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> and equals the value of this instance; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_Equals_System_Object_">Equals(Object)</a></div>
+              <h5 id="System_IntPtr_Equals_System_Object__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_GetHashCode.md&amp;value=---%0Auid%3A%20System.IntPtr.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1141">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L110">View Source</a>
               </span>
               <h4 id="System_IntPtr_GetHashCode" data-uid="System.IntPtr.GetHashCode">GetHashCode()</h4>
               <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
@@ -392,7 +553,8 @@ public IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public override int GetHashCode()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -405,17 +567,37 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A 32-bit signed integer hash code.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_GetHashCode">GetHashCode()</a></div>
+              <h5 id="System_IntPtr_GetHashCode_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_Subtract_System_IntPtr_System_Int32_.md&amp;value=---%0Auid%3A%20System.IntPtr.Subtract(System.IntPtr%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1155">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L256">View Source</a>
               </span>
               <h4 id="System_IntPtr_Subtract_System_IntPtr_System_Int32_" data-uid="System.IntPtr.Subtract(System.IntPtr,System.Int32)">Subtract(IntPtr, Int32)</h4>
               <div class="markdown level1 summary"><p>Subtracts an offset from the value of a pointer.</p>
@@ -427,7 +609,9 @@ public IntPtr(void *value)</code></pre>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static IntPtr Subtract(IntPtr pointer, int offset)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public static IntPtr Subtract(IntPtr pointer, int offset)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -442,14 +626,12 @@ public IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>pointer</em></td>
-                    <td><p>The pointer to subtract the offset from.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>offset</em></td>
-                    <td><p>The offset to subtract.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -464,17 +646,23 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new pointer that reflects the subtraction of <em>offset</em> from <em>pointer</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_Subtract_System_IntPtr_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr_Subtract_System_IntPtr_System_Int32_">Subtract(IntPtr, Int32)</a> method does not throw an exception if the result is too small to represent as a pointer on the specified platform. Instead, the subtraction operation is performed in an unchecked context.</p>
+<p>Languages that do not support operator overloading or custom operators can use this method to subtract an offset from the value of a pointer.</p>
+</div>
+              <h5 id="System_IntPtr_Subtract_System_IntPtr_System_Int32__examples">Examples</h5>
+              
+<p>The following example instantiates an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the end of a ten-element array, and then calls the <a class="xref" href="System.IntPtr.html#System_IntPtr_Subtract_System_IntPtr_System_Int32_">Subtract(IntPtr, Int32)</a> method to iterate the elements in the array in reverse order. </p>System.IntPtr.Subtract#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_ToInt32.md&amp;value=---%0Auid%3A%20System.IntPtr.ToInt32%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1156">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L124">View Source</a>
               </span>
               <h4 id="System_IntPtr_ToInt32" data-uid="System.IntPtr.ToInt32">ToInt32()</h4>
               <div class="markdown level1 summary"><p>Converts the value of this instance to a 32-bit signed integer.</p>
@@ -482,7 +670,10 @@ public IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public int ToInt32()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+[NonVersionable]
+public int ToInt32()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -495,11 +686,29 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>A 32-bit signed integer equal to the value of this instance.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_ToInt32_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -521,7 +730,7 @@ public IntPtr(void *value)</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_ToInt64.md&amp;value=---%0Auid%3A%20System.IntPtr.ToInt64%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1157">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L136">View Source</a>
               </span>
               <h4 id="System_IntPtr_ToInt64" data-uid="System.IntPtr.ToInt64">ToInt64()</h4>
               <div class="markdown level1 summary"><p>Converts the value of this instance to a 64-bit signed integer.</p>
@@ -529,7 +738,10 @@ public IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public long ToInt64()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+[NonVersionable]
+public long ToInt64()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -542,17 +754,35 @@ public IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>A 64-bit signed integer equal to the value of this instance.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_ToInt64_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_ToPointer.md&amp;value=---%0Auid%3A%20System.IntPtr.ToPointer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1158">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L288">View Source</a>
               </span>
               <h4 id="System_IntPtr_ToPointer" data-uid="System.IntPtr.ToPointer">ToPointer()</h4>
               <div class="markdown level1 summary"><p>Converts the value of this instance to a pointer to an unspecified type.</p>
@@ -560,7 +790,10 @@ public IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[CLSCompliant(false)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+[NonVersionable]
 public void *ToPointer()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
@@ -574,17 +807,32 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Void.html#System_Void">Void</a>*</td>
-                    <td><p>A pointer to <a class="xref" href="System.Void.html#System_Void">Void</a>; that is, a pointer to memory containing data of an unspecified type.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_ToPointer_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ul><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as ANSI (one-byte) characters. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and adds one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. After each copy operation, it decrements the pointer to the address of the next location in the unmanaged ANSI string and increments the pointer to the next address in the unmanaged block.</p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ul>System.IntPtr.ToPointer#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_ToString.md&amp;value=---%0Auid%3A%20System.IntPtr.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1160">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L147">View Source</a>
               </span>
               <h4 id="System_IntPtr_ToString" data-uid="System.IntPtr.ToString">ToString()</h4>
               <div class="markdown level1 summary"><p>Converts the numeric value of the current <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object to its equivalent string representation.</p>
@@ -595,7 +843,8 @@ public void *ToPointer()</code></pre>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public override string ToString()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -608,17 +857,40 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The string representation of the value of this instance.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.ValueType.html#System_ValueType_ToString">ToString()</a></div>
+              <h5 id="System_IntPtr_ToString_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the value of the <a class="xref" href="System.IntPtr.html#System_IntPtr_Size">Size</a> property for this instance is 4, then this method is equivalent to <a class="xref" href="System.Int32.html#System_Int32_ToString">ToString()</a>; otherwise, this method is equivalent to <a class="xref" href="System.Int64.html#System_Int64_ToString">ToString()</a>.</p>
+</div>
+              <h5 id="System_IntPtr_ToString_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_ToString_System_String_.md&amp;value=---%0Auid%3A%20System.IntPtr.ToString(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1161">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L156">View Source</a>
               </span>
               <h4 id="System_IntPtr_ToString_System_String_" data-uid="System.IntPtr.ToString(System.String)">ToString(String)</h4>
               <div class="markdown level1 summary"><p>Converts the numeric value of the current <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object to its equivalent string representation.</p>
@@ -630,7 +902,8 @@ public void *ToPointer()</code></pre>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public string ToString(string format)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public string ToString(string format)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -645,8 +918,7 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>format</em></td>
-                    <td><p>A format specification that governs how the current <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object is converted. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -661,11 +933,33 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The string representation of the value of the current <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_ToString_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the <em>format</em> parameter is <strong>null</strong> or an empty string (&quot;&quot;), the return value is formatted with the general format specifier (&quot;G&quot;). For more information about numeric format specifiers, see the Standard Numeric Format Strings topic. </p>
+<p>The return value is formatted using the invariant culture. </p>
+</div>
+              <h5 id="System_IntPtr_ToString_System_String__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h3 id="operators">Operators
               </h3>
               <span class="small pull-right mobile-hide">
@@ -673,7 +967,7 @@ public void *ToPointer()</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Addition_System_IntPtr_System_Int32_.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Addition(System.IntPtr%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1142">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L245">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Addition_System_IntPtr_System_Int32_" data-uid="System.IntPtr.op_Addition(System.IntPtr,System.Int32)">Addition(IntPtr, Int32)</h4>
               <div class="markdown level1 summary"><p>Adds an offset to the value of a pointer.</p>
@@ -683,7 +977,9 @@ public void *ToPointer()</code></pre>
               <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr_op_Addition_System_IntPtr_System_Int32_">Addition(IntPtr, Int32)</a> method defines the addition operation for <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> objects. It enables code such as the following.</p>System.IntPtr.op_Addition#1<p>Languages that do not support custom operators can call the <a class="xref" href="System.IntPtr.html#System_IntPtr_Add_System_IntPtr_System_Int32_">Add(IntPtr, Int32)</a> method instead.</p><p>The addition operation does not throw an exception if the result is too large to represent as a pointer on the specified platform. Instead, it is performed in an unchecked context.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static IntPtr operator +(IntPtr pointer, int offset)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public static IntPtr operator +(IntPtr pointer, int offset)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -698,14 +994,12 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>pointer</em></td>
-                    <td><p>The pointer to add the offset to.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>offset</em></td>
-                    <td><p>The offset to add.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -720,17 +1014,19 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new pointer that reflects the addition of <em>offset</em> to <em>pointer</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Addition_System_IntPtr_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr_op_Addition_System_IntPtr_System_Int32_">Addition(IntPtr, Int32)</a> method defines the addition operation for <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> objects. It enables code such as the following.</p>System.IntPtr.op_Addition#1<p>Languages that do not support custom operators can call the <a class="xref" href="System.IntPtr.html#System_IntPtr_Add_System_IntPtr_System_Int32_">Add(IntPtr, Int32)</a> method instead.</p><p>The addition operation does not throw an exception if the result is too large to represent as a pointer on the specified platform. Instead, it is performed in an unchecked context.</p></div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Equality_System_IntPtr_System_IntPtr_.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Equality(System.IntPtr%2CSystem.IntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1143">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L222">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Equality_System_IntPtr_System_IntPtr_" data-uid="System.IntPtr.op_Equality(System.IntPtr,System.IntPtr)">Equality(IntPtr, IntPtr)</h4>
               <div class="markdown level1 summary"><p>Determines whether two specified instances of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> are equal.</p>
@@ -738,7 +1034,10 @@ public void *ToPointer()</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool operator ==(IntPtr value1, IntPtr value2)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+[NonVersionable]
+public static bool operator ==(IntPtr value1, IntPtr value2)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -753,14 +1052,12 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value1</em></td>
-                    <td><p>The first pointer or handle to compare.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value2</em></td>
-                    <td><p>The second pointer or handle to compare.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -775,18 +1072,35 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>value1</em> equals <em>value2</em>; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Equality_System_IntPtr_System_IntPtr__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Explicit_System_Int32__System_IntPtr.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Explicit(System.Int32)~System.IntPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1144">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L169">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Explicit_System_Int32__System_IntPtr" data-uid="System.IntPtr.op_Explicit(System.Int32)~System.IntPtr">Explicit(Int32 to IntPtr)</h4>
               <div class="markdown level1 summary"><p>Converts the value of a 32-bit signed integer to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>.</p>
@@ -794,7 +1108,9 @@ public void *ToPointer()</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static explicit operator IntPtr(int value)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public static explicit operator IntPtr(int value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -809,8 +1125,7 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>value</em></td>
-                    <td><p>A 32-bit signed integer. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -825,17 +1140,35 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> initialized to <em>value</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Explicit_System_Int32__System_IntPtr_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Explicit_System_Int64__System_IntPtr.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Explicit(System.Int64)~System.IntPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1145">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L176">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Explicit_System_Int64__System_IntPtr" data-uid="System.IntPtr.op_Explicit(System.Int64)~System.IntPtr">Explicit(Int64 to IntPtr)</h4>
               <div class="markdown level1 summary"><p>Converts the value of a 64-bit signed integer to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>.</p>
@@ -843,7 +1176,9 @@ public void *ToPointer()</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static explicit operator IntPtr(long value)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public static explicit operator IntPtr(long value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -858,8 +1193,7 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
                     <td><em>value</em></td>
-                    <td><p>A 64-bit signed integer. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -874,11 +1208,29 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> initialized to <em>value</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Explicit_System_Int64__System_IntPtr_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -900,7 +1252,7 @@ public void *ToPointer()</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Explicit_System_IntPtr__System_Int32.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Explicit(System.IntPtr)~System.Int32%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1146">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L199">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Explicit_System_IntPtr__System_Int32" data-uid="System.IntPtr.op_Explicit(System.IntPtr)~System.Int32">Explicit(IntPtr to Int32)</h4>
               <div class="markdown level1 summary"><p>Converts the value of the specified <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> to a 32-bit signed integer.</p>
@@ -911,7 +1263,9 @@ public void *ToPointer()</code></pre>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static explicit operator int (IntPtr value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[NonVersionable]
+public static explicit operator int (IntPtr value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -926,8 +1280,7 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value</em></td>
-                    <td><p>The pointer or handle to convert.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -942,11 +1295,32 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The contents of <em>value</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Explicit_System_IntPtr__System_Int32_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>An exception is only thrown if the value of <em>value</em> requires more bits than the current platform supports.</p>
+</div>
+              <h5 id="System_IntPtr_op_Explicit_System_IntPtr__System_Int32_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -968,7 +1342,7 @@ public void *ToPointer()</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Explicit_System_IntPtr__System_Int64.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Explicit(System.IntPtr)~System.Int64%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1147">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L211">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Explicit_System_IntPtr__System_Int64" data-uid="System.IntPtr.op_Explicit(System.IntPtr)~System.Int64">Explicit(IntPtr to Int64)</h4>
               <div class="markdown level1 summary"><p>Converts the value of the specified <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> to a 64-bit signed integer.</p>
@@ -976,7 +1350,9 @@ public void *ToPointer()</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static explicit operator long (IntPtr value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[NonVersionable]
+public static explicit operator long (IntPtr value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -991,8 +1367,7 @@ public void *ToPointer()</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value</em></td>
-                    <td><p>The pointer or handle to convert.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1007,17 +1382,35 @@ public void *ToPointer()</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int64.html#System_Int64">Int64</a></td>
-                    <td><p>The contents of <em>value</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Explicit_System_IntPtr__System_Int64_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Explicit_System_IntPtr__System_Void_.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Explicit(System.IntPtr)~System.Void*%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1148">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L191">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Explicit_System_IntPtr__System_Void_" data-uid="System.IntPtr.op_Explicit(System.IntPtr)~System.Void*">Explicit(IntPtr to Void*)</h4>
               <div class="markdown level1 summary"><p>Converts the value of the specified <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> to a pointer to an unspecified type.</p>
@@ -1025,7 +1418,9 @@ public void *ToPointer()</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[CLSCompliant(false)]
+[NonVersionable]
 public static explicit operator void *(IntPtr value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
@@ -1041,8 +1436,7 @@ public static explicit operator void *(IntPtr value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value</em></td>
-                    <td><p>The pointer or handle to convert. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1057,17 +1451,35 @@ public static explicit operator void *(IntPtr value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Void.html#System_Void">Void</a>*</td>
-                    <td><p>The contents of <em>value</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Explicit_System_IntPtr__System_Void__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Explicit_System_Void___System_IntPtr.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Explicit(System.Void*)~System.IntPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1150">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L183">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Explicit_System_Void___System_IntPtr" data-uid="System.IntPtr.op_Explicit(System.Void*)~System.IntPtr">Explicit(Void* to IntPtr)</h4>
               <div class="markdown level1 summary"><p>Converts the specified pointer to an unspecified type to an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a>.</p>
@@ -1075,8 +1487,10 @@ public static explicit operator void *(IntPtr value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
-[SecurityCritical]
+                <pre><code class="lang-csharp hljs">[SecurityCritical]
+[CLSCompliant(false)]
+[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
 public static explicit operator IntPtr(void *value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
@@ -1092,8 +1506,7 @@ public static explicit operator IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.Void.html#System_Void">Void</a>*</td>
                     <td><em>value</em></td>
-                    <td><p>A pointer to an unspecified type. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1108,17 +1521,35 @@ public static explicit operator IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new instance of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> initialized to <em>value</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Explicit_System_Void___System_IntPtr_examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Inequality_System_IntPtr_System_IntPtr_.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Inequality(System.IntPtr%2CSystem.IntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1153">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L230">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Inequality_System_IntPtr_System_IntPtr_" data-uid="System.IntPtr.op_Inequality(System.IntPtr,System.IntPtr)">Inequality(IntPtr, IntPtr)</h4>
               <div class="markdown level1 summary"><p>Determines whether two specified instances of <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> are not equal.</p>
@@ -1126,7 +1557,10 @@ public static explicit operator IntPtr(void *value)</code></pre>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool operator !=(IntPtr value1, IntPtr value2)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+[NonVersionable]
+public static bool operator !=(IntPtr value1, IntPtr value2)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1141,14 +1575,12 @@ public static explicit operator IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value1</em></td>
-                    <td><p>The first pointer or handle to compare. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>value2</em></td>
-                    <td><p>The second pointer or handle to compare. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1163,18 +1595,35 @@ public static explicit operator IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>value1</em> does not equal <em>value2</em>; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Inequality_System_IntPtr_System_IntPtr__examples">Examples</h5>
+              
+<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <a class="xref" href="System.String.html#System_String">String</a> object and gets its length, it does the following: </p>
+<ol><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_StringToHGlobalAnsi_System_String_">StringToHGlobalAnsi(String)</a> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>Calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_AllocHGlobal_System_Int32_">AllocHGlobal(Int32)</a> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>
+</li><li>
+<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>
+<p>The C# and C++ examples call the <a class="xref" href="System.IntPtr.html#System_IntPtr_ToPointer">ToPointer()</a> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>
+</li><li>
+<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>
+<p>The Visual Basic example calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_ReadByte_System_IntPtr_System_Int32_">ReadByte(IntPtr, Int32)</a> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_WriteByte_System_IntPtr_System_Int32_System_Byte_">WriteByte(IntPtr, Int32, Byte)</a> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>
+<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>
+</li><li>
+<p>All examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_PtrToStringAnsi_System_IntPtr_System_Int32_">PtrToStringAnsi(IntPtr, Int32)</a> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <a class="xref" href="System.String.html#System_String">String</a> object. </p>
+</li><li>
+<p>After displaying the original and reversed strings, all examples call the <a class="xref" href="System.Runtime.InteropServices.Marshal.html#System_Runtime_InteropServices_Marshal_FreeHGlobal_System_IntPtr_">FreeHGlobal(IntPtr)</a> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>
+</li></ol>System.IntPtr#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IntPtr_op_Subtraction_System_IntPtr_System_Int32_.md&amp;value=---%0Auid%3A%20System.IntPtr.op_Subtraction(System.IntPtr%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1154">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IntPtr.cs/#L262">View Source</a>
               </span>
               <h4 id="System_IntPtr_op_Subtraction_System_IntPtr_System_Int32_" data-uid="System.IntPtr.op_Subtraction(System.IntPtr,System.Int32)">Subtraction(IntPtr, Int32)</h4>
               <div class="markdown level1 summary"><p>Subtracts an offset from the value of a pointer.</p>
@@ -1184,7 +1633,9 @@ public static explicit operator IntPtr(void *value)</code></pre>
               <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr_op_Subtraction_System_IntPtr_System_Int32_">Subtraction(IntPtr, Int32)</a> method defines the subtraction operation for <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> objects. It enables code such as the following.</p>System.IntPtr.op_Addition#2<p>Languages that do not support custom operators can call the <a class="xref" href="System.IntPtr.html#System_IntPtr_Subtract_System_IntPtr_System_Int32_">Subtract(IntPtr, Int32)</a> method instead.</p><p>The subtraction operation does not throw an exception if the result is too small to represent as a pointer on the specified platform. Instead, it is performed in an unchecked context.</p></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static IntPtr operator -(IntPtr pointer, int offset)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+[NonVersionable]
+public static IntPtr operator -(IntPtr pointer, int offset)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1199,14 +1650,12 @@ public static explicit operator IntPtr(void *value)</code></pre>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
                     <td><em>pointer</em></td>
-                    <td><p>The pointer to subtract the offset from.</p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>offset</em></td>
-                    <td><p>The offset to subtract.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1221,11 +1670,13 @@ public static explicit operator IntPtr(void *value)</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a></td>
-                    <td><p>A new pointer that reflects the subtraction of <em>offset</em> from <em>pointer</em>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IntPtr_op_Subtraction_System_IntPtr_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IntPtr.html#System_IntPtr_op_Subtraction_System_IntPtr_System_Int32_">Subtraction(IntPtr, Int32)</a> method defines the subtraction operation for <a class="xref" href="System.IntPtr.html#System_IntPtr">IntPtr</a> objects. It enables code such as the following.</p>System.IntPtr.op_Addition#2<p>Languages that do not support custom operators can call the <a class="xref" href="System.IntPtr.html#System_IntPtr_Subtract_System_IntPtr_System_Int32_">Subtract(IntPtr, Int32)</a> method instead.</p><p>The subtraction operation does not throw an exception if the result is too small to represent as a pointer on the specified platform. Instead, it is performed in an unchecked context.</p></div>
+              
             </article>
           </div>
           

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_Serialization_ISerializable.md&amp;value=---%0Auid%3A%20System.Runtime.Serialization.ISerializable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Serialization.Formatters/src/System/Runtime/Serialization/ISerializable.cs/#L9" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/Serialization/ISerializable.cs/#L23" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Runtime_Serialization_ISerializable" data-uid="System.Runtime.Serialization.ISerializable">Interface ISerializable
               </h1>
               <div class="markdown level0 summary"><p>Allows an object to control its own serialization and deserialization.</p>
@@ -80,30 +80,30 @@
               <h6><strong>Assembly</strong>:System.Runtime.Serialization.Formatters.dll</h6>
               <h5 id="System_Runtime_Serialization_ISerializable_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public interface ISerializable</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(true)]
+public interface ISerializable</code></pre>
               </div>
-              <h5 id="System_Runtime_Serialization_ISerializable_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>Any class that might be serialized must be marked with the <a class="xref" href="System.SerializableAttribute.html#System_SerializableAttribute">SerializableAttribute</a>. If a class needs to control its serialization process, it can implement the <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a> interface. The <span class="xref">System.Runtime.Serialization.Formatter</span> calls the <span class="xref">System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)</span> at serialization time and populates the supplied <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> with all the data required to represent the object. The <span class="xref">System.Runtime.Serialization.Formatter</span> creates a <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> with the type of the object in the graph. Objects that need to send proxies for themselves can use the <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo_FullTypeName">FullTypeName</a> and <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo_AssemblyName">AssemblyName</a> methods on <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> to change the transmitted information.</p>
-<p>In the case of class inheritance, it is possible to serialize a class that derives from a base class that implements <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a>. In this case, the derived class should call the base class implementation of <span class="xref">System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)</span> inside its implementation of <span class="xref">System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)</span>. Otherwise, the data from the base class will not be serialized.</p>
-<p>The <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a> interface implies a constructor with the signature constructor (<a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> information, <a class="xref" href="System.Runtime.Serialization.StreamingContext.html#System_Runtime_Serialization_StreamingContext">StreamingContext</a> context). At deserialization time, the current constructor is called only after the data in the <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> has been deserialized by the formatter. In general, this constructor should be protected if the class is not sealed.</p>
-<p>The order in which objects are deserialized cannot be guaranteed. For example, if one type references a type that has not been deserialized yet, an exception will occur. If you are creating types that have such dependencies, you can work around the problem by implementing the <strong>IDeserializationCallback</strong> interface and the <strong>OnDeserialization</strong> method.</p>
-<p>The serialization architecture handles object types that extend <span class="xref">System.MarshalByRefObject</span> the same as types that extend <a class="xref" href="System.Object.html#System_Object">Object</a>. These types can be marked with the <a class="xref" href="System.SerializableAttribute.html#System_SerializableAttribute">SerializableAttribute</a> and implement the <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a> interface as any other object type. Their object state will be captured and persisted onto the stream.</p>
-<p>When these types are being used through <span class="xref">System.Runtime.Remoting</span>, the remoting infrastructure provides a surrogate that preempts typical serialization and instead serializes a proxy to the <span class="xref">System.MarshalByRefObject</span>. A surrogate is a helper that knows how to serialize and deserialize objects of a particular type. The proxy, invisible to the user in most cases, will be of type <span class="xref">System.Runtime.Remoting.ObjRef</span>.</p>
-<p>As a general design pattern, it would be unusual for a class to be both marked with the serializable attribute and extend <span class="xref">System.MarshalByRefObject</span>. Developers should think carefully about the possible serialization and remoting scenarios when combining these two characteristics. One example where this might be applicable is with a <a class="xref" href="System.IO.MemoryStream.html#System_IO_MemoryStream">MemoryStream</a>. While the base class of <a class="xref" href="System.IO.MemoryStream.html#System_IO_MemoryStream">MemoryStream</a> (<a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>) extends from <span class="xref">System.MarshalByRefObject</span>, it is possible to capture the state of a <a class="xref" href="System.IO.MemoryStream.html#System_IO_MemoryStream">MemoryStream</a> and restore it at will. It might, therefore, be meaningful to serialize the state of this stream into a database and restore it at some later point in time. However, when used through remoting, an object of this type would be proxied.</p>
-<p>For more information about serialization of classes that extend <span class="xref">System.MarshalByRefObject</span>, see <span class="xref">System.Runtime.Remoting.Messaging.RemotingSurrogateSelector</span>. For more information about implementing <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a>, see Custom Serialization.</p>
-</div>
+              <h5 id="System_Runtime_Serialization_ISerializable_examples"><strong>Examples</strong></h5>
+              
+<p>The following code example demonstrates the use of the <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable">ISerializable</a> interface to define custom serialization behavior for a class.</p>ISerializable Interface Example#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
-                <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_StreamingContext_.md&amp;value=---%0Auid%3A%20System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo%2CStreamingContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+                <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_.md&amp;value=---%0Auid%3A%20System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Serialization.Formatters/src/System/Runtime/Serialization/ISerializable.cs/#L11">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Serialization.Formatters/ref/System.Runtime.Serialization.Formatters.cs/#L60">View Source</a>
               </span>
-              <h4 id="System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_StreamingContext_" data-uid="System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo,StreamingContext)">GetObjectData(SerializationInfo, StreamingContext)</h4>
-              <div class="markdown level1 summary"></div>
+              <h4 id="System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_" data-uid="System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">GetObjectData(SerializationInfo, StreamingContext)</h4>
+              <div class="markdown level1 summary"><p>Populates a <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> with the data needed to serialize the target object.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Any objects that are included in the <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> are automatically tracked and serialized by the formatter.</p>
+<p>Code that calls <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_">GetObjectData(SerializationInfo, StreamingContext)</a> requires the <span class="xref">System.Security.Permissions.SecurityPermission</span> for providing serialization services. Associated enumeration: <span class="xref">System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter</span>.</p>
+<p>It is not guaranteed that this method will be called only once per object instance during serialization. Therefore, the method should be implemented in such a way that its behavior will be the same regardless of the number of times it is called.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void GetObjectData(SerializationInfo info, StreamingContext context)</code></pre>
@@ -121,12 +121,38 @@
                   <tr>
                     <td><a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a></td>
                     <td><em>info</em></td>
-                    <td></td>
+                    <td><p>The <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> to populate with data. </p>
+</td>
                   </tr>
                   <tr>
-                    <td><span class="xref">StreamingContext</span></td>
+                    <td><a class="xref" href="System.Runtime.Serialization.StreamingContext.html#System_Runtime_Serialization_StreamingContext">StreamingContext</a></td>
                     <td><em>context</em></td>
-                    <td></td>
+                    <td><p>The destination (see <a class="xref" href="System.Runtime.Serialization.StreamingContext.html#System_Runtime_Serialization_StreamingContext">StreamingContext</a>) for this serialization. </p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Any objects that are included in the <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> are automatically tracked and serialized by the formatter.</p>
+<p>Code that calls <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_">GetObjectData(SerializationInfo, StreamingContext)</a> requires the <span class="xref">System.Security.Permissions.SecurityPermission</span> for providing serialization services. Associated enumeration: <span class="xref">System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter</span>.</p>
+<p>It is not guaranteed that this method will be called only once per object instance during serialization. Therefore, the method should be implemented in such a way that its behavior will be the same regardless of the number of times it is called.</p>
+</div>
+              <h5 id="System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext__examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Runtime.Serialization.ISerializable.html#System_Runtime_Serialization_ISerializable_GetObjectData_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_">GetObjectData(SerializationInfo, StreamingContext)</a> method to set alternate values for a serialized object. The code uses the <see cref="Overload:System.Runtime.Serialization.SerializationInfo.AddValue"></see> method of the <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo">SerializationInfo</a> class to store the alternate values when the object is serialized. Conversely, when the constructor of the <code>Person</code> class is called during deserialization, the alternatve values are retrieved using the <a class="xref" href="System.Runtime.Serialization.SerializationInfo.html#System_Runtime_Serialization_SerializationInfo_GetValue_System_String_System_Type_">GetValue(String, Type)</a> method and reassigned to the object's fields.</p>ISerializable_GetObjectData#0
+              <h5 class="exceptions">Exceptions</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Security.SecurityException.html#System_Security_SecurityException">SecurityException</a></td>
+                    <td><p>The caller does not have the required permission. </p>
+</td>
                   </tr>
                 </tbody>
               </table>

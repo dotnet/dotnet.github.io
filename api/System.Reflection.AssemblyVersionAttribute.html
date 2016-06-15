@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyVersionAttribute.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyVersionAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2780" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L222" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Reflection_AssemblyVersionAttribute" data-uid="System.Reflection.AssemblyVersionAttribute">Class AssemblyVersionAttribute
               </h1>
               <div class="markdown level0 summary"><p>Specifies the version of the assembly being attributed.</p>
@@ -82,26 +82,41 @@
                   <div class="level1"><a class="xref" href="System.Attribute.html#System_Attribute">Attribute</a></div>
                   <div class="level2"><span class="xref">AssemblyVersionAttribute</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Attribute.html#System_Attribute_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Attribute.html#System_Attribute_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Reflection</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_Reflection_AssemblyVersionAttribute_syntax">Syntax</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">[AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
-public sealed class AssemblyVersionAttribute : Attribute</code></pre>
+[ComVisible(true)]
+public sealed class AssemblyVersionAttribute : Attribute, _Attribute</code></pre>
               </div>
-              <h5 id="System_Reflection_AssemblyVersionAttribute_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Reflection.AssemblyVersionAttribute.html#System_Reflection_AssemblyVersionAttribute">AssemblyVersionAttribute</a> attribute is used to assign a version number to an assembly. That version number is then stored with the assembly&#39;s metadata. </p>
-<p>The assembly version number is part of an assembly&#39;s identity and plays a key part in binding to the assembly and in version policy. The default version policy for the runtime is that applications run only with the versions they were built and tested with, unless overridden by explicit version policy in configuration files (the application configuration file, the publisher policy file, and the computer&#39;s administrator configuration file). See Assemblies in the Common Language Runtime for more information.</p>
-<p>Version checking only occurs with strong-named assemblies.</p>
-<p>The version number has four parts, as follows: </p>
-<p><major version="">.<minor version="">.<build number="">.<revision> <p>
-<p>All components of the version must be integers greater than or equal to 0. Metadata restricts the major, minor, build, and revision components for an assembly to a maximum value of <a class="xref" href="System.UInt16.html#System_UInt16_MaxValue">MaxValue</a> - 1. If a component exceeds this value, a compilation error occurs.</p>
-<p>You can specify all the values or you can accept the default build number, revision number, or both by using an asterisk (<em>). For example, <code>[assembly:AssemblyVersion("2.3.25.1")]</code> indicates 2 as the major version, 3 as the minor version, 25 as the build number, and 1 as the revision number. A version number such as <code>[assembly:AssemblyVersion(&quot;1.2.</code></em>&quot;)] specifies 1 as the major version, 2 as the minor version, and accepts the default build and revision numbers. A version number such as <code>[assembly:AssemblyVersion("1.2.15.*")]</code> specifies 1 as the major version, 2 as the minor version, 15 as the build number, and accepts the default revision number. The default build number increments daily. The default revision number is the number of seconds since midnight local time (without taking into account time zone adjustments for daylight saving time), divided by 2.</p>
-<p>If you specify an asterisk for the build number, you cannot specify a revision number.</p>
-<p>The assembly major and minor versions are used as the type library version number when the assembly is exported. Some COM hosts do not accept type libraries with the version number 0.0. Therefore, if you want to expose an assembly to COM clients, set the assembly version explicitly to 1.0 in the <strong>AssemblyVersionAttribute</strong> page for projects created outside Visual Studio 2005 and with no <strong>AssemblyVersionAttribute</strong> specified. Do this even when the assembly version is 0.0. All projects created in Visual Studio 2005 have a default assembly version of 1.0.*.</p>
-<p>To get the name of an assembly you have loaded, call <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_GetName">GetName()</a> on the assembly to get an <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a>, and then get the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a> property. To get the name of an assembly you have not loaded, call <span class="xref">System.Reflection.AssemblyName.GetAssemblyName(System.String)</span> from your client application to check the assembly version that your application uses.</p>
-<p>The <a class="xref" href="System.Reflection.AssemblyVersionAttribute.html#System_Reflection_AssemblyVersionAttribute">AssemblyVersionAttribute</a> attribute can only be applied once. Some Visual Studio project templates already include the attribute. In those projects, adding the attribute in code causes a compiler error.</p>
-</revision></build></minor></major></div>
+              <h5 id="System_Reflection_AssemblyVersionAttribute_examples"><strong>Examples</strong></h5>
+              
+<p>The following example uses the <a class="xref" href="System.Reflection.AssemblyVersionAttribute.html#System_Reflection_AssemblyVersionAttribute">AssemblyVersionAttribute</a> attribute to assign a version number to an assembly. At compile time, this version information is stored with the assembly's metadata. At run time, the example retrieves the value of the <span class="xref">Assembly</span> property on a type found in the assembly to get a reference to the executing assembly, and it retrieves the assembly's version information from the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a> property of the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object returned by the <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_GetName">GetName()</a> method. </p>System.Version.Class#6
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -109,7 +124,7 @@ public sealed class AssemblyVersionAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyVersionAttribute__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyVersionAttribute.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2783">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L228">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyVersionAttribute__ctor_System_String_" data-uid="System.Reflection.AssemblyVersionAttribute.#ctor(System.String)">AssemblyVersionAttribute(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <strong>AssemblyVersionAttribute</strong> class with the version number of the assembly being attributed.</p>
@@ -144,11 +159,25 @@ public sealed class AssemblyVersionAttribute : Attribute</code></pre>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>version</em></td>
-                    <td><p>The version number of the attributed assembly. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyVersionAttribute__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The format of the <em>version</em> string is: <strong>major</strong>. <strong>minor</strong>. <strong>build</strong>. <strong>revision</strong>.</p>
+<p>When specifying a version, you have to at least specify <strong>major</strong>. If you specify <strong>major</strong> and <strong>minor</strong>, you can specify an asterisk (<em>) for <strong>build</strong>. This will cause <strong>build</strong> to be equal to the number of days since January 1, 2000 local time, and for <strong>revision</strong> to be equal to the number of seconds since midnight local time (without taking into account time zone adjustments for daylight saving time), divided by 2. <p>
+<p>If you specify <strong>major</strong>, <strong>minor</strong>, and <strong>build</strong>, you can specify an asterisk for <strong>revision</strong>. This will cause <strong>revision</strong> to be equal to the number of seconds since midnight local time, divided by 2.</p>
+<p>Examples of valid version strings include: </p>
+<p>1 </p>
+<p>1.1 </p>
+<p>1.1.</em> </p>
+<p>1.1.1 </p>
+<p>1.1.1.* </p>
+<p>1.1.1.1 </p>
+</div>
+              <h5 id="System_Reflection_AssemblyVersionAttribute__ctor_System_String__examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Reflection.AssemblyVersionAttribute.html#System_Reflection_AssemblyVersionAttribute">AssemblyVersionAttribute</a> attribute to assign a version number to an assembly. At compile time, this version information is stored with the assembly's metadata. At run time, the example retrieves the value of the <span class="xref">Assembly</span> property on a type found in the assembly to get a reference to the executing assembly, and it retrieves the assembly's version information from the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a> property of the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object returned by the <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_GetName">GetName()</a> method. </p>System.Version.Class#6
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -156,7 +185,7 @@ public sealed class AssemblyVersionAttribute : Attribute</code></pre>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Reflection_AssemblyVersionAttribute_Version.md&amp;value=---%0Auid%3A%20System.Reflection.AssemblyVersionAttribute.Version%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2784">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/AssemblyAttributes.cs/#L233">View Source</a>
               </span>
               <h4 id="System_Reflection_AssemblyVersionAttribute_Version" data-uid="System.Reflection.AssemblyVersionAttribute.Version">Version</h4>
               <div class="markdown level1 summary"><p>Gets the version number of the attributed assembly.</p>
@@ -177,11 +206,13 @@ public sealed class AssemblyVersionAttribute : Attribute</code></pre>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>A string containing the assembly version number.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Reflection_AssemblyVersionAttribute_Version_examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.Reflection.AssemblyVersionAttribute.html#System_Reflection_AssemblyVersionAttribute">AssemblyVersionAttribute</a> attribute to assign a version number to an assembly. At compile time, this version information is stored with the assembly's metadata. At run time, the example retrieves the value of the <span class="xref">Assembly</span> property on a type found in the assembly to get a reference to the executing assembly, and it retrieves the assembly's version information from the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName_Version">Version</a> property of the <a class="xref" href="System.Reflection.AssemblyName.html#System_Reflection_AssemblyName">AssemblyName</a> object returned by the <a class="xref" href="System.Reflection.Assembly.html#System_Reflection_Assembly_GetName">GetName()</a> method. </p>System.Version.Class#6
             </article>
           </div>
           

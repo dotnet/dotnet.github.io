@@ -73,14 +73,51 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/ref/System.Xml.XDocument.cs/#L46" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Xml_Linq_SaveOptions" data-uid="System.Xml.Linq.SaveOptions">Enum SaveOptions
               </h1>
-              <div class="markdown level0 summary"></div>
+              <div class="markdown level0 summary"><p>Specifies serialization options.</p>
+</div>
               <div class="markdown level0 conceptual"></div>
               <h6><strong>Namespace</strong>:System.Xml.Linq</h6>
               <h6><strong>Assembly</strong>:System.Xml.XDocument.dll</h6>
               <h5 id="System_Xml_Linq_SaveOptions_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public enum SaveOptions : int</code></pre>
+                <pre><code class="lang-csharp hljs">[Flags]
+public enum SaveOptions</code></pre>
               </div>
+              <h5 id="System_Xml_Linq_SaveOptions_examples"><strong>Examples</strong></h5>
+              
+<p>The following example shows two ways to serialize. The first preserves insignificant white space in the XML tree. The second serializes the <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> with formatting.</p>
+<pre><code class="c#">string str;
+XElement root = XElement.Parse(@"<root> <child> Text </child> </root>");
+
+root.Save("Root.xml", SaveOptions.DisableFormatting);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);
+
+Console.WriteLine("=====");
+
+root.Save("Root.xml", SaveOptions.None);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);</code></pre>
+<pre><code class="vb">Dim str As String
+Dim root As XElement = <root><child> Text </child></root>
+
+root.Save("Root.xml", SaveOptions.DisableFormatting)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)
+
+Console.WriteLine("=====")
+
+root.Save("Root.xml", SaveOptions.None)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)</code></pre>
+<p>This example produces the following output:</p>
+<pre><code><?xml version="1.0" encoding="utf-8"?><root><child> Text </child></root>
+=====
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<child> Text </child>
+</root></code></pre>
+
               <h3 id="fields">Fields
               </h3>
               <span class="small pull-right mobile-hide">
@@ -91,12 +128,48 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/ref/System.Xml.XDocument.cs/#L49">View Source</a>
               </span>
               <h4 id="System_Xml_Linq_SaveOptions_DisableFormatting" data-uid="System.Xml.Linq.SaveOptions.DisableFormatting">DisableFormatting</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Preserve all insignificant white space while serializing.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">DisableFormatting = null</code></pre>
+                <pre><code class="lang-csharp hljs">DisableFormatting = 1</code></pre>
               </div>
+              <h5 id="System_Xml_Linq_SaveOptions_DisableFormatting_examples">Examples</h5>
+              
+<p>The following example shows two ways to serialize. The first preserves insignificant white space in the XML tree. The second serializes the <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> with formatting.</p>
+<pre><code class="c#">string str;
+XElement root = XElement.Parse(@"<root> <child> Text </child> </root>");
+
+root.Save("Root.xml", SaveOptions.DisableFormatting);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);
+
+Console.WriteLine("=====");
+
+root.Save("Root.xml", SaveOptions.None);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);</code></pre>
+<pre><code class="vb">Dim str As String
+Dim root As XElement = <root><child> Text </child></root>
+
+root.Save("Root.xml", SaveOptions.DisableFormatting)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)
+
+Console.WriteLine("=====")
+
+root.Save("Root.xml", SaveOptions.None)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)</code></pre>
+<p>This example produces the following output:</p>
+<pre><code><?xml version="1.0" encoding="utf-8"?><root><child> Text </child></root>
+=====
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<child> Text </child>
+</root></code></pre>
+
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_SaveOptions_None.md&amp;value=---%0Auid%3A%20System.Xml.Linq.SaveOptions.None%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -105,12 +178,48 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/ref/System.Xml.XDocument.cs/#L50">View Source</a>
               </span>
               <h4 id="System_Xml_Linq_SaveOptions_None" data-uid="System.Xml.Linq.SaveOptions.None">None</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Format (indent) the XML while serializing.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">None = null</code></pre>
+                <pre><code class="lang-csharp hljs">None = 0</code></pre>
               </div>
+              <h5 id="System_Xml_Linq_SaveOptions_None_examples">Examples</h5>
+              
+<p>The following example shows two ways to serialize. The first preserves insignificant white space in the XML tree. The second serializes the <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> with formatting.</p>
+<pre><code class="c#">string str;
+XElement root = XElement.Parse(@"<root> <child> Text </child> </root>");
+
+root.Save("Root.xml", SaveOptions.DisableFormatting);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);
+
+Console.WriteLine("=====");
+
+root.Save("Root.xml", SaveOptions.None);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);</code></pre>
+<pre><code class="vb">Dim str As String
+Dim root As XElement = <root><child> Text </child></root>
+
+root.Save("Root.xml", SaveOptions.DisableFormatting)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)
+
+Console.WriteLine("=====")
+
+root.Save("Root.xml", SaveOptions.None)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)</code></pre>
+<p>This example produces the following output:</p>
+<pre><code><?xml version="1.0" encoding="utf-8"?><root><child> Text </child></root>
+=====
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<child> Text </child>
+</root></code></pre>
+
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces.md&amp;value=---%0Auid%3A%20System.Xml.Linq.SaveOptions.OmitDuplicateNamespaces%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -119,12 +228,48 @@
                 <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/ref/System.Xml.XDocument.cs/#L51">View Source</a>
               </span>
               <h4 id="System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces" data-uid="System.Xml.Linq.SaveOptions.OmitDuplicateNamespaces">OmitDuplicateNamespaces</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Remove the duplicate namespace declarations while serializing.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">OmitDuplicateNamespaces = null</code></pre>
+                <pre><code class="lang-csharp hljs">OmitDuplicateNamespaces = 2</code></pre>
               </div>
+              <h5 id="System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces_examples">Examples</h5>
+              
+<p>The following example shows two ways to serialize. The first preserves insignificant white space in the XML tree. The second serializes the <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> with formatting.</p>
+<pre><code class="c#">string str;
+XElement root = XElement.Parse(@"<root> <child> Text </child> </root>");
+
+root.Save("Root.xml", SaveOptions.DisableFormatting);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);
+
+Console.WriteLine("=====");
+
+root.Save("Root.xml", SaveOptions.None);
+str = File.ReadAllText("Root.xml");
+Console.WriteLine(str);</code></pre>
+<pre><code class="vb">Dim str As String
+Dim root As XElement = <root><child> Text </child></root>
+
+root.Save("Root.xml", SaveOptions.DisableFormatting)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)
+
+Console.WriteLine("=====")
+
+root.Save("Root.xml", SaveOptions.None)
+str = File.ReadAllText("Root.xml")
+Console.WriteLine(str)</code></pre>
+<p>This example produces the following output:</p>
+<pre><code><?xml version="1.0" encoding="utf-8"?><root><child> Text </child></root>
+=====
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<child> Text </child>
+</root></code></pre>
+
             </article>
           </div>
           

@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3202" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L30" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_WaitHandle" data-uid="System.Threading.WaitHandle">Class WaitHandle
               </h1>
               <div class="markdown level0 summary"><p>Encapsulates operating system–specific objects that wait for exclusive access to shared resources.</p>
@@ -81,41 +81,40 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">WaitHandle</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Threading</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_Threading_WaitHandle_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public abstract class WaitHandle : IDisposable</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(true)]
+public abstract class WaitHandle : IDisposable</code></pre>
               </div>
-              <h5 id="System_Threading_WaitHandle_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>The <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class encapsulates Win32 synchronization handles, and is used to represent all synchronization objects in the runtime that allow multiple wait operations. For a comparison of wait handles with other synchronization objects, see Overview of Synchronization Primitives.</p>
-<p>The <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class itself is abstract. Classes derived from <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> define a signaling mechanism to indicate taking or releasing access to a shared resource, but they use the inherited <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> methods to block while waiting for access to shared resources. The classes derived from <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> include: </p>
-<ul><li>
-<p>The <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a> class. See Mutexes.</p>
-</li><li>
-<p>The <a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a> class and its derived classes, <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a> and <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a>. See EventWaitHandle, AutoResetEvent, CountdownEvent, ManualResetEvent.</p>
-</li><li>
-<p>The <a class="xref" href="System.Threading.Semaphore.html#System_Threading_Semaphore">Semaphore</a> class. See Semaphore and SemaphoreSlim.</p>
-</li></ul>
-<p>Threads can block on an individual wait handle by calling the instance method <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitOne">WaitOne()</a>, which is inherited by classes derived from <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. </p>
-<p>The derived classes of <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> differ in their thread affinity. Event wait handles (<a class="xref" href="System.Threading.EventWaitHandle.html#System_Threading_EventWaitHandle">EventWaitHandle</a>, <a class="xref" href="System.Threading.AutoResetEvent.html#System_Threading_AutoResetEvent">AutoResetEvent</a>, and <a class="xref" href="System.Threading.ManualResetEvent.html#System_Threading_ManualResetEvent">ManualResetEvent</a>) and semaphores do not have thread affinity; any thread can signal an event wait handle or semaphore. Mutexes, on the other hand, do have thread affinity; the thread that owns a mutex must release it, and an exception is thrown if a thread calls the <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex_ReleaseMutex">ReleaseMutex()</a> method on a mutex that it does not own.</p>
-<p>Because the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class derives from <span class="xref">System.MarshalByRefObject</span>, these classes can be used to synchronize the activities of threads across application domain boundaries.</p>
-<p> In addition to its derived classes, the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class has a number of static methods that block a thread until one or more synchronization objects receive a signal.. These include:</p>
-<ul><li>
-<p>
-<span class="xref">System.Threading.WaitHandle.SignalAndWait(System.Threading.WaitHandle,System.Threading.WaitHandle)</span>, which allows a thread to signal one wait handle and immediately wait on another. </p>
-</li><li>
-<p>
-<a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a>, which allows a thread to wait until all the wait handles in an array receive a signal.</p>
-</li><li>
-<p>
-<a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a>, which allows a thread to wait until any one of a specified set of wait handles has been signaled . </p>
-</li></ul>
-<p> The overloads of these methods provide timeout intervals for abandoning the wait, and the opportunity to exit a synchronization context before entering the wait, allowing other threads to use the synchronization context. </p>
-<p>This type implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. When you have finished using the type or a type derived from it, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <span class="xref">System.Threading.WaitHandle.Close</span> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface topic.</p>
-<p>
-<a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> implements the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> pattern. See Dispose Pattern. When you derive from <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, use the <span class="xref">System.Threading.WaitHandle.SafeWaitHandle</span> property to store your native handle operating system handle. You do not need to override the protected <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose_System_Boolean_">Dispose(Boolean)</a> method unless you use additional unmanaged resources. </p>
-</div>
+              <h5 id="System_Threading_WaitHandle_examples"><strong>Examples</strong></h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -123,7 +122,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle__ctor.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3206">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L68">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle__ctor" data-uid="System.Threading.WaitHandle.#ctor">WaitHandle()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>
@@ -133,6 +132,9 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected WaitHandle()</code></pre>
               </div>
+              <h5 id="System_Threading_WaitHandle__ctor_examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h3 id="fields">Fields
               </h3>
               <span class="small pull-right mobile-hide">
@@ -140,28 +142,34 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_InvalidHandle.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.InvalidHandle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3204">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L54">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_InvalidHandle" data-uid="System.Threading.WaitHandle.InvalidHandle">InvalidHandle</h4>
               <div class="markdown level1 summary"><p>Represents an invalid native operating system handle. This field is read-only.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Threading_WaitHandle_InvalidHandle_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Used internally to initialize the <span class="xref">System.Threading.WaitHandle.Handle</span> property.</p>
+              <div class="markdown level1 remarks"><p>Used internally to initialize the <span class="xref">Handle</span> property.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">protected static readonly IntPtr InvalidHandle</code></pre>
               </div>
+              <h5 id="System_Threading_WaitHandle_InvalidHandle_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Used internally to initialize the <span class="xref">Handle</span> property.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_InvalidHandle_examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitTimeout.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitTimeout%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3205">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L36">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitTimeout" data-uid="System.Threading.WaitHandle.WaitTimeout">WaitTimeout</h4>
-              <div class="markdown level1 summary"><p>Indicates that a <span class="xref">System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> operation timed out before any of the wait handles were signaled. This field is constant.</p>
+              <div class="markdown level1 summary"><p>Indicates that a <span class="xref">WaitAny(WaitHandle[], Int32, Boolean)</span> operation timed out before any of the wait handles were signaled. This field is constant.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Threading_WaitHandle_WaitTimeout_remarks">Remarks</h5>
@@ -171,6 +179,12 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public const int WaitTimeout = 258</code></pre>
               </div>
+              <h5 id="System_Threading_WaitHandle_WaitTimeout_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This field is one of the possible return values of <strong>WaitAny</strong>.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitTimeout_examples">Examples</h5>
+              
+<p>The following code example demonstrates how to use the thread pool to simultaneously search for a file on multiple disks. For space considerations, only the root directory of each disk is searched.</p>System.Threading.WaitHandle.WaitAny2#1
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -178,37 +192,47 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_Dispose.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3207">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L599">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_Dispose" data-uid="System.Threading.WaitHandle.Dispose">Dispose()</h4>
               <div class="markdown level1 summary"><p>Releases all resources used by the current instance of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Threading_WaitHandle_Dispose_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">System.Threading.WaitHandle.Close</span> method.</p>
-<p>Always call <span class="xref">System.Threading.WaitHandle.Close</span> or <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose">Dispose()</a> before you release your last reference to the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. Otherwise, the resources it is using will not be freed.</p>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">Close()</span> method.</p>
+<p>Always call <span class="xref">Close()</span> or <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose">Dispose()</a> before you release your last reference to the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. Otherwise, the resources it is using will not be freed.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
               </div>
+              <h5 class="implements">Implements</h5>
+                  <div><a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a></div>
+              <h5 id="System_Threading_WaitHandle_Dispose_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is equivalent to the <span class="xref">Close()</span> method.</p>
+<p>Always call <span class="xref">Close()</span> or <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose">Dispose()</a> before you release your last reference to the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>. Otherwise, the resources it is using will not be freed.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_Dispose_examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_Dispose_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.Dispose(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3208">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L590">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_Dispose_System_Boolean_" data-uid="System.Threading.WaitHandle.Dispose(System.Boolean)">Dispose(Boolean)</h4>
               <div class="markdown level1 summary"><p>When overridden in a derived class, releases the unmanaged resources used by the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>, and optionally releases the managed resources.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 id="System_Threading_WaitHandle_Dispose_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method is called by the <span class="xref">System.Threading.WaitHandle.Close</span> and the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose">Dispose()</a> methods with the <em>explicitDisposing</em> parameter set to <strong>true</strong>.  When the <em>explicitDisposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> object references.</p>
+              <div class="markdown level1 remarks"><p>This method is called by the <span class="xref">Close()</span> and the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose">Dispose()</a> methods with the <em>explicitDisposing</em> parameter set to <strong>true</strong>.  When the <em>explicitDisposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> object references.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool explicitDisposing)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+protected virtual void Dispose(bool explicitDisposing)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -223,18 +247,22 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>explicitDisposing</em></td>
-                    <td><p>
-<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_Dispose_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method is called by the <span class="xref">Close()</span> and the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_Dispose">Dispose()</a> methods with the <em>explicitDisposing</em> parameter set to <strong>true</strong>.  When the <em>explicitDisposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> object references.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_Dispose_System_Boolean__examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3209">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L366">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___" data-uid="System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[])">WaitAll(WaitHandle[])</h4>
               <div class="markdown level1 summary"><p>Waits for all the elements in the specified array to receive a signal.</p>
@@ -245,7 +273,7 @@
 <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is new in the .NET Framework version 2.0. In previous versions, the <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns <strong>true</strong> when a mutex is abandoned. An abandoned mutex often indicates a serious coding error. In the case of a system-wide mutex, it might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager). The exception contains information useful for debugging. </p>
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns when all the handles are signaled. On some implementations, if more than 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown. If the array contains duplicates, the call fails with a <span class="xref">System.DuplicateWaitObjectException</span>.</p>
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method is not supported on threads that have <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a>.</p>
-<p>Calling this method overload is equivalent to calling the <span class="xref">System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> method overload and specifying -1 (or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>) for <em>millisecondsTimeout</em>and <strong>true</strong> for <em>exitContext</em>.</p>
+<p>Calling this method overload is equivalent to calling the <span class="xref">WaitAll(WaitHandle[], Int32, Boolean)</span> method overload and specifying -1 (or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>) for <em>millisecondsTimeout</em>and <strong>true</strong> for <em>exitContext</em>.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -264,8 +292,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>[]</td>
                     <td><em>waitHandles</em></td>
-                    <td><p>A <strong>WaitHandle</strong> array containing the objects for which the current instance will wait. This array cannot contain multiple references to the same object. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -280,12 +307,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> when every element in <em>waitHandles</em> has received a signal; otherwise the method never returns.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is new in the .NET Framework version 2.0. In previous versions, the <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns <strong>true</strong> when a mutex is abandoned. An abandoned mutex often indicates a serious coding error. In the case of a system-wide mutex, it might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager). The exception contains information useful for debugging. </p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns when all the handles are signaled. On some implementations, if more than 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown. If the array contains duplicates, the call fails with a <span class="xref">System.DuplicateWaitObjectException</span>.</p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method is not supported on threads that have <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a>.</p>
+<p>Calling this method overload is equivalent to calling the <span class="xref">WaitAll(WaitHandle[], Int32, Boolean)</span> method overload and specifying -1 (or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>) for <em>millisecondsTimeout</em>and <strong>true</strong> for <em>exitContext</em>.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle____examples">Examples</h5>
+              
+<p>The following code example shows how to use the thread pool to asynchronously create and write to a group of files. Each write operation is queued as a work item and signals when it is finished. The main thread waits for all the items to signal and then exits.</p>System.Threading.WaitHandle.WaitAll1#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -340,7 +375,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3210">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L371">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_Int32_" data-uid="System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32)">WaitAll(WaitHandle[], Int32)</h4>
               <div class="markdown level1 summary"><p>Waits for all the elements in the specified array to receive a signal, using an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value to specify the time interval.</p>
@@ -350,7 +385,7 @@
               <div class="markdown level1 remarks"><p>If <em>millisecondsTimeout</em> is zero, the method does not block. It tests the state of the wait handles and returns immediately. </p>
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns when the wait terminates, which means either when all the handles are signaled or when time-out occurs. On some implementations, if more than 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown. If there are duplicates in the array, the call fails with a <span class="xref">System.DuplicateWaitObjectException</span>.</p>
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method is not supported on threads that have <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a>.</p>
-<p>Calling this method overload is the same as calling the <span class="xref">System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAll(WaitHandle[], Int32, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -369,14 +404,12 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>[]</td>
                     <td><em>waitHandles</em></td>
-                    <td><p>A <strong>WaitHandle</strong> array containing the objects for which the current instance will wait. This array cannot contain multiple references to the same object (duplicates). </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>millisecondsTimeout</em></td>
-                    <td><p>The number of milliseconds to wait, or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> (-1) to wait indefinitely. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -391,12 +424,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> when every element in <em>waitHandles</em> has received a signal; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>millisecondsTimeout</em> is zero, the method does not block. It tests the state of the wait handles and returns immediately. </p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns when the wait terminates, which means either when all the handles are signaled or when time-out occurs. On some implementations, if more than 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown. If there are duplicates in the array, the call fails with a <span class="xref">System.DuplicateWaitObjectException</span>.</p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method is not supported on threads that have <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a>.</p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAll(WaitHandle[], Int32, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_Int32__examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -452,7 +492,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle%5B%5D%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3211">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L376">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_TimeSpan_" data-uid="System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.TimeSpan)">WaitAll(WaitHandle[], TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Waits for all the elements in the specified array to receive a signal, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> value to specify the time interval.</p>
@@ -463,7 +503,7 @@
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns when the wait terminates, which means either all the handles are signaled or a time-out occurs. On some implementations, if more than 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown. If the array contains duplicates, the call will fail.</p>
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method is not supported on threads that have <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a>.</p>
 <p>The maximum value for <em>timeout</em> is <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
-<p>Calling this method overload is the same as calling the <span class="xref">System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.TimeSpan,System.Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAll(WaitHandle[], TimeSpan, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -482,14 +522,12 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>[]</td>
                     <td><em>waitHandles</em></td>
-                    <td><p>A <strong>WaitHandle</strong> array containing the objects for which the current instance will wait. This array cannot contain multiple references to the same object. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a></td>
                     <td><em>timeout</em></td>
-                    <td><p>A <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that represents the number of milliseconds to wait, or a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that represents -1 milliseconds, to wait indefinitely. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -504,12 +542,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> when every element in <em>waitHandles</em> has received a signal; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>timeout</em> is zero, the method does not block. It tests the state of the wait handles and returns immediately. </p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method returns when the wait terminates, which means either all the handles are signaled or a time-out occurs. On some implementations, if more than 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown. If the array contains duplicates, the call will fail.</p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAll"></see> method is not supported on threads that have <a class="xref" href="System.STAThreadAttribute.html#System_STAThreadAttribute">STAThreadAttribute</a>.</p>
+<p>The maximum value for <em>timeout</em> is <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAll(WaitHandle[], TimeSpan, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___System_TimeSpan__examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -568,7 +614,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3212">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L476">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___" data-uid="System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[])">WaitAny(WaitHandle[])</h4>
               <div class="markdown level1 summary"><p>Waits for any of the elements in the specified array to receive a signal.</p>
@@ -580,11 +626,12 @@
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method throws an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> only when the wait completes because of an abandoned mutex. If <em>waitHandles</em> contains a released mutex with a lower index number than the abandoned mutex, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method completes normally and the exception is not thrown.</p>
 <p>In versions of the .NET Framework earlier than version 2.0, if a thread exits or aborts without explicitly releasing a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, and that <strong>Mutex</strong> is at index 0 (zero) in a <strong>WaitAny</strong> array on another thread, the index returned by <strong>WaitAny</strong> is 128 instead of 0.</p>
 <p>This method returns when any handle is signaled. If more than one object becomes signaled during the call, the return value is the array index of the signaled object with the smallest index value of all the signaled objects. On some implementations, if more that 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown.</p>
-<p>Calling this method overload is equivalent to calling the <span class="xref">System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> method overload and specifying -1 (or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>) for <em>millisecondsTimeout</em>and <strong>true</strong> for <em>exitContext</em>.</p>
+<p>Calling this method overload is equivalent to calling the <span class="xref">WaitAny(WaitHandle[], Int32, Boolean)</span> method overload and specifying -1 (or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>) for <em>millisecondsTimeout</em>and <strong>true</strong> for <em>exitContext</em>.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static int WaitAny(WaitHandle[] waitHandles)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static int WaitAny(WaitHandle[] waitHandles)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -599,8 +646,7 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>[]</td>
                     <td><em>waitHandles</em></td>
-                    <td><p>A <strong>WaitHandle</strong> array containing the objects for which the current instance will wait. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -615,11 +661,21 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The array index of the object that satisfied the wait.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is new in the .NET Framework version 2.0. In previous versions, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method returns <strong>true</strong> if the wait completes because a mutex is abandoned. An abandoned mutex often indicates a serious coding error. In the case of a system-wide mutex, it might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager). The exception contains information useful for debugging. </p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method throws an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> only when the wait completes because of an abandoned mutex. If <em>waitHandles</em> contains a released mutex with a lower index number than the abandoned mutex, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method completes normally and the exception is not thrown.</p>
+<p>In versions of the .NET Framework earlier than version 2.0, if a thread exits or aborts without explicitly releasing a <a class="xref" href="System.Threading.Mutex.html#System_Threading_Mutex">Mutex</a>, and that <strong>Mutex</strong> is at index 0 (zero) in a <strong>WaitAny</strong> array on another thread, the index returned by <strong>WaitAny</strong> is 128 instead of 0.</p>
+<p>This method returns when any handle is signaled. If more than one object becomes signaled during the call, the return value is the array index of the signaled object with the smallest index value of all the signaled objects. On some implementations, if more that 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown.</p>
+<p>Calling this method overload is equivalent to calling the <span class="xref">WaitAny(WaitHandle[], Int32, Boolean)</span> method overload and specifying -1 (or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a>) for <em>millisecondsTimeout</em>and <strong>true</strong> for <em>exitContext</em>.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle____examples">Examples</h5>
+              
+<p>The following code example demonstrates calling the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a>method.</p>WaitHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -670,7 +726,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3213">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L482">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_Int32_" data-uid="System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32)">WaitAny(WaitHandle[], Int32)</h4>
               <div class="markdown level1 summary"><p>Waits for any of the elements in the specified array to receive a signal, using a 32-bit signed integer to specify the time interval.</p>
@@ -680,11 +736,12 @@
               <div class="markdown level1 remarks"><p>If <em>millisecondsTimeout</em> is zero, the method does not block. It tests the state of the wait handles and returns immediately. </p>
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method throws an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> only when the wait completes because of an abandoned mutex. If <em>waitHandles</em> contains a released mutex with a lower index number than the abandoned mutex, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method completes normally and the exception is not thrown.</p>
 <p>This method returns when the wait terminates, either when any of the handles are signaled or when a timeout occurs. If more than one object becomes signaled during the call, the return value is the array index of the signaled object with the smallest index value of all the signaled objects. On some implementations, if more that 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown.</p>
-<p>Calling this method overload is the same as calling the <span class="xref">System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32,System.Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAny(WaitHandle[], Int32, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static int WaitAny(WaitHandle[] waitHandles, int millisecondsTimeout)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static int WaitAny(WaitHandle[] waitHandles, int millisecondsTimeout)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -699,14 +756,12 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>[]</td>
                     <td><em>waitHandles</em></td>
-                    <td><p>A <strong>WaitHandle</strong> array containing the objects for which the current instance will wait. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>millisecondsTimeout</em></td>
-                    <td><p>The number of milliseconds to wait, or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> (-1) to wait indefinitely. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -721,11 +776,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The array index of the object that satisfied the wait, or <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitTimeout">WaitTimeout</a> if no object satisfied the wait and a time interval equivalent to <em>millisecondsTimeout</em> has passed.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>millisecondsTimeout</em> is zero, the method does not block. It tests the state of the wait handles and returns immediately. </p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method throws an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> only when the wait completes because of an abandoned mutex. If <em>waitHandles</em> contains a released mutex with a lower index number than the abandoned mutex, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method completes normally and the exception is not thrown.</p>
+<p>This method returns when the wait terminates, either when any of the handles are signaled or when a timeout occurs. If more than one object becomes signaled during the call, the return value is the array index of the signaled object with the smallest index value of all the signaled objects. On some implementations, if more that 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown.</p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAny(WaitHandle[], Int32, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_Int32__examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -776,7 +839,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle%5B%5D%2CSystem.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3214">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L466">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_TimeSpan_" data-uid="System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.TimeSpan)">WaitAny(WaitHandle[], TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Waits for any of the elements in the specified array to receive a signal, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> to specify the time interval.</p>
@@ -787,11 +850,12 @@
 <p>The <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method throws an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> only when the wait completes because of an abandoned mutex. If <em>waitHandles</em> contains a released mutex with a lower index number than the abandoned mutex, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method completes normally and the exception is not thrown.</p>
 <p>This method returns when the wait terminates, either when any of the handles are signaled or when a time-out occurs. If more than one object becomes signaled during the call, the return value is the array index of the signaled object with the smallest index value of all the signaled objects. On some implementations, if more that 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown.</p>
 <p>The maximum value for <em>timeout</em> is <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
-<p>Calling this method overload is the same as calling the <span class="xref">System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.TimeSpan,System.Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAny(WaitHandle[], TimeSpan, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static int WaitAny(WaitHandle[] waitHandles, TimeSpan timeout)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static int WaitAny(WaitHandle[] waitHandles, TimeSpan timeout)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -806,14 +870,12 @@
                   <tr>
                     <td><a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a>[]</td>
                     <td><em>waitHandles</em></td>
-                    <td><p>A <strong>WaitHandle</strong> array containing the objects for which the current instance will wait. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a></td>
                     <td><em>timeout</em></td>
-                    <td><p>A <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that represents the number of milliseconds to wait, or a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that represents -1 milliseconds to wait indefinitely. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -828,11 +890,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
-                    <td><p>The array index of the object that satisfied the wait, or <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitTimeout">WaitTimeout</a> if no object satisfied the wait and a time interval equivalent to <em>timeout</em> has passed.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>timeout</em> is zero, the method does not block. It tests the state of the wait handles and returns immediately. </p>
+<p>The <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method throws an <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> only when the wait completes because of an abandoned mutex. If <em>waitHandles</em> contains a released mutex with a lower index number than the abandoned mutex, the <see cref="Overload:System.Threading.WaitHandle.WaitAny"></see> method completes normally and the exception is not thrown.</p>
+<p>This method returns when the wait terminates, either when any of the handles are signaled or when a time-out occurs. If more than one object becomes signaled during the call, the return value is the array index of the signaled object with the smallest index value of all the signaled objects. On some implementations, if more that 64 handles are passed, a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a> is thrown.</p>
+<p>The maximum value for <em>timeout</em> is <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitAny(WaitHandle[], TimeSpan, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___System_TimeSpan__examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -886,7 +957,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitOne.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitOne%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3215">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L198">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitOne" data-uid="System.Threading.WaitHandle.WaitOne">WaitOne()</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until the current <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal.</p>
@@ -896,7 +967,7 @@
               <div class="markdown level1 remarks"><p>
 <a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is new in the .NET Framework version 2.0. In previous versions, the <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> method returns <strong>true</strong> when a mutex is abandoned. An abandoned mutex often indicates a serious coding error. In the case of a system-wide mutex, it might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager). The exception contains information useful for debugging. </p>
 <p>The caller of this method blocks indefinitely until the current instance receives a signal. Use this method to block until a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal from another thread, such as is generated when an asynchronous operation completes. For more information, see the <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> interface.</p>
-<p>Calling this method overload is equivalent to calling the <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> method overload and specifying -1 or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> for the first parameter and <strong>false</strong> for the second parameter.</p>
+<p>Calling this method overload is equivalent to calling the <span class="xref">WaitOne(Int32, Boolean)</span> method overload and specifying -1 or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> for the first parameter and <strong>false</strong> for the second parameter.</p>
 <p>Override this method to customize the behavior of derived classes.</p>
 </div>
               <h5 class="decalaration">Declaration</h5>
@@ -914,12 +985,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current instance receives a signal. If the current instance is never signaled, <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> never returns.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitOne_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Threading.AbandonedMutexException.html#System_Threading_AbandonedMutexException">AbandonedMutexException</a> is new in the .NET Framework version 2.0. In previous versions, the <see cref="Overload:System.Threading.WaitHandle.WaitOne"></see> method returns <strong>true</strong> when a mutex is abandoned. An abandoned mutex often indicates a serious coding error. In the case of a system-wide mutex, it might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager). The exception contains information useful for debugging. </p>
+<p>The caller of this method blocks indefinitely until the current instance receives a signal. Use this method to block until a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal from another thread, such as is generated when an asynchronous operation completes. For more information, see the <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> interface.</p>
+<p>Calling this method overload is equivalent to calling the <span class="xref">WaitOne(Int32, Boolean)</span> method overload and specifying -1 or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> for the first parameter and <strong>false</strong> for the second parameter.</p>
+<p>Override this method to customize the behavior of derived classes.</p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitOne_examples">Examples</h5>
+              
+<p>The following code example shows how to use a wait handle to keep a process from terminating while it waits for a background thread to finish executing.</p>System.Threading.WaitHandle.WaitOne1#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -951,7 +1030,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitOne_System_Int32_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitOne(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3216">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L204">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitOne_System_Int32_" data-uid="System.Threading.WaitHandle.WaitOne(System.Int32)">WaitOne(Int32)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until the current <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal, using a 32-bit signed integer to specify the time interval in milliseconds.</p>
@@ -961,7 +1040,7 @@
               <div class="markdown level1 remarks"><p>If <em>millisecondsTimeout</em> is zero, the method does not block. It tests the state of the wait handle and returns immediately. </p>
 <p>The caller of this method blocks until the current instance receives a signal or a time-out occurs. Use this method to block until a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal from another thread, such as is generated when an asynchronous operation completes. For more information, see the <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> interface.</p>
 <p>Override this method to customize the behavior of derived classes.</p>
-<p>Calling this method overload is the same as calling the <span class="xref">System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitOne(Int32, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -980,8 +1059,7 @@
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>millisecondsTimeout</em></td>
-                    <td><p>The number of milliseconds to wait, or <a class="xref" href="System.Threading.Timeout.html#System_Threading_Timeout_Infinite">Infinite</a> (-1) to wait indefinitely. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -996,12 +1074,19 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current instance receives a signal; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitOne_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>millisecondsTimeout</em> is zero, the method does not block. It tests the state of the wait handle and returns immediately. </p>
+<p>The caller of this method blocks until the current instance receives a signal or a time-out occurs. Use this method to block until a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal from another thread, such as is generated when an asynchronous operation completes. For more information, see the <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> interface.</p>
+<p>Override this method to customize the behavior of derived classes.</p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitOne(Int32, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitOne_System_Int32__examples">Examples</h5>
+              
+<p>The following code example shows how to use a wait handle to keep a process from terminating while it waits for a background thread to finish executing.</p>System.Threading.WaitHandle.WaitOne2#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1039,7 +1124,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitHandle_WaitOne_System_TimeSpan_.md&amp;value=---%0Auid%3A%20System.Threading.WaitHandle.WaitOne(System.TimeSpan)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L3217">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/WaitHandle.cs/#L209">View Source</a>
               </span>
               <h4 id="System_Threading_WaitHandle_WaitOne_System_TimeSpan_" data-uid="System.Threading.WaitHandle.WaitOne(System.TimeSpan)">WaitOne(TimeSpan)</h4>
               <div class="markdown level1 summary"><p>Blocks the current thread until the current instance receives a signal, using a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> to specify the time interval.</p>
@@ -1050,7 +1135,7 @@
 <p>The caller of this method blocks until the current instance receives a signal or a time-out occurs. Use this method to block until a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal from another thread, such as is generated when an asynchronous operation completes. For more information, see the <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> interface.</p>
 <p>Override this method to customize the behavior of derived classes.</p>
 <p>The maximum value for <em>timeout</em> is <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
-<p>Calling this method overload is the same as calling the <span class="xref">System.Threading.WaitHandle.WaitOne(System.TimeSpan,System.Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitOne(TimeSpan, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -1069,8 +1154,7 @@
                   <tr>
                     <td><a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a></td>
                     <td><em>timeout</em></td>
-                    <td><p>A <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that represents the number of milliseconds to wait, or a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSpan</a> that represents -1 milliseconds to wait indefinitely. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -1085,12 +1169,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if the current instance receives a signal; otherwise, <strong>false</strong>.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Threading_WaitHandle_WaitOne_System_TimeSpan__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>timeout</em> is zero, the method does not block. It tests the state of the wait handle and returns immediately. </p>
+<p>The caller of this method blocks until the current instance receives a signal or a time-out occurs. Use this method to block until a <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> receives a signal from another thread, such as is generated when an asynchronous operation completes. For more information, see the <a class="xref" href="System.IAsyncResult.html#System_IAsyncResult">IAsyncResult</a> interface.</p>
+<p>Override this method to customize the behavior of derived classes.</p>
+<p>The maximum value for <em>timeout</em> is <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a>.</p>
+<p>Calling this method overload is the same as calling the <span class="xref">WaitOne(TimeSpan, Boolean)</span> overload and specifying <strong>false</strong> for <em>exitContext</em>. </p>
+</div>
+              <h5 id="System_Threading_WaitHandle_WaitOne_System_TimeSpan__examples">Examples</h5>
+              
+<p>The following code example shows how two threads can do background tasks while the Main thread waits for the tasks to complete using the static <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAny_System_Threading_WaitHandle___">WaitAny(WaitHandle[])</a> and <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle_WaitAll_System_Threading_WaitHandle___">WaitAll(WaitHandle[])</a> methods of the <a class="xref" href="System.Threading.WaitHandle.html#System_Threading_WaitHandle">WaitHandle</a> class.</p>WaitHandle#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

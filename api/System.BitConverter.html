@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter.md&amp;value=---%0Auid%3A%20System.BitConverter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L15" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L27" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_BitConverter" data-uid="System.BitConverter">Class BitConverter
               </h1>
               <div class="markdown level0 summary"><p>Converts base data types to an array of bytes, and an array of bytes to base data types.</p>
@@ -81,19 +81,39 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">BitConverter</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System</h6>
               <h6><strong>Assembly</strong>:System.Runtime.Extensions.dll</h6>
               <h5 id="System_BitConverter_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public class BitConverter : object</code></pre>
+                <pre><code class="lang-csharp hljs">public class BitConverter</code></pre>
               </div>
-              <h5 id="System_BitConverter_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class helps manipulate value types in their fundamental form, as a series of bytes. A byte is defined as an 8-bit unsigned integer. The <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class includes static methods to convert each of the primitive types to and from an array of bytes, as the following table illustrates.</p></p>
-<p><p>Type</p></p>
-<p><p>To byte conversion </p></p>
-<p><p>From byte conversion</p></p>
-<p><p>If you use <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> methods to round-trip data, make sure that the <see cref="Overload:System.BitConverter.GetBytes"></see> overload and the <strong>To</strong>Type method specify the same type. As the following example illustrates, restoring an array that represents a signed integer by calling the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToUInt32_System_Byte___System_Int32_">ToUInt32(Byte[], Int32)</a> method can result in a value that is different from the original. For more information, see the entry <see href="http://go.microsoft.com/fwlink/?LinkId=186999">Working with Signed Non-Decimal and Bitwise Values</see> in the BCL Team Blog. </p>System.BitConverter.Class#3<p>The order of bytes in the array returned by the <see cref="Overload:System.BitConverter.GetBytes"></see> method overloads (as well as the order of bits in the integer returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_DoubleToInt64Bits_System_Double_">DoubleToInt64Bits(Double)</a> method and the order of hexadecimal strings returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToString_System_Byte___">ToString(Byte[])</a> method) depends on whether the computer architecture is little-endian or big-endian. Similarly, the order of bytes in the array and returned by the <strong>To</strong>IntegerValue methods and the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToChar_System_Byte___System_Int32_">ToChar(Byte[], Int32)</a> method depends on whether the computer architecture is little-endian or big-endian. The endianness of an architecture is indicated by the <a class="xref" href="System.BitConverter.html#System_BitConverter_IsLittleEndian">IsLittleEndian</a> property, which returns <strong>true</strong> on little-endian systems and <strong>false</strong> on big-endian systems. On little-endian systems, lower-order bytes precede higher-order bytes. On big-endian system, higher-order bytes precede lower-order bytes. The following table illustrates the difference in the byte arrays that result from passing the integer 1,234,567,890 (0x499602D2) to the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Int32_">GetBytes(Int32)</a> method. The bytes are listed in order from the byte at index 0 to the byte at index 3.</p><table><tbody><tr><td><p>Little-endian </p></td><td><p>D2-02-96-49</p></td></tr><tr><td><p>Big-endian</p></td><td><p>49-96-02-D2</p></td></tr></tbody></table><p>Because the return value of some methods depends on system architecture, be careful when transmitting byte data beyond machine boundaries:</p><ul><li><p>If all systems sending and receiving data are guaranteed to have the same endianness, nothing has be done to the data.</p></li><li><p>If systems sending and receiving data can have different endianness, always transmit data in a particular order. This means that the order of bytes in the array may have to be reversed either before sending them or after receiving them. A common convention is to transmit data in network byte order (big-endian order). The following example provides an implementation for sending an integer value in network byte order.</p>System.BitConverter.Class#4</li><li><p>If systems sending and receiving data can have different endianness and the data to be transmitted consists of signed integers, call the <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress_HostToNetworkOrder_System_Int32_">HostToNetworkOrder(Int32)</a> method to convert the data to network byte order and the <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress_NetworkToHostOrder_System_Int32_">NetworkToHostOrder(Int32)</a> method to convert it to the order required by the recipient.</p></li></ul></p>
-</div>
+              <h5 id="System_BitConverter_examples"><strong>Examples</strong></h5>
+              
+<p>The following code example illustrates the use of several <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class methods.</p>System.BitConverter.Class#1
               <h3 id="fields">Fields
               </h3>
               <span class="small pull-right mobile-hide">
@@ -101,7 +121,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_IsLittleEndian.md&amp;value=---%0Auid%3A%20System.BitConverter.IsLittleEndian%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L17">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L35">View Source</a>
               </span>
               <h4 id="System_BitConverter_IsLittleEndian" data-uid="System.BitConverter.IsLittleEndian">IsLittleEndian</h4>
               <div class="markdown level1 summary"><p>Indicates the byte order (&quot;endianness&quot;) in which data is stored in this computer architecture.</p>
@@ -115,6 +135,13 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static readonly bool IsLittleEndian</code></pre>
               </div>
+              <h5 id="System_BitConverter_IsLittleEndian_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Different computer architectures store data using different byte orders. &quot;Big-endian&quot; means the most significant byte is on the left end of a word. &quot;Little-endian&quot; means the most significant byte is on the right end of a word.</p>
+<p>You can convert from network byte order to the byte order of the host computer without retrieving  the value of the <a class="xref" href="System.BitConverter.html#System_BitConverter_IsLittleEndian">IsLittleEndian</a> field by passing a 16-bit, 32-bit, or 64 bit integer to the <a class="xref" href="System.Net.IPAddress.html#System_Net_IPAddress_HostToNetworkOrder_System_Int16_">HostToNetworkOrder(Int16)</a> method.  </p>
+</div>
+              <h5 id="System_BitConverter_IsLittleEndian_examples">Examples</h5>
+              
+<p>The following code example illustrates the use of the <strong>IsLittleEndian</strong> field.</p>System.BitConverter.Class#2
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -122,7 +149,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_DoubleToInt64Bits_System_Double_.md&amp;value=---%0Auid%3A%20System.BitConverter.DoubleToInt64Bits(System.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L444">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L441">View Source</a>
               </span>
               <h4 id="System_BitConverter_DoubleToInt64Bits_System_Double_" data-uid="System.BitConverter.DoubleToInt64Bits(System.Double)">DoubleToInt64Bits(Double)</h4>
               <div class="markdown level1 summary"><p>Converts the specified double-precision floating point number to a 64-bit signed integer.</p>
@@ -133,7 +160,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static long DoubleToInt64Bits(double value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static long DoubleToInt64Bits(double value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -167,12 +195,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_DoubleToInt64Bits_System_Double__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bits in the integer returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_DoubleToInt64Bits_System_Double_">DoubleToInt64Bits(Double)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_DoubleToInt64Bits_System_Double__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of several <a class="xref" href="System.Double.html#System_Double">Double</a> values to <a class="xref" href="System.Int64.html#System_Int64">Int64</a> values with the <strong>DoubleToInt64Bits</strong> method.</p>System.BitConverter.DoubleInt64#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Boolean_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L26">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L39">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Boolean_" data-uid="System.BitConverter.GetBytes(System.Boolean)">GetBytes(Boolean)</h4>
               <div class="markdown level1 summary"><p>Returns the specified Boolean value as a byte array.</p>
@@ -217,12 +251,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>You can convert a byte array back to a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value by calling the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToBoolean_System_Byte___System_Int32_">ToBoolean(Byte[], Int32)</a> method. </p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Boolean__examples">Examples</h5>
+              
+<p>The following example converts the bit patterns of <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.Others#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Char_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Char)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L37">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L49">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Char_" data-uid="System.BitConverter.GetBytes(System.Char)">GetBytes(Char)</h4>
               <div class="markdown level1 summary"><p>Returns the specified Unicode character value as an array of bytes.</p>
@@ -267,12 +307,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Char__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Char__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.Char.html#System_Char">Char</a> values (Unicode characters) to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.Others#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Double_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L133">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L142">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Double_" data-uid="System.BitConverter.GetBytes(System.Double)">GetBytes(Double)</h4>
               <div class="markdown level1 summary"><p>Returns the specified double-precision floating point value as an array of bytes.</p>
@@ -283,7 +329,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(double value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static byte[] GetBytes(double value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -317,12 +364,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Double__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Double__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.Double.html#System_Double">Double</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.Others#4
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Int16_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Int16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L47">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L59">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Int16_" data-uid="System.BitConverter.GetBytes(System.Int16)">GetBytes(Int16)</h4>
               <div class="markdown level1 summary"><p>Returns the specified 16-bit signed integer value as an array of bytes.</p>
@@ -333,7 +386,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(short value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static byte[] GetBytes(short value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -367,12 +421,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Int16__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Int16__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.Int16.html#System_Int16">Int16</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.SInts#3
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L61">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L73">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Int32_" data-uid="System.BitConverter.GetBytes(System.Int32)">GetBytes(Int32)</h4>
               <div class="markdown level1 summary"><p>Returns the specified 32-bit signed integer value as an array of bytes.</p>
@@ -383,7 +443,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(int value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static byte[] GetBytes(int value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -417,12 +478,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.Int32.html#System_Int32">Int32</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.SInts#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Int64_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L75">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L87">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Int64_" data-uid="System.BitConverter.GetBytes(System.Int64)">GetBytes(Int64)</h4>
               <div class="markdown level1 summary"><p>Returns the specified 64-bit signed integer value as an array of bytes.</p>
@@ -433,7 +500,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(long value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static byte[] GetBytes(long value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -467,12 +535,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Int64__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Int64__examples">Examples</h5>
+              
+<p>The following example calls the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Int64_">GetBytes(Int64)</a> method to convert each element in an <a class="xref" href="System.Int64.html#System_Int64">Int64</a> array to a<a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays.</p>System.BitConverter.GetBytes.SInts#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_Single_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L122">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L131">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_Single_" data-uid="System.BitConverter.GetBytes(System.Single)">GetBytes(Single)</h4>
               <div class="markdown level1 summary"><p>Returns the specified single-precision floating point value as an array of bytes.</p>
@@ -483,7 +557,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(float value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static byte[] GetBytes(float value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -517,12 +592,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_Single__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_Single__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.Single.html#System_Single">Single</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.Others#3
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_UInt16_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L89">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L101">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_UInt16_" data-uid="System.BitConverter.GetBytes(System.UInt16)">GetBytes(UInt16)</h4>
               <div class="markdown level1 summary"><p>Returns the specified 16-bit unsigned integer value as an array of bytes.</p>
@@ -533,7 +614,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(ushort value)</code></pre>
+                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+public static byte[] GetBytes(ushort value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -567,12 +649,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_UInt16__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_UInt16__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.UInt16.html#System_UInt16">UInt16</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.UInts#3
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_UInt32_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L100">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L111">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_UInt32_" data-uid="System.BitConverter.GetBytes(System.UInt32)">GetBytes(UInt32)</h4>
               <div class="markdown level1 summary"><p>Returns the specified 32-bit unsigned integer value as an array of bytes.</p>
@@ -583,7 +671,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(uint value)</code></pre>
+                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+public static byte[] GetBytes(uint value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -617,12 +706,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_UInt32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_UInt32__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.UInts#2
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_GetBytes_System_UInt64_.md&amp;value=---%0Auid%3A%20System.BitConverter.GetBytes(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L111">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L121">View Source</a>
               </span>
               <h4 id="System_BitConverter_GetBytes_System_UInt64_" data-uid="System.BitConverter.GetBytes(System.UInt64)">GetBytes(UInt64)</h4>
               <div class="markdown level1 summary"><p>Returns the specified 64-bit unsigned integer value as an array of bytes.</p>
@@ -633,7 +728,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static byte[] GetBytes(ulong value)</code></pre>
+                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+public static byte[] GetBytes(ulong value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -667,12 +763,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_GetBytes_System_UInt64__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The order of bytes in the array returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Boolean_">GetBytes(Boolean)</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_GetBytes_System_UInt64__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of <a class="xref" href="System.UInt64.html#System_UInt64">UInt64</a> values to <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays with the <strong>GetBytes</strong> method.</p>System.BitConverter.GetBytes.UInts#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_Int64BitsToDouble_System_Int64_.md&amp;value=---%0Auid%3A%20System.BitConverter.Int64BitsToDouble(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L450">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L446">View Source</a>
               </span>
               <h4 id="System_BitConverter_Int64BitsToDouble_System_Int64_" data-uid="System.BitConverter.Int64BitsToDouble(System.Int64)">Int64BitsToDouble(Int64)</h4>
               <div class="markdown level1 summary"><p>Converts the specified 64-bit signed integer to a double-precision floating point number.</p>
@@ -683,7 +785,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static double Int64BitsToDouble(long value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static double Int64BitsToDouble(long value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -717,12 +820,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_Int64BitsToDouble_System_Int64__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Typically, <em>value</em> is an integer that is returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_DoubleToInt64Bits_System_Double_">DoubleToInt64Bits(Double)</a> method.</p>
+</div>
+              <h5 id="System_BitConverter_Int64BitsToDouble_System_Int64__examples">Examples</h5>
+              
+<p>The following code example converts the bit patterns of several <a class="xref" href="System.Int64.html#System_Int64">Int64</a> values to <a class="xref" href="System.Double.html#System_Double">Double</a> values with the <strong>Int64BitsToDouble</strong> method.</p>System.BitConverter.DoubleInt64#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToBoolean_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToBoolean(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L431">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L429">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToBoolean_System_Byte___System_Int32_" data-uid="System.BitConverter.ToBoolean(System.Byte[],System.Int32)">ToBoolean(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a Boolean value converted from the byte at a specified position in a byte array.</p>
@@ -772,6 +881,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToBoolean_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>To convert a <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> value to its byte representation, call the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToBoolean_System_Byte___System_Int32_">ToBoolean(Byte[], Int32)</a> method.</p>
+</div>
+              <h5 id="System_BitConverter_ToBoolean_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a> values with the <strong>ToBoolean</strong> method.</p>System.BitConverter.ToXXX.Others#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -800,7 +915,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToChar_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToChar(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L143">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L152">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToChar_System_Byte___System_Int32_" data-uid="System.BitConverter.ToChar(System.Byte[],System.Int32)">ToChar(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a Unicode character converted from two bytes at a specified position in a byte array.</p>
@@ -850,6 +965,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToChar_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToChar_System_Byte___System_Int32_">ToChar(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 1 to a <a class="xref" href="System.Char.html#System_Char">Char</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToChar_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.Char.html#System_Char">Char</a> values (Unicode characters) with the <strong>ToChar</strong> method.</p>System.BitConverter.ToXXX.Others#2
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -884,7 +1005,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToDouble_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToDouble(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L316">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L334">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToDouble_System_Byte___System_Int32_" data-uid="System.BitConverter.ToDouble(System.Byte[],System.Int32)">ToDouble(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a double-precision floating point number converted from eight bytes at a specified position in a byte array.</p>
@@ -895,7 +1016,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static double ToDouble(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static double ToDouble(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -934,6 +1056,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToDouble_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToDouble_System_Byte___System_Int32_">ToDouble(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 7 to a <a class="xref" href="System.Double.html#System_Double">Double</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToDouble_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.Double.html#System_Double">Double</a> values with the <strong>ToDouble</strong> method.</p>System.BitConverter.ToXXX.Others#3
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -968,7 +1096,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToInt16_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToInt16(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L157">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L171">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToInt16_System_Byte___System_Int32_" data-uid="System.BitConverter.ToInt16(System.Byte[],System.Int32)">ToInt16(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a 16-bit signed integer converted from two bytes at a specified position in a byte array.</p>
@@ -979,7 +1107,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static short ToInt16(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static short ToInt16(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1018,6 +1147,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToInt16_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToInt16_System_Byte___System_Int32_">ToInt16(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 1 to an <a class="xref" href="System.Int16.html#System_Int16">Int16</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToInt16_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.Int16.html#System_Int16">Int16</a> values with the <strong>ToInt16</strong> method.</p>System.BitConverter.ToXXX.SInts#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1052,7 +1187,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToInt32_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToInt32(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L187">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L203">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToInt32_System_Byte___System_Int32_" data-uid="System.BitConverter.ToInt32(System.Byte[],System.Int32)">ToInt32(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a 32-bit signed integer converted from four bytes at a specified position in a byte array.</p>
@@ -1063,7 +1198,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static int ToInt32(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static int ToInt32(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1102,6 +1238,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToInt32_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToInt32_System_Byte___System_Int32_">ToInt32(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 3 to an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a>.</p>
+</div>
+              <h5 id="System_BitConverter_ToInt32_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToInt32_System_Byte___System_Int32_">ToInt32(Byte[], Int32)</a> method to create <a class="xref" href="System.Int32.html#System_Int32">Int32</a> values from a four-byte array and from the upper four bytes of an eight-byte array. It also uses the <a class="xref" href="System.BitConverter.html#System_BitConverter_GetBytes_System_Int32_">GetBytes(Int32)</a> and <a class="xref" href="System.BitConverter.html#System_BitConverter_ToInt32_System_Byte___System_Int32_">ToInt32(Byte[], Int32)</a> methods to round-trip an <a class="xref" href="System.Int32.html#System_Int32">Int32</a> value. </p>System.BitConverter.ToInt32#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1136,7 +1278,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToInt64_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToInt64(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L217">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L234">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToInt64_System_Byte___System_Int32_" data-uid="System.BitConverter.ToInt64(System.Byte[],System.Int32)">ToInt64(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a 64-bit signed integer converted from eight bytes at a specified position in a byte array.</p>
@@ -1147,7 +1289,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static long ToInt64(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static long ToInt64(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1186,6 +1329,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToInt64_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToInt64_System_Byte___System_Int32_">ToInt64(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 7 to a <a class="xref" href="System.Int64.html#System_Int64">Int64</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToInt64_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.Int64.html#System_Int64">Int64</a> values with the <strong>ToInt64</strong> method.</p>System.BitConverter.ToXXX.SInts#3
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1220,7 +1369,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToSingle_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToSingle(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L300">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L318">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToSingle_System_Byte___System_Int32_" data-uid="System.BitConverter.ToSingle(System.Byte[],System.Int32)">ToSingle(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a single-precision floating point number converted from four bytes at a specified position in a byte array.</p>
@@ -1231,7 +1380,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static float ToSingle(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[SecuritySafeCritical]
+public static float ToSingle(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1270,6 +1420,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToSingle_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToSingle_System_Byte___System_Int32_">ToSingle(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 3 to a <a class="xref" href="System.Single.html#System_Single">Single</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a>. </p>
+</div>
+              <h5 id="System_BitConverter_ToSingle_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.Single.html#System_Single">Single</a> values with the <strong>ToSingle</strong> method.</p>System.BitConverter.ToXXX.Others#4
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1304,7 +1460,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToString_System_Byte___.md&amp;value=---%0Auid%3A%20System.BitConverter.ToString(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L403">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L403">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToString_System_Byte___" data-uid="System.BitConverter.ToString(System.Byte[])">ToString(Byte[])</h4>
               <div class="markdown level1 summary"><p>Converts the numeric value of each element of a specified array of bytes to its equivalent hexadecimal string representation.</p>
@@ -1349,6 +1505,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToString_System_Byte____remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>All the elements of <em>value</em> are converted. The order of hexadecimal strings returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToString_System_Byte___">ToString(Byte[])</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_ToString_System_Byte____examples">Examples</h5>
+              
+<p>The following code example converts <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.String.html#System_String">String</a> objects with the <strong>ToString</strong> method.</p>System.BitConverter.ToString#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1371,7 +1533,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToString_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToString(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L413">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L412">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToString_System_Byte___System_Int32_" data-uid="System.BitConverter.ToString(System.Byte[],System.Int32)">ToString(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Converts the numeric value of each element of a specified subarray of bytes to its equivalent hexadecimal string representation.</p>
@@ -1421,6 +1583,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToString_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The elements from array position <em>startIndex</em> to the end of the array are converted. The order of hexadecimal strings returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToString_System_Byte___">ToString(Byte[])</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_ToString_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts the part of a <a class="xref" href="System.Byte.html#System_Byte">Byte</a> array starting at the specified <em>startIndex</em> to a <a class="xref" href="System.String.html#System_String">String</a> with the <strong>ToString</strong> method.</p>System.BitConverter.ToString#2
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1449,7 +1617,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToString_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToString(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L343">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L359">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToString_System_Byte___System_Int32_System_Int32_" data-uid="System.BitConverter.ToString(System.Byte[],System.Int32,System.Int32)">ToString(Byte[], Int32, Int32)</h4>
               <div class="markdown level1 summary"><p>Converts the numeric value of each element of a specified subarray of bytes to its equivalent hexadecimal string representation.</p>
@@ -1505,6 +1673,13 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToString_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>length</em> elements from array position <em>startIndex</em> are converted. If <em>length</em> equals zero, the method returns <a class="xref" href="System.String.html#System_String_Empty">Empty</a>.</p>
+<p>The order of hexadecimal strings returned by the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToString_System_Byte___">ToString(Byte[])</a> method depends on whether the computer architecture is little-endian or big-endian.</p>
+</div>
+              <h5 id="System_BitConverter_ToString_System_Byte___System_Int32_System_Int32__examples">Examples</h5>
+              
+<p>The following example uses the <a class="xref" href="System.BitConverter.html#System_BitConverter_ToString_System_Byte___System_Int32_System_Int32_">ToString(Byte[], Int32, Int32)</a> method to convert part of a byte array, starting at the specified <em>startIndex</em> and with the specified <em>length</em>, to a string.</p>System.BitConverter.ToString#2
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1541,7 +1716,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToUInt16_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToUInt16(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L253">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L271">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToUInt16_System_Byte___System_Int32_" data-uid="System.BitConverter.ToUInt16(System.Byte[],System.Int32)">ToUInt16(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a 16-bit unsigned integer converted from two bytes at a specified position in a byte array.</p>
@@ -1552,7 +1727,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static ushort ToUInt16(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+public static ushort ToUInt16(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1591,6 +1767,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToUInt16_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToUInt16_System_Byte___System_Int32_">ToUInt16(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 1 to a <a class="xref" href="System.UInt16.html#System_UInt16">UInt16</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToUInt16_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.UInt16.html#System_UInt16">UInt16</a> values with the <strong>ToUInt16</strong> method.</p>System.BitConverter.ToXXX.UInts#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1625,7 +1807,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToUInt32_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToUInt32(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L269">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L287">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToUInt32_System_Byte___System_Int32_" data-uid="System.BitConverter.ToUInt32(System.Byte[],System.Int32)">ToUInt32(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a 32-bit unsigned integer converted from four bytes at a specified position in a byte array.</p>
@@ -1636,7 +1818,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static uint ToUInt32(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+public static uint ToUInt32(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1675,6 +1858,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToUInt32_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToUInt32_System_Byte___System_Int32_">ToUInt32(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 3 to a <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToUInt32_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.UInt32.html#System_UInt32">UInt32</a> values with the <strong>ToUInt32</strong> method.</p>System.BitConverter.ToXXX.UInts#2
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -1709,7 +1898,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_BitConverter_ToUInt64_System_Byte___System_Int32_.md&amp;value=---%0Auid%3A%20System.BitConverter.ToUInt64(System.Byte%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime.Extensions/src/System/BitConverter.cs/#L285">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs/#L303">View Source</a>
               </span>
               <h4 id="System_BitConverter_ToUInt64_System_Byte___System_Int32_" data-uid="System.BitConverter.ToUInt64(System.Byte[],System.Int32)">ToUInt64(Byte[], Int32)</h4>
               <div class="markdown level1 summary"><p>Returns a 64-bit unsigned integer converted from eight bytes at a specified position in a byte array.</p>
@@ -1720,7 +1909,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static ulong ToUInt64(byte[] value, int startIndex)</code></pre>
+                <pre><code class="lang-csharp hljs">[CLSCompliant(false)]
+public static ulong ToUInt64(byte[] value, int startIndex)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1759,6 +1949,12 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_BitConverter_ToUInt64_System_Byte___System_Int32__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.BitConverter.html#System_BitConverter_ToUInt64_System_Byte___System_Int32_">ToUInt64(Byte[], Int32)</a> method converts the bytes from index <em>startIndex</em> to <em>startIndex</em> + 7 to a <a class="xref" href="System.UInt64.html#System_UInt64">UInt64</a> value. The order of bytes in the array must reflect the endianness of the computer system&#39;s architecture; for more information, see the Remarks section of the <a class="xref" href="System.BitConverter.html#System_BitConverter">BitConverter</a> class topic. </p>
+</div>
+              <h5 id="System_BitConverter_ToUInt64_System_Byte___System_Int32__examples">Examples</h5>
+              
+<p>The following code example converts elements of <a class="xref" href="System.Byte.html#System_Byte">Byte</a> arrays to <a class="xref" href="System.UInt64.html#System_UInt64">UInt64</a> values with the <strong>ToUInt64</strong> method.</p>System.BitConverter.ToXXX.UInts#3
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>

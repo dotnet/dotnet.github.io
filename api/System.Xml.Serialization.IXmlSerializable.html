@@ -70,10 +70,11 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Serialization_IXmlSerializable.md&amp;value=---%0Auid%3A%20System.Xml.Serialization.IXmlSerializable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/src/System/Xml/Serialization/IXmlSerializable.cs/#L14" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/ref/System.Xml.ReaderWriter.cs/#L512" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Xml_Serialization_IXmlSerializable" data-uid="System.Xml.Serialization.IXmlSerializable">Interface IXmlSerializable
               </h1>
-              <div class="markdown level0 summary"></div>
+              <div class="markdown level0 summary"><p>Provides custom formatting for XML serialization and deserialization.</p>
+</div>
               <div class="markdown level0 conceptual"></div>
               <h6><strong>Namespace</strong>:System.Xml.Serialization</h6>
               <h6><strong>Assembly</strong>:System.Xml.ReaderWriter.dll</h6>
@@ -81,6 +82,9 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public interface IXmlSerializable</code></pre>
               </div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_examples"><strong>Examples</strong></h5>
+              
+<p>The following example code shows an implementation of the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable">IXmlSerializable</a> interface that serializes a private field.</p>XmlSerialization_IXmlSerializable#0
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -88,11 +92,17 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Serialization_IXmlSerializable_GetSchema.md&amp;value=---%0Auid%3A%20System.Xml.Serialization.IXmlSerializable.GetSchema%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/src/System/Xml/Serialization/IXmlSerializable.cs/#L17">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/ref/System.Xml.ReaderWriter.cs/#L514">View Source</a>
               </span>
               <h4 id="System_Xml_Serialization_IXmlSerializable_GetSchema" data-uid="System.Xml.Serialization.IXmlSerializable.GetSchema">GetSchema()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>This method is reserved and should not be used. When implementing the <strong>IXmlSerializable</strong> interface, you should return <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <a class="xref" href="System.Xml.Serialization.XmlSchemaProviderAttribute.html#System_Xml_Serialization_XmlSchemaProviderAttribute">XmlSchemaProviderAttribute</a> to the class.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_GetSchema_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When serializing or deserializing an object, the <a class="xref" href="System.Xml.Serialization.XmlSerializer.html#System_Xml_Serialization_XmlSerializer">XmlSerializer</a> class does not perform XML validation. For this reason, it is often safe to omit schema information by providing a trivial implementation of this method, for example by returning <strong>null</strong> (<strong>Nothing</strong> in Visual Basic).</p>
+<p>If providing schema information is necessary, you should use the <a class="xref" href="System.Xml.Serialization.XmlSchemaProviderAttribute.html#System_Xml_Serialization_XmlSchemaProviderAttribute">XmlSchemaProviderAttribute</a> attribute. The <strong>GetSchema</strong> method should still return <strong>null</strong> (or <strong>Nothing</strong>).</p>
+<p>Some .NET Framework types as well as legacy custom types implementing the <strong>IXmlSerializable</strong> interface may be using <strong>GetSchema</strong> instead of <strong>XmlSchemaProvider</strong>. In this case, the method returns an accurate XML schema that describes the XML representation of the object generated by the <see cref="Overload:System.Data.DataSet.WriteXml"></see> method.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">XmlSchema GetSchema()</code></pre>
@@ -108,20 +118,35 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Xml.Schema.XmlSchema.html#System_Xml_Schema_XmlSchema">XmlSchema</a></td>
-                    <td></td>
+                    <td><p>An <a class="xref" href="System.Xml.Schema.XmlSchema.html#System_Xml_Schema_XmlSchema">XmlSchema</a> that describes the XML representation of the object that is produced by the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> method and consumed by the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_">ReadXml(XmlReader)</a> method.</p>
+</td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_GetSchema_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>When serializing or deserializing an object, the <a class="xref" href="System.Xml.Serialization.XmlSerializer.html#System_Xml_Serialization_XmlSerializer">XmlSerializer</a> class does not perform XML validation. For this reason, it is often safe to omit schema information by providing a trivial implementation of this method, for example by returning <strong>null</strong> (<strong>Nothing</strong> in Visual Basic).</p>
+<p>If providing schema information is necessary, you should use the <a class="xref" href="System.Xml.Serialization.XmlSchemaProviderAttribute.html#System_Xml_Serialization_XmlSchemaProviderAttribute">XmlSchemaProviderAttribute</a> attribute. The <strong>GetSchema</strong> method should still return <strong>null</strong> (or <strong>Nothing</strong>).</p>
+<p>Some .NET Framework types as well as legacy custom types implementing the <strong>IXmlSerializable</strong> interface may be using <strong>GetSchema</strong> instead of <strong>XmlSchemaProvider</strong>. In this case, the method returns an accurate XML schema that describes the XML representation of the object generated by the <see cref="Overload:System.Data.DataSet.WriteXml"></see> method.</p>
+</div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_GetSchema_examples">Examples</h5>
+              
+<p>The following example code shows an implementation of the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable">IXmlSerializable</a> interface that serializes a private field.</p>XmlSerialization_IXmlSerializable#0
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_.md&amp;value=---%0Auid%3A%20System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/src/System/Xml/Serialization/IXmlSerializable.cs/#L19">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/ref/System.Xml.ReaderWriter.cs/#L516">View Source</a>
               </span>
               <h4 id="System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_" data-uid="System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)">ReadXml(XmlReader)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Generates an object from its XML representation.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_">ReadXml(XmlReader)</a> method must reconstitute your object using the information that was written by the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> method.</p>
+<p>When this method is called, the reader is positioned on the start tag that wraps the information for your type. That is, directly on the start tag that indicates the beginning of a serialized object. When this method returns, it must have read the entire element from beginning to end, including all of its contents. Unlike the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> method, the framework does not handle the wrapper element automatically. Your implementation must do so. Failing to observe these positioning rules may cause code to generate unexpected runtime exceptions or corrupt data.</p>
+<p>When implementing this method, you should consider the possibility that a malicious user might provide a well-formed but invalid XML representation in order to disable or otherwise alter the behavior of your application.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void ReadXml(XmlReader reader)</code></pre>
@@ -139,20 +164,35 @@
                   <tr>
                     <td><a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a></td>
                     <td><em>reader</em></td>
-                    <td></td>
+                    <td><p>The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> stream from which the object is deserialized. </p>
+</td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_">ReadXml(XmlReader)</a> method must reconstitute your object using the information that was written by the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> method.</p>
+<p>When this method is called, the reader is positioned on the start tag that wraps the information for your type. That is, directly on the start tag that indicates the beginning of a serialized object. When this method returns, it must have read the entire element from beginning to end, including all of its contents. Unlike the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> method, the framework does not handle the wrapper element automatically. Your implementation must do so. Failing to observe these positioning rules may cause code to generate unexpected runtime exceptions or corrupt data.</p>
+<p>When implementing this method, you should consider the possibility that a malicious user might provide a well-formed but invalid XML representation in order to disable or otherwise alter the behavior of your application.</p>
+</div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader__examples">Examples</h5>
+              
+<p>The following example illustrates an implementation of the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_">ReadXml(XmlReader)</a> method.</p>XmlSerialization_IXmlSerializable#2<p>The following example illustrates the use of the <a class="xref" href="System.Xml.Serialization.XmlSerializer.html#System_Xml_Serialization_XmlSerializer">XmlSerializer</a> class to deserialize this object.</p>XmlSerialization_IXmlSerializable#20
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_.md&amp;value=---%0Auid%3A%20System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/src/System/Xml/Serialization/IXmlSerializable.cs/#L21">View Source</a>
+                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.ReaderWriter/ref/System.Xml.ReaderWriter.cs/#L517">View Source</a>
               </span>
               <h4 id="System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_" data-uid="System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)">WriteXml(XmlWriter)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Converts an object into its XML representation.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> implementation you provide should write out the XML representation of the object. The framework writes a wrapper element and positions the XML writer after its start. Your implementation may write its contents, including child elements. The framework then closes the wrapper element.</p>
+<p>Write sufficient information to the <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a> stream to allow the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_">ReadXml(XmlReader)</a> method to reconstitute your object.</p>
+<p>For example, if your object state includes an array variable, be sure to write the length of the array, or use a parent element to contain the elements that describe the array values, so that you know how many values to read when the object is reconstituted.</p>
+</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void WriteXml(XmlWriter writer)</code></pre>
@@ -170,10 +210,19 @@
                   <tr>
                     <td><a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a></td>
                     <td><em>writer</em></td>
-                    <td></td>
+                    <td><p>The <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a> stream to which the object is serialized. </p>
+</td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> implementation you provide should write out the XML representation of the object. The framework writes a wrapper element and positions the XML writer after its start. Your implementation may write its contents, including child elements. The framework then closes the wrapper element.</p>
+<p>Write sufficient information to the <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a> stream to allow the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_ReadXml_System_Xml_XmlReader_">ReadXml(XmlReader)</a> method to reconstitute your object.</p>
+<p>For example, if your object state includes an array variable, be sure to write the length of the array, or use a parent element to contain the elements that describe the array values, so that you know how many values to read when the object is reconstituted.</p>
+</div>
+              <h5 id="System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter__examples">Examples</h5>
+              
+<p>The following example illustrates an implementation of the <a class="xref" href="System.Xml.Serialization.IXmlSerializable.html#System_Xml_Serialization_IXmlSerializable_WriteXml_System_Xml_XmlWriter_">WriteXml(XmlWriter)</a> method.</p>XmlSerialization_IXmlSerializable#1<p>The following example illustrates the use of the <a class="xref" href="System.Xml.Serialization.XmlSerializer.html#System_Xml_Serialization_XmlSerializer">XmlSerializer</a> class to deserialize this object.</p>XmlSerialization_IXmlSerializable#10
             </article>
           </div>
           

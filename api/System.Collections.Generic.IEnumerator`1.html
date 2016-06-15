@@ -70,32 +70,48 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_IEnumerator_1.md&amp;value=---%0Auid%3A%20System.Collections.Generic.IEnumerator%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2391" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/IEnumerator.cs/#L22" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Collections_Generic_IEnumerator_1" data-uid="System.Collections.Generic.IEnumerator`1">Interface IEnumerator&lt;T&gt;
               </h1>
               <div class="markdown level0 summary"><p>Supports a simple iteration over a generic collection.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_Reset">Reset()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Collections.Generic</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_Collections_Generic_IEnumerator_1_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public interface IEnumerator&lt;out T&gt; : IEnumerator, IDisposable</code></pre>
+                <pre><code class="lang-csharp hljs">public interface IEnumerator&lt;out T&gt; : IDisposable, IEnumerator</code></pre>
               </div>
-              <h5 id="System_Collections_Generic_IEnumerator_1_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>
-<a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1">IEnumerator<t></t></a> is the base interface for all generic enumerators.</p>
-<p>The <strong>foreach</strong> statement of the C# language (<strong>for each</strong> in C++, <strong>For Each</strong> in Visual Basic) hides the complexity of the enumerators.  Therefore, using <strong>foreach</strong> is recommended, instead of directly manipulating the enumerator.</p>
-<p>Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.</p>
-<p>Initially, the enumerator is positioned before the first element in the collection. At this position, <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> is undefined. Therefore, you must call <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> to advance the enumerator to the first element of the collection before reading the value of <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a>.</p>
-<p>
-<a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> returns the same object until <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> is called. <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> sets <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> to the next element.</p>
-<p>If <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> passes the end of the collection, the enumerator is positioned after the last element in the collection and <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> returns <strong>false</strong>. When the enumerator is at this position, subsequent calls to <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> also return <strong>false</strong>. If the last call to <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> returned <strong>false</strong>, <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> is undefined. You cannot set <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> to the first element of the collection again; you must create a new enumerator instance instead.</p>
-<p>The <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_Reset">Reset()</a> method is provided for COM interoperability. It does not necessarily need to be implemented; instead, the implementer can simply throw a <a class="xref" href="System.NotSupportedException.html#System_NotSupportedException">NotSupportedException</a>. However, if you choose to do this, you should make sure no callers are relying on the <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_Reset">Reset()</a> functionality.</p>
-<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated and the next call to <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> or <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_Reset">Reset()</a> throws an <a class="xref" href="System.InvalidOperationException.html#System_InvalidOperationException">InvalidOperationException</a>.</p>
-<p>The enumerator does not have exclusive access to the collection; therefore, enumerating through a collection is intrinsically not a thread-safe procedure. To guarantee thread safety during enumeration, you can lock the collection during the entire enumeration. To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.</p>
-<p>Default implementations of collections in the <a class="xref" href="System.Collections.Generic.html#System_Collections_Generic">System.Collections.Generic</a> namespace are not synchronized.</p>
-</div>
+              <h5 class="typeParameters">Type Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><em>T</em></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_Collections_Generic_IEnumerator_1_examples"><strong>Examples</strong></h5>
+              
+<p>The following example shows an implementation of the <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1">IEnumerator<t></t></a> interface for a collection class of custom objects. The custom object is an instance of the type <code>Box</code>, and the collection class is <code>BoxCollection</code>. This code example is part of a larger example provided for the <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>System.Collections.Generic.BoxExamples#3
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -103,7 +119,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Collections_Generic_IEnumerator_1_Current.md&amp;value=---%0Auid%3A%20System.Collections.Generic.IEnumerator%601.Current%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L2393">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/IEnumerator.cs/#L31">View Source</a>
               </span>
               <h4 id="System_Collections_Generic_IEnumerator_1_Current" data-uid="System.Collections.Generic.IEnumerator`1.Current">Current</h4>
               <div class="markdown level1 summary"><p>Gets the element in the collection at the current position of the enumerator.</p>
@@ -137,11 +153,26 @@
                 <tbody>
                   <tr>
                     <td><span class="xref">T</span></td>
-                    <td><p>The element in the collection at the current position of the enumerator.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Collections_Generic_IEnumerator_1_Current_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>
+<a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> is undefined under any of the following conditions:</p>
+<ul><li>
+<p>The enumerator is positioned before the first element in the collection, immediately after the enumerator is created.   <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> must be called to advance the enumerator to the first element of the collection before reading the value of <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a>.</p>
+</li><li>
+<p>The last call to <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> returned <strong>false</strong>, which indicates the end of the collection.</p>
+</li><li>
+<p>The enumerator is invalidated due to changes made in the collection, such as adding, modifying, or deleting elements.</p>
+</li></ul>
+<p>
+<a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> returns the same object until <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> is called. <a class="xref" href="System.Collections.IEnumerator.html#System_Collections_IEnumerator_MoveNext">MoveNext()</a> sets <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1_Current">Current</a> to the next element.</p>
+</div>
+              <h5 id="System_Collections_Generic_IEnumerator_1_Current_examples">Examples</h5>
+              
+<p>The following example shows an implementation of the <a class="xref" href="System.Collections.Generic.IEnumerator%601.html#System_Collections_Generic_IEnumerator_1">IEnumerator<t></t></a> interface for a collection class of custom objects. The custom object is an instance of the type <code>Box</code>, and the collection class is <code>BoxCollection</code>. This code example is part of a larger example provided for the <a class="xref" href="System.Collections.Generic.ICollection%601.html#System_Collections_Generic_ICollection_1">ICollection<t></t></a> interface.</p>System.Collections.Generic.BoxExamples#3
             </article>
           </div>
           

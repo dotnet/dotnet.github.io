@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_WaitCallback.md&amp;value=---%0Auid%3A%20System.Threading.WaitCallback%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs/#L28" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/ThreadPool.cs/#L1131" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Threading_WaitCallback" data-uid="System.Threading.WaitCallback">Delegate WaitCallback
               </h1>
               <div class="markdown level0 summary"><p>Represents a callback method to be executed by a thread pool thread.</p>
@@ -80,16 +80,32 @@
               <h6><strong>Assembly</strong>:System.Threading.ThreadPool.dll</h6>
               <h5 id="System_Threading_WaitCallback_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public delegate void WaitCallback(object state);</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(true)]
+public delegate void WaitCallback(object state);</code></pre>
               </div>
-              <h5 id="System_Threading_WaitCallback_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>
-<a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> represents a callback method that you want to execute on a <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool">ThreadPool</a> thread. Create the delegate by passing your callback method to the <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> constructor. Your method must have the signature shown here.</p>
-<p>Queue your task for execution by passing the <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> delegate to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a>. Your callback method executes when a thread pool thread becomes available.</p>
-<p>Visual Basic users can omit the <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> constructor, and simply use the <strong>AddressOf</strong> operator when passing the callback method to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a>. Visual Basic automatically calls the correct delegate constructor.</p>
-<p>If you want to pass information to your callback method, create an object that contains the necessary information and pass it to <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_System_Object_">QueueUserWorkItem(WaitCallback, Object)</a> when you queue your task for execution. Each time your callback method executes, the <em>state</em> parameter contains this object.</p>
-<p>For more information about using callbacks to synchronize thread pool threads, see The Managed Thread Pool.</p>
-</div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.Object.html#System_Object">Object</a></td>
+                    <td><em>state</em></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_Threading_WaitCallback_examples"><strong>Examples</strong></h5>
+              
+<p>This section contains two examples. The first example demonstrates how you can queue a simple task for execution by the thread pool. </p>
+<p>The second example demonstrates how you can queue a task and pass information to it. </p>
+<p>Example 1</p>
+<p>This example shows how to use the <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> delegate to queue a task for execution by the thread pool. The code example uses the <a class="xref" href="System.Threading.ThreadPool.html#System_Threading_ThreadPool_QueueUserWorkItem_System_Threading_WaitCallback_">QueueUserWorkItem(WaitCallback)</a> method overload to queue a task, which is represented by a <a class="xref" href="System.Threading.WaitCallback.html#System_Threading_WaitCallback">WaitCallback</a> that wraps the <code>ThreadProc</code> method, to execute when a thread becomes available. No task information is supplied with this overload. Therefore, the information that is available to the <code>ThreadProc</code> method is limited to the object the method belongs to.</p>System.Threading.ThreadPool QueueUserWorkItem0#1<p>Example 2</p><p>This example shows how to create an object that contains task information. It also demonstrates how to pass that object to a task that is queued for execution by the thread pool.</p>System.Threading.ThreadPool QueueUserWorkItem1#1
             </article>
           </div>
           

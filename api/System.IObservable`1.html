@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObservable_1.md&amp;value=---%0Auid%3A%20System.IObservable%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1188" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IObservable.cs/#L19" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_IObservable_1" data-uid="System.IObservable`1">Interface IObservable&lt;T&gt;
               </h1>
               <div class="markdown level0 summary"><p>Defines a provider for push-based notification.</p>
@@ -82,19 +82,24 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public interface IObservable&lt;out T&gt;</code></pre>
               </div>
-              <h5 id="System_IObservable_1_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p><p>The <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> and <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> interfaces provide a generalized mechanism for push-based notification, also known as the observer design pattern. The <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> interface represents the class that sends notifications (the provider); the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> interface represents the class that receives them (the observer). <em>T</em> represents the class that provides the notification information. In some push-based notifications, the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> implementation and <em>T</em> can represent the same type.</p></p>
-<p><p>The provider must implement a single method, <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a>, that indicates that an observer wants to receive push-based notifications. Callers to the method pass an instance of the observer. The method returns an <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> implementation that enables observers to cancel notifications at any time before the provider has stopped sending them.</p></p>
-<p><p>At any given time, a given provider may have zero, one, or multiple observers. The provider is responsible for storing references to observers and ensuring that they are valid before it sends notifications. The <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> interface does not make any assumptions about the number of observers or the order in which notifications are sent.</p></p>
-<p><p>The provider sends the following three kinds of notifications to the observer by calling <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> methods: </p></p>
-<ul><li>
-<p>The current data. The provider can call the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method to pass the observer a <em>T</em> object that has current data, changed data, or fresh data.</p>
-</li><li>
-<p>An error condition. The provider can call the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method to notify the observer that some error condition has occurred.</p>
-</li><li>
-<p>No further data. The provider can call the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method to notify the observer that it has finished sending notifications.</p>
-</li></ul>
-</div>
+              <h5 class="typeParameters">Type Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><em>T</em></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_IObservable_1_examples"><strong>Examples</strong></h5>
+              
+<p>The following example illustrates the observer design pattern. It defines a <code>Location</code> class that contains latitude and longitude information.</p>System.IObserver.Class#5<p>The <code>LocationTracker</code> class provides the <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> implementation. Its <code>TrackLocation</code> method is passed a nullable <code>Location</code> object that contains the latitude and longitude data. If the <code>Location</code> value is not <strong>null</strong>, the <code>TrackLocation</code> method calls the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method of each observer.</p>System.IObserver.Class#6<p>If the <code>Location</code> value is <strong>null</strong>, the <code>TrackLocation</code> method instantiates a <code>LocationUnknownException</code> object, which is shown in the following example. It then calls each observer's <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method and passes it the <code>LocationUnknownException</code> object. Note that <code>LocationUnknownException</code> derives from <a class="xref" href="System.Exception.html#System_Exception">Exception</a>, but does not add any new members.</p>System.IObserver.Class#7<p>Observers register to receive notifications from a <code>TrackLocation</code> object by calling its <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method, which assigns a reference to the observer object to a private generic <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> object. The method returns an <code>Unsubscriber</code> object, which is an <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> implementation that enables observers to stop receiving notifications. The <code>LocationTracker</code> class also includes an <code>EndTransmission</code> method. When no further location data is available, the method calls each observer's <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method and then clears the internal list of observers.</p><p>In this example, the <code>LocationReporter</code> class provides the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> implementation. It displays information about the current location to the console. Its constructor includes a <em>name</em> parameter, which enables the <code>LocationReporter</code> instance to identify itself in its string output. It also includes a <code>Subscribe</code> method, which wraps a call to the provider's <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. This allows the method to assign the returned <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> reference to a private variable. The <code>LocationReporter</code> class also includes an <code>Unsubscribe</code> method, which calls the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of the object that is returned by the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. The following code defines the <code>LocationReporter</code> class. </p>System.IObserver.Class#8<p>The following code then instantiates the provider and the observer.</p>System.IObserver.Class#9
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -102,7 +107,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObservable_1_Subscribe_System_IObserver__0__.md&amp;value=---%0Auid%3A%20System.IObservable%601.Subscribe(System.IObserver%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1190">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IObservable.cs/#L21">View Source</a>
               </span>
               <h4 id="System_IObservable_1_Subscribe_System_IObserver__0__" data-uid="System.IObservable`1.Subscribe(System.IObserver{`0})">Subscribe(IObserver&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Notifies the provider that an observer is to receive notifications.</p>
@@ -134,8 +139,7 @@
                   <tr>
                     <td><a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver</a>&lt;T&gt;</td>
                     <td><em>observer</em></td>
-                    <td><p>The object that is to receive notifications.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -150,11 +154,22 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a></td>
-                    <td><p>A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_IObservable_1_Subscribe_System_IObserver__0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method must be called to register an observer for push-based notifications. A typical implementation of the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method does the following:</p>
+<ul><li>
+<p>It stores a reference to the observer in a collection object, such as a <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> object.</p>
+</li><li>
+<p>It returns a reference to an <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface. This enables observers to unsubscribe (that is, to stop receiving notifications) before the provider has finished sending them and called the subscriber&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method.</p>
+</li></ul>
+<p>At any given time, a particular instance of an <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> implementation is responsible for handling all subscriptions and notifying all subscribers. Unless the documentation for a particular <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> implementation indicates otherwise, observers should make no assumptions about the <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> implementation, such as the order of notifications that multiple observers will receive.</p>
+</div>
+              <h5 id="System_IObservable_1_Subscribe_System_IObserver__0___examples">Examples</h5>
+              
+<p>The following example illustrates the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method for an application that reports latitude and longitude information. It defines an <a class="xref" href="System.Collections.Generic.IList%601.html#System_Collections_Generic_IList_1">IList<t></t></a> collection object that stores references to all observers. It also returns a private class named <code>Unsubscriber</code> that implements the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> interface and enables subscribers to stop receiving event notifications.  See the Example section of the <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> topic for the complete example.</p>System.IObserver.Class#13
             </article>
           </div>
           

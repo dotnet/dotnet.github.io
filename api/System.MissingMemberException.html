@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MissingMemberException.md&amp;value=---%0Auid%3A%20System.MissingMemberException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1243" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MissingMemberException.cs/#L25" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_MissingMemberException" data-uid="System.MissingMemberException">Class MissingMemberException
               </h1>
               <div class="markdown level0 summary"><p>The exception that is thrown when there is an attempt to dynamically access a class member that does not exist or that is not declared as public. If a member in a class library has been removed or renamed, recompile any assemblies that reference that library.</p>
@@ -83,20 +83,62 @@
                   <div class="level2"><a class="xref" href="System.MemberAccessException.html#System_MemberAccessException">MemberAccessException</a></div>
                   <div class="level3"><span class="xref">MissingMemberException</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_Data">Data</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_HelpLink">HelpLink</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_HResult">HResult</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_Source">Source</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_StackTrace">StackTrace</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_GetBaseException">GetBaseException()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Exception.html#System_Exception_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System</h6>
               <h6><strong>Assembly</strong>:System.Runtime.dll</h6>
               <h5 id="System_MissingMemberException_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public class MissingMemberException : MemberAccessException</code></pre>
+                <pre><code class="lang-csharp hljs">[ComVisible(true)]
+[Serializable]
+public class MissingMemberException : MemberAccessException, _Exception, ISerializable</code></pre>
               </div>
-              <h5 id="System_MissingMemberException_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>Normally a compilation error is generated if the code attempts to access a nonexistent member of a class. <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> is designed to handle cases where a field or a method is deleted or renamed in one assembly and the change is not reflected in a second assembly. At runtime, <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> will be thrown when the code in the second assembly attempts to access the missing member in the first assembly.</p>
-<p>
-<a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> is the base class for <a class="xref" href="System.MissingFieldException.html#System_MissingFieldException">MissingFieldException</a> and <a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a>. In general it is better to use one of the derived classes of <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> to more precisely indicate the exact nature of the error. Throw a <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> if you are only interested in capturing the general case of a missing member error.</p>
-<p>
-<a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> uses the HRESULT COR_E_MISSINGMEMBER, that has the value 0x80131512.</p>
-<p>For a list of initial property values for an instance of <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>, see the <span class="xref">System.MissingMemberException.</span> constructors.</p>
-</div>
+              <h5 id="System_MissingMemberException_examples"><strong>Examples</strong></h5>
+              
+<p>This example shows what happens if you attempt to use reflection to call a method that does not exist and access a field that does not exist. The application recovers by catching the <a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a>, <a class="xref" href="System.MissingFieldException.html#System_MissingFieldException">MissingFieldException</a>, and <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p>MissingMethodException#1
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -104,7 +146,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MissingMemberException__ctor.md&amp;value=---%0Auid%3A%20System.MissingMemberException.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1245">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MissingMemberException.cs/#L27">View Source</a>
               </span>
               <h4 id="System_MissingMemberException__ctor" data-uid="System.MissingMemberException.#ctor">MissingMemberException()</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> class.</p>
@@ -133,12 +175,34 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public MissingMemberException()</code></pre>
               </div>
+              <h5 id="System_MissingMemberException__ctor_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>This constructor initializes the <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException_Message">Message</a> property of the new instance to a system-supplied message that describes the error, such as &quot;Attempted to access a missing member.&quot; This message takes into account the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.MissingMemberException.html#System_MissingMemberException_Message">Message</a>
+</p>
+</td><td>
+<p>The localized error message string. </p>
+</td></tr></tbody></table>
+</div>
+              <h5 id="System_MissingMemberException__ctor_examples">Examples</h5>
+              
+<p>This example shows what happens if you attempt to use reflection to call a method that does not exist and access a field that does not exist. The application recovers by catching the <a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a>, <a class="xref" href="System.MissingFieldException.html#System_MissingFieldException">MissingFieldException</a>, and <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p>MissingMethodException#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MissingMemberException__ctor_System_String_.md&amp;value=---%0Auid%3A%20System.MissingMemberException.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1246">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MissingMemberException.cs/#L32">View Source</a>
               </span>
               <h4 id="System_MissingMemberException__ctor_System_String_" data-uid="System.MissingMemberException.#ctor(System.String)">MissingMemberException(String)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> class with a specified error message.</p>
@@ -180,17 +244,38 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>message</em></td>
-                    <td><p>The message that describes the error. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_MissingMemberException__ctor_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The content of the <em>message</em> parameter should be understandable by the user. The caller of this constructor is required to ensure that this string has been localized for the current system culture.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>A null reference (<strong>Nothing</strong> in Visual Basic). </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.MissingMemberException.html#System_MissingMemberException_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
+              <h5 id="System_MissingMemberException__ctor_System_String__examples">Examples</h5>
+              
+<p>This example shows what happens if you attempt to use reflection to call a method that does not exist and access a field that does not exist. The application recovers by catching the <a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a>, <a class="xref" href="System.MissingFieldException.html#System_MissingFieldException">MissingFieldException</a>, and <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p>MissingMethodException#1
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MissingMemberException__ctor_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20System.MissingMemberException.%23ctor(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1247">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MissingMemberException.cs/#L37">View Source</a>
               </span>
               <h4 id="System_MissingMemberException__ctor_System_String_System_Exception_" data-uid="System.MissingMemberException.#ctor(System.String,System.Exception)">MissingMemberException(String, Exception)</h4>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> class with a specified error message and a reference to the inner exception that is the root cause of this exception.</p>
@@ -232,17 +317,37 @@
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>message</em></td>
-                    <td><p>The error message that explains the reason for the exception. </p>
-</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Exception.html#System_Exception">Exception</a></td>
                     <td><em>inner</em></td>
-                    <td><p>An instance of <a class="xref" href="System.Exception.html#System_Exception">Exception</a> that is the cause of the current <strong>Exception</strong>. If <em>inner</em> is not a null reference (<strong>Nothing</strong> in Visual Basic), then the current <strong>Exception</strong> is raised in a catch block handling <em>inner</em>. </p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_MissingMemberException__ctor_System_String_System_Exception__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>An exception that is thrown as a direct result of a previous exception can include a reference to the previous exception in the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property. The <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property returns the same value that is passed into the constructor, or a null reference (<strong>Nothing</strong> in Visual Basic) if the <a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a> property does not supply the inner exception value to the constructor.</p></p>
+<p><p>The following table shows the initial property values for an instance of <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p></p>
+<p><p>Property </p></p>
+<p><p>Value </p></p>
+<table><tbody><tr><td>
+<p>
+<a class="xref" href="System.Exception.html#System_Exception_InnerException">InnerException</a>
+</p>
+</td><td>
+<p>The inner exception reference. </p>
+</td></tr><tr><td>
+<p>
+<a class="xref" href="System.MissingMemberException.html#System_MissingMemberException_Message">Message</a>
+</p>
+</td><td>
+<p>The error message string. </p>
+</td></tr></tbody></table>
+</div>
+              <h5 id="System_MissingMemberException__ctor_System_String_System_Exception__examples">Examples</h5>
+              
+<p>This example shows what happens if you attempt to use reflection to call a method that does not exist and access a field that does not exist. The application recovers by catching the <a class="xref" href="System.MissingMethodException.html#System_MissingMethodException">MissingMethodException</a>, <a class="xref" href="System.MissingFieldException.html#System_MissingFieldException">MissingFieldException</a>, and <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a>.</p>MissingMethodException#1
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -250,7 +355,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_MissingMemberException_Message.md&amp;value=---%0Auid%3A%20System.MissingMemberException.Message%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Runtime/ref/System.Runtime.cs/#L1248">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/MissingMemberException.cs/#L48">View Source</a>
               </span>
               <h4 id="System_MissingMemberException_Message" data-uid="System.MissingMemberException.Message">Message</h4>
               <div class="markdown level1 summary"><p>Gets the text string showing the class name, the member name, and the signature of the missing member.</p>
@@ -263,7 +368,11 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public override string Message { get; }</code></pre>
+                <pre><code class="lang-csharp hljs">public override string Message
+{
+    [SecuritySafeCritical]
+    get;
+}</code></pre>
               </div>
               <h5 class="propertyValue"></h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -276,11 +385,20 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
-                    <td><p>The error message string.</p>
-</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <h5 class="overrides">Overrides</h5>
+              <div><a class="xref" href="System.Exception.html#System_Exception_Message">Message</a></div>
+              <h5 id="System_MissingMemberException_Message_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If the class name is not specified when the object is constructed, the default text string inherited from the base class is returned.</p>
+<p>This property overrides <a class="xref" href="System.Exception.html#System_Exception_Message">Message</a>. The error message should be localized.</p>
+<p>This property is read-only.</p>
+</div>
+              <h5 id="System_MissingMemberException_Message_examples">Examples</h5>
+              
+<p>The following example demonstrates the <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException_Message">Message</a> property. This code example is part of a larger example provided for the <a class="xref" href="System.MissingMemberException.html#System_MissingMemberException">MissingMemberException</a> class.</p>MissingMethodException#4
             </article>
           </div>
           

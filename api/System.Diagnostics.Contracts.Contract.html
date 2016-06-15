@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content">
               
               <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="pull-right mobile-hide"><span class="fa fa-github"></span>Improve this Doc</a>
-              <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L11" class="pull-right mobile-hide">View Source</a>
+              <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/ContractsBCL.cs/#L43" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Diagnostics_Contracts_Contract" data-uid="System.Diagnostics.Contracts.Contract">Class Contract
               </h1>
               <div class="markdown level0 summary"><p>Contains static methods for representing program contracts such as preconditions, postconditions, and object invariants.</p>
@@ -81,17 +81,36 @@
                   <div class="level0"><a class="xref" href="System.Object.html#System_Object">Object</a></div>
                   <div class="level1"><span class="xref">Contract</span></div>
               </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ToString">ToString()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_">Equals(Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_Equals_System_Object_System_Object_">Equals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_ReferenceEquals_System_Object_System_Object_">ReferenceEquals(Object, Object)</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetHashCode">GetHashCode()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_GetType">GetType()</a>
+                </div>
+                <div>
+                  <a class="xref" href="System.Object.html#System_Object_MemberwiseClone">MemberwiseClone()</a>
+                </div>
+              </div>
               <h6><strong>Namespace</strong>:System.Diagnostics.Contracts</h6>
               <h6><strong>Assembly</strong>:System.Diagnostics.Contracts.dll</h6>
               <h5 id="System_Diagnostics_Contracts_Contract_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public class Contract : object</code></pre>
+                <pre><code class="lang-csharp hljs">public class Contract</code></pre>
               </div>
-              <h5 id="System_Diagnostics_Contracts_Contract_remarks"><strong>Remarks</strong></h5>
-              <div class="markdown level0 remarks"><p>Code contract classes let you specify preconditions, postconditions, and object invariants in your code. Preconditions are requirements that must be met when entering a method or property. Postconditions describe expectations at the time the method or property code exits. Object invariants describe the expected state for a class that has no condition problems. For more information about preconditions, postconditions, and object invariants, see Code Contracts.</p>
-<p>For tools and detailed instructions for using code contracts, see <see href="http://go.microsoft.com/fwlink/?LinkId=152461">Code Contracts</see> on the MSDN DevLabs Web site.</p>
-<p>You must use a binary rewriter to insert run-time enforcement of contracts. Otherwise, contracts such as the <see cref="Overload:System.Diagnostics.Contracts.Contract.Ensures"></see> method can only be tested statically and will not throw exceptions during run time if a contract is violated. You can download the binary rewriter CCRewrite from <see href="http://go.microsoft.com/fwlink/?LinkId=152461">Code Contracts</see> on the MSDN DevLabs Web site. CCRewrite comes with a Visual Studio add-in that enables you to activate run-time contract enforcement from the project Properties page. The binary rewriter and the Visual Studio add-in do not ship with Visual Studio 2010 or the Windows SDK.</p>
-</div>
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -99,7 +118,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Assert_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Assert(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L14">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L336">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Assert_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.Assert(System.Boolean)">Assert(Boolean)</h4>
               <div class="markdown level1 summary"><p>Checks for a condition; if the condition is <strong>false</strong>, follows the escalation policy set for the analyzer.</p>
@@ -110,7 +129,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assert(bool condition)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;DEBUG&quot;)]
+[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Assert(bool condition)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -125,17 +147,20 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Expression to check to always be true.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Assert_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default escalation policy is to notify the attached debugger about a contract failure or to display an Assert dialog box if a debugger is not attached. Optionally, the analyzer can be instructed to throw an exception.</p>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Assert_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Assert(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L17">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L353">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Assert_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.Assert(System.Boolean,System.String)">Assert(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Checks for a condition; if the condition is <strong>false</strong>, follows the escalation policy set by the analyzer and displays the specified message.</p>
@@ -146,7 +171,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assert(bool condition, string userMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;DEBUG&quot;)]
+[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Assert(bool condition, string userMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -161,23 +189,26 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Expression to check to always be true.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>A message to display if the condition is not met.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Assert_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The default escalation policy is to notify the attached debugger about a contract failure or to display an Assert dialog box if a debugger is not attached. Optionally, the analyzer can be instructed to throw an exception. The <em>userMessage</em> parameter is passed to the debugger output. If <em>userMessage</em> is not a constant string literal, tools may not be able to read it.</p>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Assume_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Assume(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L20">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L294">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Assume_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.Assume(System.Boolean)">Assume(Boolean)</h4>
               <div class="markdown level1 summary"><p>Instructs code analysis tools to assume that the specified condition is <strong>true</strong>, even if it cannot be statically proven to always be <strong>true</strong>.</p>
@@ -188,7 +219,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assume(bool condition)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;DEBUG&quot;)]
+[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Assume(bool condition)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -203,17 +237,20 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to assume <strong>true</strong>.</p>
+                    <td><p>Expression to assume will always be true.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Assume_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>At run time, using this method is equivalent to using the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Assert_System_Boolean_">Assert(Boolean)</a> method.</p>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Assume_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Assume(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L23">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L315">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Assume_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.Assume(System.Boolean,System.String)">Assume(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Instructs code analysis tools to assume that a condition is <strong>true</strong>, even if it cannot be statically proven to always be <strong>true</strong>, and displays a message if the assumption fails.</p>
@@ -225,7 +262,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Assume(bool condition, string userMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;DEBUG&quot;)]
+[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Assume(bool condition, string userMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -240,23 +280,27 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to assume <strong>true</strong>.</p>
+                    <td><p>Expression to assume will always be true.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>The message to post if the assumption fails.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Assume_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>If <em>userMessage</em> is not a constant string literal, the contract may not be understood by tools.</p>
+<p>At run time, using this method is equivalent to using the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Assert_System_Boolean_System_String_">Assert(Boolean, String)</a> method.</p>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_EndContractBlock.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.EndContractBlock%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L26">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L870">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_EndContractBlock" data-uid="System.Diagnostics.Contracts.Contract.EndContractBlock">EndContractBlock()</h4>
               <div class="markdown level1 summary"><p>Marks the end of the contract section when a method&#39;s contracts contain only preconditions in the <strong>if</strong>-<strong>then</strong>-<strong>throw</strong> form.</p>
@@ -268,14 +312,20 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void EndContractBlock()</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+public static void EndContractBlock()</code></pre>
               </div>
+              <h5 id="System_Diagnostics_Contracts_Contract_EndContractBlock_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>Most code already contains some parameter validation in the form of <strong>if</strong>-<strong>then</strong>-<strong>throw</strong> code. The contract tools recognize <strong>if</strong>-<strong>then</strong>-<strong>throw</strong> statements as preconditions when the statements appear first inside a method, and the entire set of such statements is followed by an explicit <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract">Contract</a> method call, such as a <see cref="Overload:System.Diagnostics.Contracts.Contract.Requires"></see>, <see cref="Overload:System.Diagnostics.Contracts.Contract.Ensures"></see>, <see cref="Overload:System.Diagnostics.Contracts.Contract.EnsuresOnThrow"></see>, or <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_EndContractBlock">EndContractBlock()</a>.</p>
+<p>When <strong>if</strong>-<strong>then</strong>-<strong>throw</strong> statements appear in this form, the contract tools recognize them as legacy-require statements. The <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_EndContractBlock">EndContractBlock()</a> form is used only if no other contracts follow the <strong>if</strong>-<strong>then</strong>-<strong>throw</strong> sequences, but they should still be tagged as legacy-requires.</p>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Ensures_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Ensures(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L28">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L463">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Ensures_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.Ensures(System.Boolean)">Ensures(Boolean)</h4>
               <div class="markdown level1 summary"><p>Specifies a postcondition contract for the enclosing method or property.</p>
@@ -291,7 +341,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Ensures(bool condition)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Ensures(bool condition)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -306,17 +358,28 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test. The expression may include <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a>, <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_ValueAtReturn__1___0__">ValueAtReturn<t>(out T)</t></a>, and <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a> values. </p>
+                    <td><p>Boolean expression representing the contract.  May include <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> and <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a>.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Ensures_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>condition</em> parameter specifies a postcondition that is expected to be <strong>true</strong> when the enclosing method or property returns normally.</p></p>
+<ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>You must use the binary rewriter (available at <see href="http://go.microsoft.com/fwlink/?LinkId=152461">Code Contracts</see> on the MSDN DevLabs Web site) for run-time enforcement of this postcondition. </p>
+</li></ul>
+</div>
+              <h5 id="System_Diagnostics_Contracts_Contract_Ensures_System_Boolean__examples">Examples</h5>
+              
+<p>The following example shows how to use the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Ensures_System_Boolean_">Ensures(Boolean)</a> method to ensure that an expected value is returned. This code example is part of a larger example provided for the <a class="xref" href="System.Diagnostics.Contracts.ContractClassAttribute.html#System_Diagnostics_Contracts_ContractClassAttribute">ContractClassAttribute</a> class.</p>ContractExample#3
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Ensures_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Ensures(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L30">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L483">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Ensures_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.Ensures(System.Boolean,System.String)">Ensures(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Specifies a postcondition contract for a provided exit condition and a message to display if the condition is <strong>false</strong>.</p>
@@ -336,7 +399,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Ensures(bool condition, string userMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Ensures(bool condition, string userMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -351,23 +416,35 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test. The expression may include <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> and <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a> values. </p>
+                    <td><p>Boolean expression representing the contract.  May include <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> and <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>The message to display if the expression is not <strong>true</strong>.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Ensures_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>condition</em> parameter specifies a postcondition that is expected to be <strong>true</strong> when the enclosing method or property returns normally. </p></p>
+<ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>You must use the binary rewriter (available at <see href="http://go.microsoft.com/fwlink/?LinkId=152461">Code Contracts</see> on the MSDN DevLabs Web site) for run-time enforcement of this postcondition.</p>
+</li><li>
+<p>If <em>userMessage</em> is not a constant string literal, the contract may not be understood by tools.</p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_EnsuresOnThrow__1_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.EnsuresOnThrow%60%601(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L32">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L503">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_EnsuresOnThrow__1_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.EnsuresOnThrow``1(System.Boolean)">EnsuresOnThrow&lt;TException&gt;(Boolean)</h4>
               <div class="markdown level1 summary"><p>Specifies a postcondition contract for the enclosing method or property, based on the provided exception and condition.</p>
@@ -385,7 +462,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void EnsuresOnThrow&lt;TException&gt;(bool condition)where TException : Exception</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[SuppressMessage(&quot;Microsoft.Design&quot;, &quot;CA1004:GenericMethodsShouldProvideTypeParameter&quot;, Justification = &quot;Exception type used in tools.&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void EnsuresOnThrow&lt;TException&gt;(bool condition)where TException : Exception</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -400,17 +480,27 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.  May include <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> and <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a>.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_EnsuresOnThrow__1_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>condition</em> parameter specifies a postcondition that is expected to be <strong>true</strong> when the enclosing method or property terminates abnormally and an exception of type <em>TException</em> is thrown.</p></p>
+<ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>You must use the binary rewriter for run-time enforcement of this postcondition.</p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_EnsuresOnThrow__1_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.EnsuresOnThrow%60%601(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L34">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L525">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_EnsuresOnThrow__1_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.EnsuresOnThrow``1(System.Boolean,System.String)">EnsuresOnThrow&lt;TException&gt;(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Specifies a postcondition contract and a message to display if the condition is <strong>false</strong> for the enclosing method or property, based on the provided exception and condition.</p>
@@ -430,7 +520,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void EnsuresOnThrow&lt;TException&gt;(bool condition, string userMessage)where TException : Exception</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[SuppressMessage(&quot;Microsoft.Design&quot;, &quot;CA1004:GenericMethodsShouldProvideTypeParameter&quot;, Justification = &quot;Exception type used in tools.&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void EnsuresOnThrow&lt;TException&gt;(bool condition, string userMessage)where TException : Exception</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -445,23 +538,35 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.  May include <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> and <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>The message to display if the expression is <strong>false</strong>.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_EnsuresOnThrow__1_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>The <em>condition</em> parameter specifies a postcondition that is expected to be <strong>true</strong> when the enclosing method or property terminates abnormally and an exception of type <em>TException</em> is thrown. The <em>message</em> parameter specifies a message to display if the condition is <strong>false</strong>.</p></p>
+<ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>You must use the binary rewriter for run-time enforcement of this postcondition.</p>
+</li><li>
+<p>If <em>userMessage</em> is not a constant string literal, the contract may not be understood by tools.</p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Exists_System_Int32_System_Int32_System_Predicate_System_Int32__.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Exists(System.Int32%2CSystem.Int32%2CSystem.Predicate%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L36">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L708">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Exists_System_Int32_System_Int32_System_Predicate_System_Int32__" data-uid="System.Diagnostics.Contracts.Contract.Exists(System.Int32,System.Int32,System.Predicate{System.Int32})">Exists(Int32, Int32, Predicate&lt;Int32&gt;)</h4>
               <div class="markdown level1 summary"><p>Determines whether a specified test is true for any integer within a range of integers.</p>
@@ -472,7 +577,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool Exists(int fromInclusive, int toExclusive, Predicate&lt;int&gt; predicate)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static bool Exists(int fromInclusive, int toExclusive, Predicate&lt;int&gt; predicate)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -487,19 +593,19 @@
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>fromInclusive</em></td>
-                    <td><p>The first integer to pass to <em>predicate</em>.</p>
+                    <td><p>First integer to pass to <em>predicate</em>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>toExclusive</em></td>
-                    <td><p>One more than the last integer to pass to <em>predicate</em>.</p>
+                    <td><p>One greater than the last integer to pass to <em>predicate</em>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Predicate%601.html#System_Predicate_1">Predicate</a>&lt;<a class="xref" href="System.Int32.html#System_Int32">Int32</a>&gt;</td>
                     <td><em>predicate</em></td>
-                    <td><p>The function to evaluate for any value of the integer in the specified range.</p>
+                    <td><p>Function that is evaluated from <em>fromInclusive</em> to <em>toExclusive</em> - 1.</p>
 </td>
                   </tr>
                 </tbody>
@@ -515,12 +621,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>predicate</em> returns <strong>true</strong> for any integer starting from <em>fromInclusive</em> to <em>toExclusive</em> - 1.</p>
+                    <td><p><code>true</code> if <em>predicate</em> returns <code>true</code> for any integer
+    starting from <em>fromInclusive</em> to <em>toExclusive</em> - 1.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Exists_System_Int32_System_Int32_System_Predicate_System_Int32___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>toExclusive</em> parameter is one more than the last integer to facilitate using the length of a range of integers starting at 0. For example, it would be set to 5 for integers 0 through 4.</p>
+</div>
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -549,15 +658,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Exists__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Exists%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Predicate%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L37">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L738">View Source</a>
               </span>
-              <h4 id="System_Diagnostics_Contracts_Contract_Exists__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__" data-uid="System.Diagnostics.Contracts.Contract.Exists``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">Exists&lt;T&gt;(Collections.Generic.IEnumerable&lt;T&gt;, Predicate&lt;T&gt;)</h4>
+              <h4 id="System_Diagnostics_Contracts_Contract_Exists__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__" data-uid="System.Diagnostics.Contracts.Contract.Exists``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">Exists&lt;T&gt;(IEnumerable&lt;T&gt;, Predicate&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Determines whether an element within a collection of elements exists within a function.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool Exists&lt;T&gt;(Collections.Generic.IEnumerable&lt;T&gt; collection, Predicate&lt;T&gt; predicate)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static bool Exists&lt;T&gt;(IEnumerable&lt;T&gt; collection, Predicate&lt;T&gt; predicate)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -570,15 +680,15 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;T&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable</a>&lt;T&gt;</td>
                     <td><em>collection</em></td>
-                    <td><p>The collection from which elements of type <em>T</em> will be drawn to pass to <em>predicate</em>.</p>
+                    <td><p>The collection from which elements will be drawn from to pass to <em>predicate</em>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Predicate%601.html#System_Predicate_1">Predicate</a>&lt;T&gt;</td>
                     <td><em>predicate</em></td>
-                    <td><p>The function to evaluate for an element in <em>collection</em>.</p>
+                    <td><p>Function that is evaluated on elements from <em>collection</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -594,8 +704,8 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if and only if <em>predicate</em> returns <strong>true</strong> for any element of type <em>T</em> in <em>collection</em>.</p>
+                    <td><p><code>true</code> if and only if <em>predicate</em> returns <code>true</code> for an element in
+<em>collection</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -622,7 +732,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_ForAll_System_Int32_System_Int32_System_Predicate_System_Int32__.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.ForAll(System.Int32%2CSystem.Int32%2CSystem.Predicate%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L38">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L646">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_ForAll_System_Int32_System_Int32_System_Predicate_System_Int32__" data-uid="System.Diagnostics.Contracts.Contract.ForAll(System.Int32,System.Int32,System.Predicate{System.Int32})">ForAll(Int32, Int32, Predicate&lt;Int32&gt;)</h4>
               <div class="markdown level1 summary"><p>Determines whether a particular condition is valid for all integers in a specified range.</p>
@@ -633,7 +743,8 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool ForAll(int fromInclusive, int toExclusive, Predicate&lt;int&gt; predicate)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static bool ForAll(int fromInclusive, int toExclusive, Predicate&lt;int&gt; predicate)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -648,19 +759,19 @@
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>fromInclusive</em></td>
-                    <td><p>The first integer to pass to <em>predicate</em>.</p>
+                    <td><p>First integer to pass to <em>predicate</em>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Int32.html#System_Int32">Int32</a></td>
                     <td><em>toExclusive</em></td>
-                    <td><p>One more than the last integer to pass to <em>predicate</em>.</p>
+                    <td><p>One greater than the last integer to pass to <em>predicate</em>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Predicate%601.html#System_Predicate_1">Predicate</a>&lt;<a class="xref" href="System.Int32.html#System_Int32">Int32</a>&gt;</td>
                     <td><em>predicate</em></td>
-                    <td><p>The function to evaluate for the existence of the integers in the specified range.</p>
+                    <td><p>Function that is evaluated from <em>fromInclusive</em> to <em>toExclusive</em> - 1.</p>
 </td>
                   </tr>
                 </tbody>
@@ -676,12 +787,18 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if <em>predicate</em> returns <strong>true</strong> for all integers starting from <em>fromInclusive</em> to <em>toExclusive</em> - 1.</p>
+                    <td><p><code>true</code> if <em>predicate</em> returns <code>true</code> for all integers 
+    starting from <em>fromInclusive</em> to <em>toExclusive</em> - 1.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_ForAll_System_Int32_System_Int32_System_Predicate_System_Int32___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The <em>toExclusive</em> parameter is one more than the last integer to facilitate using the length of a range of integers starting at 0. For example, it would be set to 5 for integers 0 through 4.</p>
+</div>
+              <h5 id="System_Diagnostics_Contracts_Contract_ForAll_System_Int32_System_Int32_System_Predicate_System_Int32___examples">Examples</h5>
+              
+<p>The following example demonstrates how to use the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_ForAll_System_Int32_System_Int32_System_Predicate_System_Int32__">ForAll(Int32, Int32, Predicate<int32>)</int32></a> method to determine whether an array has a null element. </p>Contract.ForAllExample#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -710,15 +827,16 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_ForAll__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.ForAll%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Predicate%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L39">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L677">View Source</a>
               </span>
-              <h4 id="System_Diagnostics_Contracts_Contract_ForAll__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__" data-uid="System.Diagnostics.Contracts.Contract.ForAll``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">ForAll&lt;T&gt;(Collections.Generic.IEnumerable&lt;T&gt;, Predicate&lt;T&gt;)</h4>
+              <h4 id="System_Diagnostics_Contracts_Contract_ForAll__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__" data-uid="System.Diagnostics.Contracts.Contract.ForAll``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">ForAll&lt;T&gt;(IEnumerable&lt;T&gt;, Predicate&lt;T&gt;)</h4>
               <div class="markdown level1 summary"><p>Determines whether all the elements in a collection exist within a function.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static bool ForAll&lt;T&gt;(Collections.Generic.IEnumerable&lt;T&gt; collection, Predicate&lt;T&gt; predicate)</code></pre>
+                <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static bool ForAll&lt;T&gt;(IEnumerable&lt;T&gt; collection, Predicate&lt;T&gt; predicate)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -731,15 +849,15 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">Collections.Generic.IEnumerable</a>&lt;T&gt;</td>
+                    <td><a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable</a>&lt;T&gt;</td>
                     <td><em>collection</em></td>
-                    <td><p>The collection from which elements of type <em>T</em> will be drawn to pass to <em>predicate</em>.</p>
+                    <td><p>The collection from which elements will be drawn from to pass to <em>predicate</em>.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.Predicate%601.html#System_Predicate_1">Predicate</a>&lt;T&gt;</td>
                     <td><em>predicate</em></td>
-                    <td><p>The function to evaluate for the existence of all the elements in <em>collection</em>.</p>
+                    <td><p>Function that is evaluated on elements from <em>collection</em>.</p>
 </td>
                   </tr>
                 </tbody>
@@ -755,12 +873,15 @@
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
-                    <td><p>
-<strong>true</strong> if and only if <em>predicate</em> returns <strong>true</strong> for all elements of type <em>T</em> in <em>collection</em>.</p>
+                    <td><p><code>true</code> if and only if <em>predicate</em> returns <code>true</code> for all elements in
+<em>collection</em>.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_ForAll__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0___examples">Examples</h5>
+              
+<p>The following example demonstrates how to use the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_ForAll__1_System_Collections_Generic_IEnumerable___0__System_Predicate___0__">ForAll<t>(IEnumerable<t>, Predicate<t>)</t></t></t></a> method to determine whether a collection has a null element. </p>Contract.ForAllExample#1
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -783,7 +904,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Invariant(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L40">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L600">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.Invariant(System.Boolean)">Invariant(Boolean)</h4>
               <div class="markdown level1 summary"><p>Specifies an invariant contract for the enclosing method or property. </p>
@@ -804,7 +925,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Invariant(bool condition)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Invariant(bool condition)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -819,17 +942,30 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Invariant_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>
+<p><a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_">Invariant(Boolean)</a> contracts are contained within a method that is identified by the <a class="xref" href="System.Diagnostics.Contracts.ContractInvariantMethodAttribute.html#System_Diagnostics_Contracts_ContractInvariantMethodAttribute">ContractInvariantMethodAttribute</a> attribute; typically, the method is named <code>ObjectInvariant</code>.</p></p>
+<ul><li>
+<p>This contract can be specified only in a dedicated invariant method that is declared on a class. If the method is not sealed, it should refer only to protected members, not private members, so that subclasses can be sure to maintain the invariants.</p>
+</li><li>
+<p>This contract is not exposed to clients; therefore, it may reference members that are less visible than the enclosing method.</p>
+</li><li>
+<p>You must use the binary rewriter for run-time enforcement of this invariant.</p>
+</li><li>
+<p>Invariants are conditionally defined based on the presence of the <strong>CONTRACTS FULL</strong> symbol. During run-time checking, invariants are checked at the end of each public method. If an invariant mentions a public method in the same class, the invariant check that would normally happen at the end of that public method is disabled and checked only at the end of the outermost method call to that class. This also happens if the class is re-entered because of a call to a method on another class. </p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Invariant(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L42">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L620">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.Invariant(System.Boolean,System.String)">Invariant(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Specifies an invariant contract for the enclosing method or property, and displays a message if the condition for the contract fails.</p>
@@ -850,7 +986,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Invariant(bool condition, string userMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Invariant(bool condition, string userMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -865,23 +1003,36 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>The message to display if the condition is <strong>false</strong>.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>
+<p><a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Invariant_System_Boolean_System_String_">Invariant(Boolean, String)</a> contracts are contained within a method that is identified by the <a class="xref" href="System.Diagnostics.Contracts.ContractInvariantMethodAttribute.html#System_Diagnostics_Contracts_ContractInvariantMethodAttribute">ContractInvariantMethodAttribute</a> attribute; typically, the method is named <code>ObjectInvariant</code>.</p></p>
+<ul><li>
+<p>This contract can be specified only in a dedicated invariant method that is declared on a class.</p>
+</li><li>
+<p>This contract is not exposed to clients; therefore, it may reference members that are less visible than the enclosing method.</p>
+</li><li>
+<p>You must use the binary rewriter for run-time enforcement of this invariant.</p>
+</li><li>
+<p>Invariants are conditionally defined on the <strong>CONTRACTS FULL</strong> symbol. During run-time checking, invariants are checked at the end of each public method. If an invariant mentions a public method in the same class, the invariant check that would normally happen at the end of that public method is disabled and checked only at the end of the outermost method call to that class. This also happens if the class is re-entered because of a call to a method on another class.</p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_OldValue__1___0_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.OldValue%60%601(%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L44">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L578">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_OldValue__1___0_" data-uid="System.Diagnostics.Contracts.Contract.OldValue``1(``0)">OldValue&lt;T&gt;(T)</h4>
               <div class="markdown level1 summary"><p>Represents values as they were at the start of a method or property.</p>
@@ -892,7 +1043,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static T OldValue&lt;T&gt;(T value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;Microsoft.Usage&quot;, &quot;CA1801:ReviewUnusedParameters&quot;, MessageId = &quot;value&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+public static T OldValue&lt;T&gt;(T value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -907,7 +1060,7 @@
                   <tr>
                     <td><span class="xref">T</span></td>
                     <td><em>value</em></td>
-                    <td><p>The value to represent (field or parameter).</p>
+                    <td><p>Value to represent.  This must be a field or parameter.</p>
 </td>
                   </tr>
                 </tbody>
@@ -923,17 +1076,23 @@
                 <tbody>
                   <tr>
                     <td><span class="xref">T</span></td>
-                    <td><p>The value of the parameter or field at the start of a method or property.</p>
+                    <td><p>Value of <em>value</em> at the start of the method or property.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_OldValue__1___0__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be used only in the conditional expression for the <see cref="Overload:System.Diagnostics.Contracts.Contract.Ensures"></see> contract.</p>
+</div>
+              <h5 id="System_Diagnostics_Contracts_Contract_OldValue__1___0__examples">Examples</h5>
+              
+<p>The following example shows the use of the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> method to ensure that a count has been updated. This code example is part of a larger example provided for the <a class="xref" href="System.Diagnostics.Contracts.ContractClassAttribute.html#System_Diagnostics_Contracts_ContractClassAttribute">ContractClassAttribute</a> class.</p>ContractExample#5
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Requires_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Requires(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L45">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L378">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Requires_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.Requires(System.Boolean)">Requires(Boolean)</h4>
               <div class="markdown level1 summary"><p>Specifies a precondition contract for the enclosing method or property.</p>
@@ -950,7 +1109,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Requires(bool condition)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Requires(bool condition)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -965,17 +1126,27 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Requires_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>Use this method instead of the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_">Requires<texception>(Boolean)</texception></a> method when backward compatibility does not force you to throw a particular exception.</p>
+</li></ul>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Requires_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Requires(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L47">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L398">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Requires_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.Requires(System.Boolean,System.String)">Requires(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Specifies a precondition contract for the enclosing method or property, and displays a message if the condition for the contract fails.</p>
@@ -992,7 +1163,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Requires(bool condition, string userMessage)</code></pre>
+                <pre><code class="lang-csharp hljs">[Conditional(&quot;CONTRACTS_FULL&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Requires(bool condition, string userMessage)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1007,23 +1180,33 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>The message to display if the condition is <strong>false</strong>.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Requires_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>Use this method instead of the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_System_String_">Requires<texception>(Boolean, String)</texception></a> method when backward compatibility does not force you to throw a particular exception.</p>
+</li></ul>
+</div>
+              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Requires%60%601(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L49">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L417">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_" data-uid="System.Diagnostics.Contracts.Contract.Requires``1(System.Boolean)">Requires&lt;TException&gt;(Boolean)</h4>
               <div class="markdown level1 summary"><p>Specifies a precondition contract for the enclosing method or property, and throws an exception if the condition for the contract fails.</p>
@@ -1041,7 +1224,10 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Requires&lt;TException&gt;(bool condition)where TException : Exception</code></pre>
+                <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;Microsoft.Usage&quot;, &quot;CA1801:ReviewUnusedParameters&quot;, MessageId = &quot;condition&quot;)]
+[SuppressMessage(&quot;Microsoft.Design&quot;, &quot;CA1004:GenericMethodsShouldProvideTypeParameter&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Requires&lt;TException&gt;(bool condition)where TException : Exception</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1056,17 +1242,27 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p><p>You must turn on run-time checking to use the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_">Requires<texception>(Boolean)</texception></a> method. If run-time checking is turned off, the process will be terminated. To obtain the tools for runtime checking, see <see href="http://go.microsoft.com/fwlink/?LinkId=152461">Code Contracts</see> on the MSDN DevLabs Web site. </p></p>
+<ul><li>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>Use this method instead of the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Requires_System_Boolean_">Requires(Boolean)</a> method when you want to throw an exception if the precondition fails. </p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Requires%60%601(System.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L50">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L438">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_System_String_" data-uid="System.Diagnostics.Contracts.Contract.Requires``1(System.Boolean,System.String)">Requires&lt;TException&gt;(Boolean, String)</h4>
               <div class="markdown level1 summary"><p>Specifies a precondition contract for the enclosing method or property, and throws an exception with the provided message if the condition for the contract fails.</p>
@@ -1084,7 +1280,11 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static void Requires&lt;TException&gt;(bool condition, string userMessage)where TException : Exception</code></pre>
+                <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;Microsoft.Usage&quot;, &quot;CA1801:ReviewUnusedParameters&quot;, MessageId = &quot;userMessage&quot;)]
+[SuppressMessage(&quot;Microsoft.Usage&quot;, &quot;CA1801:ReviewUnusedParameters&quot;, MessageId = &quot;condition&quot;)]
+[SuppressMessage(&quot;Microsoft.Design&quot;, &quot;CA1004:GenericMethodsShouldProvideTypeParameter&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+public static void Requires&lt;TException&gt;(bool condition, string userMessage)where TException : Exception</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1099,23 +1299,33 @@
                   <tr>
                     <td><a class="xref" href="System.Boolean.html#System_Boolean">Boolean</a></td>
                     <td><em>condition</em></td>
-                    <td><p>The conditional expression to test.</p>
+                    <td><p>Boolean expression representing the contract.</p>
 </td>
                   </tr>
                   <tr>
                     <td><a class="xref" href="System.String.html#System_String">String</a></td>
                     <td><em>userMessage</em></td>
-                    <td><p>The message to display if the condition is <strong>false</strong>.</p>
+                    <td><p>If it is not a constant string literal, then the contract may not be understood by tools.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_System_String__remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><ul><li>
+<p>You must turn on run-time checking to use the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Requires__1_System_Boolean_System_String_">Requires<texception>(Boolean, String)</texception></a> method. If run-time checking is turned off, the process will be terminated. To obtain the tools for runtime checking, see <see href="http://go.microsoft.com/fwlink/?LinkId=152461">Code Contracts</see> on the MSDN DevLabs Web site.</p>
+<p>This method call must be at the beginning of a method or property, before any other code.</p>
+</li><li>
+<p>This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.</p>
+</li><li>
+<p>Use this method instead of the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Requires_System_Boolean_System_String_">Requires(Boolean, String)</a> method when you want to throw an exception if the precondition fails. </p>
+</li></ul>
+</div>
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_Result__1.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.Result%60%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L51">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L546">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_Result__1" data-uid="System.Diagnostics.Contracts.Contract.Result``1">Result&lt;T&gt;()</h4>
               <div class="markdown level1 summary"><p>Represents the return value of a method or property.</p>
@@ -1126,7 +1336,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static T Result&lt;T&gt;()</code></pre>
+                <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;Microsoft.Design&quot;, &quot;CA1004:GenericMethodsShouldProvideTypeParameter&quot;, Justification = &quot;Not intended to be called at runtime.&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+public static T Result&lt;T&gt;()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1144,12 +1356,18 @@
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_Result__1_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be used only in the conditional expression for the <see cref="Overload:System.Diagnostics.Contracts.Contract.Ensures"></see> contract.</p>
+</div>
+              <h5 id="System_Diagnostics_Contracts_Contract_Result__1_examples">Examples</h5>
+              
+<p>The following example shows how to use the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_Result__1">Result<t>()</t></a> method to specify an expected return value. This code example is part of a larger example provided for the <a class="xref" href="System.Diagnostics.Contracts.ContractClassAttribute.html#System_Diagnostics_Contracts_ContractClassAttribute">ContractClassAttribute</a> class.</p>ContractExample#3
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_ValueAtReturn__1___0__.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.ValueAtReturn%60%601(%60%600%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L52">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs/#L562">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_ValueAtReturn__1___0__" data-uid="System.Diagnostics.Contracts.Contract.ValueAtReturn``1(``0@)">ValueAtReturn&lt;T&gt;(out T)</h4>
               <div class="markdown level1 summary"><p>Represents the final (output) value of an <strong>out</strong> parameter when returning from a method.</p>
@@ -1160,7 +1378,9 @@
 </div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public static T ValueAtReturn&lt;T&gt;(out T value)</code></pre>
+                <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;Microsoft.Design&quot;, &quot;CA1021:AvoidOutParameters&quot;, MessageId = &quot;0#&quot;, Justification = &quot;Not intended to be called at runtime.&quot;)]
+[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+public static T ValueAtReturn&lt;T&gt;(out T value)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -1175,7 +1395,7 @@
                   <tr>
                     <td><span class="xref">T</span></td>
                     <td><em>value</em></td>
-                    <td><p>The <strong>out</strong> parameter.</p>
+                    <td><p>The out parameter.</p>
 </td>
                   </tr>
                 </tbody>
@@ -1191,11 +1411,14 @@
                 <tbody>
                   <tr>
                     <td><span class="xref">T</span></td>
-                    <td><p>The output value of the <strong>out</strong> parameter.</p>
+                    <td><p>The output value of the out parameter.</p>
 </td>
                   </tr>
                 </tbody>
               </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_ValueAtReturn__1___0___remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>This method can be used only in the conditional expression for the <see cref="Overload:System.Diagnostics.Contracts.Contract.Ensures"></see> contract. As with the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_OldValue__1___0_">OldValue<t>(T)</t></a> method, you can omit the generic type parameter whenever the compiler is able to infer its type. The contract rewriter replaces the method call with the value of the <strong>out</strong> parameter. The <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_ValueAtReturn__1___0__">ValueAtReturn<t>(out T)</t></a> method may appear only in postconditions. The argument to the method must be an <strong>out</strong> parameter or a field of a structure <strong>out</strong> parameter. The latter is also useful when referring to fields in the postcondition of a structure constructor.</p>
+</div>
               <h3 id="events">Events
               </h3>
               <span class="small pull-right mobile-hide">
@@ -1203,7 +1426,7 @@
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Diagnostics_Contracts_Contract_ContractFailed.md&amp;value=---%0Auid%3A%20System.Diagnostics.Contracts.Contract.ContractFailed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
               </span>
               <span class="small pull-right mobile-hide">
-                <a href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs/#L13">View Source</a>
+                <a href="https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Contracts/ContractsBCL.cs/#L122">View Source</a>
               </span>
               <h4 id="System_Diagnostics_Contracts_Contract_ContractFailed" data-uid="System.Diagnostics.Contracts.Contract.ContractFailed">ContractFailed</h4>
               <div class="markdown level1 summary"><p>Occurs when a contract fails.</p>
@@ -1217,6 +1440,25 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static event EventHandler&lt;ContractFailedEventArgs&gt; ContractFailed</code></pre>
               </div>
+              <h5 class="eventType">Event Type</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="xref" href="System.EventHandler%601.html#System_EventHandler_1">EventHandler</a>&lt;<a class="xref" href="System.Diagnostics.Contracts.ContractFailedEventArgs.html#System_Diagnostics_Contracts_ContractFailedEventArgs">ContractFailedEventArgs</a>&gt;</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 id="System_Diagnostics_Contracts_Contract_ContractFailed_remarks">Remarks</h5>
+              <div class="markdown level1 remarks"><p>The event information for this event is supplied by the <a class="xref" href="System.Diagnostics.Contracts.ContractFailedEventArgs.html#System_Diagnostics_Contracts_ContractFailedEventArgs">ContractFailedEventArgs</a> object that is passed to the event handler. This event notifies a managed application environment such as an interactive interpreter or a Web browser host that a contract has failed. Before doing so, it will raise an event that an application can handle as it sees fit. For example, if code is being run in a testing framework, you can log a test failure and then end the test. </p>
+<p>The default implementation of the <span class="xref">System.Diagnostics.Contracts.Internal.ContractHelper.RaiseContractFailedEvent(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.Exception)</span> method in the .NET Framework class library is to call each handler that is registered with the <a class="xref" href="System.Diagnostics.Contracts.Contract.html#System_Diagnostics_Contracts_Contract_ContractFailed">ContractFailed</a> event. Exceptions thrown by handlers are ignored, but each handler can indicate whether the failure is handled by calling the <a class="xref" href="System.Diagnostics.Contracts.ContractFailedEventArgs.html#System_Diagnostics_Contracts_ContractFailedEventArgs_SetHandled">SetHandled()</a> method for the event arguments. If any handler sets the failure as handled, the method returns <strong>null</strong> and no further action is taken. Alternatively, handlers can call the <a class="xref" href="System.Diagnostics.Contracts.ContractFailedEventArgs.html#System_Diagnostics_Contracts_ContractFailedEventArgs_SetUnwind">SetUnwind()</a> method to instruct the code to unwind. In that case, an exception is thrown after all handlers have executed.</p>
+</div>
             </article>
           </div>
           
