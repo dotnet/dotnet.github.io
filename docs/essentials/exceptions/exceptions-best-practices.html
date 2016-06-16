@@ -81,11 +81,6 @@
 {
     conn.Close();
 }
-</code></pre><p>C++</p>
-<pre><code>if (conn-&gt;State != ConnectionState::Closed)
-{
-    conn-&gt;Close();
-}
 </code></pre><p>Visual Basic</p>
 <pre><code>If conn.State &lt;&gt; ConnectionState.Closed Then
     conn.Close()
@@ -98,16 +93,6 @@ Catch ex As InvalidOperationException
 Console.WriteLine(ex.GetType().FullName)
 Console.WriteLine(ex.Message)
 End Try
-</code></pre><p>C++</p>
-<pre><code>try
-{
-conn-&gt;Close();
-}
-catch (InvalidOperationException^ ex)
-{
-Console::WriteLine(ex-&gt;GetType()-&gt;FullName);
-Console::WriteLine(ex-&gt;Message);
-}
 </code></pre><p>Visual Basic</p>
 <pre><code>Try
 conn.Close()
@@ -159,34 +144,6 @@ End Try
         }
     }
 }
-</code></pre><p>C++</p>
-<pre><code>class FileRead
-{
-public:
-    void ReadAll(FileStream^ fileToRead)
-    {
-        // This if statement is optional
-        // as it is very unlikely that
-        // the stream would ever be null.
-        if (fileToRead == nullptr)
-        {
-            throw gcnew System::ArgumentNullException();
-        }
-
-        int b;
-
-        // Set the stream position to the beginning of the file.
-        fileToRead-&gt;Seek(0, SeekOrigin::Begin);
-
-        // Read each byte to the end of the file.
-        for (int i = 0; i &lt; fileToRead-&gt;Length; i++)
-        {
-            b = fileToRead-&gt;ReadByte();
-            Console::Write(b.ToString());
-            // Or do something else with the byte.
-        }
-    }
-};
 </code></pre><p>Visual Basic</p>
 <pre><code>Class FileRead
     Public Sub ReadAll(fileToRead As FileStream)
@@ -228,16 +185,12 @@ End Class
 <pre><code>public class MyFileNotFoundException : Exception
 {
 }
-</code></pre><p>C++</p>
-<pre><code>public ref class MyFileNotFoundException : public Exception
-{
-};
 </code></pre><p>Visual Basic</p>
 <pre><code>Public Class MyFileNotFoundException
     Inherits Exception
 End Class
 </code></pre></li>
-<li><p>In C# and C++, use at least the three common constructors when creating your own exception classes: the default constructor, a constructor that takes a string message, and a constructor that takes a string message and an inner exception. For an example, see How to: Create User-Defined Exceptions.</p>
+<li><p>In C#, use at least the three common constructors when creating your own exception classes: the default constructor, a constructor that takes a string message, and a constructor that takes a string message and an inner exception. For an example, see How to: Create User-Defined Exceptions.</p>
 <ul>
 <li><p><a href="https://msdn.microsoft.com/library/9f9b3wha">Exception()</a>, which uses default values.</p>
 </li>
@@ -287,35 +240,6 @@ End Class
         Return New FileReaderException(description)
     End Function
 End Class
-</code></pre><p>C++</p>
-<pre><code>ref class FileReader
-{
-private:
-    String^ fileName;
-
-public:
-    FileReader(String^ path)
-    {
-        fileName = path;
-    }
-
-    array&lt;Byte&gt;^ Read(int bytes)
-    {
-        array&lt;Byte&gt;^ results = FileUtils::ReadFromFile(fileName, bytes);
-        if (results == nullptr)
-        {
-            throw NewFileIOException();
-        }
-        return results;
-    }
-
-    FileReaderException^ NewFileIOException()
-    {
-        String^ description = &quot;My NewFileIOException Description&quot;;
-
-        return gcnew FileReaderException(description);
-    }
-};
 </code></pre><p>Visual Basic</p>
 <pre><code>Class FileReader
     Private fileName As String
