@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Introduction | CoreCLR site </title>
+    <title>Microservices hosted in Docker | CoreCLR site </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Introduction | CoreCLR site ">
+    <meta name="title" content="Microservices hosted in Docker | CoreCLR site ">
     
     <link rel="shortcut icon" href="../../../images/Logo_DotNet.png" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -68,8 +68,9 @@
           <div class="col-md-10">
             <article class="content wrap" id="_content">
               <a href="https://github.com/dotnet/core-docs/blob/master/docs/tutorials/getting-started-with-csharp/microservices.md/#L1" class="pull-right mobile-hide"><span class="fa fa-github"></span> Improve this Doc</a>
-              <h1 id="introduction">Introduction</h1>
+              <h1 id="microservices-hosted-in-docker">Microservices hosted in Docker</h1>
               
+<h2 id="introduction">Introduction</h2>
 <p>This tutorial details the tasks necessary to build and deploy
 an ASP.NET Core microservice in a Docker container. During the course
 of this tutorial, you&#39;ll learn:</p>
@@ -86,7 +87,7 @@ of this tutorial, you&#39;ll learn:</p>
 <li>How to process incoming HTTP Requests and generate the HTTP Response</li>
 <li>How to work with nullable value types</li>
 </ul>
-<h2 id="why-docker-">Why Docker?</h2>
+<h3 id="why-docker-">Why Docker?</h3>
 <p>Docker makes it easy to create standard machine images to
 host your services in a data center, or the public cloud. Docker
 enables you to configure the image, and replicate it as needed to
@@ -94,7 +95,7 @@ scale the installation of your application.</p>
 <p>All the code in this tutorial will work in any .NET Core environment.
 The additional tasks for a Docker installation will work for an ASP.NET
 Core application. </p>
-<h1 id="prerequisites">Prerequisites</h1>
+<h2 id="prerequisites">Prerequisites</h2>
 <p>You’ll need to setup your machine to run .NET core. See the 
 <a href="http://dotnet.github.io/getting-started/">.NET Core Getting Started page</a>
 for instructions on installing .NET core on your machine.
@@ -119,7 +120,7 @@ available system wide. (A local install scopes the package to a single
 project). Once you&#39;ve installed those core tools, you need to install
 the yeoman asp.net template generators:</p>
 <p><code>npm install -g generator-aspnet</code></p>
-<h1 id="create-the-application">Create the Application</h1>
+<h2 id="create-the-application">Create the Application</h2>
 <p>Now that you&#39;ve installed all the tools, create a new asp.net core
 application. To use the command line generator, execute the following
 yeoman command in your favorite shell:</p>
@@ -153,7 +154,7 @@ all the dependencies, you build the application:</p>
 <p><code>dotnet run</code></p>
 <p>The default configuration listens to <a href="http://localhost:5000">http://localhost:5000</a>. You can open a
 browser and navigate to that page and see a &quot;Hello World!&quot; message.</p>
-<h2 id="anatomy-of-an-asp-net-core-application">Anatomy of an ASP.NET Core application</h2>
+<h3 id="anatomy-of-an-asp-net-core-application">Anatomy of an ASP.NET Core application</h3>
 <p>Now that you&#39;ve built the application, let&#39;s look at how this functionality
 is implemented. There are two of the generated files that are particularly
 interesting at this point: project.json and Startup.cs. </p>
@@ -172,7 +173,7 @@ necessary for this application. You&#39;re building a lean microservice, so it d
 need to configure any dependencies. The <code>Configure</code> method configures the handlers
 for incoming HTTP Requests. The template generates a simple handler that responds
 to any request with the text &#39;Hello World!&#39;.</p>
-<h1 id="build-a-microservice">Build a microservice</h1>
+<h2 id="build-a-microservice">Build a microservice</h2>
 <p>The service you&#39;re going to build will deliver weather reports from anywhere
 around the globe. In a production application, you&#39;d call some service
 to retrieve weather data. For our sample, we&#39;ll generate a random weather
@@ -187,7 +188,7 @@ our random weather service:</p>
 <li>Write the response.</li>
 </ul>
 <p>The next sections walk you through each of these steps.</p>
-<h2 id="parsing-the-query-string-">Parsing the Query String.</h2>
+<h3 id="parsing-the-query-string-">Parsing the Query String.</h3>
 <p>You&#39;ll begin by parsing the query string. The service will accept 
 &#39;lat&#39; and &#39;long&#39; arguments on the query string in this form:</p>
 <p><code>http://localhost:5000/?lat=-35.55&amp;long=-12.35</code>  </p>
@@ -249,7 +250,7 @@ of the arguments:</p>
 <p>At this point, you can run the web application and see if your parsing
 code is working. Add values to the web request in a browser, and you should see
 the updated results.</p>
-<h2 id="build-a-random-weather-forecast">Build a random weather forecast</h2>
+<h3 id="build-a-random-weather-forecast">Build a random weather forecast</h3>
 <p>Your next task is to build a random weather forecast. Let&#39;s start with a data
 container that holds the values you&#39;d want for a weather forecast:</p>
 <pre><code class="lang-cs">public class WeatherReport
@@ -291,7 +292,7 @@ container that holds the values you&#39;d want for a weather forecast:</p>
     }
 }
 </code></pre>
-<h2 id="build-the-json-response-">Build the JSON response.</h2>
+<h3 id="build-the-json-response-">Build the JSON response.</h3>
 <p>The final code task on the server is to convert the WeatherReport array
 into a JSON packet, and send that back to the client. Let&#39;s start by creating
 the JSON packet. You&#39;ll add the NewtonSoft JSON Serializer to the
@@ -315,7 +316,7 @@ await context.Response.WriteAsync(json);
 objects) into a JSON packet. After you&#39;ve constructed the response packet,
 you set the content type to &#39;application/json&#39;, and write the string.</p>
 <p>The application now runs and returns random forecasts.</p>
-<h1 id="load-into-docker">Load into Docker</h1>
+<h2 id="load-into-docker">Load into Docker</h2>
 <p>The Dockerfile created by the asp.net template will serve
 for our purposes. Let&#39;s go over its contents.</p>
 <p>The first line specifies the source image:</p>
@@ -385,7 +386,7 @@ it in the running processes. (It may be the only one).</p>
 <pre><code>docker-machine ip weather-service
 </code></pre><p>Open a browser on the docker host and navigate to that site, and you should see your 
 weather service running. </p>
-<h1 id="conclusion">Conclusion</h1>
+<h2 id="conclusion">Conclusion</h2>
 <p>In this tutorial, you built an asp.net core microservice, and added a few
 features.</p>
 <p>You built a docker machine, created an image of your new application and
