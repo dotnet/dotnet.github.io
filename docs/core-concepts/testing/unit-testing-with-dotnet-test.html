@@ -133,17 +133,15 @@ namespace Prime.Services
 <h2 id="creating-the-test-project">Creating the test project</h2>
 <p>Next, cd into the &#39;test&#39; directory, and create the <code>PrimeServices.Tests</code> directory.
 CD into the <code>PrimeServices.Tests</code> directory and create a new project using <code>dotnet new</code>.
-Once again, <code>dotnet new</code> creates a console application, and you&#39;ll need to modify
-<code>project.json</code> to create a class library project by removing the <code>buildOptions</code> node.</p>
+Once again, <code>dotnet new</code> creates a console application. Your unit test project is
+a console application, but the unit test assembly should not contain the application
+entry point. The xunit testrunner contains the entry point to run the console application.
+Therefore, you need to modify
+<code>project.json</code> by removing the <code>buildOptions</code> node.</p>
 <pre><code class="lang-json">&quot;buildOptions&quot; : {
     &quot;emitEntryPoint&quot;: true
 }
 </code></pre>
-<ul>
-<li>note: You can track <a href="https://github.com/dotnet/cli/issues/2052">this issue</a>
-for other project types coming for the .NET Core SDK, including class libraries.
-Once this issue is addressed, you won&#39;t need to make these changes.</li>
-</ul>
 <p>The test project requires other packages to create and run unit tests.
 You&#39;ll need to add xunit, the xunit runner, and the PrimeService
 package as dependencies to the project:</p>
@@ -186,7 +184,7 @@ get xunit to work with RC2:</p>
 <p>You can see the entire file in the <a href="https://github.com/dotnet/core-docs/blob/master/samples/unit-testing/using-dotnet-test/tests/PrimeService.Tests/project.json">samples repository</a>
 on GitHub.</p>
 <p>After this initial structure is in place, you can write your first test.
-After this initial setup, everything is configured and should run smoothly
+Once you verify that first unit test, everything is configured and should run smoothly
 as you add features and tests.</p>
 <h1 id="creating-the-first-test">Creating the first test</h1>
 <p>The TDD approach calls for writing one failing test, then making it pass,
@@ -220,7 +218,9 @@ build system will detect that and build it because it is a
 dependency of the test project.</p>
 <p>Now, execute <code>dotnet test</code> to run the tests from the console.
 The xunit test runner has the program entry point to run your
-tests from the Console.</p>
+tests from the Console. <code>dotnet test</code> starts the
+test runner, and provides a command line argument to the
+testrunner indicating the assembly that contains your tests.</p>
 <p>Your test fails. You haven&#39;t created the implementation yet.
 Write the simplest code to make this one test pass:</p>
 <pre><code class="lang-cs">public bool IsPrime(int candidate) 
