@@ -98,9 +98,6 @@
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_IObserver_1_examples"><strong>Examples</strong></h5>
-              
-<p>The following example illustrates the observer design pattern. It defines a <code>Location</code> class that contains latitude and longitude information.</p>System.IObserver.Class#5<p>The <code>LocationReporter</code> class provides the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> implementation. It displays information about the current location to the console. Its constructor includes a <em>name</em> parameter, which allows the <code>LocationReporter</code> instance to identify itself in its string output. It also includes a <code>Subscribe</code> method, which wraps a call to the provider's <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. This enables the method to assign the returned <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> reference to a private variable. The <code>LocationReporter</code> class also includes an <code>Unsubscribe</code> method, which calls the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of the object returned by the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. The following code defines the <code>LocationReporter</code> class. </p>System.IObserver.Class#8<p>The <code>LocationTracker</code> class provides the <a class="xref" href="System.IObservable%601.html#System_IObservable_1">IObservable<t></t></a> implementation. Its <code>TrackLocation</code> method is passed a nullable <code>Location</code> object that contains the latitude and longitude data. If the <code>Location</code> value is not <strong>null</strong>, the <code>TrackLocation</code> method calls the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method of each observer. </p>System.IObserver.Class#6<p>If the <code>Location</code> value is <strong>null</strong>, the <code>TrackLocation</code> method instantiates a <code>LocationNotFoundException</code> object, which is shown in the following example. It then calls each observer's <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method and passes it the <code>LocationNotFoundException</code> object. Note that <code>LocationNotFoundException</code> derives from <a class="xref" href="System.Exception.html#System_Exception">Exception</a> but does not add any new members.</p>System.IObserver.Class#7<p>Observers register to receive notifications from a <code>TrackLocation</code> object by calling its <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method, which assigns a reference to the observer object to a private generic <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> object. The method returns an <code>Unsubscriber</code> object, which is an <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> implementation that enables observers to stop receiving notifications. The <code>LocationTracker</code> class also includes an <code>EndTransmission</code> method. When no further location data is available, the method calls each observer's <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method and then clears the internal list of observers.</p><p>The following code then instantiates the provider and the observer.</p>System.IObserver.Class#9
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -114,19 +111,10 @@
               <div class="markdown level1 summary"><p>Notifies the observer that the provider has finished sending push-based notifications.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_IObserver_1_OnCompleted_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When the observer&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> implementation is called, the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method can optionally call the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> object that was returned to the observer when it called the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void OnCompleted()</code></pre>
               </div>
-              <h5 id="System_IObserver_1_OnCompleted_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>When the observer&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> implementation is called, the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method can optionally call the <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> method of the <a class="xref" href="System.IDisposable.html#System_IDisposable">IDisposable</a> object that was returned to the observer when it called the <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method. </p>
-</div>
-              <h5 id="System_IObserver_1_OnCompleted_examples">Examples</h5>
-              
-<p>The following example provides an implementation of the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnCompleted">OnCompleted()</a> method in a latitude/longitude tracking application. The method simply reports that no further data is available and calls the provider's <a class="xref" href="System.IDisposable.html#System_IDisposable_Dispose">Dispose()</a> implementation. See the Example section of the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> topic for the complete example.</p>System.IObserver.Class#11
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObserver_1_OnError_System_Exception_.md&amp;value=---%0Auid%3A%20System.IObserver%601.OnError(System.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -138,9 +126,6 @@
               <div class="markdown level1 summary"><p>Notifies the observer that the provider has experienced an error condition.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_IObserver_1_OnError_System_Exception__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although <em>error</em> is an object that is derived from <a class="xref" href="System.Exception.html#System_Exception">Exception</a>, it does not necessarily represent an exception that is thrown by the provider. It can also represent a routine or expected error condition, such as data that is missing or unavailable. The <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method should be seen as informational, and the provider should not expect the observer to provide error handling.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void OnError(Exception error)</code></pre>
@@ -162,12 +147,6 @@
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_IObserver_1_OnError_System_Exception__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although <em>error</em> is an object that is derived from <a class="xref" href="System.Exception.html#System_Exception">Exception</a>, it does not necessarily represent an exception that is thrown by the provider. It can also represent a routine or expected error condition, such as data that is missing or unavailable. The <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method should be seen as informational, and the provider should not expect the observer to provide error handling.</p>
-</div>
-              <h5 id="System_IObserver_1_OnError_System_Exception__examples">Examples</h5>
-              
-<p>The following example provides an implementation of the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnError_System_Exception_">OnError(Exception)</a> method in a latitude/longitude tracking application. The method simply reports that data is currently unavailable; it does not make use of the <a class="xref" href="System.Exception.html#System_Exception">Exception</a> object passed to it as a parameter. See the Example section of the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> topic for the complete example.</p>System.IObserver.Class#10
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_IObserver_1_OnNext__0_.md&amp;value=---%0Auid%3A%20System.IObserver%601.OnNext(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -179,9 +158,6 @@
               <div class="markdown level1 summary"><p>Provides the observer with new data.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_IObserver_1_OnNext__0__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>After an observer has called a provider&#39;s <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method, the provider calls the observer&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method to provide notifications. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">void OnNext(T value)</code></pre>
@@ -203,12 +179,6 @@
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_IObserver_1_OnNext__0__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>After an observer has called a provider&#39;s <a class="xref" href="System.IObservable%601.html#System_IObservable_1_Subscribe_System_IObserver__0__">Subscribe(IObserver<t>)</t></a> method, the provider calls the observer&#39;s <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method to provide notifications. </p>
-</div>
-              <h5 id="System_IObserver_1_OnNext__0__examples">Examples</h5>
-              
-<p>The following example provides an implementation of the <a class="xref" href="System.IObserver%601.html#System_IObserver_1_OnNext__0_">OnNext(T)</a> method in a latitude/longitude tracking application. See the Example section of the <a class="xref" href="System.IObserver%601.html#System_IObserver_1">IObserver<t></t></a> topic for the complete example.</p>System.IObserver.Class#12
             </article>
           </div>
           

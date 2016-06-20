@@ -88,7 +88,6 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class Extensions</code></pre>
               </div>
-              
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -102,10 +101,6 @@
               <div class="markdown level1 summary"><p>Returns a collection of elements that contains the ancestors of every node in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor, the ancestor will be included multiple times in the result collection. To avoid this, use the <see cref="Overload:System.Linq.Enumerable.Distinct"></see> method.</p>
-<p>This method uses deferred execution.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; Ancestors&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XNode</code></pre>
@@ -144,180 +139,6 @@
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor, the ancestor will be included multiple times in the result collection. To avoid this, use the <see cref="Overload:System.Linq.Enumerable.Distinct"></see> method.</p>
-<p>This method uses deferred execution.</p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all ancestors of all elements in the collection.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Child1",
-new XElement("GrandChild1",
-    new XElement("GreatGrandChild1", "content")
-)
-),
-new XElement("Child2",
-new XElement("GrandChild2",
-    new XElement("GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.Ancestors().Distinct()
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<child1>
-    <grandchild1>
-        <greatgrandchild1>content</greatgrandchild1>
-    </grandchild1>
-</child1>
-<child2>
-    <grandchild2>
-        <greatgrandchild2>content</greatgrandchild2>
-    </grandchild2>
-</child2>
-</root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                 Where el.Name.LocalName.StartsWith("Great") _
-                 Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.Ancestors.Distinct _
-           Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-Console.WriteLine(de.Name)
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-GreatGrandChild1
-GreatGrandChild2
-
-Ancestors
-----
-GrandChild1
-Child1
-Root
-GrandChild2
-Child2</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XElement(aw + "Child1",
-new XElement(aw + "GrandChild1",
-    new XElement(aw + "GreatGrandChild1", "content")
-)
-),
-new XElement(aw + "Child2",
-new XElement(aw + "GrandChild2",
-    new XElement(aw + "GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.Ancestors().Distinct()
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <child1>
-            <grandchild1>
-                <greatgrandchild1>content</greatgrandchild1>
-            </grandchild1>
-        </child1>
-        <child2>
-            <grandchild2>
-                <greatgrandchild2>content</greatgrandchild2>
-            </grandchild2>
-        </child2>
-    </root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                         Where el.Name.LocalName.StartsWith("Great") _
-                         Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-    Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.Ancestors.Distinct _
-                   Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-    Console.WriteLine(de.Name)
-Next
-End Sub
-End Module</xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-{http://www.adventure-works.com}GreatGrandChild1
-{http://www.adventure-works.com}GreatGrandChild2
-
-Ancestors
-----
-{http://www.adventure-works.com}GrandChild1
-{http://www.adventure-works.com}Child1
-{http://www.adventure-works.com}Root
-{http://www.adventure-works.com}GrandChild2
-{http://www.adventure-works.com}Child2</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Ancestors%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Xml.Linq.XName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -329,10 +150,6 @@ Ancestors
               <div class="markdown level1 summary"><p>Returns a filtered collection of elements that contains the ancestors of every node in the source collection. Only elements that have a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> are included in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor with a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a>, the ancestor will be included multiple times in the result collection.</p>
-<p>This method uses deferred execution.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; Ancestors&lt;T&gt;(this IEnumerable&lt;T&gt; source, XName name)where T : XNode</code></pre>
@@ -377,172 +194,6 @@ Ancestors
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor with a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a>, the ancestor will be included multiple times in the result collection.</p>
-<p>This method uses deferred execution.</p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Ancestors__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__examples">Examples</h5>
-              
-<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all ancestors of all elements in the collection that match a specified <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a>.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Child1",
-new XElement("GrandChild1",
-    new XElement("GreatGrandChild1", "content")
-)
-),
-new XElement("Child2",
-new XElement("GrandChild2",
-    new XElement("GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.Ancestors("Child1")
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<child1>
-    <grandchild1>
-        <greatgrandchild1>content</greatgrandchild1>
-    </grandchild1>
-</child1>
-<child2>
-    <grandchild2>
-        <greatgrandchild2>content</greatgrandchild2>
-    </grandchild2>
-</child2>
-</root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                 Where el.Name.LocalName.StartsWith("Great") _
-                 Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.Ancestors("Child1") _
-           Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-Console.WriteLine(de.Name)
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-GreatGrandChild1
-GreatGrandChild2
-
-Ancestors
-----
-Child1</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XElement(aw + "Child1",
-new XElement(aw + "GrandChild1",
-    new XElement(aw + "GreatGrandChild1", "content")
-)
-),
-new XElement(aw + "Child2",
-new XElement(aw + "GrandChild2",
-    new XElement(aw + "GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.Ancestors(aw + "Child1")
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <child1>
-            <grandchild1>
-                <greatgrandchild1>content</greatgrandchild1>
-            </grandchild1>
-        </child1>
-        <child2>
-            <grandchild2>
-                <greatgrandchild2>content</greatgrandchild2>
-            </grandchild2>
-        </child2>
-    </root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                         Where el.Name.LocalName.StartsWith("Great") _
-                         Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-    Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.Ancestors(GetXmlNamespace() + "Child1") _
-                   Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-    Console.WriteLine(de.Name)
-Next
-End Sub
-End Module</xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-{http://www.adventure-works.com}GreatGrandChild1
-{http://www.adventure-works.com}GreatGrandChild2
-
-Ancestors
-----
-{http://www.adventure-works.com}Child1</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -554,10 +205,6 @@ Ancestors
               <div class="markdown level1 summary"><p>Returns a collection of elements that contains every element in the source collection, and the ancestors of every element in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor, the ancestor will be included multiple times in the result collection. To avoid this, use the <see cref="Overload:System.Linq.Enumerable.Distinct"></see> method.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; AncestorsAndSelf(this IEnumerable&lt;XElement&gt; source)</code></pre>
@@ -596,184 +243,6 @@ Ancestors
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor, the ancestor will be included multiple times in the result collection. To avoid this, use the <see cref="Overload:System.Linq.Enumerable.Distinct"></see> method.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all ancestors and self of all elements in the collection.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Child1",
-new XElement("GrandChild1",
-    new XElement("GreatGrandChild1", "content")
-)
-),
-new XElement("Child2",
-new XElement("GrandChild2",
-    new XElement("GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.AncestorsAndSelf().Distinct()
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors and Self");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _ 
-<root>
-<child1>
-    <grandchild1>
-        <greatgrandchild1>content</greatgrandchild1>
-    </grandchild1>
-</child1>
-<child2>
-    <grandchild2>
-        <greatgrandchild2>content</greatgrandchild2>
-    </grandchild2>
-</child2>
-</root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                 Where el.Name.LocalName.StartsWith("Great") _
-                 Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.AncestorsAndSelf.Distinct _
-           Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors and Self")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-Console.WriteLine(de.Name)
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-GreatGrandChild1
-GreatGrandChild2
-
-Ancestors and Self
-----
-GreatGrandChild1
-GrandChild1
-Child1
-Root
-GreatGrandChild2
-GrandChild2
-Child2</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XElement(aw + "Child1",
-new XElement(aw + "GrandChild1",
-    new XElement(aw + "GreatGrandChild1", "content")
-)
-),
-new XElement(aw + "Child2",
-new XElement(aw + "GrandChild2",
-    new XElement(aw + "GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.AncestorsAndSelf().Distinct()
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors and Self");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <child1>
-            <grandchild1>
-                <greatgrandchild1>content</greatgrandchild1>
-            </grandchild1>
-        </child1>
-        <child2>
-            <grandchild2>
-                <greatgrandchild2>content</greatgrandchild2>
-            </grandchild2>
-        </child2>
-    </root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                         Where el.Name.LocalName.StartsWith("Great") _
-                         Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-    Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.AncestorsAndSelf.Distinct _
-                   Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors and Self")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-    Console.WriteLine(de.Name)
-Next
-End Sub
-End Module</xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-{http://www.adventure-works.com}GreatGrandChild1
-{http://www.adventure-works.com}GreatGrandChild2
-
-Ancestors and Self
-----
-{http://www.adventure-works.com}GreatGrandChild1
-{http://www.adventure-works.com}GrandChild1
-{http://www.adventure-works.com}Child1
-{http://www.adventure-works.com}Root
-{http://www.adventure-works.com}GreatGrandChild2
-{http://www.adventure-works.com}GrandChild2
-{http://www.adventure-works.com}Child2</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D%2CSystem.Xml.Linq.XName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -785,10 +254,6 @@ Ancestors and Self
               <div class="markdown level1 summary"><p>Returns a filtered collection of elements that contains every element in the source collection, and the ancestors of every element in the source collection. Only elements that have a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> are included in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor with a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a>, the ancestor will be included multiple times in the result collection.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; AncestorsAndSelf(this IEnumerable&lt;XElement&gt; source, XName name)</code></pre>
@@ -833,172 +298,6 @@ Ancestors and Self
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If multiple nodes in the source collection have the same ancestor with a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a>, the ancestor will be included multiple times in the result collection.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_AncestorsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__examples">Examples</h5>
-              
-<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all self and ancestors of all elements in the collection that match a specified <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a>.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Child1",
-new XElement("GrandChild1",
-    new XElement("GreatGrandChild1", "content")
-)
-),
-new XElement("Child2",
-new XElement("GrandChild2",
-    new XElement("GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.AncestorsAndSelf("GreatGrandChild1")
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors and Self");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<child1>
-    <grandchild1>
-        <greatgrandchild1>content</greatgrandchild1>
-    </grandchild1>
-</child1>
-<child2>
-    <grandchild2>
-        <greatgrandchild2>content</greatgrandchild2>
-    </grandchild2>
-</child2>
-</root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                 Where el.Name.LocalName.StartsWith("Great") _
-                 Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.AncestorsAndSelf("GreatGrandChild1") _
-           Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors and Self")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-Console.WriteLine(de.Name)
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-GreatGrandChild1
-GreatGrandChild2
-
-Ancestors and Self
-----
-GreatGrandChild1</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XElement(aw + "Child1",
-new XElement(aw + "GrandChild1",
-    new XElement(aw + "GreatGrandChild1", "content")
-)
-),
-new XElement(aw + "Child2",
-new XElement(aw + "GrandChild2",
-    new XElement(aw + "GreatGrandChild2", "content")
-)
-)
-);
-IEnumerable<xelement> greatGrandChildren =
-from el in xmlTree.Descendants()
-where el.Name.LocalName.StartsWith("Great")
-select el;
-
-Console.WriteLine("Great Grand Children Elements");
-Console.WriteLine("----");
-foreach (XElement de in greatGrandChildren)
-Console.WriteLine(de.Name);
-
-IEnumerable<xelement> allAncestors =
-from el in greatGrandChildren.AncestorsAndSelf(aw + "GreatGrandChild1")
-select el;
-
-Console.WriteLine("");
-Console.WriteLine("Ancestors and Self");
-Console.WriteLine("----");
-foreach (XElement de in allAncestors)
-Console.WriteLine(de.Name);</xelement></xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <child1>
-            <grandchild1>
-                <greatgrandchild1>content</greatgrandchild1>
-            </grandchild1>
-        </child1>
-        <child2>
-            <grandchild2>
-                <greatgrandchild2>content</greatgrandchild2>
-            </grandchild2>
-        </child2>
-    </root>
-
-Dim greatGrandChildren = From el In xmlTree.Descendants _
-                         Where el.Name.LocalName.StartsWith("Great") _
-                         Select el
-
-Console.WriteLine("Great Grand Children Elements")
-Console.WriteLine("----")
-
-For Each de As XElement In greatGrandChildren
-    Console.WriteLine(de.Name)
-Next
-
-Dim allAncestors = From el In greatGrandChildren.AncestorsAndSelf(GetXmlNamespace() + "GreatGrandChild1") _
-                   Select el
-
-Console.WriteLine("")
-Console.WriteLine("Ancestors and Self")
-Console.WriteLine("----")
-
-For Each de As XElement In allAncestors
-    Console.WriteLine(de.Name)
-Next
-End Sub
-End Module</xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Great Grand Children Elements
-----
-{http://www.adventure-works.com}GreatGrandChild1
-{http://www.adventure-works.com}GreatGrandChild2
-
-Ancestors and Self
-----
-{http://www.adventure-works.com}GreatGrandChild1</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1010,11 +309,6 @@ Ancestors and Self
               <div class="markdown level1 summary"><p>Returns a collection of the attributes of every element in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Note that unlike some other XML programming interfaces, in LINQ to XML, namespaces are surfaced as attributes.</p>
-<p>Although Visual Basic users can use the integrated attribute axis to retrieve attributes with a specified name from a collection of elements, there is no integrated Visual Basic axis to retrieve all attributes of all elements in a collection.</p>
-<p>This method uses deferred execution.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XAttribute&gt; Attributes(this IEnumerable&lt;XElement&gt; source)</code></pre>
@@ -1053,126 +347,6 @@ Ancestors and Self
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Note that unlike some other XML programming interfaces, in LINQ to XML, namespaces are surfaced as attributes.</p>
-<p>Although Visual Basic users can use the integrated attribute axis to retrieve attributes with a specified name from a collection of elements, there is no integrated Visual Basic axis to retrieve all attributes of all elements in a collection.</p>
-<p>This method uses deferred execution.</p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of elements, and then retrieves a collection of all attributes of all elements in the collection. Note that the resulting collection includes only the attributes of the <code>Child1</code> and <code>Child2</code> elements, and not the attributes of the <code>Root</code> element.</p>
-<p>Note that the namespace attribute is returned by this method.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XAttribute(XNamespace.Xmlns + "aw", "http://www.adventure-works.com"),
-new XAttribute("Att1", "content1"),
-new XAttribute("Att2", "content2"),
-new XElement("Child1",
-new XAttribute("Att1", "content3"),
-new XAttribute("Att2", "content4")
-),
-new XElement("Child2",
-new XAttribute("Att1", "content5"),
-new XAttribute("Att2", "content6")
-)
-);
-Console.WriteLine(xmlTree);
-Console.WriteLine("-----");
-
-IEnumerable<xattribute> attList =
-from att in xmlTree.DescendantsAndSelf().Attributes()
-select att;
-
-foreach (XAttribute att in attList)
-Console.WriteLine(att);</xattribute></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root xmlns:aw="http://www.adventure-works.com" att1="content1" att2="content2">
-<child1 att1="content3" att2="content4"></child1>
-<child2 att1="content5" att2="content6"></child2>
-</root>
-
-Dim attList = _
-From att In xmlTree.DescendantsAndSelf.Attributes _
-Select att
-
-Console.WriteLine(xmlTree)
-Console.WriteLine("-----")
-
-For Each att As XAttribute In attList
-Console.WriteLine(att)
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><root xmlns:aw="http://www.adventure-works.com" att1="content1" att2="content2">
-<child1 att1="content3" att2="content4"></child1>
-<child2 att1="content5" att2="content6"></child2>
-</root>
------
-xmlns:aw="http://www.adventure-works.com"
-Att1="content1"
-Att2="content2"
-Att1="content3"
-Att2="content4"
-Att1="content5"
-Att2="content6"</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces. Note that the namespace attribute is included in the returned collection.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XAttribute(XNamespace.Xmlns + "aw", "http://www.adventure-works.com"),
-new XAttribute(aw + "Att1", "content1"),
-new XAttribute(aw + "Att2", "content2"),
-new XElement(aw + "Child1",
-new XAttribute(aw + "Att1", "content3"),
-new XAttribute(aw + "Att2", "content4")
-),
-new XElement(aw + "Child2",
-new XAttribute(aw + "Att1", "content5"),
-new XAttribute(aw + "Att2", "content6")
-)
-);
-Console.WriteLine(xmlTree);
-Console.WriteLine("-----");
-
-IEnumerable<xattribute> attList =
-from att in xmlTree.DescendantsAndSelf().Attributes()
-select att;
-
-foreach (XAttribute att in attList)
-Console.WriteLine(att);</xattribute></code></pre>
-<pre><code class="vb">Imports <xmlns:aw="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <aw:root xmlns:aw="http://www.adventure-works.com" aw:att1="content1" aw:att2="content2">
-        <aw:child1 aw:att1="content3" aw:att2="content4"></aw:child1>
-        <aw:child2 aw:att1="content5" aw:att2="content6"></aw:child2>
-    </aw:root>
-
-Dim attList = _
-    From att In xmlTree.DescendantsAndSelf.Attributes _
-    Select att
-
-Console.WriteLine(xmlTree)
-Console.WriteLine("-----")
-
-For Each att As XAttribute In attList
-    Console.WriteLine(att)
-Next
-End Sub
-End Module</xmlns:aw="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><aw:root xmlns:aw="http://www.adventure-works.com" aw:att1="content1" aw:att2="content2">
-<aw:child1 aw:att1="content3" aw:att2="content4"></aw:child1>
-<aw:child2 aw:att1="content5" aw:att2="content6"></aw:child2>
-</aw:root>
------
-xmlns:aw="http://www.adventure-works.com"
-aw:Att1="content1"
-aw:Att2="content2"
-aw:Att1="content3"
-aw:Att2="content4"
-aw:Att1="content5"
-aw:Att2="content6"</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D%2CSystem.Xml.Linq.XName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1184,10 +358,6 @@ aw:Att2="content6"</code></pre>
               <div class="markdown level1 summary"><p>Returns a filtered collection of the attributes of every element in the source collection. Only elements that have a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> are included in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Note that unlike some other XML programming interfaces, in LINQ to XML, namespaces are surfaced as attributes.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XAttribute&gt; Attributes(this IEnumerable&lt;XElement&gt; source, XName name)</code></pre>
@@ -1232,49 +402,6 @@ aw:Att2="content6"</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Note that unlike some other XML programming interfaces, in LINQ to XML, namespaces are surfaced as attributes.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Attributes_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__examples">Examples</h5>
-              
-<p>The following example retrieves a collection of elements, which in this case includes the <code>Child1</code> and <code>Child2</code> elements. It then retrieves all attributes of that child collection with a name of <code>Att1</code>.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XAttribute("Att1", "content1"),
-new XAttribute("Att2", "content2"),
-new XElement("Child1",
-new XAttribute("Att1", "content3"),
-new XAttribute("Att2", "content4")
-),
-new XElement("Child2",
-new XAttribute("Att1", "content5"),
-new XAttribute("Att2", "content6")
-)
-);
-
-IEnumerable<xattribute> attList = from att in xmlTree.Elements().Attributes("Att1")
-                          select att;
-
-foreach (XAttribute att in attList)
-Console.WriteLine(att);</xattribute></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root att1="content1" att2="content2">
-<child1 att1="content3" att2="content4">
-</child1>
-<child2 att1="content5" att2="content6">
-</child2>
-</root>
-
-Dim attList = From att In xmlTree.Elements.Attributes("Att1") _
-                  Select att
-
-For Each att As XAttribute In attList
-Console.WriteLine(att)
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Att1="content3"
-Att1="content5"</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_DescendantNodes__1_System_Collections_Generic_IEnumerable___0__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.DescendantNodes%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1286,11 +413,6 @@ Att1="content5"</code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of the descendant nodes of every document and element in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_DescendantNodes__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This axis extension method is used on <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> and <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> objects. Both of these types derive from <a class="xref" href="System.Xml.Linq.XContainer.html#System_Xml_Linq_XContainer">XContainer</a>, so this method operates on an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> of <a class="xref" href="System.Xml.Linq.XContainer.html#System_Xml_Linq_XContainer">XContainer</a> that contains the source collection.</p>
-<p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis for descendant nodes, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XNode&gt; DescendantNodes&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XContainer</code></pre>
@@ -1329,153 +451,6 @@ Att1="content5"</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_DescendantNodes__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This axis extension method is used on <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> and <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> objects. Both of these types derive from <a class="xref" href="System.Xml.Linq.XContainer.html#System_Xml_Linq_XContainer">XContainer</a>, so this method operates on an <a class="xref" href="System.Collections.Generic.IEnumerable%601.html#System_Collections_Generic_IEnumerable_1">IEnumerable<t></t></a> of <a class="xref" href="System.Xml.Linq.XContainer.html#System_Xml_Linq_XContainer">XContainer</a> that contains the source collection.</p>
-<p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis for descendant nodes, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution.</p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_DescendantNodes__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of two elements, and then retrieves a collection of all descendant nodes for every element in the source collection. Note that the attribute of the <code>GrandChild</code> element is not surfaced as a node.</p>
-<pre><code class="c#">XElement xmlTree = XElement.Parse(
-@"<root>
-<child>aaa<grandchild anattribute='xyz'>Text</grandchild>
-<!--a comment-->
-<?xml-stylesheet type='text/xsl' href='test.xsl'?>
-</child>
-<child>ccc<grandchild>Text</grandchild>ddd</child>
-</root>");
-IEnumerable<xnode> nodes =
-from node in xmlTree.Elements("Child").DescendantNodes()
-select node;
-
-foreach (XNode node in nodes)
-{
-switch (node.NodeType)
-{
-case XmlNodeType.Element:
-    Console.WriteLine("Element: {0}", ((XElement)node).Name);
-    break;
-case XmlNodeType.Text:
-    Console.WriteLine("Text: {0}", ((XText)node).Value);
-    break;
-case XmlNodeType.Comment:
-    Console.WriteLine("Comment: {0}", ((XComment)node).Value);
-    break;
-case XmlNodeType.ProcessingInstruction:
-    Console.WriteLine("PI: {0}", ((XProcessingInstruction)node).Data);
-    break;
-}
-}</xnode></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<child>aaa<grandchild anattribute='xyz'>Text</grandchild>
-<!--a comment-->
-<?xml-stylesheet type='text/xsl' href='test.xsl'?>
-</child>
-<child>ccc<grandchild>Text</grandchild>ddd</child>
-</root>
-
-Dim nodes As IEnumerable(Of XNode) = _
-From node In xmlTree.<child>.DescendantNodes _
-Select node
-
-For Each node As XNode In nodes
-Select Case node.NodeType
-Case XmlNodeType.Element
-    Console.WriteLine("Element: {0}", DirectCast(node, XElement).Name)
-Case XmlNodeType.Text
-    Console.WriteLine("Text: {0}", DirectCast(node, XText).Value)
-Case XmlNodeType.Comment
-    Console.WriteLine("Comment: {0}", DirectCast(node, XComment).Value)
-Case XmlNodeType.ProcessingInstruction
-    Console.WriteLine("PI: {0}", DirectCast(node, XProcessingInstruction).Data)
-End Select
-Next</child></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Text: aaa
-Element: GrandChild
-Text: Text
-Comment: a comment
-PI: type='text/xsl' href='test.xsl'
-Text: ccc
-Element: GrandChild
-Text: Text
-Text: ddd</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = XElement.Parse(
-@"<root xmlns='http://www.adventure-works.com'>
-<child>aaa<grandchild anattribute='xyz'>Text</grandchild>
-<!--a comment-->
-<?xml-stylesheet type='text/xsl' href='test.xsl'?>
-</child>
-<child>ccc<grandchild>Text</grandchild>ddd</child>
-</root>");
-IEnumerable<xnode> nodes =
-from node in xmlTree.Elements(aw + "Child").DescendantNodes()
-select node;
-
-foreach (XNode node in nodes)
-{
-switch (node.NodeType)
-{
-case XmlNodeType.Element:
-    Console.WriteLine("Element: {0}", ((XElement)node).Name);
-    break;
-case XmlNodeType.Text:
-    Console.WriteLine("Text: {0}", ((XText)node).Value);
-    break;
-case XmlNodeType.Comment:
-    Console.WriteLine("Comment: {0}", ((XComment)node).Value);
-    break;
-case XmlNodeType.ProcessingInstruction:
-    Console.WriteLine("PI: {0}", ((XProcessingInstruction)node).Data);
-    break;
-}
-}</xnode></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-<root>
-    <child>aaa<grandchild anattribute='xyz'>Text</grandchild>
-        <!--a comment-->
-        <?xml-stylesheet type='text/xsl' href='test.xsl'?>
-    </child>
-    <child>ccc<grandchild>Text</grandchild>ddd</child>
-</root>
-
-Dim nodes As IEnumerable(Of XNode) = _
-    From node In xmlTree.<child>.DescendantNodes _
-    Select node
-
-For Each node As XNode In nodes
-    Select Case node.NodeType
-        Case XmlNodeType.Element
-            Console.WriteLine("Element: {0}", DirectCast(node, XElement).Name)
-        Case XmlNodeType.Text
-            Console.WriteLine("Text: {0}", DirectCast(node, XText).Value)
-        Case XmlNodeType.Comment
-            Console.WriteLine("Comment: {0}", DirectCast(node, XComment).Value)
-        Case XmlNodeType.ProcessingInstruction
-            Console.WriteLine("PI: {0}", DirectCast(node, XProcessingInstruction).Data)
-    End Select
-Next
-End Sub
-End Module</child></xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Text: aaa
-Element: {http://www.adventure-works.com}GrandChild
-Text: Text
-Comment: a comment
-PI: type='text/xsl' href='test.xsl'
-Text: ccc
-Element: {http://www.adventure-works.com}GrandChild
-Text: Text
-Text: ddd</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_DescendantNodesAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1487,10 +462,6 @@ Text: ddd</code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of nodes that contains every element in the source collection, and the descendant nodes of every element in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_DescendantNodesAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis for descendant nodes, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XNode&gt; DescendantNodesAndSelf(this IEnumerable&lt;XElement&gt; source)</code></pre>
@@ -1529,11 +500,6 @@ Text: ddd</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_DescendantNodesAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis for descendant nodes, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Descendants%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1545,10 +511,6 @@ Text: ddd</code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of elements that contains the descendant elements of every element and document in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Visual Basic users can use the integrated XML descendant axis to retrieve the descendant elements of a collection. However, the integrated axis only retrieves descendants with a specified name. If Visual Basic users want to retrieve all descendants, then they must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; Descendants&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XContainer</code></pre>
@@ -1587,120 +549,6 @@ Text: ddd</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Visual Basic users can use the integrated XML descendant axis to retrieve the descendant elements of a collection. However, the integrated axis only retrieves descendants with a specified name. If Visual Basic users want to retrieve all descendants, then they must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of elements, and then uses this axis method to retrieve all descendent elements of every item in the collection of elements.</p>
-<pre><code class="c#">XElement xmlTree = XElement.Parse(
-@"<root>
-<para>
-<t>This is some text </t>
-<b>
-    <t>where</t>
-</b>
-<t> all of the nodes must be concatenated. </t>
-</para>
-<para>
-<t>This is a second sentence.</t>
-</para>
-</root>");
-
-IEnumerable<xelement> elList =
-from el in xmlTree.Elements("Para").Descendants()
-select el;
-
-foreach (XElement el in elList)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<para>
-    <t>This is some text </t>
-    <b>
-        <t>where</t>
-    </b>
-    <t> all of the nodes must be concatenated. </t>
-</para>
-
-<para>
-    <t>This is a second sentence.</t>
-</para>
-</root>
-
-Dim elList = From el In xmlTree.<para>.Descendants _
-                Select el
-
-For Each el As XElement In elList
-Console.WriteLine(el)
-Next</para></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><t>This is some text </t>
-<b>
-<t>where</t>
-</b>
-<t>where</t>
-<t> all of the nodes must be concatenated. </t>
-<t>This is a second sentence.</t></code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = XElement.Parse(
-@"<root xmlns='http://www.adventure-works.com'>
-<para>
-<t>This is some text </t>
-<b>
-    <t>where</t>
-</b>
-<t> all of the nodes must be concatenated. </t>
-</para>
-<para>
-<t>This is a second sentence.</t>
-</para>
-</root>");
-
-IEnumerable<xelement> elList =
-from el in xmlTree.Elements(aw + "Para").Descendants()
-select el;
-
-foreach (XElement el in elList)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <para>
-            <t>This is some text </t>
-            <b>
-                <t>where</t>
-            </b>
-            <t> all of the nodes must be concatenated. </t>
-        </para>
-
-        <para>
-            <t>This is a second sentence.</t>
-        </para>
-    </root>
-
-Dim elList = From el In xmlTree.<para>.Descendants _
-                        Select el
-
-For Each el As XElement In elList
-    Console.WriteLine(el)
-Next
-End Sub
-End Module</para></xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><t xmlns="http://www.adventure-works.com">This is some text </t>
-<b xmlns="http://www.adventure-works.com">
-<t>where</t>
-</b>
-<t xmlns="http://www.adventure-works.com">where</t>
-<t xmlns="http://www.adventure-works.com"> all of the nodes must be concatenated. </t>
-<t xmlns="http://www.adventure-works.com">This is a second sentence.</t></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Descendants%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Xml.Linq.XName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1712,10 +560,6 @@ End Module</para></xmlns="http:></code></pre>
               <div class="markdown level1 summary"><p>Returns a filtered collection of elements that contains the descendant elements of every element and document in the source collection. Only elements that have a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> are included in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Visual Basic users can use the Language-Integrated Axes in Visual Basic (LINQ to XML) instead of using this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; Descendants&lt;T&gt;(this IEnumerable&lt;T&gt; source, XName name)where T : XContainer</code></pre>
@@ -1760,118 +604,6 @@ End Module</para></xmlns="http:></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Visual Basic users can use the Language-Integrated Axes in Visual Basic (LINQ to XML) instead of using this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Descendants__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__examples">Examples</h5>
-              
-<p>The following example retrieves a collection of two elements, and then retrieves a collection of all descendants of the two elements that have the specified element name.</p>
-<pre><code class="c#">XElement xmlTree = XElement.Parse(
-@"<root>
-<para>
-<t>This is some text </t>
-<b>
-    <t>where</t>
-</b>
-<t> all of the text nodes must be concatenated. </t>
-</para>
-<para>
-<t>This is a second sentence.</t>
-</para>
-</root>");
-
-string str =
-(from el in xmlTree.Elements("Para").Descendants("t")
-select (string)el)
-.Aggregate(new StringBuilder(),
-(sb, i) => sb.Append(i),
-sb => sb.ToString());
-
-Console.WriteLine(str);</code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<para>
-    <t>This is some text </t>
-    <b>
-        <t>where</t>
-    </b>
-    <t> all of the text nodes must be concatenated. </t>
-</para>
-<para>
-    <t>This is a second sentence.</t>
-</para>
-</root>
-
-Dim str As String = _
-( _
-From el In xmlTree.<para>...<t> _
-Select CStr(el) _
-) _
-.Aggregate(New StringBuilder(), _
-       Function(ByVal sb, ByVal i) sb.Append(i), _
-       Function(ByVal sb) sb.ToString())
-
-Console.WriteLine(str)</t></para></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>This is some text where all of the text nodes must be concatenated. This is a second sentence.</code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = XElement.Parse(
-@"<root xmlns='http://www.adventure-works.com'>
-<para>
-<t>This is some text </t>
-<b>
-    <t>where</t>
-</b>
-<t> all of the text nodes must be concatenated. </t>
-</para>
-<para>
-<t>This is a second sentence.</t>
-</para>
-</root>");
-
-string str =
-(from el in xmlTree.Elements(aw + "Para").Descendants(aw + "t")
-select (string)el)
-.Aggregate(new StringBuilder(),
-(sb, i) => sb.Append(i),
-sb => sb.ToString());
-
-Console.WriteLine(str);</code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <para>
-            <t>This is some text </t>
-            <b>
-                <t>where</t>
-            </b>
-            <t> all of the text nodes must be concatenated. </t>
-        </para>
-        <para>
-            <t>This is a second sentence.</t>
-        </para>
-    </root>
-
-Dim str As String = _
-    ( _
-        From el In xmlTree.<para>...<t> _
-        Select CStr(el) _
-    ) _
-    .Aggregate(New StringBuilder(), _
-               Function(sb, i) sb.Append(i), _
-               Function(sb) sb.ToString())
-
-Console.WriteLine(str)
-End Sub
-End Module</t></para></xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>This is some text where all of the text nodes must be concatenated. This is a second sentence.</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_DescendantsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1883,10 +615,6 @@ End Module</t></para></xmlns="http:></code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of elements that contains every element in the source collection, and the descendent elements of every element in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_DescendantsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis that has the semantics of this method, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; DescendantsAndSelf(this IEnumerable&lt;XElement&gt; source)</code></pre>
@@ -1925,11 +653,6 @@ End Module</t></para></xmlns="http:></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_DescendantsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis that has the semantics of this method, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_DescendantsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XElement%7D%2CSystem.Xml.Linq.XName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1941,10 +664,6 @@ End Module</t></para></xmlns="http:></code></pre>
               <div class="markdown level1 summary"><p>Returns a filtered collection of elements that contains every element in the source collection, and the descendents of every element in the source collection. Only elements that have a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> are included in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_DescendantsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis that has the semantics of this method, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; DescendantsAndSelf(this IEnumerable&lt;XElement&gt; source, XName name)</code></pre>
@@ -1989,11 +708,6 @@ End Module</t></para></xmlns="http:></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_DescendantsAndSelf_System_Collections_Generic_IEnumerable_System_Xml_Linq_XElement__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis that has the semantics of this method, so Visual Basic users must use this axis method explicitly.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Elements%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2005,10 +719,6 @@ End Module</t></para></xmlns="http:></code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of the child elements of every element and document in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic contains an integrated elements axis that allows you to find all child elements with a specified <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> for every element in the source collection, there is no integrated elements axis that allows you to retrieve a collection of every child element for every element in the source collection.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; Elements&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XContainer</code></pre>
@@ -2047,126 +757,6 @@ End Module</t></para></xmlns="http:></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Although Visual Basic contains an integrated elements axis that allows you to find all child elements with a specified <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> for every element in the source collection, there is no integrated elements axis that allows you to retrieve a collection of every child element for every element in the source collection.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of elements with the element name of <code>Child</code>. It then uses this axis method to retrieve all child elements of the collection.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Child",
-new XElement("GrandChild1", 1),
-new XElement("GrandChild2", 2)
-),
-new XElement("Child",
-new XElement("GrandChild3", 3),
-new XElement("GrandChild4", 4)
-),
-new XElement("Child",
-new XElement("GrandChild5", 5),
-new XElement("GrandChild6", 6)
-)
-);
-
-IEnumerable<xelement> allGrandChildren =
-from el in xmlTree.Elements("Child").Elements()
-select el;
-
-foreach (XElement el in allGrandChildren)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-  <child>
-      <grandchild1>1</grandchild1>
-      <grandchild2>2</grandchild2>
-  </child>
-
-  <child>
-      <grandchild3>3</grandchild3>
-      <grandchild4>4</grandchild4>
-  </child>
-
-  <child>
-      <grandchild5>5</grandchild5>
-      <grandchild6>6</grandchild6>
-  </child>
-</root>
-
-Dim allGrandChildren = From el In xmlTree.<child>.Elements _
-               Select el
-
-For Each el As XElement In allGrandChildren
-Console.WriteLine(el)
-Next</child></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><grandchild1>1</grandchild1>
-<grandchild2>2</grandchild2>
-<grandchild3>3</grandchild3>
-<grandchild4>4</grandchild4>
-<grandchild5>5</grandchild5>
-<grandchild6>6</grandchild6></code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XElement(aw + "Child",
-new XElement(aw + "GrandChild1", 1),
-new XElement(aw + "GrandChild2", 2)
-),
-new XElement(aw + "Child",
-new XElement(aw + "GrandChild3", 3),
-new XElement(aw + "GrandChild4", 4)
-),
-new XElement(aw + "Child",
-new XElement(aw + "GrandChild5", 5),
-new XElement(aw + "GrandChild6", 6)
-)
-);
-
-IEnumerable<xelement> allGrandChildren =
-from el in xmlTree.Elements(aw + "Child").Elements()
-select el;
-
-foreach (XElement el in allGrandChildren)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-     <root>
-         <child>
-             <grandchild1>1</grandchild1>
-             <grandchild2>2</grandchild2>
-         </child>
-
-         <child>
-             <grandchild3>3</grandchild3>
-             <grandchild4>4</grandchild4>
-         </child>
-
-         <child>
-             <grandchild5>5</grandchild5>
-             <grandchild6>6</grandchild6>
-         </child>
-     </root>
-
-Dim allGrandChildren = From el In xmlTree.<child>.Elements _
-                       Select el
-
-For Each el As XElement In allGrandChildren
-    Console.WriteLine(el)
-Next
-End Sub
-End Module</child></xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><grandchild1 xmlns="http://www.adventure-works.com">1</grandchild1>
-<grandchild2 xmlns="http://www.adventure-works.com">2</grandchild2>
-<grandchild3 xmlns="http://www.adventure-works.com">3</grandchild3>
-<grandchild4 xmlns="http://www.adventure-works.com">4</grandchild4>
-<grandchild5 xmlns="http://www.adventure-works.com">5</grandchild5>
-<grandchild6 xmlns="http://www.adventure-works.com">6</grandchild6></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Elements%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Xml.Linq.XName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2178,10 +768,6 @@ End Module</child></xmlns="http:></code></pre>
               <div class="markdown level1 summary"><p>Returns a filtered collection of the child elements of every element and document in the source collection. Only elements that have a matching <a class="xref" href="System.Xml.Linq.XName.html#System_Xml_Linq_XName">XName</a> are included in the collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Visual Basic users can use the integrated elements axis to retrieve the child elements of every element in a collection.</p>
-<p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XElement&gt; Elements&lt;T&gt;(this IEnumerable&lt;T&gt; source, XName name)where T : XContainer</code></pre>
@@ -2226,118 +812,6 @@ End Module</child></xmlns="http:></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Visual Basic users can use the integrated elements axis to retrieve the child elements of every element in a collection.</p>
-<p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Elements__1_System_Collections_Generic_IEnumerable___0__System_Xml_Linq_XName__examples">Examples</h5>
-              
-<p>This extension method is useful when you want to retrieve all elements with a specified name at a particular depth. This is easy if the document is very regular, but if the document is irregular, it can be a bit more difficult. In the following example, we want to retrieve all <code>aaa</code> elements that are children of <code>Item</code> elements. A given <code>Item</code> element may or may not contain an <code>aaa</code> element. This is easily accomplished using this extension method, as follows:</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Item",
-new XElement("aaa", 1),
-new XElement("bbb", 2)
-),
-new XElement("Item",
-new XElement("ccc", 3),
-new XElement("aaa", 4)
-),
-new XElement("Item",
-new XElement("ddd", 5),
-new XElement("eee", 6)
-)
-);
-
-IEnumerable<xelement> allGrandChildren =
-from el in xmlTree.Elements("Item").Elements("aaa")
-select el;
-
-foreach (XElement el in allGrandChildren)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<item>
-    <aaa>1</aaa>
-    <bbb>2</bbb>
-</item>
-
-<item>
-    <ccc>3</ccc>
-    <aaa>4</aaa>
-</item>
-
-<item>
-    <ddd>5</ddd>
-    <eee>6</eee>
-</item>
-</root>
-
-Dim allGrandChildren = From el In xmlTree.<item>.<aaa> _
-               Select el
-
-For Each el As XElement In allGrandChildren
-Console.WriteLine(el)
-Next</aaa></item></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><aaa>1</aaa>
-<aaa>4</aaa></code></pre>
-<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>
-<pre><code class="c#">XNamespace aw = "http://www.adventure-works.com";
-XElement xmlTree = new XElement(aw + "Root",
-new XElement(aw + "Item",
-new XElement(aw + "aaa", 1),
-new XElement(aw + "bbb", 2)
-),
-new XElement(aw + "Item",
-new XElement(aw + "ccc", 3),
-new XElement(aw + "aaa", 4)
-),
-new XElement(aw + "Item",
-new XElement(aw + "ddd", 5),
-new XElement(aw + "eee", 6)
-)
-);
-
-IEnumerable<xelement> allGrandChildren =
-from el in xmlTree.Elements(aw + "Item").Elements(aw + "aaa")
-select el;
-
-foreach (XElement el in allGrandChildren)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Imports <xmlns="http: www.adventure-works.com"="">
-
-Module Module1
-Sub Main()
-Dim xmlTree As XElement = _
-    <root>
-        <item>
-            <aaa>1</aaa>
-            <bbb>2</bbb>
-        </item>
-
-        <item>
-            <ccc>3</ccc>
-            <aaa>4</aaa>
-        </item>
-
-        <item>
-            <ddd>5</ddd>
-            <eee>6</eee>
-        </item>
-    </root>
-
-Dim allGrandChildren = From el In xmlTree.<item>.<aaa> _
-                       Select el
-
-For Each el As XElement In allGrandChildren
-    Console.WriteLine(el)
-Next
-End Sub
-End Module</aaa></item></xmlns="http:></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><aaa xmlns="http://www.adventure-works.com">1</aaa>
-<aaa xmlns="http://www.adventure-works.com">4</aaa></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_InDocumentOrder__1_System_Collections_Generic_IEnumerable___0__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.InDocumentOrder%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2349,9 +823,6 @@ End Module</aaa></item></xmlns="http:></code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of nodes that contains all nodes in the source collection, sorted in document order.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_InDocumentOrder__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This axis method uses deferred execution. However, it first enumerates its source collection, the sorts the nodes in document order, and then yields the results.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;T&gt; InDocumentOrder&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XNode</code></pre>
@@ -2390,72 +861,6 @@ End Module</aaa></item></xmlns="http:></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_InDocumentOrder__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This axis method uses deferred execution. However, it first enumerates its source collection, the sorts the nodes in document order, and then yields the results.</p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_InDocumentOrder__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example creates a collection of nodes that are not in document order, and then uses this axis to create a new collection where the nodes are in document order.</p>
-<pre><code class="c#">XElement xmlTree = new XElement("Root",
-new XElement("Item",
-new XElement("aaa", 1),
-new XElement("bbb", 2)
-),
-new XElement("Item",
-new XElement("ccc", 3),
-new XElement("aaa", 4)
-),
-new XElement("Item",
-new XElement("ddd", 5),
-new XElement("eee", 6)
-)
-);
-
-XElement[] elementList = {
-xmlTree.Descendants("ddd").First(),
-xmlTree.Descendants("ccc").First(),
-xmlTree.Descendants("aaa").First()
-};
-
-IEnumerable<xelement> inDocOrder = elementList.InDocumentOrder();
-
-foreach (XElement el in inDocOrder)
-Console.WriteLine(el);</xelement></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<item>
-    <aaa>1</aaa>
-    <bbb>2</bbb>
-</item>
-
-<item>
-    <ccc>3</ccc>
-    <aaa>4</aaa>
-</item>
-
-<item>
-    <ddd>5</ddd>
-    <eee>6</eee>
-</item>
-</root>
-
-Dim elementList() As XElement = _
-{ _
-xmlTree...<ddd>(0), _
-xmlTree...<ccc>(0), _
-xmlTree...<aaa>(0) _
-}
-
-Dim inDocOrder = elementList.InDocumentOrder
-
-For Each el As XElement In inDocOrder
-Console.WriteLine(el)
-Next</aaa></ccc></ddd></code></pre>
-<p>This example produces the following output:</p>
-<pre><code><aaa>1</aaa>
-<ccc>3</ccc>
-<ddd>5</ddd></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Nodes__1_System_Collections_Generic_IEnumerable___0__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Nodes%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2467,9 +872,6 @@ Next</aaa></ccc></ddd></code></pre>
               <div class="markdown level1 summary"><p>Returns a collection of the child nodes of every document and element in the source collection.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Nodes__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses deferred execution. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static IEnumerable&lt;XNode&gt; Nodes&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XContainer</code></pre>
@@ -2508,54 +910,6 @@ Next</aaa></ccc></ddd></code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Nodes__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses deferred execution. </p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Nodes__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example retrieves all of the child nodes for every node in a collection of elements with the name of <code>Child</code>.</p>
-<pre><code class="c#">XElement xmlTree = XElement.Parse(
-@"<root><child>aaa<grandchild>Text</grandchild>bbb</child>" +
-@"<child>ccc<grandchild>Text</grandchild>ddd</child></root>");
-IEnumerable<xnode> nodes = xmlTree.Elements("Child").Nodes();
-
-foreach (XNode node in nodes)
-{
-switch (node.NodeType)
-{
-case XmlNodeType.Element:
-    Console.WriteLine("Element: {0}", ((XElement)node).Name);
-    break;
-case XmlNodeType.Text:
-    Console.WriteLine("Text: {0}", ((XText)node).Value);
-    break;
-}
-}</xnode></code></pre>
-<pre><code class="vb">Dim xmlTree As XElement = _
-<root>
-<child>aaa<grandchild>Text</grandchild>bbb</child>
-<child>ccc<grandchild>Text</grandchild>ddd</child>
-</root>
-
-Dim nodes = xmlTree.<child>.Nodes()
-
-' Note that XNode uses XmlNodeType, which is in the System.Xml namespace.
-For Each node As XNode In nodes
-Select Case node.NodeType
-Case XmlNodeType.Element
-    Console.WriteLine("Element: {0}", DirectCast(node, XElement).Name)
-Case XmlNodeType.Text
-    Console.WriteLine("Text: {0}", DirectCast(node, XText).Value)
-End Select
-Next</child></code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Text: aaa
-Element: GrandChild
-Text: bbb
-Text: ccc
-Element: GrandChild
-Text: ddd</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Remove_System_Collections_Generic_IEnumerable_System_Xml_Linq_XAttribute__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Remove(System.Collections.Generic.IEnumerable%7BSystem.Xml.Linq.XAttribute%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2567,9 +921,6 @@ Text: ddd</code></pre>
               <div class="markdown level1 summary"><p>Removes every attribute in the source collection from its parent element.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Remove_System_Collections_Generic_IEnumerable_System_Xml_Linq_XAttribute___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses snapshot semantics—that is, it copies the attributes in the source collection to a <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> before disconnecting them from their parents. This is required to avoid issues with mixed imperative/declarative code. For more information, see Mixed Declarative Code/Imperative Code Bugs (LINQ to XML).</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Remove(this IEnumerable&lt;XAttribute&gt; source)</code></pre>
@@ -2592,40 +943,6 @@ Text: ddd</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Remove_System_Collections_Generic_IEnumerable_System_Xml_Linq_XAttribute___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses snapshot semantics—that is, it copies the attributes in the source collection to a <a class="xref" href="System.Collections.Generic.List%601.html#System_Collections_Generic_List_1">List<t></t></a> before disconnecting them from their parents. This is required to avoid issues with mixed imperative/declarative code. For more information, see Mixed Declarative Code/Imperative Code Bugs (LINQ to XML).</p>
-</div>
-              <h5 id="System_Xml_Linq_Extensions_Remove_System_Collections_Generic_IEnumerable_System_Xml_Linq_XAttribute___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of attributes, and then calls this method to remove them from their parent elements.</p>
-<pre><code class="c#">XElement root = new XElement("Root",
-new XAttribute("Att1", 1),
-new XAttribute("Att2", 2),
-new XAttribute("Att3", 3),
-new XAttribute("Att4", 4),
-new XAttribute("Att5", 5)
-);
-
-IEnumerable<xattribute> atList =
-from at in root.Attributes()
-where (int)at >= 3
-select at;
-
-atList.Remove();
-
-Console.WriteLine(root);</xattribute></code></pre>
-<pre><code class="vb">Dim root As XElement = <root att1="1" att2="2" att3="3" att4="4" att5="5"></root>
-
-Dim atList = From at In root.Attributes _
-     Where at.Value >= 3 _
-     Select at
-
-atList.Remove()
-
-Console.WriteLine(root)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><root att1="1" att2="2"></root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_Extensions_Remove__1_System_Collections_Generic_IEnumerable___0__.md&amp;value=---%0Auid%3A%20System.Xml.Linq.Extensions.Remove%60%601(System.Collections.Generic.IEnumerable%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2637,9 +954,6 @@ Console.WriteLine(root)</code></pre>
               <div class="markdown level1 summary"><p>Removes every node in the source collection from its parent node.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_Extensions_Remove__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses snapshot semantics—that is, it copies the attributes in the source collection to a List<t> before disconnecting them from their parents. This is required to avoid issues with mixed imperative/declarative code. For more information, see Mixed Declarative Code/Imperative Code Bugs (LINQ to XML).<p>
-</t></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static void Remove&lt;T&gt;(this IEnumerable&lt;T&gt; source)where T : XNode</code></pre>
@@ -2662,50 +976,6 @@ Console.WriteLine(root)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_Extensions_Remove__1_System_Collections_Generic_IEnumerable___0___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses snapshot semantics—that is, it copies the attributes in the source collection to a List<t> before disconnecting them from their parents. This is required to avoid issues with mixed imperative/declarative code. For more information, see Mixed Declarative Code/Imperative Code Bugs (LINQ to XML).<p>
-</t></div>
-              <h5 id="System_Xml_Linq_Extensions_Remove__1_System_Collections_Generic_IEnumerable___0___examples">Examples</h5>
-              
-<p>The following example retrieves a collection of elements. It then calls this method to remove the elements from their parent element.</p>
-<pre><code class="c#">XElement root = new XElement("Root",
-new XElement("Data", 1),
-new XElement("Data", 2),
-new XElement("Data", 3),
-new XElement("Data", 4),
-new XElement("Data", 5)
-);
-
-IEnumerable<xelement> elList =
-from el in root.Elements()
-where (int)el >= 3
-select el;
-
-elList.Remove();
-
-Console.WriteLine(root);</xelement></code></pre>
-<pre><code class="vb">Dim root As XElement = _
-<root>
-<data>1</data>
-<data>2</data>
-<data>3</data>
-<data>4</data>
-<data>5</data>
-</root>
-
-Dim elList = From el In root.Elements _
-     Where el.Value >= 3 _
-     Select el
-
-elList.Remove()
-
-Console.WriteLine(root)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><root>
-<data>1</data>
-<data>2</data>
-</root></code></pre>
-
             </article>
           </div>
           

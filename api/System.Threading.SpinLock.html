@@ -87,9 +87,6 @@
 [DebuggerDisplay(&quot;IsHeld = {IsHeld}&quot;)]
 public struct SpinLock</code></pre>
               </div>
-              <h5 id="System_Threading_SpinLock_examples"><strong>Examples</strong></h5>
-              
-<p>The following example shows how to use a <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a>:</p>System.Threading.SpinLock#01
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -103,9 +100,6 @@ public struct SpinLock</code></pre>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> structure with the option to track thread IDs to improve debugging.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock__ctor_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The default constructor for <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> tracks thread ownership.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public SpinLock(bool enableThreadOwnerTracking)</code></pre>
@@ -129,47 +123,6 @@ purposes.</p>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock__ctor_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The default constructor for <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> tracks thread ownership.</p>
-</div>
-              <h5 id="System_Threading_SpinLock__ctor_System_Boolean__examples">Examples</h5>
-              
-<p>The following example demonstrates how a SpinLock may be used.</p>
-<pre><code>// C#
-public class MyType
-{
-private SpinLock _spinLock = new SpinLock();
-
-public void DoWork()
-{
-bool lockTaken = false; 
-try
-{
-   _spinLock.Enter(ref lockTaken);
-   // do work here protected by the lock
-}
-finally
-{
-    if (lockTaken) _spinLock.Exit();
-}
-}
-}</code></pre>
-<pre><code>' Visual Basic
-
-Class MyType
-Private _spinLock As New SpinLock()
-
-Public Sub DoWork()
-Dim lockTaken As Boolean = False
-Try
- _spinLock.Enter(lockTaken)
- ' do work here protected by the lock
-Finally
- If lockTaken Then _spinLock.Exit()
-End Try
-End Sub
-End Class</code></pre>
-
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -206,7 +159,6 @@ End Class</code></pre>
                   </tr>
                 </tbody>
               </table>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Threading_SpinLock_IsHeldByCurrentThread.md&amp;value=---%0Auid%3A%20System.Threading.SpinLock.IsHeldByCurrentThread%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -218,9 +170,6 @@ End Class</code></pre>
               <div class="markdown level1 summary"><p>Gets whether the lock is held by the current thread.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_IsHeldByCurrentThread_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the lock was initialized to track owner threads, this will return whether the lock is acquired by the current thread. It is invalid to use this property when the lock was initialized to not track thread ownership.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public bool IsHeldByCurrentThread
@@ -244,10 +193,6 @@ End Class</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock_IsHeldByCurrentThread_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the lock was initialized to track owner threads, this will return whether the lock is acquired by the current thread. It is invalid to use this property when the lock was initialized to not track thread ownership.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -298,7 +243,6 @@ End Class</code></pre>
                   </tr>
                 </tbody>
               </table>
-              
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -312,11 +256,6 @@ End Class</code></pre>
               <div class="markdown level1 summary"><p>Acquires the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_Enter_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>
-<a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> is a non-reentrant lock, meaning that if a thread holds the lock, it is not allowed to enter the lock again. If thread ownership tracking is enabled (whether it&#39;s enabled is available through <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_IsThreadOwnerTrackingEnabled">IsThreadOwnerTrackingEnabled</a>), an exception will be thrown when a thread tries to re-enter a lock it already holds. However, if thread ownership tracking is disabled, attempting to enter a lock already held will result in deadlock.</p>
-<p>If you call <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> without having first called <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a> the internal state of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> can become corrupted.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Enter(ref bool lockTaken)</code></pre>
@@ -339,12 +278,6 @@ End Class</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock_Enter_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>
-<a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> is a non-reentrant lock, meaning that if a thread holds the lock, it is not allowed to enter the lock again. If thread ownership tracking is enabled (whether it&#39;s enabled is available through <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_IsThreadOwnerTrackingEnabled">IsThreadOwnerTrackingEnabled</a>), an exception will be thrown when a thread tries to re-enter a lock it already holds. However, if thread ownership tracking is disabled, attempting to enter a lock already held will result in deadlock.</p>
-<p>If you call <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> without having first called <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a> the internal state of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> can become corrupted.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -377,20 +310,11 @@ End Class</code></pre>
               <div class="markdown level1 summary"><p>Releases the lock.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_Exit_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The default overload of <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> provides the same behavior as if calling <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit_System_Boolean_">Exit(Boolean)</a> using true as the argument.</p>
-<p>If you call <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> without having first called <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>  the internal state of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> can become corrupted.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
 public void Exit()</code></pre>
               </div>
-              <h5 id="System_Threading_SpinLock_Exit_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The default overload of <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> provides the same behavior as if calling <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit_System_Boolean_">Exit(Boolean)</a> using true as the argument.</p>
-<p>If you call <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> without having first called <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>  the internal state of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> can become corrupted.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -418,10 +342,6 @@ public void Exit()</code></pre>
               <div class="markdown level1 summary"><p>Releases the lock.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_Exit_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Calling <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit_System_Boolean_">Exit(Boolean)</a> with the <em>useMemoryBarrier</em> argument set to true will improve the fairness of the lock at the expense of some performance. The default <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> overload behaves as if specifying true for <em>useMemoryBarrier</em>.</p>
-<p>If you call <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> without having first called <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a> the internal state of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> can become corrupted.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
@@ -446,11 +366,6 @@ publish the exit operation to other threads.</p>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock_Exit_System_Boolean__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Calling <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit_System_Boolean_">Exit(Boolean)</a> with the <em>useMemoryBarrier</em> argument set to true will improve the fairness of the lock at the expense of some performance. The default <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> overload behaves as if specifying true for <em>useMemoryBarrier</em>.</p>
-<p>If you call <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Exit">Exit()</a> without having first called <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a> the internal state of the <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock">SpinLock</a> can become corrupted.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -478,9 +393,6 @@ publish the exit operation to other threads.</p>
               <div class="markdown level1 summary"><p>Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_TryEnter_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>, TryEnter will not block waiting for the lock to be available. If the lock is not available when TryEnter is called, it will return immediately without any further spinning.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TryEnter(ref bool lockTaken)</code></pre>
@@ -503,10 +415,6 @@ publish the exit operation to other threads.</p>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock_TryEnter_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>, TryEnter will not block waiting for the lock to be available. If the lock is not available when TryEnter is called, it will return immediately without any further spinning.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -539,9 +447,6 @@ publish the exit operation to other threads.</p>
               <div class="markdown level1 summary"><p>Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_TryEnter_System_Int32_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the <em>millisecondsTimeout</em> has expired.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TryEnter(int millisecondsTimeout, ref bool lockTaken)</code></pre>
@@ -570,10 +475,6 @@ publish the exit operation to other threads.</p>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock_TryEnter_System_Int32_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the <em>millisecondsTimeout</em> has expired.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -585,8 +486,7 @@ publish the exit operation to other threads.</p>
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p>
-<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
+                    <td><p><em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>
 </td>
                   </tr>
                   <tr>
@@ -612,9 +512,6 @@ publish the exit operation to other threads.</p>
               <div class="markdown level1 summary"><p>Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Threading_SpinLock_TryEnter_System_TimeSpan_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the <em>timeout</em> has expired.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void TryEnter(TimeSpan timeout, ref bool lockTaken)</code></pre>
@@ -644,10 +541,6 @@ to wait, or a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSp
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Threading_SpinLock_TryEnter_System_TimeSpan_System_Boolean___remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="System.Threading.SpinLock.html#System_Threading_SpinLock_Enter_System_Boolean__">Enter(ref Boolean)</a>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the <em>timeout</em> has expired.</p>
-</div>
-              
               <h5 class="exceptions">Exceptions</h5>
               <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -659,8 +552,7 @@ to wait, or a <a class="xref" href="System.TimeSpan.html#System_TimeSpan">TimeSp
                 <tbody>
                   <tr>
                     <td><a class="xref" href="System.ArgumentOutOfRangeException.html#System_ArgumentOutOfRangeException">ArgumentOutOfRangeException</a></td>
-                    <td><p>
-<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a> milliseconds.</p>
+                    <td><p><em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <a class="xref" href="System.Int32.html#System_Int32_MaxValue">MaxValue</a> milliseconds.</p>
 </td>
                   </tr>
                   <tr>

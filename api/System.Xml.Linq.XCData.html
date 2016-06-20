@@ -91,7 +91,6 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class XCData : XText</code></pre>
               </div>
-              
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -127,20 +126,6 @@
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XCData__ctor_System_String__examples">Examples</h5>
-              
-<p>The following example creates an element that contains a CDATA node.</p>
-<pre><code class="c#">XElement root = new XElement("Root",
-new XCData("Some content")
-);
-Console.WriteLine(root);</code></pre>
-<pre><code class="vb">Dim root As XElement = <root>
-                   <![CDATA[Some content]]>
-               </root>
-Console.WriteLine(root)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><root><![CDATA[Some content]]></root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XCData__ctor_System_Xml_Linq_XCData_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XCData.%23ctor(System.Xml.Linq.XCData)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -152,9 +137,6 @@ Console.WriteLine(root)</code></pre>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.Linq.XCData.html#System_Xml_Linq_XCData">XCData</a> class. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XCData__ctor_System_Xml_Linq_XCData__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This constructor is primarily used internally to make a deep copy of an XML tree.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XCData(XCData other)</code></pre>
@@ -177,10 +159,6 @@ Console.WriteLine(root)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XCData__ctor_System_Xml_Linq_XCData__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This constructor is primarily used internally to make a deep copy of an XML tree.</p>
-</div>
-              
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -194,9 +172,6 @@ Console.WriteLine(root)</code></pre>
               <div class="markdown level1 summary"><p>Gets the node type for this node.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XCData_NodeType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Because all classes that derive from <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a> contain a <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject_NodeType">NodeType</a> property, you can write code that operates on collections of concrete subclass of <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a>. Your code can then test for the node type of each node in the collection.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override XmlNodeType NodeType { get; }</code></pre>
@@ -219,64 +194,6 @@ Console.WriteLine(root)</code></pre>
               </table>
               <h5 class="overrides">Overrides</h5>
               <div><a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText_NodeType">NodeType</a></div>
-              <h5 id="System_Xml_Linq_XCData_NodeType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Because all classes that derive from <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a> contain a <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject_NodeType">NodeType</a> property, you can write code that operates on collections of concrete subclass of <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a>. Your code can then test for the node type of each node in the collection.</p>
-</div>
-              <h5 id="System_Xml_Linq_XCData_NodeType_examples">Examples</h5>
-              
-<p>The following example creates an XML tree that contains various types of nodes. It then iterates through the tree, and prints the node type of each node.</p>
-<pre><code class="c#">// Note that XNode uses XmlNodeType, which is in the System.Xml namespace.
-XDocument xmlTree = new XDocument(
-new XComment("a comment"),
-new XProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"hello.xsl\""),
-new XElement("Root",
-new XAttribute("Att", "attContent"),
-new XElement("Child1",
-    new XCData("CDATA content")
-),
-new XElement("Child2",
-    new XText("Text content")
-)
-)
-);
-
-foreach (XNode node in xmlTree.DescendantNodes())
-{
-Console.WriteLine(node.NodeType);
-if (node.NodeType == XmlNodeType.Element)
-{
-foreach (XAttribute att in ((XElement)node).Attributes())
-    Console.WriteLine(att.NodeType);
-}
-}</code></pre>
-<pre><code class="vb">Dim xmlTree As XDocument = _ 
-<?xml version="1.0" encoding="utf-8"?>
-<!--a comment-->
-<?xml-stylesheet type='text/xsl' href='hello.xsl'?>
-<root att="attContent">
-    <child1><![CDATA[CDATA content]]></child1>
-    <child2>Text content</child2>
-</root>
-
-' Note that XNode uses XmlNodeType, which is in the System.Xml namespace.
-For Each node As XNode In xmlTree.DescendantNodes
-Console.WriteLine(node.NodeType.ToString())
-If node.NodeType = XmlNodeType.Element Then
-For Each att In DirectCast(node, XElement).Attributes
-    Console.WriteLine(att.NodeType.ToString())
-Next
-End If
-Next</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Comment
-ProcessingInstruction
-Element
-Attribute
-Element
-CDATA
-Element
-Text</code></pre>
-
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -290,9 +207,6 @@ Text</code></pre>
               <div class="markdown level1 summary"><p>Writes this CDATA object to an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XCData_WriteTo_System_Xml_XmlWriter__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method is primarily used internally by the methods that write an XML tree to an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a>. </p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override void WriteTo(XmlWriter writer)</code></pre>
@@ -317,10 +231,6 @@ Text</code></pre>
               </table>
               <h5 class="overrides">Overrides</h5>
               <div><a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText_WriteTo_System_Xml_XmlWriter_">WriteTo(XmlWriter)</a></div>
-              <h5 id="System_Xml_Linq_XCData_WriteTo_System_Xml_XmlWriter__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method is primarily used internally by the methods that write an XML tree to an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a>. </p>
-</div>
-              
             </article>
           </div>
           

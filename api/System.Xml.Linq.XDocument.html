@@ -74,8 +74,7 @@
               <a href="https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/ref/System.Xml.XDocument.cs/#L163" class="pull-right mobile-hide">View Source</a>
               <h1 id="System_Xml_Linq_XDocument" data-uid="System.Xml.Linq.XDocument">Class XDocument
               </h1>
-              <div class="markdown level0 summary"><p>Represents an XML document. For the components and usage of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> object, see XDocument Class Overview.</p>
-<p>To browse the .NET Framework source code for this type, see the <see href="http://referencesource.microsoft.com/#System.Xml.Linq/XLinq.cs#3354dac0913e417b">Reference Source</see>.</p>
+              <div class="markdown level0 summary"><p>Represents an XML document. For the components and usage of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> object, see XDocument Class Overview.To browse the .NET Framework source code for this type, see the Reference Source.</p>
 </div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
@@ -92,63 +91,6 @@
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public class XDocument : XContainer</code></pre>
               </div>
-              <h5 id="System_Xml_Linq_XDocument_examples"><strong>Examples</strong></h5>
-              
-<p>The following example creates a document, and then adds a comment and an element to it. It then composes another document using the results of a query. </p>
-<pre><code class="c#">XDocument srcTree = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-new XElement("Child1", "data1"),
-new XElement("Child2", "data2"),
-new XElement("Child3", "data3"),
-new XElement("Child2", "data4"),
-new XElement("Info5", "info5"),
-new XElement("Info6", "info6"),
-new XElement("Info7", "info7"),
-new XElement("Info8", "info8")
-)
-);
-
-XDocument doc = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-from el in srcTree.Element("Root").Elements()
-where ((string)el).StartsWith("data")
-select el
-)
-);
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim srcTree As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <child1>data1</child1>
-    <child2>data2</child2>
-    <child3>data3</child3>
-    <child2>data4</child2>
-    <info5>info5</info5>
-    <info6>info6</info6>
-    <info7>info7</info7>
-    <info8>info8</info8>
-</root>
-Dim doc As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <%= From el In srcTree.<Root>.Elements _
-        Where CStr(el).StartsWith("data") _
-        Select el %>
-</root>
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><!--This is a comment-->
-<root>
-<child1>data1</child1>
-<child2>data2</child2>
-<child3>data3</child3>
-<child2>data4</child2>
-</root></code></pre>
-
               <h3 id="constructors">Constructors
               </h3>
               <span class="small pull-right mobile-hide">
@@ -162,33 +104,10 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> class. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>There are not many scenarios that require you to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>. Instead, you can usually create your XML trees with an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> root node. Unless you have a specific requirement to create a document (for example, because you have to create processing instructions and comments at the top level, or you have to support document types), it is often more convenient to use <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> as your root node.</p>
-<p>For details about the valid content of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, see Valid Content of XElement and XDocument Objects.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XDocument()</code></pre>
               </div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>There are not many scenarios that require you to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>. Instead, you can usually create your XML trees with an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> root node. Unless you have a specific requirement to create a document (for example, because you have to create processing instructions and comments at the top level, or you have to support document types), it is often more convenient to use <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> as your root node.</p>
-<p>For details about the valid content of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, see Valid Content of XElement and XDocument Objects.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_examples">Examples</h5>
-              
-<p>The following example creates a new document, and then adds a comment and an element to it.</p>
-<pre><code class="c#">XDocument doc = new XDocument();
-doc.Add(new XComment("This is a comment"));
-doc.Add(new XElement("Root", "content"));
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim doc As XDocument = New XDocument()
-doc.Add(<!--This is a comment-->)
-doc.Add(<root>content</root>)
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><!--This is a comment-->
-<root>content</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument__ctor_System_Object___.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.%23ctor(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -200,10 +119,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> class with the specified content.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Object____remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>There are not many scenarios that require you to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>. Instead, you can usually create your XML trees with an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> root node. Unless you have a specific requirement to create a document (for example, because you have to create processing instructions and comments at the top level, or you have to support document types), it is often more convenient to use <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> as your root node.</p>
-<p>For details about the valid content of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, see Valid Content of XElement and XDocument Objects.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XDocument(params object[] content)</code></pre>
@@ -226,67 +141,6 @@ Console.WriteLine(doc)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Object____remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>There are not many scenarios that require you to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>. Instead, you can usually create your XML trees with an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> root node. Unless you have a specific requirement to create a document (for example, because you have to create processing instructions and comments at the top level, or you have to support document types), it is often more convenient to use <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> as your root node.</p>
-<p>For details about the valid content of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, see Valid Content of XElement and XDocument Objects.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Object____examples">Examples</h5>
-              
-<p>The following example creates a document, and then adds a comment and an element to it. It then composes another document using the results of a query.</p>
-<pre><code class="c#">XDocument srcTree = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-new XElement("Child1", "data1"),
-new XElement("Child2", "data2"),
-new XElement("Child3", "data3"),
-new XElement("Child2", "data4"),
-new XElement("Info5", "info5"),
-new XElement("Info6", "info6"),
-new XElement("Info7", "info7"),
-new XElement("Info8", "info8")
-)
-);
-
-XDocument doc = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-from el in srcTree.Element("Root").Elements()
-where ((string)el).StartsWith("data")
-select el
-)
-);
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim srcTree As XDocument = _
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <child1>data1</child1>
-    <child2>data2</child2>
-    <child3>data3</child3>
-    <child2>data4</child2>
-    <info5>info5</info5>
-    <info6>info6</info6>
-    <info7>info7</info7>
-    <info8>info8</info8>
-</root>
-Dim doc As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <%= From el In srcTree.<Root>.Elements _
-        Where CStr(el).StartsWith("data") _
-        Select el %>
-</root>
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><!--This is a comment-->
-<root>
-<child1>data1</child1>
-<child2>data2</child2>
-<child3>data3</child3>
-<child2>data4</child2>
-</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDeclaration_System_Object___.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.%23ctor(System.Xml.Linq.XDeclaration%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -298,10 +152,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> class with the specified <a class="xref" href="System.Xml.Linq.XDeclaration.html#System_Xml_Linq_XDeclaration">XDeclaration</a> and content.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDeclaration_System_Object____remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>There are not many scenarios that require you to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>. Instead, you can usually create your XML trees with an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> root node. Unless you have a specific requirement to create a document (for example, because you have to create processing instructions and comments at the top level, or you have to support document types), it is often more convenient to use <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> as your root node.</p>
-<p>For details about the valid content of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, see Valid Content of XElement and XDocument Objects.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XDocument(XDeclaration declaration, params object[] content)</code></pre>
@@ -330,71 +180,6 @@ Console.WriteLine(doc)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDeclaration_System_Object____remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>There are not many scenarios that require you to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>. Instead, you can usually create your XML trees with an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> root node. Unless you have a specific requirement to create a document (for example, because you have to create processing instructions and comments at the top level, or you have to support document types), it is often more convenient to use <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> as your root node.</p>
-<p>For details about the valid content of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, see Valid Content of XElement and XDocument Objects.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDeclaration_System_Object____examples">Examples</h5>
-              
-<p>The following example uses this constructor to create a document.</p>
-<pre><code class="c#">XDocument srcTree = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-new XElement("Child1", "data1"),
-new XElement("Child2", "data2"),
-new XElement("Child3", "data3"),
-new XElement("Child2", "data4"),
-new XElement("Info5", "info5"),
-new XElement("Info6", "info6"),
-new XElement("Info7", "info7"),
-new XElement("Info8", "info8")
-)
-);
-
-XDocument doc = new XDocument(
-new XDeclaration("1.0", "utf-8", "yes"),
-new XComment("This is a new comment"),
-new XElement("Root",
-from el in srcTree.Element("Root").Elements()
-where ((string)el).StartsWith("data")
-select el
-)
-);
-doc.Save("Test.xml");
-Console.WriteLine(File.ReadAllText("Test.xml"));</code></pre>
-<pre><code class="vb">Dim srcTree As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <child1>data1</child1>
-    <child2>data2</child2>
-    <child3>data3</child3>
-    <child2>data4</child2>
-    <info5>info5</info5>
-    <info6>info6</info6>
-    <info7>info7</info7>
-    <info8>info8</info8>
-</root>
-Dim doc As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a new comment-->
-<root>
-    <%= From el In srcTree.<Root>.Elements _
-        Where CStr(el).StartsWith("data") _
-        Select el %>
-</root>
-doc.Save("Test.xml")
-Console.WriteLine(File.ReadAllText("Test.xml"))</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a new comment-->
-<root>
-<child1>data1</child1>
-<child2>data2</child2>
-<child3>data3</child3>
-<child2>data4</child2>
-</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDocument_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.%23ctor(System.Xml.Linq.XDocument)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -406,10 +191,6 @@ Console.WriteLine(File.ReadAllText("Test.xml"))</code></pre>
               <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> class from an existing <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> object.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDocument__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You use this constructor to make a deep copy of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-<p>This constructor traverses all nodes and attributes in the document specified in the <em>other</em> parameter, and creates copies of all nodes as it assembles the newly initialized <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XDocument(XDocument other)</code></pre>
@@ -432,67 +213,6 @@ Console.WriteLine(File.ReadAllText("Test.xml"))</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDocument__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>You use this constructor to make a deep copy of an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-<p>This constructor traverses all nodes and attributes in the document specified in the <em>other</em> parameter, and creates copies of all nodes as it assembles the newly initialized <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument__ctor_System_Xml_Linq_XDocument__examples">Examples</h5>
-              
-<p>The following example creates a document, and then adds a comment and an element to it. It then composes another document using the results of a query. </p>
-<pre><code class="c#">XDocument srcTree = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-new XElement("Child1", "data1"),
-new XElement("Child2", "data2"),
-new XElement("Child3", "data3"),
-new XElement("Child2", "data4"),
-new XElement("Info5", "info5"),
-new XElement("Info6", "info6"),
-new XElement("Info7", "info7"),
-new XElement("Info8", "info8")
-)
-);
-
-XDocument doc = new XDocument(
-new XComment("This is a comment"),
-new XElement("Root",
-from el in srcTree.Element("Root").Elements()
-where ((string)el).StartsWith("data")
-select el
-)
-);
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim srcTree As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <child1>data1</child1>
-    <child2>data2</child2>
-    <child3>data3</child3>
-    <child2>data4</child2>
-    <info5>info5</info5>
-    <info6>info6</info6>
-    <info7>info7</info7>
-    <info8>info8</info8>
-</root>
-Dim doc As XDocument = _ 
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>
-    <%= From el In srcTree.<Root>.Elements _
-        Where CStr(el).StartsWith("data") _
-        Select el %>
-</root>
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><!--This is a comment-->
-<root>
-<child1>data1</child1>
-<child2>data2</child2>
-<child3>data3</child3>
-<child2>data4</child2>
-</root></code></pre>
-
               <h3 id="properties">Properties
               </h3>
               <span class="small pull-right mobile-hide">
@@ -506,9 +226,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Gets or sets the XML declaration for this document.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Declaration_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Sometimes you have to create an XML declaration for a document. If you want to indicate that a document is standalone, you must use this property. If you want to encode your document with an encoding other than utf-8, you can specify an encoding through the <a class="xref" href="System.Xml.Linq.XDeclaration.html#System_Xml_Linq_XDeclaration">XDeclaration</a>. Another approach for encoding a document is to specify the encoding on an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a> that you pass to LINQ to XML for writing.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XDeclaration Declaration { get; set; }</code></pre>
@@ -529,28 +246,6 @@ Console.WriteLine(doc)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Declaration_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Sometimes you have to create an XML declaration for a document. If you want to indicate that a document is standalone, you must use this property. If you want to encode your document with an encoding other than utf-8, you can specify an encoding through the <a class="xref" href="System.Xml.Linq.XDeclaration.html#System_Xml_Linq_XDeclaration">XDeclaration</a>. Another approach for encoding a document is to specify the encoding on an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a> that you pass to LINQ to XML for writing.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Declaration_examples">Examples</h5>
-              
-<p>The following example uses this property to retrieve the XML declaration of a document.</p>
-<pre><code class="c#">XDocument doc = new XDocument(
-new XDeclaration("1.0", "utf-8", "yes"),
-new XComment("This is a comment"),
-new XElement("Root", "content")
-);
-
-Console.WriteLine(doc.Declaration);</code></pre>
-<pre><code class="vb">Dim doc As XDocument = _
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment-->
-<root>content</root>
-
-Console.WriteLine(doc.Declaration)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><?xml version="1.0" encoding="utf-8" standalone="yes"?></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_DocumentType.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.DocumentType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -562,12 +257,6 @@ Console.WriteLine(doc.Declaration)</code></pre>
               <div class="markdown level1 summary"><p>Gets the Document Type Definition (DTD) for this document.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_DocumentType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>LINQ to XML provides limited support for DTDs.</p>
-<p>You can populate an XML tree with an XML document that contains a DTD. The XML tree will then contain a <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument_DocumentType">DocumentType</a> node. When you serialize or save the tree, the DTD will also be serialized. LINQ to XML will expand any entities in the DTD. When you serialize or save the XML tree, the entity references are not saved; instead, the nodes are saved with the entity references replaced by the text of the entity.</p>
-<p>If the DTD contains default attributes, the attributes are created in the XML tree as ordinary attributes.</p>
-<p>By default, LINQ to XML does not validate a document based on its DTD. To validate a document based on a DTD, create an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> that will validate based on a DTD, and then create an XML tree from the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XDocumentType DocumentType { get; }</code></pre>
@@ -588,87 +277,6 @@ Console.WriteLine(doc.Declaration)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_DocumentType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>LINQ to XML provides limited support for DTDs.</p>
-<p>You can populate an XML tree with an XML document that contains a DTD. The XML tree will then contain a <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument_DocumentType">DocumentType</a> node. When you serialize or save the tree, the DTD will also be serialized. LINQ to XML will expand any entities in the DTD. When you serialize or save the XML tree, the entity references are not saved; instead, the nodes are saved with the entity references replaced by the text of the entity.</p>
-<p>If the DTD contains default attributes, the attributes are created in the XML tree as ordinary attributes.</p>
-<p>By default, LINQ to XML does not validate a document based on its DTD. To validate a document based on a DTD, create an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> that will validate based on a DTD, and then create an XML tree from the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_DocumentType_examples">Examples</h5>
-              
-<p>The following example creates a document that contains an <a class="xref" href="System.Xml.Linq.XDocumentType.html#System_Xml_Linq_XDocumentType">XDocumentType</a>.</p>
-<p>Visual Basic does not support document types within XML literals. However, it is possible to create a document that contains a document type by first creating the document using XML literals, and then creating and adding an <a class="xref" href="System.Xml.Linq.XDocumentType.html#System_Xml_Linq_XDocumentType">XDocumentType</a> node in the appropriate place in the XML tree.</p>
-<pre><code class="c#">string internalSubset = @"<!ELEMENT Pubs (Book+)>
-<!ELEMENT Book (Title, Author)>
-<!ELEMENT Title (#PCDATA)>
-<!ELEMENT Author (#PCDATA)>";
-
-string target = "xml-stylesheet";
-string data = "href='mystyle.css' title='Compact' type='text/css'";
-
-XDocument doc = new XDocument(
-new XComment("This is a comment."),
-new XProcessingInstruction(target, data),
-new XDocumentType("Pubs", null, null, internalSubset),
-new XElement("Pubs", 
-new XElement("Book",
-    new XElement("Title", "Artifacts of Roman Civilization"),
-    new XElement("Author", "Moreno, Jordao")
-),
-new XElement("Book",
-    new XElement("Title", "Midieval Tools and Implements"),
-    new XElement("Author", "Gazit, Inbar")
-)
-),
-new XComment("This is another comment.")
-);
-doc.Declaration = new XDeclaration("1.0", "utf-8", "true");
-Console.WriteLine(doc);
-
-doc.Save("test.xml");</code></pre>
-<pre><code class="vb">Dim internalSubset = _
-"<!ELEMENT Pubs (Book+)>" & Environment.NewLine & _
-"<!ELEMENT Book (Title, Author)>" & Environment.NewLine & _
-"<!ELEMENT Title (#PCDATA)>" & Environment.NewLine & _
-"<!ELEMENT Author (#PCDATA)>"
-
-Dim doc As XDocument = _
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment.-->
-<?xml-stylesheet href='mystyle.css' title='Compact' type='text/css'?>
-<pubs>
-<book>
-    <title>Artifacts of Roman Civilization</title>
-    <author>Moreno, Jordao</author>
-</book>
-<book>
-    <title>Midieval Tools and Implements</title>
-    <author>Gazit, Inbar</author>
-</book>
-</pubs>
-<!--This is another comment.-->
-
-doc.Nodes().Skip(1).First().AddAfterSelf(New XDocumentType("Pubs", Nothing, Nothing, internalSubset))
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><!--This is a comment.-->
-<?xml-stylesheet href='mystyle.css' title='Compact' type='text/css'?>
-<!DOCTYPE Pubs [<!ELEMENT Pubs (Book+)>
-<!ELEMENT Book (Title, Author)>
-<!ELEMENT Title (#PCDATA)>
-<!ELEMENT Author (#PCDATA)>]>
-<pubs>
-<book>
-<title>Artifacts of Roman Civilization</title>
-<author>Moreno, Jordao</author>
-</book>
-<book>
-<title>Midieval Tools and Implements</title>
-<author>Gazit, Inbar</author>
-</book>
-</pubs>
-<!--This is another comment.--></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_NodeType.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.NodeType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -680,9 +288,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Gets the node type for this node.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_NodeType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Because all classes that derive from <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a> contain a <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject_NodeType">NodeType</a> property, you can write code that operates on collections of objects where the type of each is a subclass of <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a>. Your code can then test for the node type of each object in the collection.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public override XmlNodeType NodeType { get; }</code></pre>
@@ -705,26 +310,6 @@ Console.WriteLine(doc)</code></pre>
               </table>
               <h5 class="overrides">Overrides</h5>
               <div><a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject_NodeType">NodeType</a></div>
-              <h5 id="System_Xml_Linq_XDocument_NodeType_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>Because all classes that derive from <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a> contain a <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject_NodeType">NodeType</a> property, you can write code that operates on collections of objects where the type of each is a subclass of <a class="xref" href="System.Xml.Linq.XObject.html#System_Xml_Linq_XObject">XObject</a>. Your code can then test for the node type of each object in the collection.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_NodeType_examples">Examples</h5>
-              
-<p>The following example shows the use of this property.</p>
-<pre><code class="c#">// Note that this property uses XmlNodeType, which is in the System.Xml namespace.
-XDocument xmlTree = new XDocument(
-new XDeclaration("1.0", "utf-8", "yes"),
-new XElement("Root", "content")
-);
-Console.WriteLine(xmlTree.NodeType);</code></pre>
-<pre><code class="vb">' Note that this property uses XmlNodeType, which is in the System.Xml namespace.
-Dim xmlTree As XDocument = _
-<?xml version='1.0' encoding='utf-8' standalone='yes'?>
-<root>content</root>
-Console.WriteLine("{0}", xmlTree.NodeType)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Document</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Root.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Root%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -736,9 +321,6 @@ Console.WriteLine("{0}", xmlTree.NodeType)</code></pre>
               <div class="markdown level1 summary"><p>Gets the root element of the XML Tree for this document.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Root_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property is useful when you want to compose LINQ to XML queries in the same context as when composing them for a tree rooted in <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a>. See Querying an XDocument vs. Querying an XElement for more details.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public XElement Root { get; }</code></pre>
@@ -759,46 +341,6 @@ Console.WriteLine("{0}", xmlTree.NodeType)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Root_remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This property is useful when you want to compose LINQ to XML queries in the same context as when composing them for a tree rooted in <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a>. See Querying an XDocument vs. Querying an XElement for more details.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Root_examples">Examples</h5>
-              
-<p>The following example uses this property to get the root element of a document.</p>
-<pre><code class="c#">XDocument doc = new XDocument(
-new XComment("This is a comment."),
-new XElement("Pubs", 
-new XElement("Book",
-    new XElement("Title", "Artifacts of Roman Civilization"),
-    new XElement("Author", "Moreno, Jordao")
-),
-new XElement("Book",
-    new XElement("Title", "Midieval Tools and Implements"),
-    new XElement("Author", "Gazit, Inbar")
-)
-),
-new XComment("This is another comment.")
-);
-Console.WriteLine(doc.Root.Name.ToString());</code></pre>
-<pre><code class="vb">Dim doc As XDocument = _
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--This is a comment.-->
-<pubs>
-<book>
-    <title>Artifacts of Roman Civilization</title>
-    <author>Moreno, Jordao</author>
-</book>
-<book>
-    <title>Midieval Tools and Implements</title>
-    <author>Gazit, Inbar</author>
-</book>
-<!--This is another comment.-->
-</pubs>
-
-Console.WriteLine(doc.Root.Name.ToString())</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Pubs</code></pre>
-
               <h3 id="methods">Methods
               </h3>
               <span class="small pull-right mobile-hide">
@@ -812,16 +354,6 @@ Console.WriteLine(doc.Root.Name.ToString())</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> instance by using the specified stream.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_Stream__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p><p>If you want to control load options, use the <see cref="Overload:System.Xml.Linq.XDocument.Load"></see> overload that takes <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions">LoadOptions</a> as a parameter.</p></p>
-<p><p>The loading functionality of LINQ to XML is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document. </p></p>
-<p><p>If you have to modify <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a>, follow these steps:</p></p>
-<ol><li>
-<p>Create an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> by calling one of the <see cref="Overload:System.Xml.XmlReader.Create"></see> overloads that take <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a> as a parameter.</p>
-</li><li>
-<p>Pass the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to one of the <see cref="Overload:System.Xml.Linq.XDocument.Load"></see> overloads of <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> that takes <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> as a parameter.</p>
-</li></ol>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(Stream stream)</code></pre>
@@ -860,17 +392,6 @@ Console.WriteLine(doc.Root.Name.ToString())</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_Stream__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p><p>If you want to control load options, use the <see cref="Overload:System.Xml.Linq.XDocument.Load"></see> overload that takes <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions">LoadOptions</a> as a parameter.</p></p>
-<p><p>The loading functionality of LINQ to XML is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document. </p></p>
-<p><p>If you have to modify <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a>, follow these steps:</p></p>
-<ol><li>
-<p>Create an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> by calling one of the <see cref="Overload:System.Xml.XmlReader.Create"></see> overloads that take <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a> as a parameter.</p>
-</li><li>
-<p>Pass the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to one of the <see cref="Overload:System.Xml.Linq.XDocument.Load"></see> overloads of <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> that takes <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> as a parameter.</p>
-</li></ol>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_IO_Stream_System_Xml_Linq_LoadOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.IO.Stream%2CSystem.Xml.Linq.LoadOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -882,15 +403,6 @@ Console.WriteLine(doc.Root.Name.ToString())</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> instance by using the specified stream, optionally preserving white space, setting the base URI, and retaining line information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_Stream_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p><p>The loading functionality of LINQ to XML is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document. </p></p>
-<p><p>If you have to modify <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a>, follow these steps:</p></p>
-<ol><li>
-<p>Create an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> by calling one of the <see cref="Overload:System.Xml.XmlReader.Create"></see> overloads that takes <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a> as a parameter.</p>
-</li><li>
-<p>Pass the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to one of the <see cref="Overload:System.Xml.Linq.XDocument.Load"></see> overloads of <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> that takes <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> as a parameter.</p>
-</li></ol>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(Stream stream, LoadOptions options)</code></pre>
@@ -935,16 +447,6 @@ Console.WriteLine(doc.Root.Name.ToString())</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_Stream_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p><p>The loading functionality of LINQ to XML is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document. </p></p>
-<p><p>If you have to modify <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a>, follow these steps:</p></p>
-<ol><li>
-<p>Create an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> by calling one of the <see cref="Overload:System.Xml.XmlReader.Create"></see> overloads that takes <a class="xref" href="System.Xml.XmlReaderSettings.html#System_Xml_XmlReaderSettings">XmlReaderSettings</a> as a parameter.</p>
-</li><li>
-<p>Pass the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to one of the <see cref="Overload:System.Xml.Linq.XDocument.Load"></see> overloads of <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> that takes <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> as a parameter.</p>
-</li></ol>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_IO_TextReader_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.IO.TextReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -956,9 +458,6 @@ Console.WriteLine(doc.Root.Name.ToString())</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_TextReader__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(TextReader textReader)</code></pre>
@@ -997,21 +496,6 @@ Console.WriteLine(doc.Root.Name.ToString())</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_TextReader__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_TextReader__examples">Examples</h5>
-              
-<p>The following example creates a document from a <a class="xref" href="System.IO.StringReader.html#System_IO_StringReader">StringReader</a>.</p>
-<pre><code class="c#">TextReader tr = new StringReader("<root>Content</root>");
-XDocument doc = XDocument.Load(tr);
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim tr As TextReader = New StringReader("<root>Content</root>")
-Dim doc As XDocument = XDocument.Load(tr)
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><root>Content</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_IO_TextReader_System_Xml_Linq_LoadOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.IO.TextReader%2CSystem.Xml.Linq.LoadOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1023,17 +507,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>, optionally preserving white space, setting the base URI, and retaining line information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_TextReader_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the source XML is indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to read all white space in the source XML. Nodes of type <a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText">XText</a> are created for both significant and insignificant white space.</p>
-<p>If the source XML is indented, not setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to ignore all of the insignificant white space in the source XML. The XML tree is created without any text nodes for insignificant white space.</p>
-<p>If the source XML is not indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> has no effect. Significant white space is still preserved, and there are no spans of insignificant white space that could cause the creation of more white space text nodes.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> from a string that contains XML.</p>
-<p>Setting <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a> is not valid when loading from a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flag.</p>
-<p>The line information is accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(TextReader textReader, LoadOptions options)</code></pre>
@@ -1078,72 +551,6 @@ Console.WriteLine(doc)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_TextReader_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the source XML is indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to read all white space in the source XML. Nodes of type <a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText">XText</a> are created for both significant and insignificant white space.</p>
-<p>If the source XML is indented, not setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to ignore all of the insignificant white space in the source XML. The XML tree is created without any text nodes for insignificant white space.</p>
-<p>If the source XML is not indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> has no effect. Significant white space is still preserved, and there are no spans of insignificant white space that could cause the creation of more white space text nodes.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a> from a string that contains XML.</p>
-<p>Setting <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a> is not valid when loading from a <a class="xref" href="System.IO.TextReader.html#System_IO_TextReader">TextReader</a>.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flag.</p>
-<p>The line information is accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_IO_TextReader_System_Xml_Linq_LoadOptions__examples">Examples</h5>
-              
-<p>The following example creates a document from a <a class="xref" href="System.IO.StringReader.html#System_IO_StringReader">StringReader</a>.</p>
-<pre><code class="c#">TextReader sr;
-int whiteSpaceNodes;
-
-sr = new StringReader("<root> <child> </child> </root>");
-XDocument xmlTree1 = XDocument.Load(sr, LoadOptions.None);
-sr.Close();
-whiteSpaceNodes = xmlTree1
-.Element("Root")
-.DescendantNodesAndSelf()
-.OfType<xtext>()
-.Where(tNode => tNode.ToString().Trim().Length == 0)
-.Count();
-Console.WriteLine("Count of white space nodes (not preserving whitespace): {0}", whiteSpaceNodes);
-
-sr = new StringReader("<root> <child> </child> </root>");
-XDocument xmlTree2 = XDocument.Load(sr, LoadOptions.PreserveWhitespace);
-sr.Close();
-whiteSpaceNodes = xmlTree2
-.Element("Root")
-.DescendantNodesAndSelf()
-.OfType<xtext>()
-.Where(tNode => tNode.ToString().Trim().Length == 0)
-.Count();
-Console.WriteLine("Count of white space nodes (preserving whitespace): {0}", whiteSpaceNodes);</xtext></xtext></code></pre>
-<pre><code class="vb">Dim sr As TextReader
-Dim whiteSpaceNodes As Integer
-
-sr = New StringReader("<root> <child> </child> </root>")
-Dim xmlTree1 As XDocument = XDocument.Load(sr, LoadOptions.None)
-sr.Close()
-whiteSpaceNodes = xmlTree1 _
-      .Element("Root") _
-      .DescendantNodesAndSelf() _
-      .OfType(Of XText)() _
-      .Where(Function(ByVal tNode As XNode) tNode. _
-          ToString().Trim().Length = 0).Count()
-Console.WriteLine("Count of white space nodes (not preserving whitespace): {0}", whiteSpaceNodes)
-
-sr = New StringReader("<root> <child> </child> </root>")
-Dim xmlTree2 As XDocument = XDocument.Load(sr, LoadOptions.PreserveWhitespace)
-sr.Close()
-whiteSpaceNodes = xmlTree2 _
-      .Element("Root") _
-      .DescendantNodesAndSelf() _
-      .OfType(Of XText)() _
-      .Where(Function(ByVal tNode As XNode) tNode. _
-          ToString().Trim().Length = 0).Count()
-Console.WriteLine("Count of white space nodes (preserving whitespace): {0}", whiteSpaceNodes)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Count of white space nodes (not preserving whitespace): 0
-Count of white space nodes (preserving whitespace): 3</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_String_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1155,11 +562,6 @@ Count of white space nodes (preserving whitespace): 3</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a file. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses an underlying <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to read the XML into an XML tree.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string that contains XML.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(string uri)</code></pre>
@@ -1198,55 +600,6 @@ Count of white space nodes (preserving whitespace): 3</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method uses an underlying <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> to read the XML into an XML tree.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string that contains XML.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_String__examples">Examples</h5>
-              
-<p>The following example shows how to load an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a file.</p>
-<p>This example uses the following XML document: </p>
-<p>Sample XML File: Typical Purchase Order (LINQ to XML)</p>
-<pre><code class="c#">XDocument doc = XDocument.Load("PurchaseOrder.xml");
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim doc As XDocument = XDocument.Load("PurchaseOrder.xml")
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><purchaseorder purchaseordernumber="99503" orderdate="1999-10-20">
-<address type="Shipping">
-<name>Ellen Adams</name>
-<street>123 Maple Street</street>
-<city>Mill Valley</city>
-<state>CA</state>
-<zip>10999</zip>
-<country>USA</country>
-</address>
-<address type="Billing">
-<name>Tai Yee</name>
-<street>8 Oak Avenue</street>
-<city>Old Town</city>
-<state>PA</state>
-<zip>95819</zip>
-<country>USA</country>
-</address>
-<deliverynotes>Please leave packages in shed by driveway.</deliverynotes>
-<items>
-<item partnumber="872-AA">
-<productname>Lawnmower</productname>
-<quantity>1</quantity>
-<usprice>148.95</usprice>
-<comment>Confirm this is electric</comment>
-</item>
-<item partnumber="926-AA">
-<productname>Baby Monitor</productname>
-<quantity>2</quantity>
-<usprice>39.98</usprice>
-<shipdate>1999-05-21</shipdate>
-</item>
-</items>
-</purchaseorder></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_String_System_Xml_Linq_LoadOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.String%2CSystem.Xml.Linq.LoadOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1258,16 +611,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a file, optionally preserving white space, setting the base URI, and retaining line information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_String_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the source XML is indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to read all white space in the source XML. Nodes of type <a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText">XText</a> are created for both significant and insignificant white space.</p>
-<p>If the source XML is indented, not setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to ignore all of the insignificant white space in the source XML. The XML tree is created without any text nodes for insignificant white space.</p>
-<p>If the source XML is not indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> has no effect. Significant white space is still preserved, and there are no spans of insignificant white space that could cause the creation of more white space text nodes.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string that contains XML.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a> and the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flags.</p>
-<p>The base URI and the line information are accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the base URI and line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(string uri, LoadOptions options)</code></pre>
@@ -1312,35 +655,6 @@ Console.WriteLine(doc)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_String_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the source XML is indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to read all white space in the source XML. Nodes of type <a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText">XText</a> are created for both significant and insignificant white space.</p>
-<p>If the source XML is indented, not setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to ignore all of the insignificant white space in the source XML. The XML tree is created without any text nodes for insignificant white space.</p>
-<p>If the source XML is not indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> has no effect. Significant white space is still preserved, and there are no spans of insignificant white space that could cause the creation of more white space text nodes.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string that contains XML.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a> and the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flags.</p>
-<p>The base URI and the line information are accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the base URI and line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_String_System_Xml_Linq_LoadOptions__examples">Examples</h5>
-              
-<p>The following example shows how to load an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a file.</p>
-<p>This example uses the following XML document:</p>
-<p>Sample XML File: Typical Purchase Order (LINQ to XML)</p>
-<pre><code class="c#">XDocument doc1 = XDocument.Load("PurchaseOrder.xml", LoadOptions.None);
-Console.WriteLine("nodes if not preserving whitespace: {0}", doc1.DescendantNodes().Count());
-
-XDocument doc2 = XDocument.Load("PurchaseOrder.xml", LoadOptions.PreserveWhitespace);
-Console.WriteLine("nodes if preserving whitespace: {0}", doc2.DescendantNodes().Count());</code></pre>
-<pre><code class="vb">Dim doc1 As XDocument = XDocument.Load("PurchaseOrder.xml", LoadOptions.None)
-Console.WriteLine("nodes if not preserving whitespace: {0}", doc1.DescendantNodes().Count())
-
-Dim doc2 As XDocument = XDocument.Load("PurchaseOrder.xml", LoadOptions.PreserveWhitespace)
-Console.WriteLine("nodes if preserving whitespace: {0}", doc2.DescendantNodes().Count())</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>nodes if not preserving whitespace: 48
-nodes if preserving whitespace: 82</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_Xml_XmlReader_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.Xml.XmlReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1352,10 +666,6 @@ nodes if preserving whitespace: 82</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. </p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_Xml_XmlReader__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>One possible use for this method is to create a copy of a DOM document in a LINQ to XML tree. To do this, you create an <span class="xref">System.Xml.XmlNodeReader</span> from a DOM document, and then use the <span class="xref">System.Xml.XmlNodeReader</span> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(XmlReader reader)</code></pre>
@@ -1394,52 +704,6 @@ nodes if preserving whitespace: 82</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_Xml_XmlReader__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>One possible use for this method is to create a copy of a DOM document in a LINQ to XML tree. To do this, you create an <span class="xref">System.Xml.XmlNodeReader</span> from a DOM document, and then use the <span class="xref">System.Xml.XmlNodeReader</span> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_Xml_XmlReader__examples">Examples</h5>
-              
-<p>The following example creates a DOM document, creates an <span class="xref">System.Xml.XmlNodeReader</span> from the DOM document, creates an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> using the <span class="xref">System.Xml.XmlNodeReader</span>.</p>
-<pre><code class="c#">// Create a DOM document with some content.
-XmlDocument doc = new XmlDocument();
-XmlElement child = doc.CreateElement("Child");
-child.InnerText = "child contents";
-XmlElement root = doc.CreateElement("Root");
-root.AppendChild(child);
-doc.AppendChild(root);
-
-// create a reader and move to the content
-using (XmlNodeReader nodeReader = new XmlNodeReader(doc)) {
-// the reader must be in the Interactive state in order to
-// create a LINQ to XML tree from it.
-nodeReader.MoveToContent();
-
-XDocument xRoot = XDocument.Load(nodeReader);
-Console.WriteLine(xRoot);
-}</code></pre>
-<pre><code class="vb">' Create a DOM document with some content.
-Dim doc As XmlDocument = New XmlDocument()
-Dim child As XmlElement = doc.CreateElement("Child")
-child.InnerText = "child contents"
-Dim root As XmlElement = doc.CreateElement("Root")
-root.AppendChild(child)
-doc.AppendChild(root)
-
-' create a reader and move to the content
-Using nodeReader = New XmlNodeReader(doc)
-' the reader must be in the Interactive state in order to
-' create a LINQ to XML tree from it.
-nodeReader.MoveToContent()
-
-Dim xRoot As XDocument = XDocument.Load(nodeReader)
-Console.WriteLine(xRoot)
-End Using</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><root>
-<child>child contents</child>
-</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Load_System_Xml_XmlReader_System_Xml_Linq_LoadOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Load(System.Xml.XmlReader%2CSystem.Xml.Linq.LoadOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1451,16 +715,6 @@ End Using</code></pre>
               <div class="markdown level1 summary"><p>Loads an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from an <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>, optionally setting the base URI, and retaining line information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_Xml_XmlReader_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>By creating an <span class="xref">System.Xml.XmlNodeReader</span> from a DOM document, and then using the <span class="xref">System.Xml.XmlNodeReader</span> to create an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a>, this method can be used to create a copy of a DOM document in a LINQ to XML tree.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string that contains XML.</p>
-<p>Setting <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> is not valid when loading from a <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> will be configured to either read whitespace or not. The LINQ to XML tree will be populated with the whitespace nodes that the reader surfaces. This will be the behavior regardless of whether <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> is set or not.</p>
-<p>The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> may have a valid base URI or not. If you set <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a>, the base URI will be set in the XML tree from the base URI that is reported by the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
-<p>The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> may have a valid line information or not. If you set <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a>, the line information will be set in the XML tree from the line information that is reported by the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flag.</p>
-<p>The line information is accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Load(XmlReader reader, LoadOptions options)</code></pre>
@@ -1505,85 +759,6 @@ End Using</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_Xml_XmlReader_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>By creating an <span class="xref">System.Xml.XmlNodeReader</span> from a DOM document, and then using the <span class="xref">System.Xml.XmlNodeReader</span> to create an <a class="xref" href="System.Xml.Linq.XElement.html#System_Xml_Linq_XElement">XElement</a>, this method can be used to create a copy of a DOM document in a LINQ to XML tree.</p>
-<p>Use <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> to create an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string that contains XML.</p>
-<p>Setting <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> is not valid when loading from a <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> will be configured to either read whitespace or not. The LINQ to XML tree will be populated with the whitespace nodes that the reader surfaces. This will be the behavior regardless of whether <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> is set or not.</p>
-<p>The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> may have a valid base URI or not. If you set <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a>, the base URI will be set in the XML tree from the base URI that is reported by the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
-<p>The <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> may have a valid line information or not. If you set <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a>, the line information will be set in the XML tree from the line information that is reported by the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flag.</p>
-<p>The line information is accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Load_System_Xml_XmlReader_System_Xml_Linq_LoadOptions__examples">Examples</h5>
-              
-<p>The following example loads the line information that it loads from the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. It then prints the line information.</p>
-<pre><code class="c#">string markup =
-@"<root>
-<child>
-<grandchild></grandchild>
-</child>
-</root>";
-
-// Create a reader and move to the content.
-using (XmlReader nodeReader = XmlReader.Create(new StringReader(markup)))
-{
-// the reader must be in the Interactive state in order to
-// Create a LINQ to XML tree from it.
-nodeReader.MoveToContent();
-
-XDocument xRoot = XDocument.Load(nodeReader, LoadOptions.SetLineInfo);
-Console.WriteLine("{0}{1}{2}",
-"Element Name".PadRight(20),
-"Line".PadRight(5),
-"Position");
-Console.WriteLine("{0}{1}{2}",
-"------------".PadRight(20),
-"----".PadRight(5),
-"--------");
-foreach (XElement e in xRoot.Elements("Root").DescendantsAndSelf())
-Console.WriteLine("{0}{1}{2}",
-    ("".PadRight(e.Ancestors().Count() * 2) + e.Name).PadRight(20),
-    ((IXmlLineInfo)e).LineNumber.ToString().PadRight(5),
-    ((IXmlLineInfo)e).LinePosition);
-}</code></pre>
-<pre><code class="vb">Dim markup As String = _
-"<root>" & Environment.NewLine & _
-"    <child>" & Environment.NewLine & _
-"        <grandchild></grandchild>" & Environment.NewLine & _
-"    </child>" & Environment.NewLine & _
-"</root>"
-
-' Create a reader and move to the content.
-Using nodeReader As XmlReader = XmlReader.Create(New StringReader(markup))
-
-' The reader must be in the Interactive state in order to
-' create a LINQ to XML tree from it.
-nodeReader.MoveToContent()
-
-Dim xRoot As XDocument = XDocument.Load(nodeReader, LoadOptions.SetLineInfo)
-Console.WriteLine("{0}{1}{2}", _
-"Element Name".PadRight(20), _
-"Line".PadRight(5), _
-"Position")
-Console.WriteLine("{0}{1}{2}", _
-"------------".PadRight(20), _
-"----".PadRight(5), _
-"--------")
-For Each e As XElement In xRoot.Elements("Root").DescendantsAndSelf()
-Console.WriteLine("{0}{1}{2}", _
-    ("".PadRight(e.Ancestors().Count() * 2) & e.Name.ToString()).PadRight(20), _
-    (DirectCast(e, IXmlLineInfo)).LineNumber.ToString().PadRight(5), _
-    (DirectCast(e, IXmlLineInfo)).LinePosition)
-Next
-End Using</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>Element Name        Line Position
-------------        ---- --------
-Root                1    2
-Child             2    6
-GrandChild      3    10</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Parse_System_String_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Parse(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1595,11 +770,6 @@ GrandChild      3    10</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Parse_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method does not preserve white space. If you want to preserve white space in the XML tree, use the overload of <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> that takes <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions">LoadOptions</a> as a parameter.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Parse(string text)</code></pre>
@@ -1638,37 +808,6 @@ GrandChild      3    10</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Parse_System_String__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>This method does not preserve white space. If you want to preserve white space in the XML tree, use the overload of <see cref="Overload:System.Xml.Linq.XDocument.Parse"></see> that takes <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions">LoadOptions</a> as a parameter.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Parse_System_String__examples">Examples</h5>
-              
-<p>The following example creates a string that contains XML. It then parses the string into an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-<pre><code class="c#">string str =
-@"<?xml version="" 1.0""?=""?>
-<!-- comment at the root level -->
-<root>
-<child>Content</child>
-</root>";
-XDocument doc = XDocument.Parse(str);
-Console.WriteLine(doc);</code></pre>
-<pre><code class="vb">Dim str As String = _
-"<?xml version='1.0'?>" & _
-"<!-- comment at the root level -->" & _
-"<root>" & _
-"  <child>Content</child>" & _
-"</root>"
-
-Dim doc As XDocument = XDocument.Parse(str)
-Console.WriteLine(doc)</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><!-- comment at the root level -->
-<root>
-<child>Content</child>
-</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Parse_System_String_System_Xml_Linq_LoadOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Parse(System.String%2CSystem.Xml.Linq.LoadOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1680,16 +819,6 @@ Console.WriteLine(doc)</code></pre>
               <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> from a string, optionally preserving white space, setting the base URI, and retaining line information.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Parse_System_String_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the source XML is indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to read all white space in the source XML. Nodes of type <a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText">XText</a> are created for both significant and insignificant white space.</p>
-<p>If the source XML is indented, not setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to ignore all of the insignificant white space in the source XML. The XML tree is created without any text nodes for insignificant white space.</p>
-<p>If the source XML is not indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> has no effect. Significant white space is still preserved, and there are no spans of insignificant white space that could cause the creation of more white space text nodes.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>Setting <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a> is not valid when parsing from a <a class="xref" href="System.String.html#System_String">String</a>.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flag.</p>
-<p>The line information is accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public static XDocument Parse(string text, LoadOptions options)</code></pre>
@@ -1734,44 +863,6 @@ Console.WriteLine(doc)</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Parse_System_String_System_Xml_Linq_LoadOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If the source XML is indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to read all white space in the source XML. Nodes of type <a class="xref" href="System.Xml.Linq.XText.html#System_Xml_Linq_XText">XText</a> are created for both significant and insignificant white space.</p>
-<p>If the source XML is indented, not setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> causes the reader to ignore all of the insignificant white space in the source XML. The XML tree is created without any text nodes for insignificant white space.</p>
-<p>If the source XML is not indented, setting the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_PreserveWhitespace">PreserveWhitespace</a> flag in <em>options</em> has no effect. Significant white space is still preserved, and there are no spans of insignificant white space that could cause the creation of more white space text nodes.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-<p>Setting <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetBaseUri">SetBaseUri</a> is not valid when parsing from a <a class="xref" href="System.String.html#System_String">String</a>.</p>
-<p>There is a performance penalty if you set the <a class="xref" href="System.Xml.Linq.LoadOptions.html#System_Xml_Linq_LoadOptions_SetLineInfo">SetLineInfo</a> flag.</p>
-<p>The line information is accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the line information may become meaningless.</p>
-<p>LINQ to XML&#39;s loading functionality is built upon <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a>. Therefore, you might catch any exceptions that are thrown by the <see cref="Overload:System.Xml.XmlReader.Create"></see> overload methods and the <a class="xref" href="System.Xml.XmlReader.html#System_Xml_XmlReader">XmlReader</a> methods that read and parse the document.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Parse_System_String_System_Xml_Linq_LoadOptions__examples">Examples</h5>
-              
-<p>The following example parses a string into an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>.</p>
-<pre><code class="c#">string str =
-@"<?xml version="" 1.0""?=""?>
-<!-- comment at the root level -->
-<root>
-<child>Content</child>
-</root>";
-XDocument doc1 = XDocument.Parse(str, LoadOptions.PreserveWhitespace);
-Console.WriteLine("nodes when preserving whitespace: {0}", doc1.DescendantNodes().Count());
-XDocument doc2 = XDocument.Parse(str, LoadOptions.None);
-Console.WriteLine("nodes when not preserving whitespace: {0}", doc2.DescendantNodes().Count());</code></pre>
-<pre><code class="vb">Dim str As String = _
-"<?xml version='1.0'?>" & Environment.NewLine & _
-"<!-- comment at the root level -->" & Environment.NewLine & _
-"<root>" & Environment.NewLine & _
-"    <child>Content</child>"  & Environment.NewLine & _
-"</root>"
-
-Dim doc1 As XDocument = XDocument.Parse(str, LoadOptions.PreserveWhitespace)
-Console.WriteLine("nodes when preserving whitespace: {0}", doc1.DescendantNodes().Count())
-Dim doc2 As XDocument = XDocument.Parse(str, LoadOptions.None)
-Console.WriteLine("nodes when not preserving whitespace: {0}", doc2.DescendantNodes().Count())</code></pre>
-<p>This example produces the following output:</p>
-<pre><code>nodes when preserving whitespace: 8
-nodes when not preserving whitespace: 4</code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Save_System_IO_Stream_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Save(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1783,11 +874,6 @@ nodes when not preserving whitespace: 4</code></pre>
               <div class="markdown level1 summary"><p>Outputs this <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> to the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_Stream__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The serialized XML will be indented. All insignificant white space will be removed, and additional white space will be added so that the XML will be properly indented. The behavior of this method is that insignificant white space will not be preserved.</p>
-<p>If you want to control white space, use the overload of <see cref="Overload:System.Xml.Linq.XDocument.Save"></see> that takes <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions">SaveOptions</a> as a parameter. Use the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> option to save unindented XML. This will cause the writer to write all white spaces exactly as represented in the XML tree.</p>
-<p>Use <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces">OmitDuplicateNamespaces</a> option if you want to remove duplicate namespace declarations.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Save(Stream stream)</code></pre>
@@ -1810,12 +896,6 @@ nodes when not preserving whitespace: 4</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_Stream__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The serialized XML will be indented. All insignificant white space will be removed, and additional white space will be added so that the XML will be properly indented. The behavior of this method is that insignificant white space will not be preserved.</p>
-<p>If you want to control white space, use the overload of <see cref="Overload:System.Xml.Linq.XDocument.Save"></see> that takes <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions">SaveOptions</a> as a parameter. Use the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> option to save unindented XML. This will cause the writer to write all white spaces exactly as represented in the XML tree.</p>
-<p>Use <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces">OmitDuplicateNamespaces</a> option if you want to remove duplicate namespace declarations.</p>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Save_System_IO_Stream_System_Xml_Linq_SaveOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Save(System.IO.Stream%2CSystem.Xml.Linq.SaveOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1827,11 +907,6 @@ nodes when not preserving whitespace: 4</code></pre>
               <div class="markdown level1 summary"><p>Outputs this <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> to the specified <a class="xref" href="System.IO.Stream.html#System_IO_Stream">Stream</a>, optionally specifying formatting behavior.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_Stream_System_Xml_Linq_SaveOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>By default the <em>options</em> are set to <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_None">None</a>. This option will remove all extraneous insignificant white space, and add appropriate insignificant white space so that the XML is properly indented. </p>
-<p>If you want to save unindented XML, specify the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> flag for <em>options</em>. This will cause the writer to write all white spaces exactly as represented in the XML tree.</p>
-<p>Use <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces">OmitDuplicateNamespaces</a> option if you want to remove duplicate namespace declarations.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Save(Stream stream, SaveOptions options)</code></pre>
@@ -1860,12 +935,6 @@ nodes when not preserving whitespace: 4</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_Stream_System_Xml_Linq_SaveOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>By default the <em>options</em> are set to <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_None">None</a>. This option will remove all extraneous insignificant white space, and add appropriate insignificant white space so that the XML is properly indented. </p>
-<p>If you want to save unindented XML, specify the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> flag for <em>options</em>. This will cause the writer to write all white spaces exactly as represented in the XML tree.</p>
-<p>Use <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_OmitDuplicateNamespaces">OmitDuplicateNamespaces</a> option if you want to remove duplicate namespace declarations.</p>
-</div>
-              
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Save_System_IO_TextWriter_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Save(System.IO.TextWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1877,10 +946,6 @@ nodes when not preserving whitespace: 4</code></pre>
               <div class="markdown level1 summary"><p>Serialize this <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> to a <a class="xref" href="System.IO.TextWriter.html#System_IO_TextWriter">TextWriter</a>.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_TextWriter__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The serialized XML will be indented. All insignificant white space will be removed, and additional white space will be added so that the XML will be properly indented. The behavior of this method is that insignificant white space will not be preserved.</p>
-<p>If you want to control white space, use the overload of <see cref="Overload:System.Xml.Linq.XDocument.Save"></see> that takes <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions">SaveOptions</a> as a parameter. For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Save(TextWriter textWriter)</code></pre>
@@ -1903,38 +968,6 @@ nodes when not preserving whitespace: 4</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_TextWriter__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>The serialized XML will be indented. All insignificant white space will be removed, and additional white space will be added so that the XML will be properly indented. The behavior of this method is that insignificant white space will not be preserved.</p>
-<p>If you want to control white space, use the overload of <see cref="Overload:System.Xml.Linq.XDocument.Save"></see> that takes <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions">SaveOptions</a> as a parameter. For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_TextWriter__examples">Examples</h5>
-              
-<p>The following example creates an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a>, saves the document to a <a class="xref" href="System.IO.StringWriter.html#System_IO_StringWriter">StringWriter</a>, and then prints the string to the console.</p>
-<pre><code class="c#">StringBuilder sb = new StringBuilder();
-
-XDocument doc = new XDocument(
-new XElement("Root",
-new XElement("Child", "content")
-)
-);
-TextWriter tr = new StringWriter(sb);
-doc.Save(tr);
-Console.WriteLine(sb.ToString());</code></pre>
-<pre><code class="vb">Dim sb As StringBuilder = New StringBuilder()
-
-Dim doc As XDocument = _ 
-<?xml version="1.0" encoding="utf-8"?>
-<root><child>content</child></root>
-
-Dim tr As TextWriter = New StringWriter(sb)
-doc.Save(tr)
-Console.WriteLine(sb.ToString())</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><?xml version="1.0" encoding="utf-16"?>
-<root>
-<child>content</child>
-</root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Save_System_IO_TextWriter_System_Xml_Linq_SaveOptions_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Save(System.IO.TextWriter%2CSystem.Xml.Linq.SaveOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -1946,11 +979,6 @@ Console.WriteLine(sb.ToString())</code></pre>
               <div class="markdown level1 summary"><p>Serialize this <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> to a <a class="xref" href="System.IO.TextWriter.html#System_IO_TextWriter">TextWriter</a>, optionally disabling formatting.</p>
 </div>
               <div class="markdown level1 conceptual"></div>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_TextWriter_System_Xml_Linq_SaveOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If you want to save unindented XML, specify the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> flag for <em>options</em>. This will cause the writer to write all white space exactly as represented in the XML tree.</p>
-<p>If you want to save indented XML, do not specify the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> flag for <em>options</em>. This will remove all extraneous insignificant white space, and add appropriate insignificant white space so that the XML is properly indented. This is the default behavior, and the behavior of the overloads of the <see cref="Overload:System.Xml.Linq.XDocument.Save"></see> methods that do not take <em>options</em> as a parameter.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-</div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
                 <pre><code class="lang-csharp hljs">public void Save(TextWriter textWriter, SaveOptions options)</code></pre>
@@ -1979,54 +1007,6 @@ Console.WriteLine(sb.ToString())</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_TextWriter_System_Xml_Linq_SaveOptions__remarks">Remarks</h5>
-              <div class="markdown level1 remarks"><p>If you want to save unindented XML, specify the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> flag for <em>options</em>. This will cause the writer to write all white space exactly as represented in the XML tree.</p>
-<p>If you want to save indented XML, do not specify the <a class="xref" href="System.Xml.Linq.SaveOptions.html#System_Xml_Linq_SaveOptions_DisableFormatting">DisableFormatting</a> flag for <em>options</em>. This will remove all extraneous insignificant white space, and add appropriate insignificant white space so that the XML is properly indented. This is the default behavior, and the behavior of the overloads of the <see cref="Overload:System.Xml.Linq.XDocument.Save"></see> methods that do not take <em>options</em> as a parameter.</p>
-<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>
-</div>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_IO_TextWriter_System_Xml_Linq_SaveOptions__examples">Examples</h5>
-              
-<p>The following example shows two uses of this method. The first use serializes the <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> with formatting. The second preserves white space. Because the document has no white space in it as constructed, preserving white space outputs the XML without any indenting.</p>
-<pre><code class="c#">XDocument doc = new XDocument(
-new XElement("Root",
-new XElement("Child", "content")
-)
-);
-StringBuilder sb1 = new StringBuilder();
-using (StringWriter sr1 = new StringWriter(sb1)) {
-doc.Save(sr1, SaveOptions.None);
-Console.WriteLine(sb1.ToString());
-}
-
-StringBuilder sb2 = new StringBuilder();
-using (StringWriter sr2 = new StringWriter(sb2)) {
-doc.Save(sr2, SaveOptions.DisableFormatting);
-Console.WriteLine(sb2.ToString());
-}</code></pre>
-<pre><code class="vb">Dim doc As XDocument = _ 
-<?xml version="1.0" encoding="utf-8"?>
-<root><child>content</child></root>
-
-Dim sb1 As StringBuilder = New StringBuilder()
-
-Using sr1 = New StringWriter(sb1)
-doc.Save(sr1, SaveOptions.None)
-Console.WriteLine(sb1.ToString())
-End Using
-
-Dim sb2 As StringBuilder = New StringBuilder()
-
-Using sr2 = New StringWriter(sb2)
-doc.Save(sr2, SaveOptions.DisableFormatting)
-Console.WriteLine(sb2.ToString())
-End Using</code></pre>
-<p>This example produces the following output:</p>
-<pre><code><?xml version="1.0" encoding="utf-16"?>
-<root>
-<child>content</child>
-</root>
-<?xml version="1.0" encoding="utf-16"?><root><child>content</child></root></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_Save_System_Xml_XmlWriter_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.Save(System.Xml.XmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2060,41 +1040,6 @@ End Using</code></pre>
                   </tr>
                 </tbody>
               </table>
-              <h5 id="System_Xml_Linq_XDocument_Save_System_Xml_XmlWriter__examples">Examples</h5>
-              
-<p>The following example shows how to save an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> to an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a>.</p>
-<pre><code class="c#">StringBuilder sb = new StringBuilder();
-XmlWriterSettings xws = new XmlWriterSettings();
-xws.OmitXmlDeclaration = true;
-xws.Indent = true;
-
-using (XmlWriter xw = XmlWriter.Create(sb, xws)) {
-XDocument doc = new XDocument(
-new XElement("Child",
-    new XElement("GrandChild", "some content")
-)
-);
-doc.Save(xw);
-}
-
-Console.WriteLine(sb.ToString());</code></pre>
-<pre><code class="vb">Dim sb As StringBuilder = New StringBuilder()
-Dim xws As XmlWriterSettings = New XmlWriterSettings()
-xws.OmitXmlDeclaration = True
-xws.Indent = True
-
-Using xw = XmlWriter.Create(sb, xws)
-Dim doc As XDocument = New XDocument(<child><grandchild>some content</grandchild></child>)
-doc.Save(xw)
-
-End Using
-
-Console.WriteLine(sb.ToString())</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><child>
-<grandchild>some content</grandchild>
-</child></code></pre>
-
               <span class="small pull-right mobile-hide">
                 <span class="divider">|</span>
                 <a href="https://github.com/dotnet/core-docs/new/master/apispec/new?filename=System_Xml_Linq_XDocument_WriteTo_System_Xml_XmlWriter_.md&amp;value=---%0Auid%3A%20System.Xml.Linq.XDocument.WriteTo(System.Xml.XmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -2130,41 +1075,6 @@ Console.WriteLine(sb.ToString())</code></pre>
               </table>
               <h5 class="overrides">Overrides</h5>
               <div><a class="xref" href="System.Xml.Linq.XNode.html#System_Xml_Linq_XNode_WriteTo_System_Xml_XmlWriter_">WriteTo(XmlWriter)</a></div>
-              <h5 id="System_Xml_Linq_XDocument_WriteTo_System_Xml_XmlWriter__examples">Examples</h5>
-              
-<p>The following example shows how to write an <a class="xref" href="System.Xml.Linq.XDocument.html#System_Xml_Linq_XDocument">XDocument</a> to an <a class="xref" href="System.Xml.XmlWriter.html#System_Xml_XmlWriter">XmlWriter</a>. Note that the example did not write an XML declaration.</p>
-<pre><code class="c#">StringBuilder sb = new StringBuilder();
-XmlWriterSettings xws = new XmlWriterSettings();
-xws.OmitXmlDeclaration = true;
-xws.Indent = true;
-
-using (XmlWriter xw = XmlWriter.Create(sb, xws))
-{
-XDocument doc = new XDocument(
-new XElement("Child",
-    new XElement("GrandChild", "some content")
-)
-);
-doc.WriteTo(xw);
-}
-
-Console.WriteLine(sb.ToString());</code></pre>
-<pre><code class="vb">Dim sb As StringBuilder = New StringBuilder()
-Dim xws As XmlWriterSettings = New XmlWriterSettings()
-xws.OmitXmlDeclaration = True
-xws.Indent = True
-
-Using xw = XmlWriter.Create(sb, xws)
-Dim doc As XDocument = New XDocument(<child><grandchild>some content</grandchild></child>)
-doc.WriteTo(xw)
-End Using
-
-Console.WriteLine(sb.ToString())</code></pre>
-<p>This example produces the following output:</p>
-<pre><code class="xml"><child>
-<grandchild>some content</grandchild>
-</child></code></pre>
-
             </article>
           </div>
           
